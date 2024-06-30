@@ -14,13 +14,12 @@ module.exports = {
       "warn",
       { allowConstantExport: true },
     ],
-    semi: true,
-    singleQuote: false,
-    tabWidht: 2,
-    printWidth: 80,
-    bracketSpacing: true,
-    trailingComma: "all",
-    arrowParens: "always",
-    jsxSingleQuote: false,
+    "semi": ["warn", "always"],
+    "quotes": ["warn", "double"], // 쌍 따옴표
+    "indent": ["warn", 2], // tabWidth 설정을 indent로 변경
+    "object-curly-spacing": ["warn", "always"], // 괄호 사용 시 공백
+    "comma-dangle": ["warn", "always-multiline"], // 세미콜론
+    "arrow-parens": ["warn", "always"], // 화살표 사용 시 괄호 사용
+    "jsx-quotes": ["warn", "prefer-double"], // jsx 쌍따옴표
   },
 };

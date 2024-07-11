@@ -1,0 +1,23 @@
+.button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background: yellow;
+
+  &--large {
+    font-size: 18px;
+    padding: 12px 24px;
+  }
+
+  &--medium {
+    font-size: 16px;
+    padding: 10px 20px;
+  }
+
+  &--small {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+}

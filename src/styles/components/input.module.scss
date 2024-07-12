@@ -1,21 +1,41 @@
-.input {
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
 
+.container {
+  @include flex(column);
+}
+.label {
+  color: $gray-90;
+  font-size: $font-size-small;
+  margin-bottom: 12px;
+}
+.message {
+  color: $gray-70;
+  font-size: $font-size-small;
+  margin-top: 12px;
+
+  &--error {
+    @extend .message;
+    color: $danger-50;
+  }
+}
+.input {
+  @include input-base;
   &--large {
-    font-size: 18px;
-    padding: 12px;
+    padding: $input-padding-large;
+    font-size: $font-size-large;
   }
 
   &--medium {
-    font-size: 16px;
-    padding: 10px;
+    padding: $input-padding-medium;
+    font-size: $font-size-medium;
   }
 
   &--small {
-    font-size: 14px;
-    padding: 8px;
+    padding: $input-padding-small;
+    font-size: $font-size-small;
+  }
+  &--error {
+    box-shadow: 0 0 0 2px $danger-50;
   }
 }

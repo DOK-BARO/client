@@ -5,6 +5,7 @@ interface ButtonProps {
   onClick: () => void;
   children: ReactNode;
   size?: "large" | "medium" | "small";
+  mode?: "default" | "error";
 }
 
 const Button: React.FC<ButtonProps> = ({

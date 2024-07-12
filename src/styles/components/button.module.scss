@@ -1,23 +1,20 @@
-.button {
-  padding: 10px 20px;
-  font-size: 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  background: yellow;
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
 
+.button {
+  @include button-base;
   &--large {
-    font-size: 18px;
-    padding: 12px 24px;
+    padding: $button-padding-large;
+    font-size: $font-size-large;
   }
 
   &--medium {
-    font-size: 16px;
-    padding: 10px 20px;
+    padding: $button-padding-medium;
+    font-size: $font-size-medium;
   }
 
   &--small {
-    font-size: 14px;
-    padding: 8px 16px;
+    padding: $button-padding-small;
+    font-size: $font-size-small;
   }
 }

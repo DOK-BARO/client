@@ -1,8 +1,28 @@
-// 색상
-$primary-color: rgb(181, 181, 219);
-$secondary-color: gray;
-$error-color: red;
+/* Colors */
+$gary-0: #ffffff;
+$gary-30: #d8d8d8;
+$gary-40: #c6c6c6;
+$gary-50: #8e8e8e;
+$gray-60: #717171;
+$gray-70: #555555;
+$gray-90: #1d1d1d;
 
-// 폰트
+$primary-50: #246beb;
 
-// breakpoints
+$danger-50: #eb003b;
+
+/* Font Sizes */
+$font-size-small: 15px;
+$font-size-medium: 17px;
+$font-size-large: 19px;
+
+$border-radius-base: 8px;
+/* Button Paddings */
+$button-padding-small: 4px 8px;
+$button-padding-medium: 8px 16px;
+$button-padding-large: 12px 24px;
+
+/* Input Paddings */
+$input-padding-small: 14.5px 16px;
+$input-padding-medium: 18px 16px;
+$input-padding-large: 21.5px 16px;

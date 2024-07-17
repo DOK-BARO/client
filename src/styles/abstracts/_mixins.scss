@@ -45,8 +45,11 @@
 
 @mixin textarea-base {
   @include input-base;
-  width: 360px;
-  min-height: 96px;
+  & {
+    resize: none;
+    width: 360px;
+    min-height: 96px;
+  }
 }
 // break point
 // @mixin respond-to($breakpoint) {

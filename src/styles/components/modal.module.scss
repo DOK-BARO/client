@@ -27,7 +27,6 @@
   border-radius: 12px;
   border: 1px solid $gray-40;
   width: 560px;
-  height: 287px;
   padding: 40px;
 }
 
@@ -47,26 +46,26 @@
   }
 }
 
-.content-title{
+.content-title {
   font-size: $font-size-large;
   font-weight: bold;
   margin-bottom: 24px;
 }
 
-.content{
+.content {
   font-size: $font-size-medium;
   margin-bottom: 32px;
 }
 
-.modal-footer{
+.modal-footer {
   display: flex;
   width: 100%;
   justify-content: end;
-  button{
+  button {
     margin-left: 8px;
     border: 1px solid $gray-90;
     height: 48px;
-    &:nth-child(2){
+    &:nth-child(2) {
       border: none;
       background-color: $primary-50;
       color: $gray-0;

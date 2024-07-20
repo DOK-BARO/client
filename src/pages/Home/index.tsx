@@ -9,6 +9,7 @@ import Button from "../../components/atom/button.tsx";
 import { useState } from "react";
 import useInput from "../../hooks/useInput.tsx";
 import useTextarea from "../../hooks/useTextarea.tsx";
+import HeaderLayout from "../../components/layout/headerLayout.tsx";
 // import Dropdown from "../../components/atom/dropdown";
 
 export default function Index() {
@@ -20,6 +21,7 @@ export default function Index() {
 
   return (
     <>
+      <HeaderLayout />
       Home
       <div style={{ display: "flex", gap: "30px", marginTop: "400px" }}>
         <Input

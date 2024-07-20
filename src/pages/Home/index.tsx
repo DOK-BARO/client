@@ -8,11 +8,14 @@ import { navCategories } from "../../data/navCategories.ts";
 import Button from "../../components/atom/button.tsx";
 import { useState } from "react";
 import useInput from "../../hooks/useInput.tsx";
+import useTextarea from "../../hooks/useTextarea.tsx";
 // import Dropdown from "../../components/atom/dropdown";
 
 export default function Index() {
   const { isModalOpen, openModal, closeModal } = useModal();
   const inputProps = useInput("");
+  const textareaProps = useTextarea("");
+
   const [isGNBOpen, setIsGNBOpen] = useState<boolean>(); // 시험용
 
   return (
@@ -30,10 +33,9 @@ export default function Index() {
         ></Input>
         <Textarea
           id="textarea"
-          value=""
+          {...textareaProps}
           // disabled
           placeholder="플레이스홀더"
-          onChange={() => {}}
           isError={false}
           message="메시지 내용"
         ></Textarea>

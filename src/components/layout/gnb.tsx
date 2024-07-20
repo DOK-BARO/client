@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import styles from "../../styles/layout/_gnb.module.scss";
-import chevronRight from "../../assets/chevron-right.svg";
 import Button from "../atom/button";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { gray90 } from "../../styles/abstracts/colors";
 export interface Category {
   title: string;
   subCategories: SubCategory[];
@@ -28,7 +29,7 @@ const GNB: React.FC<GNBProps> = ({
     <nav className={styles[""]}>
       <div className={styles["skillCategory-list"]}>
         {categories.map((skillCategory, categoryIndex) => (
-          <h2>
+          <h2 key={categoryIndex}>
             <Button
               size="large"
               className={`${styles["skillCategory-button"]} ${
@@ -57,7 +58,12 @@ const GNB: React.FC<GNBProps> = ({
                     <h3>
                       <a href={`/${subCategory.title}`}>
                         {subCategory.title}
-                        <img src={chevronRight}></img>
+                        <ChevronRightIcon
+                          width={20}
+                          height={20}
+                          fill={gray90}
+                        />
+                        {/* <img src={chevronRight} alt="이동하기"></img> */}
                       </a>
                     </h3>
                     <ul className={styles["topic-list"]}>

@@ -57,23 +57,21 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  background-color: #9747FF;
+  background-color: #9747ff;
   border: none;
   border-radius: 8px;
   margin-left: 8px;
+  padding: 14px 12px;
 
-  img {
-    margin-left: 12px;
-  }
   h3 {
     font-size: 17px;
     margin: 0;
-    padding: 14px 12px 14px 8px;
     color: $gray-0;
+    margin-left: 9px;
   }
 }
 
-.header-menu-container{
+.header-menu-container {
   display: flex;
   flex-direction: row;
   align-items: center;

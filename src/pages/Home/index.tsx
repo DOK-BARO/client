@@ -21,7 +21,7 @@ export default function Index() {
 
   return (
     <>
-      <HeaderLayout />
+      <HeaderLayout isLoggedIn={true} />
       Home
       <div style={{ display: "flex", gap: "30px", marginTop: "400px" }}>
         <Input

@@ -29,13 +29,14 @@ nav {
   border-bottom: 2px solid black;
 }
 
-.subCategory-item > span {
-  @include flex(row);
+.subCategory-item > h3 {
   align-items: center;
   padding: 14px 24px;
 }
-.subCategory-item > span > h3 {
-  margin-right: 4px;
+.subCategory-item > h3 > a {
+  @include flex(row);
+  align-items: center;
+  gap: 4px;
 }
 .topic-item > h4 {
   padding: 14px 24px;

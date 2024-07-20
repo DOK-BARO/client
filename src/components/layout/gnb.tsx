@@ -54,14 +54,12 @@ const GNB: React.FC<GNBProps> = ({
                     className={styles["subCategory-item"]}
                     key={subCategoryIndex}
                   >
-                    <span>
-                      <h3>
-                        <a href={`/${subCategory.title}`}>
-                          {subCategory.title}
-                        </a>
-                      </h3>
-                      <img src={chevronRight}></img>
-                    </span>
+                    <h3>
+                      <a href={`/${subCategory.title}`}>
+                        {subCategory.title}
+                        <img src={chevronRight}></img>
+                      </a>
+                    </h3>
                     <ul className={styles["topic-list"]}>
                       {subCategory.topics.map((topic, topicIndex) => (
                         <li className={styles["topic-item"]} key={topicIndex}>

@@ -17,17 +17,6 @@ export default function Index() {
     <>
       Home
       <div style={{ display: "flex", gap: "30px", marginTop: "400px" }}>
-        <Button size="large" onClick={openModal}>
-          팝업 열기
-        </Button>
-        {isModalOpen && (
-          <Modal
-            popUpTitle="팝업 타이틀"
-            contentTitle="내용 타이틀"
-            content="대화상자는 사용자에게 작업에대해 알리고 중요한 정보를~"
-            closeModal={closeModal}
-          />
-        )}
         <Input
           id="input"
           value=""
@@ -48,6 +37,17 @@ export default function Index() {
           message="메시지 내용"
         ></Textarea>
       </div>
+      <Button size="large" onClick={openModal}>
+        팝업 열기
+      </Button>
+      {isModalOpen && (
+        <Modal
+          popUpTitle="팝업 타이틀"
+          contentTitle="내용 타이틀"
+          content="대화상자는 사용자에게 작업에대해 알리고 중요한 정보를~"
+          closeModal={closeModal}
+        />
+      )}
       <Button
         size="large"
         onClick={() => {

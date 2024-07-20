@@ -5,7 +5,10 @@
   @include flex(column);
   height: 100%;
 }
-
+.modal-button {
+  @include button-base;
+  background-color: transparent;
+}
 .modal-backdrop {
   display: flex;
   align-items: center;

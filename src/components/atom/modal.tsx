@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "../../styles/components/_modal.module.scss";
+import Button from "./button";
 
 interface ModalProps {
   popUpTitle: string;
@@ -19,13 +20,19 @@ const Modal: React.FC<ModalProps> = ({
         <div className={styles["modal-view"]}>
           <div className={styles["modal-header"]}>
             <span>{popUpTitle}</span>
-            <button onClick={closeModal}>x</button>
+            <Button className={styles["modal-button"]} onClick={closeModal}>
+              x
+            </Button>
           </div>
           <div className={styles["content-title"]}>{contentTitle}</div>
           <div className={styles["content"]}>{content}</div>
           <div className={styles["modal-footer"]}>
-            <button>버튼</button>
-            <button onClick={closeModal}>닫기</button>
+            <Button className={styles["modal-button"]} onClick={() => {}}>
+              버튼
+            </Button>
+            <Button className={styles["modal-button"]} onClick={closeModal}>
+              닫기
+            </Button>
           </div>
         </div>
       </div>

@@ -10,9 +10,11 @@
 }
 // 버튼 기본 스타일
 @mixin button-base {
+  @include flex(row, center);
   padding: $button-padding-medium;
   border-radius: $border-radius-base;
   font-size: $font-size-medium;
+
   // font-family: $font-family-base;
   color: $gray-90;
   border: none;

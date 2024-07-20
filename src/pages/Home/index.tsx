@@ -7,10 +7,12 @@ import GNB from "../../components/layout/gnb.tsx";
 import { navCategories } from "../../data/navCategories.ts";
 import Button from "../../components/atom/button.tsx";
 import { useState } from "react";
+import useInput from "../../hooks/useInput.tsx";
 // import Dropdown from "../../components/atom/dropdown";
 
 export default function Index() {
   const { isModalOpen, openModal, closeModal } = useModal();
+  const inputProps = useInput("");
   const [isGNBOpen, setIsGNBOpen] = useState<boolean>(); // 시험용
 
   return (
@@ -19,13 +21,12 @@ export default function Index() {
       <div style={{ display: "flex", gap: "30px", marginTop: "400px" }}>
         <Input
           id="input"
-          value=""
+          {...inputProps}
           message="메시지 내용"
           isError={false}
           size="small"
           // disabled
           placeholder="플레이스홀더"
-          onChange={() => {}}
         ></Input>
         <Textarea
           id="textarea"

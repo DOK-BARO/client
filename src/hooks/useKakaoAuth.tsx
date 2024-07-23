@@ -8,7 +8,8 @@ export const useKakaoAuth = () => {
     setLoading(true);
     try {
       const url = await getKakaoAuthUrl();
-      window.location.href = url; // undefined로 이동
+      console.log(url);
+      //   window.location.href = url; 해당 url로 이동
     } catch (error) {
       console.error(`권한 부여 URL 가져오기 실패: ${error}`);
     } finally {

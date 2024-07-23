@@ -1,0 +1,71 @@
+@import "_variables.scss";
+
+@mixin flex($direction: row, $center: false) {
+  display: flex;
+  flex-direction: $direction;
+  @if $center {
+    justify-content: center;
+    align-items: center;
+  }
+}
+// 버튼 기본 스타일
+@mixin button-base {
+  @include flex(row, center);
+  padding: $button-padding-medium;
+  border-radius: $border-radius-base;
+  font-size: $font-size-medium;
+
+  // font-family: $font-family-base;
+  color: $gray-90;
+  border: none;
+  cursor: pointer;
+}
+@mixin input-base {
+  padding: $input-padding-medium;
+  border-radius: $border-radius-base;
+  font-size: $font-size-medium;
+  box-shadow: 0 0 0 1px $gray-60;
+  border: none;
+  color: $gray-90;
+  box-sizing: content-box;
+
+  &::placeholder,
+  &:-ms-input-placeholder,
+  &::-webkit-input-placeholder {
+    color: $gray-50;
+  }
+  //   &:active,
+  &:focus {
+    box-shadow: 0 0 0 2px $primary-50;
+  }
+  &:disabled {
+    background-color: $gray-30;
+    color: $gray-60;
+    box-shadow: 0 0 0 1px $gray-40;
+  }
+}
+
+@mixin textarea-base {
+  @include input-base;
+  & {
+    resize: none;
+    width: 360px;
+    min-height: 96px;
+  }
+}
+// break point
+// @mixin respond-to($breakpoint) {
+//   @if $breakpoint == sm {
+//     @media (min-width: $breakpoint-sm) {
+//       @content;
+//     }
+//   } @else if $breakpoint == md {
+//     @media (min-width: $breakpoint-md) {
+//       @content;
+//     }
+//   } @else if $breakpoint == lg {
+//     @media (min-width: $breakpoint-lg) {
+//       @content;
+//     }
+//   }
+// }

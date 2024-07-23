@@ -1,0 +1,61 @@
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
+
+nav {
+  background-color: #f9f9f9;
+  width: 100%;
+  padding: 0 16.67vw;
+  padding-bottom: 40px;
+  min-height: 376px;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.skillCategory-list {
+  @include flex(row);
+  margin-bottom: 24px;
+}
+
+.skillCategory-button {
+  padding: 16.5px 16px;
+  border-radius: 0;
+  background-color: transparent;
+  font-weight: bold;
+  color: $gray-70;
+}
+.skillCategory-button.active {
+  color: $gray-90;
+  border-bottom: 2px solid black;
+}
+
+.subCategory-item > h3 {
+  align-items: center;
+  padding: 14px 24px;
+}
+.subCategory-item > h3 > a {
+  @include flex(row);
+  align-items: center;
+  gap: 4px;
+}
+.topic-item > h4 {
+  padding: 14px 24px;
+}
+a {
+  color: $gray-90;
+}
+
+.subCategory-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); // 4: 변수 설정
+}
+
+h2 {
+  color: $gray-90;
+  font-size: $font-size-large;
+  font-weight: 700; // 임시
+}
+h3 {
+  @extend h2;
+  font-size: $font-size-medium;
+}

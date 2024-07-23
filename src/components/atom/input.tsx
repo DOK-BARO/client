@@ -9,6 +9,7 @@ interface InputProps {
   size?: "large" | "medium" | "small";
   message?: string;
   isError?: boolean;
+  disabled?: boolean;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -19,6 +20,7 @@ const Input: React.FC<InputProps> = ({
   size = "medium",
   message = "",
   isError = false,
+  disabled = false,
 }) => {
   const className = `${styles.input} ${styles[`input--${size}`]} ${
     isError ? styles["input--error"] : ""
@@ -30,7 +32,7 @@ const Input: React.FC<InputProps> = ({
       </label>
       <input
         id={id}
-        disabled={false}
+        disabled={disabled}
         value={value}
         onChange={onChange}
         placeholder={placeholder}

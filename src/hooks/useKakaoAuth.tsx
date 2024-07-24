@@ -9,7 +9,7 @@ export const useKakaoAuth = () => {
     try {
       const url = await getKakaoAuthUrl();
       console.log(url);
-      //   window.location.href = url; 해당 url로 이동
+      window.location.href = url; // 해당 url로 이동
     } catch (error) {
       console.error(`권한 부여 URL 가져오기 실패: ${error}`);
     } finally {

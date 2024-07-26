@@ -11,6 +11,12 @@ function App() {
     {
       path: "/",
       element: <Home />,
+      children: [
+        {
+          path: "/oauth2/redirected/kakao",
+          element: <Home />,
+        },
+      ],
     },
   ]);
   return <RouterProvider router={router} />;

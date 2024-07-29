@@ -3,6 +3,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./styles/main.scss";
 import Home from "./pages/Home";
 import axios from "axios";
+import RedirectedPage from "./pages/redirected.tsx";
 
 function App() {
   axios.defaults.withCredentials = true;
@@ -11,13 +12,21 @@ function App() {
     {
       path: "/",
       element: <Home />,
-      children: [
-        {
-          path: "/oauth2/redirected/kakao",
-          element: <Home />,
-        },
-      ],
+      // children: [
+      //   {
+      //     path: "/oauth2/redirected/kakao/",
+      //     element: <RedirectedPage />,
+      //   },
+      // ],
     },
+    {
+      path: "/oauth2/redirected/kakao/",
+      element: <RedirectedPage />,
+    },
+    // {
+    //   path: "/oauth2/redirected/kakao/",
+    //   element: <Home />,
+    // },
   ]);
   return <RouterProvider router={router} />;
 }

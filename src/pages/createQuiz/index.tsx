@@ -1,4 +1,3 @@
-import HeaderLayout from "../../components/layout/headerLayout";
 import QuizCreationForm from "./components/quizCreationForm";
 import QuizCreationSteps from "./components/quizCreationSteps";
 import styles from "../../styles/pages/_createQuiz.module.scss";
@@ -38,7 +37,6 @@ export default function Index() {
   ];
   return (
     <>
-      <HeaderLayout isLoggedIn={true} />
       <div className={styles["container"]}>
         <QuizCreationForm steps={steps}></QuizCreationForm>
         <QuizCreationSteps steps={steps}></QuizCreationSteps>

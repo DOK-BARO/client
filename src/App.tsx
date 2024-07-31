@@ -4,6 +4,7 @@ import "./styles/main.scss";
 import Home from "./pages/home";
 import axios from "axios";
 import CreateQuiz from "./pages/createQuiz";
+import Layout from "./components/layout/layout";
 
 function App() {
   axios.defaults.withCredentials = true;
@@ -11,17 +12,21 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Home />,
+      element: <Layout />,
       children: [
+        {
+          path: "/",
+          element: <Home />,
+        },
         {
           path: "/oauth2/redirected/kakao",
           element: <Home />,
         },
+        {
+          path: "/create-quiz",
+          element: <CreateQuiz />,
+        },
       ],
-    },
-    {
-      path: "/create-quiz",
-      element: <CreateQuiz />,
     },
   ]);
   return <RouterProvider router={router} />;

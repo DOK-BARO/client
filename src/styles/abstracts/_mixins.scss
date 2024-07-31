@@ -52,19 +52,26 @@
     min-height: 96px;
   }
 }
+
 // break point
-// @mixin respond-to($breakpoint) {
-//   @if $breakpoint == sm {
-//     @media (min-width: $breakpoint-sm) {
-//       @content;
-//     }
-//   } @else if $breakpoint == md {
-//     @media (min-width: $breakpoint-md) {
-//       @content;
-//     }
-//   } @else if $breakpoint == lg {
-//     @media (min-width: $breakpoint-lg) {
-//       @content;
-//     }
-//   }
-// }
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == sm {
+    @media (max-width: $breakpoint-sm) {
+      @content;
+    }
+  } @else if $breakpoint == md {
+    @media (max-width: $breakpoint-md) {
+      @content;
+    }
+  } @else if $breakpoint == lg {
+    @media (max-width: $breakpoint-lg) {
+      @content;
+    }
+  } @else if $breakpoint == lx {
+    @media (max-width: $breakpoint-lx) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}

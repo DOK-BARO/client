@@ -10,6 +10,7 @@ interface InputProps {
   message?: string;
   isError?: boolean;
   disabled?: boolean;
+  label?: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -21,15 +22,20 @@ const Input: React.FC<InputProps> = ({
   message = "",
   isError = false,
   disabled = false,
+  label,
 }) => {
   const className = `${styles.input} ${styles[`input--${size}`]} ${
     isError ? styles["input--error"] : ""
   }`;
   return (
     <div className={styles["container"]}>
-      <label className={styles["label"]} htmlFor={id}>
-        레이블
-      </label>
+      {label ? (
+        <label className={styles["label"]} htmlFor={id}>
+          {label}
+        </label>
+      ) : (
+        <></>
+      )}
       <input
         id={id}
         disabled={disabled}

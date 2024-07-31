@@ -1,0 +1,29 @@
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
+
+.container {
+  @include flex(column);
+  flex-grow: 3;
+}
+
+.title {
+  color: $gray-90;
+  font-size: 40px;
+  font-weight: 700;
+}
+.step_desc {
+  color: $gray-90;
+  font-size: 25px;
+  font-weight: 500;
+  margin-top: 40px;
+}
+button.add_study_group {
+  margin-top: 80px;
+  background-color: #f5edff;
+  color: $primary;
+}
+
+button.next {
+  background-color: $primary;
+  color: $gray-0;
+}

@@ -1,8 +1,9 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 // import "./App.css";
 import "./styles/main.scss";
-import Home from "./pages/Home";
+import Home from "./pages/home";
 import axios from "axios";
+import CreateQuiz from "./pages/createQuiz";
 
 function App() {
   axios.defaults.withCredentials = true;
@@ -17,6 +18,10 @@ function App() {
           element: <Home />,
         },
       ],
+    },
+    {
+      path: "/create-quiz",
+      element: <CreateQuiz />,
     },
   ]);
   return <RouterProvider router={router} />;

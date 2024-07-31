@@ -9,6 +9,7 @@ interface TextareaProps {
   message?: string;
   isError?: boolean;
   disabled?: boolean;
+  label?: string;
   maxLength?: number;
 }
 
@@ -20,6 +21,7 @@ const Textarea: React.FC<TextareaProps> = ({
   message = "",
   isError = false,
   disabled = false,
+  label,
   maxLength = 100,
 }) => {
   const className = `${styles.textarea}  ${
@@ -28,9 +30,13 @@ const Textarea: React.FC<TextareaProps> = ({
 
   return (
     <div className={styles["container"]}>
-      <label className={styles["label"]} htmlFor={id}>
-        레이블
-      </label>
+      {label ? (
+        <label className={styles["label"]} htmlFor={id}>
+          {label}
+        </label>
+      ) : (
+        <></>
+      )}
       <textarea
         id={id}
         value={value}

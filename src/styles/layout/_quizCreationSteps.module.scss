@@ -1,0 +1,13 @@
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
+
+.container {
+  @include flex(column);
+  flex-grow: 2;
+}
+button.steps {
+  color: $gray-90;
+  font-weight: 700;
+  border-radius: 0;
+  justify-content: left;
+}

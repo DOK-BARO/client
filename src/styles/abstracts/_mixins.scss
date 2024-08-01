@@ -15,7 +15,7 @@
   border-radius: $border-radius-base;
   font-size: $font-size-medium;
 
-  // font-family: $font-family-base;
+  font-family: inherit;
   color: $gray-90;
   border: none;
   cursor: pointer;
@@ -26,13 +26,15 @@
   font-size: $font-size-medium;
   box-shadow: 0 0 0 1px $gray-60;
   border: none;
+  font-family: inherit;
   color: $gray-90;
   box-sizing: content-box;
+
   // width: 360px;
-  &::placeholder,
-  &:-ms-input-placeholder,
-  &::-webkit-input-placeholder {
+  &::placeholder {
     color: $gray-50;
+    font-family: inherit;
+    line-height: inherit;
   }
   //   &:active,
   &:focus {
@@ -43,6 +45,7 @@
     color: $gray-60;
     box-shadow: 0 0 0 1px $gray-40;
   }
+  // background-color: aliceblue;
 }
 
 @mixin textarea-base {

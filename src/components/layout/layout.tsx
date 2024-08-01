@@ -11,7 +11,7 @@ export default function Layout() {
       <main>
         <Outlet />
       </main>
-      <footer>footer 영역입니다.</footer>
+      <footer></footer>
     </div>
   );
 }

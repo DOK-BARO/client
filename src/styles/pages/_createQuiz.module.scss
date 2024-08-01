@@ -3,4 +3,5 @@
 
 .container {
   @include flex(row);
+  gap: 80px;
 }

@@ -10,20 +10,41 @@
   color: $gray-90;
   font-size: 40px;
   font-weight: 700;
+  margin-bottom: 40px;
 }
 .step_desc {
   color: $gray-90;
   font-size: 25px;
   font-weight: 500;
-  margin-top: 40px;
+  margin-bottom: 80px;
 }
 button.add_study_group {
-  margin-top: 80px;
-  background-color: #f5edff;
+  background-color: $primary-30;
   color: $primary;
+  margin-bottom: 24px;
+  padding: 20px 0;
+  gap: 8px;
 }
 
 button.next {
   background-color: $primary;
   color: $gray-0;
+  padding: 20px 60px;
+  width: fit-content;
+  margin-left: auto;
+  gap: 8px;
+}
+
+input.quiz-title {
+  margin-bottom: 16px;
+  box-shadow: 0 0 0 1px $gray-40;
+}
+textarea.quiz-description {
+  box-shadow: 0 0 0 1px $gray-40;
+}
+.next-container {
+  // position: fixed;
+  padding: 16px 0;
+  bottom: 0;
+  margin-top: 30px;
 }

@@ -4,6 +4,7 @@ import styles from "../../styles/components/_input.module.scss";
 interface InputProps {
   id: string;
   value: string;
+  className?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   size?: "large" | "medium" | "small";
@@ -17,6 +18,7 @@ const Input: React.FC<InputProps> = ({
   id,
   value,
   onChange,
+  className: customClassName,
   placeholder,
   size = "medium",
   message = "",
@@ -26,7 +28,7 @@ const Input: React.FC<InputProps> = ({
 }) => {
   const className = `${styles.input} ${styles[`input--${size}`]} ${
     isError ? styles["input--error"] : ""
-  }`;
+  } ${customClassName}`;
   return (
     <div className={styles["container"]}>
       {label ? (
@@ -44,9 +46,13 @@ const Input: React.FC<InputProps> = ({
         placeholder={placeholder}
         className={className}
       />
-      <span className={styles[`message${isError ? "--error" : ""}`]}>
-        {message}
-      </span>
+      {message ? (
+        <span className={styles[`message${isError ? "--error" : ""}`]}>
+          {message}
+        </span>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

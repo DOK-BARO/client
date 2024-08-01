@@ -5,6 +5,7 @@ interface TextareaProps {
   id: string;
   value: string;
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+  className?: string;
   placeholder?: string;
   message?: string;
   isError?: boolean;
@@ -17,16 +18,17 @@ const Textarea: React.FC<TextareaProps> = ({
   id,
   value,
   onChange,
+  className: customClassName,
   placeholder,
   message = "",
   isError = false,
   disabled = false,
   label,
-  maxLength = 100,
+  maxLength,
 }) => {
   const className = `${styles.textarea}  ${
     isError ? styles["textarea--error"] : ""
-  }`;
+  } ${customClassName}`;
 
   return (
     <div className={styles["container"]}>
@@ -45,15 +47,21 @@ const Textarea: React.FC<TextareaProps> = ({
         className={className}
         disabled={disabled}
       />
-      <div className={styles["message-container"]}>
-        <span className={styles[`message${isError ? "--error" : ""}`]}>
-          {message}
-        </span>
-        <span className={styles["char-count"]}>
-          <em>{value.length}</em>
-          {maxLength && ` / ${maxLength}`}
-        </span>
-      </div>
+      {message || maxLength ? (
+        <div className={styles["message-container"]}>
+          {
+            <span className={styles[`message${isError ? "--error" : ""}`]}>
+              {message}
+            </span>
+          }
+          <span className={styles["char-count"]}>
+            <em>{value.length}</em>/ {maxLength}
+          </span>
+          )
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

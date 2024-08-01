@@ -1,11 +1,12 @@
 import { useKakaoAuth } from "../../hooks/useKakaoAuth";
 import Button from "../atom/button";
+import { AUTH_ACTION, LOCAL_STORAGE_KEY } from "../../data/constants.ts";
 
 const KakaoAuthButton = () => {
   const { redirectToKakaoAuth, loading } = useKakaoAuth();
 
   const handleLogin = async () => {
-    localStorage.setItem("authAction","login");
+    localStorage.setItem(LOCAL_STORAGE_KEY.AUTH_ACTION,AUTH_ACTION.LOGIN);
     await redirectToKakaoAuth();
   };
 

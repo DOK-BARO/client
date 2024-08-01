@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AuthResponse } from "../data/AuthResponse.ts";
+import { AuthResponse } from "../types/AuthResponse.ts";
 
 export const getKakaoAuthUrl = async (): Promise<string> => {
   console.log("get kakao auth url");

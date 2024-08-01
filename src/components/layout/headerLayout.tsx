@@ -2,7 +2,7 @@ import styles from "../../styles/layout/_headerLayout.module.scss";
 import { PlusCircle } from "../../assets/svg/plusCircle";
 import { gray0, gray90 } from "../../styles/abstracts/colors";
 import { Search } from "../../assets/svg/search";
-import { LogIn } from "../../assets/svg/LogIn";
+import { LogIn } from "../../assets/svg/logIn";
 
 const HeaderLayout = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   return (

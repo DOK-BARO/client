@@ -3,11 +3,17 @@
 
 .container {
   @include flex(column);
-  flex-grow: 2;
+  flex: 1;
 }
 button.steps {
+  width: 100%;
   color: $gray-90;
   font-weight: 700;
   border-radius: 0;
   justify-content: left;
+  padding: 26px 8px;
+  background-color: transparent;
+  &--active {
+    background-color: $gray-0;
+  }
 }

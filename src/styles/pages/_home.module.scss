@@ -2,7 +2,6 @@
 @import "../abstracts/mixins";
 
 .container {
-  background-color: antiquewhite;
   @include respond-to(lg) {
     padding: 16px 160px 16px;
   }

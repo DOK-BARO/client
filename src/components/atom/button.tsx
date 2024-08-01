@@ -2,12 +2,13 @@ import React, { ReactNode } from "react";
 import styles from "../../styles/components/_button.module.scss";
 
 interface ButtonProps {
-  onClick: () => void;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   children: ReactNode;
   size?: "large" | "medium" | "small";
   mode?: "default" | "error";
   disabled?: boolean;
   className?: string;
+  value?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -16,12 +17,18 @@ const Button: React.FC<ButtonProps> = ({
   className: customClassName,
   disabled = false,
   size = "medium",
+  value,
 }) => {
   const className = `${styles.button} ${styles[`button--${size}`]} ${
     customClassName || ""
   }`;
   return (
-    <button onClick={onClick} className={className} disabled={disabled}>
+    <button
+      value={value}
+      onClick={(e) => onClick(e)}
+      className={className}
+      disabled={disabled}
+    >
       {children}
     </button>
   );

@@ -3,7 +3,8 @@
 
 .container {
   @include flex(column);
-  flex-grow: 3;
+  // flex-grow: 5;
+  width: 70%;
 }
 
 .title {
@@ -12,18 +13,11 @@
   font-weight: 700;
   margin-bottom: 40px;
 }
-.step_desc {
+.step-desc {
   color: $gray-90;
   font-size: 25px;
   font-weight: 500;
   margin-bottom: 80px;
-}
-button.add_study_group {
-  background-color: $primary-30;
-  color: $primary;
-  margin-bottom: 24px;
-  padding: 20px 0;
-  gap: 8px;
 }
 
 button.next {
@@ -33,14 +27,6 @@ button.next {
   width: fit-content;
   margin-left: auto;
   gap: 8px;
-}
-
-input.quiz-title {
-  margin-bottom: 16px;
-  box-shadow: 0 0 0 1px $gray-40;
-}
-textarea.quiz-description {
-  box-shadow: 0 0 0 1px $gray-40;
 }
 .next-container {
   // position: fixed;

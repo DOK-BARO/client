@@ -22,7 +22,7 @@ const Modal: React.FC<ModalProps> = ({
           <div className={styles["modal-header"]}>
             <span>{popUpTitle}</span>
             <Button className={styles["modal-button"]} onClick={closeModal}>
-              <CloseIcon width={20} height={20} fill={gray80} />
+              <CloseIcon width={20} height={20} stroke={gray80} />
             </Button>
           </div>
           <div className={styles["content-title"]}>{contentTitle}</div>

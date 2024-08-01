@@ -61,7 +61,7 @@ const GNB: React.FC<GNBProps> = ({
                         <ChevronRightIcon
                           width={20}
                           height={20}
-                          fill={gray90}
+                          stroke={gray90}
                         />
                         {/* <img src={chevronRight} alt="이동하기"></img> */}
                       </a>

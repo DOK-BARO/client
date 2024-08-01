@@ -14,7 +14,7 @@ const HeaderLayout = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
 
       {!isLoggedIn && (
         <button className={styles["header-menu-button"]}>
-          <LogIn width={20} height={20} fill={gray90} alt="로그인 버튼" />
+          <LogIn width={20} height={20} stroke={gray90} alt="로그인 버튼" />
           <h3>로그인</h3>
         </button>
       )}
@@ -25,7 +25,7 @@ const HeaderLayout = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
             <Search
               width={20}
               height={20}
-              fill={gray90}
+              stroke={gray90}
               alt="검색 버튼"
             ></Search>
             <h3>검색</h3>
@@ -35,7 +35,7 @@ const HeaderLayout = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
             <PlusCircle
               width={20}
               height={20}
-              fill={gray0}
+              stroke={gray0}
               alt="퀴즈 만들기 버튼"
             ></PlusCircle>
             <h3>퀴즈 만들기</h3>

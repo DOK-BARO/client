@@ -6,7 +6,7 @@ import { gray80 } from "../../styles/abstracts/colors";
 interface ModalProps {
   popUpTitle: string;
   contentTitle: string;
-  content?: string;
+  content?: JSX.Element;
   closeModal: () => void;
 }
 const Modal: React.FC<ModalProps> = ({

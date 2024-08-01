@@ -7,12 +7,14 @@ interface ModalProps {
   popUpTitle: string;
   contentTitle: string;
   content?: JSX.Element;
+  buttonText?: string;
   closeModal: () => void;
 }
 const Modal: React.FC<ModalProps> = ({
   popUpTitle,
   contentTitle,
   content,
+  buttonText,
   closeModal,
 }) => {
   return (
@@ -27,14 +29,18 @@ const Modal: React.FC<ModalProps> = ({
           </div>
           <div className={styles["content-title"]}>{contentTitle}</div>
           <div className={styles["content"]}>{content}</div>
-          <div className={styles["modal-footer"]}>
-            <Button className={styles["modal-button"]} onClick={() => {}}>
-              버튼
-            </Button>
-            <Button className={styles["modal-button"]} onClick={closeModal}>
-              닫기
-            </Button>
-          </div>
+          {buttonText ? (
+            <div className={styles["modal-footer"]}>
+              <Button className={styles["modal-button"]} onClick={() => {}}>
+                {buttonText}
+              </Button>
+              <Button className={styles["modal-button"]} onClick={closeModal}>
+                닫기
+              </Button>
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </div>

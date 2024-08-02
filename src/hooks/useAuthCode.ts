@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { loginByKakao, signupByKakao } from "../services/authService.ts";
+import { loginByGoogle, loginByKakao, signupByKakao } from "../services/authService.ts";
 import { AuthResponse } from "../types/AuthResponse.ts";
 import { AUTH_ACTION, LOCAL_STORAGE_KEY, URL_PARAMS_KEY } from "../data/constants.ts";
 
-export const useAuthCode = () => {
+export const useAuthCode = (provider: string) => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -27,8 +27,13 @@ export const useAuthCode = () => {
 
   const doLogin = async (code: string) => {
     try {
-      const result = await loginByKakao(code);
-      setToken(result);
+      let result;
+      if(provider === "kakao"){
+        result = await loginByKakao(code);
+      }else if(provider === "google"){
+        result = await loginByGoogle(code);
+      }
+      setToken(result!);
       navigate("/");
       localStorage.removeItem(LOCAL_STORAGE_KEY.AUTH_ACTION);
     } catch (error) {

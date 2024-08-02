@@ -2,6 +2,7 @@ export const LOCAL_STORAGE_KEY = {
   AUTH_ACTION: "authAction",
   ACCESS_TOKEN: "accessToken",
   REFRESH_TOKEN: "refreshToken",
+  SOCIAL_TYPE: "socialType",
 };
 
 export const AUTH_ACTION = {

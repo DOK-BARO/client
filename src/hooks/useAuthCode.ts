@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { loginByGoogle, loginByKakao, signupByKakao } from "../services/authService.ts";
+import { loginByGithub, loginByGoogle, loginByKakao, signupByKakao } from "../services/authService.ts";
 import { AuthResponse } from "../types/AuthResponse.ts";
 import { AUTH_ACTION, LOCAL_STORAGE_KEY, URL_PARAMS_KEY } from "../data/constants.ts";
 
@@ -32,6 +32,8 @@ export const useAuthCode = (provider: string) => {
         result = await loginByKakao(code);
       }else if(provider === "google"){
         result = await loginByGoogle(code);
+      }else if(provider === "github"){
+        result = await loginByGithub(code);
       }
       setToken(result!);
       navigate("/");

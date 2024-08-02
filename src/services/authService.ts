@@ -59,3 +59,20 @@ export const loginByGoogle = async (token :string): Promise<AuthResponse> => {
     throw new Error(`로그인 요청: ${error}`);
   }
 };
+
+export const loginByGithub = async (token :string): Promise<AuthResponse> => {
+  try {
+    const postData = {
+      token,
+      "redirectUrl" : "http://localhost:5173/oauth2/redirected/github",
+    };
+    const { data } = await axios.post("/auth/oauth2/login/GITHUB", postData);
+    console.log(data); // 응답 객체 출력
+    return data;
+  } catch (error: any) {
+    if(error.response.status === 404){
+      throw new Error(`존재하지 않는 계정입니다: ${error}`);
+    }
+    throw new Error(`로그인 요청: ${error}`);
+  }
+};

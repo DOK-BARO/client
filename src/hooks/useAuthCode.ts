@@ -4,6 +4,7 @@ import {
   loginByGithub,
   loginByGoogle,
   loginByKakao,
+  signupByGithub,
   signupByGoogle,
   signupByKakao,
 } from "../services/authService.ts";
@@ -30,8 +31,8 @@ export const useAuthCode = (provider: string) => {
         result = await signupByKakao(code);
       } else if (provider === "google") {
         result = await signupByGoogle(code);
-      } else {
-        // signupByGithub
+      } else if (provider === "github") {
+        result = await signupByGithub(code);
       }
       setToken(result!);
       navigate("/");

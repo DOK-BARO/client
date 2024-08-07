@@ -1,19 +1,13 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import {
-  loginByGithub,
-  loginByGoogle,
-  loginByKakao,
-  signupByGithub,
-  signupByGoogle,
-  signupByKakao,
-} from "../services/authService.ts";
+import { signup, login } from "../services/authService.ts";
 import { AuthResponse } from "../types/AuthResponse.ts";
 import {
   AUTH_ACTION,
   LOCAL_STORAGE_KEY,
   URL_PARAMS_KEY,
 } from "../data/constants.ts";
+import { SocialLoginType } from "../types/SocialLoginType.ts";
 
 export const useAuthCode = (provider: string) => {
   const location = useLocation();
@@ -26,43 +20,36 @@ export const useAuthCode = (provider: string) => {
 
   const doSignUp = async (code: string) => {
     try {
-      let result;
-      if (provider === "kakao") {
-        result = await signupByKakao(code);
-      } else if (provider === "google") {
-        result = await signupByGoogle(code);
-      } else if (provider === "github") {
-        result = await signupByGithub(code);
-      }
-      setToken(result!);
+      const result = await signup(
+        provider.toUpperCase() as SocialLoginType,
+        code
+      );
+      setToken(result);
       navigate("/");
       localStorage.removeItem(LOCAL_STORAGE_KEY.AUTH_ACTION);
     } catch (error) {
-      // todo 에러 처리 필요
+      console.log("에러:", error);
+      // TODO: 에러 처리 필요
     }
   };
 
   const doLogin = async (code: string) => {
     try {
-      let result;
-      if (provider === "kakao") {
-        result = await loginByKakao(code);
-      } else if (provider === "google") {
-        result = await loginByGoogle(code);
-      } else if (provider === "github") {
-        result = await loginByGithub(code);
-      }
-      setToken(result!);
+      const result = await login(
+        provider.toUpperCase() as SocialLoginType,
+        code
+      );
+      setToken(result);
       navigate("/");
       localStorage.removeItem(LOCAL_STORAGE_KEY.AUTH_ACTION);
     } catch (error) {
-      // todo 에러 처리 필요
+      console.log("에러:", error);
+      // TODO: 에러 처리 필요
     }
   };
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
-    console.log("urlParams", urlParams);
     const code = urlParams.get(URL_PARAMS_KEY.KAKAO_AUTH_CODE);
 
     if (code) {

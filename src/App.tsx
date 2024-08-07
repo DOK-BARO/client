@@ -1,6 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./styles/main.scss";
-import Home from "./pages/Home";
+import Home from "./pages/home";
 import axios from "axios";
 import AuthRedirectedPage from "./pages/Redirect/authRedirectedPage.tsx";
 

@@ -1,4 +1,6 @@
-export enum AuthType {
-  SIGNUP = 1,
-  LOGIN = 2,
-}
+export const AuthType = {
+  SIGNUP: "SIGNUP",
+  LOGIN: "LOGIN",
+} as const;
+
+export type AuthType = (typeof AuthType)[keyof typeof AuthType];

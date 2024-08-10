@@ -1,60 +1,31 @@
-import SocialAuthButton, {
-  AuthType,
-} from "../../components/composite/socialAuthButton";
+import React from "react";
+import SocialAuthButton from "../../components/composite/socialAuthButton";
 import { SocialLoginType } from "../../types/SocialLoginType";
+import { AuthType } from "../../types/AuthType";
+
+const SOCIAL_TYPES = [
+  SocialLoginType.KAKAO,
+  SocialLoginType.GOOGLE,
+  SocialLoginType.GITHUB,
+  SocialLoginType.NAVER,
+] as const;
+
+const AUTH_TYPES = [AuthType.SIGNUP, AuthType.LOGIN] as const;
 
 export default function Index() {
   return (
     <div style={{ display: "flex", gap: "10px" }}>
-      {/* <HeaderLayout isLoggedIn={true} /> */}
-
-      {/* 카카오 버튼 */}
-      <div>
-        <SocialAuthButton
-          authType={AuthType.SIGNUP}
-          socialType={SocialLoginType.KAKAO}
-        />
-        <SocialAuthButton
-          authType={AuthType.LOGIN}
-          socialType={SocialLoginType.KAKAO}
-        />
-      </div>
-
-      {/* 구글 버튼 */}
-      <div>
-        <SocialAuthButton
-          authType={AuthType.SIGNUP}
-          socialType={SocialLoginType.GOOGLE}
-        />
-        <SocialAuthButton
-          authType={AuthType.LOGIN}
-          socialType={SocialLoginType.GOOGLE}
-        />
-      </div>
-
-      {/* 깃허브 버튼 */}
-      <div>
-        <SocialAuthButton
-          authType={AuthType.SIGNUP}
-          socialType={SocialLoginType.GITHUB}
-        />
-        <SocialAuthButton
-          authType={AuthType.LOGIN}
-          socialType={SocialLoginType.GITHUB}
-        />
-      </div>
-
-      {/* 네이버 버튼 */}
-      <div>
-        <SocialAuthButton
-          authType={AuthType.SIGNUP}
-          socialType={SocialLoginType.NAVER}
-        />
-        <SocialAuthButton
-          authType={AuthType.LOGIN}
-          socialType={SocialLoginType.NAVER}
-        />
-      </div>
+      {SOCIAL_TYPES.map((socialType) => (
+        <div key={socialType}>
+          {AUTH_TYPES.map((authType) => (
+            <SocialAuthButton
+              key={`${socialType}-${authType}`}
+              authType={authType}
+              socialType={socialType}
+            />
+          ))}
+        </div>
+      ))}
     </div>
   );
 }

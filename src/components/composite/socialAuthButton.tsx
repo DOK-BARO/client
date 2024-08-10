@@ -18,13 +18,13 @@ const SocialAuthButton: React.FC<{
     await redirectToAuthPage(socialType);
   };
 
+  const buttonText = loading
+    ? "로딩중"
+    : `${socialType} ${authType === AuthType.SIGNUP ? "회원가입" : "로그인"}`;
+
   return (
     <Button onClick={handleAuth} disabled={loading}>
-      {loading
-        ? "로딩중"
-        : `${socialType} ${
-            authType === AuthType.SIGNUP ? "회원가입" : "로그인"
-          }`}
+      {buttonText}
     </Button>
   );
 };

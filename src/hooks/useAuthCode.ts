@@ -28,7 +28,7 @@ export const useAuthCode = (provider: string) => {
       navigate("/");
       localStorage.removeItem(LOCAL_STORAGE_KEY.AUTH_ACTION);
     } catch (error) {
-      console.log("에러:", error);
+      console.log("회원가입 오류:", error);
       // TODO: 에러 처리 필요
     }
   };
@@ -43,7 +43,7 @@ export const useAuthCode = (provider: string) => {
       navigate("/");
       localStorage.removeItem(LOCAL_STORAGE_KEY.AUTH_ACTION);
     } catch (error) {
-      console.log("에러:", error);
+      console.log("로그인 오류:", error);
       // TODO: 에러 처리 필요
     }
   };
@@ -55,9 +55,7 @@ export const useAuthCode = (provider: string) => {
     // const code = urlParams.get(URL_PARAMS_KEY.KAKAO_AUTH_CODE);
 
     if (code) {
-      const action: string = localStorage.getItem(
-        LOCAL_STORAGE_KEY.AUTH_ACTION
-      )!;
+      const action = localStorage.getItem(LOCAL_STORAGE_KEY.AUTH_ACTION);
       action === AUTH_ACTION.LOGIN ? doLogin(code) : doSignUp(code);
     }
   }, []);

@@ -1,8 +1,8 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./styles/main.scss";
-import Home from "./pages/Home";
+import Index from "./pages/Home/index.tsx";
 import axios from "axios";
-import RedirectedPage from "./pages/Redirect/redirectedPage.tsx";
+import AuthRedirectedPage from "./pages/Redirect/authRedirectedPage.tsx";
 
 function App() {
   axios.defaults.withCredentials = true;
@@ -10,11 +10,11 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Home />,
+      element: <Index />,
     },
     {
-      path: "/oauth2/redirected/kakao/",
-      element: <RedirectedPage />,
+      path: "/oauth2/redirected/:provider",
+      element: <AuthRedirectedPage />,
     },
   ]);
   return <RouterProvider router={router} />;

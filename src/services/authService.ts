@@ -2,6 +2,8 @@ import axios, { AxiosError } from "axios";
 import { AuthResponse } from "../types/AuthResponse.ts";
 import { SocialLoginType } from "../types/SocialLoginType.ts";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export const getAuthUrl = async (
   socialLoginType: SocialLoginType
 ): Promise<string> => {
@@ -23,7 +25,7 @@ export const login = async (
 ): Promise<AuthResponse> => {
   const postData = {
     token,
-    redirectUrl: `http://localhost:5173/oauth2/redirected/${socialType.toLocaleLowerCase()}`,
+    redirectUrl: `${apiUrl}/oauth2/redirected/${socialType.toLocaleLowerCase()}`,
   };
   console.log(postData.redirectUrl);
   try {
@@ -53,7 +55,8 @@ export const signup = async (
   try {
     const postData = {
       token,
-      redirectUrl: `http://localhost:5173/oauth2/redirected/${socialType.toLocaleLowerCase()}`,
+      // redirectUrl: `http://localhost:5173/oauth2/redirected/${socialType.toLocaleLowerCase()}`,
+      redirectUrl: `${apiUrl}/oauth2/redirected/${socialType.toLocaleLowerCase()}`,
     };
     const { data } = await axios.post(
       `/auth/oauth2/signup/${socialType}`,

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { loginByGithub, loginByGoogle, loginByKakao, signupByKakao } from "../services/authService.ts";
+import { loginByGithub, loginByGoogle, loginByKakao, loginByNaver, signupByKakao } from "../services/authService.ts";
 import { AuthResponse } from "../types/AuthResponse.ts";
 import { AUTH_ACTION, LOCAL_STORAGE_KEY, URL_PARAMS_KEY } from "../data/constants.ts";
 
@@ -34,7 +34,10 @@ export const useAuthCode = (provider: string) => {
         result = await loginByGoogle(code);
       }else if(provider === "github"){
         result = await loginByGithub(code);
+      }else if(provider === "naver"){
+        result = await loginByNaver(code);
       }
+
       setToken(result!);
       navigate("/");
       localStorage.removeItem(LOCAL_STORAGE_KEY.AUTH_ACTION);
@@ -45,7 +48,7 @@ export const useAuthCode = (provider: string) => {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
-    const code = urlParams.get(URL_PARAMS_KEY.KAKAO_AUTH_CODE);
+    const code = urlParams.get(URL_PARAMS_KEY.AUTH_CODE);
 
     if (code) {
       const action: string = localStorage.getItem(LOCAL_STORAGE_KEY.AUTH_ACTION)!;

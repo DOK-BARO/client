@@ -1,21 +1,34 @@
-import KakaoAuthButton from "../../components/composite/kakaoAuthButton.tsx";
-import KakaoSignUpButton from "../../components/composite/kakaoSignupButton.tsx";
-import GoogleAuthButton from "../../components/composite/googleAuthButton.tsx";
-import GithubAuthButton from "../../components/composite/githubAuthButton.tsx";
-import NaverAuthButton from "../../components/composite/naverAuthButton.tsx";
-import GoogleSignUpButton from "../../components/composite/googleSignupButton.tsx";
+import SocialAuthButton from "../../components/composite/socialAuthButton";
+import { SocialLoginType } from "../../types/SocialLoginType";
+import { AuthType } from "../../types/AuthType";
 import HeaderLayout from "../../components/layout/headerLayout.tsx";
+
+const SOCIAL_TYPES = [
+  SocialLoginType.KAKAO,
+  SocialLoginType.GOOGLE,
+  SocialLoginType.GITHUB,
+  SocialLoginType.NAVER,
+] as const;
+
+const AUTH_TYPES = [AuthType.SIGNUP, AuthType.LOGIN] as const;
 
 export default function Index() {
   return (
     <>
       <HeaderLayout isLoggedIn={false} />
-      <KakaoAuthButton />
-      <KakaoSignUpButton />
-      <GoogleAuthButton />
-      <GoogleSignUpButton />
-      <GithubAuthButton />
-      <NaverAuthButton />
+      <div style={{ display: "flex", gap: "10px" }}>
+        {SOCIAL_TYPES.map((socialType) => (
+          <div key={socialType}>
+            {AUTH_TYPES.map((authType) => (
+              <SocialAuthButton
+                key={`${socialType}-${authType}`}
+                authType={authType}
+                socialType={socialType}
+              />
+            ))}
+          </div>
+        ))}
+      </div>
     </>
   );
 }

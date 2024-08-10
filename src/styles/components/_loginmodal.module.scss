@@ -1,0 +1,82 @@
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
+
+.modal-container {
+  @include flex(column);
+  height: 100%;
+}
+.modal-button {
+  @include button-base;
+  background-color: transparent;
+}
+
+.modal-backdrop {
+  display: flex;
+  align-items: center;
+  background-color: $modal-backdrop-color;
+  z-index: 1;
+  position: fixed;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.modal-view {
+  display: flex;
+  align-items: center;
+  background-color: $gray-0;
+  flex-direction: column;
+  border-radius: 12px;
+  border: 1px solid $gray-40;
+  width: 400px;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.modal-header {
+  display: flex;
+  width: 100%;
+  justify-content: end;
+  margin-bottom: 32px;
+  box-sizing: border-box;
+
+  button {
+    padding: 0;
+  }
+}
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: $font-size-medium;
+  margin: 0 40px 32px;
+}
+
+.title-text {
+  color:  $gray-50;
+  font-size: $font-size-medium;
+  margin-top: 8px;
+}
+
+.github-auth-button {
+  box-sizing: border-box;
+  color: $gray-0;
+  background-color: $gray-100;
+  padding: 25.5px 84px 25.5px 24px;
+  img {
+    margin-right: 16px;
+    padding:0;
+  }
+  div {
+    font-family: Pretendard, serif;
+    font-size: $font-size-large;
+    font-weight: 600; // TODO: semi-bold
+    line-height: 1.5;
+    box-sizing: border-box;
+    width: 170px;
+  }
+}
+

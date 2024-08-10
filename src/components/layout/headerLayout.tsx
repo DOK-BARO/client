@@ -1,20 +1,21 @@
-import styles from "../../styles/layout/_headerLayout.module.scss";
+import styles from "../../styles/layout/_headerlayout.module.scss";
 import { PlusCircle } from "../../assets/svg/plusCircle";
 import { gray0, gray90 } from "../../styles/abstracts/colors";
 import { Search } from "../../assets/svg/search";
 import { LogIn } from "../../assets/svg/LogIn";
+import useModal from "../../hooks/useModal.ts";
+import LoginModal from "../composite/loginModal.tsx";
+import HeaderLogo from "../atom/headerLogo.tsx";
 
 const HeaderLayout = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
+  const { isModalOpen, openModal, closeModal } = useModal();
+
   return (
     <header className={styles["header-container"]}>
       <div className={styles["header-view"]}>
-        <button className={styles["logo-button"]}>
-          <img src="/src/assets/svg/logo.svg" alt="로고 버튼" />
-          <h2>DOKBARO</h2>
-        </button>
-
+        <HeaderLogo />
         {!isLoggedIn && (
-          <button className={styles["header-menu-button"]}>
+          <button className={styles["header-menu-button"]} onClick={openModal}>
             <LogIn width={20} height={20} fill={gray90} alt="로그인 버튼" />
             <h3>로그인</h3>
           </button>
@@ -43,6 +44,10 @@ const HeaderLayout = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
             </button>
           </span>
         )}
+
+        {isModalOpen &&
+          <LoginModal closeModal={closeModal}/>
+        }
       </div>
     </header>
   );

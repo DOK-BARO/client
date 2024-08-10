@@ -1,3 +1,6 @@
+import { SocialLoginType } from "../types/SocialLoginType.ts";
+import { AuthType } from "../types/AuthType.ts";
+
 export const LOCAL_STORAGE_KEY = {
   AUTH_ACTION: "authAction",
   ACCESS_TOKEN: "accessToken",
@@ -11,7 +14,13 @@ export const AUTH_ACTION = {
 
 export const URL_PARAMS_KEY = {
   AUTH_CODE : "code",
-// }
-  // KAKAO_AUTH_CODE: "code",
-  // GOOGLE_AUTH_CODE: "code",
 };
+
+export const SOCIAL_TYPES = [
+  SocialLoginType.GITHUB,
+  SocialLoginType.GOOGLE,
+  SocialLoginType.KAKAO,
+  SocialLoginType.NAVER,
+] as const;
+
+export const AUTH_TYPES = [AuthType.SIGNUP, AuthType.LOGIN] as const;

@@ -61,22 +61,4 @@
   margin-top: 8px;
 }
 
-.github-auth-button {
-  box-sizing: border-box;
-  color: $gray-0;
-  background-color: $gray-100;
-  padding: 25.5px 84px 25.5px 24px;
-  img {
-    margin-right: 16px;
-    padding:0;
-  }
-  div {
-    font-family: Pretendard, serif;
-    font-size: $font-size-large;
-    font-weight: 600; // TODO: semi-bold
-    line-height: 1.5;
-    box-sizing: border-box;
-    width: 170px;
-  }
-}
 

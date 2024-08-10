@@ -1,16 +1,6 @@
 import SocialAuthButton from "../../components/composite/socialAuthButton";
-import { SocialLoginType } from "../../types/SocialLoginType";
-import { AuthType } from "../../types/AuthType";
 import HeaderLayout from "../../components/layout/headerLayout.tsx";
-
-const SOCIAL_TYPES = [
-  SocialLoginType.KAKAO,
-  SocialLoginType.GOOGLE,
-  SocialLoginType.GITHUB,
-  SocialLoginType.NAVER,
-] as const;
-
-const AUTH_TYPES = [AuthType.SIGNUP, AuthType.LOGIN] as const;
+import { AUTH_TYPES, SOCIAL_TYPES } from "../../data/constants.ts";
 
 export default function Index() {
   return (

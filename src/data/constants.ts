@@ -3,8 +3,6 @@ import { AuthType } from "../types/AuthType.ts";
 
 export const LOCAL_STORAGE_KEY = {
   AUTH_ACTION: "authAction",
-  ACCESS_TOKEN: "accessToken",
-  REFRESH_TOKEN: "refreshToken",
 };
 
 export const AUTH_ACTION = {

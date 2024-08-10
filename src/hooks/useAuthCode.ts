@@ -50,7 +50,9 @@ export const useAuthCode = (provider: string) => {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
-    const code = urlParams.get(URL_PARAMS_KEY.KAKAO_AUTH_CODE);
+    const code = urlParams.get(URL_PARAMS_KEY.AUTH_CODE);
+    // console.log("urlParams", urlParams);
+    // const code = urlParams.get(URL_PARAMS_KEY.KAKAO_AUTH_CODE);
 
     if (code) {
       const action: string = localStorage.getItem(

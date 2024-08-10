@@ -1,6 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./styles/main.scss";
-import Home from "./pages/home";
+import Index from "./pages/Home/index.tsx";
 import axios from "axios";
 import AuthRedirectedPage from "./pages/Redirect/authRedirectedPage.tsx";
 
@@ -10,7 +10,7 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Home />,
+      element: <Index />,
     },
     {
       path: "/oauth2/redirected/:provider",

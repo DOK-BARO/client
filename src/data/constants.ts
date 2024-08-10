@@ -11,4 +11,7 @@ export const AUTH_ACTION = {
 
 export const URL_PARAMS_KEY = {
   AUTH_CODE : "code",
-}
+// }
+  // KAKAO_AUTH_CODE: "code",
+  // GOOGLE_AUTH_CODE: "code",
+};

@@ -3,11 +3,7 @@ import { useAuth } from "../../hooks/useAuth";
 import Button from "../atom/button";
 import { AUTH_ACTION, LOCAL_STORAGE_KEY } from "../../data/constants";
 import { SocialLoginType } from "../../types/SocialLoginType";
-
-export enum AuthType {
-  SIGNUP = 1,
-  LOGIN = 2,
-}
+import { AuthType } from "../../types/AuthType";
 
 const SocialAuthButton: React.FC<{
   authType: AuthType;

@@ -1,20 +1,60 @@
-import KakaoAuthButton from "../../components/composite/kakaoAuthButton.tsx";
-import KakaoSignUpButton from "../../components/composite/kakaoSignupButton.tsx";
-import GoogleAuthButton from "../../components/composite/googleAuthButton.tsx";
-import GithubAuthButton from "../../components/composite/githubAuthButton.tsx";
-import NaverAuthButton from "../../components/composite/naverAuthButton.tsx";
-import GoogleSignUpButton from "../../components/composite/googleSignupButton.tsx";
+import SocialAuthButton, {
+  AuthType,
+} from "../../components/composite/socialAuthButton";
+import { SocialLoginType } from "../../types/SocialLoginType";
 
 export default function Index() {
   return (
-    <>
+    <div style={{ display: "flex", gap: "10px" }}>
       {/* <HeaderLayout isLoggedIn={true} /> */}
-      <KakaoAuthButton />
-      <KakaoSignUpButton />
-      <GoogleAuthButton />
-      <GoogleSignUpButton />
-      <GithubAuthButton />
-      <NaverAuthButton />
-    </>
+
+      {/* 카카오 버튼 */}
+      <div>
+        <SocialAuthButton
+          authType={AuthType.SIGNUP}
+          socialType={SocialLoginType.KAKAO}
+        />
+        <SocialAuthButton
+          authType={AuthType.LOGIN}
+          socialType={SocialLoginType.KAKAO}
+        />
+      </div>
+
+      {/* 구글 버튼 */}
+      <div>
+        <SocialAuthButton
+          authType={AuthType.SIGNUP}
+          socialType={SocialLoginType.GOOGLE}
+        />
+        <SocialAuthButton
+          authType={AuthType.LOGIN}
+          socialType={SocialLoginType.GOOGLE}
+        />
+      </div>
+
+      {/* 깃허브 버튼 */}
+      <div>
+        <SocialAuthButton
+          authType={AuthType.SIGNUP}
+          socialType={SocialLoginType.GITHUB}
+        />
+        <SocialAuthButton
+          authType={AuthType.LOGIN}
+          socialType={SocialLoginType.GITHUB}
+        />
+      </div>
+
+      {/* 네이버 버튼 */}
+      <div>
+        <SocialAuthButton
+          authType={AuthType.SIGNUP}
+          socialType={SocialLoginType.NAVER}
+        />
+        <SocialAuthButton
+          authType={AuthType.LOGIN}
+          socialType={SocialLoginType.NAVER}
+        />
+      </div>
+    </div>
   );
 }

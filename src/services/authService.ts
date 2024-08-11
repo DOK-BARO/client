@@ -2,15 +2,15 @@ import axios, { AxiosError } from "axios";
 import { AuthResponse } from "../types/AuthResponse.ts";
 import { SocialLoginType } from "../types/SocialLoginType.ts";
 
-const apiUrl = import.meta.env.VITE_API_URL;
+const redirectedUrl =  import.meta.env.VITE_AUTH_REDIRECTED_URL;
 
 export const getAuthUrl = async (
-  socialLoginType: SocialLoginType
+  socialLoginType: SocialLoginType,
 ): Promise<string> => {
   console.log("get kakao auth url");
   try {
     const { data } = await axios.get(
-      `/auth/oauth2/authorize/${socialLoginType}`
+      `/auth/oauth2/authorize/${socialLoginType}`,
     );
     console.log(data); // 응답 객체 출력
     return data.url; // 임시 임의 리턴값
@@ -21,17 +21,17 @@ export const getAuthUrl = async (
 
 export const login = async (
   socialType: SocialLoginType,
-  token: string
+  token: string,
 ): Promise<AuthResponse> => {
   const postData = {
     token,
-    redirectUrl: `${apiUrl}/oauth2/redirected/${socialType.toLocaleLowerCase()}`,
+    redirectUrl: `${redirectedUrl}/${socialType.toLocaleLowerCase()}`,
   };
   console.log(postData.redirectUrl);
   try {
     const { data } = await axios.post(
       `/auth/oauth2/login/${socialType}`,
-      postData
+      postData,
     );
     console.log("data", data); // 응답 객체 출력
     return data;
@@ -50,17 +50,16 @@ export const login = async (
 
 export const signup = async (
   socialType: SocialLoginType,
-  token: string
+  token: string,
 ): Promise<AuthResponse> => {
   try {
     const postData = {
       token,
-      // redirectUrl: `http://localhost:5173/oauth2/redirected/${socialType.toLocaleLowerCase()}`,
-      redirectUrl: `${apiUrl}/oauth2/redirected/${socialType.toLocaleLowerCase()}`,
+      redirectUrl: `${redirectedUrl}/${socialType.toLocaleLowerCase()}`,
     };
     const { data } = await axios.post(
       `/auth/oauth2/signup/${socialType}`,
-      postData
+      postData,
     );
     return data; // 임시 임의 리턴값
   } catch (error: unknown) {

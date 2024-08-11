@@ -1,4 +1,4 @@
-import { PlusCircle } from "../../../assets/svg/plusCircle";
+import { PlusCircle } from "../../../../public/assets/svg/plusCircle";
 import Button from "../../../components/atom/button";
 import Input from "../../../components/atom/input";
 import Textarea from "../../../components/atom/textarea";

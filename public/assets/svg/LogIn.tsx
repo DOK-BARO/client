@@ -1,4 +1,4 @@
-import { SVGProps } from "../../types/SVGProps";
+import { SVGProps } from "../../../src/types/SVGProps";
 
 export const LogIn: React.FC<SVGProps> = ({ alt, ...props }) => {
   return (

@@ -1,6 +1,6 @@
-import { SVGProps } from "../../types/SVGProps";
+import { SVGProps } from "../../../src/types/SVGProps";
 
-export const RightArrow: React.FC<SVGProps> = ({ alt, ...props }) => {
+const RightArrow: React.FC<SVGProps> = ({ alt, ...props }) => {
   return (
     <svg
       width="21"
@@ -20,3 +20,4 @@ export const RightArrow: React.FC<SVGProps> = ({ alt, ...props }) => {
     </svg>
   );
 };
+export default RightArrow;

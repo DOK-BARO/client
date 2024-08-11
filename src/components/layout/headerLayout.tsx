@@ -1,8 +1,8 @@
 import styles from "../../styles/layout/_headerLayout.module.scss";
-import { PlusCircle } from "../../assets/svg/plusCircle";
 import { gray0, gray90 } from "../../styles/abstracts/colors";
-import { Search } from "../../assets/svg/search";
-import { LogIn } from "../../assets/svg/LogIn";
+import { Search } from "../../../public/assets/svg/search";
+import { LogIn } from "../../../public/assets/svg/LogIn";
+import { PlusCircle } from "../../../public/assets/svg/plusCircle";
 // import useModal from "../../hooks/useModal.ts";
 // import LoginModal from "../composite/loginModal.tsx";
 // import HeaderLogo from "../atom/headerLogo.tsx";

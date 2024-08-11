@@ -1,13 +1,14 @@
 import { useState } from "react";
-import { getKakaoAuthUrl } from "../services/authService";
+import { getAuthUrl } from "../services/authService";
+import { SocialLoginType } from "../types/SocialLoginType.ts";
 
-export const useKakaoAuth = () => {
+export const useAuth = () => {
   const [loading, setLoading] = useState(false);
 
-  const redirectToKakaoAuth = async () => {
+  const redirectToAuthPage = async (socialLoginType: SocialLoginType) => {
     setLoading(true);
     try {
-      const url = await getKakaoAuthUrl();
+      const url = await getAuthUrl(socialLoginType);
       console.log(url);
       window.location.href = url; // 해당 url로 이동
     } catch (error) {
@@ -17,5 +18,5 @@ export const useKakaoAuth = () => {
     }
   };
 
-  return { redirectToKakaoAuth, loading };
+  return { redirectToAuthPage, loading };
 };

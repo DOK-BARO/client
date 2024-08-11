@@ -1,4 +1,4 @@
-import { SVGProps } from "../../types/SVGProps";
+import { SVGProps } from "../../../src/types/SVGProps";
 
 export const Search: React.FC<SVGProps> = ({ alt, ...props }) => {
   return (

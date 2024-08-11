@@ -11,7 +11,7 @@ export const useSignup = (): UseSignupResponse => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const signup = async (token: string, redirectUrl: string) => {
+  const signup = async (token: string) => {
     setLoading(true);
     setError(null);
 

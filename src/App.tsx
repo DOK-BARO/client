@@ -1,10 +1,11 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-// import "./App.css";
 import "./styles/main.scss";
-import Home from "./pages/home";
+import Index from "./pages/Home/index.tsx";
 import axios from "axios";
 import CreateQuiz from "./pages/createQuiz";
+// import Layout from "./components/layout/layout";
 import Layout from "./components/layout/layout";
+import AuthRedirectedPage from "./pages/Redirect/authRedirectedPage.tsx";
 
 function App() {
   axios.defaults.withCredentials = true;
@@ -16,17 +17,17 @@ function App() {
       children: [
         {
           path: "/",
-          element: <Home />,
-        },
-        {
-          path: "/oauth2/redirected/kakao",
-          element: <Home />,
+          element: <Index />,
         },
         {
           path: "/create-quiz",
           element: <CreateQuiz />,
         },
       ],
+    },
+    {
+      path: "/oauth2/redirected/:provider",
+      element: <AuthRedirectedPage />,
     },
   ]);
   return <RouterProvider router={router} />;

@@ -10,7 +10,7 @@ export const getAuthUrl = async (
   console.log("get kakao auth url");
   try {
     const { data } = await axios.get(
-      `/auth/oauth2/authorize/${socialLoginType}`
+      `/auth/oauth2/authorize/${socialLoginType}?redirectUrl=${redirectedUrl}/${socialLoginType.toLowerCase()}`,
     );
     console.log(data); // 응답 객체 출력
     return data.url; // 임시 임의 리턴값

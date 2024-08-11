@@ -3,8 +3,13 @@ import { PlusCircle } from "../../assets/svg/plusCircle";
 import { gray0, gray90 } from "../../styles/abstracts/colors";
 import { Search } from "../../assets/svg/search";
 import { LogIn } from "../../assets/svg/LogIn";
+// import useModal from "../../hooks/useModal.ts";
+// import LoginModal from "../composite/loginModal.tsx";
+// import HeaderLogo from "../atom/headerLogo.tsx";
 
 const HeaderLayout = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
+  // const { isModalOpen, openModal, closeModal } = useModal();
+
   return (
     <div className={styles["header-view"]}>
       <button className={styles["logo-button"]}>

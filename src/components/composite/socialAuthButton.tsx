@@ -42,7 +42,7 @@ const SocialAuthButton: React.FC<{
       authType === AuthType.SIGNUP ? "회원가입" : "계정으로 로그인"
     }`;
   };
-  const buttonLogoSrc = `../../../public/assets/svg/${socialType.toLowerCase()}-logo.svg`;
+  const buttonLogoSrc = `/assets/svg/${socialType.toLowerCase()}-logo.svg`;
   const alt = `${socialType} 로그인 버튼`;
 
   return (

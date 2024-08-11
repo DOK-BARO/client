@@ -13,7 +13,7 @@ const HeaderLayout = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
   return (
     <div className={styles["header-view"]}>
       <button className={styles["logo-button"]}>
-        <img src="/src/assets/svg/logo.svg" alt="로고 버튼" />
+        <img src="/public/assets/svg/logo.svg" alt="로고 버튼" />
         <h2>DOKBARO</h2>
       </button>
 

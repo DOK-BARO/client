@@ -24,29 +24,34 @@ const SocialAuthButton: React.FC<{
   //   : `${socialType}${authType === AuthType.SIGNUP ? "회원가입" : "계정으로 로그인"}`;
 
   const buttonText = () => {
-    
-    if(loading) {
+    if (loading) {
       return "로딩중";
     }
-    
+
     let socialTypeText;
-    if(socialType === SocialLoginType.KAKAO) {
+    if (socialType === SocialLoginType.KAKAO) {
       socialTypeText = "카카오";
-    } else if (socialType === SocialLoginType.GOOGLE){
+    } else if (socialType === SocialLoginType.GOOGLE) {
       socialTypeText = "구글";
-    }else if (socialType === SocialLoginType.NAVER){
+    } else if (socialType === SocialLoginType.NAVER) {
       socialTypeText = "네이버";
-    }else if (socialType === SocialLoginType.GITHUB){
+    } else if (socialType === SocialLoginType.GITHUB) {
       socialTypeText = "깃허브";
     }
-    return `${socialTypeText}${authType === AuthType.SIGNUP ? "회원가입" : "계정으로 로그인"}`;
+    return `${socialTypeText}${
+      authType === AuthType.SIGNUP ? "회원가입" : "계정으로 로그인"
+    }`;
   };
 
-  const buttonLogoSrc = `/src/assets/svg/${socialType.toLowerCase()}-logo.svg`;
+  const buttonLogoSrc = `/public/assets/svg/${socialType.toLowerCase()}-logo.svg`;
   const alt = `${socialType} 로그인 버튼`;
 
   return (
-    <Button className={styles[`${socialType.toLowerCase()}-auth-button`]} onClick={handleAuth} disabled={loading}>
+    <Button
+      className={styles[`${socialType.toLowerCase()}-auth-button`]}
+      onClick={handleAuth}
+      disabled={loading}
+    >
       <img src={buttonLogoSrc} alt={alt}></img>
       <div>{buttonText()}</div>
     </Button>

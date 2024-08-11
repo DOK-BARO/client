@@ -1,5 +1,6 @@
 /* Colors */
 $gray-0: #ffffff;
+$gray-10: #f9f9f9;
 $gray-30: #d8d8d8;
 $gray-40: #c6c6c6;
 $gray-50: #8e8e8e;
@@ -8,6 +9,8 @@ $gray-70: #555555;
 $gray-90: #1d1d1d;
 $gray-100: #000000;
 
+$primary: #9747ff;
+$primary-30: #f5edff;
 $primary-50: #246beb;
 
 $danger-50: #eb003b;
@@ -32,3 +35,9 @@ $input-padding-large: 21.5px 16px;
 
 /* Textarea Paddings */
 $textarea-padding: 16px;
+
+/* breakpoints */
+$breakpoint-sm: 480px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 905px;
+$breakpoint-xl: 1440px; // 1440

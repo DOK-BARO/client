@@ -2,6 +2,9 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./styles/main.scss";
 import Index from "./pages/Home/index.tsx";
 import axios from "axios";
+import CreateQuiz from "./pages/createQuiz";
+// import Layout from "./components/layout/layout";
+import Layout from "./components/layout/layout";
 import AuthRedirectedPage from "./pages/Redirect/authRedirectedPage.tsx";
 
 function App() {
@@ -10,7 +13,17 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Index />,
+      element: <Layout />,
+      children: [
+        {
+          path: "/",
+          element: <Index />,
+        },
+        {
+          path: "/create-quiz",
+          element: <CreateQuiz />,
+        },
+      ],
     },
     {
       path: "/oauth2/redirected/:provider",

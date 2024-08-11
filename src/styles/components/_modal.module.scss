@@ -7,7 +7,7 @@
 }
 .modal-button {
   @include button-base;
-  background-color: transparent;
+  background-color: $gray-0;
 }
 .modal-backdrop {
   display: flex;

@@ -3,6 +3,7 @@
 
 .container {
   @include flex(column);
+  height: min-content;
 }
 .label {
   color: $gray-90;

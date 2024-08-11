@@ -1,39 +1,19 @@
+// composite 같은데..
 @import "../abstracts/variables";
 @import "../abstracts/mixins";
-
-.header-container {
-  @include flex(row);
-}
 
 .header-view {
   display: flex;
   width: 100%;
-  padding: 16px 320px 16px;
+  padding: 16px 0;
   justify-content: space-between;
-
-  // 데스크탑 화면 스타일
-  @media (max-width: 1200px) {
-    padding: 16px 160px 16px;
-  }
-
-  // 태블릿 화면 스타일
-  @media (max-width: 768px) {
-    padding: 16px 40px 16px;
-  }
-
-  // 모바일 화면 스타일
-  @media (max-width: 480px) {
-    padding: 16px 20px 16px;
-    flex-direction: column;
-    align-items: center;
-  }
 }
 
 .logo-button {
   display: flex;
   align-items: center;
-  background-color: $gray-0;
   border: none;
+  background-color: transparent;
 
   h2 {
     margin-left: 10px;
@@ -46,7 +26,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  background-color: $gray-0;
+  background-color: transparent;
   border: none;
 
   h3 {
@@ -59,7 +39,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  background-color: #9747ff;
+  background-color: $primary;
   border: none;
   border-radius: 8px;
   margin-left: 8px;
@@ -68,7 +48,6 @@
   h3 {
     font-size: 17px;
     margin: 0;
-    color: $gray-0;
     margin-left: 9px;
   }
 }

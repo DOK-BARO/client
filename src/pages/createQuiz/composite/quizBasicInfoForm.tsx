@@ -7,10 +7,10 @@ import styles from "../../../styles/composite/_quizBasicInfoForm.module.scss";
 import { primary, primary30 } from "../../../styles/abstracts/colors";
 import useModal from "../../../hooks/useModal";
 import Modal from "../../../components/atom/modal";
+
 // 1. 기본 정보 입력
 export default function QuizBasicInfoForm() {
   const { isModalOpen, openModal, closeModal } = useModal();
-
   return (
     <>
       <Button

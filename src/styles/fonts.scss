@@ -1,0 +1,32 @@
+$PretendardRegular: '/src/assets/fonts/Pretendard-Regular.woff';
+$PretendardMedium: '/src/assets/fonts/Pretendard-Medium.woff';
+$PretendardSemiBold: '/src/assets/fonts/Pretendard-SemiBold.woff';
+$PretendardBold: '/src/assets/fonts/Pretendard-Bold.woff';
+
+@font-face {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: normal;
+    src: url($PretendardRegular) format('woff');
+}
+
+@font-face {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 500;
+    src: url($PretendardMedium) format('woff');
+}
+
+@font-face {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: 600;
+    src: url($PretendardSemiBold) format('woff');
+}
+
+@font-face {
+    font-family: 'Pretendard';
+    font-style: normal;
+    font-weight: bold;
+    src: url($PretendardBold) format('woff');
+}

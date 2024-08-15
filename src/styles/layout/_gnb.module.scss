@@ -4,12 +4,16 @@
 nav {
   background-color: #f9f9f9;
   width: 100%;
-  padding: 0 16.67vw;
   padding-bottom: 40px;
   min-height: 376px;
-  position: fixed;
-  top: 0;
+  position: absolute;
+  top: 80px;
   left: 0;
+  display: flex;
+}
+.gnb-inner-container {
+  width: 100%;
+  padding: 0 64px;
 }
 
 .skillCategory-list {
@@ -17,29 +21,44 @@ nav {
   margin-bottom: 24px;
 }
 
-.skillCategory-button {
+.skillCategory-title {
+  cursor: pointer;
+  font-size: 19px;
   padding: 16.5px 16px;
   border-radius: 0;
   background-color: transparent;
-  font-weight: bold;
   color: $gray-70;
+  font-weight: bold;
 }
-.skillCategory-button.active {
+.hover {
   color: $gray-90;
   border-bottom: 2px solid black;
 }
-
-.subCategory-item > h3 {
+.skillCategory-item .subCategory-item h3 {
   align-items: center;
-  padding: 14px 24px;
+  padding: 22px 16px;
 }
-.subCategory-item > h3 > a {
+
+.subCategory-item span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.subCategory-item h3 {
   @include flex(row);
   align-items: center;
   gap: 4px;
 }
-.topic-item > h4 {
-  padding: 14px 24px;
+
+.subCategory-item button {
+  padding: 10px;
+  border: none;
+  background: none;
+  display: flex;
+  margin-left: -24px;
+}
+.topic-item h4 {
+  padding: 14px 16px;
 }
 a {
   color: $gray-90;

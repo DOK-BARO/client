@@ -1,109 +1,120 @@
-import { Category } from "../components/layout/gnb";
+import { Category } from "../types/GNBCategoryType";
 
 export const navCategories: Category[] = [
   {
-    title: "하드 스킬",
+    title: "OS",
     subCategories: [
       {
-        title: "컴퓨터 공학",
+        title: "Windows",
         topics: [
-          {
-            title: "네트워크/데이터 통신",
-            // books: ["데이터베이스를 위한 책", "데이터 어쩌구"],
-          },
-          {
-            title: "데이터베이스 개론",
-            // books: ["데이터베이스", "데이터 어쩌구"],
-          },
-          {
-            title: "마이크로프로세서",
-            // books: ["마이크로프로세서 책", "책 이름"],
-          },
-          {
-            title: "소프트웨어 공학",
-            // books: ["책 이름", "책 이름"],
-          },
+          { title: "Windows일반" },
+          { title: "XP/Vista/7" },
+          { title: "윈도우프로그래밍 일반" },
+          { title: "Windows Server2000/2002/2008" },
         ],
       },
+      { title: "macOS" },
+      { title: "임베디드" },
+      { title: "ARM" },
+      { title: "유닉스" },
+      { title: "리눅스" },
+    ],
+  },
+  {
+    title: "네트워크",
+    subCategories: [
       {
-        title: "프로그래밍 개발/방법론",
+        title: "네트워크 일반",
         topics: [
-          {
-            title: "객체지향 프로그래밍/UML",
-            // books: ["책 이름", "책 이름"],
-          },
-          {
-            title: "게임 프로그래밍",
-            // books: ["책 이름", "책 이름"],
-          },
-          {
-            title: "네트워크 프로그래밍",
-            // books: ["책 이름", "책 이름"],
-          },
-          {
-            title: "리눅스/유닉스 프로그래밍",
-            // books: ["책 이름", "책 이름"],
-          },
+          { title: "네트워크 일반" },
+          { title: "server" },
+          { title: "지리정보" },
         ],
       },
+      { title: "TCP/IP", topics: [{ title: "test topic" }] },
+    ],
+  },
+  {
+    title: "보안",
+    subCategories: [],
+  },
+  {
+    title: "데이터베이스",
+    subCategories: [
+      { title: "데이터베이스 일반" },
+      { title: "Oracle" },
+      { title: "SQL" },
+    ],
+  },
+  {
+    title: "개발 방법론",
+    subCategories: [
+      { title: "개발 방법론 일반" },
+      { title: "프로젝트 관리" },
+      { title: "디자인 패턴" },
+    ],
+  },
+  {
+    title: "게임",
+    subCategories: [
+      { title: "게임 일반" },
+      { title: "게임공략집/가이드북" },
+      { title: "게임 기획" },
+      { title: "모바일 게임" },
       {
-        title: "프로그래밍 언어",
+        title: "게임 개발",
         topics: [
-          {
-            title: ".NET",
-            // books: ["책 이름", "책 이름"],
-          },
-          {
-            title: "델파이",
-            //// books: ["책 이름", "책 이름"],
-          },
-          {
-            title: "자바",
-            // books: ["책 이름", "책 이름"],
-          },
-          {
-            title: "프로그래밍 언어 기타",
-            // books: ["책 이름", "책 이름"],
-          },
-        ],
-      },
-
-      {
-        title: "OS/Networking",
-        topics: [
-          {
-            title: "네트워크 구축",
-            // books: ["책 이름", "책 이름"],
-          },
-          {
-            title: "네트워크 보안/해킹",
-            // books: ["책 이름", "책 이름"],
-          },
-          {
-            title: "리눅스",
-            // books: ["책 이름", "책 이름"],
-          },
-          {
-            title: "매킨토시",
-            // books: ["책 이름", "책 이름"],
-          },
+          { title: "유니티" },
+          { title: "언리얼" },
+          { title: "게임 개발 일반" },
         ],
       },
     ],
   },
   {
-    title: "소프트 스킬",
+    title: "웹",
     subCategories: [
+      { title: "웹프로그래밍 일반" },
+      { title: "HTML/CSS" },
+      { title: "JavaScript" },
+      { title: "JQuery" },
+      { title: "XML" },
+      { title: "ASP" },
+      { title: "JSP" },
+      { title: "PHP" },
+      { title: "AJAX" },
+      { title: "Flex" },
+    ],
+  },
+  {
+    title: "프로그래밍 언어",
+    subCategories: [
+      { title: "프로그래밍 일반" },
+      { title: "Python" },
+      { title: "C" },
+      { title: "C++" },
+      { title: "C#" },
+      { title: "Visual C++" },
+      { title: "Java" },
       {
-        title: "소프트 스킬1",
-
+        title: ".NET",
         topics: [
-          {
-            title: "커뮤니케이션",
-            // books: ["커뮤니케이션을 위한 책", "책 이름"],
-          },
+          { title: ".NET 일반" },
+          { title: "VisualC++ .NET" },
+          { title: "VisualC#.NET" },
+          { title: "ASP.NET" },
         ],
       },
+    ],
+  },
+  {
+    title: "모바일",
+    subCategories: [
+      { title: "모바일" },
+      { title: "모바일 프로그래밍 일반" },
+      { title: "아이폰/아이패드" },
+      { title: "안드로이드" },
+      { title: "모바일 게임" },
     ],
   },
 ];

@@ -3,10 +3,10 @@ import React from "react";
 
 const HeaderLogo: React.FC = () => {
   return (
-    <button className={styles["logo-button"]}>
+    <a href="/" className={styles["logo-link"]}>
       <img src="/assets/svg/logo.svg" alt="로고 버튼" />
-      <h2>DOKBARO</h2>
-    </button>
+      <h1>DOKBARO</h1>
+    </a>
   );
 };
 

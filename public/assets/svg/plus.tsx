@@ -14,9 +14,9 @@ export const Plus: React.FC<SVGProps> = ({ alt, ...props }) => {
       <path
         d="M10 14V6M6 10H14"
         stroke={props.stroke}
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

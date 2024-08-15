@@ -13,9 +13,9 @@ const RightArrow: React.FC<SVGProps> = ({ alt, ...props }) => {
       <path
         d="M7.5 4L13.5 10L7.5 16"
         stroke={props.stroke}
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

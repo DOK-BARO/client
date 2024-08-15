@@ -3,9 +3,9 @@
 @import "../abstracts/mixins";
 
 .header-view {
-  min-width: 1020px;
-  margin: 0 auto;
-  padding: 16px 0;
+  width: 100%;
+  padding: 16px 64px;
+  // padding: 16px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;

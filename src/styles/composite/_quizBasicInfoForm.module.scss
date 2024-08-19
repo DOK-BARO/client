@@ -9,10 +9,32 @@ button.add-study-group {
   gap: 8px;
 }
 
+input.quiz-title,
+input.study-name {
+  border: 1px solid $gray-40;
+}
+
 input.quiz-title {
   margin-bottom: 16px;
-  box-shadow: 0 0 0 1px $gray-40;
 }
 textarea.quiz-description {
-  box-shadow: 0 0 0 1px $gray-40;
+  border: 1px solid $gray-40;
+}
+.study-name-container {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-top: 24px;
+}
+button.add-study-name {
+  color: $primary;
+  border: 2px solid $primary;
+  background: none;
+  padding: 14px;
+}
+
+button.study-name {
+  background-color: $primary-30;
+  color: $primary;
+  cursor: auto;
 }

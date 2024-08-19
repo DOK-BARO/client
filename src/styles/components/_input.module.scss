@@ -4,6 +4,7 @@
 .container {
   @include flex(column);
   height: min-content;
+  flex-grow: 1;
 }
 .label {
   color: $gray-90;

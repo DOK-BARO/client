@@ -4,13 +4,24 @@ import Input from "../../../components/atom/input";
 import Textarea from "../../../components/atom/textarea";
 import styles from "../../../styles/composite/_quizBasicInfoForm.module.scss";
 // import styles from "../../../styles/layout/_quizCreationForm.module.scss";
-import { primary, primary30 } from "../../../styles/abstracts/colors";
+import { gray90, primary, primary30 } from "../../../styles/abstracts/colors";
 import useModal from "../../../hooks/useModal";
 import Modal from "../../../components/atom/modal";
+import { useState } from "react";
+import { Close } from "../../../../public/assets/svg/close";
 
 // 1. 기본 정보 입력
 export default function QuizBasicInfoForm() {
   const { isModalOpen, openModal, closeModal } = useModal();
+  const [studyNameInputValue, setStudyNameInputValue] = useState<string>("");
+  const [studyName, setStudyName] = useState<string>("");
+  const onAddStudyGroup = () => {
+    setStudyName(studyNameInputValue);
+  };
+  const onRemoveStudyGroup = () => {
+    setStudyName("");
+    setStudyNameInputValue("");
+  };
   return (
     <>
       <Button
@@ -31,7 +42,39 @@ export default function QuizBasicInfoForm() {
         <Modal
           popUpTitle="스터디 그룹 추가하기"
           contentTitle="새로운 스터디 그룹 이름"
-          content={<input></input>} // input 요소를 넣어야함.
+          content={
+            <div>
+              {studyName ? (
+                <Button
+                  onClick={() => {}}
+                  icon={<Close width={20} stroke={gray90} />}
+                  onIconClick={onRemoveStudyGroup}
+                  className={styles["study-name"]}
+                >
+                  {studyName}
+                </Button>
+              ) : null}
+
+              <div className={styles["study-name-container"]}>
+                <Input
+                  className={styles["study-name"]}
+                  placeholder="이름을 입력해주세요."
+                  id="study-name"
+                  value={studyNameInputValue}
+                  onChange={(e) => {
+                    setStudyNameInputValue(e.target.value);
+                  }}
+                />
+                <Button
+                  className={styles["add-study-name"]}
+                  onClick={onAddStudyGroup}
+                >
+                  추가
+                </Button>
+                {/* <button>추가</button> */}
+              </div>
+            </div>
+          } // input 요소를 넣어야함.
           closeModal={closeModal}
         />
       )}

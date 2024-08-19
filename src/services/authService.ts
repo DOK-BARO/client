@@ -31,7 +31,7 @@ export const login = async (
   try {
     const { data } = await axios.post(
       //`/auth/oauth2/login/${socialType}`,
-      `/auth/oauth2/login/localhost/${socialType}`,
+      `/auth/oauth2/login/${socialType}`,
       postData
     );
     console.log("data", data); // 응답 객체 출력
@@ -50,6 +50,7 @@ export const login = async (
 };
 
 export const signup = async (
+
   socialType: SocialLoginType,
   token: string
 ): Promise<AuthResponse> => {

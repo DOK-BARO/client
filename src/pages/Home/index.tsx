@@ -25,7 +25,7 @@ export default function Index() {
         selectedValue={selectedValue}
         onChange={handleChange}
         correctOption={"option2"} // TODO: 채점 전엔 null, 답안이 오면 해당 답안으로 set
-        isDisabled={true} // TODO 답안이 오면 true
+        isDisabled={false} // TODO 답안이 오면 true
       />
 
       <div style={{ display: "flex", gap: "10px" }}>

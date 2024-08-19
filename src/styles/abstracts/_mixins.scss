@@ -34,8 +34,7 @@
   padding: $input-padding-medium;
   border-radius: $border-radius-base;
   font-size: $font-size-medium;
-  box-shadow: 0 0 0 1px $gray-60;
-  border: none;
+  border: 1px solid $gray-60;
   font-family: inherit;
   color: $gray-90;
   box-sizing: content-box;
@@ -48,12 +47,12 @@
   }
   //   &:active,
   &:focus {
-    box-shadow: 0 0 0 2px $primary-50;
+    border: 1px solid $primary-50;
   }
   &:disabled {
     background-color: $gray-30;
     color: $gray-60;
-    box-shadow: 0 0 0 1px $gray-40;
+    border: 1px solid $gray-40;
   }
   // background-color: aliceblue;
 }

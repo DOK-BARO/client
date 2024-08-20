@@ -2,7 +2,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./styles/main.scss";
 import Index from "./pages/Home/index.tsx";
 import axios from "axios";
-import CreateQuiz from "./pages/createQuiz";
+import CreateQuiz from "./pages/CreateQuiz";
 // import Layout from "./components/layout/layout";
 import Layout from "./components/layout/layout";
 import AuthRedirectedPage from "./pages/Redirect/authRedirectedPage.tsx";

@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host local.dev.dokbaro.kro.kr",
     "build": "tsc && vite build",
     "build:prod": "tsc && vite build --mode prod",
     "build:dev": "tsc && vite build --mode dev",
@@ -22,7 +22,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.23.1",
-    "recoil": "^0.7.7"
+    "recoil": "^0.7.7",
+    "vite-plugin-mkcert": "^1.17.6"
   },
   "devDependencies": {
     "@testing-library/dom": "^10.3.1",

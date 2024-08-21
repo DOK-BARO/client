@@ -50,6 +50,7 @@ export const login = async (
 };
 
 export const signup = async (
+
   socialType: SocialLoginType,
   token: string
 ): Promise<AuthResponse> => {

@@ -6,6 +6,7 @@ import axios from "axios";
 import Layout from "./components/layout/layout";
 import AuthRedirectedPage from "./pages/Redirect/authRedirectedPage.tsx";
 import CreateQuiz from "./pages/CreateQuiz/index.tsx";
+import ComponentTest from "./pages/ComponentTest/index.tsx";
 
 function App() {
   axios.defaults.withCredentials = true;
@@ -22,6 +23,11 @@ function App() {
         {
           path: "/create-quiz",
           element: <CreateQuiz />,
+        },
+        {
+          // 공용 컴포넌트 미리보기를 위한 페이지
+          path: "/component-test",
+          element: <ComponentTest />,
         },
       ],
     },

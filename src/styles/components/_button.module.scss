@@ -17,4 +17,9 @@
     padding: $button-padding-small;
     font-size: $font-size-small;
   }
+
+  .icon-container {
+    cursor: pointer;
+    display: flex;
+  }
 }

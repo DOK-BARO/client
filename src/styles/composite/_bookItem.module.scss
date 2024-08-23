@@ -1,0 +1,18 @@
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
+
+figcaption {
+  @include sr-only;
+}
+
+.book-item-container {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.book-img {
+  width: 200px;
+  height: 280px;
+}

@@ -12,6 +12,7 @@ export const primary50 = "#246beb";
 
 export const primary = "#9747FF";
 export const primary30 = "#F5EDFF";
+export const success50 = "#1DCC00";
 export const danger50 = "#eb003b";
 
 export const modalBackdropColor = "#00000080";

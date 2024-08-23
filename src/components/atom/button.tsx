@@ -9,6 +9,9 @@ interface ButtonProps {
   disabled?: boolean;
   className?: string;
   value?: string;
+  icon?: JSX.Element;
+  iconPosition?: string; // left, right
+  onIconClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -18,6 +21,9 @@ const Button: React.FC<ButtonProps> = ({
   disabled = false,
   size = "medium",
   value,
+  icon,
+  iconPosition = "right",
+  onIconClick,
 }) => {
   const className = `${styles.button} ${styles[`button--${size}`]} ${
     customClassName || ""
@@ -29,7 +35,27 @@ const Button: React.FC<ButtonProps> = ({
       className={className}
       disabled={disabled}
     >
+      {icon && iconPosition === "left" && (
+        <div
+          className={styles["icon-container"]}
+          onClick={(e) => {
+            onIconClick ? onIconClick(e) : null;
+          }}
+        >
+          {icon}
+        </div>
+      )}
       {children}
+      {icon && iconPosition === "right" && (
+        <div
+          className={styles["icon-container"]}
+          onClick={(e) => {
+            onIconClick ? onIconClick(e) : null;
+          }}
+        >
+          {icon}
+        </div>
+      )}
     </button>
   );
 };

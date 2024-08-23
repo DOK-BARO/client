@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { BookDetailType } from "../../types/BookDetailType.ts";
 import { getBook } from "../../services/bookService.ts";
 import { useParams } from "react-router-dom";
+import styles from "../../styles/pages/_bookDetail.module.scss";
+import QuizListSection from "./composite/quizListSection.tsx";
 
 export default function Index() {
   const [bookDetailContent, setBookDetailContent] = useState<BookDetailType>();
@@ -27,7 +29,10 @@ export default function Index() {
     );
   }
 
-  return(
-    <BookDetailSection bookDetailContent={bookDetailContent}/>
+  return (
+    <div className={styles["container"]}>
+      <BookDetailSection bookDetailContent={bookDetailContent}/>
+      <QuizListSection />
+    </div>
   );
 }

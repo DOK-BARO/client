@@ -7,6 +7,7 @@ import useGNB from "../../hooks/useGNB.ts";
 import RadioButton from "../../components/atom/radioButton.tsx";
 import useRadioGroup from "../../hooks/useRadioGroup.ts";
 import { RadioOptions } from "../../types/RadioTypes.ts";
+import Timer from "../../components/atom/timer.tsx";
 
 const options: RadioOptions[] = [
   { value: "option1", label: "Option 1" },
@@ -17,9 +18,13 @@ const options: RadioOptions[] = [
 export default function Index() {
   const { openGNB, isGNBOpen } = useGNB();
   const { selectedValue, handleChange } = useRadioGroup("");
+  const handleTimerEnd = () => {
+    console.log("quiz end!!");
+  };
 
   return (
     <>
+      <Timer initialTime={300} onTimerEnd={handleTimerEnd}/>
       <RadioButton
         options={options}
         selectedValue={selectedValue}

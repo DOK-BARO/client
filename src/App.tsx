@@ -5,8 +5,9 @@ import axios from "axios";
 // import Layout from "./components/layout/layout";
 import Layout from "./components/layout/layout";
 import AuthRedirectedPage from "./pages/Redirect/authRedirectedPage.tsx";
-import CreateQuiz from "./pages/CreateQuiz/index.tsx";
+import CreateQuiz from "./pages/createQuiz";
 import ComponentTest from "./pages/ComponentTest/index.tsx";
+import BookDetailSection from "./pages/BookDetail/";
 
 function App() {
   axios.defaults.withCredentials = true;
@@ -23,6 +24,10 @@ function App() {
         {
           path: "/create-quiz",
           element: <CreateQuiz />,
+        },
+        {
+          path: "/book-detail/:id",
+          element: <BookDetailSection />,
         },
         {
           // 공용 컴포넌트 미리보기를 위한 페이지

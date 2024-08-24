@@ -12,7 +12,9 @@ export default function Layout() {
         <HeaderLayout isLoggedIn={isLoggedIn} />
       </header>
       <main>
-        <Outlet />
+        <div className={styles["inner-container"]}>
+          <Outlet />
+        </div>
       </main>
       <footer></footer>
     </div>

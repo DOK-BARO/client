@@ -6,35 +6,36 @@ import HeaderLogo from "../atom/headerLogo.tsx";
 import HeaderMenuButton from "../composite/headerMenuButton.tsx";
 
 const HeaderLayout = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
-
   return (
     <header className={styles["header-view"]}>
-      <HeaderLogo />
-      {!isLoggedIn && <HeaderMenuButton />}
+      <div className={styles["header-inner-container"]}>
+        <HeaderLogo />
+        {!isLoggedIn && <HeaderMenuButton />}
 
-      {isLoggedIn && (
-        <span className={styles["header-menu-container"]}>
-          <button className={styles["header-menu-button"]}>
-            <Search
-              width={20}
-              height={20}
-              fill={gray90}
-              alt="검색 버튼"
-            ></Search>
-            <h3>검색</h3>
-          </button>
+        {isLoggedIn && (
+          <span className={styles["header-menu-container"]}>
+            <button className={styles["header-menu-button"]}>
+              <Search
+                width={20}
+                height={20}
+                fill={gray90}
+                alt="검색 버튼"
+              ></Search>
+              <h3>검색</h3>
+            </button>
 
-          <button className={styles["header-menu-quiz-button"]}>
-            <PlusCircle
-              width={20}
-              height={20}
-              fill={gray0}
-              alt="퀴즈 만들기 버튼"
-            ></PlusCircle>
-            <h3>퀴즈 만들기</h3>
-          </button>
-        </span>
-      )}
+            <button className={styles["header-menu-quiz-button"]}>
+              <PlusCircle
+                width={20}
+                height={20}
+                fill={gray0}
+                alt="퀴즈 만들기 버튼"
+              ></PlusCircle>
+              <h3>퀴즈 만들기</h3>
+            </button>
+          </span>
+        )}
+      </div>
     </header>
   );
 };

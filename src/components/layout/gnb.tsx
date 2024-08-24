@@ -1,31 +1,31 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "../../styles/layout/_gnb.module.scss";
 import { Plus } from "../../../public/assets/svg/plus";
 import { Minus } from "../../../public/assets/svg/minus";
 import { gray50 } from "../../styles/abstracts/colors";
-import { Category, GNBProps } from "../../types/GNBCategoryType";
 import { getBookCategories } from "../../services/bookService";
+import { useQuery } from "@tanstack/react-query";
+import { bookKeys } from "../../data/queryKeys";
 
-const GNB: React.FC<GNBProps> = () => {
+const GNB = () => {
   const [activeCategoryIndex, setActiveCategoryIndex] = useState<number | null>(
     null
   );
   const [expandedSubCategories, setExpandedSubCategories] = useState<{
     [key: number]: boolean;
   }>({});
-  const [categories, setCategories] = useState<Category[]>();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getBookCategories();
-        setCategories(data.details[0].details);
-      } catch (error) {
-        console.error("Error fetching book list:", error);
-      }
-    };
-    fetchData();
-  }, []);
+  const { data: categories, isLoading } = useQuery({
+    queryKey: bookKeys.categories(),
+    queryFn: getBookCategories,
+  });
+
+  if (isLoading) {
+    return <div>loading</div>;
+  }
+  if (!categories) {
+    return <div>book categories page error!!</div>;
+  }
 
   const toggleSubCategory = (subCategoryId: number) => {
     setExpandedSubCategories((prev) => ({

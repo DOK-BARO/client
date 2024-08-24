@@ -1,6 +1,7 @@
 import axios from "axios";
 import { BookType } from "../types/BookType";
 import { BookDetailType } from "../types/BookDetailType.ts";
+import { BookCategory, Category } from "../types/GNBCategoryType.ts";
 
 // 책 목록, 책 상세정보 등을 가져오는 api 호출 로직
 export const getBookList = async (): Promise<BookType[]> => {
@@ -17,7 +18,7 @@ export const getBookList = async (): Promise<BookType[]> => {
   }
 };
 
-export const getBook = async (bookId:string): Promise<BookDetailType> => {
+export const getBook = async (bookId: string): Promise<BookDetailType> => {
   try {
     const { data } = await axios.get(`/books/${bookId}`);
     return data;
@@ -26,11 +27,11 @@ export const getBook = async (bookId:string): Promise<BookDetailType> => {
   }
 };
 
-export const getBookCategories = async () => {
+export const getBookCategories = async (): Promise<BookCategory[]> => {
   try {
     const { data } = await axios.get("/book-categories");
-    return data;
+    return data.details[0].details;
   } catch (error) {
-    console.error(error);
+    throw new Error(`책 카테고리 가져오기 실패: ${error}`);
   }
 };

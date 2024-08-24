@@ -2,13 +2,12 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./styles/main.scss";
 import Index from "./pages/Home/index.tsx";
 import axios from "axios";
-// import Layout from "./components/layout/layout";
 import Layout from "./components/layout/layout";
 import AuthRedirectedPage from "./pages/Redirect/authRedirectedPage.tsx";
-import CreateQuiz from "./pages/CreateQuiz";
 import ComponentTest from "./pages/ComponentTest/index.tsx";
 import BookDetailSection from "./pages/BookDetail/";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import CreateQuiz from "./pages/CreateQuiz/index.tsx";
 
 function App() {
   axios.defaults.withCredentials = true;
@@ -46,7 +45,7 @@ function App() {
   ]);
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />;
+      <RouterProvider router={router} />
     </QueryClientProvider>
   );
 }

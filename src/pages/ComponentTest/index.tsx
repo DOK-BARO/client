@@ -1,7 +1,6 @@
 import SocialAuthButton from "../../components/composite/socialAuthButton";
 import GNB from "../../components/layout/gnb.tsx";
 import { AUTH_TYPES, SOCIAL_TYPES } from "../../data/constants.ts";
-import { navCategories } from "../../data/navCategories.ts";
 import Button from "../../components/atom/button.tsx";
 import useGNB from "../../hooks/useGNB.ts";
 import RadioButton from "../../components/atom/radioButton.tsx";
@@ -15,7 +14,7 @@ const options: RadioOptions[] = [
 ];
 
 export default function Index() {
-  const { openGNB, isGNBOpen } = useGNB();
+  const { openGNB, closeGNB, isGNBOpen } = useGNB();
   const { selectedValue, handleChange } = useRadioGroup("");
 
   return (
@@ -41,7 +40,7 @@ export default function Index() {
           </div>
         ))}
       </div>
-      <Button size="large" onClick={openGNB}>
+      <Button size="large" onClick={isGNBOpen ? closeGNB : openGNB}>
         GNB {isGNBOpen ? "닫기" : "열기"}
       </Button>
       {isGNBOpen && <GNB />}

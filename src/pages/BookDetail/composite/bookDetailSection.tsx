@@ -10,9 +10,8 @@ export default function BookDetailSection({ bookDetailContent }: BookDetailSecti
 
   return (
     <section className={"container"}>
-      {/*TODO: 카테고리 클릭 시 상태저장 필요*/}
       <div className={styles["category-depth-list"]}>
-        {"하드스킬 > 프로그래밍 언어 > javascript"}
+        {bookDetailContent.categories.join(">")}
       </div>
       <div className={styles["book-detail-section-container"]}>
         <img className={styles["book-img"]} src={bookDetailContent.imageUrl} alt={"책 표지 이미지"}/>

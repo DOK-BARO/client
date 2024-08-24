@@ -4,12 +4,13 @@ import { useParams } from "react-router-dom";
 import styles from "../../styles/pages/_bookDetail.module.scss";
 import QuizListSection from "./composite/quizListSection.tsx";
 import { useQuery } from "@tanstack/react-query";
+import { bookKeys } from "../../data/queryKeys.ts";
 
 export default function Index() {
   const { id } = useParams();
 
   const { data, isLoading } = useQuery({
-    queryKey: ["bookDetailContent",id],
+    queryKey: bookKeys.detail(id!),
     queryFn: () => getBook(id!),
   });
 

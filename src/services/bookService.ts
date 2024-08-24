@@ -1,7 +1,7 @@
 import axios from "axios";
 import { BookType } from "../types/BookType";
 import { BookDetailType } from "../types/BookDetailType.ts";
-import { BookCategory, Category } from "../types/GNBCategoryType.ts";
+import { BookCategory } from "../types/GNBCategoryType.ts";
 
 // 책 목록, 책 상세정보 등을 가져오는 api 호출 로직
 export const getBookList = async (): Promise<BookType[]> => {

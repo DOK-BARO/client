@@ -26,7 +26,7 @@
 .modal-view {
   display: flex;
   align-items: center;
-  background-color: $gray-0;
+  background-color: $gray-00;
   flex-direction: column;
   border-radius: 12px;
   border: 1px solid $gray-40;
@@ -56,9 +56,7 @@
 }
 
 .title-text {
-  color:  $gray-50;
+  color: $gray-50;
   font-size: $font-size-medium;
   margin-top: 8px;
 }
-
-

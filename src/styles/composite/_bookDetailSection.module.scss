@@ -21,13 +21,12 @@
 }
 
 .book-container {
-
 }
 
 .number-of-quiz-tag {
   display: inline-block;
   color: $primary;
-  background-color: $primary-30;
+  background-color: $secondary;
   padding: 6.5px 8px;
   border-radius: 4px;
   font-size: $font-size-small;
@@ -89,17 +88,16 @@
   border-radius: 8px;
   border: 1px solid $primary;
   padding: 25px 181px;
-  background-color: $gray-0;
+  background-color: $gray-00;
   margin-right: 14px;
   white-space: nowrap;
 }
 
 .take-quiz-button {
-  color: $gray-0;
+  color: $gray-00;
   font-size: $font-size-large;
   border-radius: 8px;
   padding: 25px 181px;
   background-color: $primary;
   white-space: nowrap;
 }
-

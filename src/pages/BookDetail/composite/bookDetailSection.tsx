@@ -11,7 +11,7 @@ export default function BookDetailSection({ bookDetailContent }: BookDetailSecti
   return (
     <section className={"container"}>
       <div className={styles["category-depth-list"]}>
-        {bookDetailContent.categories.join(">")}
+        {bookDetailContent.categories.map((category)=> (category.name)).join(">")}
       </div>
       <div className={styles["book-detail-section-container"]}>
         <img className={styles["book-img"]} src={bookDetailContent.imageUrl} alt={"책 표지 이미지"}/>

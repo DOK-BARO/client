@@ -9,7 +9,7 @@ import { bookKeys } from "../../data/queryKeys.ts";
 export default function Index() {
   const { id } = useParams();
 
-  const { data, isLoading } = useQuery({
+  const { data: bookDetailContent, isLoading } = useQuery({
     queryKey: bookKeys.detail(id!),
     queryFn: () => getBook(id!),
   });
@@ -18,7 +18,7 @@ export default function Index() {
     return (<div>loading</div>);
   }
 
-  if(!data){
+  if(!bookDetailContent){
     return (
       <div>book detail page error!!</div>
     );
@@ -26,7 +26,7 @@ export default function Index() {
 
   return (
     <div className={styles["container"]}>
-      <BookDetailSection bookDetailContent={data!}/>
+      <BookDetailSection bookDetailContent={bookDetailContent!}/>
       <QuizListSection />
     </div>
   );

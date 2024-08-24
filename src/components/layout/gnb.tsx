@@ -54,7 +54,7 @@ const GNB = () => {
                 setExpandedSubCategories({});
               }}
             >
-              <h2 className={styles["sr-only"]}>{category.name}</h2>
+              <h2 className={styles["category-name"]}>{category.name}</h2>
             </li>
           ))}
         </ul>
@@ -69,7 +69,9 @@ const GNB = () => {
                   >
                     <span>
                       <a href={`/${subCategory.name}`}>
-                        <h3>{subCategory.name}</h3>
+                        <h3 className="sub-category-name">
+                          {subCategory.name}
+                        </h3>
                       </a>
                       {subCategory?.details?.length ?? 0 > 0 ? (
                         <button

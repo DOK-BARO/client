@@ -22,3 +22,12 @@ export const getBook = async () => {
     console.error(error);
   }
 };
+
+export const getBookCategories = async () => {
+  try {
+    const { data } = await axios.get("/book-categories");
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};

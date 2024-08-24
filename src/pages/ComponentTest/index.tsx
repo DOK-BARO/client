@@ -44,7 +44,7 @@ export default function Index() {
       <Button size="large" onClick={openGNB}>
         GNB {isGNBOpen ? "닫기" : "열기"}
       </Button>
-      {isGNBOpen && <GNB categories={navCategories}></GNB>}
+      {isGNBOpen && <GNB />}
     </>
   );
 }

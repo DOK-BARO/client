@@ -1,7 +1,7 @@
 @import "../abstracts/variables";
 @import "../abstracts/mixins";
 
-h2 {
+.sr-only {
   @include sr-only;
 }
 

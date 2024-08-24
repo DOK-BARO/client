@@ -8,10 +8,13 @@ import AuthRedirectedPage from "./pages/Redirect/authRedirectedPage.tsx";
 import CreateQuiz from "./pages/createQuiz";
 import ComponentTest from "./pages/ComponentTest/index.tsx";
 import BookDetailSection from "./pages/BookDetail/";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function App() {
   axios.defaults.withCredentials = true;
   axios.defaults.baseURL = import.meta.env.VITE_API_URL;
+  const queryClient = new QueryClient();
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -41,7 +44,10 @@ function App() {
       element: <AuthRedirectedPage />,
     },
   ]);
-  return <RouterProvider router={router} />;
+  return <QueryClientProvider client={queryClient}>
+    <RouterProvider router={router} />;
+  </QueryClientProvider>; 
+ 
 }
 
 export default App;

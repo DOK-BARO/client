@@ -30,8 +30,7 @@ export const login = async (
   console.log(postData.redirectUrl);
   try {
     const { data } = await axios.post(
-      //`/auth/oauth2/login/${socialType}`,
-      `/auth/oauth2/login/localhost/${socialType}`,
+      `/auth/oauth2/login/${socialType}`,
       postData,
     );
     console.log("data", data); // 응답 객체 출력

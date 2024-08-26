@@ -7,7 +7,7 @@
   padding-bottom: 40px;
   min-height: 376px;
   position: absolute;
-  top: 80px;
+  top: 80px; // header 크기만큼
   left: 0;
   display: flex;
 }
@@ -19,70 +19,57 @@
 .category-list {
   @include flex(row);
   margin-bottom: 24px;
-}
 
-.category-title {
-  cursor: pointer;
-  font-size: $font-size-small;
-  padding: 12px 10px;
-  border-radius: 0;
-  background-color: transparent;
-  color: $gray-70;
-  font-weight: bold;
-  margin-right: 16px;
-}
-.hover {
-  color: $gray-90;
-  border-bottom: 2px solid black;
-}
-.category-item .sub-category-item h3 {
-  align-items: center;
-  padding: 12px 10px;
-  font-size: $font-size-small;
-}
+  h2 {
+    cursor: pointer;
+    font-size: $font-size-xlarge;
+    padding: 12px 10px;
+    border-radius: 0;
+    background-color: transparent;
+    color: $gray-70;
+    font-weight: 700;
+    margin-right: 16px;
 
-.sub-category-item span {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-.sub-category-item h3 {
-  @include flex(row);
-  align-items: center;
-  gap: 4px;
-}
-
-.sub-category-item button {
-  padding: 10px;
-  border: none;
-  background: none;
-  display: flex;
-  margin-left: -24px;
-}
-
-.sub-category-detail-list {
-  display: flex;
-  flex-direction: column;
-}
-
-.sub-category-detail-item h4 {
-  padding: 12px 10px;
-}
-a {
-  color: $gray-90;
+    &.hover {
+      color: $gray-90;
+      border-bottom: 2px solid black;
+    }
+  }
 }
 
 .sub-category-list {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
+
+  h3 {
+    font-weight: 700;
+    align-items: center;
+    padding: 12px 10px;
+    font-size: $font-size-large;
+  }
+  span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  button {
+    padding: 10px;
+    border: none;
+    background: none;
+    display: flex;
+    margin-left: -20px;
+  }
 }
 
-.category-name {
-  color: $gray-70;
-  font-size: $font-size-small;
-  font-weight: 700; // 임시
+.sub-category-detail-list {
+  display: flex;
+  flex-direction: column;
+
+  h4 {
+    padding: 12px 10px;
+  }
 }
-.sub-category-name {
-  @extend .category-name;
-  font-size: $font-size-small;
+
+a {
+  color: $gray-90;
 }

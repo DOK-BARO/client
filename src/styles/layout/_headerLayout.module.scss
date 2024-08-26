@@ -5,6 +5,9 @@
   &-view {
     width: 100%;
     margin: auto;
+    height: 60px;
+    display: flex;
+    align-items: center;
   }
   &-inner-container {
     margin: 0 auto;

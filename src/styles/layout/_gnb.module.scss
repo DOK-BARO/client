@@ -2,12 +2,12 @@
 @import "../abstracts/mixins";
 
 .gnb {
-  background-color: #f9f9f9;
+  background-color: $background;
   width: 100%;
   padding-bottom: 40px;
   min-height: 376px;
   position: absolute;
-  top: 80px; // header 크기만큼
+  top: 60px; // header 크기만큼
   left: 0;
   display: flex;
 }

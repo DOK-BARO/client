@@ -38,7 +38,7 @@ const GNB = () => {
     <nav
       className={styles["gnb"]}
       onMouseLeave={() => {
-        // setActiveCategoryIndex(null);
+        setActiveCategoryIndex(null);
       }}
     >
       <div className={styles["gnb-inner-container"]}>

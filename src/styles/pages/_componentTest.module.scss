@@ -1,0 +1,7 @@
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
+
+.done {
+  background-color: $primary;
+  color: white;
+}

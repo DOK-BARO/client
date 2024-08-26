@@ -1,14 +1,52 @@
-// composite 같은데..
 @import "../abstracts/variables";
 @import "../abstracts/mixins";
 
-.header-view {
-  width: 100%;
-  padding: 16px 64px;
-  // padding: 16px 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.header {
+  &-view {
+    width: 100%;
+    margin: auto;
+  }
+  &-inner-container {
+    margin: 0 auto;
+    width: 92%;
+    max-width: calc(100% - 48px);
+    justify-content: space-between;
+    display: flex;
+  }
+  &-menu-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+
+    h3 {
+      margin-left: 8px;
+    }
+  }
+  &-menu-quiz-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: $primary;
+    border: none;
+    border-radius: 8px;
+    margin-left: 8px;
+    padding: 14px 12px;
+
+    h3 {
+      font-size: 17px;
+      margin: 0;
+      margin-left: 9px;
+    }
+  }
+
+  &-menu-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
 }
 
 .logo-link {
@@ -22,40 +60,4 @@
     font-size: 24px;
     font-weight: bold;
   }
-}
-
-.header-menu-button {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  background-color: transparent;
-  border: none;
-
-  h3 {
-    margin-left: 8px;
-  }
-}
-
-.header-menu-quiz-button {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  background-color: $primary;
-  border: none;
-  border-radius: 8px;
-  margin-left: 8px;
-  padding: 14px 12px;
-
-  h3 {
-    font-size: 17px;
-    margin: 0;
-    margin-left: 9px;
-  }
-}
-
-.header-menu-container {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
 }

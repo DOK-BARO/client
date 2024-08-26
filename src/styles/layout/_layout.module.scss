@@ -30,7 +30,13 @@
 header {
   display: flex;
 }
+
 main {
   width: 100%;
-  padding: 0 64px;
+}
+
+.inner-container {
+  margin: 0 auto;
+  width: 92%;
+  max-width: calc(100% - 48px);
 }

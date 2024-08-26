@@ -19,7 +19,7 @@
 
   &--error {
     @extend .message;
-    color: $danger-50;
+    color: $system-danger;
   }
 }
 .input {
@@ -39,6 +39,6 @@
     font-size: $font-size-small;
   }
   &--error {
-    box-shadow: 0 0 0 2px $danger-50;
+    box-shadow: 0 0 0 2px $system-danger;
   }
 }

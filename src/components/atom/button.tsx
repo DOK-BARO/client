@@ -4,7 +4,7 @@ import styles from "../../styles/components/_button.module.scss";
 interface ButtonProps {
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   children: ReactNode;
-  size?: "large" | "medium" | "small";
+  size?: "xsmall" | "small" | "medium" | "large" | "xlarge";
   mode?: "default" | "error";
   disabled?: boolean;
   className?: string;

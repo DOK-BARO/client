@@ -2,7 +2,7 @@
 @import "../abstracts/mixins";
 
 button.add-study-group {
-  background-color: $primary-30;
+  background-color: $secondary;
   color: $primary;
   margin-bottom: 24px;
   padding: 20px 0;
@@ -34,7 +34,7 @@ button.add-study-name {
 }
 
 button.study-name {
-  background-color: $primary-30;
+  background-color: $secondary;
   color: $primary;
   cursor: auto;
 }

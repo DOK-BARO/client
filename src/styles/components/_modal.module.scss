@@ -7,7 +7,7 @@
 }
 .modal-button {
   @include button-base;
-  background-color: $gray-0;
+  background-color: $gray-00;
 }
 .modal-backdrop {
   display: flex;
@@ -25,7 +25,7 @@
 .modal-view {
   display: flex;
   align-items: start;
-  background-color: $gray-0;
+  background-color: $gray-00;
   flex-direction: column;
   border-radius: 12px;
   border: 1px solid $gray-40;
@@ -71,8 +71,8 @@
     height: 48px;
     &:nth-child(2) {
       border: none;
-      background-color: $primary-50;
-      color: $gray-0;
+      background-color: $secondary;
+      color: $gray-00;
     }
   }
 }

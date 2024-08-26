@@ -23,30 +23,29 @@
 @mixin button-base {
   @include flex(row, center);
   padding: $button-padding-medium;
-  border-radius: $border-radius-base;
+  border-radius: $border-radius-small;
   font-size: $font-size-medium;
   font-family: inherit;
   color: $gray-90;
   border: none;
   gap: 8px;
 }
+
 @mixin input-base {
   padding: $input-padding-medium;
-  border-radius: $border-radius-base;
+  border-radius: $border-radius-small;
   font-size: $font-size-medium;
   border: 1px solid $gray-60;
   font-family: inherit;
   color: $gray-90;
 
-  // width: 360px;
   &::placeholder {
     color: $gray-50;
     font-family: inherit;
     line-height: inherit;
   }
-  //   &:active,
   &:focus {
-    border: 1px solid $primary-50;
+    border: 1px solid $secondary;
   }
   &:disabled {
     background-color: $gray-30;

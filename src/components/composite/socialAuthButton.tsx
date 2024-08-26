@@ -30,16 +30,18 @@ const SocialAuthButton: React.FC<{
 
     let socialTypeText;
     if (socialType === SocialLoginType.KAKAO) {
-      socialTypeText = "카카오";
+      socialTypeText = "카카오계정으";
     } else if (socialType === SocialLoginType.GOOGLE) {
-      socialTypeText = "구글";
+      socialTypeText = "구글계정으";
     } else if (socialType === SocialLoginType.NAVER) {
-      socialTypeText = "네이버";
+      socialTypeText = "네이버계정으";
     } else if (socialType === SocialLoginType.GITHUB) {
-      socialTypeText = "깃허브";
+      socialTypeText = "깃허브계정으";
+    } else if (socialType === SocialLoginType.EMAIL) {
+      socialTypeText = "이메일";
     }
     return `${socialTypeText}${
-      authType === AuthType.SIGNUP ? "회원가입" : "계정으로 로그인"
+      authType === AuthType.SIGNUP ? "회원가입" : "로 계속하기"
     }`;
   };
   const buttonLogoSrc = `/assets/svg/${socialType.toLowerCase()}-logo.svg`;

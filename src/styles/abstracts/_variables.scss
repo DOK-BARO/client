@@ -25,12 +25,27 @@ $modal-backdrop-color: #00000080;
 $font-size-small: 13px;
 $font-size-medium: 15px;
 $font-size-large: 17px;
+$font-size-xlarge: 19px;
 
-$border-radius-base: 4px;
-/* Button Paddings */
-$button-padding-small: 4px 8px;
-$button-padding-medium: 18px 16px;
-$button-padding-large: 12px 24px;
+$border-radius-small: 6px;
+$border-radius-medium: 8px;
+// $border-radius-large: 10px;
+
+/* Button */
+$button-padding-xsmall: 0 10px;
+$button-height-xsmall: 32px;
+
+$button-padding-small: 0 12px;
+$button-height-small: 40px;
+
+$button-padding-medium: 0 16px;
+$button-height-medium: 48px;
+
+$button-padding-large: 0 20px;
+$button-height-large: 56px;
+
+$button-padding-xlarge: 0 24px;
+$button-height-xlarge: 64px;
 
 /* Input Paddings */
 $input-padding-small: 14.5px 16px;

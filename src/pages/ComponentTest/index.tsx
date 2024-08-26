@@ -6,7 +6,8 @@ import useGNB from "../../hooks/useGNB.ts";
 import RadioButton from "../../components/atom/radioButton.tsx";
 import useRadioGroup from "../../hooks/useRadioGroup.ts";
 import { RadioOptions } from "../../types/RadioTypes.ts";
-
+import AuthButton from "../../components/atom/authButton.tsx";
+import styles from "../../styles/pages/_componentTest.module.scss";
 const options: RadioOptions[] = [
   { value: "option1", label: "Option 1" },
   { value: "option2", label: "Option 2" },
@@ -44,6 +45,26 @@ export default function Index() {
         GNB {isGNBOpen ? "닫기" : "열기"}
       </Button>
       {isGNBOpen && <GNB />}
+      <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
+        <Button size="xsmall" onClick={() => {}}>
+          button
+        </Button>
+        <Button size="small" onClick={() => {}}>
+          button
+        </Button>
+        <Button size="medium" onClick={() => {}}>
+          button
+        </Button>
+        <Button size="large" onClick={() => {}}>
+          button
+        </Button>
+        <Button size="xlarge" onClick={() => {}}>
+          button
+        </Button>
+      </div>
+      <AuthButton onClick={() => {}} className={styles.done}>
+        완료
+      </AuthButton>
     </>
   );
 }

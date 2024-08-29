@@ -9,6 +9,7 @@ interface ModalProps {
   content?: JSX.Element;
   buttonText?: string;
   closeModal: () => void;
+  className?: string;
 }
 const Modal: React.FC<ModalProps> = ({
   popUpTitle,
@@ -16,12 +17,14 @@ const Modal: React.FC<ModalProps> = ({
   content,
   buttonText,
   closeModal,
+  className: customClassName,
 }) => {
+  const className = `${styles["modal-view"]} ${customClassName}`;
   return (
     // TODO: 시멘틱 태그로 변경하기
-    <div className={styles["modal-container"]}>
+    <div>
       <div className={styles["modal-backdrop"]}>
-        <div className={styles["modal-view"]}>
+        <div className={className}>
           <div className={styles["modal-header"]}>
             {popUpTitle && <span>{popUpTitle}</span>}
             <Button className={styles["modal-button"]} onClick={closeModal}>

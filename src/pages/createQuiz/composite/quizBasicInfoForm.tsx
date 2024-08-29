@@ -12,16 +12,35 @@ import { Close } from "../../../../public/assets/svg/close";
 
 // 1. 기본 정보 입력
 export default function QuizBasicInfoForm() {
+  // TODO: custom hook으로 분리하기
   const { isModalOpen, openModal, closeModal } = useModal();
   const [studyNameInputValue, setStudyNameInputValue] = useState<string>("");
   const [studyName, setStudyName] = useState<string>("");
-  const onAddStudyGroup = () => {
+
+  // 새로운 스터디 그룹 추가
+  const addStudyGroup = (studyNameInputValue: string) => {
     setStudyName(studyNameInputValue);
   };
-  const onRemoveStudyGroup = () => {
+
+  // 입력한 스터디 그룹 삭제
+  const removeStudyGroup = () => {
     setStudyName("");
     setStudyNameInputValue("");
   };
+
+  const [emailInputValue, setEmailInputValue] = useState("");
+
+  // 이메일을 통해 스터디 그룹에 초대하기
+  const inviteToStudyGroup = () => {
+    console.log(emailInputValue);
+  };
+
+  // 링크 복사하기
+  const copyLink = () => {};
+
+  // 완료. (모달창 닫기)
+  const done = () => {};
+
   return (
     <>
       <Button
@@ -40,39 +59,71 @@ export default function QuizBasicInfoForm() {
       </Button>
       {isModalOpen && (
         <Modal
+          className={styles["add-study-group-modal"]}
           popUpTitle="스터디 그룹 추가하기"
           contentTitle="새로운 스터디 그룹 이름"
           content={
-            <div>
-              {studyName ? (
+            <div className={styles["add-study-name"]}>
+              {studyName && (
                 <Button
                   onClick={() => {}}
                   icon={<Close width={20} stroke={gray90} />}
-                  onIconClick={onRemoveStudyGroup}
+                  onIconClick={removeStudyGroup}
                   className={styles["study-name"]}
                 >
                   {studyName}
                 </Button>
-              ) : null}
+              )}
 
-              <div className={styles["study-name-container"]}>
-                <Input
-                  className={styles["study-name"]}
-                  placeholder="이름을 입력해주세요."
-                  id="study-name"
-                  value={studyNameInputValue}
-                  onChange={(e) => {
-                    setStudyNameInputValue(e.target.value);
-                  }}
-                />
-                <Button
-                  className={styles["add-study-name"]}
-                  onClick={onAddStudyGroup}
-                >
-                  추가
-                </Button>
-                {/* <button>추가</button> */}
-              </div>
+              {!studyName ? (
+                // 스터디 그룹이 입력되어 있지 않은 경우 (초기 상태)
+                <div className={styles["input-button-container"]}>
+                  <Input
+                    placeholder="이름을 입력해주세요."
+                    id="study-name"
+                    value={studyNameInputValue}
+                    onChange={(e) => {
+                      setStudyNameInputValue(e.target.value);
+                    }}
+                  />
+                  <Button
+                    className={styles["add"]}
+                    onClick={() => addStudyGroup(studyNameInputValue)}
+                  >
+                    추가
+                  </Button>
+                </div>
+              ) : (
+                // 스터디 그룹이 입력되어 있는 경우
+                <div className={styles["email-invite"]}>
+                  <div className={styles.line} />
+                  <div className={styles["title"]}>그룹에 초대하기</div>
+                  <div className={styles["input-button-container"]}>
+                    <Input
+                      value={emailInputValue}
+                      id="email-invite"
+                      placeholder="이메일을 입력해주세요"
+                      onChange={(e) => {
+                        setEmailInputValue(e.target.value);
+                      }}
+                    />
+                    <Button
+                      className={styles["invite"]}
+                      onClick={inviteToStudyGroup}
+                    >
+                      초대
+                    </Button>
+                  </div>
+                  <div className={styles["buttons-container"]}>
+                    <Button className={styles["copy-link"]} onClick={copyLink}>
+                      링크 복사하기
+                    </Button>
+                    <Button className={styles["done"]} onClick={done}>
+                      완료
+                    </Button>
+                  </div>
+                </div>
+              )}
             </div>
           } // input 요소를 넣어야함.
           closeModal={closeModal}

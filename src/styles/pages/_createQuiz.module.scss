@@ -3,7 +3,7 @@
 
 .container {
   @include flex(row);
-  margin-top: 30px;
+  margin-top: 80px;
   gap: 80px;
 }
 .sr-only {

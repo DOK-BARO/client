@@ -17,6 +17,12 @@ export default function QuizBasicInfoForm() {
   const [studyNameInputValue, setStudyNameInputValue] = useState<string>("");
   const [studyName, setStudyName] = useState<string>("");
 
+  const profileImgSrc = "";
+
+  const [isStudySelected, setIsStudySelected] = useState<boolean>(false);
+
+  const [isToggleOn, setIsToggleOn] = useState<boolean>(false);
+
   // 새로운 스터디 그룹 추가
   const addStudyGroup = (studyNameInputValue: string) => {
     setStudyName(studyNameInputValue);
@@ -39,10 +45,48 @@ export default function QuizBasicInfoForm() {
   const copyLink = () => {};
 
   // 완료. (모달창 닫기)
-  const done = () => {};
+  const done = () => {
+    setIsStudySelected(true);
+    console.log(studyName);
+    closeModal();
+  };
+
+  // 퀴즈 알람 보내기 토글 버튼
+  const onToggle = () => {
+    setIsToggleOn(!isToggleOn);
+  };
 
   return (
     <>
+      {isStudySelected && (
+        <article className={styles["selected-study-group"]}>
+          <div className={styles["profile-container"]}>
+            {profileImgSrc ? (
+              <img className={styles["profile"]} src="" alt="" />
+            ) : (
+              <div className={styles["profile"]} />
+            )}
+            {studyName}
+          </div>
+          {/* toggle button -> 분리하기 */}
+          <div
+            className={`${styles["toggle-container"]} ${
+              isToggleOn ? styles["on"] : styles["off"]
+            }`}
+          >
+            <button
+              className={`${styles["toggle"]} ${
+                isToggleOn ? styles["on"] : styles["off"]
+              }`}
+              value={isToggleOn.toString()}
+              onClick={onToggle}
+            >
+              <div className={styles["circle"]} />
+            </button>
+            퀴즈 알람 보내기
+          </div>
+        </article>
+      )}
       <Button
         size="large"
         className={styles["add-study-group"]}

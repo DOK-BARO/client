@@ -8,7 +8,7 @@ const useModal = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  return { isModalOpen, openModal,closeModal };
+  return { isModalOpen, openModal, closeModal };
 };
 
 export default useModal;

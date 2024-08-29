@@ -7,7 +7,11 @@
 }
 .modal-button {
   @include button-base;
-  background-color: $gray-00;
+  background-color: transparent;
+  height: auto;
+  right: 40px;
+  top: 40px;
+  position: absolute;
 }
 .modal-backdrop {
   display: flex;
@@ -27,17 +31,18 @@
   align-items: start;
   background-color: $gray-00;
   flex-direction: column;
-  border-radius: 12px;
-  border: 1px solid $gray-40;
-  width: 560px;
+  border-radius: $border-radius-medium; // 8px or 12px?
+  // border: 1px solid $gray-40;
+  // width: 560px;
   padding: 40px;
+  position: relative;
 }
 
 .modal-header {
   display: flex;
   width: 100%;
   justify-content: space-between;
-  margin-bottom: 32px;
+  margin-bottom: 52px;
 
   span {
     font-size: $font-size-medium;
@@ -57,7 +62,7 @@
 
 .content {
   font-size: $font-size-medium;
-  margin-bottom: 32px;
+  margin-bottom: 32px; // 27.56px. 정확하지 않음.
   width: 100%;
 }
 

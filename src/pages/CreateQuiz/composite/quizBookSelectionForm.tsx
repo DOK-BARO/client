@@ -37,7 +37,7 @@ export default function QuizBookSelectionForm() {
   };
 
   return (
-    <div className={styles["search-book"]}>
+    <section className={styles["search-book"]}>
       <Input
         onChange={onChangeBookName}
         value={bookName}
@@ -69,6 +69,6 @@ export default function QuizBookSelectionForm() {
           </li>
         ))}
       </ul>
-    </div>
+    </section>
   );
 }

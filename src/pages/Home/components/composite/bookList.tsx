@@ -7,6 +7,7 @@ import BookItem from "./bookItem";
 export default function BookList() {
   const [bookList, setBookList] = useState<BookType[]>();
 
+  // TODO: tanstack-query로 변경하기
   useEffect(() => {
     const fetchData = async () => {
       try {

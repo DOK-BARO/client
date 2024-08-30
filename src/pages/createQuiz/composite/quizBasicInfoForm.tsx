@@ -9,13 +9,25 @@ import useModal from "../../../hooks/useModal";
 import Modal from "../../../components/atom/modal";
 import { useState } from "react";
 import { Close } from "../../../../public/assets/svg/close";
+import useInput from "../../../hooks/useInput";
+import useTextarea from "../../../hooks/useTextarea";
 
 // 1. 기본 정보 입력
 export default function QuizBasicInfoForm() {
   // TODO: custom hook으로 분리하기
   const { isModalOpen, openModal, closeModal } = useModal();
-  const [studyNameInputValue, setStudyNameInputValue] = useState<string>("");
-  const [studyName, setStudyName] = useState<string>("");
+  const [selectedStudy, setSelectedStudy] = useState<string>("");
+
+  // 모달 안 인풋
+  const {
+    value: studyName,
+    onChange: onChangeStudyName,
+    resetInput,
+  } = useInput("");
+  const { value: inviteEmail, onChange: onChangeInviteEmail } = useInput("");
+
+  const { value: quizTitle, onChange: onChangeQuizTitle } = useInput("");
+  const { value: quizDesc, onChange: onChangeQuizDesc } = useTextarea("");
 
   const profileImgSrc = "";
 
@@ -25,20 +37,19 @@ export default function QuizBasicInfoForm() {
 
   // 새로운 스터디 그룹 추가
   const addStudyGroup = (studyNameInputValue: string) => {
-    setStudyName(studyNameInputValue);
+    setSelectedStudy(studyNameInputValue);
   };
 
   // 입력한 스터디 그룹 삭제
   const removeStudyGroup = () => {
-    setStudyName("");
-    setStudyNameInputValue("");
+    setSelectedStudy("");
+    // 인풋 value도 초기화
+    resetInput("");
   };
-
-  const [emailInputValue, setEmailInputValue] = useState("");
 
   // 이메일을 통해 스터디 그룹에 초대하기
   const inviteToStudyGroup = () => {
-    console.log(emailInputValue);
+    console.log(inviteEmail);
   };
 
   // 링크 복사하기
@@ -47,7 +58,7 @@ export default function QuizBasicInfoForm() {
   // 완료. (모달창 닫기)
   const done = () => {
     setIsStudySelected(true);
-    console.log(studyName);
+    console.log(selectedStudy);
     closeModal();
   };
 
@@ -66,7 +77,7 @@ export default function QuizBasicInfoForm() {
             ) : (
               <div className={styles["profile"]} />
             )}
-            {studyName}
+            {selectedStudy}
           </div>
           {/* toggle button -> 분리하기 */}
           <div
@@ -108,31 +119,29 @@ export default function QuizBasicInfoForm() {
           contentTitle="새로운 스터디 그룹 이름"
           content={
             <div className={styles["add-study-name"]}>
-              {studyName && (
+              {selectedStudy && (
                 <Button
                   onClick={() => {}}
                   icon={<Close width={20} stroke={gray90} />}
                   onIconClick={removeStudyGroup}
                   className={styles["study-name"]}
                 >
-                  {studyName}
+                  {selectedStudy}
                 </Button>
               )}
 
-              {!studyName ? (
+              {!selectedStudy ? (
                 // 스터디 그룹이 입력되어 있지 않은 경우 (초기 상태)
                 <div className={styles["input-button-container"]}>
                   <Input
                     placeholder="이름을 입력해주세요."
                     id="study-name"
-                    value={studyNameInputValue}
-                    onChange={(e) => {
-                      setStudyNameInputValue(e.target.value);
-                    }}
+                    value={studyName}
+                    onChange={onChangeStudyName}
                   />
                   <Button
                     className={styles["add"]}
-                    onClick={() => addStudyGroup(studyNameInputValue)}
+                    onClick={() => addStudyGroup(studyName)}
                   >
                     추가
                   </Button>
@@ -144,12 +153,10 @@ export default function QuizBasicInfoForm() {
                   <div className={styles["title"]}>그룹에 초대하기</div>
                   <div className={styles["input-button-container"]}>
                     <Input
-                      value={emailInputValue}
+                      value={inviteEmail}
                       id="email-invite"
                       placeholder="이메일을 입력해주세요"
-                      onChange={(e) => {
-                        setEmailInputValue(e.target.value);
-                      }}
+                      onChange={onChangeInviteEmail}
                     />
                     <Button
                       className={styles["invite"]}
@@ -177,19 +184,15 @@ export default function QuizBasicInfoForm() {
         className={styles["quiz-title"]}
         id="quiz-title"
         placeholder="퀴즈 제목을 입력해주세요."
-        onChange={(e) => {
-          console.log(e.currentTarget.value);
-        }}
-        value={""}
+        onChange={onChangeQuizTitle}
+        value={quizTitle}
       ></Input>
       <Textarea
         id="quiz-description"
         placeholder="퀴즈 설명을 입력해주세요."
         className={styles["quiz-description"]}
-        onChange={(e) => {
-          console.log(e.currentTarget.value);
-        }}
-        value={""}
+        onChange={onChangeQuizDesc}
+        value={quizDesc}
       ></Textarea>
     </>
   );

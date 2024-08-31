@@ -46,15 +46,18 @@ const GNB = () => {
           {categories?.map((category, index) => (
             <li
               key={index}
-              className={`${styles["category-title"]} ${
-                activeCategoryIndex === index ? styles["hover"] : ""
-              }`}
               onMouseEnter={() => {
                 setActiveCategoryIndex(index);
                 setExpandedSubCategories({});
               }}
             >
-              <h2 className={styles["category-name"]}>{category.name}</h2>
+              <h2
+                className={`${
+                  activeCategoryIndex === index ? styles["hover"] : ""
+                }`}
+              >
+                {category.name}
+              </h2>
             </li>
           ))}
         </ul>
@@ -63,15 +66,10 @@ const GNB = () => {
             {activeCategoryIndex === index && (
               <ul className={styles["sub-category-list"]}>
                 {category.details?.map((subCategory, subCategoryId) => (
-                  <li
-                    className={styles["sub-category-item"]}
-                    key={subCategoryId}
-                  >
+                  <li key={subCategoryId}>
                     <span>
                       <a href={`/${subCategory.name}`}>
-                        <h3 className="sub-category-name">
-                          {subCategory.name}
-                        </h3>
+                        <h3>{subCategory.name}</h3>
                       </a>
                       {subCategory?.details?.length ?? 0 > 0 ? (
                         <button
@@ -91,10 +89,7 @@ const GNB = () => {
                     {expandedSubCategories[subCategoryId] && (
                       <ul className={styles["sub-category-detail-list"]}>
                         {subCategory?.details?.map((detail, detailIndex) => (
-                          <li
-                            className={styles["sub-category-detail-item"]}
-                            key={detailIndex}
-                          >
+                          <li key={detailIndex}>
                             <a href={`/${detail.name}`}>
                               <h4>{detail.name}</h4>
                             </a>

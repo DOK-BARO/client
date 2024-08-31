@@ -36,6 +36,7 @@ const HeaderMenuButton: React.FC = () => {
   };
 
   return (
+    //TODO: 로그인 했을때만 보이도록 구현 필요, 리스트 내용물도 변경 필요
     <div className={styles["header-menu-container"]} ref={modalRef}>
       <Button className={styles["header-menu-button"]} onClick={openHeaderMenu}>
         <PersonIcon/>

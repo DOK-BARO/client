@@ -2,20 +2,14 @@
 @import "../abstracts/mixins";
 
 .header {
-  &-view {
-    width: 100%;
-    margin: auto;
-    height: 60px;
+  &-container {
     display: flex;
-    align-items: center;
-  }
-
-  &-inner-container {
+    height: 72px;
     margin: 0 auto;
     width: 92%;
     max-width: calc(100% - 48px);
+    align-items: center;
     justify-content: space-between;
-    display: flex;
   }
 
   &-menu-button {
@@ -30,28 +24,6 @@
     }
   }
 
-  .quiz-util {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    background-color: $gray-00;
-    border: none;
-    margin-right: 8px;
-    padding: 14px 12px;
-
-    h3 {
-      font-size: 17px;
-      margin: 0 0 0 9px;
-      padding: 8px 7px 8px 14px;
-    }
-  }
-
-  .quiz-util-icon {
-    width: 24px;
-    height: 24px;
-  }
-
   &-menu-container {
     display: flex;
     flex-direction: row;
@@ -59,27 +31,17 @@
   }
 }
 
-.logo-link {
-  display: flex;
-  align-items: center;
-  border: none;
-  background: transparent;
 
-  h1 {
-    margin-left: 10px;
-    font-size: 24px;
-    font-weight: bold;
-  }
-}
 
 .start-button {
   background-color: $gray-90;
   color: $gray-00;
-  font-size: $font-size-small;
+  font-size: 17px;
   font-weight: bold;
   border-radius: 4px;
   padding: 0 16px 0;
   height: 40px;
+  font-family: Pretendard, serif;
   line-height: 1.5;
 }
 

@@ -1,0 +1,27 @@
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
+
+.header {
+  &-quiz-util {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: $background;
+    margin-right: 8px;
+    padding: 0 14px 0;
+    height: 40px;
+
+    h3 {
+      font-weight: bold;
+      font-size: 17px;
+      margin: 0 0 0 8px;
+    }
+  }
+
+  &-quiz-util-icon {
+    width: 24px;
+    height: 24px;
+  }
+}

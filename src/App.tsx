@@ -8,6 +8,7 @@ import ComponentTest from "./pages/ComponentTest/index.tsx";
 import BookDetailSection from "./pages/BookDetail/";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import CreateQuiz from "./pages/CreateQuiz/index.tsx";
+import EmailVerification from "./pages/EmailVerification/index.tsx";
 
 function App() {
   axios.defaults.withCredentials = true;
@@ -41,6 +42,11 @@ function App() {
     {
       path: "/oauth2/redirected/:provider",
       element: <AuthRedirectedPage />,
+    },
+    {
+      // 회원 가입 이메일
+      path: "/email-verification",
+      element: <EmailVerification />,
     },
   ]);
   return (

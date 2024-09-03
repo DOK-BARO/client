@@ -4,8 +4,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import React, { useEffect, useRef, useState } from "react";
 import LoginModal from "./loginModal.tsx";
 import useModal from "../../hooks/useModal.ts";
-
-const HeaderMenuButton: React.FC = () => {
+// TODO : scss 파일 분리 및 import 다시 해야 함
+function HeaderMyInfoUtilButton ({ isLoggedIn }: { isLoggedIn : boolean }) {
   const [isOpenHeaderMenuList, setIsOpenHeaderMenuList] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLButtonElement>(null);
   const { isModalOpen: isLoginModalOpen, openModal: openLoginModal, closeModal: closeLoginModal } = useModal();
@@ -35,7 +35,12 @@ const HeaderMenuButton: React.FC = () => {
     setIsOpenHeaderMenuList(false);
   };
 
+  if (!isLoggedIn) {
+    return null;
+  }
+
   return (
+    //TODO: 로그인 했을때만 보이도록 구현 필요, 리스트 내용물도 변경 필요
     <div className={styles["header-menu-container"]} ref={modalRef}>
       <Button className={styles["header-menu-button"]} onClick={openHeaderMenu}>
         <PersonIcon/>
@@ -55,4 +60,4 @@ const HeaderMenuButton: React.FC = () => {
   );
 };
 
-export default HeaderMenuButton;
+export default HeaderMyInfoUtilButton;

@@ -1,14 +1,30 @@
 import axios from "axios";
-import { BookType } from "../types/BookType";
+import { BookType, GetBookListParams } from "../types/BookType";
 import { BookDetailType } from "../types/BookDetailType.ts";
 import { BookCategory } from "../types/GNBCategoryType.ts";
 
 // 책 목록, 책 상세정보 등을 가져오는 api 호출 로직
-export const getBookList = async (): Promise<BookType[]> => {
+export const getBookList = async (
+  params: GetBookListParams = {}
+): Promise<BookType[]> => {
+  const {
+    title = null,
+    authorName = null,
+    description = null,
+    category = null,
+    page = 1,
+    size = 24,
+  } = params;
+
   try {
     const { data } = await axios.get("/books", {
       params: {
-        size: 24,
+        title,
+        authorName,
+        description,
+        category,
+        page,
+        size,
       },
     });
     //console.log("%o",data);

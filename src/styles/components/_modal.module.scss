@@ -1,11 +1,6 @@
 @import "../abstracts/variables";
 @import "../abstracts/mixins";
 
-.modal {
-  // @include flex(column);
-  // height: 100%;
-  background-color: yellow;
-}
 .modal-button {
   @include button-base;
   background-color: transparent;
@@ -35,7 +30,6 @@
   flex-direction: column;
   border-radius: $border-radius-large; // 12px
   // border: 1px solid $gray-40;
-  // width: 560px;
   padding: 40px;
   position: relative;
 }

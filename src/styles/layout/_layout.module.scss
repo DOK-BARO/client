@@ -25,19 +25,20 @@
     // flex-direction: column;
     // align-items: center;
   }
-}
+  .header {
+    display: flex;
+  }
 
-header {
-  display: flex;
-}
-
-main {
-  width: 1140px;
-  margin: 0 auto;
-
-  .inner-container {
+  .main {
+    width: 1140px;
     margin: 0 auto;
-    width: 92%;
-    max-width: calc(100% - 48px);
+
+    .inner-container {
+      margin: 0 auto;
+      width: 92%;
+      max-width: calc(100% - 48px);
+    }
+  }
+  .footer {
   }
 }

@@ -1,6 +1,6 @@
 import { BookDetailType } from "../../../types/BookDetailType.ts";
 import Button from "../../../components/atom/button.tsx";
-import styles from "../../../styles/composite/_bookDetailSection.module.scss";
+import styles from "../../../styles/composite/_book_detail_section.module.scss";
 
 interface BookDetailSectionProps {
   bookDetailContent: BookDetailType;

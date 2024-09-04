@@ -1,6 +1,6 @@
 import HeaderQuizUtilButton from "./headerQuizUtilButton.tsx";
 import HeaderMyInfoUtilButton from "./headerMyInfoUtilButton.tsx";
-import styles from "../../styles/layout/_headerLayout.module.scss";
+import styles from "../../styles/layout/_header_layout.module.scss";
 import StartAuthButton from "./startAuthButton.tsx";
 
 type Props = {

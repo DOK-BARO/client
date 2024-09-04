@@ -1,6 +1,6 @@
 import QuizCreationFormLayout from "./layout/quizCreationFormLayout";
 import QuizCreationSteps from "./layout/quizCreationSteps";
-import styles from "../../styles/pages/_createQuiz.module.scss";
+import styles from "../../styles/pages/_create_quiz.module.scss";
 import { useState } from "react";
 import QuizBasicInfoForm from "./composite/quizBasicInfoForm";
 import QuizBookSelectionForm from "./composite/quizBookSelectionForm";

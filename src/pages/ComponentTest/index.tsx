@@ -7,7 +7,7 @@ import RadioButton from "../../components/atom/radioButton.tsx";
 import useRadioGroup from "../../hooks/useRadioGroup.ts";
 import { RadioOptions } from "../../types/RadioTypes.ts";
 import AuthButton from "../../components/atom/authButton.tsx";
-import styles from "../../styles/pages/_componentTest.module.scss";
+import styles from "../../styles/pages/_component_test.module.scss";
 import useModal from "../../hooks/useModal.ts";
 import Modal from "../../components/atom/modal.tsx";
 const options: RadioOptions[] = [

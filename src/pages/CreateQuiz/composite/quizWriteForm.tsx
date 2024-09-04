@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Button from "../../../components/atom/button";
 import Input from "../../../components/atom/input";
-import styles from "../../../styles/composite/_quizWriteForm.module.scss";
+import styles from "../../../styles/composite/_quiz_write_form.module.scss";
 import useInput from "../../../hooks/useInput";
 
 // 3. 퀴즈 작성

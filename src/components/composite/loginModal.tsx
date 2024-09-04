@@ -1,4 +1,4 @@
-import styles from "../../styles/components/_loginmodal.module.scss";
+import styles from "../../styles/components/_login_modal.module.scss";
 import React from "react";
 import HeaderLogo from "../atom/headerLogo.tsx";
 import { SOCIAL_TYPES } from "../../data/constants.ts";

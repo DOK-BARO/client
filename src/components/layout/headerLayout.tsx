@@ -1,4 +1,4 @@
-import styles from "../../styles/layout/_headerLayout.module.scss";
+import styles from "../../styles/layout/_header_layout.module.scss";
 import HeaderLogo from "../atom/headerLogo.tsx";
 import HeaderUtilArea from "../composite/headerUtilArea.tsx";
 

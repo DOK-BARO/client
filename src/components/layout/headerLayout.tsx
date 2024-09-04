@@ -9,8 +9,10 @@ type Props = {
 export default function HeaderLayout({ isLoggedIn }: Props)  {
   return (
     <header className={styles["header-container"]}>
-      <HeaderLogo/>
-      <HeaderUtilArea isLoggedIn={isLoggedIn}/>
+      <div className={styles["header-inner-container"]}>
+        <HeaderLogo/>
+        <HeaderUtilArea isLoggedIn={isLoggedIn}/>
+      </div>
     </header>
   );
 }

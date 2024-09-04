@@ -8,26 +8,17 @@
     width: 1140px;
     margin: auto;
     align-items: center;
-
-    .inner-container {
-      width: 92%;
-      margin: 0 auto;
-      display: flex;
-      max-width: calc(100% - 48px);
-      align-items: center;
-      justify-content: space-between;
-    }
   }
 
-  // &-container {
-  //    display: flex;
-  //    height: 72px;
-  //    margin: 0 auto;
-  //    width: 92%;
-  //    max-width: calc(100% - 48px);
-  //    align-items: center;
-  //    justify-content: space-between;
-  //  }
+  &-inner-container {
+    display: flex;
+    width: 92%;
+    margin: 0 auto;
+    max-width: calc(100% - 48px);
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
 
   &-menu-button {
     display: flex;

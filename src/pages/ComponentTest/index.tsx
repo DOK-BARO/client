@@ -8,6 +8,8 @@ import useRadioGroup from "../../hooks/useRadioGroup.ts";
 import { RadioOptions } from "../../types/RadioTypes.ts";
 import AuthButton from "../../components/atom/authButton.tsx";
 import styles from "../../styles/pages/_componentTest.module.scss";
+import useModal from "../../hooks/useModal.ts";
+import Modal from "../../components/atom/modal.tsx";
 const options: RadioOptions[] = [
   { value: "option1", label: "Option 1" },
   { value: "option2", label: "Option 2" },
@@ -17,6 +19,7 @@ const options: RadioOptions[] = [
 export default function Index() {
   const { openGNB, closeGNB, isGNBOpen } = useGNB();
   const { selectedValue, handleChange } = useRadioGroup("");
+  const { openModal, isModalOpen, closeModal } = useModal();
 
   return (
     <>
@@ -65,6 +68,21 @@ export default function Index() {
       <AuthButton onClick={() => {}} className={styles.done}>
         완료
       </AuthButton>
+      <Button
+        onClick={() => {
+          console.log("open modal");
+          openModal();
+        }}
+      >
+        모달 열기
+      </Button>
+      {isModalOpen && (
+        <Modal
+          popUpTitle={"테스트 모달 제목"}
+          contentTitle={"테스트 모달 콘텐츠 제목"}
+          closeModal={closeModal}
+        />
+      )}
     </>
   );
 }

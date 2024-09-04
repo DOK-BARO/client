@@ -22,3 +22,7 @@ export const SOCIAL_TYPES = [
 ] as const;
 
 export const AUTH_TYPES = [AuthType.SIGNUP, AuthType.LOGIN] as const;
+
+export const ICON_SIZE = 20;
+
+export const APP_NAME = "DOKBARO";

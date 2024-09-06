@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Button from "../../../components/atom/button";
 import Input from "../../../components/atom/input";
-import styles from "../../../styles/composite/_quizWriteForm.module.scss";
+import styles from "../../../styles/composite/_quiz_write_form.module.scss";
 import useInput from "../../../hooks/useInput";
 import { ArrowDown } from "../../../../public/assets/svg/arrowDown";
 import { CheckSquare } from "../../../../public/assets/svg/checkSquare";

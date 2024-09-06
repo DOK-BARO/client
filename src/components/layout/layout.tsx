@@ -6,9 +6,7 @@ export default function Layout() {
   //const [isLoggedIn] = useRecoilState(isLoggedInState);
   return (
     <div className={styles["container"]}>
-      <header className={styles["header"]}>
-        <HeaderLayout isLoggedIn={false} />
-      </header>
+      <HeaderLayout isLoggedIn={true} />
       <main className={styles["main"]}>
         <div className={styles["inner-container"]}>
           <Outlet />

@@ -1,5 +1,5 @@
 import Button from "../../../components/atom/button";
-import styles from "../../../styles/layout/_quizCreationFormLayout.module.scss";
+import styles from "../../../styles/layout/_quiz_creation_form_layout.module.scss";
 import { Step } from "..";
 import RightArrow from "../../../../public/assets/svg/rightArrow";
 import { gray0 } from "../../../styles/abstracts/colors";

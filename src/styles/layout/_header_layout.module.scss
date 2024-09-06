@@ -8,15 +8,16 @@
     width: 1140px;
     margin: auto;
     align-items: center;
+  }
 
-    .inner-container {
-      width: 92%;
-      margin: 0 auto;
-      display: flex;
-      max-width: calc(100% - 48px);
-      align-items: center;
-      justify-content: space-between;
-    }
+  &-inner-container {
+    display: flex;
+    width: 92%;
+    margin: 0 auto;
+    max-width: calc(100% - 48px);
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
   }
 
   &-menu-button {
@@ -36,16 +37,4 @@
     flex-direction: row;
     align-items: center;
   }
-}
-
-.start-button {
-  background-color: $gray-90;
-  color: $gray-00;
-  font-size: 17px;
-  font-weight: bold;
-  border-radius: 4px;
-  padding: 0 16px 0;
-  height: 40px;
-  font-family: Pretendard, serif;
-  line-height: 1.5;
 }

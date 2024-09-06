@@ -1,6 +1,6 @@
 import { Step } from "..";
 import Button from "../../../components/atom/button";
-import styles from "../../../styles/layout/_quizCreationSteps.module.scss";
+import styles from "../../../styles/layout/_quiz_creation_steps.module.scss";
 
 export default function QuizCreationSteps({
   steps,

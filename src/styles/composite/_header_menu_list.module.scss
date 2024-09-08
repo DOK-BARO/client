@@ -7,7 +7,7 @@
   border-radius: 8px;
   border: 1px solid #D8D8D8;
   position: absolute;
-  right: -20px;
+  right: -68px;
   z-index: 1;
   top: 46px; // 메뉴 리스트가 버튼 아래에 위치하게 함
 
@@ -15,7 +15,7 @@
     content: "";
     position: absolute;
     top: -11px; // 삼각형이 메뉴 상단에 위치하도록 함
-    right: 32px; // 삼각형 위치 조정 (필요에 따라 조절)
+    right: 80px; // 삼각형 위치 조정 (필요에 따라 조절)
     width: 0;
     z-index: 1;
     display: block;
@@ -29,7 +29,7 @@
     content: "";
     position: absolute;
     top: -13px; // 삼각형이 메뉴 상단에 위치하도록 함
-    right: 32px; // 삼각형 위치 조정 (필요에 따라 조절)
+    right: 80px; // 삼각형 위치 조정 (필요에 따라 조절)
     width: 0;
     z-index: 0;
     display: block;
@@ -51,7 +51,6 @@
 
 .user-info-container {
   display: flex;
-  height: 80px;
   border-radius: 6px 6px 0 0;
   justify-content: space-between;
   flex-direction: column;
@@ -85,13 +84,15 @@
   border-top: 1px solid $gray-40;
 }
 
+.header-menu-list-item-container{
+  padding: 8px 0 8px;
+}
+
 .header-menu-list-item {
   display: flex;
   height: 48px;
   padding: 15px 16px;
   border-radius: 6px;
-  margin-top:8px;
-  margin-bottom: 8px;
 
   span{
     font-size: $font-size-large;
@@ -99,3 +100,4 @@
     margin-left: 8px;
   }
 }
+

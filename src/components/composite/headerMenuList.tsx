@@ -44,7 +44,7 @@ export default function HeaderMenuList({ closeDropDownList } : Props){
         <span className={styles["user-name"]}>독바로 님</span>
         <span className={styles["user-email"]}>dokbaro@gmail.com</span>
       </li>
-      <div>
+      <div className={styles["header-menu-list-item-container"]}>
         {headerMenuListItems.map((item) => (
           <HeaderMenuListItem key={item.content} Icon={item.Icon} content={item.content}/>
         ))}

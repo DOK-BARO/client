@@ -10,6 +10,11 @@ import AuthButton from "../../components/atom/authButton.tsx";
 import styles from "../../styles/pages/_component_test.module.scss";
 import useModal from "../../hooks/useModal.ts";
 import Modal from "../../components/atom/modal.tsx";
+import Input from "../../components/atom/input.tsx";
+import { useState } from "react";
+import { Invisible } from "../../../public/assets/svg/invisible.tsx";
+import { gray60 } from "../../styles/abstracts/colors.ts";
+
 const options: RadioOptions[] = [
   { value: "option1", label: "Option 1" },
   { value: "option2", label: "Option 2" },
@@ -20,6 +25,8 @@ export default function Index() {
   const { openGNB, closeGNB, isGNBOpen } = useGNB();
   const { selectedValue, handleChange } = useRadioGroup("");
   const { openModal, isModalOpen, closeModal } = useModal();
+
+  const [inputValue, setInputValue] = useState<string>("");
 
   return (
     <>
@@ -83,6 +90,45 @@ export default function Index() {
           closeModal={closeModal}
         />
       )}
+      <Input
+        size="small"
+        id="component-test"
+        value={inputValue}
+        onChange={(e) => {
+          setInputValue(e.target.value);
+        }}
+        placeholder="플레이스홀더"
+        label="설명 레이블"
+        message="대소문자 어쩌구"
+        leftIcon={<Invisible stroke={gray60} width={20} />}
+        rightIcon={<Invisible stroke={gray60} width={20} />}
+      />
+      <Input
+        size="medium"
+        id="component-test2"
+        value={inputValue}
+        onChange={(e) => {
+          setInputValue(e.target.value);
+        }}
+        placeholder="플레이스홀더"
+        label="설명 레이블"
+        message="대소문자 어쩌구"
+        leftIcon={<Invisible stroke={gray60} width={20} />}
+        rightIcon={<Invisible stroke={gray60} width={20} />}
+      />
+      <Input
+        size="large"
+        id="component-test2"
+        value={inputValue}
+        onChange={(e) => {
+          setInputValue(e.target.value);
+        }}
+        placeholder="플레이스홀더"
+        label="설명 레이블"
+        message="대소문자 어쩌구"
+        leftIcon={<Invisible stroke={gray60} width={20} />}
+        rightIcon={<Invisible stroke={gray60} width={20} />}
+      />
     </>
   );
 }

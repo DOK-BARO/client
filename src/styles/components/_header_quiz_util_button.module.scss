@@ -1,0 +1,22 @@
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
+
+.header {
+  &-quiz-util-button-container {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    margin-right: 8px;
+    padding: 0 14px 0;
+    height: 40px;
+  }
+
+  &-quiz-util-button {
+    display: flex;
+    align-items: center;
+    background-color: $background;
+    border: none;
+    font-weight: bold;
+    font-size: $font-size-large;
+  }
+}

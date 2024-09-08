@@ -1,6 +1,7 @@
 @import "../abstracts/variables";
 @import "../abstracts/mixins";
 
+// TODO: input 공용 스타일 수정하기
 .container {
   @include flex(column);
   height: min-content;
@@ -19,7 +20,7 @@
 
   &--error {
     @extend .message;
-    color: $danger-50;
+    color: $system-danger;
   }
 }
 .input {
@@ -27,6 +28,7 @@
   &--large {
     padding: $input-padding-large;
     font-size: $font-size-large;
+    // border-radius 추가
   }
 
   &--medium {
@@ -39,6 +41,6 @@
     font-size: $font-size-small;
   }
   &--error {
-    box-shadow: 0 0 0 2px $danger-50;
+    box-shadow: 0 0 0 2px $system-danger;
   }
 }

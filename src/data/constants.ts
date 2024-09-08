@@ -11,7 +11,7 @@ export const AUTH_ACTION = {
 };
 
 export const URL_PARAMS_KEY = {
-  AUTH_CODE : "code",
+  AUTH_CODE: "code",
 };
 
 export const SOCIAL_TYPES = [
@@ -19,6 +19,11 @@ export const SOCIAL_TYPES = [
   SocialLoginType.GOOGLE,
   SocialLoginType.KAKAO,
   SocialLoginType.NAVER,
+  SocialLoginType.EMAIL,
 ] as const;
 
 export const AUTH_TYPES = [AuthType.SIGNUP, AuthType.LOGIN] as const;
+
+export const ICON_SIZE = 20;
+
+export const APP_NAME = "DOKBARO";

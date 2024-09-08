@@ -1,0 +1,38 @@
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
+
+.container {
+  margin: 80px 0;
+}
+
+.quiz-list-header {
+  display: flex;
+  font-size: 32px;
+  font-weight: bold;
+  color: $gray-90;
+  margin-bottom: 40px;
+}
+
+.filter-list {
+  display: flex;
+  justify-content: end;
+  font-size: $font-size-medium;
+
+  // TODO : 선택된 필터 아이템 볼드처리
+  span {
+    color: $gray-70;
+    margin-left: 12px;
+  }
+}
+
+.filter-title {
+  font-weight: bold;
+  color: $gray-90;
+}
+
+.list-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 한 줄에 3개의 열을 생성 */
+  gap: 16px; /* 아이템 간의 간격 설정 */
+  margin-top: 40px;
+}

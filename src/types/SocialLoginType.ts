@@ -3,4 +3,5 @@ export enum SocialLoginType {
   GITHUB = "GITHUB",
   GOOGLE = "GOOGLE",
   NAVER = "NAVER",
+  EMAIL = "EMAIL",
 }

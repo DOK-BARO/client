@@ -13,3 +13,12 @@ interface BookCategories {
   id: string;
   name: string;
 }
+
+export interface GetBookListParams {
+  title?: string;
+  authorName?: string;
+  description?: string;
+  category?: string;
+  page?: number;
+  size?: number;
+}

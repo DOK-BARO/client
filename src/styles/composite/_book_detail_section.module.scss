@@ -1,0 +1,103 @@
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
+
+.category-depth-list {
+  display: flex;
+  font-size: $font-size-small;
+  color: $gray-90;
+  padding: 6px;
+  margin-bottom: 40px;
+}
+
+.book-detail-section-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.book-img {
+  padding: 8px 29px 8px 29px;
+  margin-right: 40px;
+  max-height: 368px;
+}
+
+.book-container {
+}
+
+.number-of-quiz-tag {
+  display: inline-block;
+  color: $primary;
+  background-color: $secondary;
+  padding: 6.5px 8px;
+  border-radius: 4px;
+  font-size: $font-size-small;
+}
+
+.book-detail-title {
+  font-size: 40px;
+  font-weight: bold;
+  color: $gray-90;
+  margin: 24px 0;
+}
+
+.book-description {
+  color: $gray-90;
+  font-size: $font-size-medium;
+  line-height: 1.5;
+}
+
+.book-detail-sub-container {
+  display: flex;
+  flex-direction: row;
+  margin: 40px 0;
+}
+
+.book-detail-info-container {
+  display: flex;
+  flex-direction: column;
+  color: $gray-90;
+  font-size: $font-size-large;
+  margin-right: 40px;
+  min-width: 437px;
+}
+
+.book-detail-sub-title {
+  font-weight: 600;
+}
+
+.book-detail-sub-content {
+  flex-direction: row;
+  margin-top: 24px;
+
+  span {
+    padding-right: 60px;
+  }
+}
+
+.number-of-quiz-container {
+  min-width: 437px;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.make-quiz-button {
+  color: $primary;
+  font-size: $font-size-large;
+  border-radius: 8px;
+  border: 1px solid $primary;
+  padding: 25px 181px;
+  background-color: $gray-00;
+  margin-right: 14px;
+  white-space: nowrap;
+}
+
+.take-quiz-button {
+  color: $gray-00;
+  font-size: $font-size-large;
+  border-radius: 8px;
+  padding: 25px 181px;
+  background-color: $primary;
+  white-space: nowrap;
+}

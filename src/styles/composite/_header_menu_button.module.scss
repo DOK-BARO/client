@@ -5,61 +5,10 @@
 }
 
 .header-menu-button {
-  background-color: white;
+  background-color: $background;
+  width: 40px;
+  height: 40px;
   &:hover {
   }
 }
 
-.header-menu-list {
-  background-color: white;
-  padding: 8px;
-  border-radius: 8px;
-  border: 1px solid #D8D8D8;
-  position: absolute;
-  right: -12px;
-  z-index: 1;
-  top: 46px; // 메뉴 리스트가 버튼 아래에 위치하게 함
-
-  &::after {
-    content: "";
-    position: absolute;
-    top: -11px; // 삼각형이 메뉴 상단에 위치하도록 함
-    right: 32px; // 삼각형 위치 조정 (필요에 따라 조절)
-    width: 0;
-    z-index: 1;
-    display: block;
-    border-right: 8px solid transparent;
-    border-bottom: 12px solid #ffffff;
-    border-left: 8px solid transparent;
-  }
-
-  // 상단 삼각형 추가
-  &::before {
-    content: "";
-    position: absolute;
-    top: -13px; // 삼각형이 메뉴 상단에 위치하도록 함
-    right: 32px; // 삼각형 위치 조정 (필요에 따라 조절)
-    width: 0;
-    z-index: 0;
-    display: block;
-    border-right: 8px solid transparent;
-    border-bottom: 12px solid #D8D8D8;
-    border-left: 8px solid transparent;
-  }
-
-  li {
-    white-space: nowrap;
-    padding: 15px 16px;
-    border-radius: 6px;
-    border: none;
-    font-size: $font-size-medium;
-    font-family: Pretendard, serif;
-      &:hover {
-        background-color: #F5EDFF;
-      }
-      &:active {
-        background-color: #9747FF;
-        color: white;
-      }
-    }
-}

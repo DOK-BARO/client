@@ -1,0 +1,47 @@
+@import "../abstracts/variables";
+
+//TODO 중복코드 제거 _header_menu_list.module
+.header {
+  &-quiz-util-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+    background-color: white;
+    padding: 8px;
+    border-radius: 8px;
+    position: absolute;
+    right: 0;
+    z-index: 1;
+    top: 46px; // 메뉴 리스트가 버튼 아래에 위치하게 함
+
+    li {
+      white-space: nowrap;
+      font-size: $font-size-medium;
+      font-family: Pretendard, serif;
+
+      &:hover {
+        background-color: $gray-10;
+      }
+    }
+  }
+
+  &-quiz-util-list-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 48px;
+    padding: 15px 16px;
+    border-radius: 6px;
+
+    span {
+      font-size: $font-size-large;
+      color: $gray-90;
+      margin-left: 8px;
+    }
+  }
+
+  &-quiz-util-icon {
+  }
+}
+

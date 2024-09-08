@@ -17,11 +17,12 @@
     background: none;
     color: $gray-60;
     font-size: $font-size-xlarge;
-    padding: 16px;
+    font-weight: 500;
+    padding: 0 16px;
 
     &.active {
       color: $primary;
-      font-weight: 700;
+      font-weight: 600;
     }
   }
   .input-container {
@@ -31,25 +32,73 @@
     input.question {
       border-color: $gray-40;
     }
-    select.question-type {
-      border-color: $gray-40;
-      border-radius: $border-radius-medium;
+
+    .select-box {
+      position: relative;
+      display: inline-block;
+      width: 168px;
+
+      select.question-type {
+        padding: 22px 16px;
+        width: 100%;
+        border-color: $gray-40;
+        border-radius: $border-radius-medium;
+        font-size: $font-size-xlarge;
+        appearance: none;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        position: relative;
+        cursor: pointer;
+      }
+      .arrow-down {
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+      }
     }
   }
   .question-options {
     margin-top: 32px;
+    margin-bottom: 40px;
+
     display: flex;
     flex-direction: column;
+    align-items: start;
     gap: 16px;
     font-size: $font-size-xlarge;
 
-    label {
-      display: flex;
-      gap: 8px;
+    .option {
+      &-container {
+        @include flex(row, center);
+        gap: 8px;
+        padding: 8px 16px;
+      }
+      &-check-circle {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        border: 2px solid $gray-70;
+      }
+      &-label {
+        line-height: 1.5;
+      }
     }
 
     legend {
       @include sr-only;
     }
+  }
+}
+input.new-option {
+  border: none;
+  padding: 0;
+  border-radius: 0;
+  font-size: $font-size-xlarge;
+
+  &:focus {
+    outline: none;
+    border: none;
   }
 }

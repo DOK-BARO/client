@@ -1,18 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../../components/atom/button";
 import Input from "../../../components/atom/input";
 import styles from "../../../styles/composite/_quiz_write_form.module.scss";
 import useInput from "../../../hooks/useInput";
-
+import { ArrowDown } from "../../../../public/assets/svg/arrowDown";
+import { CheckSquare } from "../../../../public/assets/svg/checkSquare";
+import { gray60 } from "../../../styles/abstracts/colors";
 // 3. 퀴즈 작성
 export default function QuizWriteForm() {
   const [quizMode, setQuizMode] = useState<string>("question"); // 질문 작성 or 답안 작성
   const { onChange: onQuestionChange, value: question } = useInput("");
-  const { onChange: onOptionChange, value: option } = useInput("");
-  // const [optionList, setOptionList] = useState([]);
+  const { onChange: onOptionChange, value: option, resetInput } = useInput("");
+  const [optionList, setOptionList] = useState<string[]>([]);
+
   const onQuizModeSelect = (e: React.MouseEvent<HTMLButtonElement>) => {
     setQuizMode(e.currentTarget.value);
   };
+
+  // 옵션 추가 인풋창에 옵션(선지) 입력 후 엔터 눌렀을 때 등록
+  const onEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    e.stopPropagation();
+    if (e.key === "Enter") {
+      setOptionList([...optionList, e.currentTarget.value]);
+      resetInput("");
+    }
+  };
+
+  useEffect(() => {
+    console.log(optionList);
+  }, [optionList]);
 
   return (
     <section className={styles["write-quiz"]}>
@@ -39,14 +55,26 @@ export default function QuizWriteForm() {
         </Button>
       </div>
       <div className={styles["input-container"]}>
-        <select
-          name="question-type"
-          id="question-type"
-          className={styles["question-type"]}
-        >
-          <option value="Objective">객관식</option>
-          <option value="Subjective">주관식</option>
-        </select>
+        <div className={styles["select-box"]}>
+          {/* TODO: 커스텀 Select 구현하기 */}
+          <select
+            name="question-type"
+            id="question-type"
+            className={styles["question-type"]}
+          >
+            <option value="objective">
+              <CheckSquare width={20} stroke={gray60} alt="" />
+              객관식
+            </option>
+            <option value="subjective">
+              <CheckSquare width={20} stroke={gray60} alt="" />
+              주관식
+            </option>
+          </select>
+          <span className={styles["arrow-down"]}>
+            <ArrowDown width={20} stroke={gray60} alt="펼치기" />
+          </span>
+        </div>
         <Input
           className={styles["question"]}
           value={question}
@@ -58,23 +86,25 @@ export default function QuizWriteForm() {
       {/* TODO: 컴포넌트 분리하기 */}
       <fieldset className={styles["question-options"]}>
         <legend>답안 선택지</legend>
-        <label htmlFor="option1">
-          <input type="radio" id="option1" name="option" />
-          <span>옵션 1</span>
-        </label>
-        <label htmlFor="option2">
-          <input type="radio" id="option2" name="option" />
-          <span>옵션 2</span>
-        </label>
-        <label htmlFor="option3">
-          <input type="radio" id="option3" name="option" />
-          <Input
+
+        {optionList.map((option: string) => (
+          <div key={option} className={styles["option-container"]}>
+            <div className={styles["option-check-circle"]} />
+            <span className={styles["option-label"]}>{option}</span>
+          </div>
+        ))}
+        <div className={styles["option-container"]}>
+          <div className={styles["option-check-circle"]} />
+          <input
             id="option"
             value={option}
+            onKeyDown={onEnter}
             onChange={onOptionChange}
+            className={styles["new-option"]}
             placeholder="옵션 추가하기"
+            autoFocus
           />
-        </label>
+        </div>
       </fieldset>
     </section>
   );

@@ -8,6 +8,7 @@ const useModal = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
   return { isModalOpen, openModal, closeModal };
 };
 

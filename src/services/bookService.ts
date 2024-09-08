@@ -14,7 +14,7 @@ export const getBookList = async (
     category = null,
     page = 1,
     size = 24,
-  } = params;
+  } = params || {};
 
   try {
     const { data } = await axios.get("/books", {
@@ -27,7 +27,6 @@ export const getBookList = async (
         size,
       },
     });
-    //console.log("%o",data);
     return data;
   } catch (error) {
     throw new Error(`책 목록 가져오기 실패: ${error}`);

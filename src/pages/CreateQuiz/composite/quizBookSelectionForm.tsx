@@ -11,12 +11,14 @@ export default function QuizBookSelectionForm() {
   const { value: bookName, onChange: onChangeBookName } = useInput("");
   const [selectedBookId, setSelectedBookId] = useState<number | null>(null);
 
+  // TODO: debouncing or throttling 적용하기
+
   const {
     data: searchedBookList,
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: bookKeys.categories(),
+    queryKey: bookKeys.list(), // bookName을 객체로 감싸기
     queryFn: () => getBookList({ title: bookName }),
     enabled: false, // query가 컴포넌트가 마운트될 때 자동으로 실행되지 않도록 설정
   });

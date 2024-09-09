@@ -50,9 +50,19 @@ $button-padding-xlarge: 0 24px;
 $button-height-xlarge: 64px;
 
 /* Input Paddings */
-$input-padding-small: 14.5px 16px;
-$input-padding-medium: 18px 16px;
-$input-padding-large: 21.5px 16px;
+// $input-padding-small: 14.5px 16px;
+// $input-padding-medium: 18px 16px;
+// $input-padding-large: 21.5px 16px;
+
+/* Input */
+$input-padding-small: 0 16pxs;
+$input-height-small: 40px;
+
+$input-padding-medium: 0 16px;
+$input-height-medium: 48px;
+
+$input-padding-large: 0 16px;
+$input-height-large: 56px;
 
 /* Textarea Paddings */
 $textarea-padding: 16px;

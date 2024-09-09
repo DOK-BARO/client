@@ -12,6 +12,8 @@ interface InputProps {
   isError?: boolean;
   disabled?: boolean;
   label?: string;
+  leftIcon?: JSX.Element;
+  rightIcon?: JSX.Element;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -25,33 +27,38 @@ const Input: React.FC<InputProps> = ({
   isError = false,
   disabled = false,
   label,
+  leftIcon,
+  rightIcon,
 }) => {
   const className = `${styles.input} ${styles[`input--${size}`]} ${
     isError ? styles["input--error"] : ""
-  } ${customClassName}`;
+  } ${leftIcon ? styles["input--left-icon"] : ""} ${
+    rightIcon ? styles["input--right-icon"] : ""
+  } ${customClassName || ""}`;
+
   return (
     <div className={styles["container"]}>
-      {label ? (
+      {label && (
         <label className={styles["label"]} htmlFor={id}>
           {label}
         </label>
-      ) : (
-        <></>
       )}
-      <input
-        id={id}
-        disabled={disabled}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        className={className}
-      />
-      {message ? (
+      <div className={styles["input-wrapper"]}>
+        {leftIcon && <span className={styles["icon-left"]}>{leftIcon}</span>}
+        <input
+          id={id}
+          disabled={disabled}
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          className={className}
+        />
+        {rightIcon && <span className={styles["icon-right"]}>{rightIcon}</span>}
+      </div>
+      {message && (
         <span className={styles[`message${isError ? "--error" : ""}`]}>
           {message}
         </span>
-      ) : (
-        <></>
       )}
     </div>
   );

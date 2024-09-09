@@ -1,5 +1,5 @@
 import styles from "../../../../styles/composite/_bookList.module.scss";
-import { getBookList } from "../../../../services/bookService";
+import { getBookList } from "../../../../services/server/bookService.ts";
 // import { BookType } from "../../../../types/BookType";
 import BookItem from "./bookItem";
 import { useQuery } from "@tanstack/react-query";

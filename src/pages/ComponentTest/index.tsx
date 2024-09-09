@@ -10,7 +10,7 @@ import AuthButton from "../../components/atom/authButton.tsx";
 import styles from "../../styles/pages/_component_test.module.scss";
 import useModal from "../../hooks/useModal.ts";
 import Modal from "../../components/atom/modal.tsx";
-import { getUser } from "../../services/authService.ts";
+import { getUser } from "../../services/server/authService.ts";
 import Input from "../../components/atom/input.tsx";
 import { useState } from "react";
 import { Invisible } from "../../../public/assets/svg/invisible.tsx";

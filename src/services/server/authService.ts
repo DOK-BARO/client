@@ -1,6 +1,8 @@
 import axios, { AxiosError } from "axios";
-import { AuthResponse } from "../types/AuthResponse.ts";
-import { SocialLoginType } from "../types/SocialLoginType.ts";
+import { AuthResponse } from "../../types/AuthResponse.ts";
+import { SocialLoginType } from "../../types/SocialLoginType.ts";
+import { User } from "../../types/User.ts";
+import localApi from "../local/LocalApi.ts";
 
 const redirectedUrl = import.meta.env.VITE_AUTH_REDIRECTED_URL;
 
@@ -49,7 +51,6 @@ export const login = async (
 };
 
 export const signup = async (
-
   socialType: SocialLoginType,
   token: string,
 ): Promise<AuthResponse> => {
@@ -76,12 +77,21 @@ export const signup = async (
   }
 };
 
-export const getUser = async () => {
+export const getUser = async (): Promise<User> => {
   try {
     const { data } = await axios.get("/members/login-user");
-    console.log("%o",data);
     return data;
   } catch (error) {
-    throw new Error(`책 상세 가져오기 실패: ${error}`);
+    throw new Error(`유저 데이터 가져오기 실패: ${error}`);
   }
+};
+
+export const getUserIfAuthenticated = async (): Promise<User | null> => {
+  const certificationId = !!localApi.getUserCertificationId();
+
+  if (!certificationId) {
+    return null;
+  }
+
+  return await getUser();
 };

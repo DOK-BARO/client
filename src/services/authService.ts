@@ -5,7 +5,7 @@ import { SocialLoginType } from "../types/SocialLoginType.ts";
 const redirectedUrl = import.meta.env.VITE_AUTH_REDIRECTED_URL;
 
 export const getAuthUrl = async (
-  socialLoginType: SocialLoginType
+  socialLoginType: SocialLoginType,
 ): Promise<string> => {
   console.log("get kakao auth url");
   try {
@@ -21,7 +21,7 @@ export const getAuthUrl = async (
 
 export const login = async (
   socialType: SocialLoginType,
-  token: string
+  token: string,
 ): Promise<AuthResponse> => {
   const postData = {
     token,
@@ -51,7 +51,7 @@ export const login = async (
 export const signup = async (
 
   socialType: SocialLoginType,
-  token: string
+  token: string,
 ): Promise<AuthResponse> => {
   try {
     const postData = {
@@ -60,7 +60,7 @@ export const signup = async (
     };
     const { data } = await axios.post(
       `/auth/oauth2/signup/${socialType}`,
-      postData
+      postData,
     );
     return data; // 임시 임의 리턴값
   } catch (error: unknown) {
@@ -73,5 +73,15 @@ export const signup = async (
     } else {
       throw new Error(`Unexpected error: ${error}`);
     }
+  }
+};
+
+export const getUser = async () => {
+  try {
+    const { data } = await axios.get("/members/login-user");
+    console.log("%o",data);
+    return data;
+  } catch (error) {
+    throw new Error(`책 상세 가져오기 실패: ${error}`);
   }
 };

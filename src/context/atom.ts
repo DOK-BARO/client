@@ -1,7 +1,5 @@
-import { atom } from "recoil";
-import { getCookie } from "../utils/cookieUtils.ts";
+import { atom } from "jotai";
 
-export const isLoggedInState = atom<boolean>({
-  key: "isLoggedIn",
-  default: getCookie("Authorization") ? true : false,
-});
+export const isLoggedInState = atom<boolean>(
+  localStorage.getItem("certificationId") ? true : false,
+);

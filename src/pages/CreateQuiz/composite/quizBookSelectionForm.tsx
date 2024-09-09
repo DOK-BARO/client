@@ -1,7 +1,7 @@
 import Input from "../../../components/atom/input";
 import useInput from "../../../hooks/useInput";
 import styles from "../../../styles/composite/_quiz_book_selection_form.module.scss";
-import { getBookList } from "../../../services/bookService";
+import { getBookList } from "../../../services/server/bookService.ts";
 import { useQuery } from "@tanstack/react-query";
 import { bookKeys } from "../../../data/queryKeys";
 import { useEffect, useState } from "react";

@@ -1,8 +1,8 @@
 import styles from "../../styles/composite/_header_menu_list.module.scss";
 import React from "react";
-import { QuizIcon } from "../../../public/assets/svg/quiz-icon.tsx";
-import { StudyIcon } from "../../../public/assets/svg/study-icon.tsx";
-import { InfoIcon } from "../../../public/assets/svg/info-icon.tsx";
+import { Quiz } from "../../../public/assets/svg/quiz.tsx";
+import { Study } from "../../../public/assets/svg/study.tsx";
+import { Info } from "../../../public/assets/svg/info.tsx";
 import { SVGProps } from "../../types/SVGProps.ts";
 import { ICON_SIZE } from "../../data/constants.ts";
 import { gray70 } from "../../styles/abstracts/colors.ts";
@@ -21,15 +21,15 @@ const iconProps = { width:  ICON_SIZE , height: ICON_SIZE , color: gray70  };
 
 const headerMenuListItems: HeaderMenuListItem[] = [
   {
-    "Icon": QuizIcon,
+    "Icon": Quiz,
     "content": "내 퀴즈",
   },
   {
-    "Icon": StudyIcon,
+    "Icon": Study,
     "content": "스터디 관리",
   },
   {
-    "Icon": InfoIcon,
+    "Icon": Info,
     "content": "도움말",
   },
 ];

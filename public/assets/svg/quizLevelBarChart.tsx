@@ -1,4 +1,5 @@
 import { SVGProps } from "../../../src/types/SVGProps";
+import React from "react";
 
 export const QuizLevelBarChart: React.FC<SVGProps> = ({ alt, ...props }) => {
   return (
@@ -7,7 +8,7 @@ export const QuizLevelBarChart: React.FC<SVGProps> = ({ alt, ...props }) => {
       aria-labelledby="svgTitle"
       width={props.width}
       height={props.height}
-      viewBox="0 0 20 20"
+      viewBox={`0 0 ${props.width} ${props.width}`}
       fill={props.fill || "none"}
       xmlns="http://www.w3.org/2000/svg"
     >

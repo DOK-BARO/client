@@ -1,13 +1,14 @@
 import { SVGProps } from "../../../src/types/SVGProps";
+import React from "react";
 
-export const DokpickIcon: React.FC<SVGProps> = ({ alt, ...props }) => {
+export const DokPick: React.FC<SVGProps> = ({ alt, ...props }) => {
   return (
     <svg
       role="img"
       aria-labelledby="svgTitle"
       width={props.width}
       height={props.height}
-      viewBox="0 0 24 24"
+      viewBox={`0 0 ${props.width} ${props.height}`}
       fill={props.fill || "none"}
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -24,7 +25,6 @@ export const DokpickIcon: React.FC<SVGProps> = ({ alt, ...props }) => {
         <path
           d="M9 12L11 14L15.5 9.5"
           stroke="#3DBF0F"
-          stroke-width="2" stroke-linecap="round"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"

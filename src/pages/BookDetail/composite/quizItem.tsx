@@ -1,8 +1,8 @@
 import { Star } from "@mui/icons-material";
-import { QuizLevelBarChart } from "../../../../public/assets/svg/quiz-level-bar-chart.tsx";
+import { QuizLevelBarChart } from "../../../../public/assets/svg/quizLevelBarChart.tsx";
 import Button from "../../../components/atom/button.tsx";
 import styles from "../../../styles/composite/_quiz_item.module.scss";
-import { DokpickIcon } from "../../../../public/assets/svg/dokpickIcon.tsx";
+import { DokPick } from "../../../../public/assets/svg/dokPick.tsx";
 
 // 임시 Props 정의
 interface Props {
@@ -19,7 +19,7 @@ export default function QuizItem ({ quizLevel, isDokPick }: Props) {
       {
         isDokPick &&
         <div className={styles["dokpick-tag"]}>
-          <DokpickIcon width={24} height={24} />
+          <DokPick width={24} height={24} />
           <span>DOK Pick</span>
         </div>
       }

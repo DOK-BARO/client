@@ -10,6 +10,7 @@ import localApi from "../../services/local/LocalApi.ts";
 import { useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 import { userKeys } from "../../data/queryKeys.ts";
+import { useQueryCurrentUser } from "../../hooks/useQueryCurrentUser.ts";
 
 type HeaderMenuListItem = {
   Icon: React.FC<SVGProps>;
@@ -38,6 +39,7 @@ type Props = {
 }
 
 export default function HeaderMenuList({ closeDropDownList } : Props){
+  const { user, isLoading } = useQueryCurrentUser();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
@@ -48,11 +50,18 @@ export default function HeaderMenuList({ closeDropDownList } : Props){
     navigate("/");
   };
 
+  if(isLoading) {
+    return (
+      <>
+      </>
+    );
+  }
+
   return (
     <ul className={styles["header-menu-list"]}>
       <li className={styles["user-info-container"]}>
-        <span className={styles["user-name"]}>독바로 님</span>
-        <span className={styles["user-email"]}>dokbaro@gmail.com</span>
+        <span className={styles["user-name"]}>{user?.nickName} 님</span>
+        <span className={styles["user-email"]}>{user?.email}</span>
       </li>
       <div className={styles["header-menu-list-item-container"]}>
         {headerMenuListItems.map((item) => (

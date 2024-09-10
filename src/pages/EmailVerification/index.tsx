@@ -6,7 +6,7 @@ export default function index() {
     <div className={styles["email-verification-container"]}>
       <header>
         <a href="/" className={styles.logo}>
-          <img src="/assets/svg/logo.svg" alt="DOKBARO 로고" width={72} />
+          <img src="/assets/svg/logo.tsx" alt="DOKBARO 로고" width={72} />
           <h1>DOKBARO</h1>
         </a>
       </header>

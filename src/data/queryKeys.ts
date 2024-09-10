@@ -5,3 +5,7 @@ export const bookKeys = {
   categories: () => ["bookCategories"] as const,
   list: (param?: GetBookListParams) => ["bookList", param] as const,
 };
+
+export const userKeys = {
+  user : () => ["user"] as const,
+};

@@ -6,6 +6,10 @@ import { InfoIcon } from "../../../public/assets/svg/info-icon.tsx";
 import { SVGProps } from "../../types/SVGProps.ts";
 import { ICON_SIZE } from "../../data/constants.ts";
 import { gray70 } from "../../styles/abstracts/colors.ts";
+import localApi from "../../services/local/LocalApi.ts";
+import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
+import { userKeys } from "../../data/queryKeys.ts";
 
 type HeaderMenuListItem = {
   Icon: React.FC<SVGProps>;
@@ -34,8 +38,14 @@ type Props = {
 }
 
 export default function HeaderMenuList({ closeDropDownList } : Props){
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
   const onClickLogout = () => {
     closeDropDownList();
+    localApi.removeCertification();
+    queryClient.setQueryData(userKeys.user(),null);
+    navigate("/");
   };
 
   return (

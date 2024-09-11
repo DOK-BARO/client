@@ -1,0 +1,36 @@
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
+.terms-agreement {
+  .description {
+    margin-top: 32px;
+    font-size: $font-size-xlarge;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+  legend {
+    @include sr-only;
+  }
+
+  fieldset {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    margin-top: 32px;
+    font-size: 14px;
+    p {
+      color: $gray-60;
+      margin-top: 16px;
+      font-size: $font-size-small;
+    }
+  }
+
+  // 폼
+  form {
+    margin-top: 54px;
+    .all-agree {
+      + label {
+        font-size: $font-size-medium;
+      }
+    }
+  }
+}

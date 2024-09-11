@@ -14,19 +14,17 @@ export default function Index() {
     queryFn: () => getBook(id!),
   });
 
-  if(isLoading){
-    return (<div>loading</div>);
+  if (isLoading) {
+    return <div>loading</div>;
   }
 
-  if(!data){
-    return (
-      <div>book detail page error!!</div>
-    );
+  if (!data) {
+    return <div>book detail page error!!</div>;
   }
 
   return (
     <div className={styles["container"]}>
-      <BookDetailSection bookDetailContent={data!}/>
+      <BookDetailSection bookDetailContent={data!} />
       <QuizListSection />
     </div>
   );

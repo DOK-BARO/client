@@ -1,6 +1,8 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Button from "../../../components/atom/button";
 import styles from "../../../styles/composite/_terms_agreement.module.scss";
+import CheckBox from "../components/checkBox.tsx";
+import { APP_NAME } from "../../../data/constants.ts";
 
 export default function TermsAgreement() {
   const [agreements, setAgreements] = useState({
@@ -13,6 +15,7 @@ export default function TermsAgreement() {
 
   const onAllAgreeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = event.target.checked;
+    console.log("onAllAgreeChange", isChecked);
     setAgreements({
       allAgree: isChecked,
       termsAgree: isChecked,
@@ -24,6 +27,7 @@ export default function TermsAgreement() {
 
   const onSingleAgreeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, checked } = event.target;
+    console.log("onSingleAgreeChange", id, checked);
     setAgreements((prev) => ({
       ...prev,
       [id]: checked,
@@ -36,6 +40,8 @@ export default function TermsAgreement() {
     }));
   };
 
+  const isSubmitAble: boolean = agreements.termsAgree && agreements.privacyAgree;
+  // TODO : 리펙토링 필요
   return (
     <section className={styles["terms-agreement"]}>
       <h4 className={styles["description"]}>
@@ -45,85 +51,81 @@ export default function TermsAgreement() {
       </h4>
       <form>
         {/* 모두 동의 */}
-        <div>
-          <input
+        <div className={styles["agreement-all"]}>
+          <CheckBox
             id="allAgree"
-            className={styles["all-agree"]}
-            type="checkbox"
+            label={"모두 동의 (선택 정보 포함)"}
             checked={agreements.allAgree}
             onChange={onAllAgreeChange}
+            isOutLined={true}
           />
-          <label htmlFor="all-agree">모두 동의 (선택 정보 포함)</label>
         </div>
-        <hr />
+        <div className={styles["agreement-item-container"]}>
 
-        {/* 필수 약관 */}
-        <fieldset>
-          <legend>필수 약관</legend>
-          <div>
-            <input
-              id="termsAgree"
-              type="checkbox"
-              checked={agreements.termsAgree}
-              onChange={onSingleAgreeChange}
-              required
-            />
-            <label htmlFor="termsAgree">[필수] 이용 약관 동의</label>
-            <button type="button">보기</button>
-          </div>
+          {/* 필수 약관 */}
+          <fieldset>
+            <legend>필수 약관</legend>
+            <div className={styles["agreement-item-required"]}>
+              <CheckBox
+                id="termsAgree"
+                label={"[필수] 이용 약관 동의"}
+                checked={agreements.termsAgree}
+                onChange={onSingleAgreeChange}
+                isOutLined={false}
+                required
+              />
+              <button type="button" className={styles["agreement-content-show-button"]}>보기</button>
+            </div>
+            <div className={styles["agreement-item-required"]}>
+              <CheckBox
+                id="privacyAgree"
+                label={"[필수] 개인 정보 수집·이용 동의"}
+                checked={agreements.privacyAgree}
+                onChange={onSingleAgreeChange}
+                isOutLined={false}
+                required
+              />
+              <button type="button" className={styles["agreement-content-show-button"]}>보기</button>
+            </div>
 
-          <div>
-            <input
-              id="privacyAgree"
-              type="checkbox"
-              checked={agreements.privacyAgree}
-              onChange={onSingleAgreeChange}
-              required
-            />
-            <label htmlFor="privacyAgree">
-              [필수] 개인 정보 수집·이용 동의
-            </label>
-            <button type="button">보기</button>
-          </div>
-        </fieldset>
+          </fieldset>
 
-        {/* 선택 약관 */}
-        <fieldset>
-          <legend>선택 약관</legend>
-          <div>
-            <input
-              id="emailNews"
-              type="checkbox"
-              checked={agreements.emailNews}
-              onChange={onSingleAgreeChange}
-            />
-            <label htmlFor="emailNews">
-              [선택] 신규 퀴즈 소식을 이메일로 받기
-            </label>
-            <button type="button">보기</button>
-            <p>관심 도서의 신규 퀴즈 업데이트 소식을 받아보세요!</p>
-          </div>
+          {/* 선택 약관 */}
+          <fieldset>
+            <legend>선택 약관</legend>
+            <div className={styles["agreement-item-optional"]}>
+              <CheckBox
+                id="emailNews"
+                label={"[선택] 신규 퀴즈 소식을 이메일로 받기"}
+                checked={agreements.emailNews}
+                onChange={onSingleAgreeChange}
+                isOutLined={false}
+              />
+              <p className={styles["agreement-item-description"]}>관심도서의 신규 퀴즈 업데이트 소식을 받아보세요!</p>
+            </div>
 
-          <div>
-            <input
-              id="adsEmail"
-              type="checkbox"
-              checked={agreements.adsEmail}
-              onChange={onSingleAgreeChange}
-            />
-            <label htmlFor="adsEmail">
-              [선택] DOKBARO의 광고 메시지를 이메일로 받기
-            </label>
-            <button type="button">보기</button>
-            <p>DOKBARO가 고른 도서 소식을 이메일로 받아보세요!</p>
-          </div>
-        </fieldset>
+            <div className={styles["agreement-item-optional"]}>
+              <CheckBox
+                id="adsEmail"
+                label={`[선택] ${APP_NAME} 광고 메세지를 이메일로 받기`}
+                checked={agreements.adsEmail}
+                onChange={onSingleAgreeChange}
+                isOutLined={false}
+              />
+              <p className={styles["agreement-item-description"]}>{`${APP_NAME}가 고른 도서 소식을 이메일로 받아보세요!`}</p>
+            </div>
+          </fieldset>
+        </div>
         {/* 버튼 사이즈 컨벤션 안맞음 */}
-        <Button size="large" onClick={() => {}}>
-          동의하고 가입하기
+        <Button size="medium"
+          className={styles[isSubmitAble ? "submit" : "submit-disabled"]}
+          disabled={!isSubmitAble}
+          onClick={() => {
+          }}>
+            동의하고 가입하기
         </Button>
       </form>
-      <hr />
+      <hr/>
       <div></div>
     </section>
   );

@@ -1,7 +1,6 @@
 import React, { ReactElement } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import Button from "../atom/button";
-import { AUTH_ACTION, LOCAL_STORAGE_KEY } from "../../data/constants";
 import { SocialLoginType } from "../../types/SocialLoginType";
 import { AuthType } from "../../types/AuthType";
 import styles from "../../styles/components/_social_auth_button.module.scss";
@@ -10,6 +9,7 @@ import { Google } from "../../../public/assets/svg/auth/google.tsx";
 import { Naver } from "../../../public/assets/svg/auth/naver.tsx";
 import { Github } from "../../../public/assets/svg/auth/github.tsx";
 import { Email } from "../../../public/assets/svg/auth/email.tsx";
+import { AUTH_ACTION, LOCAL_STORAGE_KEY } from "../../data/constants.ts";
 
 const SocialAuthButton: React.FC<{
   authType: AuthType;
@@ -19,7 +19,7 @@ const SocialAuthButton: React.FC<{
 
   const handleAuth = async () => {
     const action =
-      authType === AuthType.SIGNUP ? AUTH_ACTION.SIGN_UP : AUTH_ACTION.LOGIN;
+    authType === AuthType.SIGNUP ? AUTH_ACTION.SIGN_UP : AUTH_ACTION.LOGIN;
     localStorage.setItem(LOCAL_STORAGE_KEY.AUTH_ACTION, action);
     await redirectToAuthPage(socialType);
   };

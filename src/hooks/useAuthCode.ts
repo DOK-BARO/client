@@ -8,15 +8,60 @@ import {
 } from "../data/constants.ts";
 import { SocialLoginType } from "../types/SocialLoginType.ts";
 import { User } from "../types/User.ts";
+import axios, { AxiosError } from "axios";
+import { useAuth } from "./useAuth.ts";
 
 export const useAuthCode = (provider: string) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { redirectToAuthPage, loading } = useAuth();
+
   const setUserInLocalStorage = async () => {
     const user:User= await getUser();
     localStorage.setItem("certificationId", user.certificationId); // 로컬 스토리지에 토큰 저장
   };
-  
+
+  const startAuth = async (code: string) => {
+    // try {
+    //   await signup(
+    //     provider.toUpperCase() as SocialLoginType,
+    //     code,
+    //   );
+    //   await setUserInLocalStorage();
+    //   navigate("/");
+    // }catch (error) {
+    //   if(axios.isAxiosError(error)) {
+    //     const axiosError = error as AxiosError;
+    //     if (axiosError.response?.status === 400) {
+    //       //TODO auth코드를 한번 더 받아야 할듯
+    //       await redirectToAuthPage(provider.toUpperCase() as SocialLoginType);
+    //       doLogin(code);
+    //       //throw new Error(`이미 존재하는 계정입니다: ${error}`);
+    //     }
+    //   }
+    // }
+    try {
+      await login(
+        provider.toUpperCase() as SocialLoginType,
+        code,
+      );
+      await setUserInLocalStorage();
+      navigate("/");
+    } catch (error) {
+      if(axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+        if (axiosError.response?.status === 404) {
+          // TODO : 회원가입
+          //doSignUp(code);
+          //TODO: 약관동의 페이지로 이동
+          navigate("/user-auth-agreement");
+        }
+      }
+      console.log("회원가입 오류:", error);
+    }
+  };
+
+
   const doSignUp = async (code: string) => {
     try {
       await signup(
@@ -27,8 +72,13 @@ export const useAuthCode = (provider: string) => {
       navigate("/");
       localStorage.removeItem(LOCAL_STORAGE_KEY.AUTH_ACTION);
     } catch (error) {
+      if(axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+        if (axiosError.response?.status === 400) {
+          throw new Error(`이미 존재하는 계정입니다: ${error}`);
+        }
+      }
       console.log("회원가입 오류:", error);
-      // TODO: 에러 처리 필요
     }
   };
 
@@ -42,8 +92,16 @@ export const useAuthCode = (provider: string) => {
       navigate("/");
       localStorage.removeItem(LOCAL_STORAGE_KEY.AUTH_ACTION);
     } catch (error) {
-      console.log("로그인 오류:", error);
-      // TODO: 에러 처리 필요
+      if(axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+        if (axiosError.response?.status === 404) {
+          // TODO : 회원가입
+          console.log("in 404 login");
+          localStorage.setItem(LOCAL_STORAGE_KEY.AUTH_ACTION, AUTH_ACTION.SIGN_UP);
+          await redirectToAuthPage(provider.toUpperCase() as SocialLoginType);
+          doSignUp(code);
+        }
+      }
     }
   };
 

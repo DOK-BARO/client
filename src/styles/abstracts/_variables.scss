@@ -28,7 +28,7 @@ $font-size-large: 17px;
 $font-size-xlarge: 19px;
 
 $font-size-user-auth-agreement-title: 40px;
-$font-size-user-auth-agreement-content:14px;
+$font-size-user-auth-agreement-content: 14px;
 
 /* Font Weight */
 $font-weight-medium: 500;
@@ -42,18 +42,28 @@ $border-radius-large: 12px;
 /* Button */
 $button-padding-xsmall: 0 10px;
 $button-height-xsmall: 32px;
+$button-font-xsmall: $font-size-medium;
+$button-radius-xsmall: $border-radius-small;
 
 $button-padding-small: 0 12px;
 $button-height-small: 40px;
+$button-font-small: $font-size-medium;
+$button-radius-small: $border-radius-small;
 
 $button-padding-medium: 0 16px;
 $button-height-medium: 48px;
+$button-font-medium: $font-size-large;
+$button-radius-medium: $border-radius-medium;
 
 $button-padding-large: 0 20px;
 $button-height-large: 56px;
+$button-font-large: $font-size-xlarge;
+$button-radius-large: $border-radius-medium;
 
 $button-padding-xlarge: 0 24px;
 $button-height-xlarge: 64px;
+$button-font-xlarge: $font-size-xlarge;
+$button-radius-xlarge: $border-radius-medium;
 
 /* Input Paddings */
 // $input-padding-small: 14.5px 16px;

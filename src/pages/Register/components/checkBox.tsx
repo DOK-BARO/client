@@ -1,7 +1,7 @@
 import styles from "../../../styles/components/_checkbox.module.scss";
-import React  from "react";
+import React from "react";
 import { Check } from "../../../../public/assets/svg/check.tsx";
-import { gray40, primary } from "../../../styles/abstracts/colors.ts";
+import { gray0, gray40, primary } from "../../../styles/abstracts/colors.ts";
 interface CheckBoxProps {
   id: string;
   label: string;
@@ -11,7 +11,14 @@ interface CheckBoxProps {
   required?: boolean;
 }
 
-export default function CheckBox({ id, label, checked, onChange, isOutLined, required }: CheckBoxProps) {
+export default function CheckBox({
+  id,
+  label,
+  checked,
+  onChange,
+  isOutLined,
+  required,
+}: CheckBoxProps) {
   const className = `label-${isOutLined ? "outlined" : "none"}`;
 
   return (
@@ -29,7 +36,9 @@ export default function CheckBox({ id, label, checked, onChange, isOutLined, req
           width={16}
           height={16}
           className={styles["check"]}
-          stroke={isOutLined ? (checked ? "white" : gray40) : (checked ? primary : gray40)}
+          stroke={
+            isOutLined ? (checked ? gray0 : gray40) : checked ? primary : gray40
+          }
         />
         {label}
       </label>

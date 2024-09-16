@@ -4,8 +4,8 @@ import ProfileSet from "./composite/profileSet";
 export default function Index() {
   return (
     <RegisterLayout>
-      {/* <TermsAgreement /> */}
-      <ProfileSet />
+      <TermsAgreement />
+      {/* <ProfileSet /> */}
     </RegisterLayout>
   );
 }

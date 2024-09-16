@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import Button from "../../../components/atom/button";
 import styles from "../../../styles/composite/_terms_agreement.module.scss";
 import CheckBox from "../components/checkBox.tsx";
@@ -15,7 +15,6 @@ export default function TermsAgreement() {
 
   const onAllAgreeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = event.target.checked;
-    console.log("onAllAgreeChange", isChecked);
     setAgreements({
       allAgree: isChecked,
       termsAgree: isChecked,
@@ -42,6 +41,12 @@ export default function TermsAgreement() {
 
   const isSubmitAble: boolean =
     agreements.termsAgree && agreements.privacyAgree;
+
+  const onSubmit = (event: FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+    console.log("동의하고 가입하기");
+  };
+
   // TODO : 리펙토링 필요
   return (
     <section id="terms-agreement" className={styles["terms-agreement"]}>
@@ -50,7 +55,7 @@ export default function TermsAgreement() {
         <br />
         동의해 주세요.
       </p>
-      <form>
+      <form onSubmit={onSubmit}>
         {/* 모두 동의 */}
         <div className={styles["agreement-all"]}>
           <CheckBox
@@ -129,18 +134,14 @@ export default function TermsAgreement() {
             </div>
           </fieldset>
         </div>
-        {/* 버튼 사이즈 컨벤션 안맞음 */}
         <Button
-          size="medium"
+          type="submit"
           className={styles[isSubmitAble ? "submit" : "submit-disabled"]}
           disabled={!isSubmitAble}
-          onClick={() => {}}
         >
           동의하고 가입하기
         </Button>
       </form>
-      <hr />
-      <div></div>
     </section>
   );
 }

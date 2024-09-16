@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "../../../styles/components/_profile_upload.module.scss";
 import { InfoFilled } from "../../../../public/assets/svg/infoFilled";
 import { gray40, gray60 } from "../../../styles/abstracts/colors";
 import Button from "../../../components/atom/button";
 
-export default function ProfileUpload() {
-  const defaultImagePath = "/public/assets/image/default-profile.png";
-  const [imageSrc, setImageSrc] = useState<string>(defaultImagePath);
-
+export default function ProfileUpload({
+  imageSrc,
+  setImageSrc,
+  defaultImagePath,
+}: {
+  imageSrc: string;
+  setImageSrc: React.Dispatch<React.SetStateAction<string>>;
+  defaultImagePath: string;
+}) {
   const onDeleteProfileImage = () => {
     setImageSrc(defaultImagePath);
   };
@@ -30,6 +35,7 @@ export default function ProfileUpload() {
       </div>
       <div className={styles["profile-edit-container"]}>
         <span>
+          {/* TODO: 현재 로그인한 사용자 이메일 계정 가져와서 적용하기 */}
           <p>이메일@gmail.com</p>
           <InfoFilled stroke={gray60} fill={gray40} width={24} />
         </span>

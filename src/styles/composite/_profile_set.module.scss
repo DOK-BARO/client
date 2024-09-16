@@ -11,10 +11,16 @@
     font-size: $font-size-xlarge;
     font-weight: 600;
     line-height: 1.5;
+    margin-bottom: 32px;
   }
 }
-.input {
-  margin-top: 32px;
+.nickname-input {
+  //   margin-top: 32px;
+  border-color: $gray-40;
+}
+.delete {
+  background-color: none;
+  margin: 0;
 }
 .done {
   margin-top: 32px;

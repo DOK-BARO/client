@@ -1,0 +1,25 @@
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
+
+.profile-set {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  .description {
+    margin-top: 32px;
+    font-size: $font-size-xlarge;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+}
+.input {
+  margin-top: 32px;
+}
+.done {
+  margin-top: 32px;
+  width: 100%;
+  background-color: $primary;
+  color: $gray-00;
+  font-weight: 700;
+}

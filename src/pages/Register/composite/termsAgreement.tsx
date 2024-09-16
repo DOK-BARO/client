@@ -40,15 +40,16 @@ export default function TermsAgreement() {
     }));
   };
 
-  const isSubmitAble: boolean = agreements.termsAgree && agreements.privacyAgree;
+  const isSubmitAble: boolean =
+    agreements.termsAgree && agreements.privacyAgree;
   // TODO : 리펙토링 필요
   return (
-    <section className={styles["terms-agreement"]}>
-      <h4 className={styles["description"]}>
+    <section id="terms-agreement" className={styles["terms-agreement"]}>
+      <p className={styles["description"]}>
         DOKBARO의 서비스 이용약관에
         <br />
         동의해 주세요.
-      </h4>
+      </p>
       <form>
         {/* 모두 동의 */}
         <div className={styles["agreement-all"]}>
@@ -61,7 +62,6 @@ export default function TermsAgreement() {
           />
         </div>
         <div className={styles["agreement-item-container"]}>
-
           {/* 필수 약관 */}
           <fieldset>
             <legend>필수 약관</legend>
@@ -74,7 +74,12 @@ export default function TermsAgreement() {
                 isOutLined={false}
                 required
               />
-              <button type="button" className={styles["agreement-content-show-button"]}>보기</button>
+              <button
+                type="button"
+                className={styles["agreement-content-show-button"]}
+              >
+                보기
+              </button>
             </div>
             <div className={styles["agreement-item-required"]}>
               <CheckBox
@@ -85,9 +90,13 @@ export default function TermsAgreement() {
                 isOutLined={false}
                 required
               />
-              <button type="button" className={styles["agreement-content-show-button"]}>보기</button>
+              <button
+                type="button"
+                className={styles["agreement-content-show-button"]}
+              >
+                보기
+              </button>
             </div>
-
           </fieldset>
 
           {/* 선택 약관 */}
@@ -101,7 +110,9 @@ export default function TermsAgreement() {
                 onChange={onSingleAgreeChange}
                 isOutLined={false}
               />
-              <p className={styles["agreement-item-description"]}>관심도서의 신규 퀴즈 업데이트 소식을 받아보세요!</p>
+              <p className={styles["agreement-item-description"]}>
+                관심도서의 신규 퀴즈 업데이트 소식을 받아보세요!
+              </p>
             </div>
 
             <div className={styles["agreement-item-optional"]}>
@@ -112,20 +123,23 @@ export default function TermsAgreement() {
                 onChange={onSingleAgreeChange}
                 isOutLined={false}
               />
-              <p className={styles["agreement-item-description"]}>{`${APP_NAME}가 고른 도서 소식을 이메일로 받아보세요!`}</p>
+              <p
+                className={styles["agreement-item-description"]}
+              >{`${APP_NAME}가 고른 도서 소식을 이메일로 받아보세요!`}</p>
             </div>
           </fieldset>
         </div>
         {/* 버튼 사이즈 컨벤션 안맞음 */}
-        <Button size="medium"
+        <Button
+          size="medium"
           className={styles[isSubmitAble ? "submit" : "submit-disabled"]}
           disabled={!isSubmitAble}
-          onClick={() => {
-          }}>
-            동의하고 가입하기
+          onClick={() => {}}
+        >
+          동의하고 가입하기
         </Button>
       </form>
-      <hr/>
+      <hr />
       <div></div>
     </section>
   );

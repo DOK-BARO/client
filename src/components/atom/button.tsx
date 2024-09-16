@@ -4,6 +4,7 @@ import styles from "../../styles/components/_button.module.scss";
 interface ButtonProps {
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   children: ReactNode;
+  id?: string;
   size?: "xsmall" | "small" | "medium" | "large" | "xlarge";
   mode?: "default" | "error";
   disabled?: boolean;
@@ -17,6 +18,7 @@ interface ButtonProps {
 const Button: React.FC<ButtonProps> = ({
   onClick,
   children,
+  id,
   className: customClassName,
   disabled = false,
   size = "medium",
@@ -30,6 +32,8 @@ const Button: React.FC<ButtonProps> = ({
   }`;
   return (
     <button
+      id={id}
+      type="button"
       value={value}
       onClick={(e) => onClick(e)}
       className={className}

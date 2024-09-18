@@ -1,27 +1,21 @@
-import { Dispatch, SetStateAction } from "react";
 import styles from "../../../styles/layout/_register_layout.module.scss";
-import { Step } from "../../CreateQuiz";
+import { Outlet, useLocation } from "react-router-dom";
+import ProgressBar from "../components/progressBar";
 
-const RegisterLayout = ({
-  steps,
-  currentStep,
-  setCurrentStep,
-}: {
-  steps: Partial<Step>[];
-  currentStep: number;
-  setCurrentStep: Dispatch<SetStateAction<number>>;
-}) => {
-  // const [greeting] = useState<string>("반가워요!");
+const RegisterLayout = () => {
+  const location = useLocation();
+  const pathSegments = location.pathname.split("/");
+  const step = Number(pathSegments[pathSegments.length - 1]);
+  const greeting = step === 1 ? "반가워요" : "끝이에요";
+
   return (
     <section className={styles["register-layout"]}>
       <header>
         <h2>회원가입</h2>
-        <h3 className={styles["greeting"]}>{steps[currentStep].title}</h3>
-        <div className={styles["progress-container"]}>
-          <div className={styles["progress-bar"]} />
-        </div>
+        <p className={styles["greeting"]}>{greeting}!</p>
+        <ProgressBar step={step} />
       </header>
-      <main>{steps[currentStep].formComponent!({ setCurrentStep })}</main>
+      <Outlet />
     </section>
   );
 };

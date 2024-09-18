@@ -26,7 +26,8 @@ export default function ProfileSet() {
   };
 
   return (
-    <div className={styles["profile-set"]}>
+    <section className={styles["profile-set"]}>
+      <h3>프로필 설정</h3>
       <p className={styles.description}>프로필을 설정해 주세요.</p>
       <form onSubmit={onSubmit}>
         <ProfileUpload
@@ -58,6 +59,6 @@ export default function ProfileSet() {
           완료
         </Button>
       </form>
-    </div>
+    </section>
   );
 }

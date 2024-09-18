@@ -1,4 +1,8 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+  RouterProvider,
+  createBrowserRouter,
+  Navigate,
+} from "react-router-dom";
 import "./styles/main.scss";
 import Index from "./pages/Home/index.tsx";
 import axios from "axios";
@@ -10,6 +14,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import CreateQuiz from "./pages/CreateQuiz/index.tsx";
 import EmailVerification from "./pages/EmailVerification/index.tsx";
 import Register from "./pages/Register/index.tsx";
+import TermsAgreement from "./pages/Register/composite/termsAgreement.tsx";
+import ProfileSet from "./pages/Register/composite/profileSet.tsx";
 import RegisterComplete from "./pages/Register/composite/RegisterComplete.tsx";
 
 function App() {
@@ -37,11 +43,26 @@ function App() {
         {
           path: "/register",
           element: <Register />,
+          children: [
+            {
+              index: true,
+              element: <Navigate to="1" />,
+            },
+            {
+              path: "1",
+              element: <TermsAgreement />,
+            },
+            {
+              path: "2",
+              element: <ProfileSet />,
+            },
+          ],
         },
         {
           path: "/register/complete",
           element: <RegisterComplete />,
         },
+
         {
           // 공용 컴포넌트 미리보기를 위한 페이지
           path: "/component-test",

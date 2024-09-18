@@ -2,10 +2,10 @@
 @import "../abstracts/mixins";
 
 .container {
-  @include flex(column);
+  @include flex(column, center);
   position: relative;
   flex-grow: 1;
-  width: 100%;
+  // width: 100%;
 }
 
 .input-wrapper {

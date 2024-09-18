@@ -5,11 +5,13 @@ interface InputProps {
   id: string;
   value: string;
   className?: string;
+  type?: "text" | "number" | "password";
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   size?: "large" | "medium" | "small";
-  message?: string;
+  message?: string | JSX.Element;
   isError?: boolean;
+  isSuccess?: boolean;
   disabled?: boolean;
   label?: string;
   leftIcon?: JSX.Element;
@@ -21,10 +23,12 @@ const Input: React.FC<InputProps> = ({
   value,
   onChange,
   className: customClassName,
+  type = "text",
   placeholder,
   size = "medium",
   message = "",
   isError = false,
+  isSuccess = false,
   disabled = false,
   label,
   leftIcon,
@@ -32,9 +36,9 @@ const Input: React.FC<InputProps> = ({
 }) => {
   const className = `${styles.input} ${styles[`input--${size}`]} ${
     isError ? styles["input--error"] : ""
-  } ${leftIcon ? styles["input--left-icon"] : ""} ${
-    rightIcon ? styles["input--right-icon"] : ""
-  } ${customClassName || ""}`;
+  } ${isSuccess ? styles["input--success"] : ""} ${
+    leftIcon ? styles["input--left-icon"] : ""
+  } ${rightIcon ? styles["input--right-icon"] : ""} ${customClassName || ""}`;
 
   return (
     <div className={styles["container"]}>
@@ -46,6 +50,7 @@ const Input: React.FC<InputProps> = ({
       <div className={styles["input-wrapper"]}>
         {leftIcon && <span className={styles["icon-left"]}>{leftIcon}</span>}
         <input
+          type={type}
           id={id}
           disabled={disabled}
           value={value}
@@ -56,9 +61,15 @@ const Input: React.FC<InputProps> = ({
         {rightIcon && <span className={styles["icon-right"]}>{rightIcon}</span>}
       </div>
       {message && (
-        <span className={styles[`message${isError ? "--error" : ""}`]}>
+        <div
+          className={
+            styles[
+              `message${isError ? "--error" : isSuccess ? "--success" : ""}`
+            ]
+          }
+        >
           {message}
-        </span>
+        </div>
       )}
     </div>
   );

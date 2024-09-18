@@ -3,15 +3,21 @@ import { Outlet, useParams } from "react-router-dom";
 import ProgressBar from "../components/progressBar";
 
 const SocialRegisterLayout = () => {
-  const { step } = useParams();
-  const greeting = step === "1" ? "반가워요" : "끝이에요";
+  const { step } = useParams<{ step: string }>();
+
+  const titles: Record<string, string> = {
+    "1": "반가워요!",
+    "2": "끝이에요!",
+  };
+
+  const title = titles[step || ""] || "";
 
   return (
     <section className={styles["register-layout"]}>
       <header>
         <h2>소셜 계정으로 회원가입</h2>
-        <p className={styles["greeting"]}>{greeting}!</p>
-        <ProgressBar step={Number(step)} />
+        <p className={styles["title"]}>{title}</p>
+        <ProgressBar ratio={Number(step) / 2} />
       </header>
       <Outlet context={"social"} />
     </section>

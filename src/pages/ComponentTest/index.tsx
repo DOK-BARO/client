@@ -31,9 +31,7 @@ export default function Index() {
 
   return (
     <>
-      <button onClick={getUser}>
-        유저 데이터 가져오는 버튼
-      </button>
+      <button onClick={getUser}>유저 데이터 가져오는 버튼</button>
       <RadioButton
         options={options}
         selectedValue={selectedValue}
@@ -117,8 +115,8 @@ export default function Index() {
         placeholder="플레이스홀더"
         label="설명 레이블"
         message="대소문자 어쩌구"
-        leftIcon={<Invisible stroke={gray60} width={20} />}
-        rightIcon={<Invisible stroke={gray60} width={20} />}
+        leftIcon={<Invisible stroke={gray60} width={24} />}
+        rightIcon={<Invisible stroke={gray60} width={24} />}
       />
       <Input
         size="large"
@@ -130,8 +128,8 @@ export default function Index() {
         placeholder="플레이스홀더"
         label="설명 레이블"
         message="대소문자 어쩌구"
-        leftIcon={<Invisible stroke={gray60} width={20} />}
-        rightIcon={<Invisible stroke={gray60} width={20} />}
+        leftIcon={<Invisible stroke={gray60} width={24} />}
+        rightIcon={<Invisible stroke={gray60} width={24} />}
       />
     </>
   );

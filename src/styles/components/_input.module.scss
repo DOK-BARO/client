@@ -2,9 +2,9 @@
 @import "../abstracts/mixins";
 
 .container {
-  @include flex(column, center);
+  @include flex(column);
   position: relative;
-  flex-grow: 1;
+  // flex-grow: 1;
   // width: 100%;
 }
 
@@ -24,9 +24,14 @@
   color: $gray-60;
   font-size: $font-size-small;
   margin-top: 12px;
+  text-align: left;
   &--error {
     @extend .message;
     color: $system-danger;
+  }
+  &--success {
+    @extend .message;
+    color: $system-success;
   }
 }
 
@@ -53,9 +58,11 @@
   }
 
   &--error {
-    box-shadow: 0 0 0 2px $system-danger;
+    border: 1px solid $system-danger;
   }
-
+  &--success {
+    border: 1px solid $system-success;
+  }
   &--left-icon {
     padding-left: 44px;
   }

@@ -1,8 +1,8 @@
 import React, { FormEvent, useState } from "react";
-import Button from "../../../components/atom/button";
-import styles from "../../../styles/composite/_terms_agreement.module.scss";
-import CheckBox from "../components/checkBox.tsx";
-import { APP_NAME } from "../../../data/constants.ts";
+import Button from "../../../../components/atom/button.tsx";
+import styles from "../../../../styles/composite/_terms_agreement.module.scss";
+import CheckBox from "../../components/checkBox.tsx";
+import { APP_NAME } from "../../../../data/constants.ts";
 import { useNavigate } from "react-router-dom";
 
 export default function TermsAgreement() {
@@ -47,8 +47,7 @@ export default function TermsAgreement() {
   const onSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     console.log("동의하고 가입하기");
-    navigate("/register/2");
-    // setCurrentStep((prev) => prev + 1);
+    navigate("/register/social/2");
   };
 
   // TODO : 리펙토링 필요

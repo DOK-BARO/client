@@ -1,0 +1,85 @@
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
+.terms-agreement {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  h3 {
+    @include sr-only;
+  }
+  .description {
+    margin-top: 32px;
+    font-size: $font-size-xlarge;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  legend {
+    @include sr-only;
+  }
+
+  fieldset {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    font-size: 14px;
+
+    p {
+      color: $gray-60;
+      font-size: $font-size-small;
+      margin-left: 28px;
+    }
+  }
+
+  // 폼
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    .agreement-all {
+      padding: 22px 0;
+      border-bottom: 1px solid $gray-40;
+    }
+
+    .agreement-item-container {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .agreement-item-required {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+    }
+
+    .agreement-item-optional {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .agreement-content-show-button {
+      border: none;
+      background: none;
+      text-decoration: underline;
+      font-size: $font-size-small;
+      color: $gray-90;
+    }
+  }
+}
+
+.submit {
+  background-color: $primary;
+  color: white;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-large;
+}
+
+.submit-disabled {
+  background-color: $gray-20;
+  color: $gray-60;
+  font-weight: $font-weight-semibold;
+  font-size: $font-size-large;
+}

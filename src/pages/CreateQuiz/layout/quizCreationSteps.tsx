@@ -22,6 +22,7 @@ export default function QuizCreationSteps({
   };
   return (
     <section className={styles["container"]}>
+      {/* TODO: section 안에 heading 태그 넣기 */}
       {steps.map((step) => (
         <Button
           onClick={(e) => onChangeStep(e)}

@@ -95,20 +95,18 @@ const SettingContainer = ({ quizSetting }: { quizSetting: QuizSetting }) => {
   }, [label]);
 
   return (
-    <>
-      <div className={styles["quiz-setting-container"]}>
-        <label htmlFor={name}>편집 권한</label>
-        <select name={name} id={quizSetting.name} onChange={onSelect}>
-          {options.map((option: QuizSettingOption) => (
-            <option value={option.label}>{option.label}</option>
-          ))}
-        </select>
+    <div className={styles["quiz-setting-container"]}>
+      <label htmlFor={name}>편집 권한</label>
+      <select name={name} id={quizSetting.name} onChange={onSelect}>
+        {options.map((option: QuizSettingOption) => (
+          <option value={option.label}>{option.label}</option>
+        ))}
+      </select>
 
-        <span className={styles["desc"]}>
-          {/* 옵션 label에 맞는 desc을 보여줘야 함. */}
-          {description}
-        </span>
-      </div>
-    </>
+      <span className={styles["desc"]}>
+        {/* 옵션 label에 맞는 desc을 보여줘야 함. */}
+        {description}
+      </span>
+    </div>
   );
 };

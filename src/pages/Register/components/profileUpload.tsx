@@ -31,7 +31,11 @@ export default function ProfileUpload({
   return (
     <div className={styles["profile-upload-container"]}>
       <div className={styles["custom-file-upload"]}>
-        <img src={imageSrc} alt="Profile" className={styles["profile-image"]} />
+        <img
+          src={imageSrc}
+          alt="프로필 이미지"
+          className={styles["profile-image"]}
+        />
       </div>
       <div className={styles["profile-edit-container"]}>
         <span>

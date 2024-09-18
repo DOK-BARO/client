@@ -1,10 +1,14 @@
-import React, { FormEvent, useState } from "react";
+import React, { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import Button from "../../../components/atom/button";
 import styles from "../../../styles/composite/_terms_agreement.module.scss";
 import CheckBox from "../components/checkBox.tsx";
 import { APP_NAME } from "../../../data/constants.ts";
 
-export default function TermsAgreement() {
+export default function TermsAgreement({
+  setCurrentStep,
+}: {
+  setCurrentStep: Dispatch<SetStateAction<number>>;
+}) {
   const [agreements, setAgreements] = useState({
     allAgree: false,
     termsAgree: false,
@@ -45,11 +49,12 @@ export default function TermsAgreement() {
   const onSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     console.log("동의하고 가입하기");
+    setCurrentStep((prev) => prev + 1);
   };
 
   // TODO : 리펙토링 필요
   return (
-    <section id="terms-agreement" className={styles["terms-agreement"]}>
+    <div className={styles["terms-agreement"]}>
       <p className={styles["description"]}>
         DOKBARO의 서비스 이용약관에
         <br />
@@ -142,6 +147,6 @@ export default function TermsAgreement() {
           동의하고 가입하기
         </Button>
       </form>
-    </section>
+    </div>
   );
 }

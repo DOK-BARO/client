@@ -10,6 +10,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import CreateQuiz from "./pages/CreateQuiz/index.tsx";
 import EmailVerification from "./pages/EmailVerification/index.tsx";
 import Register from "./pages/Register/index.tsx";
+import RegisterComplete from "./pages/Register/composite/RegisterComplete.tsx";
 
 function App() {
   axios.defaults.withCredentials = true;
@@ -36,6 +37,10 @@ function App() {
         {
           path: "/register",
           element: <Register />,
+        },
+        {
+          path: "/register/complete",
+          element: <RegisterComplete />,
         },
         {
           // 공용 컴포넌트 미리보기를 위한 페이지

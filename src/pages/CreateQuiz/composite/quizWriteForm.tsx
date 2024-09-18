@@ -31,7 +31,7 @@ export default function QuizWriteForm() {
   }, [optionList]);
 
   return (
-    <section className={styles["write-quiz"]}>
+    <div className={styles["write-quiz"]}>
       <div className={styles["quiz-mode-buttons"]}>
         <Button
           value="question"
@@ -106,6 +106,6 @@ export default function QuizWriteForm() {
           />
         </div>
       </fieldset>
-    </section>
+    </div>
   );
 }

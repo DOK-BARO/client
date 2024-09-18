@@ -16,7 +16,7 @@ export default function quizCreationFormLayout({
     <section className={styles["container"]}>
       <h3 className={styles["title"]}>{steps[currentStep].title}</h3>
       <h4 className={styles["step-desc"]}>{steps[currentStep].description}</h4>
-      {steps[currentStep].formComponent}
+      {steps[currentStep]!.formComponent()}
       <div className={styles["next-container"]}>
         <Button
           className={styles["next"]}

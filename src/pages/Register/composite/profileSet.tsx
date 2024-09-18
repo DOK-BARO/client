@@ -6,6 +6,7 @@ import ProfileUpload from "../components/profileUpload";
 import { XCircle } from "../../../../public/assets/svg/xCircle";
 import { gray30, gray60 } from "../../../styles/abstracts/colors";
 import { FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function ProfileSet() {
   const isSubmitAble: boolean = true;
@@ -16,14 +17,16 @@ export default function ProfileSet() {
   } = useInput("");
   const defaultImagePath = "/public/assets/image/default-profile.png";
   const [imageSrc, setImageSrc] = useState<string>(defaultImagePath);
+  const navigate = useNavigate();
 
   const onSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     console.log("닉네임:", nickname, ", 프로필 이미지 사진", imageSrc);
+    navigate("/register/complete");
   };
 
   return (
-    <section id="profile-set" className={styles["profile-set"]}>
+    <div className={styles["profile-set"]}>
       <p className={styles.description}>프로필을 설정해 주세요.</p>
       <form onSubmit={onSubmit}>
         <ProfileUpload
@@ -55,6 +58,6 @@ export default function ProfileSet() {
           완료
         </Button>
       </form>
-    </section>
+    </div>
   );
 }

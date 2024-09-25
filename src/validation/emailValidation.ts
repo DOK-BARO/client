@@ -1,6 +1,6 @@
 // 이메일 검증
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export const isValidEmail = (email: string): boolean => {
-  return emailRegex.test(email);
-};
+export const emailValidation = [
+  { rule: (val: string) => emailRegex.test(val), message: "이메일 형식" },
+];

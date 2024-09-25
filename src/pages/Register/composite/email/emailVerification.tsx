@@ -7,13 +7,13 @@ import useInput from "../../../../hooks/useInput";
 import styles from "../../../../styles/composite/_email_verification.module.scss";
 import { Close } from "../../../../../public/assets/svg/close";
 import { systemDanger } from "../../../../styles/abstracts/colors";
-import { isValidEmail } from "../../../../validation/emailValidation";
+import { emailValidation } from "../../../../validation/emailValidation";
 export default function EmailVerification() {
   const {
     value: email,
     onChange: onEmailChange,
     isValid: isEmailValid,
-  } = useInput("", isValidEmail);
+  } = useInput("", emailValidation);
   const navigate = useNavigate();
 
   const onSubmit = (): void => {
@@ -30,14 +30,16 @@ export default function EmailVerification() {
       </p>
       <Input
         message={
-          !isEmailValid ? (
+          isEmailValid === false ? (
             <span style={{ display: "flex", alignItems: "center", gap: "3px" }}>
               옳지 않은 형식의 이메일입니다.
               <Close stroke={systemDanger} width={20} height={20} />
             </span>
-          ) : undefined
+          ) : (
+            <></>
+          )
         }
-        isError={!isEmailValid}
+        isError={isEmailValid === false ? true : undefined}
         id="email"
         className={styles.email}
         value={email}

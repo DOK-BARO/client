@@ -12,13 +12,15 @@ import {
   systemSuccess,
 } from "../../../../styles/abstracts/colors";
 import { Invisible } from "../../../../../public/assets/svg/invisible";
-import { isValidPassword } from "../../../../validation/passwordValidation";
+import { passwordValidation } from "../../../../validation/passwordValidation";
+
 export default function PasswordSet() {
   const {
     value: password,
     onChange: onPasswordChange,
     isValid: isPasswordValid,
-  } = useInput("", isValidPassword);
+    validations: passwordValidations,
+  } = useInput("", passwordValidation);
   const { value: passwordCheck, onChange: onPasswordCheckChange } =
     useInput("");
 
@@ -28,7 +30,9 @@ export default function PasswordSet() {
   const onSubmit = (): void => {
     navigate("/register/email/3");
   };
-  // alert("isValid", isValidPassword);
+  // console.log("isValid", isPasswordValid);
+  console.log(passwordValidations);
+
   return (
     <section className={styles["password-set"]}>
       <h3>비밀번호 입력</h3>
@@ -41,45 +45,22 @@ export default function PasswordSet() {
         type="password"
         isSuccess={isPasswordValid}
         message={
-          isPasswordValid ? (
-            <div className={styles["message-container"]}>
-              <span className={styles["icon-container"]}>
-                대소문자
+          <div className={styles["message-container"]}>
+            {Object.entries(passwordValidations).map(([key, isValid]) => (
+              <span key={key} className={styles["icon-container"]}>
+                <span style={{ color: !isValid ? gray40 : systemSuccess }}>
+                  {key}
+                </span>
                 <Check
                   width={20}
                   height={20}
-                  stroke={!isValidPassword ? gray40 : systemSuccess}
+                  stroke={!isValid ? gray40 : systemSuccess}
                 />
               </span>
-              <span className={styles["icon-container"]}>
-                숫자
-                <Check
-                  width={20}
-                  height={20}
-                  stroke={!isValidPassword ? gray40 : systemSuccess}
-                />
-              </span>
-              <span className={styles["icon-container"]}>
-                특수문자
-                <Check
-                  width={20}
-                  height={20}
-                  stroke={!isValidPassword ? gray40 : systemSuccess}
-                />
-              </span>
-              <span className={styles["icon-container"]}>
-                8-20자 이내
-                <Check
-                  width={20}
-                  height={20}
-                  stroke={!isValidPassword ? gray40 : systemSuccess}
-                />
-              </span>
-            </div>
-          ) : undefined
+            ))}
+          </div>
         }
         rightIcon={<Invisible stroke={gray60} width={24} />}
-        isError={!isPasswordValid}
         id="password"
         className={styles.password}
         value={password}

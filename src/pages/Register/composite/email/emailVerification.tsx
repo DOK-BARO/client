@@ -5,9 +5,15 @@ import useInput from "../../../../hooks/useInput";
 
 // 공용으로 사용되는 스타일 (파일명 바꾸기?)
 import styles from "../../../../styles/composite/_email_verification.module.scss";
+import { Close } from "../../../../../public/assets/svg/close";
+import { systemDanger } from "../../../../styles/abstracts/colors";
+import { isValidEmail } from "../../../../validation/emailValidation";
 export default function EmailVerification() {
-  const { value: email, onChange: onEmailChange } = useInput("");
-  const isError = false;
+  const {
+    value: email,
+    onChange: onEmailChange,
+    isValid: isEmailValid,
+  } = useInput("", isValidEmail);
   const navigate = useNavigate();
 
   const onSubmit = (): void => {
@@ -23,8 +29,15 @@ export default function EmailVerification() {
         아이디(이메일)을 입력해 주세요.
       </p>
       <Input
-        message={isError ? "옳지 않은 형식의 이메일입니다." : undefined}
-        isError={isError}
+        message={
+          !isEmailValid ? (
+            <span style={{ display: "flex", alignItems: "center", gap: "3px" }}>
+              옳지 않은 형식의 이메일입니다.
+              <Close stroke={systemDanger} width={20} height={20} />
+            </span>
+          ) : undefined
+        }
+        isError={!isEmailValid}
         id="email"
         className={styles.email}
         value={email}

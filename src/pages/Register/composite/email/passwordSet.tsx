@@ -9,10 +9,13 @@ import { Check } from "../../../../../public/assets/svg/check";
 import {
   gray40,
   gray60,
+  systemDanger,
   systemSuccess,
 } from "../../../../styles/abstracts/colors";
 import { Invisible } from "../../../../../public/assets/svg/invisible";
 import { passwordValidation } from "../../../../validation/passwordValidation";
+import { useEffect, useState } from "react";
+import { Close } from "../../../../../public/assets/svg/close";
 
 export default function PasswordSet() {
   const {
@@ -24,14 +27,28 @@ export default function PasswordSet() {
   const { value: passwordCheck, onChange: onPasswordCheckChange } =
     useInput("");
 
-  const isSuccess: boolean = true;
   const navigate = useNavigate();
+  const [step, setStep] = useState<number>(1);
 
   const onSubmit = (): void => {
     navigate("/register/email/3");
   };
-  // console.log("isValid", isPasswordValid);
-  console.log(passwordValidations);
+
+  const moveToNext = (): void => {
+    setStep(2);
+  };
+
+  useEffect(() => {
+    setPasswordMatched(password === passwordCheck);
+    if (!passwordCheck) {
+      setPasswordMatched(undefined);
+    }
+  }, [passwordCheck]);
+
+  // const passwordMatched: boolean = false;
+  const [passwordMatched, setPasswordMatched] = useState<boolean | undefined>(
+    undefined
+  );
 
   return (
     <section className={styles["password-set"]}>
@@ -45,12 +62,12 @@ export default function PasswordSet() {
         type="password"
         isSuccess={isPasswordValid}
         message={
-          <div className={styles["message-container"]}>
+          <div className={styles["password-message-container"]}>
             {Object.entries(passwordValidations).map(([key, isValid]) => (
               <span key={key} className={styles["icon-container"]}>
-                <span style={{ color: !isValid ? gray40 : systemSuccess }}>
+                <p style={{ color: !isValid ? gray40 : systemSuccess }}>
                   {key}
-                </span>
+                </p>
                 <Check
                   width={20}
                   height={20}
@@ -68,7 +85,7 @@ export default function PasswordSet() {
         placeholder="비밀번호 입력"
         size="large"
       />
-      {isSuccess && (
+      {step === 2 && (
         <>
           <p className={styles["password-check-desc"]}>
             비밀번호를 다시 한 번 입력해 주세요.
@@ -77,19 +94,35 @@ export default function PasswordSet() {
             id="password-check"
             value={passwordCheck}
             onChange={onPasswordCheckChange}
+            className={styles["password-check"]}
             placeholder="비밀번호를 다시 한 번 입력해 주세요."
             size="large"
             type="password"
             rightIcon={<Invisible stroke={gray60} width={24} />}
+            isError={!passwordMatched}
+            isSuccess={passwordMatched}
+            message={
+              passwordMatched !== undefined ? (
+                <span className={styles["password-check-message-container"]}>
+                  <p>{passwordMatched ? "비밀번호 일치" : "비밀번호 불일치"}</p>
+                  {passwordMatched ? (
+                    <Check stroke={systemSuccess} width={20} height={20} />
+                  ) : (
+                    <Close stroke={systemDanger} width={20} height={20} />
+                  )}
+                </span>
+              ) : (
+                <></>
+              )
+            }
           />
         </>
       )}
       <Button
-        disabled={false}
-        // disabledBackground
+        disabled={!isPasswordValid}
         className={styles.next}
         size="medium"
-        onClick={onSubmit}
+        onClick={step === 1 ? moveToNext : onSubmit}
       >
         다음
       </Button>

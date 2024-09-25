@@ -31,8 +31,8 @@ export default function EmailVerification() {
       <Input
         message={
           isEmailValid === false ? (
-            <span style={{ display: "flex", alignItems: "center", gap: "3px" }}>
-              옳지 않은 형식의 이메일입니다.
+            <span className={styles["message-container"]}>
+              <p>옳지 않은 형식의 이메일입니다.</p>
               <Close stroke={systemDanger} width={20} height={20} />
             </span>
           ) : (

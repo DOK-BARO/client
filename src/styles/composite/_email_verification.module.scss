@@ -19,4 +19,10 @@
     color: $gray-00;
     margin-top: 32px;
   }
+
+  .message-container {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
 }

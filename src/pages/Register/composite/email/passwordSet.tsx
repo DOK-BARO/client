@@ -16,6 +16,9 @@ import { Invisible } from "../../../../../public/assets/svg/invisible";
 import { passwordValidation } from "../../../../validation/passwordValidation";
 import { useEffect, useState } from "react";
 import { Close } from "../../../../../public/assets/svg/close";
+import { useAtom } from "jotai";
+import { User } from "../../../../types/User";
+import { userAtom } from "../../../../store/userAtom";
 
 export default function PasswordSet() {
   const {
@@ -27,10 +30,16 @@ export default function PasswordSet() {
   const { value: passwordCheck, onChange: onPasswordCheckChange } =
     useInput("");
 
+  const [user, setUser] = useAtom<User>(userAtom);
+
   const navigate = useNavigate();
   const [step, setStep] = useState<number>(1);
 
   const onSubmit = (): void => {
+    setUser({
+      ...user,
+      password,
+    });
     navigate("/register/email/3");
   };
 

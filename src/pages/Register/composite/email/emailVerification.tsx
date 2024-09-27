@@ -8,7 +8,12 @@ import styles from "../../../../styles/composite/_email_verification.module.scss
 import { Close } from "../../../../../public/assets/svg/close";
 import { systemDanger } from "../../../../styles/abstracts/colors";
 import { emailValidation } from "../../../../validation/emailValidation";
+import { useAtom } from "jotai";
+import { userAtom } from "../../../../store/userAtom";
+import { User } from "../../../../types/User";
+
 export default function EmailVerification() {
+  const [user, setUser] = useAtom<User>(userAtom);
   const {
     value: email,
     onChange: onEmailChange,
@@ -17,6 +22,10 @@ export default function EmailVerification() {
   const navigate = useNavigate();
 
   const onSubmit = (): void => {
+    setUser({
+      ...user,
+      email,
+    });
     navigate("/register/email/2");
   };
 

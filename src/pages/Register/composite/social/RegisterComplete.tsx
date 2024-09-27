@@ -1,8 +1,8 @@
-import styles from "../../../styles/composite/_register_complete.module.scss";
-import src from "../../../../public/assets/image/register-complete.png";
-import Input from "../../../components/atom/input";
-import useInput from "../../../hooks/useInput";
-import Button from "../../../components/atom/button";
+import styles from "../../../../styles/composite/_register_complete.module.scss";
+import src from "../../../../../public/assets/image/register-complete.png";
+import Input from "../../../../components/atom/input";
+import useInput from "../../../../hooks/useInput";
+import Button from "../../../../components/atom/button";
 
 export default function RegisterComplete() {
   const name = "독바로";

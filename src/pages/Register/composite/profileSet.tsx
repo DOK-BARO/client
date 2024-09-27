@@ -5,8 +5,11 @@ import styles from "../../../styles/composite/_profile_set.module.scss";
 import ProfileUpload from "../components/profileUpload";
 import { XCircle } from "../../../../public/assets/svg/xCircle";
 import { gray30, gray60 } from "../../../styles/abstracts/colors";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAtom } from "jotai";
+import { User } from "../../../types/User";
+import { userAtom } from "../../../store/userAtom";
 
 export default function ProfileSet() {
   const isSubmitAble: boolean = true;
@@ -16,26 +19,42 @@ export default function ProfileSet() {
     resetInput,
   } = useInput("");
   const defaultImagePath = "/public/assets/image/default-profile.png";
-  const [imageSrc, setImageSrc] = useState<string>(defaultImagePath);
+  const [profileImage, setProfileImage] = useState<string>(defaultImagePath);
   const navigate = useNavigate();
+  const [user, setUser] = useAtom<User>(userAtom);
 
   const onSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    console.log("닉네임:", nickname, ", 프로필 이미지 사진", imageSrc);
-    navigate("/register/complete");
+    setUser({
+      ...user,
+      nickname,
+      profileImage,
+    });
+    // navigate("/register/complete");
   };
+
+  // useEffect(() => {
+  //   // if (true) {
+  //   //   navigate("/register/complete");
+  //   // }
+  // }, [user]);
 
   return (
     <section className={styles["profile-set"]}>
       <h3>프로필 설정</h3>
-      <p className={styles.description}>프로필을 설정해 주세요.</p>
+      <p className={styles.description} data-for="profile-image">
+        프로필을 설정해 주세요.
+      </p>
       <form onSubmit={onSubmit}>
         <ProfileUpload
-          imageSrc={imageSrc}
-          setImageSrc={setImageSrc}
+          email={user.email}
+          profileImage={profileImage}
+          setProfileImage={setProfileImage}
           defaultImagePath={defaultImagePath}
         />
-        <p className={styles.description}>사용할 닉네임을 입력해주세요.</p>
+        <p className={styles.description} data-for="nickname">
+          사용할 닉네임을 입력해주세요.
+        </p>
         <Input
           className={styles["nickname-input"]}
           onChange={onNicknameChange}

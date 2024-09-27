@@ -3,7 +3,7 @@ import React from "react";
 import styles from "../../styles/components/_radio_button.module.scss";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
-import { danger50, success50 } from "../../styles/abstracts/colors.ts";
+import { systemDanger, systemSuccess } from "../../styles/abstracts/colors.ts";
 
 const RadioButton: React.FC<RadioButtonProps> = ({
   options,
@@ -23,9 +23,9 @@ const RadioButton: React.FC<RadioButtonProps> = ({
           ? "radio-button-item-corrected"
           : "radio-button-item-wrong",
         icon: isCorrect ? (
-          <CheckIcon style={{ color: success50 }} />
+          <CheckIcon style={{ color: systemSuccess }} />
         ) : (
-          <CloseIcon style={{ color: danger50 }} />
+          <CloseIcon style={{ color: systemDanger }} />
         ),
       };
     }

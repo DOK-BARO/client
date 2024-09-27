@@ -5,16 +5,18 @@ import { gray40, gray60 } from "../../../styles/abstracts/colors";
 import Button from "../../../components/atom/button";
 
 export default function ProfileUpload({
-  imageSrc,
-  setImageSrc,
+  email,
+  profileImage,
+  setProfileImage,
   defaultImagePath,
 }: {
-  imageSrc: string;
-  setImageSrc: React.Dispatch<React.SetStateAction<string>>;
+  email: string;
+  profileImage: string;
+  setProfileImage: React.Dispatch<React.SetStateAction<string>>;
   defaultImagePath: string;
 }) {
   const onDeleteProfileImage = () => {
-    setImageSrc(defaultImagePath);
+    setProfileImage(defaultImagePath);
   };
 
   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,7 +24,7 @@ export default function ProfileUpload({
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        setImageSrc(reader.result as string);
+        setProfileImage(reader.result as string);
       };
       reader.readAsDataURL(file);
     }
@@ -32,7 +34,7 @@ export default function ProfileUpload({
     <div className={styles["profile-upload-container"]}>
       <div className={styles["custom-file-upload"]}>
         <img
-          src={imageSrc}
+          src={profileImage}
           alt="프로필 이미지"
           className={styles["profile-image"]}
         />
@@ -40,7 +42,7 @@ export default function ProfileUpload({
       <div className={styles["profile-edit-container"]}>
         <span>
           {/* TODO: 현재 로그인한 사용자 이메일 계정 가져와서 적용하기 */}
-          <p>이메일@gmail.com</p>
+          <p aria-label="사용자 이메일">{email}</p>
           <InfoFilled stroke={gray60} fill={gray40} width={24} />
         </span>
 

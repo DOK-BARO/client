@@ -1,11 +1,9 @@
 import styles from "../../../styles/components/_progressbar.module.scss";
-export default function ProgressBar({ step }: { step: number }) {
+export default function ProgressBar({ ratio }: { ratio: number }) {
+  const widthPercent = `${ratio * 100}%`;
   return (
     <div className={styles["progress-container"]}>
-      <div
-        className={styles["progress-bar"]}
-        style={{ width: step === 1 ? "50%" : "100%" }}
-      />
+      <div className={styles["progress-bar"]} style={{ width: widthPercent }} />
     </div>
   );
 }

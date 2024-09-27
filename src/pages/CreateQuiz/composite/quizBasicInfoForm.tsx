@@ -3,7 +3,7 @@ import Button from "../../../components/atom/button";
 import Input from "../../../components/atom/input";
 import Textarea from "../../../components/atom/textarea";
 import styles from "../../../styles/composite/_quiz_basic_info_form.module.scss";
-import { gray90, primary, primary30 } from "../../../styles/abstracts/colors";
+import { gray90, primary, secondary } from "../../../styles/abstracts/colors";
 import useModal from "../../../hooks/useModal";
 import Modal from "../../../components/atom/modal";
 import { useState } from "react";
@@ -107,7 +107,7 @@ export default function QuizBasicInfoForm() {
           width={24}
           height={24}
           fill={primary}
-          stroke={primary30}
+          stroke={secondary}
         />
         (선택) 스터디 그룹 추가하기
       </Button>

@@ -1,5 +1,5 @@
-@import "../abstracts/variables";
-@import "../abstracts/mixins";
+@import "../../../../styles/abstracts/variables";
+@import "../../../../styles/abstracts/mixins";
 
 @mixin button-1 {
   background-color: $secondary;

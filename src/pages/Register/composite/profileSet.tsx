@@ -6,10 +6,13 @@ import ProfileUpload from "../components/profileUpload";
 import { XCircle } from "../../../../public/assets/svg/xCircle";
 import { gray30, gray60 } from "../../../styles/abstracts/colors";
 import { FormEvent, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
 import { User } from "../../../types/User";
 import { userAtom } from "../../../store/userAtom";
+import { AUTH_ACTION, LOCAL_STORAGE_KEY } from "../../../data/constants";
+import { useAuth } from "../../../hooks/useAuth";
+import { SocialLoginType } from "../../../types/SocialLoginType";
 
 export default function ProfileSet() {
   const isSubmitAble: boolean = true;
@@ -20,9 +23,11 @@ export default function ProfileSet() {
   } = useInput("");
   const defaultImagePath = "/public/assets/image/default-profile.png";
   const [profileImage, setProfileImage] = useState<string>(defaultImagePath);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [user, setUser] = useAtom<User>(userAtom);
 
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const { redirectToAuthPage } = useAuth();
   const onSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     setUser({
@@ -30,14 +35,22 @@ export default function ProfileSet() {
       nickname,
       profileImage,
     });
+    setIsSubmitted(true);
     // navigate("/register/complete");
   };
 
-  // useEffect(() => {
-  //   // if (true) {
-  //   //   navigate("/register/complete");
-  //   // }
-  // }, [user]);
+  const handleAuth = async () => {
+    localStorage.setItem(LOCAL_STORAGE_KEY.AUTH_ACTION, AUTH_ACTION.SIGN_UP);
+    await redirectToAuthPage(SocialLoginType.EMAIL);
+  };
+
+  useEffect(() => {
+    if (isSubmitted) {
+      // navigate("/register/complete");
+      console.log(user);
+      handleAuth();
+    }
+  }, [isSubmitted]);
 
   return (
     <section className={styles["profile-set"]}>

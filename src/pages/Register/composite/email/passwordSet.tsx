@@ -36,7 +36,7 @@ export default function PasswordSet() {
     // 사용자가 뒤로가기 눌렀다 다시 돌아왔을 때 초기화되도록(비밀번호만)
     setUser({
       ...user,
-      email: "",
+      password: "",
     });
   }, []);
 

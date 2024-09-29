@@ -48,7 +48,7 @@ export default function PasswordSet() {
       ...user,
       password,
     });
-    navigate("/register/email/3");
+    navigate("/register/email/4");
   };
 
   const moveToNext = (): void => {

@@ -26,7 +26,7 @@ export default function EmailVerification() {
       ...user,
       email,
     });
-    navigate("/register/email/2");
+    navigate("/register/email/3");
   };
 
   return (

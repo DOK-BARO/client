@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import Button from "../../../components/atom/button";
-import Input from "../../../components/atom/input";
 import styles from "../../../styles/composite/_quiz_write_form.module.scss";
-import useInput from "../../../hooks/useInput";
-import { ArrowDown } from "../../../../public/assets/svg/arrowDown";
-import { CheckSquare } from "../../../../public/assets/svg/checkSquare";
-import { gray60 } from "../../../styles/abstracts/colors";
+import useInput from "../../../../hooks/useInput.ts";
+import Button from "../../../../components/atom/button/button.tsx";
+import { CheckSquare } from "public/assets/svg/checkSquare.tsx";
+import { gray60 } from "@/styles/abstracts/colors.ts";
+import { ArrowDown } from "../../../../../public/assets/svg/arrowDown.tsx";
+import Input from "../../../../components/atom/input/input.tsx";
+
 // 3. 퀴즈 작성
 export default function QuizWriteForm() {
   const [quizMode, setQuizMode] = useState<string>("question"); // 질문 작성 or 답안 작성

@@ -1,9 +1,9 @@
-import styles from "../../../../styles/composite/_bookList.module.scss";
-import { getBookList } from "../../../../services/server/bookService.ts";
-// import { BookType } from "../../../../types/BookType";
-import BookItem from "./bookItem";
+import styles from "./_bookList.module.scss";
 import { useQuery } from "@tanstack/react-query";
-import { bookKeys } from "../../../../data/queryKeys";
+import { bookKeys } from "@/data/queryKeys.ts";
+import { getBookList } from "@/services/server/bookService.ts";
+import BookItem from "@/pages/Home/components/composite/bookItem/bookItem.tsx";
+// import { BookType } from "../../../../types/BookType";
 
 export default function BookList() {
   const { data: bookList, isLoading } = useQuery({

@@ -1,8 +1,8 @@
 import { Star } from "@mui/icons-material";
-import { QuizLevelBarChart } from "../../../../public/assets/svg/quizLevelBarChart.tsx";
-import Button from "../../../components/atom/button.tsx";
 import styles from "../../../styles/composite/_quiz_item.module.scss";
-import { DokPick } from "../../../../public/assets/svg/dokPick.tsx";
+import { DokPick } from "../../../../../public/assets/svg/dokPick.tsx";
+import { QuizLevelBarChart } from "../../../../../public/assets/svg/quizLevelBarChart.tsx";
+import Button from "../../../../components/atom/button/button.tsx";
 
 // 임시 Props 정의
 interface Props {

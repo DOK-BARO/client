@@ -1,24 +1,19 @@
-import { useNavigate } from "react-router-dom";
-import Button from "../../../../components/atom/button";
-import Input from "../../../../components/atom/input";
-import useInput from "../../../../hooks/useInput";
-
 // 공용으로 사용되는 스타일 (파일명 바꾸기?)
-import styles from "../../../../styles/composite/_password_set.module.scss";
-import { Check } from "../../../../../public/assets/svg/check";
-import {
-  gray40,
-  gray60,
-  systemDanger,
-  systemSuccess,
-} from "../../../../styles/abstracts/colors";
-import { Invisible } from "../../../../../public/assets/svg/invisible";
-import { passwordValidation } from "../../../../validation/passwordValidation";
-import { useEffect, useState } from "react";
-import { Close } from "../../../../../public/assets/svg/close";
+import { useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
-import { User } from "../../../../types/User";
-import { userAtom } from "../../../../store/userAtom";
+import { useEffect, useState } from "react";
+
+import styles from "./_password_set.module.scss";
+import useInput from "@/hooks/useInput.ts";
+import { passwordValidation } from "@/validation/passwordValidation.ts";
+import { User } from "@/types/User.ts";
+import { userAtom } from "@/store/userAtom.ts";
+import Input from "@/components/atom/input/input.tsx";
+import { gray40, gray60, systemDanger, systemSuccess } from "@/styles/abstracts/colors.ts";
+import { Check } from "public/assets/svg/check.tsx";
+import { Invisible } from "public/assets/svg/invisible.tsx";
+import { Close } from "public/assets/svg/close.tsx";
+import Button from "@/components/atom/button/button.tsx";
 
 export default function PasswordSet() {
   const {

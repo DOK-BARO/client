@@ -1,8 +1,9 @@
-import Button from "../../../components/atom/button";
-import styles from "../../../styles/layout/_quiz_creation_form_layout.module.scss";
-import { Step } from "..";
-import RightArrow from "../../../../public/assets/svg/rightArrow";
-import { gray0 } from "../../../styles/abstracts/colors";
+import styles from "./_quiz_creation_form_layout.module.scss";
+import { Step } from "@/pages/CreateQuiz";
+import Button from "@/components/atom/button/button.tsx";
+import RightArrow from "public/assets/svg/rightArrow.tsx";
+import { gray0 } from "@/styles/abstracts/colors.ts";
+
 export default function quizCreationFormLayout({
   steps,
   currentStep,

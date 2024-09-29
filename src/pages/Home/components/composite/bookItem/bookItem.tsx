@@ -1,6 +1,6 @@
-import { BookType } from "../../../../types/BookType";
-import styles from "../../../../styles/composite/_bookItem.module.scss";
+import styles from "./_bookItem.module.scss";
 import { useNavigate } from "react-router-dom";
+import { BookType } from "@/types/BookType.ts";
 export default function BookItem({ book }: { book: BookType }) {
   const navigate = useNavigate();
   const handleClick = () => {

@@ -1,5 +1,5 @@
 import styles from "../../../styles/composite/_quiz_list_section.module.scss";
-import QuizItem from "./quizItem.tsx";
+import QuizItem from "../quizItem/quizItem.tsx";
 
 export default function QuizListSection () {
   return (

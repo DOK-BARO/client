@@ -1,4 +1,4 @@
-import { SVGProps } from "../../../src/types/SVGProps";
+import { SVGProps } from "@/types/SVGProps";
 import React from "react";
 
 export const QuizLevelBarChart: React.FC<SVGProps> = ({ alt, ...props }) => {
@@ -22,7 +22,8 @@ export const QuizLevelBarChart: React.FC<SVGProps> = ({ alt, ...props }) => {
           strokeLinecap="round"
           strokeLinejoin="round"
         />
-        <path opacity="0.1"
+        <path
+          opacity="0.1"
           d="M10.333 9C10.333 7.89543 11.2284 7 12.333 7H14.333C15.4376 7 16.333 7.89543 16.333 9V21H10.333V9Z"
           fill="#9747FF"
           stroke={props.stroke}
@@ -30,7 +31,8 @@ export const QuizLevelBarChart: React.FC<SVGProps> = ({ alt, ...props }) => {
           strokeLinecap="round"
           strokeLinejoin="round"
         />
-        <path opacity="0.1"
+        <path
+          opacity="0.1"
           d="M17.333 5C17.333 3.89543 18.2284 3 19.333 3H21.333C22.4376 3 23.333 3.89543 23.333 5V21H17.333V5Z"
           fill="#9747FF"
           stroke={props.stroke}

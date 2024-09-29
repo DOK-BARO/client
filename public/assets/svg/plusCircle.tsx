@@ -1,4 +1,4 @@
-import { SVGProps } from "../../../src/types/SVGProps";
+import { SVGProps } from "@/types/SVGProps";
 
 export const PlusCircle: React.FC<SVGProps> = ({ alt, ...props }) => {
   return (

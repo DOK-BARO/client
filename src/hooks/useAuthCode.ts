@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { signup, login, getUser } from "../services/server/authService.ts";
+import { signup, login, getUser } from "@/services/server/authService.ts";
 import {
   AUTH_ACTION,
   LOCAL_STORAGE_KEY,

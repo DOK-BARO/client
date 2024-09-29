@@ -47,7 +47,11 @@ export default function TermsAgreement() {
   const onSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     console.log("동의하고 가입하기");
-    navigate("/register/social/2");
+
+    const pathArray = window.location.pathname.split("/");
+    const method = pathArray[2];
+
+    navigate(`/register/${method}/2`);
   };
 
   // TODO : 리펙토링 필요

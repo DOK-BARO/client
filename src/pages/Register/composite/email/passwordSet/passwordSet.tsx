@@ -32,6 +32,14 @@ export default function PasswordSet() {
 
   const [user, setUser] = useAtom<User>(userAtom);
 
+  useEffect(() => {
+    // 사용자가 뒤로가기 눌렀다 다시 돌아왔을 때 초기화되도록(비밀번호만)
+    setUser({
+      ...user,
+      password: "",
+    });
+  }, []);
+
   const navigate = useNavigate();
   const [step, setStep] = useState<number>(1);
 
@@ -40,7 +48,7 @@ export default function PasswordSet() {
       ...user,
       password,
     });
-    navigate("/register/email/3");
+    navigate("/register/email/4");
   };
 
   const moveToNext = (): void => {

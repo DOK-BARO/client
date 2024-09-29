@@ -5,7 +5,7 @@ import EmailVerification from "./composite/email/emailVerification";
 import PasswordSet from "./composite/email/passwordSet";
 
 type Method = "social" | "email";
-type Step = "1" | "2" | "3";
+type Step = "1" | "2" | "3" | "4";
 
 export default function RegisterStep() {
   const { step } = useParams<{ step: Step }>();
@@ -20,9 +20,10 @@ export default function RegisterStep() {
       "2": ProfileSet,
     },
     email: {
-      "1": EmailVerification,
-      "2": PasswordSet,
-      "3": ProfileSet,
+      "1": TermsAgreement,
+      "2": EmailVerification,
+      "3": PasswordSet,
+      "4": ProfileSet,
     },
   };
 

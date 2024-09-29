@@ -1,11 +1,11 @@
 import { useState } from "react";
-import styles from "../../styles/layout/_gnb.module.scss";
-import { Plus } from "../../../public/assets/svg/plus";
-import { Minus } from "../../../public/assets/svg/minus";
-import { gray50 } from "../../styles/abstracts/colors";
-import { getBookCategories } from "../../services/server/bookService.ts";
+import styles from "./_gnb.module.scss";
+import { Plus } from "public/assets/svg/plus";
+import { Minus } from "public/assets/svg/minus";
+import { gray50 } from "@/styles/abstracts/colors";
+import { getBookCategories } from "@/services/server/bookService.ts";
 import { useQuery } from "@tanstack/react-query";
-import { bookKeys } from "../../data/queryKeys";
+import { bookKeys } from "@/data/queryKeys";
 
 const GNB = () => {
   const [activeCategoryIndex, setActiveCategoryIndex] = useState<number | null>(

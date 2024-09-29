@@ -1,5 +1,5 @@
-@import "../abstracts/variables";
-@import "../abstracts/mixins";
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixins";
 
 @mixin social-auth-button-base($bg-color, $color) {
   justify-content: start;

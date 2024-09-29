@@ -1,6 +1,6 @@
-@import "../abstracts/variables";
-@import "../abstracts/mixins";
-@import "../components/input.module.scss";
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixins";
+@import "../../../components/atom/input/input.module"; // 의심
 
 // .container {
 //   @include flex(column);

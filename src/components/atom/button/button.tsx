@@ -1,6 +1,5 @@
 import React, { ReactNode } from "react";
-import styles from "../../styles/components/_button.module.scss";
-
+import styles from "./_button.module.scss";
 interface ButtonProps {
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   children: ReactNode;

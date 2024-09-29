@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "../../styles/components/_dropdown.module.scss";
+import styles from "./_dropdown.module.scss";
 
 interface Option {
   label: string;

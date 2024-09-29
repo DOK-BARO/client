@@ -1,6 +1,6 @@
 // 회원가입/로그인 용, 소셜 로그인 버튼과 다름
 import React, { ReactNode } from "react";
-import styles from "../../styles/components/_auth_button.module.scss";
+import styles from "./_auth_button.module.scss";
 
 interface AuthButtonProps {
   onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;

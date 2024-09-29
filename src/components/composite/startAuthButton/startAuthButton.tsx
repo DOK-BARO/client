@@ -1,10 +1,10 @@
-import styles from "../../styles/components/_start_auth_button.module.scss";
-import LoginModal from "./loginModal.tsx";
-import useModal from "../../hooks/useModal.ts";
+import styles from "@/styles/components/_start_auth_button.module.scss";
+import useModal from "@/hooks/useModal.ts";
+import LoginModal from "../loginModal/loginModal.tsx";
 
 type Props = {
-  isLoggedIn: boolean
-}
+  isLoggedIn: boolean;
+};
 
 export default function StartAuthButton({ isLoggedIn }: Props) {
   const { isModalOpen, openModal, closeModal } = useModal();
@@ -18,7 +18,7 @@ export default function StartAuthButton({ isLoggedIn }: Props) {
       <button className={styles["start-button"]} onClick={openModal}>
         시작하기
       </button>
-      {isModalOpen && <LoginModal closeModal={closeModal}/>}
+      {isModalOpen && <LoginModal closeModal={closeModal} />}
     </div>
   );
 }

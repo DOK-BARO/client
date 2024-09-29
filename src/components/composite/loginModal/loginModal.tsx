@@ -1,10 +1,10 @@
-import styles from "../../styles/components/_login_modal.module.scss";
+import styles from "@/styles/components/_login_modal.module.scss";
 import React from "react";
-import HeaderLogo from "../atom/headerLogo.tsx";
-import { SOCIAL_TYPES } from "../../data/constants.ts";
-import SocialAuthButton from "./socialAuthButton.tsx";
-import { AuthType } from "../../types/AuthType.ts";
-import Modal from "../atom/modal.tsx";
+import { SOCIAL_TYPES } from "@/data/constants.ts";
+import SocialAuthButton from "../socialAuthButton/socialAuthButton.tsx";
+import { AuthType } from "@/types/AuthType.ts";
+import HeaderLogo from "@/components/atom/headerLogo/headerLogo.tsx";
+import Modal from "@/components/atom/modal/modal.tsx";
 
 interface LoginModalProps {
   closeModal: () => void;

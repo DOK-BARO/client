@@ -1,20 +1,19 @@
-import styles from "../../styles/layout/_header_layout.module.scss";
-import HeaderLogo from "../atom/headerLogo.tsx";
-import HeaderUtilArea from "../composite/headerUtilArea.tsx";
-import SearchBar from "../composite/searchBar.tsx";
+import HeaderLogo from "@/components/atom/headerLogo/headerLogo";
+import SearchBar from "@/components/composite/searchBar/searchBar";
+import HeaderUtilArea from "@/components/composite/headerUtilArea/headerUtilArea";
+import styles from "./_header_layout.module.scss";
 
 type Props = {
-  isLoggedIn: boolean
-}
+  isLoggedIn: boolean;
+};
 
-export default function HeaderLayout({ isLoggedIn }: Props)  {
-
+export default function HeaderLayout({ isLoggedIn }: Props) {
   return (
     <header className={styles["header-container"]}>
       <div className={styles["header-inner-container"]}>
-        <HeaderLogo/>
+        <HeaderLogo />
         <SearchBar />
-        <HeaderUtilArea isLoggedIn={isLoggedIn}/>
+        <HeaderUtilArea isLoggedIn={isLoggedIn} />
       </div>
     </header>
   );

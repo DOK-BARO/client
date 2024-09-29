@@ -1,9 +1,12 @@
-import { RadioButtonProps, RadioOptions } from "../../types/RadioTypes.ts";
+import { RadioButtonProps, RadioOptions } from "@/types/RadioTypes.ts";
 import React from "react";
-import styles from "../../styles/components/_radio_button.module.scss";
+import styles from "./_radio_button.module.scss";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
-import { systemDanger, systemSuccess } from "../../styles/abstracts/colors.ts";
+import {
+  systemDanger,
+  systemSuccess,
+} from "../../../styles/abstracts/colors.ts";
 
 const RadioButton: React.FC<RadioButtonProps> = ({
   options,

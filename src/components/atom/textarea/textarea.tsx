@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from "react";
-import styles from "../../styles/components/_textarea.module.scss";
+import styles from "./_textarea.module.scss";
 
 interface TextareaProps {
   id: string;

@@ -18,7 +18,7 @@ export default function EmailVerification() {
     value: email,
     onChange: onEmailChange,
     isValid: isEmailValid,
-  } = useInput("", emailValidation);
+  } = useInput(user.email, emailValidation);
   const navigate = useNavigate();
 
   const onSubmit = (): void => {
@@ -53,7 +53,7 @@ export default function EmailVerification() {
         className={styles.email}
         value={email}
         onChange={onEmailChange}
-        placeholder="아이디 (이메일) 입력"
+        placeholder="아이디(이메일) 입력"
         size="large"
       />
       <Button className={styles.next} size="medium" onClick={onSubmit}>

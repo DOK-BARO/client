@@ -1,6 +1,6 @@
 import { getBook } from "@/services/server/bookService.ts";
 import { useParams } from "react-router-dom";
-import styles from "../../styles/pages/_book_detail.module.scss";
+import styles from "./_book_detail.module.scss";
 import { useQuery } from "@tanstack/react-query";
 import { bookKeys } from "@/data/queryKeys.ts";
 import BookDetailSection from "./composite/bookDetailSection/bookDetailSection.tsx";

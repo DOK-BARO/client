@@ -1,11 +1,10 @@
-import styles from "../../../styles/composite/_quiz_book_selection_form.module.scss";
+import styles from "./_quiz_book_selection_form.module.scss";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import useInput from "../../../../hooks/useInput.ts";
+import useInput from "@/hooks/useInput.ts";
 import { bookKeys } from "@/data/queryKeys.ts";
 import { getBookList } from "@/services/server/bookService.ts";
-import Input from "../../../../components/atom/input/input.tsx";
-
+import Input from "@/components/atom/input/input.tsx";
 
 // 2. 도서 선택
 export default function QuizBookSelectionForm() {
@@ -62,7 +61,7 @@ export default function QuizBookSelectionForm() {
             }`}
             onClick={() => onBookSelect(book.id)}
           >
-            <img src={book.imageUrl} alt={book.title} width={66} height={88}/>
+            <img src={book.imageUrl} alt={book.title} width={66} height={88} />
             <div className={styles["info-container"]}>
               <span className={styles["title"]}>{book.title}</span>
               <span className={styles["author"]}>

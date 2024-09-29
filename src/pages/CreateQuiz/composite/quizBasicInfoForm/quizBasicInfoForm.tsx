@@ -1,16 +1,15 @@
-import styles from "../../../styles/composite/_quiz_basic_info_form.module.scss";
+import styles from "./_quiz_basic_info_form.module.scss";
 import { useState } from "react";
-import useModal from "../../../../hooks/useModal.ts";
-import useInput from "../../../../hooks/useInput.ts";
-import useTextarea from "../../../../hooks/useTextarea.ts";
-import Button from "../../../../components/atom/button/button.tsx";
-import { PlusCircle } from "../../../../../public/assets/svg/plusCircle.tsx";
+import useModal from "@/hooks/useModal.ts";
+import useInput from "@/hooks/useInput.ts";
+import useTextarea from "@/hooks/useTextarea.ts";
+import Button from "@/components/atom/button/button.tsx";
+import { PlusCircle } from "public/assets/svg/plusCircle.tsx";
 import { gray90, primary, secondary } from "@/styles/abstracts/colors.ts";
-import Modal from "../../../../components/atom/modal/modal.tsx";
-import { Close } from "../../../../../public/assets/svg/close.tsx";
-import Input from "../../../../components/atom/input/input.tsx";
-import Textarea from "../../../../components/atom/textarea/textarea.tsx";
-
+import Modal from "@/components/atom/modal/modal.tsx";
+import { Close } from "public/assets/svg/close.tsx";
+import Input from "@/components/atom/input/input.tsx";
+import Textarea from "@/components/atom/textarea/textarea.tsx";
 
 // 1. 기본 정보 입력
 export default function QuizBasicInfoForm() {

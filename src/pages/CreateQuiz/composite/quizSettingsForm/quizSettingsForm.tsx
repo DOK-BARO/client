@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import styles from "../../../styles/composite/_quiz_settings_form.module.scss";
+import styles from "./_quiz_settings_form.module.scss";
 // TODO: 파일 분리
 
 // 4. 퀴즈 설정

@@ -1,20 +1,20 @@
 import { AUTH_TYPES, SOCIAL_TYPES } from "@/data/constants.ts";
-import useGNB from "../../hooks/useGNB.ts";
-import useRadioGroup from "../../hooks/useRadioGroup.ts";
+import useGNB from "@/hooks/useGNB.ts";
+import useRadioGroup from "@/hooks/useRadioGroup.ts";
 import { RadioOptions } from "@/types/RadioTypes.ts";
-import styles from "../../styles/pages/_component_test.module.scss";
-import useModal from "../../hooks/useModal.ts";
+import styles from "./_component_test.module.scss";
+import useModal from "@/hooks/useModal.ts";
 import { getUser } from "@/services/server/authService.ts";
 import { useState } from "react";
-import { Invisible } from "../../../public/assets/svg/invisible.tsx";
+import { Invisible } from "public/assets/svg/invisible.tsx";
 import { gray60 } from "@/styles/abstracts/colors.ts";
-import RadioButton from "../../components/atom/radioButton/radioButton.tsx";
-import SocialAuthButton from "../../components/composite/socialAuthButton/socialAuthButton.tsx";
-import Button from "../../components/atom/button/button.tsx";
-import GNB from "../../components/layout/gnb/gnb.tsx";
-import AuthButton from "../../components/atom/authButton/authButton.tsx";
-import Modal from "../../components/atom/modal/modal.tsx";
-import Input from "../../components/atom/input/input.tsx";
+import RadioButton from "@/components/atom/radioButton/radioButton.tsx";
+import SocialAuthButton from "@/components/composite/socialAuthButton/socialAuthButton.tsx";
+import Button from "@/components/atom/button/button.tsx";
+import GNB from "@/components/layout/gnb/gnb.tsx";
+import AuthButton from "@/components/atom/authButton/authButton.tsx";
+import Modal from "@/components/atom/modal/modal.tsx";
+import Input from "@/components/atom/input/input.tsx";
 
 const options: RadioOptions[] = [
   { value: "option1", label: "Option 1" },
@@ -56,31 +56,25 @@ export default function Index() {
       <Button size="large" onClick={isGNBOpen ? closeGNB : openGNB}>
         GNB {isGNBOpen ? "닫기" : "열기"}
       </Button>
-      {isGNBOpen && <GNB/>}
+      {isGNBOpen && <GNB />}
       <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
-        <Button size="xsmall" onClick={() => {
-        }}>
+        <Button size="xsmall" onClick={() => {}}>
           button
         </Button>
-        <Button size="small" onClick={() => {
-        }}>
+        <Button size="small" onClick={() => {}}>
           button
         </Button>
-        <Button size="medium" onClick={() => {
-        }}>
+        <Button size="medium" onClick={() => {}}>
           button
         </Button>
-        <Button size="large" onClick={() => {
-        }}>
+        <Button size="large" onClick={() => {}}>
           button
         </Button>
-        <Button size="xlarge" onClick={() => {
-        }}>
+        <Button size="xlarge" onClick={() => {}}>
           button
         </Button>
       </div>
-      <AuthButton onClick={() => {
-      }} className={styles.done}>
+      <AuthButton onClick={() => {}} className={styles.done}>
         완료
       </AuthButton>
       <Button
@@ -108,8 +102,8 @@ export default function Index() {
         placeholder="플레이스홀더"
         label="설명 레이블"
         message="대소문자 어쩌구"
-        leftIcon={<Invisible stroke={gray60} width={20}/>}
-        rightIcon={<Invisible stroke={gray60} width={20}/>}
+        leftIcon={<Invisible stroke={gray60} width={20} />}
+        rightIcon={<Invisible stroke={gray60} width={20} />}
       />
       <Input
         size="medium"
@@ -121,8 +115,8 @@ export default function Index() {
         placeholder="플레이스홀더"
         label="설명 레이블"
         message="대소문자 어쩌구"
-        leftIcon={<Invisible stroke={gray60} width={24}/>}
-        rightIcon={<Invisible stroke={gray60} width={24}/>}
+        leftIcon={<Invisible stroke={gray60} width={24} />}
+        rightIcon={<Invisible stroke={gray60} width={24} />}
       />
       <Input
         size="large"
@@ -134,8 +128,8 @@ export default function Index() {
         placeholder="플레이스홀더"
         label="설명 레이블"
         message="대소문자 어쩌구"
-        leftIcon={<Invisible stroke={gray60} width={24}/>}
-        rightIcon={<Invisible stroke={gray60} width={24}/>}
+        leftIcon={<Invisible stroke={gray60} width={24} />}
+        rightIcon={<Invisible stroke={gray60} width={24} />}
       />
     </>
   );

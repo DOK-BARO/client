@@ -1,7 +1,7 @@
-import styles from "../../../styles/composite/_quiz_list_section.module.scss";
+import styles from "./_quiz_list_section.module.scss";
 import QuizItem from "../quizItem/quizItem.tsx";
 
-export default function QuizListSection () {
+export default function QuizListSection() {
   return (
     <section className={styles["container"]}>
       <h3 className={styles["quiz-list-header"]}>퀴즈 리스트</h3>
@@ -14,12 +14,12 @@ export default function QuizListSection () {
       </div>
 
       <div className={styles["list-container"]}>
-        <QuizItem isDokPick={false} quizLevel={"쉬움"}/>
-        <QuizItem isDokPick={true} quizLevel={"쉬움"}/>
-        <QuizItem isDokPick={false} quizLevel={"쉬움"}/>
-        <QuizItem isDokPick={true} quizLevel={"쉬움"}/>
-        <QuizItem isDokPick={false} quizLevel={"쉬움"}/>
-        <QuizItem isDokPick={true} quizLevel={"쉬움"}/>
+        <QuizItem isDokPick={false} quizLevel={"쉬움"} />
+        <QuizItem isDokPick={true} quizLevel={"쉬움"} />
+        <QuizItem isDokPick={false} quizLevel={"쉬움"} />
+        <QuizItem isDokPick={true} quizLevel={"쉬움"} />
+        <QuizItem isDokPick={false} quizLevel={"쉬움"} />
+        <QuizItem isDokPick={true} quizLevel={"쉬움"} />
       </div>
     </section>
   );

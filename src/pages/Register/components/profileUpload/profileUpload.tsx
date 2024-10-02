@@ -1,8 +1,8 @@
 import React from "react";
-import styles from "../../../styles/components/_profile_upload.module.scss";
-import { InfoFilled } from "../../../../public/assets/svg/infoFilled";
-import { gray40, gray60 } from "../../../styles/abstracts/colors";
-import Button from "../../../components/atom/button";
+import styles from "./_profile_upload.module.scss";
+import { InfoFilled } from "public/assets/svg/infoFilled.tsx";
+import { gray40, gray60 } from "@/styles/abstracts/colors.ts";
+import Button from "@/components/atom/button/button.tsx";
 
 export default function ProfileUpload({
   email,

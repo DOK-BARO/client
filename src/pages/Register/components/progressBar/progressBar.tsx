@@ -1,4 +1,4 @@
-import styles from "../../../styles/components/_progressbar.module.scss";
+import styles from "./_progressbar.module.scss";
 export default function ProgressBar({ ratio }: { ratio: number }) {
   const widthPercent = `${ratio * 100}%`;
   return (

@@ -1,8 +1,8 @@
 import { useOutletContext, useParams } from "react-router-dom";
-import TermsAgreement from "./composite/social/termsAgreement";
-import ProfileSet from "./composite/profileSet";
-import EmailVerification from "./composite/email/emailVerification";
-import PasswordSet from "./composite/email/passwordSet";
+import TermsAgreement from "@/pages/Register/composite/social/termsAgreement/termsAgreement.tsx";
+import ProfileSet from "@/pages/Register/composite/profileSet/profileSet.tsx";
+import EmailVerification from "@/pages/Register/composite/email/emailVerification/emailVerification.tsx";
+import PasswordSet from "@/pages/Register/composite/email/passwordSet/passwordSet.tsx";
 
 type Method = "social" | "email";
 type Step = "1" | "2" | "3" | "4";

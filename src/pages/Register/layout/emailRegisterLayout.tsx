@@ -1,6 +1,6 @@
-import styles from "../../../styles/layout/_register_layout.module.scss";
+import styles from "./_register_layout.module.scss";
 import { Outlet, useParams } from "react-router-dom";
-import ProgressBar from "../components/progressBar";
+import ProgressBar from "@/pages/Register/components/progressBar/progressBar";
 
 const EmailRegisterLayout = () => {
   const { step } = useParams<{ step: string }>();

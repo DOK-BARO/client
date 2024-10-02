@@ -1,9 +1,9 @@
 import React, { FormEvent, useState } from "react";
-import Button from "../../../../components/atom/button.tsx";
-import styles from "../../../../styles/composite/_terms_agreement.module.scss";
-import CheckBox from "../../components/checkBox.tsx";
-import { APP_NAME } from "../../../../data/constants.ts";
+import styles from "./_terms_agreement.module.scss";
 import { useNavigate } from "react-router-dom";
+import Button from "@/components/atom/button/button";
+import CheckBox from "@/pages/Register/components/checkBox/checkBox";
+import { APP_NAME } from "@/data/constants.ts";
 
 export default function TermsAgreement() {
   const [agreements, setAgreements] = useState({

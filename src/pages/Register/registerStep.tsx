@@ -1,8 +1,8 @@
 import { useOutletContext, useParams } from "react-router-dom";
 import TermsAgreement from "@/pages/Register/composite/social/termsAgreement/termsAgreement.tsx";
 import ProfileSet from "@/pages/Register/composite/profileSet/profileSet.tsx";
-import EmailVerification from "@/pages/Register/composite/email/emailVerification/emailVerification.tsx";
 import PasswordSet from "@/pages/Register/composite/email/passwordSet/passwordSet.tsx";
+import Verification from "./composite/email/verification/verification";
 
 type Method = "social" | "email";
 type Step = "1" | "2" | "3" | "4";
@@ -21,7 +21,7 @@ export default function RegisterStep() {
     },
     email: {
       "1": TermsAgreement,
-      "2": EmailVerification,
+      "2": Verification,
       "3": PasswordSet,
       "4": ProfileSet,
     },

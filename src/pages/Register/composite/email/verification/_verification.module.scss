@@ -1,7 +1,7 @@
 @import "../../../../../styles/abstracts/variables";
 @import "../../../../../styles/abstracts/mixins";
 
-.email-verification {
+.verification {
   h3 {
     @include sr-only;
   }

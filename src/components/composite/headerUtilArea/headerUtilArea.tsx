@@ -1,4 +1,4 @@
-// import styles from "@/styles/layout/_header_layout.module.scss";
+// import styles from "@/styles/baseLayout/_header_layout.module.scss";
 import styles from "../../../components/layout/headerLayout/_header_layout.module.scss";
 import HeaderMyInfoUtilButton from "../headerMyInfoUtilButton/headerMyInfoUtilButton";
 import HeaderQuizUtilButton from "../headerQuizUtilButton/headerQuizUtilButton";

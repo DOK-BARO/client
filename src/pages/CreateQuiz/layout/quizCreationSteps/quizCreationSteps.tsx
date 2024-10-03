@@ -1,6 +1,6 @@
 import styles from "./_quiz_creation_steps.module.scss";
 import { Step } from "@/pages/CreateQuiz";
-import Button from "@/components/atom/button/button.tsx";
+import Button from "@/components/atom/button/button";
 
 export default function QuizCreationSteps({
   steps,

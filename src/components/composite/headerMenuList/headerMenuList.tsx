@@ -1,8 +1,8 @@
 import styles from "./_header_menu_list.module.scss";
 import React from "react";
-import { Quiz } from "public/assets/svg/quiz.tsx";
-import { Study } from "public/assets/svg/study.tsx";
-import { Info } from "public/assets/svg/info.tsx";
+import { Quiz } from "@/svg/quiz.tsx";
+import { Study } from "@/svg/study.tsx";
+import { Info } from "@/svg/info.tsx";
 import { SVGProps } from "@/types/SVGProps.ts";
 import { ICON_SIZE } from "@/data/constants.ts";
 import { gray70 } from "@/styles/abstracts/colors.ts";

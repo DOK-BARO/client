@@ -1,4 +1,4 @@
-import styles from "@/styles/components/_start_auth_button.module.scss";
+import styles from "./_start_auth_button.module.scss";
 import useModal from "@/hooks/useModal.ts";
 import LoginModal from "../loginModal/loginModal.tsx";
 

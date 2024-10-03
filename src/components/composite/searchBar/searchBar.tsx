@@ -1,7 +1,7 @@
-import { Search } from "public/assets/svg/search.tsx";
+import { Search } from "@/svg/search.tsx";
 import { gray50 } from "@/styles/abstracts/colors.ts";
 import { useState } from "react";
-import styles from "@/styles/composite/_search_bar.module.scss";
+import styles from "./_search_bar.module.scss";
 import Input from "@/components/atom/input/input";
 
 export default function SearchBar() {

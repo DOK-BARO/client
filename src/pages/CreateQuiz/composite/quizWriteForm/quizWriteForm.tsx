@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import styles from "./_quiz_write_form.module.scss";
 import useInput from "@/hooks/useInput.ts";
 import Button from "@/components/atom/button/button.tsx";
-import { CheckSquare } from "public/assets/svg/checkSquare.tsx";
+import { CheckSquare } from "@/svg/checkSquare.tsx";
 import { gray60 } from "@/styles/abstracts/colors.ts";
-import { ArrowDown } from "public/assets/svg/arrowDown.tsx";
+import { ArrowDown } from "@/svg/arrowDown.tsx";
 import Input from "@/components/atom/input/input.tsx";
 
 // 3. 퀴즈 작성

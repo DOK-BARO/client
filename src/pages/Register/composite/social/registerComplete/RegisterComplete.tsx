@@ -1,5 +1,5 @@
-import styles from "../../../../styles/composite/_register_complete.module.scss";
-import src from "public/assets/image/register-complete.png";
+import styles from "./_register_complete.module.scss";
+import src from "/assets/image/register-complete.png";
 import Input from "@/components/atom/input/input";
 import Button from "@/components/atom/button/button";
 import useInput from "@/hooks/useInput";

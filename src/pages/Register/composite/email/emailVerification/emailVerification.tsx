@@ -3,7 +3,7 @@
 import { useNavigate } from "react-router-dom";
 
 import styles from "./_email_verification.module.scss";
-import { Close } from "public/assets/svg/close";
+import { Close } from "@/svg/close";
 import { systemDanger } from "@/styles/abstracts/colors";
 import { emailValidation } from "@/validation/emailValidation";
 import { useAtom } from "jotai";

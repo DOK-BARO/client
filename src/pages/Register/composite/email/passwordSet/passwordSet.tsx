@@ -10,9 +10,9 @@ import { User } from "@/types/User.ts";
 import { userAtom } from "@/store/userAtom.ts";
 import Input from "@/components/atom/input/input.tsx";
 import { gray40, gray60, systemDanger, systemSuccess } from "@/styles/abstracts/colors.ts";
-import { Check } from "public/assets/svg/check.tsx";
-import { Invisible } from "public/assets/svg/invisible.tsx";
-import { Close } from "public/assets/svg/close.tsx";
+import { Check } from "@/svg/check.tsx";
+import { Invisible } from "@/svg/invisible.tsx";
+import { Close } from "@/svg/close.tsx";
 import Button from "@/components/atom/button/button.tsx";
 
 export default function PasswordSet() {

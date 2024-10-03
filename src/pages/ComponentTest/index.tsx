@@ -6,7 +6,7 @@ import styles from "./_component_test.module.scss";
 import useModal from "@/hooks/useModal.ts";
 import { getUser } from "@/services/server/authService.ts";
 import { useState } from "react";
-import { Invisible } from "public/assets/svg/invisible.tsx";
+import { Invisible } from "@/svg/invisible.tsx";
 import { gray60 } from "@/styles/abstracts/colors.ts";
 import RadioButton from "@/components/atom/radioButton/radioButton.tsx";
 import SocialAuthButton from "@/components/composite/socialAuthButton/socialAuthButton.tsx";

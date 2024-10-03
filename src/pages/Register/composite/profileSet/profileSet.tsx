@@ -9,7 +9,7 @@ import { SocialLoginType } from "@/types/SocialLoginType";
 import useInput from "@/hooks/useInput.ts";
 import ProfileUpload from "@/pages/Register/components/profileUpload/profileUpload.tsx";
 import Input from "@/components/atom/input/input.tsx";
-import { XCircle } from "public/assets/svg/xCircle.tsx";
+import { XCircle } from "@/svg/xCircle";
 import { gray30, gray60 } from "@/styles/abstracts/colors.ts";
 import Button from "@/components/atom/button/button.tsx";
 
@@ -20,7 +20,7 @@ export default function ProfileSet() {
     onChange: onNicknameChange,
     resetInput,
   } = useInput("");
-  const defaultImagePath = "/public/assets/image/default-profile.png";
+  const defaultImagePath = "/public/svg/image/default-profile.png";
   const [profileImage, setProfileImage] = useState<string>(defaultImagePath);
   // const navigate = useNavigate();
   const [user, setUser] = useAtom<User>(userAtom);

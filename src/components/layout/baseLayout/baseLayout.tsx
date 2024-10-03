@@ -1,9 +1,9 @@
 import { Outlet } from "react-router-dom";
-import styles from "../../styles/layout/_layout.module.scss";
+import styles from "./_base_layout.module.scss";
 import HeaderLayout from "../headerLayout/headerLayout.tsx";
-import { useQueryCurrentUser } from "../../../hooks/useQueryCurrentUser.ts";
+import { useQueryCurrentUser } from "@/hooks/useQueryCurrentUser.ts";
 
-export default function Layout() {
+export default function BaseLayout() {
   const { isLoggedIn, isLoading } = useQueryCurrentUser();
 
   if (isLoading) {

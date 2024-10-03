@@ -4,10 +4,10 @@ import useModal from "@/hooks/useModal.ts";
 import useInput from "@/hooks/useInput.ts";
 import useTextarea from "@/hooks/useTextarea.ts";
 import Button from "@/components/atom/button/button.tsx";
-import { PlusCircle } from "public/assets/svg/plusCircle.tsx";
+import { PlusCircle } from "@/svg/plusCircle";
 import { gray90, primary, secondary } from "@/styles/abstracts/colors.ts";
 import Modal from "@/components/atom/modal/modal.tsx";
-import { Close } from "public/assets/svg/close.tsx";
+import { Close } from "@/svg/close.tsx";
 import Input from "@/components/atom/input/input.tsx";
 import Textarea from "@/components/atom/textarea/textarea.tsx";
 

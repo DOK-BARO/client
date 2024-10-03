@@ -3,13 +3,13 @@ import { useAuth } from "@/hooks/useAuth";
 import { AUTH_ACTION, LOCAL_STORAGE_KEY } from "@/data/constants";
 import { SocialLoginType } from "@/types/SocialLoginType";
 import { AuthType } from "@/types/AuthType";
-import styles from "@/styles/components/_social_auth_button.module.scss";
-import { Kakao } from "public/assets/svg/auth/kakao.tsx";
-import { Google } from "public/assets/svg/auth/google.tsx";
-import { Naver } from "public/assets/svg/auth/naver.tsx";
-import { Github } from "public/assets/svg/auth/github.tsx";
-import { Email } from "public/assets/svg/auth/email.tsx";
-import { Button } from "@mui/material";
+import styles from "./_social_auth_button.module.scss";
+import { Kakao } from "@/svg/auth/kakao.tsx";
+import { Google } from "@/svg/auth/google.tsx";
+import { Naver } from "@/svg/auth/naver.tsx";
+import { Github } from "@/svg/auth/github.tsx";
+import { Email } from "@/svg/auth/email.tsx";
+import Button from "@/components/atom/button/button.tsx";
 
 const SocialAuthButton: React.FC<{
   authType: AuthType;

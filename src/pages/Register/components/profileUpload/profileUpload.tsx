@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./_profile_upload.module.scss";
-import { InfoFilled } from "public/assets/svg/infoFilled.tsx";
+import { InfoFilled } from "@/svg/infoFilled.tsx";
 import { gray40, gray60 } from "@/styles/abstracts/colors.ts";
 import Button from "@/components/atom/button/button.tsx";
 

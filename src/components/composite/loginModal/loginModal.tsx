@@ -1,4 +1,4 @@
-import styles from "@/styles/components/_login_modal.module.scss";
+import styles from "./_login_modal.module.scss";
 import React from "react";
 import { SOCIAL_TYPES } from "@/data/constants.ts";
 import SocialAuthButton from "../socialAuthButton/socialAuthButton.tsx";

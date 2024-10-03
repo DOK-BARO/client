@@ -13,7 +13,7 @@ const SocialRegisterLayout = () => {
   const title = titles[step || ""] || "";
 
   return (
-    <section className={styles["register-layout"]}>
+    <section className={styles["register-baseLayout"]}>
       <header>
         <h2>소셜 계정으로 회원가입</h2>
         <p className={styles["title"]}>{title}</p>

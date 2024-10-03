@@ -1,6 +1,6 @@
-import styles from "@/styles/composite/_header_quiz_util_list.module.scss";
-import { Pencil } from "public/assets/svg/pencil.tsx";
-import { CheckSquare } from "public/assets/svg/checkSquare.tsx";
+import styles from "./_header_quiz_util_list.module.scss";
+import { Pencil } from "@/svg/pencil.tsx";
+import { CheckSquare } from "@/svg/checkSquare";
 import { gray70 } from "@/styles/abstracts/colors.ts";
 type Props = {
   closeDropDownList: () => void;

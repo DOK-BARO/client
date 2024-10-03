@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./_modal.module.scss";
 import { gray80 } from "@/styles/abstracts/colors";
-import { Close } from "public/assets/svg/close";
+import { Close } from "@/svg/close";
 import Button from "../button/button";
 interface ModalProps {
   popUpTitle?: string;

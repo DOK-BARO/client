@@ -1,7 +1,7 @@
 import { Star } from "@mui/icons-material";
 import styles from "./_quiz_item.module.scss";
-import { DokPick } from "public/assets/svg/dokPick.tsx";
-import { QuizLevelBarChart } from "public/assets/svg/quizLevelBarChart.tsx";
+import { DokPick } from "@/svg/dokPick";
+import { QuizLevelBarChart } from "@/svg/quizLevelBarChart";
 import Button from "@/components/atom/button/button";
 
 // 임시 Props 정의

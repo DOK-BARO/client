@@ -1,6 +1,7 @@
-import styles from "../../../styles/layout/_register_layout.module.scss";
+import styles from "./_register_layout.module.scss";
 import { Outlet, useParams } from "react-router-dom";
-import ProgressBar from "../components/progressBar";
+import ProgressBar from "@/pages/Register/components/progressBar/progressBar.tsx";
+
 
 const EmailRegisterLayout = () => {
   const { step } = useParams<{ step: string }>();
@@ -14,7 +15,7 @@ const EmailRegisterLayout = () => {
   const title = titles[step || ""] || "";
 
   return (
-    <section className={styles["register-layout"]}>
+    <section className={styles["register-baseLayout"]}>
       <header>
         <h2>이메일 계정으로 회원가입</h2>
         <p className={styles["title"]}>{title}</p>

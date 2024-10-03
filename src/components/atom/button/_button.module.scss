@@ -1,0 +1,43 @@
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixins";
+
+.button {
+  @include button-base;
+  &--xsmall {
+    padding: $button-padding-xsmall;
+    font-size: $button-font-xsmall;
+    border-radius: $button-radius-xsmall;
+    height: $button-height-xsmall;
+  }
+
+  &--small {
+    padding: $button-padding-small;
+    font-size: $button-font-small;
+    border-radius: $button-radius-small;
+    height: $button-height-small;
+  }
+
+  &--medium {
+    padding: $button-padding-medium;
+    font-size: $button-font-medium;
+    border-radius: $button-radius-medium;
+    height: $button-height-medium;
+  }
+  &--large {
+    padding: $button-padding-large;
+    font-size: $button-font-large;
+    border-radius: $button-radius-large;
+    height: $button-height-large;
+  }
+  &--xlarge {
+    padding: $button-padding-xlarge;
+    font-size: $button-font-xlarge;
+    border-radius: $button-radius-xlarge;
+    height: $button-height-xlarge;
+  }
+
+  .icon-container {
+    cursor: pointer;
+    display: flex;
+  }
+}

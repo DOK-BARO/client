@@ -1,0 +1,104 @@
+@import "../../../../styles/abstracts/variables";
+@import "../../../../styles/abstracts/mixins";
+
+.write-quiz {
+  border: 2px solid $primary;
+  background-color: $gray-00;
+  padding: 16px;
+  border-radius: $border-radius-medium;
+
+  .quiz-mode-buttons {
+    display: flex;
+    gap: 16px;
+  }
+
+  button.set-quiz,
+  button.set-answer {
+    background: none;
+    color: $gray-60;
+    font-size: $font-size-xlarge;
+    font-weight: 500;
+    padding: 0 16px;
+
+    &.active {
+      color: $primary;
+      font-weight: 600;
+    }
+  }
+  .input-container {
+    display: flex;
+    gap: 16px;
+
+    input.question {
+      border-color: $gray-40;
+    }
+
+    .select-box {
+      position: relative;
+      display: inline-block;
+      width: 168px;
+
+      select.question-type {
+        padding: 22px 16px;
+        width: 100%;
+        border-color: $gray-40;
+        border-radius: $border-radius-medium;
+        font-size: $font-size-xlarge;
+        appearance: none;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        position: relative;
+        cursor: pointer;
+      }
+      .arrow-down {
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        pointer-events: none;
+      }
+    }
+  }
+  .question-options {
+    margin-top: 32px;
+    margin-bottom: 40px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 16px;
+    font-size: $font-size-xlarge;
+
+    .option {
+      &-container {
+        @include flex(row, center);
+        gap: 8px;
+        padding: 8px 16px;
+      }
+      &-check-circle {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        border: 2px solid $gray-70;
+      }
+      &-label {
+        line-height: 1.5;
+      }
+    }
+
+    legend {
+      @include sr-only;
+    }
+  }
+}
+input.new-option {
+  border: none;
+  padding: 0;
+  border-radius: 0;
+  font-size: $font-size-xlarge;
+
+  &:focus {
+    outline: none;
+    border: none;
+  }
+}

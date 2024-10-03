@@ -1,0 +1,36 @@
+@import "../../../../styles/abstracts/variables";
+@import "../../../../styles/abstracts/mixins";
+
+.profile-set {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  h3 {
+    @include sr-only;
+  }
+  .description {
+    margin-top: 32px;
+    font-size: $font-size-xlarge;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+  .description[data-for="nickname"] {
+    margin-bottom: 32px;
+  }
+}
+.nickname-input {
+  //   margin-top: 32px;
+  border-color: $gray-40;
+}
+.delete {
+  background-color: none;
+  margin: 0;
+}
+.done {
+  margin-top: 32px;
+  width: 100%;
+  background-color: $primary;
+  color: $gray-00;
+  font-weight: 700;
+}

@@ -1,0 +1,79 @@
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixins";
+
+.modal-button {
+  @include button-base;
+  background-color: transparent;
+  height: auto;
+  right: 40px;
+  top: 40px;
+  position: absolute;
+}
+
+.modal-backdrop {
+  display: flex;
+  align-items: center;
+  background-color: $modal-backdrop-color;
+  z-index: 1; //위치지정 요소
+  position: fixed;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.modal-view {
+  display: flex;
+  align-items: start;
+  background-color: $gray-00;
+  flex-direction: column;
+  border-radius: $border-radius-large; // 12px
+  // border: 1px solid $gray-40;
+  padding: 40px;
+  position: relative;
+}
+
+.modal-header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 52px;
+
+  span {
+    font-size: $font-size-large;
+    font-weight: 700;
+  }
+
+  button {
+    padding: 0;
+  }
+}
+
+.content-title {
+  font-size: $font-size-xlarge;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+.content {
+  font-size: $font-size-large;
+  margin-bottom: 32px; // 27.56px. 정확하지 않음.
+  width: 100%;
+}
+
+.modal-footer {
+  display: flex;
+  width: 100%;
+  justify-content: end;
+  button {
+    margin-left: 8px;
+    border: 1px solid $gray-90;
+    height: 48px;
+    &:nth-child(2) {
+      border: none;
+      background-color: $secondary;
+      color: $gray-00;
+    }
+  }
+}

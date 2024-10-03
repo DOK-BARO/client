@@ -1,11 +1,11 @@
 import { useOutletContext, useParams } from "react-router-dom";
-import TermsAgreement from "./composite/social/termsAgreement";
-import ProfileSet from "./composite/profileSet";
-import EmailVerification from "./composite/email/emailVerification";
-import PasswordSet from "./composite/email/passwordSet";
+import TermsAgreement from "@/pages/Register/composite/social/termsAgreement/termsAgreement.tsx";
+import ProfileSet from "@/pages/Register/composite/profileSet/profileSet.tsx";
+import EmailVerification from "@/pages/Register/composite/email/emailVerification/emailVerification.tsx";
+import PasswordSet from "@/pages/Register/composite/email/passwordSet/passwordSet.tsx";
 
 type Method = "social" | "email";
-type Step = "1" | "2" | "3";
+type Step = "1" | "2" | "3" | "4";
 
 export default function RegisterStep() {
   const { step } = useParams<{ step: Step }>();
@@ -20,9 +20,10 @@ export default function RegisterStep() {
       "2": ProfileSet,
     },
     email: {
-      "1": EmailVerification,
-      "2": PasswordSet,
-      "3": ProfileSet,
+      "1": TermsAgreement,
+      "2": EmailVerification,
+      "3": PasswordSet,
+      "4": ProfileSet,
     },
   };
 

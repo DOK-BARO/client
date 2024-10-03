@@ -1,0 +1,11 @@
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixins";
+
+.auth-button {
+  justify-content: center;
+  width: 390px;
+  height: 56px;
+  font-size: $font-size-large;
+  border-radius: $border-radius-small;
+  border: none;
+}

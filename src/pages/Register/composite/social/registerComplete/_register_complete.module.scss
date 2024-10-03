@@ -1,0 +1,56 @@
+@import "../../../../../styles/abstracts/variables";
+@import "../../../../../styles/abstracts/mixins";
+
+.register-complete {
+  h3,
+  h4 {
+    @include sr-only;
+  }
+  .container {
+    margin-top: 10px;
+    display: flex;
+    gap: 80px;
+    .welcome-text {
+      font-size: 17px;
+      font-weight: $font-weight-semibold;
+      line-height: 1.5;
+      .greeting {
+        font-size: 40px;
+      }
+      .description {
+        margin-top: 8px;
+        font-size: 22px;
+        margin-bottom: 80px;
+      }
+
+      p > em {
+        color: $primary;
+      }
+
+      .invite-code {
+        &-input-container {
+          @include flex(row, center);
+
+          gap: 8px;
+          margin-top: 16px;
+
+          input {
+            border-color: $gray-40;
+          }
+          button {
+            background-color: $primary;
+            color: $gray-00;
+            font-weight: $font-weight-semibold;
+          }
+        }
+      }
+
+      .new-quiz {
+        margin-top: 60px;
+        .new-quiz-container {
+          margin-top: 16px;
+        }
+      }
+    }
+  }
+}

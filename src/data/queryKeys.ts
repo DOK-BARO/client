@@ -1,4 +1,4 @@
-import { GetBookListParams } from "../types/BookType";
+import { GetBookListParams } from "@/types/BookType";
 
 export const bookKeys = {
   detail: (id: string) => ["bookDetailContent", id] as const,
@@ -7,5 +7,5 @@ export const bookKeys = {
 };
 
 export const userKeys = {
-  user : () => ["user"] as const,
+  user: () => ["user"] as const,
 };

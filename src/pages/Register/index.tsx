@@ -6,9 +6,9 @@ export default function Index() {
   const { method } = useParams();
 
   switch (method) {
-    case "social":
-      return <SocialRegisterLayout />;
-    default:
-      return <EmailRegisterLayout />;
+  case "social":
+    return <SocialRegisterLayout />;
+  default:
+    return <EmailRegisterLayout />;
   }
 }

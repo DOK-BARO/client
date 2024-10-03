@@ -1,18 +1,18 @@
 import axios, { AxiosError } from "axios";
 import { AuthResponse } from "../../types/AuthResponse.ts";
 import { SocialLoginType } from "../../types/SocialLoginType.ts";
-import { User } from "../../types/User.ts";
 import localApi from "../local/LocalApi.ts";
+import { UserType } from "@/types/UserType.ts";
 
 const redirectedUrl = import.meta.env.VITE_AUTH_REDIRECTED_URL;
 
 export const getAuthUrl = async (
-  socialLoginType: SocialLoginType,
+  socialLoginType: SocialLoginType
 ): Promise<string> => {
   console.log("get kakao auth url");
   try {
     const { data } = await axios.get(
-      `/auth/oauth2/authorize/${socialLoginType}?redirectUrl=${redirectedUrl}/${socialLoginType.toLowerCase()}`,
+      `/auth/oauth2/authorize/${socialLoginType}?redirectUrl=${redirectedUrl}/${socialLoginType.toLowerCase()}`
     );
     return data.url; // 임시 임의 리턴값
   } catch (error) {
@@ -22,7 +22,7 @@ export const getAuthUrl = async (
 
 export const login = async (
   socialType: SocialLoginType,
-  token: string,
+  token: string
 ): Promise<AuthResponse> => {
   const postData = {
     token,
@@ -32,7 +32,7 @@ export const login = async (
   try {
     const { data } = await axios.post(
       `/auth/oauth2/login/${socialType}`,
-      postData,
+      postData
     );
     console.log("data", data); // 응답 객체 출력
     return data;
@@ -53,7 +53,7 @@ export const login = async (
 
 export const signup = async (
   socialType: SocialLoginType,
-  token: string,
+  token: string
 ): Promise<AuthResponse> => {
   try {
     const postData = {
@@ -62,7 +62,7 @@ export const signup = async (
     };
     const { data } = await axios.post(
       `/auth/oauth2/signup/${socialType}`,
-      postData,
+      postData
     );
     return data; // 임시 임의 리턴값
   } catch (error: unknown) {
@@ -79,7 +79,7 @@ export const signup = async (
   }
 };
 
-export const getUser = async (): Promise<User> => {
+export const getUser = async (): Promise<UserType> => {
   try {
     const { data } = await axios.get("/members/login-user");
     return data;
@@ -88,7 +88,7 @@ export const getUser = async (): Promise<User> => {
   }
 };
 
-export const getUserIfAuthenticated = async (): Promise<User | null> => {
+export const getUserIfAuthenticated = async (): Promise<UserType | null> => {
   const certificationId = !!localApi.getUserCertificationId();
 
   if (!certificationId) {

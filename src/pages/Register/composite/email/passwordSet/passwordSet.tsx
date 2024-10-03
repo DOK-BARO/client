@@ -6,14 +6,20 @@ import { useEffect, useState } from "react";
 import styles from "./_password_set.module.scss";
 import useInput from "@/hooks/useInput.ts";
 import { passwordValidation } from "@/validation/passwordValidation.ts";
-import { User } from "@/types/User.ts";
-import { userAtom } from "@/store/userAtom.ts";
+
 import Input from "@/components/atom/input/input.tsx";
-import { gray40, gray60, systemDanger, systemSuccess } from "@/styles/abstracts/colors.ts";
+import {
+  gray40,
+  gray60,
+  systemDanger,
+  systemSuccess,
+} from "@/styles/abstracts/colors.ts";
 import { Check } from "@/svg/check.tsx";
 import { Invisible } from "@/svg/invisible.tsx";
 import { Close } from "@/svg/close.tsx";
 import Button from "@/components/atom/button/button.tsx";
+import { RegisterInfoType } from "@/types/UserType";
+import { RegisterInfoAtom } from "@/store/userAtom";
 
 export default function PasswordSet() {
   const {
@@ -25,7 +31,7 @@ export default function PasswordSet() {
   const { value: passwordCheck, onChange: onPasswordCheckChange } =
     useInput("");
 
-  const [user, setUser] = useAtom<User>(userAtom);
+  const [user, setUser] = useAtom<RegisterInfoType>(RegisterInfoAtom);
 
   useEffect(() => {
     // 사용자가 뒤로가기 눌렀다 다시 돌아왔을 때 초기화되도록(비밀번호만)

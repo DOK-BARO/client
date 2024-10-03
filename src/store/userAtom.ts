@@ -1,12 +1,12 @@
+import { RegisterInfoType } from "@/types/UserType";
 import { atom } from "jotai";
-import { User } from "../types/User";
 
-export const userAtom = atom<User>({
+// 사용자 회원가입 로직에서 사용되는 전역변수
+export const RegisterInfoAtom = atom<RegisterInfoType>({
   id: 0,
-  certificationId: "",
   email: "",
   password: "",
   nickname: "",
   profileImage: "",
-  roles: [],
+  // roles: [],
 });

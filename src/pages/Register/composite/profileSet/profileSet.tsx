@@ -1,8 +1,7 @@
 import styles from "./_profile_set.module.scss";
 import { FormEvent, useEffect, useState } from "react";
 import { useAtom } from "jotai";
-import { User } from "@/types/User";
-import { userAtom } from "@/store/userAtom";
+
 import { AUTH_ACTION, LOCAL_STORAGE_KEY } from "@/data/constants";
 import { useAuth } from "@/hooks/useAuth";
 import { SocialLoginType } from "@/types/SocialLoginType";
@@ -12,6 +11,8 @@ import Input from "@/components/atom/input/input.tsx";
 import { XCircle } from "@/svg/xCircle";
 import { gray30, gray60 } from "@/styles/abstracts/colors.ts";
 import Button from "@/components/atom/button/button.tsx";
+import { RegisterInfoType } from "@/types/UserType";
+import { RegisterInfoAtom } from "@/store/userAtom";
 
 export default function ProfileSet() {
   const isSubmitAble: boolean = true;
@@ -23,7 +24,7 @@ export default function ProfileSet() {
   const defaultImagePath = "/public/svg/image/default-profile.png";
   const [profileImage, setProfileImage] = useState<string>(defaultImagePath);
   // const navigate = useNavigate();
-  const [user, setUser] = useAtom<User>(userAtom);
+  const [user, setUser] = useAtom<RegisterInfoType>(RegisterInfoAtom);
 
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
   const { redirectToAuthPage } = useAuth();

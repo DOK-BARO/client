@@ -7,14 +7,14 @@ import { Close } from "@/svg/close";
 import { systemDanger } from "@/styles/abstracts/colors";
 import { emailValidation } from "@/validation/emailValidation";
 import { useAtom } from "jotai";
-import { userAtom } from "@/store/userAtom";
-import { User } from "@/types/User";
 import useInput from "@/hooks/useInput.ts";
 import Input from "@/components/atom/input/input.tsx";
 import Button from "@/components/atom/button/button.tsx";
+import { RegisterInfoType } from "@/types/UserType";
+import { RegisterInfoAtom } from "@/store/userAtom";
 
 export default function EmailVerification() {
-  const [user, setUser] = useAtom<User>(userAtom);
+  const [user, setUser] = useAtom<RegisterInfoType>(RegisterInfoAtom);
   const {
     value: email,
     onChange: onEmailChange,

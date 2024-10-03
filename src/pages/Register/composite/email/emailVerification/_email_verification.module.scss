@@ -1,0 +1,28 @@
+@import "../../../../../styles/abstracts/variables";
+@import "../../../../../styles/abstracts/mixins";
+
+.email-verification {
+  h3 {
+    @include sr-only;
+  }
+  .description {
+    margin: 32px 0 32px 0;
+    font-size: $font-size-xlarge;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .next {
+    width: 100%;
+    background-color: $primary;
+    font-weight: $font-weight-semibold;
+    color: $gray-00;
+    margin-top: 32px;
+  }
+
+  .message-container {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+}

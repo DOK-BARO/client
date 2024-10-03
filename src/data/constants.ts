@@ -1,5 +1,5 @@
-import { SocialLoginType } from "../types/SocialLoginType.ts";
-import { AuthType } from "../types/AuthType.ts";
+import { SocialLoginType } from "@/types/SocialLoginType.ts";
+import { AuthType } from "@/types/AuthType.ts";
 
 export const LOCAL_STORAGE_KEY = {
   AUTH_ACTION: "authAction",

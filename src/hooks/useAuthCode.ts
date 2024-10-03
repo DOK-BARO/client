@@ -50,13 +50,16 @@ export const useAuthCode = (provider: string) => {
       await setUserInLocalStorage();
       navigate("/");
     } catch (error) {
+      console.log("?");
+
       if(axios.isAxiosError(error)) {
         const axiosError = error as AxiosError;
         if (axiosError.response?.status === 404) {
           // TODO : 회원가입
           //doSignUp(code);
           //TODO: 약관동의 페이지로 이동
-          navigate("/user-auth-agreement");
+          console.log("in doSignup", code);
+          navigate("/register/social/1");
         }
       }
       console.log("회원가입 오류:", error);
@@ -66,6 +69,7 @@ export const useAuthCode = (provider: string) => {
 
   const doSignUp = async (code: string) => {
     try {
+      console.log("in do signup in useAuthcode");
       // 사용자 정보 전달하기
       await signup(provider.toUpperCase() as SocialLoginType, code);
       await setUserInLocalStorage();
@@ -93,12 +97,15 @@ export const useAuthCode = (provider: string) => {
     } catch (error) {
       if(axios.isAxiosError(error)) {
         const axiosError = error as AxiosError;
-        if (axiosError.response?.status === 404) {
+        //console.log("code number", axios.response.status);
+
+        if (axiosError.response?.status === 400) {
           // TODO : 회원가입
-          console.log("in 404 login");
+          console.log("in 404 login!!");
           localStorage.setItem(LOCAL_STORAGE_KEY.AUTH_ACTION, AUTH_ACTION.SIGN_UP);
+          await doSignUp(code);
+
           await redirectToAuthPage(provider.toUpperCase() as SocialLoginType);
-          doSignUp(code);
         }
       }
     }

@@ -39,7 +39,8 @@ export const login = async (
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       const axiosError = error as AxiosError;
-      if (axiosError.response?.status === 404) {
+      if (axiosError.response?.status === 400) {
+        console.log("in 400 in authService");
         throw error;
         //throw new Error(`존재하지 않는 계정입니다: ${error}`);
       }

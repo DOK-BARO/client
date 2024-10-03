@@ -3,6 +3,7 @@
 .searchbar {
   border: none;
   background-color: $gray-20;
+  border-radius: 4px;
 
   &-container {
     width: 100%;
@@ -11,5 +12,10 @@
 
   &::placeholder {
     font-weight: $font-weight-semibold;
+  }
+
+  &:focus {
+    border: 2px solid $primary;
+    outline: none;
   }
 }

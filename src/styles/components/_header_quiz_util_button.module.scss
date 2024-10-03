@@ -16,8 +16,13 @@
     align-items: center;
     background-color: $background;
     border: none;
-    font-weight: bold;
-    font-size: $font-size-large;
     white-space: nowrap;
+
+    h3 {
+      font-family: Pretendard, serif;
+      font-weight: $font-weight-bold;
+      font-size: $font-size-large;
+      margin-right: 6px;
+    }
   }
 }

@@ -7,7 +7,7 @@ function HeaderQuizUtilButton ({ isLoggedIn }: { isLoggedIn : boolean }) {
   const { isOpenDropDownList, anchorEl, openDropDownList, closeDropDownList, dropDownListRef } = useDropDownList();
 
   if (!isLoggedIn) {
-    return null;
+    //TODO: isLoggedIn이 false이면 랜딩페이지로 이동 (로그인 권유) 사실 if문도 필요없음
   }
   
   return (

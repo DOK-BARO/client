@@ -13,6 +13,7 @@ import Button from "@/components/atom/button/button.tsx";
 import { RegisterInfoType } from "@/types/UserType";
 import { RegisterInfoAtom } from "@/store/userAtom";
 import { useState } from "react";
+import axios from "axios";
 
 export default function Verification() {
   const [user, setUser] = useAtom<RegisterInfoType>(RegisterInfoAtom);
@@ -22,15 +23,121 @@ export default function Verification() {
     isValid: isEmailValid,
   } = useInput(user.email, emailValidation);
   // const navigate = useNavigate();
+  // const { value: code, onChange: onCodeChange } = useInput("");
+  const [code, setCode] = useState<string[]>(Array(6).fill(""));
+  const fullCode: string = code.join("");
 
   const [isEmailSent, setIsEmailSent] = useState<boolean>(false);
 
-  const onSubmit = (): void => {
+  const onNext = (): void => {
+    if (!email || !isEmailValid) {
+      return;
+    }
     setUser({
       ...user,
       email,
     });
-    setIsEmailSent(true); // navigate("/register/email/3");
+    // 인증코드 발송
+    sendEmailCode();
+  };
+
+  const onCodeChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const { value } = e.target;
+
+    if (value.length > 1) return;
+    const newCode = [...code];
+
+    if (value) {
+      newCode[index] = value;
+      setCode(newCode);
+
+      // 다음 인풋으로 포커스
+      if (index < 5) {
+        setTimeout(() => {
+          const nextInput = document.getElementById(`code-input-${index + 1}`);
+          if (nextInput) {
+            (nextInput as HTMLInputElement).focus();
+          }
+        }, 0);
+      }
+    } else {
+      newCode[index] = "";
+      setCode(newCode);
+
+      // 이전 인풋으로 포커스
+      if (index > 0) {
+        setTimeout(() => {
+          const prevInput = document.getElementById(`code-input-${index - 1}`);
+          if (prevInput) {
+            (prevInput as HTMLInputElement).focus();
+          }
+        }, 0);
+      }
+    }
+  };
+
+  // 이메일로 인증코드 보내기
+  const sendEmailCode = async () => {
+    console.log(email);
+    try {
+      const response = await axios.post("/email-authentications", {
+        email: email,
+      });
+      // axios 타입으로 바꾸기
+      if (response.status === 201) {
+        console.log(response);
+        setIsEmailSent(true);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+
+    // 완료 후
+    // setIsEmailSent(true); // navigate("/register/email/3");
+  };
+
+  const matchEmailCode = async () => {
+    console.log(email);
+    console.log(fullCode);
+    // try {
+    //   const response = await axios.post("/email-authentications/match-code", {
+    //     email: email,
+    //     code: code,
+    //   });
+    //   // axios 타입으로 바꾸기
+    //   // if (response.status === 201) {
+    //   //   console.log(response);
+    //   //   setIsEmailSent(true);
+    //   // }
+    //   console.log(response);
+    // } catch (e) {
+    //   console.error(e);
+    // }
+
+    // 완료 후
+    // setIsEmailSent(true); // navigate("/register/email/3");
+  };
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    if (e.key === "Backspace" && code[index] === "") {
+      if (index > 0) {
+        setTimeout(() => {
+          const prevInput = document.getElementById(`code-input-${index - 1}`);
+          if (prevInput) {
+            (prevInput as HTMLInputElement).focus();
+          }
+        }, 0);
+      }
+    }
+  };
+
+  const onDone = () => {
+    matchEmailCode();
   };
 
   return (
@@ -72,10 +179,27 @@ export default function Verification() {
           size="large"
         />
       ) : (
-        <>인증코드 인풋</>
+        <div className={styles["code-input-container"]}>
+          {code.map((digit, i) => (
+            <Input
+              size="large"
+              key={i}
+              id={`code-input-${i}`}
+              value={digit}
+              onChange={(e) => onCodeChange(e, i)}
+              onKeyDown={(e) => handleKeyDown(e, i)}
+              maxLength={1}
+              className={styles.input}
+            />
+          ))}
+        </div>
       )}
-      <Button className={styles.next} size="medium" onClick={onSubmit}>
-        다음
+      <Button
+        className={styles.next}
+        size="medium"
+        onClick={!isEmailSent ? onNext : onDone}
+      >
+        {!isEmailSent ? <>다음</> : <>인증하기</>}
       </Button>
     </section>
   );

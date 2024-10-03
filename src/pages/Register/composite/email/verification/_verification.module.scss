@@ -25,4 +25,16 @@
     align-items: center;
     gap: 3px;
   }
+
+  .code-input-container {
+    display: flex;
+    gap: 10px;
+
+    *:nth-child(3) {
+      margin-right: 10px;
+    }
+    *:nth-child(4) {
+      margin-left: 10px;
+    }
+  }
 }

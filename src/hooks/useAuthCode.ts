@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { signup, login, getUser } from "../services/server/authService.ts";
+import { signup, login, getUser } from "@/services/server/authService.ts";
 import {
   AUTH_ACTION,
   LOCAL_STORAGE_KEY,
@@ -14,14 +14,16 @@ import { useAuth } from "./useAuth.ts";
 export const useAuthCode = (provider: string) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { redirectToAuthPage, loading } = useAuth();
+  const { redirectToAuthPage } = useAuth();
 
   const setUserInLocalStorage = async () => {
-    const user:User= await getUser();
+    const user: User = await getUser();
     localStorage.setItem("certificationId", user.certificationId); // 로컬 스토리지에 토큰 저장
   };
 
-  const startAuth = async (code: string) => {
+  const doSignup = async (code: string) => {
+
+  //const startAuth = async (code: string) => {
     // try {
     //   await signup(
     //     provider.toUpperCase() as SocialLoginType,
@@ -64,12 +66,12 @@ export const useAuthCode = (provider: string) => {
 
   const doSignUp = async (code: string) => {
     try {
-      await signup(
-        provider.toUpperCase() as SocialLoginType,
-        code,
-      );
+      // 사용자 정보 전달하기
+      await signup(provider.toUpperCase() as SocialLoginType, code);
       await setUserInLocalStorage();
-      navigate("/");
+
+      // 회원가입 페이지로 이동
+      navigate("/register/complete");
       localStorage.removeItem(LOCAL_STORAGE_KEY.AUTH_ACTION);
     } catch (error) {
       if(axios.isAxiosError(error)) {
@@ -84,10 +86,7 @@ export const useAuthCode = (provider: string) => {
 
   const doLogin = async (code: string) => {
     try {
-      await login(
-        provider.toUpperCase() as SocialLoginType,
-        code,
-      );
+      await login(provider.toUpperCase() as SocialLoginType, code);
       await setUserInLocalStorage();
       navigate("/");
       localStorage.removeItem(LOCAL_STORAGE_KEY.AUTH_ACTION);
@@ -111,7 +110,7 @@ export const useAuthCode = (provider: string) => {
 
     if (code) {
       const action = localStorage.getItem(LOCAL_STORAGE_KEY.AUTH_ACTION);
-      action === AUTH_ACTION.LOGIN ? doLogin(code) : doSignUp(code);
+      action === AUTH_ACTION.LOGIN ? doLogin(code) : doSignup(code);
     }
   }, []);
 };

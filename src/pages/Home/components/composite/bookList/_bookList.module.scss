@@ -1,0 +1,12 @@
+@import "../../../../../styles/abstracts/variables";
+@import "../../../../../styles/abstracts/mixins";
+
+.sr-only {
+  @include sr-only;
+}
+
+.book-list-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}

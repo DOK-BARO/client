@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { getAuthUrl } from "../services/server/authService.ts";
-import { SocialLoginType } from "../types/SocialLoginType.ts";
+import { getAuthUrl } from "@/services/server/authService.ts";
+import { SocialLoginType } from "@/types/SocialLoginType.ts";
 
 export const useAuth = () => {
   const [loading, setLoading] = useState(false);

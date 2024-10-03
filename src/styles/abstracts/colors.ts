@@ -10,8 +10,9 @@ export const gray80 = "#2D2D2D";
 export const gray90 = "#1d1d1d";
 
 export const primary = "#9747FF";
-export const primary30 = "#F5EDFF";
-export const success50 = "#1DCC00";
-export const danger50 = "#eb003b";
+export const secondary = "#f5edff";
+export const systemSuccess = "#3dbf0f";
+export const systemDanger = "#eb003b";
+export const systemWarning = "#ffb724";
 
 export const modalBackdropColor = "#00000080";

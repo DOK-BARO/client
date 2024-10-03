@@ -1,4 +1,4 @@
-import styles from "../../styles/pages/_emailVerification.module.scss";
+import styles from "./_emailVerification.module.scss";
 export default function index() {
   const email = "dockbaro@gmail.com";
   const code = "3f1jr9"; // 인증 코드

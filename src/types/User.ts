@@ -1,8 +1,9 @@
 export interface User {
-  id:number;
+  id: number;
   certificationId: string;
   email: string;
-  nickName: string;
-  profileImage:string;
+  password: string;
+  nickname: string;
+  profileImage: string;
   roles: string[];
 }

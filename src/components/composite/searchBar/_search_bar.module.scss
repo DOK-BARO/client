@@ -1,0 +1,15 @@
+@import "../../../styles/abstracts/variables";
+
+.searchbar {
+  border: none;
+  background-color: $gray-20;
+
+  &-container {
+    width: 100%;
+    margin: 0 16px 0;
+  }
+
+  &::placeholder {
+    font-weight: $font-weight-semibold;
+  }
+}

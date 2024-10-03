@@ -1,14 +1,23 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+  RouterProvider,
+  createBrowserRouter,
+} from "react-router-dom";
 import "./styles/main.scss";
 import Index from "./pages/Home/index.tsx";
 import axios from "axios";
-import Layout from "./components/layout/layout";
+
 import AuthRedirectedPage from "./pages/Redirect/authRedirectedPage.tsx";
 import ComponentTest from "./pages/ComponentTest/index.tsx";
 import BookDetailSection from "./pages/BookDetail/";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import CreateQuiz from "./pages/CreateQuiz/index.tsx";
 import EmailVerification from "./pages/EmailVerification/index.tsx";
+import Register from "./pages/Register/index.tsx";
+
+import RegisterStep from "./pages/Register/registerStep.tsx";
+//import BaseLayout from "@/components/layout/baseLayout/baseLayout";
+import BaseLayout from "./components/layout/baseLayout/baseLayout";
+import RegisterComplete from "./pages/Register/composite/social/registerComplete/RegisterComplete.tsx";
 
 function App() {
   axios.defaults.withCredentials = true;
@@ -18,7 +27,7 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Layout />,
+      element: <BaseLayout />,
       children: [
         {
           path: "/",
@@ -32,6 +41,24 @@ function App() {
           path: "/book-detail/:id",
           element: <BookDetailSection />,
         },
+        {
+          path: "/register/:method",
+          element: <Register />,
+          children: [
+            {
+              path: ":step",
+              element: <RegisterStep />,
+            }, // {
+            //   index: true,
+            //   element: <Navigate to="1" />,
+            // },
+          ],
+        },
+        {
+          path: "/register/complete",
+          element: <RegisterComplete />,
+        },
+
         {
           // 공용 컴포넌트 미리보기를 위한 페이지
           path: "/component-test",

@@ -1,0 +1,17 @@
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixins";
+
+.register-layout {
+  width: 390px;
+  margin: 0 auto;
+
+  .title {
+    // margin-top: 80px;
+    font-size: 40px;
+    font-weight: 600;
+  }
+
+  h2 {
+    @include sr-only;
+  }
+}

@@ -2,7 +2,6 @@ import { AUTH_TYPES, SOCIAL_TYPES } from "@/data/constants.ts";
 import useGNB from "@/hooks/useGNB.ts";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
 import { RadioOptions } from "@/types/RadioTypes.ts";
-import styles from "./_component_test.module.scss";
 import useModal from "@/hooks/useModal.ts";
 import { getUser } from "@/services/server/authService.ts";
 import { useState } from "react";
@@ -12,7 +11,6 @@ import RadioButton from "@/components/atom/radioButton/radioButton.tsx";
 import SocialAuthButton from "@/components/composite/socialAuthButton/socialAuthButton.tsx";
 import Button from "@/components/atom/button/button.tsx";
 import GNB from "@/components/layout/gnb/gnb.tsx";
-import AuthButton from "@/components/atom/authButton/authButton.tsx";
 import Modal from "@/components/atom/modal/modal.tsx";
 import Input from "@/components/atom/input/input.tsx";
 
@@ -39,7 +37,6 @@ export default function Index() {
         correctOption={"option2"} // TODO: 채점 전엔 null, 답안이 오면 해당 답안으로 set
         isDisabled={false} // TODO 답안이 오면 true
       />
-
       <div style={{ display: "flex", gap: "10px" }}>
         {SOCIAL_TYPES.map((socialType) => (
           <div key={socialType}>
@@ -74,9 +71,6 @@ export default function Index() {
           button
         </Button>
       </div>
-      <AuthButton onClick={() => {}} className={styles.done}>
-        완료
-      </AuthButton>
       <Button
         onClick={() => {
           console.log("open modal");
@@ -131,6 +125,39 @@ export default function Index() {
         leftIcon={<Invisible stroke={gray60} width={24} />}
         rightIcon={<Invisible stroke={gray60} width={24} />}
       />
+      <span style={{ display: "flex", gap: "10px" }}>
+        <Button color="primary" size="medium" onClick={() => {}}>
+          button
+        </Button>
+        <Button color="secondary" size="medium" onClick={() => {}}>
+          button
+        </Button>
+        <Button color="primary-border" size="medium" onClick={() => {}}>
+          button
+        </Button>
+        <Button color="black" size="medium" onClick={() => {}}>
+          button
+        </Button>
+        <Button color="white" size="medium" onClick={() => {}}>
+          button
+        </Button>
+        <Button color="transparent" size="medium" onClick={() => {}}>
+          button
+        </Button>
+        <Button color="primary" size="medium" disabled onClick={() => {}}>
+          disabled button
+        </Button>
+      </span>
+      <div
+        style={{ margin: "20px 0", width: "390px", background: "lightGray" }}
+      >
+        <Button fullWidth color="primary" size="medium" onClick={() => {}}>
+          button fullWidth
+        </Button>
+        <Button color="white" size="medium" onClick={() => {}}>
+          button
+        </Button>
+      </div>
     </>
   );
 }

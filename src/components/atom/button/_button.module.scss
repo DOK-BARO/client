@@ -3,6 +3,8 @@
 
 .button {
   @include button-base;
+
+  // 버튼 사이즈
   &--xsmall {
     padding: $button-padding-xsmall;
     font-size: $button-font-xsmall;
@@ -36,8 +38,44 @@
     height: $button-height-xlarge;
   }
 
+  // 버튼 색상(스타일)
+  &--primary {
+    background-color: $primary;
+    color: $gray-00;
+  }
+  &--secondary {
+    background-color: $secondary;
+    color: $primary;
+  }
+  &--primary-border {
+    background-color: $gray-00;
+    color: $primary;
+    border: 2px solid $primary;
+  }
+  &--black {
+    background-color: $gray-90;
+    color: $gray-00;
+  }
+  &--white {
+    background-color: $gray-00;
+    border: 1px solid $gray-40;
+    color: $gray-90;
+  }
+  &--transparent {
+    background-color: transparent;
+    color: $gray-90;
+  }
+  &:disabled {
+    background-color: $gray-20;
+    color: $gray-60;
+  }
+
   .icon-container {
     cursor: pointer;
     display: flex;
   }
+}
+
+.full {
+  width: 100%;
 }

@@ -1,8 +1,8 @@
 import styles from "./_header_menu_button.module.scss";
-import PersonIcon from "@mui/icons-material/Person";
 import { useDropDownList } from "@/hooks/useDropDownList.ts";
 import Button from "@/components/atom/button/button.tsx";
 import HeaderMenuList from "../headerMenuList/headerMenuList.tsx";
+import { Person } from "@/svg/person.tsx";
 
 type Props = {
   isLoggedIn: boolean;
@@ -22,12 +22,12 @@ export default function HeaderMyInfoUtilButton({ isLoggedIn }: Props) {
   }
 
   return (
-    <div className={styles["header-menu-container"]} ref={dropDownListRef}>
+    <div className={styles["header-my-info-util-container"]} ref={dropDownListRef}>
       <Button
-        className={styles["header-menu-button"]}
+        className={styles["header-my-info-util-button"]}
         onClick={openDropDownList}
       >
-        <PersonIcon />
+        <Person width={40} height={40} />
       </Button>
       {isOpenDropDownList && anchorEl && (
         <HeaderMenuList closeDropDownList={closeDropDownList} />

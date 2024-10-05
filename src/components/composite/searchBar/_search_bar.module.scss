@@ -6,16 +6,13 @@
   border-radius: 4px;
 
   &-container {
+    flex-grow: 1; /* 남은 공간을 모두 차지 */
     width: 100%;
-    margin: 0 16px 0;
   }
 
   &::placeholder {
     line-height: 1.5;
-    //font-size: 0.9375rem;
     font-size: 15px;
-    //font-size: $font-size-medium;
-    //font-weight: $font-weight-medium;
     font-family: Pretendard, serif;
   }
 

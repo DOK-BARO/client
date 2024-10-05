@@ -158,9 +158,10 @@ export default function Verification() {
               <></>
             )
           }
+          fullWidth
+          color={isEmailValid ? "black" : "default"}
           isError={isEmailValid === false ? true : undefined}
           id="email"
-          className={styles.email}
           value={email}
           onChange={onEmailChange}
           placeholder="아이디(이메일) 입력"
@@ -177,7 +178,7 @@ export default function Verification() {
               onChange={(e) => onCodeChange(e, i)}
               onKeyDown={(e) => handleKeyDown(e, i)}
               maxLength={1}
-              className={styles.input}
+              color={fullCode.length !== 6 ? "default" : "black"}
             />
           ))}
         </div>

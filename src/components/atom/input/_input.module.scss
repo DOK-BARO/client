@@ -84,12 +84,17 @@
     padding-right: 44px;
   }
 }
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
 
 .icon-left,
 .icon-right {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  cursor: pointer;
   // pointer-events: none;
 }
 

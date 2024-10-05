@@ -57,19 +57,21 @@ const Input: React.FC<InputProps> = ({
           {label}
         </label>
       )}
-      {leftIcon && <span className={styles["icon-left"]}>{leftIcon}</span>}
-      <input
-        type={type}
-        id={id}
-        disabled={disabled}
-        value={value}
-        onChange={onChange}
-        onKeyDown={onKeyDown}
-        placeholder={placeholder}
-        className={className}
-        maxLength={maxLength}
-      />
-      {rightIcon && <span className={styles["icon-right"]}>{rightIcon}</span>}
+      <div className={styles["input-wrapper"]}>
+        {leftIcon && <span className={styles["icon-left"]}>{leftIcon}</span>}
+        <input
+          type={type}
+          id={id}
+          disabled={disabled}
+          value={value}
+          onChange={onChange}
+          onKeyDown={onKeyDown}
+          placeholder={placeholder}
+          className={className}
+          maxLength={maxLength}
+        />
+        {rightIcon && <span className={styles["icon-right"]}>{rightIcon}</span>}
+      </div>
       {message && (
         <div
           className={

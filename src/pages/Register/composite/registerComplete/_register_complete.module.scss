@@ -29,14 +29,9 @@
 
       .invite-code {
         &-input-container {
-          @include flex(row, center);
-
+          display: flex;
           gap: 8px;
           margin-top: 16px;
-
-          input {
-            border-color: $gray-40;
-          }
         }
       }
 

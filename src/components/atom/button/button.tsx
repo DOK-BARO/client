@@ -7,12 +7,20 @@ interface ButtonProps {
   type?: "button" | "submit" | "reset";
   size?: "xsmall" | "small" | "medium" | "large" | "xlarge";
   mode?: "default" | "error";
+  color?:
+    | "primary"
+    | "secondary"
+    | "primary-border"
+    | "black"
+    | "white"
+    | "transparent";
   disabled?: boolean;
   className?: string;
   value?: string;
   icon?: JSX.Element;
   iconPosition?: string; // left, right
   onIconClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  fullWidth?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -27,10 +35,13 @@ const Button: React.FC<ButtonProps> = ({
   icon,
   iconPosition = "right",
   onIconClick,
+  color,
+  fullWidth = false,
 }) => {
   const className = `${styles.button} ${styles[`button--${size}`]} ${
-    customClassName || ""
-  }`;
+    styles[`button--${color}`]
+  } ${fullWidth ? styles.full : ""} 
+ ${customClassName || ""}`;
   return (
     <button
       id={id}

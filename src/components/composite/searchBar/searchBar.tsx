@@ -17,7 +17,7 @@ export default function SearchBar() {
         onChange={(e) => {
           setInputValue(e.target.value);
         }}
-        placeholder="궁금한 책을 검색해보세요!"
+        placeholder="배우고 싶은 책을 검색해보세요."
         leftIcon={<Search stroke={gray50} width={20} />}
       />
     </div>

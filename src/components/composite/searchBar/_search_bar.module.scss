@@ -11,7 +11,12 @@
   }
 
   &::placeholder {
-    font-weight: $font-weight-semibold;
+    line-height: 1.5;
+    //font-size: 0.9375rem;
+    font-size: 15px;
+    //font-size: $font-size-medium;
+    //font-weight: $font-weight-medium;
+    font-family: Pretendard, serif;
   }
 
   &:focus {

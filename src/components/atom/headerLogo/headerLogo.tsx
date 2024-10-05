@@ -7,8 +7,8 @@ const HeaderLogo: React.FC = () => {
   return (
     <a href="/" className={styles["logo-link"]}>
       <Logo
-        width={40}
-        height={40}
+        width={43}
+        height={43}
         alt="로고 버튼"
         className={styles["logo-icon"]}
       />

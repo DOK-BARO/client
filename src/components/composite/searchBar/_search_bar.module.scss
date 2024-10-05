@@ -3,13 +3,21 @@
 .searchbar {
   border: none;
   background-color: $gray-20;
+  border-radius: 4px;
 
   &-container {
+    flex-grow: 1; /* 남은 공간을 모두 차지 */
     width: 100%;
-    margin: 0 16px 0;
   }
 
   &::placeholder {
-    font-weight: $font-weight-semibold;
+    line-height: 1.5;
+    font-size: 15px;
+    font-family: Pretendard, serif;
+  }
+
+  &:focus {
+    border: 2px solid $primary;
+    outline: none;
   }
 }

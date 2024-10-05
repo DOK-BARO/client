@@ -18,23 +18,6 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-  }
 
-  &-menu-button {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    background-color: transparent;
-    border: none;
-
-    h3 {
-      margin-left: 8px;
-    }
-  }
-
-  &-menu-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
   }
 }

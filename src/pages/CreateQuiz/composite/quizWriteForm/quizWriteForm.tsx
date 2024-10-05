@@ -4,7 +4,7 @@ import useInput from "@/hooks/useInput.ts";
 import Button from "@/components/atom/button/button.tsx";
 import { CheckSquare } from "@/svg/checkSquare.tsx";
 import { gray60 } from "@/styles/abstracts/colors.ts";
-import { ArrowDown } from "@/svg/arrowDown.tsx";
+import { ArrowDropDown } from "@/svg/arrowDropDown.tsx";
 import Input from "@/components/atom/input/input.tsx";
 
 // 3. 퀴즈 작성
@@ -73,7 +73,7 @@ export default function QuizWriteForm() {
             </option>
           </select>
           <span className={styles["arrow-down"]}>
-            <ArrowDown width={20} stroke={gray60} alt="펼치기" />
+            <ArrowDropDown width={20} stroke={gray60} alt="펼치기" />
           </span>
         </div>
         <Input

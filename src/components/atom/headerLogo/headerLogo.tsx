@@ -5,15 +5,17 @@ import { Logo } from "@/svg/logo.tsx";
 
 const HeaderLogo: React.FC = () => {
   return (
-    <a href="/" className={styles["logo-link"]}>
-      <Logo
-        width={40}
-        height={40}
-        alt="로고 버튼"
-        className={styles["logo-icon"]}
-      />
-      <h1>{APP_NAME}</h1>
-    </a>
+    <div  className={styles["logo-container"]}>
+      <a href="/" className={styles["logo-link"]}>
+        <Logo
+          width={43}
+          height={43}
+          alt="로고 버튼"
+          className={styles["logo-icon"]}
+        />
+        <h1>{APP_NAME}</h1>
+      </a>
+    </div>
   );
 };
 

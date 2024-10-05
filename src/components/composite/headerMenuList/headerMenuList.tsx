@@ -54,10 +54,12 @@ export default function HeaderMenuList({ closeDropDownList }: Props) {
     return <></>;
   }
 
+  const nickName = user?.nickName.length ?? 0 > 5 ? `${user?.nickName.slice(0,6) +"..."}` : user?.nickName;
+
   return (
     <ul className={styles["header-menu-list"]}>
       <li className={styles["user-info-container"]}>
-        <span className={styles["user-name"]}>{user?.nickname} 님</span>
+        <span className={styles["user-name"]}>{nickName} 님</span>
         <span className={styles["user-email"]}>{user?.email}</span>
       </li>
       <div className={styles["header-menu-list-item-container"]}>

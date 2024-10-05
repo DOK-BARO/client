@@ -7,8 +7,8 @@ import {
   URL_PARAMS_KEY,
 } from "../data/constants.ts";
 import { SocialLoginType } from "../types/SocialLoginType.ts";
-import { UserType } from "../types/UserType.ts";
 import axios, { AxiosError } from "axios";
+import { UserType } from "@/types/UserType.ts";
 import { useAuth } from "@/hooks/useAuth.ts";
 
 export const useAuthCode = (provider: string) => {
@@ -60,12 +60,8 @@ export const useAuthCode = (provider: string) => {
         const axiosError = error as AxiosError;
         if (axiosError.response?.status === 404) {
           // TODO : 회원가입
-          localStorage.setItem(
-            LOCAL_STORAGE_KEY.AUTH_ACTION,
-            AUTH_ACTION.SIGN_UP
-          );
+          localStorage.setItem(LOCAL_STORAGE_KEY.AUTH_ACTION, AUTH_ACTION.SIGN_UP);
           await redirectToAuthPage(provider.toUpperCase() as SocialLoginType);
-          //navigate("/register/social/1");
         }
       }
     }

@@ -183,6 +183,7 @@ export default function Verification() {
           {code.map((digit, i) => (
             <Input
               size="large"
+              type="number"
               key={i}
               id={`code-input-${i}`}
               value={digit}

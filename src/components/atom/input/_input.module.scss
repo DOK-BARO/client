@@ -4,13 +4,6 @@
 .container {
   @include flex(column);
   position: relative;
-  // flex-grow: 1;
-  // width: 100%;
-}
-
-.input-wrapper {
-  position: relative;
-  width: 100%;
 }
 
 .label {
@@ -39,6 +32,7 @@
   @include input-base;
   width: 100%;
 
+  // 인풋 사이즈
   &--large {
     padding: $input-padding-large;
     font-size: $font-size-xlarge;
@@ -57,12 +51,31 @@
     height: $input-height-small;
   }
 
-  &--error {
-    border: 1px solid $system-danger;
+  // 인풋 스타일
+  &--default {
+    border-color: $gray-40;
   }
+
+  &--black {
+    border-color: $gray-90;
+    // color: $gray-90;
+  }
+
   &--success {
-    border: 1px solid $system-success;
+    border-color: $system-success;
+    // color: $system-success;
   }
+
+  &--error {
+    border-color: $system-danger;
+    // color: $system-danger;
+  }
+
+  &--primary {
+    border-color: $primary;
+    // color: $gray-90;
+  }
+
   &--left-icon {
     padding-left: 44px;
   }
@@ -86,4 +99,7 @@
 
 .icon-right {
   right: 16px;
+}
+.full {
+  width: 100%;
 }

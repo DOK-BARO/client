@@ -158,6 +158,71 @@ export default function Index() {
           button
         </Button>
       </div>
+      <div
+        style={{
+          margin: "20px 0",
+          width: "390px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "20px",
+        }}
+      >
+        <Input
+          color="black"
+          id="input-test"
+          fullWidth={true}
+          placeholder="placeholder"
+          value={inputValue}
+          onChange={(e) => {
+            setInputValue(e.target.value);
+          }}
+          message={"message"}
+        />
+        <Input
+          color="default"
+          id="input-test"
+          fullWidth={false}
+          placeholder="placeholder"
+          value={inputValue}
+          onChange={(e) => {
+            setInputValue(e.target.value);
+          }}
+          message={"message"}
+        />
+        <Input
+          isSuccess
+          id="input-test"
+          fullWidth={false}
+          placeholder="placeholder"
+          value={inputValue}
+          onChange={(e) => {
+            setInputValue(e.target.value);
+          }}
+          message={"message"}
+        />
+        <Input
+          isError
+          id="input-test"
+          fullWidth={false}
+          placeholder="placeholder"
+          value={inputValue}
+          onChange={(e) => {
+            setInputValue(e.target.value);
+          }}
+          message={"message"}
+        />
+        <Input
+          color="primary"
+          id="input-test"
+          fullWidth={false}
+          placeholder="placeholder"
+          value={inputValue}
+          onChange={(e) => {
+            setInputValue(e.target.value);
+          }}
+          message={"message"}
+        />
+      </div>
     </>
   );
 }

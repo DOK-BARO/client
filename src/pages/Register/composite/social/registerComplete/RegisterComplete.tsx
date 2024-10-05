@@ -35,7 +35,7 @@ export default function RegisterComplete() {
                 value={inviteCode}
                 size="large"
               />
-              <Button size="large" onClick={onInviteCodeSubmit}>
+              <Button color="primary" size="large" onClick={onInviteCodeSubmit}>
                 입력
               </Button>
             </div>

@@ -55,13 +55,19 @@ export default function ProfileUpload({
         />
         <div className={styles["button-container"]}>
           <Button
+            color="white"
             id="edit-profile"
-            className={styles["upload-btn"]}
+            fullWidth
             onClick={() => document.getElementById("file-upload")?.click()}
           >
             편집
           </Button>
-          <Button id="delete-profile" onClick={onDeleteProfileImage}>
+          <Button
+            color="white"
+            fullWidth
+            id="delete-profile"
+            onClick={onDeleteProfileImage}
+          >
             이미지 삭제
           </Button>
         </div>

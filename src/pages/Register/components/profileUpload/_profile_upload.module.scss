@@ -38,9 +38,5 @@
   .button-container {
     @include flex(column);
     gap: 8px;
-    button {
-      background-color: $gray-00;
-      border: 1px solid $gray-40;
-    }
   }
 }

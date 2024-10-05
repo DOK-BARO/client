@@ -27,7 +27,7 @@ export default function RegisterComplete() {
             <p>초대 받은 스터디가 있나요?</p>
             <div className={styles["invite-code-input-container"]}>
               <Input
-                // fullWidth
+                fullWidth
                 placeholder="초대코드 입력"
                 id="invite-code"
                 className={styles["invite-code"]}

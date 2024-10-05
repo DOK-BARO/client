@@ -29,6 +29,7 @@
   font-weight: $font-weight-semibold;
   border: none;
   gap: 8px;
+  flex-shrink: 0;
 }
 
 @mixin input-base {

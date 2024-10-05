@@ -68,17 +68,19 @@ export default function ProfileSet() {
           사용할 닉네임을 입력해주세요.
         </p>
         <Input
-          className={styles["nickname-input"]}
           onChange={onNicknameChange}
           id="nickname"
           value={nickname}
+          size="large"
           rightIcon={
-            <button
-              style={{ background: "none", border: "none", padding: "0" }}
-              onClick={() => resetInput("")}
-            >
-              <XCircle width={24} stroke={gray60} fill={gray30} />
-            </button>
+            nickname ? (
+              <button
+                style={{ background: "none", border: "none", padding: "0" }}
+                onClick={() => resetInput("")}
+              >
+                <XCircle width={24} stroke={gray60} fill={gray30} />
+              </button>
+            ) : undefined
           }
         />
         <Button

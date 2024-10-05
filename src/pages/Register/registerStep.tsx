@@ -1,5 +1,5 @@
 import { useOutletContext, useParams } from "react-router-dom";
-import TermsAgreement from "@/pages/Register/composite/social/termsAgreement/termsAgreement.tsx";
+import TermsAgreement from "@/pages/Register/composite/termsAgreement/termsAgreement.tsx";
 import ProfileSet from "@/pages/Register/composite/profileSet/profileSet.tsx";
 import PasswordSet from "@/pages/Register/composite/email/passwordSet/passwordSet.tsx";
 import Verification from "./composite/email/verification/verification";

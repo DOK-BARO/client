@@ -20,27 +20,37 @@ export default function CheckBox({
   isOutLined,
   required,
 }: CheckBoxProps) {
-  const className = `label-${isOutLined ? "outlined" : "none"}`;
+  const className = `${styles.label} ${
+    styles[isOutLined ? "outlined" : "none"]
+  }`;
+  console.log(isOutLined, checked);
 
   return (
-    <div>
+    <div className={styles.container}>
       <input
         id={id}
-        className={styles["checkbox"]}
+        className={styles.checkbox}
         type="checkbox"
         checked={checked}
         onChange={onChange}
         required={required}
       />
-      <label className={styles[className]} htmlFor={id}>
-        <Check
-          width={16}
-          height={16}
-          className={styles["check"]}
-          stroke={
-            isOutLined ? (checked ? gray0 : gray40) : checked ? primary : gray40
-          }
-        />
+      <label className={className} htmlFor={id}>
+        <div className={styles["checkbox-container"]}>
+          <Check
+            width={20}
+            height={20}
+            stroke={
+              isOutLined
+                ? checked
+                  ? gray0
+                  : gray40
+                : checked
+                ? primary
+                : gray40
+            }
+          />
+        </div>
         {label}
       </label>
     </div>

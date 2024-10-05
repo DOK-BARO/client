@@ -2,13 +2,21 @@ import styles from "./_header_quiz_util_list.module.scss";
 import { Pencil } from "@/svg/pencil.tsx";
 import { CheckSquare } from "@/svg/checkSquare";
 import { gray70 } from "@/styles/abstracts/colors.ts";
+import { useNavigate } from "react-router-dom";
+import { useQueryCurrentUser } from "@/hooks/useQueryCurrentUser.ts";
 type Props = {
   closeDropDownList: () => void;
 };
 
 export default function HeaderQuizUtilList({ closeDropDownList }: Props) {
+  const navigate = useNavigate();
+  const { isLoggedIn }= useQueryCurrentUser();
+
   const onClickMakeQuiz = () => {
     closeDropDownList();
+    if(!isLoggedIn) {
+      navigate("/",  { state: { openModal: true } }); //TODO: 랜딩페이지로 이동
+    }
   };
 
   const onClickDoingQuiz = () => {

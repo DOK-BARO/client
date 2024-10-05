@@ -7,15 +7,15 @@ import {
   URL_PARAMS_KEY,
 } from "../data/constants.ts";
 import { SocialLoginType } from "../types/SocialLoginType.ts";
-import { User } from "../types/User.ts";
 import axios, { AxiosError } from "axios";
+import { UserType } from "@/types/UserType.ts";
 
 export const useAuthCode = (provider: string) => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const setUserInLocalStorage = async () => {
-    const user: User = await getUser();
+    const user: UserType = await getUser();
     localStorage.setItem("certificationId", user.certificationId); // 로컬 스토리지에 토큰 저장
   };
 

@@ -1,9 +1,13 @@
 @import "../../../styles/abstracts/variables";
 @import "../../../styles/abstracts/mixins";
 
-.register-layout {
+.register-baseLayout {
   width: 390px;
   margin: 0 auto;
+
+  .inner-container {
+    padding: 0 24px;;
+  }
 
   .title {
     // margin-top: 80px;

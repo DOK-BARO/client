@@ -7,15 +7,17 @@ import {
   URL_PARAMS_KEY,
 } from "../data/constants.ts";
 import { SocialLoginType } from "../types/SocialLoginType.ts";
-import { User } from "../types/User.ts";
+import { UserType } from "../types/UserType.ts";
 import axios, { AxiosError } from "axios";
+import { useAuth } from "@/hooks/useAuth.ts";
 
 export const useAuthCode = (provider: string) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { redirectToAuthPage } = useAuth();
 
   const setUserInLocalStorage = async () => {
-    const user: User = await getUser();
+    const user: UserType = await getUser();
     localStorage.setItem("certificationId", user.certificationId); // 로컬 스토리지에 토큰 저장
   };
 
@@ -26,11 +28,18 @@ export const useAuthCode = (provider: string) => {
       await signup(provider.toUpperCase() as SocialLoginType, code);
       await setUserInLocalStorage();
 
-      // 회원가입 페이지로 이동
-      navigate("/register/complete");
+      if (
+        (provider.toUpperCase() as SocialLoginType) !== SocialLoginType.EMAIL
+      ) {
+        navigate("/register/social/1");
+      } else {
+        // 회원가입 페이지로 이동
+        navigate("/register/complete");
+      }
+
       localStorage.removeItem(LOCAL_STORAGE_KEY.AUTH_ACTION);
     } catch (error) {
-      if(axios.isAxiosError(error)) {
+      if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError;
         if (axiosError.response?.status === 404) {
           throw new Error(`이미 존재하는 계정입니다: ${error}`);
@@ -47,12 +56,16 @@ export const useAuthCode = (provider: string) => {
       navigate("/");
       localStorage.removeItem(LOCAL_STORAGE_KEY.AUTH_ACTION);
     } catch (error) {
-      if(axios.isAxiosError(error)) {
+      if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError;
         if (axiosError.response?.status === 404) {
           // TODO : 회원가입
-          localStorage.setItem(LOCAL_STORAGE_KEY.AUTH_ACTION, AUTH_ACTION.SIGN_UP);
-          navigate("/register/social/1");
+          localStorage.setItem(
+            LOCAL_STORAGE_KEY.AUTH_ACTION,
+            AUTH_ACTION.SIGN_UP
+          );
+          await redirectToAuthPage(provider.toUpperCase() as SocialLoginType);
+          //navigate("/register/social/1");
         }
       }
     }

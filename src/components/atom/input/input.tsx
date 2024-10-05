@@ -7,6 +7,7 @@ interface InputProps {
   className?: string;
   type?: "text" | "number" | "password";
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   placeholder?: string;
   size?: "large" | "medium" | "small";
   message?: string | JSX.Element;
@@ -16,12 +17,14 @@ interface InputProps {
   label?: string;
   leftIcon?: JSX.Element;
   rightIcon?: JSX.Element;
+  maxLength?: number;
 }
 
 const Input: React.FC<InputProps> = ({
   id,
   value,
   onChange,
+  onKeyDown,
   className: customClassName,
   type = "text",
   placeholder,
@@ -33,6 +36,7 @@ const Input: React.FC<InputProps> = ({
   label,
   leftIcon,
   rightIcon,
+  maxLength,
 }) => {
   const className = `${styles.input} ${styles[`input--${size}`]} ${
     isError ? styles["input--error"] : ""
@@ -55,8 +59,10 @@ const Input: React.FC<InputProps> = ({
           disabled={disabled}
           value={value}
           onChange={onChange}
+          onKeyDown={onKeyDown}
           placeholder={placeholder}
           className={className}
+          maxLength={maxLength}
         />
         {rightIcon && <span className={styles["icon-right"]}>{rightIcon}</span>}
       </div>

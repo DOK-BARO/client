@@ -1,7 +1,6 @@
 import styles from "./_profile_set.module.scss";
 import { FormEvent, useEffect, useState } from "react";
 import { useAtom } from "jotai";
-
 import { AUTH_ACTION, LOCAL_STORAGE_KEY } from "@/data/constants";
 import { useAuth } from "@/hooks/useAuth";
 import { SocialLoginType } from "@/types/SocialLoginType";
@@ -83,10 +82,12 @@ export default function ProfileSet() {
           }
         />
         <Button
-          size="large"
-          className={styles[isSubmitAble ? "done" : "submit-disabled"]}
+          size="medium"
+          className={styles.done}
           disabled={!isSubmitAble}
           type="submit"
+          color="primary"
+          fullWidth
         >
           완료
         </Button>

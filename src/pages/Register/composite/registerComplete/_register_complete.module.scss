@@ -1,5 +1,5 @@
-@import "../../../../../styles/abstracts/variables";
-@import "../../../../../styles/abstracts/mixins";
+@import "../../../../styles/abstracts/variables";
+@import "../../../../styles/abstracts/mixins";
 
 .register-complete {
   h3,
@@ -36,11 +36,6 @@
 
           input {
             border-color: $gray-40;
-          }
-          button {
-            background-color: $primary;
-            color: $gray-00;
-            font-weight: $font-weight-semibold;
           }
         }
       }

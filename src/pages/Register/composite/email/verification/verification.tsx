@@ -1,7 +1,4 @@
 // 공용으로 사용되는 스타일 (파일명 바꾸기?)
-
-// import { useNavigate } from "react-router-dom";
-
 import styles from "./_verification.module.scss";
 import { Close } from "@/svg/close";
 import { systemDanger } from "@/styles/abstracts/colors";
@@ -23,7 +20,6 @@ export default function Verification() {
     isValid: isEmailValid,
   } = useInput(user.email, emailValidation);
   // const navigate = useNavigate();
-  // const { value: code, onChange: onCodeChange } = useInput("");
   const [code, setCode] = useState<string[]>(Array(6).fill(""));
   const fullCode: string = code.join("");
 
@@ -94,31 +90,23 @@ export default function Verification() {
     } catch (e) {
       console.error(e);
     }
-
-    // 완료 후
-    // setIsEmailSent(true); // navigate("/register/email/3");
   };
 
   const matchEmailCode = async () => {
-    console.log(email);
-    console.log(fullCode);
-    // try {
-    //   const response = await axios.post("/email-authentications/match-code", {
-    //     email: email,
-    //     code: code,
-    //   });
-    //   // axios 타입으로 바꾸기
-    //   // if (response.status === 201) {
-    //   //   console.log(response);
-    //   //   setIsEmailSent(true);
-    //   // }
-    //   console.log(response);
-    // } catch (e) {
-    //   console.error(e);
-    // }
-
-    // 완료 후
-    // setIsEmailSent(true); // navigate("/register/email/3");
+    try {
+      const response = await axios.post("/email-authentications/match-code", {
+        email: email,
+        code: code,
+      });
+      // axios 타입으로 바꾸기
+      // if (response.status === 201) {
+      //   console.log(response);
+      //   navigate("/register/email/3");
+      // }
+      console.log(response);
+    } catch (e) {
+      console.error(e);
+    }
   };
   const handleKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
@@ -183,7 +171,6 @@ export default function Verification() {
           {code.map((digit, i) => (
             <Input
               size="large"
-              type="number"
               key={i}
               id={`code-input-${i}`}
               value={digit}
@@ -197,8 +184,11 @@ export default function Verification() {
       )}
       <Button
         className={styles.next}
+        color="primary"
         size="medium"
         onClick={!isEmailSent ? onNext : onDone}
+        fullWidth
+        disabled={!isEmailSent ? !isEmailValid : fullCode.length !== 6}
       >
         {!isEmailSent ? <>다음</> : <>인증하기</>}
       </Button>

@@ -2,7 +2,6 @@
 import { useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
-
 import styles from "./_password_set.module.scss";
 import useInput from "@/hooks/useInput.ts";
 import { passwordValidation } from "@/validation/passwordValidation.ts";
@@ -141,6 +140,8 @@ export default function PasswordSet() {
         className={styles.next}
         size="medium"
         onClick={step === 1 ? moveToNext : onSubmit}
+        color="primary"
+        fullWidth
       >
         다음
       </Button>

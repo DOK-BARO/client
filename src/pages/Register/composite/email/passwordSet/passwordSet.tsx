@@ -41,6 +41,7 @@ export default function PasswordSet() {
 
   const navigate = useNavigate();
   const [step, setStep] = useState<number>(1);
+  const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
 
   const onSubmit = (): void => {
     setUser({
@@ -75,7 +76,7 @@ export default function PasswordSet() {
         비밀번호를 입력해 주세요.
       </p>
       <Input
-        type="password"
+        type={!isShowPassword ? "password" : "text"}
         isSuccess={isPasswordValid}
         message={
           <div className={styles["password-message-container"]}>
@@ -93,7 +94,20 @@ export default function PasswordSet() {
             ))}
           </div>
         }
-        rightIcon={<Invisible stroke={gray60} width={24} />}
+        rightIcon={
+          <Button
+            iconOnly
+            onClick={() => {
+              setIsShowPassword(!isShowPassword);
+            }}
+          >
+            {!isShowPassword ? (
+              <Invisible stroke={gray60} width={24} />
+            ) : (
+              <>눈</>
+            )}
+          </Button>
+        }
         id="password"
         className={styles.password}
         value={password}
@@ -114,7 +128,20 @@ export default function PasswordSet() {
             placeholder="비밀번호를 다시 한 번 입력해 주세요."
             size="large"
             type="password"
-            rightIcon={<Invisible stroke={gray60} width={24} />}
+            rightIcon={
+              <Button
+                iconOnly
+                onClick={() => {
+                  setIsShowPassword(!isShowPassword);
+                }}
+              >
+                {!isShowPassword ? (
+                  <Invisible stroke={gray60} width={24} />
+                ) : (
+                  <>눈</>
+                )}
+              </Button>
+            }
             isError={!passwordMatched}
             isSuccess={passwordMatched}
             message={

@@ -1,7 +1,7 @@
 interface UserBaseType {
   id: number;
   email: string;
-  nickName: string;
+  nickname: string;
   profileImage: string;
 }
 

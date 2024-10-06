@@ -21,6 +21,7 @@ interface ButtonProps {
   iconPosition?: string; // left, right
   onIconClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
   fullWidth?: boolean;
+  iconOnly?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -37,10 +38,11 @@ const Button: React.FC<ButtonProps> = ({
   onIconClick,
   color,
   fullWidth = false,
+  iconOnly = false,
 }) => {
   const className = `${styles.button} ${styles[`button--${size}`]} ${
     styles[`button--${color}`]
-  } ${fullWidth ? styles.full : ""} 
+  } ${fullWidth ? styles.full : ""} ${iconOnly ? styles.iconOnly : ""}
  ${customClassName || ""}`;
   return (
     <button

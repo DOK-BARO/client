@@ -24,7 +24,7 @@ export default function Index() {
     {
       order: 0,
       icon: "👥",
-      title: "기본 정보 입력",
+      title: "스터디 선택",
       description: "퀴즈에 대한 기본 정보를 입력해주세요",
       formComponent: () => <QuizBasicInfoForm/>,
     },
@@ -45,7 +45,7 @@ export default function Index() {
     {
       order: 3,
       icon: "🔗",
-      title: "퀴즈 설정",
+      title: "공유하기",
       description: "볼 수 있는 사람과 제한 시간을 설정해주세요.",
       formComponent: () => <QuizSettingsForm/>,
     },
@@ -55,12 +55,12 @@ export default function Index() {
   return (
     <section className={styles["container"]}>
       <h2 className={styles["sr-only"]}>퀴즈 등록</h2>
-      <QuizCreationFormLayout
+      <QuizCreationSteps
         steps={steps}
         currentStep={currentStep}
         setCurrentStep={setCurrentStep}
       />
-      <QuizCreationSteps
+      <QuizCreationFormLayout
         steps={steps}
         currentStep={currentStep}
         setCurrentStep={setCurrentStep}

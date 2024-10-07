@@ -10,14 +10,17 @@
 .title {
   color: $gray-90;
   font-size: 40px;
-  font-weight: 700;
-  margin-bottom: 40px;
+  font-weight: $font-weight-bold;
+  line-height: 1.5em;
+  margin-bottom: 16px;
 }
+
 .step-desc {
   color: $gray-90;
-  font-size: 25px;
-  font-weight: 500;
-  margin-bottom: 80px;
+  font-size: $font-size-large;
+  font-weight: $font-weight-regular;
+  line-height: 1.5em;
+  margin-bottom: 40px;
 }
 
 button.next {

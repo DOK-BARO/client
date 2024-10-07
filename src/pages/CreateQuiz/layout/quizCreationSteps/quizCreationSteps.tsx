@@ -26,13 +26,13 @@ export default function QuizCreationSteps({
       {steps.map((step) => (
         <Button
           onClick={(e) => onChangeStep(e)}
-          className={`${styles["steps"]} ${
+          className={(step.isSubStep ? styles["sub-steps"] :`${styles["steps"]} ${
             currentStep === step.order ? styles["steps--active"] : ""
-          }`}
+          }`)}
           key={step.order}
           value={step.title}
         >
-          {step.icon}&nbsp;
+          {step.icon && step.icon}&nbsp;
           {step.title}
         </Button>
       ))}

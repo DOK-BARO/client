@@ -27,7 +27,7 @@ export default function Index() {
       order: 0,
       icon: "👥",
       title: "스터디 선택",
-      description: "퀴즈에 대한 기본 정보를 입력해주세요",
+      description: "퀴즈를 풀 스터디를 만들거나 선택해주세요.",
       isSubStep: false,
       formComponent: () => <QuizSettingStudyGroupForm/>,
     },
@@ -66,7 +66,7 @@ export default function Index() {
       icon: "🔗",
       title: "공유 설정",
       isSubStep: false,
-      description: "볼 수 있는 사람과 제한 시간을 설정해주세요.",
+      description: "퀴즈를 볼 수 있는 사람과 제한 시간을 설정해 주세요.",
       formComponent: () => <QuizSettingsForm/>,
     },
   ];

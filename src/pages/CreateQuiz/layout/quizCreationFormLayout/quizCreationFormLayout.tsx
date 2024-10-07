@@ -22,7 +22,7 @@ export default function quizCreationFormLayout({
         <Button
           className={styles["next"]}
           onClick={() => {
-            if (currentStep == 3) return;
+            if (currentStep == 5) return;
             setCurrentStep((prev) => prev + 1);
           }}
         >

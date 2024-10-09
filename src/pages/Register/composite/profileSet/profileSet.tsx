@@ -23,7 +23,7 @@ export default function ProfileSet() {
     onChange: onNicknameChange,
     resetInput,
   } = useInput("");
-  const defaultImagePath = "/public/svg/image/default-profile.png";
+  const defaultImagePath = "/public/assets/image/default-profile.png";
   const [profileImage, setProfileImage] = useState<string>(defaultImagePath);
   // const navigate = useNavigate();
   const [user, setUser] = useAtom<RegisterInfoType>(RegisterInfoAtom);

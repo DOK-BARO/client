@@ -19,9 +19,15 @@
   .message-container {
     display: flex;
     align-items: center;
-    gap: 3px;
   }
-
+  .code-input-message-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    color: $system-danger;
+    font-size: $font-size-small;
+    font-weight: $font-weight-medium;
+  }
   .code-input-container {
     display: flex;
     gap: 10px;

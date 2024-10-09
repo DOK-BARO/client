@@ -3,18 +3,40 @@
 
 .profile-upload-container {
   display: flex;
-  flex-direction: row;
-  flex-grow: 1;
-  gap: 20px;
+  flex-direction: column;
+  gap: 17.78px;
+
+  .profile-email-container {
+    display: flex;
+    flex-grow: 1;
+    gap: 16px;
+
+    span {
+      display: flex;
+      flex-grow: 1;
+      justify-content: space-between;
+      align-items: center;
+
+      .email {
+        font-weight: $font-weight-medium;
+        word-wrap: break-word;
+        word-break: break-all;
+        white-space: normal;
+        width: 100%;
+        line-height: 1.5;
+      }
+    }
+  }
 }
 
 .custom-file-upload {
   display: inline-block;
-  width: 142px;
-  height: 142px;
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
   overflow: hidden;
   background-color: $gray-30;
-  border-radius: $border-radius-medium;
+  border-radius: $border-radius-xsmall;
   position: relative;
 }
 
@@ -34,9 +56,8 @@
     gap: 2px;
     align-items: center;
   }
-
-  .button-container {
-    @include flex(column);
-    gap: 8px;
-  }
+}
+.button-container {
+  @include flex(column);
+  gap: 8px;
 }

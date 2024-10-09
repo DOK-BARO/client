@@ -1,4 +1,3 @@
-// 공용으로 사용되는 스타일 (파일명 바꾸기?)
 import { useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
@@ -12,12 +11,13 @@ import {
   systemDanger,
   systemSuccess,
 } from "@/styles/abstracts/colors.ts";
-import { Check } from "@/svg/check.tsx";
-import { Invisible } from "@/svg/invisible.tsx";
-import { Close } from "@/svg/close.tsx";
 import Button from "@/components/atom/button/button.tsx";
 import { RegisterInfoType } from "@/types/UserType";
 import { RegisterInfoAtom } from "@/store/userAtom";
+import { Check } from "@/svg/check";
+import { Invisible } from "@/svg/invisible";
+import { Visible } from "@/svg/visible";
+import { XSmall } from "@/svg/xSmall";
 
 export default function PasswordSet() {
   const {
@@ -30,6 +30,12 @@ export default function PasswordSet() {
     useInput("");
 
   const [user, setUser] = useAtom<RegisterInfoType>(RegisterInfoAtom);
+  const [step, setStep] = useState<number>(1);
+  const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
+  const [isShowPasswordCheck, setIsShowPasswordCheck] =
+    useState<boolean>(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     // 사용자가 뒤로가기 눌렀다 다시 돌아왔을 때 초기화되도록(비밀번호만)
@@ -38,9 +44,6 @@ export default function PasswordSet() {
       password: "",
     });
   }, []);
-
-  const navigate = useNavigate();
-  const [step, setStep] = useState<number>(1);
 
   const onSubmit = (): void => {
     setUser({
@@ -54,16 +57,21 @@ export default function PasswordSet() {
     setStep(2);
   };
 
-  useEffect(() => {
-    setPasswordMatched(password === passwordCheck);
-    if (!passwordCheck) {
-      setPasswordMatched(undefined);
-    }
-  }, [passwordCheck]);
+  const isPasswordMatched = password === passwordCheck && passwordCheck !== "";
 
-  // const passwordMatched: boolean = false;
-  const [passwordMatched, setPasswordMatched] = useState<boolean | undefined>(
-    undefined
+  const renderPasswordValidationMessage = () => (
+    <div className={styles["password-message-container"]}>
+      {Object.entries(passwordValidations).map(([key, isValid]) => (
+        <span key={key} className={styles["icon-container"]}>
+          <p style={{ color: isValid ? systemSuccess : gray40 }}>{key}</p>
+          <Check
+            width={20}
+            height={20}
+            stroke={isValid ? systemSuccess : gray40}
+          />
+        </span>
+      ))}
+    </div>
   );
 
   return (
@@ -75,25 +83,23 @@ export default function PasswordSet() {
         비밀번호를 입력해 주세요.
       </p>
       <Input
-        type="password"
+        type={isShowPassword ? "text" : "password"}
         isSuccess={isPasswordValid}
-        message={
-          <div className={styles["password-message-container"]}>
-            {Object.entries(passwordValidations).map(([key, isValid]) => (
-              <span key={key} className={styles["icon-container"]}>
-                <p style={{ color: !isValid ? gray40 : systemSuccess }}>
-                  {key}
-                </p>
-                <Check
-                  width={20}
-                  height={20}
-                  stroke={!isValid ? gray40 : systemSuccess}
-                />
-              </span>
-            ))}
-          </div>
+        message={renderPasswordValidationMessage()}
+        rightIcon={
+          <Button
+            iconOnly
+            onClick={() => {
+              setIsShowPassword(!isShowPassword);
+            }}
+          >
+            {isShowPassword ? (
+              <Visible alt="비밀번호 표시 해제" stroke={gray60} width={24} />
+            ) : (
+              <Invisible alt="비밀번호 표시" stroke={gray60} width={24} />
+            )}
+          </Button>
         }
-        rightIcon={<Invisible stroke={gray60} width={24} />}
         id="password"
         className={styles.password}
         value={password}
@@ -113,22 +119,39 @@ export default function PasswordSet() {
             className={styles["password-check"]}
             placeholder="비밀번호를 다시 한 번 입력해 주세요."
             size="large"
-            type="password"
-            rightIcon={<Invisible stroke={gray60} width={24} />}
-            isError={!passwordMatched}
-            isSuccess={passwordMatched}
+            type={isShowPasswordCheck ? "text" : "password"}
+            rightIcon={
+              <Button
+                iconOnly
+                onClick={() => {
+                  setIsShowPasswordCheck(!isShowPasswordCheck);
+                }}
+              >
+                {isShowPasswordCheck ? (
+                  <Visible
+                    alt="비밀번호 표시 해제"
+                    stroke={gray60}
+                    width={24}
+                  />
+                ) : (
+                  <Invisible alt="비밀번호 표시" stroke={gray60} width={24} />
+                )}
+              </Button>
+            }
+            isError={!isPasswordMatched && passwordCheck !== ""}
+            isSuccess={isPasswordMatched}
             message={
-              passwordMatched !== undefined ? (
+              passwordCheck && (
                 <span className={styles["password-check-message-container"]}>
-                  <p>{passwordMatched ? "비밀번호 일치" : "비밀번호 불일치"}</p>
-                  {passwordMatched ? (
+                  <p>
+                    {isPasswordMatched ? "비밀번호 일치" : "비밀번호 불일치"}
+                  </p>
+                  {isPasswordMatched ? (
                     <Check stroke={systemSuccess} width={20} height={20} />
                   ) : (
-                    <Close stroke={systemDanger} width={20} height={20} />
+                    <XSmall stroke={systemDanger} width={20} height={20} />
                   )}
                 </span>
-              ) : (
-                <></>
               )
             }
           />

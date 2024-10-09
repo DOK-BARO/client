@@ -15,9 +15,9 @@ import Button from "@/components/atom/button/button.tsx";
 import { RegisterInfoType } from "@/types/UserType";
 import { RegisterInfoAtom } from "@/store/userAtom";
 import { Check } from "@/svg/check";
-import { Close } from "@/svg/close";
 import { Invisible } from "@/svg/invisible";
 import { Visible } from "@/svg/visible";
+import { XSmall } from "@/svg/xSmall";
 
 export default function PasswordSet() {
   const {
@@ -149,7 +149,7 @@ export default function PasswordSet() {
                   {isPasswordMatched ? (
                     <Check stroke={systemSuccess} width={20} height={20} />
                   ) : (
-                    <Close stroke={systemDanger} width={20} height={20} />
+                    <XSmall stroke={systemDanger} width={20} height={20} />
                   )}
                 </span>
               )

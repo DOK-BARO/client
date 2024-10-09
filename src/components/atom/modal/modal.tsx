@@ -28,6 +28,7 @@ const Modal: React.FC<ModalProps> = ({
           <div className={styles["modal-header"]}>
             {popUpTitle && <span>{popUpTitle}</span>}
             <Button className={styles["modal-button"]} onClick={closeModal}>
+              {/* TODO: 아이콘 변경하기 (Close -> X)*/}
               <Close alt="닫기 버튼" width={20} height={20} stroke={gray80} />
             </Button>
           </div>

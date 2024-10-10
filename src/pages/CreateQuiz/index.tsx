@@ -22,6 +22,8 @@ export interface Step {
 }
 
 export default function Index() {
+  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
+
   const steps: Step[] = [
     {
       order: 0,
@@ -52,7 +54,7 @@ export default function Index() {
       title: "퀴즈 기본 정보 작성",
       description: "퀴즈 이름과 설명을 작성해주세요.",
       isSubStep: true,
-      formComponent: () => <QuizBasicInfoForm/>,
+      formComponent: () => <QuizBasicInfoForm setIsButtonDisabled={setIsButtonDisabled}/>,
     },
     {
       order: 4,
@@ -71,7 +73,6 @@ export default function Index() {
     },
   ];
   const [currentStep, setCurrentStep] = useState<number>(0);
-
   return (
     <section className={styles["container"]}>
       <h2 className={styles["sr-only"]}>퀴즈 등록</h2>
@@ -84,6 +85,7 @@ export default function Index() {
         steps={steps}
         currentStep={currentStep}
         setCurrentStep={setCurrentStep}
+        isButtonDisabled={isButtonDisabled}
       />
     </section>
   );

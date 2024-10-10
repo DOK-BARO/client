@@ -8,10 +8,12 @@ export default function quizCreationFormLayout({
   steps,
   currentStep,
   setCurrentStep,
+  isButtonDisabled,
 }: {
   steps: Step[];
   currentStep: number;
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
+  isButtonDisabled:boolean;
 }) {
   return (
     <section className={styles["container"]}>
@@ -21,13 +23,16 @@ export default function quizCreationFormLayout({
       <div className={styles["next-container"]}>
         <Button
           className={styles["next"]}
+          disabled={isButtonDisabled}
           onClick={() => {
             if (currentStep == 5) return;
             setCurrentStep((prev) => prev + 1);
           }}
         >
-          다음
-          <RightArrow alt="다음 버튼" width={20} height={20} stroke={gray0} />
+          {
+            currentStep === 5 ? "완료" : "다음"
+          }
+          <RightArrow alt="다음 버튼" width={20} height={20} stroke={gray0}/>
         </Button>
       </div>
     </section>

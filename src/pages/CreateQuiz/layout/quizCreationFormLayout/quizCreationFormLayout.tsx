@@ -2,7 +2,7 @@ import styles from "./_quiz_creation_form_layout.module.scss";
 import { Step } from "@/pages/CreateQuiz";
 import Button from "@/components/atom/button/button.tsx";
 import RightArrow from "@/svg/rightArrow.tsx";
-import { gray0 } from "@/styles/abstracts/colors.ts";
+import { gray0, gray60 } from "@/styles/abstracts/colors.ts";
 
 export default function quizCreationFormLayout({
   steps,
@@ -32,7 +32,7 @@ export default function quizCreationFormLayout({
           {
             currentStep === 5 ? "완료" : "다음"
           }
-          <RightArrow alt="다음 버튼" width={20} height={20} stroke={gray0}/>
+          <RightArrow alt="다음 버튼" width={20} height={20} stroke={isButtonDisabled ? gray60 : gray0}/>
         </Button>
       </div>
     </section>

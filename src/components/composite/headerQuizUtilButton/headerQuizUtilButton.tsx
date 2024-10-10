@@ -3,12 +3,8 @@ import HeaderQuizUtilList from "@/components/composite/quizMenuList/quizMenuList
 import { useDropDownList } from "@/hooks/useDropDownList.ts";
 import { ArrowDown } from "@/svg/arrowDown.tsx";
 
-function HeaderQuizUtilButton ({ isLoggedIn }: { isLoggedIn : boolean }) {
+function HeaderQuizUtilButton () {
   const { isOpenDropDownList, anchorEl, openDropDownList, closeDropDownList, dropDownListRef } = useDropDownList();
-
-  if (!isLoggedIn) {
-    //TODO: isLoggedIn이 false이면 랜딩페이지로 이동 (로그인 권유) 사실 if문도 필요없음
-  }
 
   return (
     <div className={styles["header-quiz-util-button-container"]} ref={dropDownListRef}>

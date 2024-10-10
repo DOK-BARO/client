@@ -16,6 +16,8 @@ export default function HeaderQuizUtilList({ closeDropDownList }: Props) {
     closeDropDownList();
     if(!isLoggedIn) {
       navigate("/",  { state: { openModal: true } }); //TODO: 랜딩페이지로 이동
+    }else{
+      navigate("/create-quiz");
     }
   };
 

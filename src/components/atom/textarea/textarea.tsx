@@ -62,7 +62,7 @@ const Textarea: React.FC<TextareaProps> = ({
             </span>
           }
           <span className={styles["char-count"]}>
-            <em>{value.length}</em>/ {maxLength}
+            <em className={maxLength && value.length >= maxLength ? styles["char-count-max-length"] : ""}>{value.length}</em>/ {maxLength}
           </span>
         </div>
       ) : (

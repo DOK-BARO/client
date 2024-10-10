@@ -12,6 +12,8 @@ interface TextareaProps {
   disabled?: boolean;
   label?: string;
   maxLength?: number;
+  rows?: number;
+  textAreaRef?: React.RefObject<HTMLTextAreaElement>;
 }
 
 const Textarea: React.FC<TextareaProps> = ({
@@ -25,6 +27,8 @@ const Textarea: React.FC<TextareaProps> = ({
   disabled = false,
   label,
   maxLength,
+  rows,
+  textAreaRef,
 }) => {
   const className = `${styles.textarea}  ${
     isError ? styles["textarea--error"] : ""
@@ -46,6 +50,9 @@ const Textarea: React.FC<TextareaProps> = ({
         placeholder={placeholder}
         className={className}
         disabled={disabled}
+        rows={rows}
+        maxLength={maxLength}
+        ref={textAreaRef}
       />
       {message || maxLength ? (
         <div className={styles["message-container"]}>
@@ -57,7 +64,6 @@ const Textarea: React.FC<TextareaProps> = ({
           <span className={styles["char-count"]}>
             <em>{value.length}</em>/ {maxLength}
           </span>
-          )
         </div>
       ) : (
         <></>

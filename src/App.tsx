@@ -67,11 +67,6 @@ function App() {
       path: "/oauth2/redirected/:provider",
       element: <AuthRedirectedPage />,
     },
-    {
-      // 회원 가입 이메일
-      path: "/email-verification",
-      element: <EmailVerification />,
-    },
   ]);
   return (
     <QueryClientProvider client={queryClient}>

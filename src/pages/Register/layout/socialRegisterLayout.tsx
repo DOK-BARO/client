@@ -43,7 +43,7 @@ const SocialRegisterLayout = () => {
         <header>
           <h2>소셜 계정으로 회원가입</h2>
           <p className={styles["title"]}>{title}</p>
-          <ProgressBar ratio={Number(step) / 2} />
+          <ProgressBar ratio={Number(step) / Object.keys(titles).length} />
         </header>
         <Outlet context={"social"} />
       </div>

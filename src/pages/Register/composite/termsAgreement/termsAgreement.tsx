@@ -1,11 +1,13 @@
 import React, { FormEvent, useState } from "react";
 import styles from "./_terms_agreement.module.scss";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Button from "@/components/atom/button/button";
 import CheckBox from "@/pages/Register/components/checkBox/checkBox";
 import { APP_NAME } from "@/data/constants.ts";
 
 export default function TermsAgreement() {
+  const { method } = useParams();
+
   const [agreements, setAgreements] = useState({
     allAgree: false,
     termsAgree: false,
@@ -47,10 +49,6 @@ export default function TermsAgreement() {
   const onSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     console.log("동의하고 가입하기");
-
-    const pathArray = window.location.pathname.split("/");
-    const method = pathArray[2];
-
     navigate(`/register/${method}/2`);
   };
 

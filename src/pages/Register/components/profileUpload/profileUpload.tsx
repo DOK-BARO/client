@@ -32,45 +32,46 @@ export default function ProfileUpload({
 
   return (
     <div className={styles["profile-upload-container"]}>
-      <div className={styles["custom-file-upload"]}>
-        <img
-          src={profileImage}
-          alt="프로필 이미지"
-          className={styles["profile-image"]}
-        />
-      </div>
-      <div className={styles["profile-edit-container"]}>
+      <div className={styles["profile-email-container"]}>
+        <div className={styles["custom-file-upload"]}>
+          <img
+            src={profileImage}
+            alt="프로필 이미지"
+            className={styles["profile-image"]}
+          />
+        </div>
         <span>
-          {/* TODO: 현재 로그인한 사용자 이메일 계정 가져와서 적용하기 */}
-          <p aria-label="사용자 이메일">{email}</p>
+          <p className={styles.email} aria-label="사용자 이메일">
+            {email}
+          </p>
           <InfoFilled stroke={gray60} fill={gray40} width={24} />
         </span>
+      </div>
 
-        <input
-          id="file-upload"
-          type="file"
-          accept="image/*"
-          onChange={onFileChange}
-          style={{ display: "none" }}
-        />
-        <div className={styles["button-container"]}>
-          <Button
-            color="white"
-            id="edit-profile"
-            fullWidth
-            onClick={() => document.getElementById("file-upload")?.click()}
-          >
-            편집
-          </Button>
-          <Button
-            color="white"
-            fullWidth
-            id="delete-profile"
-            onClick={onDeleteProfileImage}
-          >
-            이미지 삭제
-          </Button>
-        </div>
+      <input
+        id="file-upload"
+        type="file"
+        accept="image/*"
+        onChange={onFileChange}
+        style={{ display: "none" }}
+      />
+      <div className={styles["button-container"]}>
+        <Button
+          color="white"
+          id="edit-profile"
+          fullWidth
+          onClick={() => document.getElementById("file-upload")?.click()}
+        >
+          이미지 편집
+        </Button>
+        <Button
+          color="white"
+          fullWidth
+          id="delete-profile"
+          onClick={onDeleteProfileImage}
+        >
+          이미지 삭제
+        </Button>
       </div>
     </div>
   );

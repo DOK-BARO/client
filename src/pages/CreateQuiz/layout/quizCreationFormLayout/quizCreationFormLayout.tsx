@@ -2,16 +2,18 @@ import styles from "./_quiz_creation_form_layout.module.scss";
 import { Step } from "@/pages/CreateQuiz";
 import Button from "@/components/atom/button/button.tsx";
 import RightArrow from "@/svg/rightArrow.tsx";
-import { gray0 } from "@/styles/abstracts/colors.ts";
+import { gray0, gray60 } from "@/styles/abstracts/colors.ts";
 
 export default function quizCreationFormLayout({
   steps,
   currentStep,
   setCurrentStep,
+  isButtonDisabled,
 }: {
   steps: Step[];
   currentStep: number;
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
+  isButtonDisabled:boolean;
 }) {
   return (
     <section className={styles["container"]}>
@@ -21,13 +23,16 @@ export default function quizCreationFormLayout({
       <div className={styles["next-container"]}>
         <Button
           className={styles["next"]}
+          disabled={isButtonDisabled}
           onClick={() => {
             if (currentStep == 5) return;
             setCurrentStep((prev) => prev + 1);
           }}
         >
-          다음
-          <RightArrow alt="다음 버튼" width={20} height={20} stroke={gray0} />
+          {
+            currentStep === 5 ? "완료" : "다음"
+          }
+          <RightArrow alt="다음 버튼" width={20} height={20} stroke={isButtonDisabled ? gray60 : gray0}/>
         </Button>
       </div>
     </section>

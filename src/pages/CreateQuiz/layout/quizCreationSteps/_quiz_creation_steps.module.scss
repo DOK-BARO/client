@@ -6,12 +6,13 @@
   flex: 1;
 }
 button.steps {
-  width: 100%;
+  //width: 100%;
+  line-height: 1.5em;
   color: $gray-90;
-  font-weight: 700;
+  font-weight: $font-weight-semibold;
   border-radius: 0;
   justify-content: left;
-  padding: 20px 8px;
+  padding: 11px 16px;
   background-color: transparent;
   &--active {
     background-color: $gray-00;

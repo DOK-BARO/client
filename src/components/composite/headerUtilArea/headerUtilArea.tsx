@@ -10,7 +10,7 @@ type Props = {
 export default function HeaderUtilArea({ isLoggedIn }: Props) {
   return (
     <span className={styles["header-util-area-container"]}>
-      <HeaderQuizUtilButton isLoggedIn={isLoggedIn} />
+      <HeaderQuizUtilButton />
       <HeaderMyInfoUtilButton isLoggedIn={isLoggedIn} />
       <StartAuthButton isLoggedIn={isLoggedIn} />
     </span>

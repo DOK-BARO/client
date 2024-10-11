@@ -51,11 +51,24 @@
   }
 }
 
+
 @mixin textarea-base {
-  @include input-base;
+  padding: $textarea-padding;
+  border-radius: $border-radius-medium;
+  font-size: $font-size-xlarge;
+  border: 1px solid $gray-40;
+  line-height: 1.5em;
+  font-family: inherit;
+  color: $gray-90;
+  min-height: 56px;
+  overflow: hidden;
+
+  &:focus {
+    outline: none;
+  }
+
   & {
     resize: none;
-    min-height: 96px;
   }
 }
 

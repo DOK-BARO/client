@@ -10,6 +10,8 @@ import Modal from "@/components/atom/modal/modal.tsx";
 import { Close } from "@/svg/close.tsx";
 import Input from "@/components/atom/input/input.tsx";
 import Textarea from "@/components/atom/textarea/textarea.tsx";
+import { Plus } from "@/svg/plus";
+import { QuizPlus } from "@/svg/quizPlus";
 
 // 1.스터디 생성 / 선택
 export default function QuizSettingStudyGroupForm() {
@@ -101,15 +103,16 @@ export default function QuizSettingStudyGroupForm() {
         size="large"
         className={styles["add-study-group"]}
         onClick={openModal}
+        icon={
+          <QuizPlus
+            alt="스터디 그룹 추가 버튼"
+            width={24}
+            height={24}
+            stroke={primary}
+          />
+        }
       >
-        <PlusCircle
-          alt="스터디 그룹 추가 버튼"
-          width={24}
-          height={24}
-          fill={primary}
-          stroke={secondary}
-        />
-        (선택) 스터디 그룹 추가하기
+        스터디 만들기
       </Button>
       {isModalOpen && (
         <Modal

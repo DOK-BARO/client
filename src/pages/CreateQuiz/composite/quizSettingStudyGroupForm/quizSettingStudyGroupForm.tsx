@@ -4,14 +4,14 @@ import useModal from "@/hooks/useModal.ts";
 import useInput from "@/hooks/useInput.ts";
 import useTextarea from "@/hooks/useTextarea.ts";
 import Button from "@/components/atom/button/button.tsx";
-import { PlusCircle } from "@/svg/plusCircle";
-import { gray90, primary, secondary } from "@/styles/abstracts/colors.ts";
+import { primary } from "@/styles/abstracts/colors.ts";
 import Modal from "@/components/atom/modal/modal.tsx";
-import { Close } from "@/svg/close.tsx";
 import Input from "@/components/atom/input/input.tsx";
 import Textarea from "@/components/atom/textarea/textarea.tsx";
-import { Plus } from "@/svg/plus";
 import { QuizPlus } from "@/svg/quizPlus";
+import { XMedium } from "@/svg/xMedium";
+import { Link } from "@/svg/link";
+import { Copy } from "@/svg/copy";
 
 // 1.스터디 생성 / 선택
 export default function QuizSettingStudyGroupForm() {
@@ -111,6 +111,7 @@ export default function QuizSettingStudyGroupForm() {
             stroke={primary}
           />
         }
+        color="secondary"
       >
         스터디 만들기
       </Button>
@@ -124,9 +125,18 @@ export default function QuizSettingStudyGroupForm() {
               {selectedStudy && (
                 <Button
                   onClick={() => {}}
-                  icon={<Close width={20} stroke={gray90} />}
+                  iconPosition="right"
+                  icon={
+                    <XMedium
+                      width={20}
+                      height={20}
+                      stroke={primary}
+                      alt="새로운 스터디 그룹 이름 삭제"
+                    />
+                  }
                   onIconClick={removeStudyGroup}
                   className={styles["study-name"]}
+                  color="secondary"
                 >
                   {selectedStudy}
                 </Button>
@@ -136,42 +146,57 @@ export default function QuizSettingStudyGroupForm() {
                 // 스터디 그룹이 입력되어 있지 않은 경우 (초기 상태)
                 <div className={styles["input-button-container"]}>
                   <Input
+                    fullWidth
                     placeholder="이름을 입력해주세요."
                     id="study-name"
                     value={studyName}
                     onChange={onChangeStudyName}
+                    className={styles.input}
                   />
                   <Button
                     className={styles["add"]}
+                    color="primary-border"
                     onClick={() => addStudyGroup(studyName)}
                   >
-                    추가
+                    스터디 만들기
                   </Button>
                 </div>
               ) : (
                 // 스터디 그룹이 입력되어 있는 경우
                 <div className={styles["email-invite"]}>
                   <div className={styles.line} />
-                  <div className={styles["title"]}>그룹에 초대하기</div>
-                  <div className={styles["input-button-container"]}>
-                    <Input
-                      value={inviteEmail}
-                      id="email-invite"
-                      placeholder="이메일을 입력해주세요"
-                      onChange={onChangeInviteEmail}
-                    />
-                    <Button
-                      className={styles["invite"]}
-                      onClick={inviteToStudyGroup}
-                    >
-                      초대
-                    </Button>
-                  </div>
+                  <div className={styles.title}>스터디 그룹 초대코드</div>
+                  <Button
+                    fullWidth
+                    color="secondary"
+                    icon={
+                      <Copy width={20} stroke={primary} alt="초대 코드 복사" />
+                    }
+                    iconPosition="left"
+                  >
+                    ABC123
+                  </Button>
                   <div className={styles["buttons-container"]}>
-                    <Button className={styles["copy-link"]} onClick={copyLink}>
-                      링크 복사하기
+                    <Button
+                      className={styles["copy-link"]}
+                      color="primary-border"
+                      onClick={copyLink}
+                      icon={
+                        <Link
+                          width={24}
+                          stroke={primary}
+                          alt="초대 링크 복사"
+                        />
+                      }
+                      iconPosition="left"
+                    >
+                      초대 링크 복사
                     </Button>
-                    <Button className={styles["done"]} onClick={done}>
+                    <Button
+                      color="primary"
+                      className={styles.done}
+                      onClick={done}
+                    >
                       완료
                     </Button>
                   </div>
@@ -188,14 +213,14 @@ export default function QuizSettingStudyGroupForm() {
         placeholder="퀴즈 제목을 입력해주세요."
         onChange={onChangeQuizTitle}
         value={quizTitle}
-      ></Input>
+      />
       <Textarea
         id="quiz-description"
         placeholder="퀴즈 설명을 입력해주세요."
         className={styles["quiz-description"]}
         onChange={onChangeQuizDesc}
         value={quizDesc}
-      ></Textarea>
+      />
     </>
   );
 }

@@ -1,6 +1,8 @@
 import styles from "./_quiz_creation_steps.module.scss";
 import { Step } from "@/pages/CreateQuiz";
 import Button from "@/components/atom/button/button";
+import { CheckEllipse } from "@/svg/checkEllipse.tsx";
+import { systemSuccess } from "@/styles/abstracts/colors.ts";
 
 export default function QuizCreationSteps({
   steps,
@@ -32,8 +34,11 @@ export default function QuizCreationSteps({
           key={step.order}
           value={step.title}
         >
-          {step.icon && step.icon}&nbsp;
-          {step.title}
+          <span>
+            {step.icon && step.icon}&nbsp;
+            {step.title}
+          </span>
+          <CheckEllipse fillOut={systemSuccess} fillIn={"white"} width={20} height={20} />
         </Button>
       ))}
     </section>

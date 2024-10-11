@@ -71,34 +71,39 @@ export default function QuizSettingStudyGroupForm() {
   return (
     <>
       {isStudySelected && (
-        <article className={styles["selected-study-group"]}>
-          <div className={styles["profile-container"]}>
-            {profileImgSrc ? (
-              <img className={styles["profile"]} src="" alt="" />
-            ) : (
-              <div className={styles["profile"]} />
-            )}
-            {selectedStudy}
-          </div>
-          {/* toggle button -> 분리하기 */}
-          <div
-            className={`${styles["toggle-container"]} ${
-              isToggleOn ? styles["on"] : styles["off"]
-            }`}
-          >
-            <button
-              className={`${styles["toggle"]} ${
+        <>
+          <p className={styles["email-notification"]}>
+            스터디원들의 이메일로 퀴즈 생성 알림이 가요.
+          </p>
+          <article className={styles["selected-study-group"]}>
+            <div className={styles["profile-container"]}>
+              {profileImgSrc ? (
+                <img className={styles.profile} src="" alt="" />
+              ) : (
+                <div className={styles.profile} />
+              )}
+              {selectedStudy}
+            </div>
+            {/* toggle button -> 분리하기 */}
+            <div
+              className={`${styles["toggle-container"]} ${
                 isToggleOn ? styles["on"] : styles["off"]
               }`}
-              value={isToggleOn.toString()}
-              onClick={onToggle}
             >
-              <div className={styles["circle"]} />
-            </button>
-            퀴즈 알람 보내기
-          </div>
-        </article>
+              <button
+                className={`${styles["toggle"]} ${
+                  isToggleOn ? styles["on"] : styles["off"]
+                }`}
+                value={isToggleOn.toString()}
+                onClick={onToggle}
+              >
+                <div className={styles["circle"]} />
+              </button>
+            </div>
+          </article>
+        </>
       )}
+
       <Button
         size="large"
         className={styles["add-study-group"]}
@@ -131,7 +136,7 @@ export default function QuizSettingStudyGroupForm() {
                       width={20}
                       height={20}
                       stroke={primary}
-                      alt="새로운 스터디 그룹 이름 삭제"
+                      alt="스터디 그룹 이름 삭제"
                     />
                   }
                   onIconClick={removeStudyGroup}
@@ -207,20 +212,6 @@ export default function QuizSettingStudyGroupForm() {
           closeModal={closeModal}
         />
       )}
-      <Input
-        className={styles["quiz-title"]}
-        id="quiz-title"
-        placeholder="퀴즈 제목을 입력해주세요."
-        onChange={onChangeQuizTitle}
-        value={quizTitle}
-      />
-      <Textarea
-        id="quiz-description"
-        placeholder="퀴즈 설명을 입력해주세요."
-        className={styles["quiz-description"]}
-        onChange={onChangeQuizDesc}
-        value={quizDesc}
-      />
     </>
   );
 }

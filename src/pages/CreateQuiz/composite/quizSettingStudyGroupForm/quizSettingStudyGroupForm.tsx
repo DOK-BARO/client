@@ -7,7 +7,6 @@ import Button from "@/components/atom/button/button.tsx";
 import { primary } from "@/styles/abstracts/colors.ts";
 import Modal from "@/components/atom/modal/modal.tsx";
 import Input from "@/components/atom/input/input.tsx";
-import Textarea from "@/components/atom/textarea/textarea.tsx";
 import { QuizPlus } from "@/svg/quizPlus";
 import { XMedium } from "@/svg/xMedium";
 import { Link } from "@/svg/link";
@@ -55,6 +54,13 @@ export default function QuizSettingStudyGroupForm() {
 
   // 링크 복사하기
   const copyLink = () => {};
+
+  // 코드 복사하기
+  const copyCode = (code: string) => {
+    navigator.clipboard.writeText(code).then(() => {
+      alert("복사되었습니다.");
+    });
+  };
 
   // 완료. (모달창 닫기)
   const done = () => {
@@ -178,8 +184,17 @@ export default function QuizSettingStudyGroupForm() {
                       <Copy width={20} stroke={primary} alt="초대 코드 복사" />
                     }
                     iconPosition="left"
+                    onClick={(e) => {
+                      const buttonText =
+                        e.currentTarget.querySelector(
+                          "#invite-code"
+                        )?.textContent;
+                      if (buttonText) {
+                        copyCode(buttonText);
+                      }
+                    }}
                   >
-                    ABC123
+                    <span id="invite-code">ABC123</span>
                   </Button>
                   <div className={styles["buttons-container"]}>
                     <Button

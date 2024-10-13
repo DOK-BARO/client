@@ -2,12 +2,9 @@
 @import "../../../../styles/abstracts/mixins";
 
 .search-book {
-  input {
-    border-color: $gray-40;
-  }
   .selection-list {
-    margin-top: 24px;
-    height: 276px;
+    margin-top: 10px;
+    height: 402px;
     width: 100%;
     border: 1px solid $gray-40;
     background-color: $gray-00;

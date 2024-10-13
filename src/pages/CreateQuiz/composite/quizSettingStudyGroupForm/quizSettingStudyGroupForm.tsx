@@ -1,113 +1,205 @@
 import styles from "./_quiz_setting_study_group_form.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useModal from "@/hooks/useModal.ts";
 import useInput from "@/hooks/useInput.ts";
-import useTextarea from "@/hooks/useTextarea.ts";
 import Button from "@/components/atom/button/button.tsx";
 import { primary } from "@/styles/abstracts/colors.ts";
 import Modal from "@/components/atom/modal/modal.tsx";
 import Input from "@/components/atom/input/input.tsx";
-import Textarea from "@/components/atom/textarea/textarea.tsx";
 import { QuizPlus } from "@/svg/quizPlus";
 import { XMedium } from "@/svg/xMedium";
 import { Link } from "@/svg/link";
 import { Copy } from "@/svg/copy";
+import { StudyGroupType } from "@/types/StudyGroupType";
+import Toggle from "@/components/atom/toggle/toggle";
 
-// 1.스터디 생성 / 선택
+export interface StudyGroupSelectType extends StudyGroupType {
+  isSetAlarm: boolean;
+}
+
+// 1.스터디 선택
 export default function QuizSettingStudyGroupForm() {
-  // TODO: custom hook으로 분리하기
   const { isModalOpen, openModal, closeModal } = useModal();
-  const [selectedStudy, setSelectedStudy] = useState<string>("");
+  const [studyGroupList, setStudyGroupList] = useState<StudyGroupSelectType[]>(
+    []
+  );
+  const [selectedStudyGroupList, setSelectedStudyGroupList] = useState<
+    StudyGroupSelectType[]
+  >([]);
+  const [newStudyGroup, setNewStudyGroup] = useState<string | null>(null);
 
   // 모달 안 인풋
   const {
     value: studyName,
     onChange: onChangeStudyName,
-    resetInput,
+    resetInput: resetStudyNameInput,
   } = useInput("");
-  const { value: inviteEmail, onChange: onChangeInviteEmail } = useInput("");
 
-  const { value: quizTitle, onChange: onChangeQuizTitle } = useInput("");
-  const { value: quizDesc, onChange: onChangeQuizDesc } = useTextarea("");
-
-  const profileImgSrc = "";
-
-  const [isStudySelected, setIsStudySelected] = useState<boolean>(false);
-
-  const [isToggleOn, setIsToggleOn] = useState<boolean>(false);
+  // const { value: inviteEmail, onChange: onChangeInviteEmail } = useInput("");
+  const [tempId, setTempId] = useState<number>(-1);
 
   // 새로운 스터디 그룹 추가
-  const addStudyGroup = (studyNameInputValue: string) => {
-    setSelectedStudy(studyNameInputValue);
+  const addStudyGroup = (newStudyName: string) => {
+    setNewStudyGroup(newStudyName);
   };
 
   // 입력한 스터디 그룹 삭제
   const removeStudyGroup = () => {
-    setSelectedStudy("");
+    setNewStudyGroup("");
     // 인풋 value도 초기화
-    resetInput("");
+    resetStudyNameInput("");
   };
 
   // 이메일을 통해 스터디 그룹에 초대하기
-  const inviteToStudyGroup = () => {
-    console.log(inviteEmail);
-  };
+  // const inviteToStudyGroup = () => {
+  //   console.log(inviteEmail);
+  // };
 
   // 링크 복사하기
   const copyLink = () => {};
 
+  // 코드 복사하기
+  const copyCode = (code: string) => {
+    navigator.clipboard.writeText(code).then(() => {
+      alert("복사되었습니다.");
+    });
+  };
+
   // 완료. (모달창 닫기)
   const done = () => {
-    setIsStudySelected(true);
-    console.log(selectedStudy);
+    // 완료 눌렀을때.
+    // api 요청 해야됨
+    if (newStudyGroup) {
+      setStudyGroupList([
+        ...studyGroupList,
+        {
+          id: tempId, // 임시
+          name: newStudyGroup,
+          isSetAlarm: false,
+        },
+      ]);
+    }
+
+    setTempId(tempId - 1);
     closeModal();
   };
 
-  // 퀴즈 알람 보내기 토글 버튼
-  const onToggle = () => {
-    setIsToggleOn(!isToggleOn);
-  };
+  // 전체배열이랑 선택된 배열 상태 동기화 (알람 설정 상태)
+  useEffect(() => {
+    setSelectedStudyGroupList((prevList) =>
+      prevList.map((selectedGroup) => {
+        const updatedGroup = studyGroupList.find(
+          (group) => group.id === selectedGroup.id
+        );
+
+        return updatedGroup
+          ? { ...selectedGroup, isSetAlarm: updatedGroup.isSetAlarm }
+          : selectedGroup;
+      })
+    );
+  }, [studyGroupList]);
+
+  useEffect(() => {
+    console.log(studyGroupList, selectedStudyGroupList);
+  }, [studyGroupList, selectedStudyGroupList]);
 
   return (
     <>
-      {isStudySelected && (
+      {studyGroupList.length > 0 && (
         <>
           <p className={styles["email-notification"]}>
             스터디원들의 이메일로 퀴즈 생성 알림이 가요.
           </p>
-          <article className={styles["selected-study-group"]}>
-            <div className={styles["profile-container"]}>
-              {profileImgSrc ? (
-                <img className={styles.profile} src="" alt="" />
-              ) : (
-                <div className={styles.profile} />
-              )}
-              {selectedStudy}
-            </div>
-            {/* toggle button -> 분리하기 */}
-            <div
-              className={`${styles["toggle-container"]} ${
-                isToggleOn ? styles["on"] : styles["off"]
+          {studyGroupList.map((studyGroup) => (
+            <article
+              id={studyGroup.id.toString()}
+              className={`${styles["study-group"]} ${
+                selectedStudyGroupList.some((item) => item.id === studyGroup.id)
+                  ? styles["selected"]
+                  : null
               }`}
+              onClick={() => {
+                setSelectedStudyGroupList((prevList) => {
+                  const isAlreadySelected = prevList.some(
+                    (item) => item.id === studyGroup.id
+                  );
+
+                  // 이미 선택 o -> 선택 x (해제)
+                  if (isAlreadySelected) {
+                    // 전체 리스트
+                    setStudyGroupList((prevList) =>
+                      prevList.map((item) =>
+                        item.id === studyGroup.id
+                          ? { ...item, isSetAlarm: false } // 알람 자동으로 해제
+                          : item
+                      )
+                    );
+                    return prevList.filter((item) => item.id !== studyGroup.id);
+                  }
+
+                  // 이미 선택 x -> 선택 o
+                  // 전체 리스트
+                  setStudyGroupList((prevList) =>
+                    prevList.map((item) =>
+                      item.id === studyGroup.id
+                        ? { ...item, isSetAlarm: true } // 알람 자동으로 설정
+                        : item
+                    )
+                  );
+
+                  // 선택 리스트
+                  return [...prevList, { ...studyGroup, isSetAlarm: true }];
+                });
+              }}
             >
-              <button
-                className={`${styles["toggle"]} ${
-                  isToggleOn ? styles["on"] : styles["off"]
-                }`}
-                value={isToggleOn.toString()}
-                onClick={onToggle}
-              >
-                <div className={styles["circle"]} />
-              </button>
-            </div>
-          </article>
+              <div className={styles["profile-container"]}>
+                {studyGroup.profileImageUrl ? (
+                  <img className={styles.profile} src="" alt="" />
+                ) : (
+                  <div className={styles.profile} />
+                )}
+                {studyGroup.name}
+              </div>
+
+              <Toggle
+                isActive={studyGroup.isSetAlarm}
+                onClick={() => {
+                  // 전체 리스트 - 토글
+                  setStudyGroupList((prevList) =>
+                    prevList.map((item) =>
+                      item.id === studyGroup.id
+                        ? { ...item, isSetAlarm: !item.isSetAlarm }
+                        : item
+                    )
+                  );
+
+                  setSelectedStudyGroupList((prevList) => {
+                    const isAlreadySelected = prevList.some(
+                      (item) => item.id === studyGroup.id
+                    );
+
+                    // 선택된 스터디가 아닐 경우 토글 on
+                    if (!isAlreadySelected) {
+                      return [...prevList, { ...studyGroup, isSetAlarm: true }];
+                    }
+
+                    return prevList;
+                  });
+                }}
+              />
+            </article>
+          ))}
         </>
       )}
 
       <Button
         size="large"
         className={styles["add-study-group"]}
-        onClick={openModal}
+        onClick={() => {
+          openModal();
+          setNewStudyGroup(null);
+          resetStudyNameInput("");
+        }}
         icon={
           <QuizPlus
             alt="스터디 그룹 추가 버튼"
@@ -127,7 +219,7 @@ export default function QuizSettingStudyGroupForm() {
           contentTitle="새로운 스터디 그룹 이름"
           content={
             <div className={styles["add-study-name"]}>
-              {selectedStudy && (
+              {newStudyGroup && (
                 <Button
                   onClick={() => {}}
                   iconPosition="right"
@@ -143,11 +235,11 @@ export default function QuizSettingStudyGroupForm() {
                   className={styles["study-name"]}
                   color="secondary"
                 >
-                  {selectedStudy}
+                  {newStudyGroup}
                 </Button>
               )}
 
-              {!selectedStudy ? (
+              {!newStudyGroup ? (
                 // 스터디 그룹이 입력되어 있지 않은 경우 (초기 상태)
                 <div className={styles["input-button-container"]}>
                   <Input
@@ -178,8 +270,17 @@ export default function QuizSettingStudyGroupForm() {
                       <Copy width={20} stroke={primary} alt="초대 코드 복사" />
                     }
                     iconPosition="left"
+                    onClick={(e) => {
+                      const buttonText =
+                        e.currentTarget.querySelector(
+                          "#invite-code"
+                        )?.textContent;
+                      if (buttonText) {
+                        copyCode(buttonText);
+                      }
+                    }}
                   >
-                    ABC123
+                    <span id="invite-code">ABC123</span>
                   </Button>
                   <div className={styles["buttons-container"]}>
                     <Button
@@ -208,7 +309,7 @@ export default function QuizSettingStudyGroupForm() {
                 </div>
               )}
             </div>
-          } // input 요소를 넣어야함.
+          }
           closeModal={closeModal}
         />
       )}

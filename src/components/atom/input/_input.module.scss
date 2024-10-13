@@ -76,11 +76,21 @@
     // color: $gray-90;
   }
 
-  &--left-icon {
+  &--left-icon-large,
+  &--left-icon-medium {
+    padding-left: 48px;
+  }
+
+  &--left-icon-small {
     padding-left: 44px;
   }
 
-  &--right-icon {
+  &--right-icon-large,
+  &--left-icon-medium {
+    padding-right: 48px;
+  }
+
+  &--right-icon-small {
     padding-right: 44px;
   }
 }
@@ -95,6 +105,10 @@
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
+  display: flex;
+  justify-self: center;
+  align-items: center;
+
   // pointer-events: none;
 }
 

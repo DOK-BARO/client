@@ -11,9 +11,11 @@
     border-radius: $border-radius-medium;
     overflow-y: scroll;
     padding: 16px;
+    padding-right: 0;
     display: flex;
     flex-direction: column;
     // gap: 12px;
+    @include scroll-bar;
   }
 }
 .booklist-item {

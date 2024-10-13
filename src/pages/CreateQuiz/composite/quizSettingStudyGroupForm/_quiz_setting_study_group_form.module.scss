@@ -6,16 +6,17 @@
   color: $gray-70;
   margin-bottom: 16px;
 }
-.selected-study-group {
+
+.study-group {
   width: 100%;
   padding: 16px;
   border-radius: $border-radius-medium;
-  border: 1px solid $primary;
   background-color: $gray-00;
   @include flex(row, center);
   justify-content: space-between;
   margin-bottom: 16px;
   cursor: pointer;
+  border: 1px solid $gray-40;
 
   .profile-container {
     display: flex;
@@ -74,6 +75,9 @@
       }
     }
   }
+}
+.selected {
+  border-color: $primary;
 }
 
 .add-study-group-modal {

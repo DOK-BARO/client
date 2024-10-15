@@ -16,9 +16,9 @@ export interface Step {
   order: number;
   icon?: string;
   title: string;
-  description: string;
-  isSubStep: boolean;
-  formComponent: (props?: FormComponentProps) => JSX.Element;
+  description?: string;
+  formComponent?: (props?: FormComponentProps) => JSX.Element;
+  subSteps?: Step [];
 }
 
 export default function Index() {
@@ -30,7 +30,6 @@ export default function Index() {
       icon: "👥",
       title: "스터디 선택",
       description: "퀴즈를 풀 스터디를 만들거나 선택해주세요.",
-      isSubStep: false,
       formComponent: () => <QuizSettingStudyGroupForm/>,
     },
     {
@@ -38,40 +37,36 @@ export default function Index() {
       icon: "📚",
       title: "도서 선택",
       description: "퀴즈를 내고자 하는 도서를 선택해주세요.",
-      isSubStep: false,
       formComponent: () => <QuizBookSelectionForm/>,
     },
     {
       order: 2,
       icon: "🏆",
       title: "퀴즈 작성",
-      description: "퀴즈 이름과 설명을 작성해주세요.",
-      isSubStep: false,
-      formComponent: () => <QuizWriteForm/>,
+      subSteps: [
+        {
+          order: 2.1,
+          title: "퀴즈 기본 정보 작성",
+          description: "퀴즈 이름과 설명을 작성해주세요.",
+          formComponent: () => <QuizBasicInfoForm setIsButtonDisabled={setIsButtonDisabled}/>,
+        },
+        {
+          order: 2.2,
+          title: "문제 작성",
+          description: "퀴즈의 질문과 답안을 설정해주세요.",
+          formComponent: () => <QuizWriteForm/>,
+        },
+      ],
     },
     {
       order: 3,
-      title: "퀴즈 기본 정보 작성",
-      description: "퀴즈 이름과 설명을 작성해주세요.",
-      isSubStep: true,
-      formComponent: () => <QuizBasicInfoForm setIsButtonDisabled={setIsButtonDisabled}/>,
-    },
-    {
-      order: 4,
-      title: "문제 작성",
-      description: "퀴즈의 질문과 답안을 설정해주세요.",
-      isSubStep: true,
-      formComponent: () => <QuizWriteForm/>,
-    },
-    {
-      order: 5,
       icon: "🔗",
       title: "공유 설정",
-      isSubStep: false,
       description: "퀴즈를 볼 수 있는 사람과 제한 시간을 설정해 주세요.",
       formComponent: () => <QuizSettingsForm/>,
     },
   ];
+
   const [currentStep, setCurrentStep] = useState<number>(0);
   return (
     <section className={styles["container"]}>

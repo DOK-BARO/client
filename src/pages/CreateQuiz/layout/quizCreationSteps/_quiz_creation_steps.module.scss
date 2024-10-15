@@ -6,16 +6,21 @@
   flex: 1;
 }
 button.steps {
-  //width: 100%;
+  width: 100%;
   line-height: 1.5em;
   color: $gray-90;
   font-weight: $font-weight-semibold;
   border-radius: 0;
-  justify-content: left;
+  justify-content: space-between;
   padding: 11px 16px;
   background-color: transparent;
   &--active {
     background-color: $gray-00;
+  }
+
+  &:hover {
+    background-color: $gray-00;
+    padding-left: 24px;
   }
 }
 
@@ -27,4 +32,11 @@ button.sub-steps {
   background-color: transparent;
   font-size: $font-size-medium;
   line-height: 1.5em;
+  &--active {
+    background-color: $gray-00;
+  }
+  &:hover {
+    background-color: $gray-00;
+    padding-left: 24px;
+  }
 }

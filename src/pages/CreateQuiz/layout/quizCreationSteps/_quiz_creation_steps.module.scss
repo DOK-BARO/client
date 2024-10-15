@@ -17,6 +17,11 @@ button.steps {
   &--active {
     background-color: $gray-00;
   }
+
+  &:hover {
+    background-color: $gray-00;
+    padding-left: 24px;
+  }
 }
 
 button.sub-steps {
@@ -29,5 +34,9 @@ button.sub-steps {
   line-height: 1.5em;
   &--active {
     background-color: $gray-00;
+  }
+  &:hover {
+    background-color: $gray-00;
+    padding-left: 24px;
   }
 }

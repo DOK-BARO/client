@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./_toggle.module.scss";
 
 interface ToggleProps {

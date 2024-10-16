@@ -8,7 +8,6 @@ import ComponentTest from "./pages/ComponentTest/index.tsx";
 import BookDetailSection from "./pages/BookDetail/";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import CreateQuiz from "./pages/CreateQuiz/index.tsx";
-import EmailVerification from "./pages/EmailVerification/index.tsx";
 import Register from "./pages/Register/index.tsx";
 
 import RegisterStep from "./pages/Register/registerStep.tsx";

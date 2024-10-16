@@ -11,9 +11,8 @@ export const ArrowDown: React.FC<SVGProps> = ({ alt, ...props }) => {
       xmlns="http://www.w3.org/2000/svg"
     >
       <title id="svgTitle">{alt}</title>
-      <path d="M7 10L12.0008 14.58L17 10" stroke="#0A090B" strokeWidth="2" strokeLinecap="round"
+      <path d="M7 10L12.0008 14.58L17 10" stroke={props.stroke} strokeWidth="2" strokeLinecap="round"
         strokeLinejoin={"round"}/>
-
     </svg>
   );
 };

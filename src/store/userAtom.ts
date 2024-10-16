@@ -6,7 +6,7 @@ export const RegisterInfoAtom = atom<RegisterInfoType>({
   id: 0,
   email: "",
   password: "",
-  nickname: "",
+  nickName: "",
   profileImage: "",
   // roles: [],
 });

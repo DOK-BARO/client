@@ -1,14 +1,35 @@
-import { useEffect, useState } from "react";
+import { ReactNode, useState } from "react";
 import styles from "./_quiz_write_form.module.scss";
 import useInput from "@/hooks/useInput.ts";
 import Button from "@/components/atom/button/button.tsx";
-import { CheckSquare } from "@/svg/checkSquare.tsx";
-import { gray60 } from "@/styles/abstracts/colors.ts";
-import { ArrowDropDown } from "@/svg/arrowDropDown.tsx";
+// import { CheckSquare } from "@/svg/checkSquare.tsx";
+// import { gray60 } from "@/styles/abstracts/colors.ts";
+// import { ArrowDropDown } from "@/svg/arrowDropDown.tsx";
 import Input from "@/components/atom/input/input.tsx";
+import QuizWriteFormTypeUtilButton from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormTypeUtilButton.tsx";
 
 // 3. 퀴즈 작성
+
 export default function QuizWriteForm() {
+  const [quizWriteFormList, setQuizWriteList] = useState<ReactNode[]>([ <QuizWriteFormItem />]);
+  const onClickAddQuizWriteForm = () => {
+    setQuizWriteList([...quizWriteFormList, <QuizWriteFormItem/>])
+  };
+
+  return (
+    <div className={styles["container"]}>
+      {quizWriteFormList.map((item) => (
+        item
+      ))}
+      <Button size={"xlarge"} onClick={onClickAddQuizWriteForm}>
+        문제 추가하기 +
+      </Button>
+    </div>
+  );
+}
+
+
+function QuizWriteFormItem () {
   const [quizMode, setQuizMode] = useState<string>("question"); // 질문 작성 or 답안 작성
   const { onChange: onQuestionChange, value: question } = useInput("");
   const { onChange: onOptionChange, value: option, resetInput } = useInput("");
@@ -27,16 +48,16 @@ export default function QuizWriteForm() {
     }
   };
 
-  useEffect(() => {
-    console.log(optionList);
-  }, [optionList]);
+  // useEffect(() => {
+  //   console.log(optionList);
+  // }, [optionList]);
 
   return (
     <div className={styles["write-quiz"]}>
       <div className={styles["quiz-mode-buttons"]}>
         <Button
           value="question"
-          size="xlarge"
+          size="medium"
           className={`${styles["set-quiz"]} ${
             quizMode === "question" ? styles["active"] : ""
           }`}
@@ -46,7 +67,7 @@ export default function QuizWriteForm() {
         </Button>
         <Button
           value="answer"
-          size="xlarge"
+          size="medium"
           className={`${styles["set-answer"]} ${
             quizMode === "answer" ? styles["active"] : ""
           }`}
@@ -56,26 +77,9 @@ export default function QuizWriteForm() {
         </Button>
       </div>
       <div className={styles["input-container"]}>
-        <div className={styles["select-box"]}>
-          {/* TODO: 커스텀 Select 구현하기 */}
-          <select
-            name="question-type"
-            id="question-type"
-            className={styles["question-type"]}
-          >
-            <option value="objective">
-              <CheckSquare width={20} stroke={gray60} alt="" />
-              객관식
-            </option>
-            <option value="subjective">
-              <CheckSquare width={20} stroke={gray60} alt="" />
-              주관식
-            </option>
-          </select>
-          <span className={styles["arrow-down"]}>
-            <ArrowDropDown width={20} stroke={gray60} alt="펼치기" />
-          </span>
-        </div>
+
+        <QuizWriteFormTypeUtilButton />
+
         <Input
           className={styles["question"]}
           value={question}
@@ -90,12 +94,12 @@ export default function QuizWriteForm() {
 
         {optionList.map((option: string) => (
           <div key={option} className={styles["option-container"]}>
-            <div className={styles["option-check-circle"]} />
+            <div className={styles["option-check-circle"]}/>
             <span className={styles["option-label"]}>{option}</span>
           </div>
         ))}
         <div className={styles["option-container"]}>
-          <div className={styles["option-check-circle"]} />
+          <div className={styles["option-check-circle"]}/>
           <input
             id="option"
             value={option}

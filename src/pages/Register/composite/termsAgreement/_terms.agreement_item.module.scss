@@ -1,0 +1,31 @@
+@import "../../../../styles/abstracts/variables";
+@import "../../../../styles/abstracts/mixins";
+
+.agreement-item {
+
+  &-container {
+    @include flex(row);
+    gap: 10px;
+  }
+
+  &-checkbox {
+    @include flex(column);
+    gap: 16px;
+  }
+
+  &-subtitle {
+    color: $gray-60;
+    font-size: $font-size-small;
+    margin-left: 28px;
+  }
+
+  &-detail-show-button {
+    border: none;
+    background: none;
+    text-decoration: underline;
+    font-size: $font-size-small;
+    color: $gray-90;
+    white-space: nowrap;
+  }
+
+}

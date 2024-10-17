@@ -3,16 +3,17 @@ import { AuthResponse } from "../../types/AuthResponse.ts";
 import { SocialLoginType } from "../../types/SocialLoginType.ts";
 import localApi from "../local/LocalApi.ts";
 import { UserType } from "@/types/UserType.ts";
+import { TermsOfServiceType } from "@/types/TermsOfServiceType.ts";
 
 const redirectedUrl = import.meta.env.VITE_AUTH_REDIRECTED_URL;
 
 export const getAuthUrl = async (
-  socialLoginType: SocialLoginType
+  socialLoginType: SocialLoginType,
 ): Promise<string> => {
   console.log("get kakao auth url");
   try {
     const { data } = await axios.get(
-      `/auth/oauth2/authorize/${socialLoginType}?redirectUrl=${redirectedUrl}/${socialLoginType.toLowerCase()}`
+      `/auth/oauth2/authorize/${socialLoginType}?redirectUrl=${redirectedUrl}/${socialLoginType.toLowerCase()}`,
     );
     return data.url; // 임시 임의 리턴값
   } catch (error) {
@@ -22,7 +23,7 @@ export const getAuthUrl = async (
 
 export const login = async (
   socialType: SocialLoginType,
-  token: string
+  token: string,
 ): Promise<AuthResponse> => {
   const postData = {
     token,
@@ -32,7 +33,7 @@ export const login = async (
   try {
     const { data } = await axios.post(
       `/auth/oauth2/login/${socialType}`,
-      postData
+      postData,
     );
     console.log("data", data); // 응답 객체 출력
     return data;
@@ -53,7 +54,7 @@ export const login = async (
 
 export const signup = async (
   socialType: SocialLoginType,
-  token: string
+  token: string,
 ): Promise<AuthResponse> => {
   try {
     const postData = {
@@ -62,7 +63,7 @@ export const signup = async (
     };
     const { data } = await axios.post(
       `/auth/oauth2/signup/${socialType}`,
-      postData
+      postData,
     );
     return data; // 임시 임의 리턴값
   } catch (error: unknown) {
@@ -96,4 +97,13 @@ export const getUserIfAuthenticated = async (): Promise<UserType | null> => {
   }
 
   return await getUser();
+};
+
+export const getTermsOfServices = async (): Promise<TermsOfServiceType[]> => {
+  try{
+    const { data } = await axios.get("/terms-of-services");
+    return data;
+  }catch(error){
+    throw new Error(`서비스 이용약관 가져오기 실패: ${error}`);
+  }
 };

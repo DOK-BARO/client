@@ -3,12 +3,26 @@ import styles from "./_terms_agreement.module.scss";
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "@/components/atom/button/button";
 import CheckBox from "@/pages/Register/components/checkBox/checkBox";
-import { APP_NAME } from "@/data/constants.ts";
+import { useQuery } from "@tanstack/react-query";
+import { termsAgreementKeys } from "@/data/queryKeys.ts";
+import { getTermsOfServices } from "@/services/server/authService.ts";
+import { TermsAgreementItem } from "@/pages/Register/composite/termsAgreement/termsAgreementItem.tsx";
 
+interface Agreements {
+  allAgree: boolean;
+  termsAgree: boolean;
+  privacyAgree: boolean;
+  emailNews: boolean;
+  adsEmail: boolean;
+}
 export default function TermsAgreement() {
+  const { isLoading, data:termsArgeement } = useQuery({
+    queryKey: termsAgreementKeys.termsAgreement(),
+    queryFn: getTermsOfServices,
+  });
   const { method } = useParams();
 
-  const [agreements, setAgreements] = useState({
+  const [agreements, setAgreements] = useState<Agreements>({
     allAgree: false,
     termsAgree: false,
     privacyAgree: false,
@@ -53,6 +67,9 @@ export default function TermsAgreement() {
   };
 
   // TODO : 리펙토링 필요
+  if(isLoading){
+    return <div>로딩중...</div>;
+  }
   return (
     <section className={styles["terms-agreement"]}>
       <h3>서비스 이용약관 동의</h3>
@@ -72,72 +89,39 @@ export default function TermsAgreement() {
             isOutLined={true}
           />
         </div>
-        <div className={styles["agreement-item-container"]}>
+        <div className={styles["agreement-list-container"]}>
           {/* 필수 약관 */}
           <fieldset>
             <legend>필수 약관</legend>
-            <div className={styles["agreement-item-required"]}>
-              <CheckBox
-                id="termsAgree"
-                label={"[필수] 이용 약관 동의"}
-                checked={agreements.termsAgree}
-                onChange={onSingleAgreeChange}
-                isOutLined={false}
-                required
-              />
-              <button
-                type="button"
-                className={styles["agreement-content-show-button"]}
-              >
-                보기
-              </button>
-            </div>
-            <div className={styles["agreement-item-required"]}>
-              <CheckBox
-                id="privacyAgree"
-                label={"[필수] 개인 정보 수집·이용 동의"}
-                checked={agreements.privacyAgree}
-                onChange={onSingleAgreeChange}
-                isOutLined={false}
-                required
-              />
-              <button
-                type="button"
-                className={styles["agreement-content-show-button"]}
-              >
-                보기
-              </button>
-            </div>
+            {termsArgeement?.filter((term) => term.primary)
+              .map((primaryTerm) => (
+                <TermsAgreementItem  
+                  id={primaryTerm.id}
+                  checkBoxId={Object.keys(agreements)[primaryTerm.id]}
+                  label={`[필수] ${primaryTerm.title}`}
+                  checked ={agreements[Object.keys(agreements)[primaryTerm.id] as keyof Agreements]}
+                  onChange={onSingleAgreeChange}
+                  subTitle={primaryTerm.subTitle}
+                  hasDetail={primaryTerm.hasDetail}
+                />
+              ))}
           </fieldset>
 
           {/* 선택 약관 */}
           <fieldset>
             <legend>선택 약관</legend>
-            <div className={styles["agreement-item-optional"]}>
-              <CheckBox
-                id="emailNews"
-                label={"[선택] 신규 퀴즈 소식을 이메일로 받기"}
-                checked={agreements.emailNews}
-                onChange={onSingleAgreeChange}
-                isOutLined={false}
-              />
-              <p className={styles["agreement-item-description"]}>
-                관심도서의 신규 퀴즈 업데이트 소식을 받아보세요!
-              </p>
-            </div>
-
-            <div className={styles["agreement-item-optional"]}>
-              <CheckBox
-                id="adsEmail"
-                label={`[선택] ${APP_NAME} 광고 메세지를 이메일로 받기`}
-                checked={agreements.adsEmail}
-                onChange={onSingleAgreeChange}
-                isOutLined={false}
-              />
-              <p
-                className={styles["agreement-item-description"]}
-              >{`${APP_NAME}가 고른 도서 소식을 이메일로 받아보세요!`}</p>
-            </div>
+            {termsArgeement?.filter((term) => !term.primary)
+              .map((primaryTerm) => (
+                <TermsAgreementItem
+                  id={primaryTerm.id}
+                  checkBoxId={Object.keys(agreements)[primaryTerm.id]}
+                  label={`[선택] ${primaryTerm.title}`}
+                  checked ={agreements[Object.keys(agreements)[primaryTerm.id] as keyof Agreements]}
+                  onChange={onSingleAgreeChange}
+                  subTitle={primaryTerm.subTitle}
+                  hasDetail={primaryTerm.hasDetail}
+                />
+              ))}
           </fieldset>
         </div>
         <Button

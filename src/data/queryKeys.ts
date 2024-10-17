@@ -9,3 +9,9 @@ export const bookKeys = {
 export const userKeys = {
   user: () => ["user"] as const,
 };
+
+export const termsAgreementKeys = {
+  termsAgreement: () => ["termsAgreement"] as const,
+  detailOfTermsAgreement: ()=> [termsAgreementKeys.termsAgreement, "detail"] as const,
+};
+

@@ -13,34 +13,60 @@ export default function QuizCreationSteps({
   currentStep: number;
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
 }) {
-  console.log("현재 단계:", currentStep);
   const onChangeStep = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log(e.currentTarget.value);
+    const currentStepButtonValue = e.currentTarget.value;
     steps.forEach((step) => {
-      if (step.title === e.currentTarget.value) {
+      if (step.title === currentStepButtonValue) {
         setCurrentStep(step.order);
       }
+      step.subSteps?.forEach((subStep) => {
+        if (subStep.title === currentStepButtonValue) {
+          setCurrentStep(subStep.order);
+        }
+      });
     });
   };
+  {/* TODO: section 안에 heading 태그 넣기 */
+  }
+
+
   return (
     <section className={styles["container"]}>
-      {/* TODO: section 안에 heading 태그 넣기 */}
-      {steps.map((step) => (
-        <Button
-          onClick={(e) => onChangeStep(e)}
-          className={(step.isSubStep ? styles["sub-steps"] :`${styles["steps"]} ${
-            currentStep === step.order ? styles["steps--active"] : ""
-          }`)}
-          key={step.order}
-          value={step.title}
-        >
-          <span>
-            {step.icon && step.icon}&nbsp;
-            {step.title}
-          </span>
-          <CheckEllipse fillOut={systemSuccess} fillIn={"white"} width={20} height={20} />
-        </Button>
-      ))}
+
+      {steps.map((step) => {
+        const isActiveStep = currentStep === step.order;
+        const isAnySubStepActive = step.subSteps?.some(subStep => subStep.order === currentStep);
+        const firstSubStepOrder = step.subSteps?.[0]?.order;
+
+        return (
+          <div key={step.order}>
+            <Button
+              onClick={(e) => onChangeStep(e)}
+              value={step.title}
+              className={`${styles["steps"]} ${isActiveStep || isAnySubStepActive ? styles["steps--active"] : ""}`}
+            >
+              <span>
+                {step.icon && step.icon}&nbsp;
+                {step.title}
+              </span>
+              <CheckEllipse fillOut={systemSuccess} fillIn={"white"} width={20} height={20}/>
+            </Button>
+            {step.subSteps && step.subSteps.map((subStep) => (
+              <Button
+                onClick={(e) => onChangeStep(e)}
+                key={subStep.order}
+                value={subStep.title}
+                className={`${styles["sub-steps"]} ${
+                  currentStep === subStep.order || (isActiveStep && firstSubStepOrder === subStep.order) ? styles["sub-steps--active"] : ""
+                }`}
+              >
+                <div style={{ width: 20, height: 20 }} />
+                {subStep.title}
+              </Button>
+            ))}
+          </div>
+        );
+      })}
     </section>
   );
 }

@@ -7,7 +7,6 @@
 }
 button.steps {
   width: 100%;
-  line-height: 1.5em;
   color: $gray-90;
   font-weight: $font-weight-semibold;
   border-radius: 0;
@@ -31,7 +30,6 @@ button.sub-steps {
   justify-content: start;
   background-color: transparent;
   font-size: $font-size-medium;
-  line-height: 1.5em;
   &--active {
     background-color: $gray-00;
   }

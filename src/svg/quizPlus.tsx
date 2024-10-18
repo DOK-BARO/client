@@ -14,8 +14,8 @@ export const QuizPlus: React.FC<SVGProps> = ({ alt, ...props }) => {
       <path
         d="M11.9998 4.80005L11.9998 19.2M19.1998 12L4.7998 12"
         stroke={props.stroke}
-        stroke-width="2"
-        stroke-linecap="round"
+        strokeWidth="2"
+        strokeLinecap="round"
       />
     </svg>
   );

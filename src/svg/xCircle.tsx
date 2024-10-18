@@ -16,9 +16,9 @@ export const XCircle: React.FC<SVGProps> = ({ alt, ...props }) => {
       <path
         d="M15 9.77808L12 12.7781M9 15.7781L12 12.7781M9 9.77808L12 12.7781M15 15.7781L12 12.7781"
         stroke={props.stroke}
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

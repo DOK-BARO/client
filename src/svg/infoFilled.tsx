@@ -18,9 +18,9 @@ export const InfoFilled: React.FC<SVGProps> = ({ alt, ...props }) => {
       <path
         d="M12.01 16L12.01 12M12.01 8L12 8"
         stroke={props.stroke}
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

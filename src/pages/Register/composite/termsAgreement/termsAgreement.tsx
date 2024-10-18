@@ -1,12 +1,13 @@
 import React, { FormEvent, useState } from "react";
 import styles from "./_terms_agreement.module.scss";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Button from "@/components/atom/button/button";
 import CheckBox from "@/pages/Register/components/checkBox/checkBox";
 import { useQuery } from "@tanstack/react-query";
 import { termsAgreementKeys } from "@/data/queryKeys.ts";
 import { getTermsOfServices, saveTermsAgreement } from "@/services/server/authService.ts";
 import { TermsAgreementItem } from "@/pages/Register/composite/termsAgreement/termsAgreementItem.tsx";
+import { SocialLoginType } from "@/types/SocialLoginType.ts";
 
 interface Agreements {
   allAgree: boolean;
@@ -16,6 +17,11 @@ interface Agreements {
   adsEmail: boolean;
 }
 export default function TermsAgreement() {
+  const location = useLocation();
+  const pathName = location.pathname;
+  const parts = pathName.split("/");
+  const emailString = parts[parts.indexOf("register") + 1];
+
   const { isLoading, data:termsArgeement } = useQuery({
     queryKey: termsAgreementKeys.termsAgreement(),
     queryFn: getTermsOfServices,
@@ -43,7 +49,6 @@ export default function TermsAgreement() {
 
   const onSingleAgreeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, checked } = event.target;
-    console.log("onSingleAgreeChange", id, checked);
     setAgreements((prev) => ({
       ...prev,
       [id]: checked,
@@ -62,18 +67,21 @@ export default function TermsAgreement() {
   const navigate = useNavigate();
   const onSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
-    console.log("동의하고 가입하기");
     const checked : boolean[] = Object.values(agreements);
     const checkedTermsIdx: number[] = checked
       .map((item, index) => (item?index: -1))
       .filter((index) => index!=-1);
 
     console.log("checkedTermsIdx: %o",checked);
-    await saveTermsAgreement(checkedTermsIdx);
+    console.log("emailString: "+emailString);
+    if(emailString !== SocialLoginType.EMAIL.toLowerCase()){
+      // 이메일 회원가입의 경우, 소셜로 회원가입 하는것과 달리 이 단계에서는 로그인 되어있지 않다.
+      await saveTermsAgreement(checkedTermsIdx);
+    }
     navigate(`/register/${method}/2`);
+    //TODO: 이메일일 경우 상태관리 필요
   };
 
-  // TODO : 리펙토링 필요
   if(isLoading){
     return <div>로딩중...</div>;
   }

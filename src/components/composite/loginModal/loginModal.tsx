@@ -26,6 +26,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ closeModal }) => {
                 key={socialType}
                 authType={AuthType.LOGIN}
                 socialType={socialType}
+                closeModal={closeModal}
               />
             ))}
           </main>

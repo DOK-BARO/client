@@ -10,14 +10,21 @@ import { Naver } from "@/svg/auth/naver.tsx";
 import { Github } from "@/svg/auth/github.tsx";
 import { Email } from "@/svg/auth/email.tsx";
 import Button from "@/components/atom/button/button.tsx";
+import { useNavigate } from "react-router-dom";
 
 const SocialAuthButton: React.FC<{
   authType: AuthType;
   socialType: SocialLoginType;
-}> = ({ authType, socialType }) => {
+  closeModal: () => void;
+}> = ({ authType, socialType, closeModal}) => {
   const { redirectToAuthPage, loading } = useAuth();
+  const navigate = useNavigate();
 
   const handleAuth = async () => {
+    if(socialType === SocialLoginType.EMAIL) {
+      navigate("/register/email/1");
+      closeModal();
+    }
     const action =
     authType === AuthType.SIGNUP ? AUTH_ACTION.SIGN_UP : AUTH_ACTION.LOGIN;
     localStorage.setItem(LOCAL_STORAGE_KEY.AUTH_ACTION, action);

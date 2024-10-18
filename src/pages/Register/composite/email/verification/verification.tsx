@@ -42,7 +42,7 @@ export default function Verification() {
 
   const onCodeChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    index: number
+    index: number,
   ) => {
     const { value } = e.target;
 
@@ -94,20 +94,26 @@ export default function Verification() {
       console.error(e);
     }
   };
-
+  //TODO: 함수 authService로 옮겨야 함
   const matchEmailCode = async () => {
     try {
-      const response = await axios.post("/email-authentications/match-code", {
-        email: email,
-        code: code,
-      });
+      const postData : {email: string; code: string} = {
+        email :email,
+        code: code.join(""),
+      };
+
+      const response = await axios.post("/email-authentications/match-code", postData);
+
       // navigate("/register/email/3");
       // axios 타입으로 바꾸기
-      if (response.status === 201) {
+      // if (response.status === 201) {
+      //   console.log(response);
+      //   setIsMatch(true);
+      // }
+      if(response.status === 204) {
         console.log(response);
         setIsMatch(true);
       }
-      console.log("response", response);
     } catch (e) {
       // 인증코드가 일치하지 않을 경우
       // TODO: 상세한 에러 처리 필요
@@ -125,7 +131,7 @@ export default function Verification() {
 
   const handleKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
-    index: number
+    index: number,
   ) => {
     if (e.key === "Backspace" && code[index] === "") {
       if (index > 0) {

@@ -107,3 +107,37 @@ export const getTermsOfServices = async (): Promise<TermsOfServiceType[]> => {
     throw new Error(`서비스 이용약관 가져오기 실패: ${error}`);
   }
 };
+
+export const getDetailTermsOfServices = async (id: number): Promise<string> => {
+  try{ // TODO: 확인 필요
+    const { data } = await axios.get(`/terms-of-services/${id}/detail`);
+    return data;
+  }catch(error){
+    throw new Error(`서비스 이용약관 상세 가져오기 실패: ${error}`);
+  }
+};
+
+export const saveTermsAgreement = async (checkedTerms: number[]) : Promise<void> => {
+  try{
+    const postData = {
+      "items" :  checkedTerms,
+    };
+    const { data } = await axios.post(
+      "/terms-of-services/agree",
+      postData,
+    );
+    console.log("%o", data); // 응답 객체 출력
+      
+  }catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      const axiosError = error as AxiosError;
+      if (axiosError.response?.status === 404) {
+        console.log("in 404 in saveTermsAgreement");
+        throw error;
+      }
+      throw new Error(`이용약관 동의내용 저장 에러: ${error}`);
+    } else {
+      throw new Error(`Unexpected error: ${error}`);
+    }
+  }
+};

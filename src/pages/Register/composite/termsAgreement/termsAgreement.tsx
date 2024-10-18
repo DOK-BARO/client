@@ -5,7 +5,7 @@ import Button from "@/components/atom/button/button";
 import CheckBox from "@/pages/Register/components/checkBox/checkBox";
 import { useQuery } from "@tanstack/react-query";
 import { termsAgreementKeys } from "@/data/queryKeys.ts";
-import { getTermsOfServices } from "@/services/server/authService.ts";
+import { getTermsOfServices, saveTermsAgreement } from "@/services/server/authService.ts";
 import { TermsAgreementItem } from "@/pages/Register/composite/termsAgreement/termsAgreementItem.tsx";
 
 interface Agreements {
@@ -60,9 +60,16 @@ export default function TermsAgreement() {
     agreements.termsAgree && agreements.privacyAgree;
 
   const navigate = useNavigate();
-  const onSubmit = (event: FormEvent<HTMLFormElement>): void => {
+  const onSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
     console.log("동의하고 가입하기");
+    const checked : boolean[] = Object.values(agreements);
+    const checkedTermsIdx: number[] = checked
+      .map((item, index) => (item?index: -1))
+      .filter((index) => index!=-1);
+
+    console.log("checkedTermsIdx: %o",checked);
+    await saveTermsAgreement(checkedTermsIdx);
     navigate(`/register/${method}/2`);
   };
 
@@ -95,7 +102,8 @@ export default function TermsAgreement() {
             <legend>필수 약관</legend>
             {termsArgeement?.filter((term) => term.primary)
               .map((primaryTerm) => (
-                <TermsAgreementItem  
+                <TermsAgreementItem
+                  key={primaryTerm.id}
                   id={primaryTerm.id}
                   checkBoxId={Object.keys(agreements)[primaryTerm.id]}
                   label={`[필수] ${primaryTerm.title}`}
@@ -103,6 +111,7 @@ export default function TermsAgreement() {
                   onChange={onSingleAgreeChange}
                   subTitle={primaryTerm.subTitle}
                   hasDetail={primaryTerm.hasDetail}
+                  required
                 />
               ))}
           </fieldset>
@@ -113,6 +122,7 @@ export default function TermsAgreement() {
             {termsArgeement?.filter((term) => !term.primary)
               .map((primaryTerm) => (
                 <TermsAgreementItem
+                  key={primaryTerm.id}
                   id={primaryTerm.id}
                   checkBoxId={Object.keys(agreements)[primaryTerm.id]}
                   label={`[선택] ${primaryTerm.title}`}
@@ -120,6 +130,7 @@ export default function TermsAgreement() {
                   onChange={onSingleAgreeChange}
                   subTitle={primaryTerm.subTitle}
                   hasDetail={primaryTerm.hasDetail}
+                  required={false}
                 />
               ))}
           </fieldset>

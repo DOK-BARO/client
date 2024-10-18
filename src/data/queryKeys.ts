@@ -12,6 +12,6 @@ export const userKeys = {
 
 export const termsAgreementKeys = {
   termsAgreement: () => ["termsAgreement"] as const,
-  detailOfTermsAgreement: ()=> [termsAgreementKeys.termsAgreement, "detail"] as const,
+  detailOfTermsAgreement: (id: number)=> [termsAgreementKeys.termsAgreement, "detail",id] as const,
 };
 

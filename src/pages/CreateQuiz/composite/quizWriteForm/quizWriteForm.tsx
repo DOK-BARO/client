@@ -1,25 +1,33 @@
-import { ReactNode, useState } from "react";
+import React, { ReactNode, useState } from "react";
 import styles from "./_quiz_write_form.module.scss";
 import useInput from "@/hooks/useInput.ts";
 import Button from "@/components/atom/button/button.tsx";
-// import { CheckSquare } from "@/svg/checkSquare.tsx";
-// import { gray60 } from "@/styles/abstracts/colors.ts";
-// import { ArrowDropDown } from "@/svg/arrowDropDown.tsx";
 import Input from "@/components/atom/input/input.tsx";
 import QuizWriteFormTypeUtilButton from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormTypeUtilButton.tsx";
 
 // 3. 퀴즈 작성
+interface QuizWriteForm {
+  id: number;
+  component: ReactNode;
+}
+
 
 export default function QuizWriteForm() {
-  const [quizWriteFormList, setQuizWriteList] = useState<ReactNode[]>([ <QuizWriteFormItem />]);
+  const [quizWriteFormList, setQuizWriteList] = useState<QuizWriteForm[]>([{ id: Date.now(), component: <QuizWriteFormItem />,
+  }]);
   const onClickAddQuizWriteForm = () => {
-    setQuizWriteList([...quizWriteFormList, <QuizWriteFormItem/>])
+    const id = Date.now();
+    //setQuizWriteList([...quizWriteFormList, <QuizWriteFormItem />]);
+    setQuizWriteList((prev) => [
+      ...prev,
+      { id: id, component: <QuizWriteFormItem /> },
+    ]);
   };
 
   return (
     <div className={styles["container"]}>
-      {quizWriteFormList.map((item) => (
-        item
+      {quizWriteFormList.map(({ id, component }) => (
+        <div key={id}>{component}</div>
       ))}
       <Button size={"xlarge"} onClick={onClickAddQuizWriteForm}>
         문제 추가하기 +
@@ -47,10 +55,6 @@ function QuizWriteFormItem () {
       resetInput("");
     }
   };
-
-  // useEffect(() => {
-  //   console.log(optionList);
-  // }, [optionList]);
 
   return (
     <div className={styles["write-quiz"]}>

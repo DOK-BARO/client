@@ -11,8 +11,8 @@ export const AlignJustify: React.FC<SVGProps> = ({ alt, ...props }) => {
       xmlns="http://www.w3.org/2000/svg"
     >
       <title id="svgTitle">{alt}</title>
-      <path d="M2 3L18 3M2 7.33333L18 7.33333M2 11.6667L18 11.6667M2 16L18 16" stroke={props.stroke} stroke-width="2"
-        stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M2 3L18 3M2 7.33333L18 7.33333M2 11.6667L18 11.6667M2 16L18 16" stroke={props.stroke} strokeWidth="2"
+        strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
   );
 };

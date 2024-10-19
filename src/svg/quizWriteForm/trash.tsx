@@ -1,7 +1,7 @@
 import React from "react";
 import { SVGProps } from "@/types/SVGProps";
 
-export const BlankQuiz: React.FC<SVGProps> = ({ alt, ...props }) => {
+export const Trash: React.FC<SVGProps> = ({ alt, ...props }) => {
   return (
     <svg
       width={props.width}
@@ -12,7 +12,7 @@ export const BlankQuiz: React.FC<SVGProps> = ({ alt, ...props }) => {
     >
       <title id="svgTitle">{alt}</title>
       <path
-        d="M10.5 18H5.49999C4.39542 17.9999 3.49999 17.1045 3.5 15.9999L3.50008 3.99999C3.50008 2.89542 4.39551 2 5.50008 2H14.5003C15.6049 2 16.5003 2.89543 16.5003 4V7.5M12.5003 12.9566C12.5003 11.876 13.3957 11 14.5003 11C15.6049 11 16.5003 11.876 16.5003 12.9566C16.5003 14.0371 15.6049 14.9131 14.5003 14.9131M14.5003 17.5752V17.5"
+        d="M4 6.17647H20M9 3H15M10 16.7647V10.4118M14 16.7647V10.4118M15.5 21H8.5C7.39543 21 6.5 20.0519 6.5 18.8824L6.0434 7.27937C6.01973 6.67783 6.47392 6.17647 7.04253 6.17647H16.9575C17.5261 6.17647 17.9803 6.67783 17.9566 7.27937L17.5 18.8824C17.5 20.0519 16.6046 21 15.5 21Z"
         stroke={props.stroke} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
     </svg>
   );

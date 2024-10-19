@@ -43,43 +43,6 @@
     }
   }
 
-  //button.set-answer {
-  //
-  //  font-weight: $font-weight-semibold;
-  //  padding:11px 16px;
-  //  line-height: 1.5em;
-  //
-  //  &.active {
-  //    color: $primary;
-  //    font-weight: 600;
-  //  }
-  //}
-  //button.set-quiz {
-  //  background: $secondary;
-  //  color: $gray-60;
-  //  font-weight: $font-weight-semibold;
-  //  padding:11px 16px;
-  //  line-height: 1.5em;
-  //
-  //  &.active {
-  //    color: $primary;
-  //    font-weight: 600;
-  //  }
-  //}
-  //
-  //button.set-answer {
-  //  background: none;
-  //  color: black;
-  //  font-weight: $font-weight-semibold;
-  //  padding:11px 16px;
-  //  line-height: 1.5em;
-  //
-  //  &.active {
-  //    color: $primary;
-  //    font-weight: 600;
-  //  }
-  //}
-
   .input-container {
     display: flex;
     gap: 16px;
@@ -146,6 +109,7 @@
     }
   }
 }
+
 input.new-option {
   border: none;
   padding: 0;
@@ -156,4 +120,12 @@ input.new-option {
     outline: none;
     border: none;
   }
+}
+
+.move-quiz-button {
+  all: unset;
+}
+
+.delete-quiz-button {
+  all: unset;
 }

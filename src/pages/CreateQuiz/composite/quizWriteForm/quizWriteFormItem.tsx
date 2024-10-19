@@ -3,10 +3,10 @@ import useInput from "@/hooks/useInput.ts";
 import styles from "./_quiz_write_form_item.module.scss";
 import Button from "@/components/atom/button/button.tsx";
 import { Move } from "@/svg/quizWriteForm/move.tsx";
-import { gray60, gray90 } from "@/styles/abstracts/colors.ts";
 import { Trash } from "@/svg/quizWriteForm/trash.tsx";
 import QuizWriteFormTypeUtilButton from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormTypeUtilButton.tsx";
 import Input from "@/components/atom/input/input.tsx";
+import { gray60, gray90 } from "@/styles/abstracts/colors.ts";
 
 interface QuizWriteFormItemProps {
   id: number;
@@ -58,8 +58,14 @@ export default function QuizWriteFormItem ({ id, deleteQuizWriteForm }: QuizWrit
           </Button>
         </div>
         <span>
-          <Move width={24} height={24} stroke={gray60}/>
-          <button onClick={() => deleteQuizWriteForm(id)}>
+          <button
+            className={styles["move-quiz-button"]}
+            onClick={() => {}}>
+            <Move width={24} height={24} stroke={gray60}/>
+          </button>
+          <button
+            className={styles["delete-quiz-button"]}
+            onClick={() => deleteQuizWriteForm(id)}>
             <Trash width={24} height={24} stroke={gray90}/>
           </button>
         </span>

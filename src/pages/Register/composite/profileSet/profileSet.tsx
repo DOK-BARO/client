@@ -1,9 +1,7 @@
 import styles from "./_profile_set.module.scss";
 import { FormEvent, useEffect, useState } from "react";
 import { useAtom } from "jotai";
-// import { AUTH_ACTION, LOCAL_STORAGE_KEY } from "@/data/constants";
-// import { useAuth } from "@/hooks/useAuth";
-// import { SocialLoginType } from "@/types/SocialLoginType";
+
 import useInput from "@/hooks/useInput.ts";
 import ProfileUpload from "@/pages/Register/components/profileUpload/profileUpload.tsx";
 import Input from "@/components/atom/input/input.tsx";
@@ -14,6 +12,8 @@ import { RegisterInfoType } from "@/types/UserType";
 import { RegisterInfoAtom } from "@/store/userAtom";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { signUpByEmail } from "@/services/server/authService.ts";
+import { imageService } from "@/services/server/imageService.ts";
 
 export default function ProfileSet() {
   const { method } = useParams();
@@ -25,6 +25,8 @@ export default function ProfileSet() {
   } = useInput("");
   const defaultImagePath = "/public/assets/image/default-profile.png";
   const [profileImage, setProfileImage] = useState<string>(defaultImagePath);
+  const [profileImageFile, setProfileImageFile] = useState<Blob>();
+  const [profileImgUrl, setProfileImgUrl] = useState<string>("");
   // const navigate = useNavigate();
   const [user, setUser] = useAtom<RegisterInfoType>(RegisterInfoAtom);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
@@ -40,7 +42,6 @@ export default function ProfileSet() {
     // navigate("/register/complete");
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onSignUp = async () => {
     // const userInfo = {
     //   email: "gimm08377@gmail.com",
@@ -48,24 +49,33 @@ export default function ProfileSet() {
     //   nickname: user.nickname,
     //   profileImage: user.profileImage,
     // };
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { id, ...userInfo } = user;
 
-    console.log("회원가입하기", userInfo);
 
+    const { email, password, nickName: nickname, profileImage } = user as RegisterInfoType;
+
+    const formData = new FormData();
+    if(profileImageFile){
+      formData.append("file", profileImageFile);
+      const url= await imageService.uploadImage(formData);
+      console.log("url: +",url);
+      setProfileImgUrl(url);
+    }
+
+    const postData = {
+      email,
+      password,
+      nickname,
+      profileImage,
+    };
+
+    // TODO: 프로필 이미지 스토리지 업로드
     if (method === "email") {
-      const emailUserInfo = userInfo;
-      try {
-        const response = await axios.post("/auth/email/signup", emailUserInfo);
-        console.log("이메일 회원가입 post 응답", response);
-      } catch (e) {
-        console.log(e);
-      }
+      await signUpByEmail({ ...user,profileImage:profileImgUrl });
     } else {
       // method === "social"
       try {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { password, ...socialUserInfo } = userInfo;
+        const { password, ...socialUserInfo } = postData;
         const response = await axios.put("/members/login-user", socialUserInfo);
         console.log("소셜 회원가입 put 응답", response);
       } catch (e) {
@@ -95,6 +105,7 @@ export default function ProfileSet() {
           profileImage={profileImage}
           setProfileImage={setProfileImage}
           defaultImagePath={defaultImagePath}
+          setProfileImageFile={setProfileImageFile}
         />
         <p className={styles.description} data-for="nickname">
           사용할 닉네임을 입력해주세요.

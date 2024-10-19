@@ -2,7 +2,7 @@ import axios, { AxiosError } from "axios";
 import { AuthResponse } from "../../types/AuthResponse.ts";
 import { SocialLoginType } from "../../types/SocialLoginType.ts";
 import localApi from "../local/LocalApi.ts";
-import { UserType } from "@/types/UserType.ts";
+import { RegisterInfoType, UserType } from "@/types/UserType.ts";
 import { TermsOfServiceType } from "@/types/TermsOfServiceType.ts";
 
 const redirectedUrl = import.meta.env.VITE_AUTH_REDIRECTED_URL;
@@ -77,6 +77,24 @@ export const signup = async (
     } else {
       throw new Error(`Unexpected error: ${error}`);
     }
+  }
+};
+
+export const signUpByEmail = async (user: RegisterInfoType) => {
+
+  const postData = {
+    email: user.email,
+    password: user.password,
+    nickname: user.nickName,
+    profileImage: user.profileImage,
+  };
+
+  console.log("회원가입하기 %o", postData);
+  try {
+    const response = await axios.post("/auth/email/signup", postData);
+    console.log("이메일 회원가입 post 응답", response);
+  } catch (e) {
+    console.log(e);
   }
 };
 

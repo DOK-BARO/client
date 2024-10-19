@@ -9,11 +9,13 @@ export default function ProfileUpload({
   profileImage,
   setProfileImage,
   defaultImagePath,
+  setProfileImageFile,
 }: {
   email: string;
   profileImage: string;
   setProfileImage: React.Dispatch<React.SetStateAction<string>>;
   defaultImagePath: string;
+  setProfileImageFile: (file: Blob) => void;
 }) {
   const onDeleteProfileImage = () => {
     setProfileImage(defaultImagePath);
@@ -23,10 +25,12 @@ export default function ProfileUpload({
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
+      reader.readAsDataURL(file);
       reader.onload = () => {
         setProfileImage(reader.result as string);
+        console.log("filE: %o:",file);
+        setProfileImageFile(file);
       };
-      reader.readAsDataURL(file);
     }
   };
 

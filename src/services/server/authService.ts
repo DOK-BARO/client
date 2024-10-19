@@ -95,5 +95,6 @@ export const getUserIfAuthenticated = async (): Promise<UserType | null> => {
     return null;
   }
 
-  return await getUser();
+  // return await getUser();
+  return null;
 };

@@ -18,16 +18,20 @@
     @include scroll-bar;
   }
 }
+
+.selected-book {
+  background-color: $gray-00;
+  border: 2px solid $primary;
+  border-radius: $border-radius-medium;
+  margin-top: 10px;
+}
+
 .booklist-item {
   display: flex;
   gap: 28px;
   cursor: pointer;
   padding: 20px 16px;
   border: 2px solid transparent;
-  &.active {
-    border: 2px solid $primary;
-    border-radius: $border-radius-medium;
-  }
 
   .info-container {
     @include flex(column);

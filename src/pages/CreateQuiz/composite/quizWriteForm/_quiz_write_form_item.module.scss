@@ -19,6 +19,22 @@
 
   &:focus-within {
     border: 1px solid $primary;
+
+    button.set-answer,
+    button.set-quiz {
+      background: none;
+      color: black;
+      font-weight: $font-weight-semibold;
+      padding:11px 16px;
+      line-height: 1.5em;
+
+      &.active {
+        background: $secondary;
+        //color: $gray-60;
+        color: $primary;
+        font-weight: 600;
+      }
+    }
   }
 
   .quiz-mode-buttons {
@@ -27,21 +43,23 @@
   }
 
 
+  // TODO : 리팩토링
   button.set-answer,
   button.set-quiz {
     background: none;
-    color: black;
+    color: $gray-60;
     font-weight: $font-weight-semibold;
     padding:11px 16px;
     line-height: 1.5em;
 
     &.active {
-      background: $secondary;
-      //color: $gray-60;
-      color: $primary;
-      font-weight: 600;
+      background: $gray-10;
+      color: $gray-70;
+      font-weight: $font-weight-semibold;
     }
   }
+
+
 
   .input-container {
     display: flex;

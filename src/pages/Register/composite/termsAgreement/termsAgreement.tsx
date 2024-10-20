@@ -49,6 +49,7 @@ export default function TermsAgreement() {
 
   const onSingleAgreeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, checked } = event.target;
+    console.log("onSingleAgreeChange", id, checked);
     setAgreements((prev) => ({
       ...prev,
       [id]: checked,
@@ -76,12 +77,13 @@ export default function TermsAgreement() {
     console.log("emailString: "+emailString);
     if(emailString !== SocialLoginType.EMAIL.toLowerCase()){
       // 이메일 회원가입의 경우, 소셜로 회원가입 하는것과 달리 이 단계에서는 로그인 되어있지 않다.
+      // 따라서 이메일의 경우 회원가입 마지막 단계에서 insert 필요
       await saveTermsAgreement(checkedTermsIdx);
     }
     navigate(`/register/${method}/2`);
     //TODO: 이메일일 경우 상태관리 필요
   };
-
+  
   if(isLoading){
     return <div>로딩중...</div>;
   }

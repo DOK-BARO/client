@@ -145,8 +145,8 @@ export default function Verification() {
     }
   };
 
-  const onDone = () => {
-    matchEmailCode();
+  const onDone = async () => {
+    await matchEmailCode();
   };
 
   return (

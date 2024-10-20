@@ -120,9 +120,9 @@ const SettingContainer = ({ quizSetting }: { quizSetting: QuizSetting }) => {
 
   return (
     <div className={styles["quiz-setting-container"]}>
-      <label htmlFor={name} className={styles.title}>
+      <div className={styles.title}>
         <img src={quizSetting.icon} /> {quizSetting.title}
-      </label>
+      </div>
       <Button
         color="white"
         id={quizSetting.name}

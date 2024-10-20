@@ -45,6 +45,7 @@ export default function Index() {
                 key={`${socialType}-${authType}`}
                 authType={authType}
                 socialType={socialType}
+                closeModal={closeModal}
               />
             ))}
           </div>

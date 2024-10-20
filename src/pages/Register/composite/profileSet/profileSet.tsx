@@ -10,7 +10,7 @@ import { gray30, gray60 } from "@/styles/abstracts/colors.ts";
 import Button from "@/components/atom/button/button.tsx";
 import { RegisterInfoType } from "@/types/UserType";
 import { RegisterInfoAtom } from "@/store/userAtom";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { signUpByEmail } from "@/services/server/authService.ts";
 import { imageService } from "@/services/server/imageService.ts";
@@ -27,10 +27,9 @@ export default function ProfileSet() {
   const [profileImage, setProfileImage] = useState<string>(defaultImagePath);
   const [profileImageFile, setProfileImageFile] = useState<Blob>();
   const [profileImgUrl, setProfileImgUrl] = useState<string>("");
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [user, setUser] = useAtom<RegisterInfoType>(RegisterInfoAtom);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-  // const { redirectToAuthPage } = useAuth();
   const onSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     setUser({
@@ -43,6 +42,7 @@ export default function ProfileSet() {
   };
 
   const onSignUp = async () => {
+    console.log("onSignUp");
     // const userInfo = {
     //   email: "gimm08377@gmail.com",
     //   password: "password123!",
@@ -81,6 +81,10 @@ export default function ProfileSet() {
       } catch (e) {
         console.log(e);
       }
+      // TODO: 캐싱된 유저 데이터 update
+      // TODO : 유저 정보 update되는거 확인 필요
+      navigate("/register/complete");
+
     }
     // localStorage.setItem(LOCAL_STORAGE_KEY.AUTH_ACTION, AUTH_ACTION.SIGN_UP);
     // await redirectToAuthPage(SocialLoginType.EMAIL);
@@ -88,7 +92,6 @@ export default function ProfileSet() {
 
   useEffect(() => {
     if (isSubmitted) {
-      // navigate("/register/complete");
       onSignUp();
     }
   }, [isSubmitted]);

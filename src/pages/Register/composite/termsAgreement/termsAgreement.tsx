@@ -68,9 +68,12 @@ export default function TermsAgreement() {
   const navigate = useNavigate();
   const onSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
+    // TODO: 이런식으로 처리하지 말고 체크박스의 id를 객체로 담아서 만들어야 할듯
     const checked : boolean[] = Object.values(agreements);
-    const checkedTermsIdx: number[] = checked
-      .map((item, index) => (item?index: -1))
+    const slicedChecked= checked.slice(1); // 모두 동의인 0번 index 제거
+
+    const checkedTermsIdx: number[] = slicedChecked
+      .map((item, index) => (item? index + 1: -1)) // index는 0부터 시작이니 +1
       .filter((index) => index!=-1);
 
     console.log("checkedTermsIdx: %o",checked);
@@ -78,12 +81,14 @@ export default function TermsAgreement() {
     if(emailString !== SocialLoginType.EMAIL.toLowerCase()){
       // 이메일 회원가입의 경우, 소셜로 회원가입 하는것과 달리 이 단계에서는 로그인 되어있지 않다.
       // 따라서 이메일의 경우 회원가입 마지막 단계에서 insert 필요
+      //TODO: 이메일일 경우 상태관리 필요
+      console.log("checked: %o",checkedTermsIdx);
       await saveTermsAgreement(checkedTermsIdx);
     }
     navigate(`/register/${method}/2`);
-    //TODO: 이메일일 경우 상태관리 필요
+
   };
-  
+
   if(isLoading){
     return <div>로딩중...</div>;
   }

@@ -193,6 +193,7 @@ export default function Verification() {
           <div className={styles["code-input-container"]}>
             {code.map((digit, i) => (
               <Input
+                className={styles["code-input"]}
                 size="large"
                 key={i}
                 id={`code-input-${i}`}

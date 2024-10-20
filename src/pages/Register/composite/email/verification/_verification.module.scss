@@ -28,15 +28,23 @@
     font-size: $font-size-small;
     font-weight: $font-weight-regular;
   }
-  .code-input-container {
-    display: flex;
-    gap: 10px;
 
-    *:nth-child(3) {
-      margin-right: 10px;
+
+  .code-input {
+    font-size: $font-size-large;
+    font-weight: $font-weight-semibold;
+    padding: 0;
+    text-align: center;
+    &-container {
+      display: flex;
+      gap: 10px;
+
+      *:nth-child(3) {
+        margin-right: 10px;
+      }
+      *:nth-child(4) {
+        margin-left: 10px;
+      }
     }
-    *:nth-child(4) {
-      margin-left: 10px;
     }
   }
-}

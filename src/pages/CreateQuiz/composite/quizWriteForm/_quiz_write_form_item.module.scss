@@ -2,6 +2,7 @@
 @import "../../../../styles/abstracts/mixins";
 
 .write-quiz {
+  border: 1px solid transparent;
   background-color: $gray-00;
   padding: 20px;
   border-radius: $border-radius-medium;
@@ -66,7 +67,10 @@
     gap: 16px;
 
     input.question {
-      border-color: $gray-40;
+      border: none;
+      color: $gray-90;
+      font-size: $font-size-xlarge;
+      font-weight: $font-weight-semibold;
     }
 
     .select-box {

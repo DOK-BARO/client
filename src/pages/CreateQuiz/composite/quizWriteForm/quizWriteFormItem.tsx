@@ -1,16 +1,14 @@
 import React, { ReactNode, useState } from "react";
 import useInput from "@/hooks/useInput.ts";
 import styles from "./_quiz_write_form_item.module.scss";
-import Button from "@/components/atom/button/button.tsx";
-import { Move } from "@/svg/quizWriteForm/move.tsx";
-import { Trash } from "@/svg/quizWriteForm/trash.tsx";
 import QuizWriteFormTypeUtilButton from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormTypeUtilButton.tsx";
 import Input from "@/components/atom/input/input.tsx";
-import { gray60, gray90 } from "@/styles/abstracts/colors.ts";
+import { gray90 } from "@/styles/abstracts/colors.ts";
 import { Close } from "@/svg/close.tsx";
 import Textarea from "@/components/atom/textarea/textarea.tsx";
 import useTextarea from "@/hooks/useTextarea.ts";
 import { ImageAdd } from "@/svg/quizWriteForm/imageAdd.tsx";
+import QuizWriteFormItemHeader from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormItemHeader.tsx";
 
 interface QuizWriteFormItemProps {
   id: number;
@@ -67,43 +65,12 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
 
   return (
     <div className={styles["write-quiz"]}>
-      <div className={styles["write-quiz-header"]}>
-        <div className={styles["quiz-mode-buttons"]}>
-          <Button
-            value="question"
-            size="medium"
-            className={`${styles["set-quiz"]} ${
-              quizMode === "question" ? styles["active"] : ""
-            }`}
-            onClick={onQuizModeSelect}
-          >
-            질문 설정
-          </Button>
-          <Button
-            value="answer"
-            size="medium"
-            className={`${styles["set-answer"]} ${
-              quizMode === "answer" ? styles["active"] : ""
-            }`}
-            onClick={onQuizModeSelect}
-          >
-            답안 설정
-          </Button>
-        </div>
-        <span>
-          <button
-            className={styles["move-quiz-button"]}
-            onClick={() => {
-            }}>
-            <Move width={24} height={24} stroke={gray60}/>
-          </button>
-          <button
-            className={styles["delete-quiz-button"]}
-            onClick={() => deleteQuizWriteForm(id)}>
-            <Trash width={24} height={24} stroke={gray90}/>
-          </button>
-        </span>
-      </div>
+      <QuizWriteFormItemHeader
+        id={id}
+        quizMode={quizMode}
+        onQuizModeSelect={onQuizModeSelect}
+        deleteQuizWriteForm={deleteQuizWriteForm}
+      />
 
       <div className={styles["input-container"]}>
         <QuizWriteFormTypeUtilButton/>

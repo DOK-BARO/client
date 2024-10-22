@@ -2,6 +2,8 @@
 @import "../../../../styles/abstracts/mixins";
 
 .write-quiz {
+  border: 1px solid transparent;
+  //width: 35em;
   background-color: $gray-00;
   padding: 20px;
   border-radius: $border-radius-medium;
@@ -19,6 +21,22 @@
 
   &:focus-within {
     border: 1px solid $primary;
+
+    button.set-answer,
+    button.set-quiz {
+      background: none;
+      color: black;
+      font-weight: $font-weight-semibold;
+      padding:11px 16px;
+      line-height: 1.5em;
+
+      &.active {
+        background: $secondary;
+        //color: $gray-60;
+        color: $primary;
+        font-weight: 600;
+      }
+    }
   }
 
   .quiz-mode-buttons {
@@ -27,28 +45,33 @@
   }
 
 
+  // TODO : 리팩토링
   button.set-answer,
   button.set-quiz {
     background: none;
-    color: black;
+    color: $gray-60;
     font-weight: $font-weight-semibold;
     padding:11px 16px;
     line-height: 1.5em;
 
     &.active {
-      background: $secondary;
-      //color: $gray-60;
-      color: $primary;
-      font-weight: 600;
+      background: $gray-10;
+      color: $gray-70;
+      font-weight: $font-weight-semibold;
     }
   }
+
+
 
   .input-container {
     display: flex;
     gap: 16px;
 
     input.question {
-      border-color: $gray-40;
+      border: none;
+      color: $gray-90;
+      font-size: $font-size-xlarge;
+      font-weight: $font-weight-semibold;
     }
 
     .select-box {
@@ -84,24 +107,49 @@
     display: flex;
     flex-direction: column;
     align-items: start;
-    gap: 16px;
+    gap: 13px;
     font-size: $font-size-xlarge;
 
     .option {
       &-container {
         @include flex(row, center);
+        width: 100%;
+        border-radius: 8px;
+        justify-content: space-between;
         gap: 8px;
-        padding: 8px 16px;
+        padding: 0 16px;
+        height: 48px;
+
+
+        &.focused {
+          background-color: $background;
+        }
+
+
+        .delete-option-button {
+          all: unset;
+        }
+
+      }
+
+      &-label {
+        @include flex(row);
+        gap: 8px;
+        color: $gray-90;
+        font-size: $font-size-medium;
+        font-weight: $font-weight-regular;
+
       }
       &-check-circle {
-        width: 24px;
-        height: 24px;
+        width: 20px;
+        height: 20px;
         border-radius: 50%;
-        border: 2px solid $gray-70;
+        border: 2px solid $gray-60;
       }
-      &-label {
-        line-height: 1.5;
-      }
+
+
+
+
     }
 
     legend {
@@ -117,6 +165,7 @@ input.new-option {
   font-size: $font-size-xlarge;
 
   &:focus {
+    background-color: $background;
     outline: none;
     border: none;
   }
@@ -128,4 +177,32 @@ input.new-option {
 
 .delete-quiz-button {
   all: unset;
+}
+
+
+.option-add-button{
+  @include flex(row); /* 내부 요소를 정렬하기 위해 flex 사용 */
+  width: 100%;  /* 버튼의 너비를 부모 요소에 맞춤 */
+  background: transparent;
+  border: none;
+  padding: 0;
+  color:$gray-50;
+  font-size: $font-size-medium;
+
+ &-container {
+   align-items: center;
+   height:48px;
+   @include flex(row);
+
+   width: 100%;
+   padding: 0 16px;
+ }
+
+  &-check-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid $gray-50;
+    margin-right: 8px;
+  }
 }

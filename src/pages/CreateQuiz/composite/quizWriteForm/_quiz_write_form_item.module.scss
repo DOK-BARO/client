@@ -2,6 +2,8 @@
 @import "../../../../styles/abstracts/mixins";
 
 .write-quiz {
+  @include flex(column);
+  gap: 20px;
   border: 1px solid transparent;
   //width: 35em;
   background-color: $gray-00;
@@ -41,7 +43,6 @@
 
   .quiz-mode-buttons {
     display: flex;
-    margin-bottom: 20px;
   }
 
 
@@ -65,13 +66,14 @@
 
   .input-container {
     display: flex;
-    gap: 16px;
+    gap: 10px;
 
     input.question {
       border: none;
       color: $gray-90;
       font-size: $font-size-xlarge;
       font-weight: $font-weight-semibold;
+      padding: 0;
     }
 
     .select-box {

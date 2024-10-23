@@ -72,30 +72,31 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
         deleteQuizWriteForm={deleteQuizWriteForm}
       />
 
-      <div className={styles["input-container"]}>
-        <QuizWriteFormTypeUtilButton/>
-        <Input
-          className={styles["question"]}
-          value={question}
-          onChange={onQuestionChange}
-          id="option"
-          placeholder="질문을 입력해주세요."
-        />
+      <div>
+        <div className={styles["input-container"]}>
+          <QuizWriteFormTypeUtilButton/>
+          <Input
+            className={styles["question"]}
+            value={question}
+            onChange={onQuestionChange}
+            id="option"
+            placeholder="질문을 입력해주세요."
+          />
+        </div>
+
+        <fieldset className={styles["question-options"]}>
+          <legend>답안 선택지</legend>
+          {optionList.map((item) =>
+            <QuizWriteFormOptionItem
+              id={item.id}
+              deleteOption={deleteOption} focusedOptionIndex={focusedOptionIndex}
+              handleOptionFocus={handleOptionFocus}
+              handleOptionBlur={handleOptionBlur}
+            />,
+          )}
+          <AddOptionButton onAdd={onClickAddQuizOptionItem}/>
+        </fieldset>
       </div>
-
-      <fieldset className={styles["question-options"]}>
-        <legend>답안 선택지</legend>
-        {optionList.map((item) =>
-          <QuizWriteFormOptionItem
-            id={item.id}
-            deleteOption={deleteOption} focusedOptionIndex={focusedOptionIndex}
-            handleOptionFocus={handleOptionFocus}
-            handleOptionBlur={handleOptionBlur}
-          />,
-        )}
-        <AddOptionButton onAdd={onClickAddQuizOptionItem}/>
-      </fieldset>
-
 
       {
         quizMode === "answer" && 

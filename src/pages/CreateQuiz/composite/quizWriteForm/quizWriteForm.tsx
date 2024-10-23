@@ -3,6 +3,8 @@ import styles from "./_quiz_write_form.module.scss";
 import Button from "@/components/atom/button/button.tsx";
 import QuizWriteFormItem from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormItem.tsx";
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
+import { Plus } from "@/svg/plus.tsx";
+import { primary } from "@/styles/abstracts/colors.ts";
 
 // 3. 퀴즈 작성
 export interface QuizWriteFormItemType {
@@ -65,9 +67,12 @@ export default function QuizWriteForm() {
           )}
         </Droppable>
       </DragDropContext>
-      {/*TODO: 문제 작성버튼 스타일링 필요*/}
-      <Button size={"xlarge"} onClick={onClickAddQuizWriteForm}>
-        문제 추가하기 +
+      <Button
+        size={"xlarge"}
+        onClick={onClickAddQuizWriteForm}
+        className={styles["add-quiz"]}>
+        <span>문제 추가하기</span>
+        <Plus stroke={primary} width={24} height={24}/>
       </Button>
     </div>
   );

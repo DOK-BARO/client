@@ -9,7 +9,7 @@ import { UlList } from "@/svg/quizWriteForm/ulList.tsx";
 import { OlList } from "@/svg/quizWriteForm/olList.tsx";
 import { OxQuiz } from "@/svg/quizWriteForm/oxQuiz.tsx";
 import { BlankQuiz } from "@/svg/quizWriteForm/blankQuiz.tsx";
-import { AlignJustify } from "@/svg/quizWriteForm/align-justify.tsx";
+import { AlignJustify } from "@/svg/quizWriteForm/alignJustify.tsx";
 
 export type QuizWriteFormTypeUtilListItemProps = {
   Icon: React.FC<SVGProps>,

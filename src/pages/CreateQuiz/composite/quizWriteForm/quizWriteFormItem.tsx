@@ -28,9 +28,9 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
   const { value:answerTextAreaValue,onChange:onAnswerTextAreaChange }= useTextarea("");
 
   const onQuizModeSelect = (e: React.MouseEvent<HTMLButtonElement>) => {
-    //TODO: 답안 설정 클릭 시
+    // TODO: 답안 설정 클릭 시
     // TODO : 옵션리스트 텍스트 라벨 못씀
-    //TODO: 답안 설명란 생김
+    // TODO: 답안 설명란 생김
     // TODO: 옵션 리스트 클릭 시 답안으로 설정됨
     setQuizMode(e.currentTarget.value);
   };
@@ -99,12 +99,15 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
 
       {
         quizMode === "answer" && 
-        <div>
-          <div>
+        <div className={styles["quiz-mode-answer-container"]}>
+          <div className={styles["quiz-mode-answer-header"]}>
             <span>답안 설명</span>
-            <button><ImageAdd width={24} height={24}/></button>
+            <button
+              className={styles["image-add-button"]}
+            ><ImageAdd width={24} height={24}/></button>
           </div>
           <Textarea
+            className={styles["quiz-mode-answer-text-area"]}
             id={"answer"}
             onChange={onAnswerTextAreaChange}
             value={answerTextAreaValue}

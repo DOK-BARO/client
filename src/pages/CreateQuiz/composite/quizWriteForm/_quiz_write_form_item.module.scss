@@ -206,3 +206,35 @@ input.new-option {
     margin-right: 8px;
   }
 }
+
+.quiz-mode-answer {
+  &-container{
+    background: $background;
+    padding: 14px 16px;
+    @include flex(column);
+    gap: 16px;
+    border-radius: 8px;
+  }
+
+  &-header{
+    @include flex(row);
+    align-items: center;
+    justify-content: space-between;
+    font-size: $font-size-large;
+    font-weight: $font-weight-bold;
+    border: none;
+  }
+
+  &-text-area{
+    border: none;
+    background-color: transparent;
+    font-size: $font-size-medium;
+    font-weight: $font-weight-regular;
+    color: $gray-70;
+  }
+  }
+.image-add-button {
+  background: transparent;
+  border: none;
+  padding: 0;
+}

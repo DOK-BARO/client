@@ -1,4 +1,5 @@
 export interface RadioOptions {
+  id: number;
   value: string;
   label: string;
 }

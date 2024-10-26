@@ -12,6 +12,7 @@ import QuizWriteFormItemHeader from "@/pages/CreateQuiz/composite/quizWriteForm/
 import { RadioOption } from "@/types/RadioTypes.ts";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
 import RadioButton from "@/components/atom/radioButton/radioButton.tsx";
+import { QuizFormMode } from "@/data/constants.ts";
 
 interface QuizWriteFormItemProps {
   id: number;
@@ -19,7 +20,7 @@ interface QuizWriteFormItemProps {
 }
 
 export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWriteFormItemProps) {
-  const [quizMode, setQuizMode] = useState<string>("question"); // TODO: 질문 작성 or 답안 작성 enum 생성
+  const [quizMode, setQuizMode] = useState<string>(QuizFormMode.QUESTION);
   const { onChange: onQuestionChange, value: question } = useInput("");
   const [options, setOptions] = useState<RadioOption[]>([]);
   const { selectedValue: selectedRadioGroupValue, handleChange: handleRadioGroupChange } = useRadioGroup("");
@@ -99,7 +100,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
               focusedOptionIndex={focusedOptionIndex}
               handleOptionFocus={handleOptionFocus}
               handleOptionBlur={handleOptionBlur}
-              isQuestionType={quizMode === "question"}
+              isQuestionType={quizMode === QuizFormMode.QUESTION}
               onChange={handleRadioGroupChange}
               setText={setText}
               selectedValue={selectedRadioGroupValue}
@@ -110,7 +111,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
       </div>
 
       {
-        quizMode === "answer" &&
+        quizMode === QuizFormMode.ANSWER &&
         <div className={styles["quiz-mode-answer-container"]}>
           <div className={styles["quiz-mode-answer-header"]}>
             <span>답안 설명</span>
@@ -120,7 +121,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
           </div>
           <Textarea
             className={styles["quiz-mode-answer-text-area"]}
-            id={"answer"}
+            id={QuizFormMode.ANSWER}
             onChange={onAnswerTextAreaChange}
             value={answerTextAreaValue}
             placeholder={"답안에 대한 설명을 입력해주세요"}

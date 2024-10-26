@@ -27,3 +27,8 @@ export const AUTH_TYPES = [AuthType.SIGNUP, AuthType.LOGIN] as const;
 export const ICON_SIZE = 20;
 
 export const APP_NAME = "DOKBARO";
+
+export const QuizFormMode = {
+  QUESTION: "question",
+  ANSWER: "answer",
+} as const;

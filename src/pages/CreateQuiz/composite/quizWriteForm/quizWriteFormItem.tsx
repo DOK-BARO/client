@@ -9,28 +9,23 @@ import Textarea from "@/components/atom/textarea/textarea.tsx";
 import useTextarea from "@/hooks/useTextarea.ts";
 import { ImageAdd } from "@/svg/quizWriteForm/imageAdd.tsx";
 import QuizWriteFormItemHeader from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormItemHeader.tsx";
-import { RadioOptions } from "@/types/RadioTypes.ts";
+import { RadioOption } from "@/types/RadioTypes.ts";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
+import RadioButton from "@/components/atom/radioButton/radioButton.tsx";
 
 interface QuizWriteFormItemProps {
   id: number;
   deleteQuizWriteForm: (id: number) => void;
 }
 
-// interface QuizOptionItemType {
-//   id: number;
-//   component: ReactNode;
-// }
-
 export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWriteFormItemProps) {
-  const [quizMode, setQuizMode] = useState<string>("question"); // 질문 작성 or 답안 작성
+  const [quizMode, setQuizMode] = useState<string>("question"); // TODO: 질문 작성 or 답안 작성 enum 생성
   const { onChange: onQuestionChange, value: question } = useInput("");
-  //const [optionList, setOptionList] = useState<QuizOptionItemType[]>([]);
-  const [options, setOptions] = useState<RadioOptions[]>([]);
-  const { selectedValue:selectedRadioGroupValue, handleChange: handleRadioGroupChange } = useRadioGroup("");
+  const [options, setOptions] = useState<RadioOption[]>([]);
+  const { selectedValue: selectedRadioGroupValue, handleChange: handleRadioGroupChange } = useRadioGroup("");
 
   const [focusedOptionIndex, setFocusedOptionIndex] = useState<number | null>(null);
-  const { value:answerTextAreaValue,onChange:onAnswerTextAreaChange }= useTextarea("");
+  const { value: answerTextAreaValue, onChange: onAnswerTextAreaChange } = useTextarea("");
 
   const onQuizModeSelect = (e: React.MouseEvent<HTMLButtonElement>) => {
     setQuizMode(e.currentTarget.value);
@@ -39,7 +34,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
   const setText = (optionId: number, value: string) => {
     handleRadioGroupChange(value);
     const updatedOptions = options.map((option) => {
-      if(option.id === optionId) {
+      if (option.id === optionId) {
         return { ...option, value, label: value };
       }
       return option;
@@ -49,7 +44,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
 
   const onClickAddQuizOptionItem = () => {
     const id = Date.now();
-    console.log("%o",options);
+    console.log("%o", options);
     setOptions((prev) => [
       ...prev,
       {
@@ -69,8 +64,6 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
   };
 
   const deleteOption = (optionId: number) => {
-    console.log("지워질 optionId:"+optionId );
-
     setOptions(options.filter((option) => option.id !== optionId));
   };
 
@@ -101,7 +94,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
           {options.map((item) =>
             <QuizWriteFormOptionItem
               key={item.id}
-              id={item.id}
+              option={item}
               deleteOption={deleteOption}
               focusedOptionIndex={focusedOptionIndex}
               handleOptionFocus={handleOptionFocus}
@@ -117,7 +110,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
       </div>
 
       {
-        quizMode === "answer" && 
+        quizMode === "answer" &&
         <div className={styles["quiz-mode-answer-container"]}>
           <div className={styles["quiz-mode-answer-header"]}>
             <span>답안 설명</span>
@@ -146,7 +139,7 @@ function AddOptionButton({ onAdd }: { onAdd: () => void }) {
       <button
         className={styles["option-add-button"]}
         onClick={onAdd}>
-        <div className={styles["option-add-button-check-circle"]} />
+        <div className={styles["option-add-button-check-circle"]}/>
         <span>옵션 추가하기</span>
       </button>
     </div>
@@ -154,10 +147,11 @@ function AddOptionButton({ onAdd }: { onAdd: () => void }) {
 }
 
 interface QuizOptionItemProps {
-  id: number;
+  //id: number;
+  option: RadioOption;
   focusedOptionIndex: number | null;
   handleOptionFocus: (id: number) => void;
-  handleOptionBlur: ( )=> void;
+  handleOptionBlur: () => void;
   deleteOption: (id: number) => void;
   isQuestionType: boolean; // TODO: 변수명 직관적으로 변경 필요
   selectedValue: string;
@@ -165,54 +159,86 @@ interface QuizOptionItemProps {
   setText: (optionId: number, value: string) => void;
 }
 
-function QuizWriteFormOptionItem({ id, focusedOptionIndex, deleteOption, handleOptionFocus, handleOptionBlur, isQuestionType, selectedValue, onChange,setText }: QuizOptionItemProps) {
-  const { onChange: onOptionChange, value: option } = useInput("");
+function QuizWriteFormOptionItem({
+  option,
+  focusedOptionIndex,
+  deleteOption,
+  handleOptionFocus,
+  handleOptionBlur,
+  isQuestionType,
+  selectedValue,
+  onChange,
+  setText,
+}: QuizOptionItemProps) {
+  const { onChange: onOptionChange, value: optionText } = useInput(option.value); // input임
 
   const onTextAreaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onOptionChange(e);
-    setText(id, e.target.value);
+    setText(option.id, e.target.value);
   };
 
   return (
-    <div key={id}
-      className={`${styles["option-container"]} ${focusedOptionIndex === id ? styles["focused"] : ""}`}
-      onFocus={() => handleOptionFocus(id)}
+    <div key={option.id}
+      className={`${styles["option-container"]} ${focusedOptionIndex === option.id ? styles["focused"] : ""}`}
+      onFocus={() => handleOptionFocus(option.id)}
       onBlur={handleOptionBlur}
     >
-      <label key={id} className={styles["radio-button-item"]}>
-        <input
-          type="radio"
-          disabled={isQuestionType}
-          id={`option-${id}`}
-          value={option}
-          checked={selectedValue === option}
-          onChange={() => onChange(option)}
-          className={`${styles["new-option"]} ${focusedOptionIndex === id ? styles["focused"] : ""}`}
-          autoFocus
-        />
-        { // TODO: 코드 분리 필요
-          isQuestionType &&
-          <input
-            disabled={!isQuestionType}
-            id={`${id}`}
-            name={"radio-group"}
-            value={option}
-            //onChange={onOptionChange}
-            onChange={onTextAreaChange}
-            className={`${styles["new-option-text-input"]} ${focusedOptionIndex === id ? styles["focused"] : ""}`}
-            // placeholder="선택지를 입력해주세요"
-            autoFocus
-          />
+      <RadioButton
+        option={option}
+        selectedValue={selectedValue}
+        onChange={() => onChange(optionText)}
+        isDisabled={isQuestionType}
+        className={`${styles["new-option"]} ${focusedOptionIndex === option.id ? styles["focused"] : ""}`}
+        autoFocus={true}
+        LabelComponent={
+          isQuestionType ?
+            <input
+              disabled={!isQuestionType}
+              id={`${option.id}`}
+              name={"radio-group"}
+              value={optionText}
+              onChange={onTextAreaChange}
+              className={`${styles["new-option-text-input"]} ${focusedOptionIndex === option.id ? styles["focused"] : ""}`}
+              autoFocus
+            /> :
+            <div className={`${styles["new-option-label"]}`}>{optionText}</div>
         }
-        {
-          !isQuestionType &&
-          <div className={`${styles["new-option-label"]}`}>{option}</div>
-        }
-      </label>
+      />
+
+      {/*<label key={id} className={styles["radio-button-item"]}>*/}
+      {/*  <input*/}
+      {/*    type="radio"*/}
+      {/*    disabled={isQuestionType}*/}
+      {/*    id={`option-${id}`}*/}
+      {/*    value={option}*/}
+      {/*    checked={selectedValue === option}*/}
+      {/*    onChange={() => onChange(option)}*/}
+      {/*    className={`${styles["new-option"]} ${focusedOptionIndex === id ? styles["focused"] : ""}`}*/}
+      {/*    autoFocus*/}
+      {/*  />*/}
+      {/*  { // TODO: 코드 분리 필요*/}
+      {/*    isQuestionType &&*/}
+      {/*    <input*/}
+      {/*      disabled={!isQuestionType}*/}
+      {/*      id={`${id}`}*/}
+      {/*      name={"radio-group"}*/}
+      {/*      value={option}*/}
+      {/*      //onChange={onOptionChange}*/}
+      {/*      onChange={onTextAreaChange}*/}
+      {/*      className={`${styles["new-option-text-input"]} ${focusedOptionIndex === id ? styles["focused"] : ""}`}*/}
+      {/*      // placeholder="선택지를 입력해주세요"*/}
+      {/*      autoFocus*/}
+      {/*    />*/}
+      {/*  }*/}
+      {/*  {*/}
+      {/*    !isQuestionType &&*/}
+      {/*    <div className={`${styles["new-option-label"]}`}>{option}</div>*/}
+      {/*  }*/}
+      {/*</label>*/}
       <button
         className={styles["delete-option-button"]}
         onClick={() => {
-          deleteOption(id);
+          deleteOption(option.id);
         }}
       >
         <Close width={20} height={20} stroke={gray90} strokeWidth={2}/>

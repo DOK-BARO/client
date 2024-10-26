@@ -33,9 +33,6 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
   const { value:answerTextAreaValue,onChange:onAnswerTextAreaChange }= useTextarea("");
 
   const onQuizModeSelect = (e: React.MouseEvent<HTMLButtonElement>) => {
-    // TODO: 답안 설정 클릭 시
-    // TODO : 옵션리스트 텍스트 라벨 못씀
-    // TODO: 옵션 리스트 클릭 시 답안으로 설정됨
     setQuizMode(e.currentTarget.value);
   };
 
@@ -180,9 +177,9 @@ function QuizWriteFormOptionItem({ id, focusedOptionIndex, deleteOption, handleO
     <div key={id}
       className={`${styles["option-container"]} ${focusedOptionIndex === id ? styles["focused"] : ""}`}
       onFocus={() => handleOptionFocus(id)}
-      onBlur={handleOptionBlur} 
+      onBlur={handleOptionBlur}
     >
-      <label key={id} className={styles["option-label"]}>
+      <label key={id} className={styles["radio-button-item"]}>
         <input
           type="radio"
           disabled={isQuestionType}
@@ -194,27 +191,27 @@ function QuizWriteFormOptionItem({ id, focusedOptionIndex, deleteOption, handleO
           autoFocus
         />
         { // TODO: 코드 분리 필요
-          isQuestionType && 
-            <input
-              disabled={!isQuestionType}
-              id={`${id}`}
-              name={"radio-group"}
-              value={option}
-              //onChange={onOptionChange}
-              onChange={onTextAreaChange}
-              className={`${styles["new-option"]} ${focusedOptionIndex === id ? styles["focused"] : ""}`}
-              // placeholder="선택지를 입력해주세요"
-              autoFocus
-            />
+          isQuestionType &&
+          <input
+            disabled={!isQuestionType}
+            id={`${id}`}
+            name={"radio-group"}
+            value={option}
+            //onChange={onOptionChange}
+            onChange={onTextAreaChange}
+            className={`${styles["new-option-text-input"]} ${focusedOptionIndex === id ? styles["focused"] : ""}`}
+            // placeholder="선택지를 입력해주세요"
+            autoFocus
+          />
         }
         {
           !isQuestionType &&
-            <div>{option}</div>
+          <div className={`${styles["new-option-label"]}`}>{option}</div>
         }
       </label>
       <button
         className={styles["delete-option-button"]}
-        onClick={() =>{
+        onClick={() => {
           deleteOption(id);
         }}
       >

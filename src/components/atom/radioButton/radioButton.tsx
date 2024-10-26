@@ -14,7 +14,7 @@ const RadioButton: React.FC<RadioButtonProps> = ({
 }) => {
   return (
     <div className={styles["radio-button-container"]}>
-      <label key={option.value} className={styles[className ?? ""]}>
+      <label key={option.value} className={`${styles["radio-button-item"]} ${styles[className ?? ""]}`}>
         <div className={styles["radio-button"]}>
           <input
             type="radio"
@@ -25,7 +25,7 @@ const RadioButton: React.FC<RadioButtonProps> = ({
             disabled={isDisabled}
             autoFocus={autoFocus}
           />
-          { LabelComponent }
+          <div className={styles["radio-button-label"]}>{ LabelComponent }</div>
         </div>
         {
           icon &&

@@ -5,13 +5,12 @@
   @include flex(column);
   gap: 20px;
   border: 1px solid transparent;
-  //width: 35em;
   background-color: $gray-00;
   padding: 20px;
   border-radius: $border-radius-medium;
   margin-bottom: 20px;
 
-  &-header {
+  &-header { // TODO: 리팩토링
     display: flex;
     justify-content: space-between;
 
@@ -112,45 +111,6 @@
     gap: 13px;
     font-size: $font-size-xlarge;
 
-    .option {
-      &-container {
-        @include flex(row, center);
-        width: 100%;
-        border-radius: 8px;
-        justify-content: space-between;
-        gap: 8px;
-        padding: 0 16px;
-        height: 48px;
-
-
-        &.focused {
-          background-color: $background;
-        }
-
-
-        .delete-option-button {
-          all: unset;
-        }
-
-      }
-
-      &-label {
-        @include flex(row);
-        width: 100%;
-        height: 100%;
-        gap: 8px;
-        color: $gray-90;
-        font-size: $font-size-medium;
-        font-weight: $font-weight-regular;
-
-      }
-      &-check-circle {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        border: 2px solid $gray-60;
-      }
-    }
 
     legend {
       @include sr-only;
@@ -158,41 +118,9 @@
   }
 }
 
-input.new-option {
-  border: none;
-  padding: 0;
-  border-radius: 0;
-  font-size: $font-size-xlarge;
-
-  &:focus {
-    background-color: $background;
-    outline: none;
-    border: none;
-  }
-}
 
 
-.new-option-label {
-  // 답안설정 텍스트 라벨
-  display: flex;
-  align-items: center;
-  font-size: $font-size-xlarge;
-}
 
-input.new-option-text-input {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  border: none;
-  padding: 0;
-  border-radius: 0;
-  font-size: $font-size-xlarge;
-  &:focus {
-    background-color: $background;
-    outline: none;
-    border: none;
-  }
-}
 
 .move-quiz-button {
   all: unset;
@@ -262,44 +190,3 @@ input.new-option-text-input {
   padding: 0;
 }
 
-// TODO: 리팩토링 필요
-
-@mixin basic-radio-button-item {
-  display: flex;
-  //font-size: $font-size-large;
-  align-items: center;
-  justify-content: space-between;
-}
-
-@mixin basic-radio-button($default-color, $checked-color) {
-  @include basic-radio-button-item;
-  input[type="radio"] {
-    margin: 0 8px 0 0;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border-radius: 24px;
-    outline: none;
-    cursor: pointer;
-    border: 2px solid $default-color; // 체크되지 않았을 때의 테두리 색상
-  }
-
-  input[type="radio"]:checked {
-    margin-right: 8px;
-    border: 3px solid white; // 테두리와 원 사이의 색상
-    background-color: $checked-color; // 체크 시 내부 원으로 표시될 색상
-    box-shadow: 0 0 0 2px $checked-color; // 테두리
-  }
-}
-
-
-.radio-button-item {
-  @include basic-radio-button-item;
-  @include basic-radio-button($default-color: $gray-60, $checked-color: $system-success);
-  display: flex;
-  width: 100%;
-  height: 100%;
-  justify-content: start;
-}

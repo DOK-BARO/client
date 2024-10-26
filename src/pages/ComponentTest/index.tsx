@@ -1,12 +1,13 @@
-import { AUTH_TYPES, SOCIAL_TYPES } from "@/data/constants.ts";
+import { AUTH_TYPES, SOCIAL_TYPES } from "@/data/constants.ts";import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 import useGNB from "@/hooks/useGNB.ts";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
-import { RadioOptions } from "@/types/RadioTypes.ts";
+import { RadioOption } from "@/types/RadioTypes.ts";
 import useModal from "@/hooks/useModal.ts";
 import { getUser } from "@/services/server/authService.ts";
 import { useState } from "react";
 import { Invisible } from "@/svg/invisible.tsx";
-import { gray60 } from "@/styles/abstracts/colors.ts";
+import { gray60, systemDanger, systemSuccess } from "@/styles/abstracts/colors.ts";
 import RadioButton from "@/components/atom/radioButton/radioButton.tsx";
 import SocialAuthButton from "@/components/composite/socialAuthButton/socialAuthButton.tsx";
 import Button from "@/components/atom/button/button.tsx";
@@ -14,7 +15,7 @@ import GNB from "@/components/layout/gnb/gnb.tsx";
 import Modal from "@/components/atom/modal/modal.tsx";
 import Input from "@/components/atom/input/input.tsx";
 
-const options: RadioOptions[] = [
+const options: RadioOption[] = [
   { id: 1, value: "option1", label: "Option 1" },
   { id: 2, value: "option2", label: "Option 2" },
   { id: 3, value: "option3", label: "Option 3" },
@@ -27,16 +28,48 @@ export default function Index() {
 
   const [inputValue, setInputValue] = useState<string>("");
 
+  const getClassNameAndIcon = (optionValue: string, correctOption?: string) => {
+    // TODO: currentOption : 채점 전엔 null, 답안이 오면 해당 답안으로 set
+    const isCorrect = correctOption === optionValue; // 정답인 항목
+    const isSelected = selectedValue === optionValue; // 선택된 항목
+
+    // 선택된 항목의 경우 정답 or 오답에 따른 분기 스타일링
+    if (isSelected) {
+      return {
+        className: isCorrect
+          ? "radio-button-item-corrected"
+          : "radio-button-item-wrong",
+        icon: isCorrect ? (
+          <CheckIcon style={{ color: systemSuccess }} />
+        ) : (
+          <CloseIcon style={{ color: systemDanger }} />
+        ),
+      };
+    }
+    // 선택되지 않은 항목이라면 따로 스타일링 x
+    return { className: "radio-button-item", icon: null };
+  };
   return (
     <>
       <button onClick={getUser}>유저 데이터 가져오는 버튼</button>
-      <RadioButton
-        options={options}
-        selectedValue={selectedValue}
-        onChange={handleChange}
-        correctOption={"option2"} // TODO: 채점 전엔 null, 답안이 오면 해당 답안으로 set
-        isDisabled={false} // TODO 답안이 오면 true
-      />
+      {
+        options.map((option:RadioOption) => {
+          const { className, icon } = getClassNameAndIcon(option.value, "option2");
+
+          return <RadioButton
+            key={option.id}
+            option={option}
+            selectedValue={selectedValue}
+            onChange={handleChange}
+            isDisabled={false} // TODO 답안이 오면 true
+            icon={icon}
+            className={className}
+            autoFocus={false}
+            LabelComponent={<div>{option.label}</div>}
+          />;
+        })
+      }
+
       <div style={{ display: "flex", gap: "10px" }}>
         {SOCIAL_TYPES.map((socialType) => (
           <div key={socialType}>

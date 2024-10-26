@@ -1,12 +1,9 @@
 import styles from "./_quiz_write_form_type_util_list.module.scss";
-import {
-  QuizWriteFormTypeUtilListItemProps,
-} from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormTypeUtilButton.tsx";
+import { QuestionFormTypeType } from "@/types/QuestionFormTypeType.ts";
 
-// TODO : 뭔가 리팩토링 필요
 type Props = {
-  onClick: (optionTitle: QuizWriteFormTypeUtilListItemProps) => void;
-  list: QuizWriteFormTypeUtilListItemProps[];
+  onClick: (optionTitle: QuestionFormTypeType) => void;
+  list: QuestionFormTypeType[];
 }
 
 export default function QuizWriteFormTypeUtilList({ list, onClick } : Props) {
@@ -26,7 +23,7 @@ export default function QuizWriteFormTypeUtilList({ list, onClick } : Props) {
 
 
 
-export function QuizWriteFormTypeUtilListItem (item: QuizWriteFormTypeUtilListItemProps & { onClick: (option: QuizWriteFormTypeUtilListItemProps) => void; }) {
+export function QuizWriteFormTypeUtilListItem (item: QuestionFormTypeType & { onClick: (option: QuestionFormTypeType) => void; }) {
   return (
     <li
       onClick={() => item.onClick(item)}

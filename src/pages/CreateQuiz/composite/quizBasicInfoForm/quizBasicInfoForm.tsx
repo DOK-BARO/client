@@ -47,6 +47,7 @@ export default function QuizBasicInfoForm({ setIsButtonDisabled } : {setIsButton
           placeholder="퀴즈 설명"
           maxLength={descriptionMaxLength}
           textAreaRef={textareaRef}
+          className={styles["quiz-basic-info-description-text-area"]}
         />
       </div>
     </div>

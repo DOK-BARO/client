@@ -2,51 +2,23 @@ import styles from "./_quiz_write_form_type_util_button.module.scss";
 import { useDropDownList } from "@/hooks/useDropDownList.ts";
 import { ArrowDown } from "@/svg/arrowDown.tsx";
 import QuizWriteFormTypeUtilList from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormTypeUtilList.tsx";
-import React, { useState } from "react";
-import { SVGProps } from "@/types/SVGProps.ts";
+
 import Button from "@/components/atom/button/button.tsx";
-import { UlList } from "@/svg/quizWriteForm/ulList.tsx";
-import { OlList } from "@/svg/quizWriteForm/olList.tsx";
-import { OxQuiz } from "@/svg/quizWriteForm/oxQuiz.tsx";
-import { BlankQuiz } from "@/svg/quizWriteForm/blankQuiz.tsx";
-import { AlignJustify } from "@/svg/quizWriteForm/align-justify.tsx";
+import { QuestionFormTypeType } from "@/types/QuestionFormTypeType.ts";
 
-export type QuizWriteFormTypeUtilListItemProps = {
-  Icon: React.FC<SVGProps>,
-  text : string,
-}
+function QuizWriteFormTypeUtilButton({ selectedOption, setSelectedOption, list }: {
+  list: QuestionFormTypeType[]
+  selectedOption: QuestionFormTypeType,
+  setSelectedOption: (option: QuestionFormTypeType) => void
+}) {
 
-function QuizWriteFormTypeUtilButton() {
-  const listItem: QuizWriteFormTypeUtilListItemProps[] = [
-    {
-      Icon: UlList,
-      text: "객관식",
-    },
-    {
-      Icon: OlList,
-      text: "복수 정답",
-    },
-    {
-      Icon: OxQuiz,
-      text: "OX 퀴즈",
-    },
-    {
-      Icon: BlankQuiz,
-      text: "빈칸 채우기",
-    },
-    {
-      Icon: AlignJustify,
-      text: "단답형 주관식",
-    },
-  ];
 
-  const onClick = (option: QuizWriteFormTypeUtilListItemProps) => {
+  const onClick = (option: QuestionFormTypeType) => {
     setSelectedOption(option);
     closeDropDownList();
   };
 
   const { isOpenDropDownList, anchorEl, openDropDownList, closeDropDownList, dropDownListRef } = useDropDownList();
-  const [selectedOption, setSelectedOption] = useState<QuizWriteFormTypeUtilListItemProps>(listItem[0]);
   return (
     <div className={styles["quiz-write-form-type-util-button-container"]} ref={dropDownListRef}>
       <Button
@@ -65,7 +37,7 @@ function QuizWriteFormTypeUtilButton() {
       </Button>
       {isOpenDropDownList && anchorEl &&
         <QuizWriteFormTypeUtilList
-          list= {listItem}
+          list={list}
           onClick={onClick}
         />}
     </div>

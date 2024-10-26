@@ -1,13 +1,14 @@
 import { ReactElement } from "react";
+// TODO: multipleChoiceQuizForm과 겹치는 부분 리팩토링 필요
 
-export interface RadioOption {
+export interface CheckBoxOption {
   id: number;
   value: string;
   label: string;
 }
 
-export interface RadioButtonProps {
-  option: RadioOption;
+export interface CheckBoxProps {
+  option: CheckBoxOption;
   selectedValue: string;
   onChange: (value: string) => void;
   isDisabled: boolean;

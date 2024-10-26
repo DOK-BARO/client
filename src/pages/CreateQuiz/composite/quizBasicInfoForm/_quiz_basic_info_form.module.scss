@@ -13,6 +13,14 @@
     flex-direction: column;
     gap: 12px;
 
+    &-text-area{
+      border:1px solid $gray-40;
+      padding: $textarea-padding;
+      border-radius: $border-radius-medium;
+      font-size: $font-size-xlarge;
+      color: $gray-90;
+    }
+
     &-length {
       display: flex;
       font-size: $font-size-small;

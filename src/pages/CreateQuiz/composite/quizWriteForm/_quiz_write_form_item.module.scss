@@ -2,14 +2,15 @@
 @import "../../../../styles/abstracts/mixins";
 
 .write-quiz {
+  @include flex(column);
+  gap: 20px;
   border: 1px solid transparent;
-  //width: 35em;
   background-color: $gray-00;
   padding: 20px;
   border-radius: $border-radius-medium;
   margin-bottom: 20px;
 
-  &-header {
+  &-header { // TODO: 리팩토링
     display: flex;
     justify-content: space-between;
 
@@ -41,7 +42,6 @@
 
   .quiz-mode-buttons {
     display: flex;
-    margin-bottom: 20px;
   }
 
 
@@ -65,13 +65,15 @@
 
   .input-container {
     display: flex;
-    gap: 16px;
+    width: 100%;
+    gap: 10px;
 
     input.question {
       border: none;
       color: $gray-90;
       font-size: $font-size-xlarge;
       font-weight: $font-weight-semibold;
+      padding: 0;
     }
 
     .select-box {
@@ -101,8 +103,7 @@
     }
   }
   .question-options {
-    margin-top: 32px;
-    margin-bottom: 40px;
+    margin-top: 16px;
 
     display: flex;
     flex-direction: column;
@@ -110,47 +111,6 @@
     gap: 13px;
     font-size: $font-size-xlarge;
 
-    .option {
-      &-container {
-        @include flex(row, center);
-        width: 100%;
-        border-radius: 8px;
-        justify-content: space-between;
-        gap: 8px;
-        padding: 0 16px;
-        height: 48px;
-
-
-        &.focused {
-          background-color: $background;
-        }
-
-
-        .delete-option-button {
-          all: unset;
-        }
-
-      }
-
-      &-label {
-        @include flex(row);
-        gap: 8px;
-        color: $gray-90;
-        font-size: $font-size-medium;
-        font-weight: $font-weight-regular;
-
-      }
-      &-check-circle {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        border: 2px solid $gray-60;
-      }
-
-
-
-
-    }
 
     legend {
       @include sr-only;
@@ -158,18 +118,9 @@
   }
 }
 
-input.new-option {
-  border: none;
-  padding: 0;
-  border-radius: 0;
-  font-size: $font-size-xlarge;
 
-  &:focus {
-    background-color: $background;
-    outline: none;
-    border: none;
-  }
-}
+
+
 
 .move-quiz-button {
   all: unset;
@@ -206,3 +157,36 @@ input.new-option {
     margin-right: 8px;
   }
 }
+
+.quiz-mode-answer {
+  &-container{
+    background: $background;
+    padding: 14px 16px;
+    @include flex(column);
+    gap: 16px;
+    border-radius: 8px;
+  }
+
+  &-header{
+    @include flex(row);
+    align-items: center;
+    justify-content: space-between;
+    font-size: $font-size-large;
+    font-weight: $font-weight-bold;
+    border: none;
+  }
+
+  &-text-area{
+    border: none;
+    background-color: transparent;
+    font-size: $font-size-medium;
+    font-weight: $font-weight-regular;
+    color: $gray-70;
+  }
+  }
+.image-add-button {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+

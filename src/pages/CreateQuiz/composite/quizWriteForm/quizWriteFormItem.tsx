@@ -16,6 +16,7 @@ import { BlankQuiz } from "@/svg/quizWriteForm/blankQuiz.tsx";
 import { AlignJustify } from "@/svg/quizWriteForm/alignJustify.tsx";
 import { MultipleChoiceQuizForm } from "@/pages/CreateQuiz/composite/quizWriteForm/multipleChoiceQuizForm.tsx";
 import { CheckBoxQuizForm } from "@/pages/CreateQuiz/composite/quizWriteForm/checkBoxQuizForm.tsx";
+import { OXQuizForm } from "@/pages/CreateQuiz/composite/quizWriteForm/oxQuizForm.tsx";
 
 interface QuizWriteFormItemProps {
   id: number;
@@ -36,7 +37,7 @@ const quizWriteFormTypeUtilList: QuestionFormTypeType[] = [
   {
     Icon: OxQuiz,
     text: "OX 퀴즈",
-    FormComponent: <div></div>,
+    FormComponent: <OXQuizForm />,
   },
   {
     Icon: BlankQuiz,

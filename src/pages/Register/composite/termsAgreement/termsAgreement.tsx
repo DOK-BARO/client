@@ -66,7 +66,7 @@ export default function TermsAgreement() {
         <div className={styles["agreement-all"]}>
           <CheckBox
             id="allAgree"
-            label={"모두 동의 (선택 정보 포함)"}
+            LabelComponent={"모두 동의 (선택 정보 포함)"}
             checked={agreements.allAgree}
             onChange={onAllAgreeChange}
             isOutLined={true}
@@ -79,7 +79,7 @@ export default function TermsAgreement() {
             <div className={styles["agreement-item-required"]}>
               <CheckBox
                 id="termsAgree"
-                label={"[필수] 이용 약관 동의"}
+                LabelComponent={"[필수] 이용 약관 동의"}
                 checked={agreements.termsAgree}
                 onChange={onSingleAgreeChange}
                 isOutLined={false}
@@ -95,7 +95,7 @@ export default function TermsAgreement() {
             <div className={styles["agreement-item-required"]}>
               <CheckBox
                 id="privacyAgree"
-                label={"[필수] 개인 정보 수집·이용 동의"}
+                LabelComponent={"[필수] 개인 정보 수집·이용 동의"}
                 checked={agreements.privacyAgree}
                 onChange={onSingleAgreeChange}
                 isOutLined={false}
@@ -116,7 +116,7 @@ export default function TermsAgreement() {
             <div className={styles["agreement-item-optional"]}>
               <CheckBox
                 id="emailNews"
-                label={"[선택] 신규 퀴즈 소식을 이메일로 받기"}
+                LabelComponent={"[선택] 신규 퀴즈 소식을 이메일로 받기"}
                 checked={agreements.emailNews}
                 onChange={onSingleAgreeChange}
                 isOutLined={false}
@@ -129,7 +129,7 @@ export default function TermsAgreement() {
             <div className={styles["agreement-item-optional"]}>
               <CheckBox
                 id="adsEmail"
-                label={`[선택] ${APP_NAME} 광고 메세지를 이메일로 받기`}
+                LabelComponent={`[선택] ${APP_NAME} 광고 메세지를 이메일로 받기`}
                 checked={agreements.adsEmail}
                 onChange={onSingleAgreeChange}
                 isOutLined={false}

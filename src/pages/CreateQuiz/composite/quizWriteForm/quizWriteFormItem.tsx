@@ -7,66 +7,60 @@ import Textarea from "@/components/atom/textarea/textarea.tsx";
 import useTextarea from "@/hooks/useTextarea.ts";
 import { ImageAdd } from "@/svg/quizWriteForm/imageAdd.tsx";
 import QuizWriteFormItemHeader from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormItemHeader.tsx";
-import { RadioOption } from "@/types/RadioTypes.ts";
-import useRadioGroup from "@/hooks/useRadioGroup.ts";
 import { QuizFormMode } from "@/data/constants.ts";
-import QuizWriteFormOptionItem from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormOptionItem.tsx";
+import { QuestionFormTypeType } from "@/types/QuestionFormTypeType.ts";
+import { UlList } from "@/svg/quizWriteForm/ulList.tsx";
+import { OlList } from "@/svg/quizWriteForm/olList.tsx";
+import { OxQuiz } from "@/svg/quizWriteForm/oxQuiz.tsx";
+import { BlankQuiz } from "@/svg/quizWriteForm/blankQuiz.tsx";
+import { AlignJustify } from "@/svg/quizWriteForm/alignJustify.tsx";
+import MultipleChoiceQuizForm from "@/pages/CreateQuiz/composite/quizWriteForm/multipleChoiceQuizForm.tsx";
 
 interface QuizWriteFormItemProps {
   id: number;
   deleteQuizWriteForm: (id: number) => void;
 }
 
+const quizWriteFormTypeUtilList: QuestionFormTypeType[] = [
+  {
+    Icon: UlList,
+    text: "객관식",
+    FormComponent: <div></div>,
+  },
+  {
+    Icon: OlList,
+    text: "복수 정답",
+    FormComponent: <div></div>,
+  },
+  {
+    Icon: OxQuiz,
+    text: "OX 퀴즈",
+    FormComponent: <div></div>,
+  },
+  {
+    Icon: BlankQuiz,
+    text: "빈칸 채우기",
+    FormComponent: <div></div>,
+  },
+  {
+    Icon: AlignJustify,
+    text: "단답형 주관식",
+    FormComponent: <div></div>,
+  },
+] as const;
+
 export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWriteFormItemProps) {
+  const [questionFormType, setQuestionFormType] = useState<QuestionFormTypeType>(quizWriteFormTypeUtilList[0]);
+
   const [quizMode, setQuizMode] = useState<string>(QuizFormMode.QUESTION);
-  const disabled : boolean = quizMode === QuizFormMode.QUESTION;
 
   const { onChange: onQuestionChange, value: question } = useInput("");
-  const [options, setOptions] = useState<RadioOption[]>([]);
-  const { selectedValue: selectedRadioGroupValue, handleChange: handleRadioGroupChange } = useRadioGroup("");
 
-  const [focusedOptionIndex, setFocusedOptionIndex] = useState<number | null>(null);
   const { value: answerTextAreaValue, onChange: onAnswerTextAreaChange } = useTextarea("");
 
   const onQuizModeSelect = (e: React.MouseEvent<HTMLButtonElement>) => {
     setQuizMode(e.currentTarget.value);
   };
-
-  const setText = (optionId: number, value: string) => {
-    handleRadioGroupChange(value);
-    const updatedOptions = options.map((option) => {
-      if (option.id === optionId) {
-        return { ...option, value, label: value };
-      }
-      return option;
-    });
-    setOptions(updatedOptions);
-  };
-
-  const onClickAddQuizOptionItem = () => {
-    const id = Date.now();
-    setOptions((prev) => [
-      ...prev,
-      {
-        id: id,
-        value: "",
-        label: "",
-      },
-    ]);
-  };
-
-  const handleOptionFocus = (id: number) => {
-    setFocusedOptionIndex(id);
-  };
-
-  const handleOptionBlur = () => {
-    setFocusedOptionIndex(null);
-  };
-
-  const deleteOption = (optionId: number) => {
-    setOptions(options.filter((option) => option.id !== optionId));
-  };
-
 
 
   return (
@@ -80,7 +74,11 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
 
       <div>
         <div className={styles["input-container"]}>
-          <QuizWriteFormTypeUtilButton />
+          <QuizWriteFormTypeUtilButton
+            list={quizWriteFormTypeUtilList}
+            selectedOption={questionFormType}
+            setSelectedOption={setQuestionFormType}
+          />
           <Input
             className={styles["question"]}
             value={question}
@@ -89,24 +87,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
             placeholder="질문을 입력해주세요."
           />
         </div>
-        <fieldset className={styles["question-options"]}>
-          <legend>답안 선택지</legend>
-          {options.map((item) =>
-            <QuizWriteFormOptionItem
-              key={item.id}
-              option={item}
-              deleteOption={deleteOption}
-              focusedOptionIndex={focusedOptionIndex}
-              handleOptionFocus={handleOptionFocus}
-              handleOptionBlur={handleOptionBlur}
-              disabled={disabled}
-              onChange={handleRadioGroupChange}
-              setText={setText}
-              selectedValue={selectedRadioGroupValue}
-            />,
-          )}
-          <AddOptionButton onAdd={onClickAddQuizOptionItem}/>
-        </fieldset>
+        <MultipleChoiceQuizForm quizMode={quizMode}/>
       </div>
 
       {
@@ -131,17 +112,3 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
   );
 }
 
-
-function AddOptionButton({ onAdd }: { onAdd: () => void }) {
-
-  return (
-    <div className={styles["option-add-button-container"]}>
-      <button
-        className={styles["option-add-button"]}
-        onClick={onAdd}>
-        <div className={styles["option-add-button-check-circle"]}/>
-        <span>옵션 추가하기</span>
-      </button>
-    </div>
-  );
-}

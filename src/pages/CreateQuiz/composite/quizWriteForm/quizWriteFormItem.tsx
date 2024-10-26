@@ -14,7 +14,7 @@ import { OlList } from "@/svg/quizWriteForm/olList.tsx";
 import { OxQuiz } from "@/svg/quizWriteForm/oxQuiz.tsx";
 import { BlankQuiz } from "@/svg/quizWriteForm/blankQuiz.tsx";
 import { AlignJustify } from "@/svg/quizWriteForm/alignJustify.tsx";
-import MultipleChoiceQuizForm from "@/pages/CreateQuiz/composite/quizWriteForm/multipleChoiceQuizForm.tsx";
+import { MultipleChoiceQuizForm } from "@/pages/CreateQuiz/composite/quizWriteForm/multipleChoiceQuizForm.tsx";
 
 interface QuizWriteFormItemProps {
   id: number;
@@ -25,7 +25,7 @@ const quizWriteFormTypeUtilList: QuestionFormTypeType[] = [
   {
     Icon: UlList,
     text: "객관식",
-    FormComponent: <div></div>,
+    FormComponent: <MultipleChoiceQuizForm />,
   },
   {
     Icon: OlList,
@@ -62,7 +62,6 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
     setQuizMode(e.currentTarget.value);
   };
 
-
   return (
     <div className={styles["write-quiz"]}>
       <QuizWriteFormItemHeader
@@ -87,7 +86,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
             placeholder="질문을 입력해주세요."
           />
         </div>
-        <MultipleChoiceQuizForm quizMode={quizMode}/>
+        {React.cloneElement(questionFormType.FormComponent, { quizMode })}
       </div>
 
       {

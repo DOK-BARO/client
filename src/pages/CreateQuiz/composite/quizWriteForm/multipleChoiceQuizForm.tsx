@@ -1,16 +1,14 @@
 import styles from "@/pages/CreateQuiz/composite/quizWriteForm/_quiz_write_form_item.module.scss";
 import QuizWriteFormOptionItem from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormOptionItem.tsx";
 import { RadioOption } from "@/types/RadioTypes.ts";
-import { useState } from "react";
+import { FC, useState } from "react";
 import { QuizFormMode } from "@/data/constants.ts";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
 
-export default function MultipleChoiceQuizForm({ quizMode }: {quizMode: string}) {
+export const MultipleChoiceQuizForm : FC<{quizMode?: string}> = ({ quizMode }) => {
   const [options, setOptions] = useState<RadioOption[]>([]);
   const [focusedOptionIndex, setFocusedOptionIndex] = useState<number | null>(null);
   const { selectedValue: selectedRadioGroupValue, handleChange: handleRadioGroupChange } = useRadioGroup("");
-
-  
   const disabled : boolean = quizMode === QuizFormMode.QUESTION;
 
   const deleteOption = (optionId: number) => {
@@ -47,9 +45,6 @@ export default function MultipleChoiceQuizForm({ quizMode }: {quizMode: string})
     ]);
   };
 
-
-
-
   return (
     <fieldset className={styles["question-options"]}>
       <legend>답안 선택지</legend>
@@ -70,7 +65,7 @@ export default function MultipleChoiceQuizForm({ quizMode }: {quizMode: string})
       <AddOptionButton onAdd={onClickAddQuizOptionItem}/>
     </fieldset>
   );
-}
+};
 
 
 function AddOptionButton({ onAdd }: { onAdd: () => void }) {

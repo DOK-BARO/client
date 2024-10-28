@@ -1,14 +1,12 @@
 import styles from "./_checkbox.module.scss";
 import React, { ReactNode } from "react";
-import { gray0, gray40, primary } from "@/styles/abstracts/colors.ts";
-import { Check } from "@/svg/check";
 
+// TODO: 회원가입의 체크박스와 합칠 수 있으면 합쳐야함
 interface CheckBoxProps {
   id: string;
   checked: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  isOutLined?: boolean;
-  required?: boolean;
+  borderColor?: string;
   disabled?: boolean;
   className?: string;
   autoFocus?: boolean;
@@ -19,16 +17,13 @@ export default function CheckBox({
   id,
   checked,
   onChange,
-  isOutLined = true,
-  required,
   disabled,
   autoFocus = false,
   LabelComponent,
 }: CheckBoxProps) {
-  const className = `${styles.label} ${
-    styles[isOutLined ? "outlined" : "none"]
-  }`;
-
+  const className = `
+  ${styles.label} ${styles["outlined"]}
+  `
   return (
     <div className={styles.container}>
       <input
@@ -38,24 +33,11 @@ export default function CheckBox({
         checked={checked}
         onChange={onChange}
         disabled={disabled}
-        required={required}
         autoFocus={autoFocus}
       />
       <label className={className} htmlFor={id}>
         <div className={styles["checkbox-container"]}>
-          <Check
-            width={20}
-            height={20}
-            stroke={
-              isOutLined
-                ? checked
-                  ? gray0
-                  : gray40
-                : checked
-                  ? primary
-                  : gray40
-            }
-          />
+          <div className={styles["square"]}/>
         </div>
         <div className={styles["radio-button-label"]}>{LabelComponent}</div>
       </label>

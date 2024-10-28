@@ -156,6 +156,14 @@
     border: 2px solid $gray-50;
     margin-right: 8px;
   }
+
+  &-check-square{
+    width: 16px;
+    height: 16px;
+    border-radius: 3px;
+    border: 2px solid $gray-50;
+    margin-right: 8px;
+  }
 }
 
 .quiz-mode-answer {

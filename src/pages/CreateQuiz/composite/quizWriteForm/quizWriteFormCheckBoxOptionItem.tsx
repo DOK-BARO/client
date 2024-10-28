@@ -3,7 +3,7 @@ import React from "react";
 import styles from "./_quiz_write_form_option_item.module.scss";
 import { Close } from "@/svg/close.tsx";
 import { gray90 } from "@/styles/abstracts/colors.ts";
-import CheckBox from "@/pages/Register/components/checkBox/checkBox.tsx";
+import CheckBox from "../../atom/checkBox/checkBox";
 import { CheckBoxOption } from "@/types/CheckBoxTypes.ts";
 // TODO: multipleChoiceQuizForm과 겹치는 부분 리팩토링 필요
 

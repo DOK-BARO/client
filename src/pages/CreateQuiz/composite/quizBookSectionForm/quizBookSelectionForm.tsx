@@ -10,6 +10,7 @@ import { gray60 } from "@/styles/abstracts/colors";
 import useDebounce from "@/hooks/useDebounce";
 import { BookType } from "@/types/BookType";
 import React from "react";
+import LoadingIcon from "../../../../svg/quizBookSelectionForm/loading.gif";
 
 // 2. 도서 선택
 // Issue: 도서 선택 UI 변경 시 딜레이 있음
@@ -107,7 +108,9 @@ export default function QuizBookSelectionForm() {
     >
       <Input
         leftIcon={<Search width={24} stroke={gray60} />}
-        rightIcon={isActuallyLoading ? <div>로딩중</div> : undefined}
+        rightIcon={
+          isActuallyLoading ? <img src={LoadingIcon} width={24} /> : undefined
+        }
         onChange={(e) => {
           onChangeSearchValue(e);
           if (tempSelectedBook) {

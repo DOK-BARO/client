@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./_quiz_settings_form.module.scss";
 import Button from "@/components/atom/button/button";
-import arrowDown from "@/svg/quizSettingForm/arrowDown.svg";
+// import arrowDown from "/svg/quizSettingForm/arrowDown.svg";
 // TODO: 파일 분리
 
 // 4. 퀴즈 설정
@@ -53,7 +53,7 @@ const quizSettings: QuizSetting[] = [
         description: "설정한 시간이 되면 퀴즈가 자동으로 끝납니다.",
       },
     ],
-    icon: "/src/svg/quizSettingForm/time.svg",
+    icon: "/assets/svg/quizSettingForm/time.svg",
   },
   {
     title: "보기 설정",
@@ -72,7 +72,7 @@ const quizSettings: QuizSetting[] = [
         description: "나만 이 퀴즈를 보고 풀 수 있습니다.",
       },
     ],
-    icon: "/src/svg/quizSettingForm/view.svg",
+    icon: "/assets/svg/quizSettingForm/view.svg",
   },
   {
     title: "편집 권한",
@@ -87,11 +87,12 @@ const quizSettings: QuizSetting[] = [
         description: "스터디원이 이 퀴즈를 편집할 수 있습니다.",
       },
     ],
-    icon: "/src/svg/quizSettingForm/edit.svg",
+    icon: "/assets/svg/quizSettingForm/edit.svg",
   },
 ];
 
 const SettingContainer = ({ quizSetting }: { quizSetting: QuizSetting }) => {
+  const arrowDown = "/assets/svg/quizSettingForm/arrowDown.svg";
   const options = quizSetting.options;
   // const [selectedLabel, setSelectedValue] = useState("");
   const [label, setLabel] = useState<string | null>(null);
@@ -119,7 +120,8 @@ const SettingContainer = ({ quizSetting }: { quizSetting: QuizSetting }) => {
   return (
     <div className={styles["quiz-setting-container"]}>
       <div className={styles.title}>
-        <img src={quizSetting.icon} /> {quizSetting.title}
+        <img src={quizSetting.icon} />
+        {quizSetting.title}
       </div>
       <Button
         color="white"

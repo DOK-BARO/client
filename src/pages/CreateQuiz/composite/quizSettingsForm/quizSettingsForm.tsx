@@ -9,7 +9,7 @@ export default function QuizSettingsForm() {
   return (
     <>
       {quizSettings.map((quizSetting) => (
-        <SettingContainer quizSetting={quizSetting} />
+        <SettingContainer key={quizSetting.name} quizSetting={quizSetting} />
       ))}
     </>
   );
@@ -92,7 +92,6 @@ const quizSettings: QuizSetting[] = [
 ];
 
 const SettingContainer = ({ quizSetting }: { quizSetting: QuizSetting }) => {
-  const name = quizSetting.name;
   const options = quizSetting.options;
   // const [selectedLabel, setSelectedValue] = useState("");
   const [label, setLabel] = useState<string | null>(null);
@@ -101,7 +100,6 @@ const SettingContainer = ({ quizSetting }: { quizSetting: QuizSetting }) => {
 
   const onSelect = (e: React.MouseEvent<HTMLButtonElement>) => {
     const value = e.currentTarget.value;
-    console.log(value);
     setLabel(value);
     setIsSelectOpen((prev) => !prev);
   };
@@ -135,7 +133,7 @@ const SettingContainer = ({ quizSetting }: { quizSetting: QuizSetting }) => {
       {isSelectOpen ? (
         <ul className={styles["option-list"]}>
           {options.map((option: QuizSettingOption) => (
-            <li>
+            <li key={option.label}>
               <Button
                 onClick={onSelect}
                 value={option.label}

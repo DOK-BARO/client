@@ -30,7 +30,9 @@
 
 .input {
   @include input-base;
-  width: 100%;
+  & {
+    width: 100%;
+  }
 
   // 인풋 사이즈
   &--large {

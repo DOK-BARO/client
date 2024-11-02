@@ -63,7 +63,10 @@ export const MultipleChoiceQuizForm : FC<{quizMode?: string, questionFormId?: st
           selectedValue={selectedRadioGroupValue}
         />,
       )}
-      <AddOptionButton onAdd={onClickAddQuizOptionItem}/>
+      {
+        quizMode == QuizFormMode.QUESTION  && 
+            <AddOptionButton onAdd={onClickAddQuizOptionItem}/>
+      }
     </fieldset>
   );
 };

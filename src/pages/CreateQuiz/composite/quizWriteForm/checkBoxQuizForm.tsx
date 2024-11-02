@@ -74,7 +74,10 @@ export const CheckBoxQuizForm: FC<{ quizMode?: string }> = ({ quizMode }) => {
           setText={setText}
           selectedValue={option.id.toString()}/>,
       )}
-      <AddOptionButton onAdd={onClickAddQuizOptionItem}/>
+      {
+      quizMode == QuizFormMode.QUESTION  && 
+            <AddOptionButton onAdd={onClickAddQuizOptionItem}/>
+      }
     </fieldset>
   );
 };

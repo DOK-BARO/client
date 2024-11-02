@@ -39,7 +39,6 @@ export default function QuizWriteFormCheckBoxOptionItem({
   };
 
   return (
-    //TODO: 체크박스 스타일링 필요
     <div key={option.id}
       className={`${styles["option-container"]} ${focusedOptionIndex === option.id ? styles["focused"] : ""}`}
       onFocus={() => handleOptionFocus(option.id)}

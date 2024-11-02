@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import useInput from "@/hooks/useInput.ts";
 import styles from "./_quiz_write_form_item.module.scss";
 import QuizWriteFormTypeUtilButton from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormTypeUtilButton.tsx";
@@ -64,6 +64,49 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
     setQuizMode(e.currentTarget.value);
   };
 
+  const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null); // 파일 입력 참조
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files; // 선택된 파일들
+    if (files) {
+      if (selectedImages.length + files.length > 3) {
+        setErrorMessage('최대 3장까지만 업로드할 수 있습니다.');
+        return;
+      } else {
+        setErrorMessage(null); // 오류 메시지 초기화
+      }
+      const newImages: string[] = [];
+      const readerPromises: Promise<void>[] = [];
+
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const reader = new FileReader();
+
+        const promise = new Promise<void>((resolve) => {
+          reader.onloadend = () => {
+            newImages.push(reader.result as string); // 이미지 미리보기 URL 추가
+            resolve();
+          };
+          reader.readAsDataURL(file); // 파일을 Data URL로 읽기
+        });
+
+        readerPromises.push(promise);
+      }
+
+      Promise.all(readerPromises).then(() => {
+        setSelectedImages((prev) => [...prev, ...newImages]); // 기존 이미지와 새 이미지를 합칩니다.
+      });
+    }
+  };
+
+  const handleButtonClick = () => {
+    fileInputRef.current?.click(); // 버튼 클릭 시 파일 입력 클릭
+  };
+
+
   return (
     <div className={styles["write-quiz"]}>
       <QuizWriteFormItemHeader
@@ -88,7 +131,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
             placeholder="질문을 입력해주세요."
           />
         </div>
-        {React.cloneElement(questionFormType.FormComponent, { questionFormId:id.toString(), quizMode })}
+        {React.cloneElement(questionFormType.FormComponent, { questionFormId: id.toString(), quizMode })}
       </div>
 
       {
@@ -96,9 +139,19 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
         <div className={styles["quiz-mode-answer-container"]}>
           <div className={styles["quiz-mode-answer-header"]}>
             <span>답안 설명</span>
+            <input
+              className={styles["a11y-hidden"]}
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              onChange={handleImageChange}
+              multiple
+            />
             <button
+              onClick={handleButtonClick}
               className={styles["image-add-button"]}
-            ><ImageAdd width={24} height={24}/></button>
+            ><ImageAdd width={24} height={24} />
+            </button>
           </div>
           <Textarea
             className={styles["quiz-mode-answer-text-area"]}
@@ -107,6 +160,22 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
             value={answerTextAreaValue}
             placeholder={"답안에 대한 설명을 입력해주세요"}
           />
+
+          {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} {/* 오류 메시지 표시 */}
+          {selectedImages.length > 0 && (
+            <div className={styles["image-area"]}>
+              {selectedImages.map((image, index) => (
+                <img
+                  key={index}
+                  src={image}
+                  alt={`이미지 미리보기 ${index + 1}`}
+                  style={{ width: 'auto', margin: '32px' }}
+                //TODO: 스타일 확정 후 클래스로 만들기
+                />
+              ))}
+            </div>
+          )}
+
         </div>
       }
     </div>

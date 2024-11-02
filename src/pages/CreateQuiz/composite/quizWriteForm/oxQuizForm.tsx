@@ -5,7 +5,7 @@ import { QuizFormMode } from "@/data/constants.ts";
 import RadioButton from "@/components/atom/radioButton/radioButton.tsx";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
 
-export const OXQuizForm : FC<{quizMode?: string}> = ({ quizMode }) => {
+export const OXQuizForm : FC<{quizMode?: string, questionFormId?: string}> = ({ quizMode,questionFormId }) => { // TODO: props 만들기 (multipleChoiceQuizForm.tsx랑 겹침)
 
   const options:RadioOption[] = [  {
     id: 1,
@@ -45,6 +45,7 @@ export const OXQuizForm : FC<{quizMode?: string}> = ({ quizMode }) => {
           onChange={handleRadioGroupChange}
           isDisabled={disabled}
           autoFocus={true}
+          radioGroupName={questionFormId?.toString()!}
           LabelComponent={
             <div className={`${styles["new-option-label"]}`}>{option.value}</div>
           }

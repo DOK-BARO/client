@@ -10,6 +10,7 @@ const RadioButton: React.FC<RadioButtonProps> = ({
   className,
   autoFocus= false,
   icon,
+  radioGroupName,
   LabelComponent,
 }) => {
   return (
@@ -18,7 +19,7 @@ const RadioButton: React.FC<RadioButtonProps> = ({
         <div className={styles["radio-button"]}>
           <input
             type="radio"
-            name="radio-group"
+            name={radioGroupName}
             value={option.value}
             checked={selectedValue === option.value}
             onChange={() => onChange(option.value)}

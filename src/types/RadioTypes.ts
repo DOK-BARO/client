@@ -14,5 +14,6 @@ export interface RadioButtonProps {
   className?: string;
   autoFocus : boolean;
   icon?: ReactElement | null;
+  radioGroupName: string;
   LabelComponent: ReactElement;
 }

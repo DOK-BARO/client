@@ -88,7 +88,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
             placeholder="질문을 입력해주세요."
           />
         </div>
-        {React.cloneElement(questionFormType.FormComponent, { quizMode })}
+        {React.cloneElement(questionFormType.FormComponent, { questionFormId:id.toString(), quizMode })}
       </div>
 
       {

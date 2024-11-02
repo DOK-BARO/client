@@ -5,7 +5,7 @@ import { FC, useState } from "react";
 import { QuizFormMode } from "@/data/constants.ts";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
 
-export const MultipleChoiceQuizForm : FC<{quizMode?: string}> = ({ quizMode }) => {
+export const MultipleChoiceQuizForm : FC<{quizMode?: string, questionFormId?: string}> = ({ quizMode , questionFormId}) => {
   const [options, setOptions] = useState<RadioOption[]>([]);
   const [focusedOptionIndex, setFocusedOptionIndex] = useState<number | null>(null);
   const { selectedValue: selectedRadioGroupValue, handleChange: handleRadioGroupChange } = useRadioGroup("");
@@ -51,6 +51,7 @@ export const MultipleChoiceQuizForm : FC<{quizMode?: string}> = ({ quizMode }) =
       {options.map((item) =>
         <QuizWriteFormOptionItem
           key={item.id}
+          questionFormId={questionFormId!}
           option={item}
           deleteOption={deleteOption}
           focusedOptionIndex={focusedOptionIndex}

@@ -16,6 +16,7 @@ interface QuizOptionItemProps {
   selectedValue: string;
   onChange: (value: string) => void;
   setText: (optionId: number, value: string) => void;
+  questionFormId: string;
 }
 
 export default function QuizWriteFormOptionItem({
@@ -28,6 +29,7 @@ export default function QuizWriteFormOptionItem({
   selectedValue,
   onChange,
   setText,
+  questionFormId,
 }: QuizOptionItemProps) {
   const { onChange: onOptionChange, value: optionText } = useInput(option.value); // input임
 
@@ -43,6 +45,7 @@ export default function QuizWriteFormOptionItem({
       onBlur={handleOptionBlur}
     >
       <RadioButton
+        radioGroupName={questionFormId}
         option={option}
         selectedValue={selectedValue}
         onChange={() => onChange(optionText)}

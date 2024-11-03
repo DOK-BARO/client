@@ -1,5 +1,5 @@
 import styles from "./_quiz_setting_study_group_form.module.scss";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useModal from "@/hooks/useModal.ts";
 import useInput from "@/hooks/useInput.ts";
 import Button from "@/components/atom/button/button.tsx";
@@ -23,9 +23,8 @@ export default function QuizSettingStudyGroupForm() {
   const [studyGroupList, setStudyGroupList] = useState<StudyGroupSelectType[]>(
     []
   );
-  const [selectedStudyGroupList, setSelectedStudyGroupList] = useState<
-    StudyGroupSelectType[]
-  >([]);
+  const [selectedStudyGroup, setSelectedStudyGroup] =
+    useState<StudyGroupSelectType | null>(null);
   const [newStudyGroup, setNewStudyGroup] = useState<string | null>(null);
 
   // 모달 안 인풋
@@ -45,7 +44,7 @@ export default function QuizSettingStudyGroupForm() {
 
   // 입력한 스터디 그룹 삭제
   const removeStudyGroup = () => {
-    setNewStudyGroup("");
+    setNewStudyGroup(null);
     // 인풋 value도 초기화
     resetStudyNameInput("");
   };
@@ -85,23 +84,23 @@ export default function QuizSettingStudyGroupForm() {
   };
 
   // 전체배열이랑 선택된 배열 상태 동기화 (알람 설정 상태)
-  useEffect(() => {
-    setSelectedStudyGroupList((prevList) =>
-      prevList.map((selectedGroup) => {
-        const updatedGroup = studyGroupList.find(
-          (group) => group.id === selectedGroup.id
-        );
+  // useEffect(() => {
+  //   setSelectedStudyGroupList((prevList) =>
+  //     prevList.map((selectedGroup) => {
+  //       const updatedGroup = studyGroupList.find(
+  //         (group) => group.id === selectedGroup.id
+  //       );
 
-        return updatedGroup
-          ? { ...selectedGroup, isSetAlarm: updatedGroup.isSetAlarm }
-          : selectedGroup;
-      })
-    );
-  }, [studyGroupList]);
+  //       return updatedGroup
+  //         ? { ...selectedGroup, isSetAlarm: updatedGroup.isSetAlarm }
+  //         : selectedGroup;
+  //     })
+  //   );
+  // }, [studyGroupList]);
 
-  useEffect(() => {
-    console.log(studyGroupList, selectedStudyGroupList);
-  }, [studyGroupList, selectedStudyGroupList]);
+  // useEffect(() => {
+  //   console.log(studyGroupList, selectedStudyGroupList);
+  // }, [studyGroupList, selectedStudyGroupList]);
 
   return (
     <>
@@ -114,15 +113,13 @@ export default function QuizSettingStudyGroupForm() {
             <article
               id={studyGroup.id.toString()}
               className={`${styles["study-group"]} ${
-                selectedStudyGroupList.some((item) => item.id === studyGroup.id)
-                  ? styles["selected"]
+                selectedStudyGroup?.id === studyGroup.id
+                  ? styles.selected
                   : null
               }`}
               onClick={() => {
-                setSelectedStudyGroupList((prevList) => {
-                  const isAlreadySelected = prevList.some(
-                    (item) => item.id === studyGroup.id
-                  );
+                setSelectedStudyGroup((prev) => {
+                  const isAlreadySelected = prev?.id === studyGroup.id;
 
                   // 이미 선택 o -> 선택 x (해제)
                   if (isAlreadySelected) {
@@ -134,21 +131,22 @@ export default function QuizSettingStudyGroupForm() {
                           : item
                       )
                     );
-                    return prevList.filter((item) => item.id !== studyGroup.id);
+                    return null;
                   }
 
                   // 이미 선택 x -> 선택 o
                   // 전체 리스트
+                  // 나머지 알람 삭제
                   setStudyGroupList((prevList) =>
                     prevList.map((item) =>
                       item.id === studyGroup.id
                         ? { ...item, isSetAlarm: true } // 알람 자동으로 설정
-                        : item
+                        : { ...item, isSetAlarm: false }
                     )
                   );
 
-                  // 선택 리스트
-                  return [...prevList, { ...studyGroup, isSetAlarm: true }];
+                  // 선택 스터디그룹
+                  return { ...studyGroup, isSetAlarm: true };
                 });
               }}
             >
@@ -173,17 +171,15 @@ export default function QuizSettingStudyGroupForm() {
                     )
                   );
 
-                  setSelectedStudyGroupList((prevList) => {
-                    const isAlreadySelected = prevList.some(
-                      (item) => item.id === studyGroup.id
-                    );
+                  setSelectedStudyGroup((prev) => {
+                    const isAlreadySelected = prev?.id === studyGroup.id;
 
                     // 선택된 스터디가 아닐 경우 토글 on
                     if (!isAlreadySelected) {
-                      return [...prevList, { ...studyGroup, isSetAlarm: true }];
+                      return { ...studyGroup, isSetAlarm: true };
                     }
 
-                    return prevList;
+                    return prev;
                   });
                 }}
               />
@@ -192,26 +188,28 @@ export default function QuizSettingStudyGroupForm() {
         </>
       )}
 
-      <Button
-        size="large"
-        className={styles["add-study-group"]}
-        onClick={() => {
-          openModal();
-          setNewStudyGroup(null);
-          resetStudyNameInput("");
-        }}
-        icon={
-          <QuizPlus
-            alt="스터디 그룹 추가 버튼"
-            width={24}
-            height={24}
-            stroke={primary}
-          />
-        }
-        color="secondary"
-      >
-        스터디 만들기
-      </Button>
+      {!newStudyGroup ? (
+        <Button
+          size="large"
+          className={styles["add-study-group"]}
+          onClick={() => {
+            openModal();
+            setNewStudyGroup(null);
+            resetStudyNameInput("");
+          }}
+          icon={
+            <QuizPlus
+              alt="스터디 그룹 추가 버튼"
+              width={24}
+              height={24}
+              stroke={primary}
+            />
+          }
+          color="secondary"
+        >
+          스터디 만들기
+        </Button>
+      ) : null}
       {isModalOpen && (
         <Modal
           className={styles["add-study-group-modal"]}

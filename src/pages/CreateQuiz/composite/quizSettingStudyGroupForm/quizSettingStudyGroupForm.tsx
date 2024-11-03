@@ -12,13 +12,15 @@ import { Link } from "@/svg/link";
 import { Copy } from "@/svg/copy";
 import { StudyGroupType } from "@/types/StudyGroupType";
 import Toggle from "@/components/atom/toggle/toggle";
+import { useAtom } from "jotai";
+import { isQuizNextButtonEnabledAtom } from "@/store/quizAtom";
 
 export interface StudyGroupSelectType extends StudyGroupType {
   isSetAlarm: boolean;
 }
 
 // 1.스터디 선택
-export default function QuizSettingStudyGroupForm({setIsButtonDisabled}: {setIsButtonDisabled: (disabled:boolean) => void}) {
+export default function QuizSettingStudyGroupForm() {
   const { isModalOpen, openModal, closeModal } = useModal();
   const [studyGroupList, setStudyGroupList] = useState<StudyGroupSelectType[]>(
     []
@@ -26,7 +28,13 @@ export default function QuizSettingStudyGroupForm({setIsButtonDisabled}: {setIsB
   const [selectedStudyGroup, setSelectedStudyGroup] =
     useState<StudyGroupSelectType | null>(null);
   const [newStudyGroup, setNewStudyGroup] = useState<string | null>(null);
+  const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
+    isQuizNextButtonEnabledAtom
+  );
 
+  useEffect(() => {
+    setIsQuizNextButtonEnabled(true);
+  }, []);
   // 모달 안 인풋
   const {
     value: studyName,
@@ -82,10 +90,6 @@ export default function QuizSettingStudyGroupForm({setIsButtonDisabled}: {setIsB
     setTempId(tempId - 1);
     closeModal();
   };
-
-  useEffect(() => {
-    setIsButtonDisabled(false);
-  },[]);
 
   // 전체배열이랑 선택된 배열 상태 동기화 (알람 설정 상태)
   // useEffect(() => {

@@ -2,33 +2,36 @@
 @import "../../../../styles/abstracts/mixins";
 
 .search-book {
-  input {
-    border-color: $gray-40;
-  }
   .selection-list {
-    margin-top: 24px;
-    height: 276px;
+    margin-top: 10px;
+    height: 402px;
     width: 100%;
     border: 1px solid $gray-40;
     background-color: $gray-00;
     border-radius: $border-radius-medium;
     overflow-y: scroll;
     padding: 16px;
+    padding-right: 0;
     display: flex;
     flex-direction: column;
     // gap: 12px;
+    @include scroll-bar;
   }
 }
+
+.selected-book {
+  background-color: $gray-00;
+  border: 2px solid $primary;
+  border-radius: $border-radius-medium;
+  margin-top: 10px;
+}
+
 .booklist-item {
   display: flex;
   gap: 28px;
   cursor: pointer;
   padding: 20px 16px;
   border: 2px solid transparent;
-  &.active {
-    border: 2px solid $primary;
-    border-radius: $border-radius-medium;
-  }
 
   .info-container {
     @include flex(column);

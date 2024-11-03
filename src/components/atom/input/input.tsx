@@ -46,8 +46,8 @@ const Input: React.FC<InputProps> = ({
     isError ? styles["input--error"] : ""
   } ${isSuccess ? styles["input--success"] : ""}
   ${styles[`input--${color}`]} ${fullWidth ? styles.full : ""} 
-    ${leftIcon ? styles["input--left-icon"] : ""} ${
-    rightIcon ? styles["input--right-icon"] : ""
+    ${leftIcon ? styles[`input--left-icon-${size}`] : ""} ${
+    rightIcon ? styles[`input--left-icon-${size}`] : ""
   } ${customClassName || ""}`;
 
   return (

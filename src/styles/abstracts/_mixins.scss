@@ -51,7 +51,6 @@
   }
 }
 
-
 @mixin textarea-base {
   line-height: 1.5em;
   font-family: inherit;
@@ -64,6 +63,23 @@
 
   & {
     resize: none;
+  }
+}
+
+@mixin scroll-bar {
+  &::-webkit-scrollbar {
+    width: 40px;
+    &-track {
+      width: 8px;
+      background: none;
+    }
+    &-thumb {
+      width: 8px;
+      border-radius: 9999px;
+      background-clip: padding-box;
+      border: 16px solid transparent;
+      background-color: $gray-40;
+    }
   }
 }
 

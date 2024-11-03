@@ -18,7 +18,7 @@ export interface StudyGroupSelectType extends StudyGroupType {
 }
 
 // 1.스터디 선택
-export default function QuizSettingStudyGroupForm() {
+export default function QuizSettingStudyGroupForm({setIsButtonDisabled}: {setIsButtonDisabled: (disabled:boolean) => void}) {
   const { isModalOpen, openModal, closeModal } = useModal();
   const [studyGroupList, setStudyGroupList] = useState<StudyGroupSelectType[]>(
     []
@@ -83,6 +83,10 @@ export default function QuizSettingStudyGroupForm() {
     setTempId(tempId - 1);
     closeModal();
   };
+
+  useEffect(() => {
+    setIsButtonDisabled(false);
+  },[]);
 
   // 전체배열이랑 선택된 배열 상태 동기화 (알람 설정 상태)
   useEffect(() => {

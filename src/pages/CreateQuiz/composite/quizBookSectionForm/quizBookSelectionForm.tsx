@@ -13,7 +13,7 @@ import React from "react";
 
 // 2. 도서 선택
 // Issue: 도서 선택 UI 변경 시 딜레이 있음
-export default function QuizBookSelectionForm() {
+export default function QuizBookSelectionForm({setIsButtonDisabled}: {setIsButtonDisabled: (disabled:boolean) => void}) {
   const {
     value: searchValue,
     onChange: onChangeSearchValue,
@@ -23,6 +23,8 @@ export default function QuizBookSelectionForm() {
   const [tempSelectedBook, setTempSelectedBook] = useState<BookType | null>(
     null
   );
+
+  const [selectedBookId, setSelectedBookId] = useState<number | null>(null);
 
   // 검색어 지워져도 남아있는 // 사용자가 확실히 도서를 선택했을 때만 바뀜
   const [selectedBook, setSelectedBook] = useState<BookType | null>(
@@ -45,6 +47,16 @@ export default function QuizBookSelectionForm() {
     enabled: debouncedSearchValue !== "",
   });
 
+  useEffect(() => {
+    setIsButtonDisabled(true);
+  },[]);
+
+  useEffect(() => {
+    if(!!selectedBookId){
+      setIsButtonDisabled(false);
+    }
+  },[selectedBookId]);
+  
   useEffect(() => {
     if (debouncedSearchValue !== "") {
       refetch();

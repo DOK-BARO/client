@@ -4,8 +4,10 @@ import useInput from "@/hooks/useInput.ts";
 import { useEffect, useRef } from "react";
 import Textarea from "@/components/atom/textarea/textarea.tsx";
 import useTextarea from "@/hooks/useTextarea.ts";
+import React from 'react';
 
-export default function QuizBasicInfoForm({ setIsButtonDisabled } : {setIsButtonDisabled: (isDisabled: boolean) => void}) {
+
+ function QuizBasicInfoForm({ setIsButtonDisabled } : {setIsButtonDisabled: (isDisabled: boolean) => void}) {
   const descriptionMaxLength = 150;
   const  { value:titleInputValue,onChange:onTitleChange }= useInput("");
   const { value:descriptionTextareaValue,onChange:onDescriptionChange }= useTextarea("");
@@ -53,3 +55,6 @@ export default function QuizBasicInfoForm({ setIsButtonDisabled } : {setIsButton
     </div>
   );
 }
+
+const MemoizedQuizBasicInfoForm = React.memo(QuizBasicInfoForm);
+export default MemoizedQuizBasicInfoForm;

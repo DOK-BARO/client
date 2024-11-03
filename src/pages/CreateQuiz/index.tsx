@@ -6,7 +6,7 @@ import QuizWriteForm from "./composite/quizWriteForm/quizWriteForm.tsx";
 import QuizSettingsForm from "./composite/quizSettingsForm/quizSettingsForm.tsx";
 import QuizCreationFormLayout from "./layout/quizCreationFormLayout/quizCreationFormLayout.tsx";
 import QuizCreationSteps from "./layout/quizCreationSteps/quizCreationSteps.tsx";
-import QuizBasicInfoForm from "@/pages/CreateQuiz/composite/quizBasicInfoForm/quizBasicInfoForm.tsx";
+import MemoizedQuizBasicInfoForm from "@/pages/CreateQuiz/composite/quizBasicInfoForm/quizBasicInfoForm.tsx";
 
 interface FormComponentProps {
   setCurrentStep: Dispatch<SetStateAction<number>>;
@@ -30,14 +30,14 @@ export default function Index() {
       icon: "👥",
       title: "스터디 선택",
       description: "퀴즈를 풀 스터디를 만들거나 선택해주세요.",
-      formComponent: () => <QuizSettingStudyGroupForm/>,
+      formComponent: () => <QuizSettingStudyGroupForm setIsButtonDisabled={setIsButtonDisabled}/>,
     },
     {
       order: 1,
       icon: "📚",
       title: "도서 선택",
       description: "퀴즈를 내고자 하는 도서를 선택해주세요.",
-      formComponent: () => <QuizBookSelectionForm/>,
+      formComponent: () => <QuizBookSelectionForm setIsButtonDisabled={setIsButtonDisabled}/>,
     },
     {
       order: 2,
@@ -48,7 +48,7 @@ export default function Index() {
           order: 2.1,
           title: "퀴즈 기본 정보 작성",
           description: "퀴즈 이름과 설명을 작성해주세요.",
-          formComponent: () => <QuizBasicInfoForm setIsButtonDisabled={setIsButtonDisabled}/>,
+          formComponent: () => <MemoizedQuizBasicInfoForm setIsButtonDisabled={setIsButtonDisabled}/>,
         },
         {
           order: 2.2,

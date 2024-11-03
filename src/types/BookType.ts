@@ -15,10 +15,7 @@ interface BookCategories {
 }
 
 export interface GetBookListParams {
-  title?: string;
-  authorName?: string;
-  description?: string;
-  category?: string;
-  page?: number;
+  keyword: string;
+  lastId?: number;
   size?: number;
 }

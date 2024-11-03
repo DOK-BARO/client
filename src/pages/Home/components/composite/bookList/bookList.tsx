@@ -6,10 +6,15 @@ import BookItem from "@/pages/Home/components/composite/bookItem/bookItem.tsx";
 // import { BookType } from "../../../../types/BookType";
 
 export default function BookList() {
-  const { data: bookList, isLoading } = useQuery({
+  // TODO: 페이징
+  const { data, isLoading } = useQuery({
     queryKey: bookKeys.list(),
     queryFn: () => getBookList(),
   });
+
+  const bookList = data?.data;
+  const endPageNumber = data?.endPageNumber;
+  console.log("endPageNumber", endPageNumber);
 
   if (isLoading) {
     return <div>loading</div>;
@@ -17,7 +22,6 @@ export default function BookList() {
   if (!bookList) {
     return <div>book list page error!!</div>;
   }
-  console.log(bookList);
 
   return (
     <section className={styles[""]}>

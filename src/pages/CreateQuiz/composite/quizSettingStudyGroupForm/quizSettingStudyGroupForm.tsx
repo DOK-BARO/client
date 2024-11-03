@@ -1,5 +1,5 @@
 import styles from "./_quiz_setting_study_group_form.module.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useModal from "@/hooks/useModal.ts";
 import useInput from "@/hooks/useInput.ts";
 import Button from "@/components/atom/button/button.tsx";

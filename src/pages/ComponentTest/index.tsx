@@ -58,6 +58,7 @@ export default function Index() {
 
           return <RadioButton
             key={option.id}
+            radioGroupName={"radio-group"}
             option={option}
             selectedValue={selectedValue}
             onChange={handleChange}

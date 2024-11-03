@@ -6,6 +6,7 @@ import BookItem from "@/pages/Home/components/composite/bookItem/bookItem.tsx";
 // import { BookType } from "../../../../types/BookType";
 
 export default function BookList() {
+  // TODO: 페이징
   const { data: bookList, isLoading } = useQuery({
     queryKey: bookKeys.list(),
     queryFn: () => getBookList(),

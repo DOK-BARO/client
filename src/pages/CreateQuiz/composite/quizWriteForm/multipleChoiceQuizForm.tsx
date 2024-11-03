@@ -8,7 +8,7 @@ import useRadioGroup from "@/hooks/useRadioGroup.ts";
 export const MultipleChoiceQuizForm : FC<{quizMode?: string, questionFormId?: string}> = ({ quizMode , questionFormId}) => {
   const [options, setOptions] = useState<RadioOption[]>([]);
   const [focusedOptionIndex, setFocusedOptionIndex] = useState<number | null>(null);
-  const { selectedValue: selectedRadioGroupValue, handleChange: handleRadioGroupChange } = useRadioGroup("");
+  const { selectedValue: selectedRadioGroupValue, handleChange: handleRadioGroupChange } = useRadioGroup(null);
   const disabled : boolean = quizMode === QuizFormMode.QUESTION;
 
   const deleteOption = (optionId: number) => {
@@ -31,6 +31,7 @@ export const MultipleChoiceQuizForm : FC<{quizMode?: string, questionFormId?: st
       return option;
     });
     setOptions(updatedOptions);
+    handleRadioGroupChange(null); // value가 변경되면 라디오 버튼이 자동 선택되기 때문에 라디오 버튼 선택 해제
   };
   
   const onClickAddQuizOptionItem = () => {

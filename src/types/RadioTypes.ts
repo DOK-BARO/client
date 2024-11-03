@@ -8,7 +8,7 @@ export interface RadioOption {
 
 export interface RadioButtonProps {
   option: RadioOption;
-  selectedValue: string;
+  selectedValue: string|null;
   onChange: (value: string) => void;
   isDisabled: boolean;
   className?: string;

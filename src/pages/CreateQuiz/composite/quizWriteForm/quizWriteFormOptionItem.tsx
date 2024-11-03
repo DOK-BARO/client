@@ -13,7 +13,7 @@ interface QuizOptionItemProps {
   handleOptionBlur: () => void;
   deleteOption: (id: number) => void;
   disabled: boolean;
-  selectedValue: string;
+  selectedValue: string | null;
   onChange: (value: string) => void;
   setText: (optionId: number, value: string) => void;
   questionFormId: string;

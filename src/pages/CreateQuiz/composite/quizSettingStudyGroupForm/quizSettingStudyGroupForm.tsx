@@ -1,5 +1,5 @@
 import styles from "./_quiz_setting_study_group_form.module.scss";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useModal from "@/hooks/useModal.ts";
 import useInput from "@/hooks/useInput.ts";
 import Button from "@/components/atom/button/button.tsx";
@@ -44,7 +44,7 @@ export default function QuizSettingStudyGroupForm() {
 
   // 입력한 스터디 그룹 삭제
   const removeStudyGroup = () => {
-    setNewStudyGroup("");
+    setNewStudyGroup(null);
     // 인풋 value도 초기화
     resetStudyNameInput("");
   };
@@ -188,26 +188,28 @@ export default function QuizSettingStudyGroupForm() {
         </>
       )}
 
-      <Button
-        size="large"
-        className={styles["add-study-group"]}
-        onClick={() => {
-          openModal();
-          setNewStudyGroup(null);
-          resetStudyNameInput("");
-        }}
-        icon={
-          <QuizPlus
-            alt="스터디 그룹 추가 버튼"
-            width={24}
-            height={24}
-            stroke={primary}
-          />
-        }
-        color="secondary"
-      >
-        스터디 만들기
-      </Button>
+      {!newStudyGroup ? (
+        <Button
+          size="large"
+          className={styles["add-study-group"]}
+          onClick={() => {
+            openModal();
+            setNewStudyGroup(null);
+            resetStudyNameInput("");
+          }}
+          icon={
+            <QuizPlus
+              alt="스터디 그룹 추가 버튼"
+              width={24}
+              height={24}
+              stroke={primary}
+            />
+          }
+          color="secondary"
+        >
+          스터디 만들기
+        </Button>
+      ) : null}
       {isModalOpen && (
         <Modal
           className={styles["add-study-group-modal"]}

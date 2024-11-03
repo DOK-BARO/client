@@ -42,8 +42,8 @@ export default function QuizBookSelectionForm({setIsButtonDisabled}: {setIsButto
     isFetching,
     refetch,
   } = useQuery({
-    queryKey: bookKeys.list({ title: debouncedSearchValue }),
-    queryFn: () => getBookList({ title: debouncedSearchValue }),
+    queryKey: bookKeys.list({ keyword: debouncedSearchValue }),
+    queryFn: () => getBookList({ keyword: debouncedSearchValue }),
     enabled: debouncedSearchValue !== "",
   });
 

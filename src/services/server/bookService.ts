@@ -3,27 +3,17 @@ import { BookType, GetBookListParams } from "../../types/BookType.ts";
 import { BookDetailType } from "../../types/BookDetailType.ts";
 import { BookCategory } from "../../types/GNBCategoryType.ts";
 
-// 책 목록, 책 상세정보 등을 가져오는 api 호출 로직
+// 책 통합검색
 export const getBookList = async (
-  params: GetBookListParams = {}
+  params?: GetBookListParams
 ): Promise<BookType[]> => {
-  const {
-    title = null,
-    authorName = null,
-    description = null,
-    category = null,
-    page = 1,
-    size = 24,
-  } = params || {};
+  const { keyword, lastId = null, size = 10 } = params || {};
 
   try {
-    const { data } = await axios.get("/books", {
+    const { data } = await axios.get("/books/integrated", {
       params: {
-        title,
-        authorName,
-        description,
-        category,
-        page,
+        keyword,
+        lastId,
         size,
       },
     });

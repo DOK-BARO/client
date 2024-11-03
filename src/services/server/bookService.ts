@@ -10,7 +10,7 @@ import { BookCategory } from "../../types/GNBCategoryType.ts";
 // 책 목록, 책 상세정보 가져오기
 export const getBookList = async (
   params: GetBookListParams = {}
-): Promise<BookType[]> => {
+): Promise<{ data: BookType[]; endPageNumber: number }> => {
   const {
     title = null,
     authorName = null,

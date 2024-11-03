@@ -5,6 +5,7 @@ import styles from "./_quiz_write_form_option_item.module.scss";
 import RadioButton from "@/components/atom/radioButton/radioButton.tsx";
 import { Close } from "@/svg/close.tsx";
 import { gray90 } from "@/styles/abstracts/colors.ts";
+import { QuizFormMode } from "@/data/constants";
 
 interface QuizOptionItemProps {
   option: RadioOption;
@@ -12,11 +13,11 @@ interface QuizOptionItemProps {
   handleOptionFocus: (id: number) => void;
   handleOptionBlur: () => void;
   deleteOption: (id: number) => void;
-  disabled: boolean;
   selectedValue: string | null;
   onChange: (value: string) => void;
   setText: (optionId: number, value: string) => void;
   questionFormId: string;
+  quizMode: string;
 }
 
 export default function QuizWriteFormOptionItem({
@@ -25,11 +26,11 @@ export default function QuizWriteFormOptionItem({
   deleteOption,
   handleOptionFocus,
   handleOptionBlur,
-  disabled,
   selectedValue,
   onChange,
   setText,
   questionFormId,
+  quizMode,
 }: QuizOptionItemProps) {
   const { onChange: onOptionChange, value: optionText } = useInput(option.value); // input임
 
@@ -38,9 +39,13 @@ export default function QuizWriteFormOptionItem({
     setText(option.id, e.target.value);
   };
 
+
+  const isChecked = selectedValue === optionText;
+
+
   return (
     <div key={option.id}
-      className={`${styles["option-container"]} ${focusedOptionIndex === option.id ? styles["focused"] : ""}`}
+      className={`${styles["option-container"]} ${focusedOptionIndex === option.id ? styles["focused"] : ""} ${isChecked ? styles["checked"] : ""}`}
       onFocus={() => handleOptionFocus(option.id)}
       onBlur={handleOptionBlur}
     >
@@ -49,13 +54,12 @@ export default function QuizWriteFormOptionItem({
         option={option}
         selectedValue={selectedValue}
         onChange={() => onChange(optionText)}
-        isDisabled={disabled}
+        isDisabled={quizMode === QuizFormMode.QUESTION}
         className={`${styles["new-option"]} ${focusedOptionIndex === option.id ? styles["focused"] : ""}`}
         autoFocus={true}
         LabelComponent={
-          disabled ?
+          quizMode === QuizFormMode.QUESTION ?
             <input
-              disabled={!disabled}
               id={`${option.id}`}
               name={"radio-group"}
               value={optionText}
@@ -66,14 +70,17 @@ export default function QuizWriteFormOptionItem({
             <div className={`${styles["new-option-label"]}`}>{optionText}</div>
         }
       />
-      <button
-        className={styles["delete-option-button"]}
-        onClick={() => {
-          deleteOption(option.id);
-        }}
-      >
-        <Close width={20} height={20} stroke={gray90} strokeWidth={2}/>
-      </button>
+      {quizMode === QuizFormMode.QUESTION
+        &&
+        <button
+          className={styles["delete-option-button"]}
+          onClick={() => {
+            deleteOption(option.id);
+          }}
+        >
+          <Close width={20} height={20} stroke={gray90} strokeWidth={2} />
+        </button>
+      }
     </div>
   );
 }

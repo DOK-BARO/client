@@ -1,7 +1,7 @@
 import styles from "@/pages/CreateQuiz/composite/quizWriteForm/_quiz_write_form_item.module.scss";
 import QuizWriteFormOptionItem from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormOptionItem.tsx";
 import { RadioOption } from "@/types/RadioTypes.ts";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { QuizFormMode } from "@/data/constants.ts";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
 
@@ -9,7 +9,7 @@ export const MultipleChoiceQuizForm : FC<{quizMode?: string, questionFormId?: st
   const [options, setOptions] = useState<RadioOption[]>([]);
   const [focusedOptionIndex, setFocusedOptionIndex] = useState<number | null>(null);
   const { selectedValue: selectedRadioGroupValue, handleChange: handleRadioGroupChange } = useRadioGroup(null);
-  const disabled : boolean = quizMode === QuizFormMode.QUESTION;
+  //const disabled : boolean = quizMode === QuizFormMode.QUESTION;
 
   const deleteOption = (optionId: number) => {
     setOptions(options.filter((option) => option.id !== optionId));
@@ -18,6 +18,10 @@ export const MultipleChoiceQuizForm : FC<{quizMode?: string, questionFormId?: st
   const handleOptionFocus = (id: number) => {
     setFocusedOptionIndex(id);
   };
+  
+  useEffect(()=> {
+    handleRadioGroupChange(null);
+  }, [quizMode]);
 
   const handleOptionBlur = () => {
     setFocusedOptionIndex(null);
@@ -58,7 +62,7 @@ export const MultipleChoiceQuizForm : FC<{quizMode?: string, questionFormId?: st
           focusedOptionIndex={focusedOptionIndex}
           handleOptionFocus={handleOptionFocus}
           handleOptionBlur={handleOptionBlur}
-          disabled={disabled}
+          quizMode={quizMode!}
           onChange={handleRadioGroupChange}
           setText={setText}
           selectedValue={selectedRadioGroupValue}

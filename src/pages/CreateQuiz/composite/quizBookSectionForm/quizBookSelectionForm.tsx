@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import useInput from "@/hooks/useInput.ts";
 import { bookKeys } from "@/data/queryKeys.ts";
-import { getBookList } from "@/services/server/bookService.ts";
+import { searchBookList } from "@/services/server/bookService.ts";
 import Input from "@/components/atom/input/input.tsx";
 import { Search } from "@/svg/search";
 import { gray60 } from "@/styles/abstracts/colors";
@@ -42,8 +42,8 @@ export default function QuizBookSelectionForm({setIsButtonDisabled}: {setIsButto
     isFetching,
     refetch,
   } = useQuery({
-    queryKey: bookKeys.list({ keyword: debouncedSearchValue }),
-    queryFn: () => getBookList({ keyword: debouncedSearchValue }),
+    queryKey: bookKeys.search({ keyword: debouncedSearchValue }),
+    queryFn: () => searchBookList({ keyword: debouncedSearchValue }),
     enabled: debouncedSearchValue !== "",
   });
 

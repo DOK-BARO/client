@@ -15,7 +15,17 @@ interface BookCategories {
 }
 
 export interface GetBookListParams {
-  keyword: string;
+  title?: string;
+  authorName?: string;
+  description?: string;
+  category?: string;
+  page?: number;
+  size?: number;
+  sort?: "PUBLISHED_AT" | "TITLE" | "QUIZ_COUNT";
+  direction?: "ASC" | "DESC";
+}
+export interface SearchBookListParams {
+  keyword?: string;
   lastId?: number;
   size?: number;
 }

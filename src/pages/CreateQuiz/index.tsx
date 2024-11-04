@@ -18,26 +18,24 @@ export interface Step {
   title: string;
   description?: string;
   formComponent?: (props?: FormComponentProps) => JSX.Element;
-  subSteps?: Step [];
+  subSteps?: Step[];
 }
 
 export default function Index() {
-  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(true);
-
   const steps: Step[] = [
     {
       order: 0,
       icon: "👥",
       title: "스터디 선택",
       description: "퀴즈를 풀 스터디를 만들거나 선택해주세요.",
-      formComponent: () => <QuizSettingStudyGroupForm setIsButtonDisabled={setIsButtonDisabled}/>,
+      formComponent: () => <QuizSettingStudyGroupForm />,
     },
     {
       order: 1,
       icon: "📚",
       title: "도서 선택",
       description: "퀴즈를 내고자 하는 도서를 선택해주세요.",
-      formComponent: () => <QuizBookSelectionForm setIsButtonDisabled={setIsButtonDisabled}/>,
+      formComponent: () => <QuizBookSelectionForm />,
     },
     {
       order: 2,
@@ -48,13 +46,13 @@ export default function Index() {
           order: 2.1,
           title: "퀴즈 기본 정보 작성",
           description: "퀴즈 이름과 설명을 작성해주세요.",
-          formComponent: () => <MemoizedQuizBasicInfoForm setIsButtonDisabled={setIsButtonDisabled}/>,
+          formComponent: () => <MemoizedQuizBasicInfoForm />,
         },
         {
           order: 2.2,
           title: "문제 작성",
           description: "퀴즈의 질문과 답안을 설정해주세요.",
-          formComponent: () => <QuizWriteForm/>,
+          formComponent: () => <QuizWriteForm />,
         },
       ],
     },
@@ -63,7 +61,7 @@ export default function Index() {
       icon: "🔗",
       title: "공유 설정",
       description: "퀴즈를 볼 수 있는 사람과 제한 시간을 설정해 주세요.",
-      formComponent: () => <QuizSettingsForm/>,
+      formComponent: () => <QuizSettingsForm />,
     },
   ];
 
@@ -80,7 +78,6 @@ export default function Index() {
         steps={steps}
         currentStep={currentStep}
         setCurrentStep={setCurrentStep}
-        isButtonDisabled={isButtonDisabled}
       />
     </section>
   );

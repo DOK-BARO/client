@@ -4,29 +4,34 @@ import useInput from "@/hooks/useInput.ts";
 import { useEffect, useRef } from "react";
 import Textarea from "@/components/atom/textarea/textarea.tsx";
 import useTextarea from "@/hooks/useTextarea.ts";
-import React from 'react';
+import React from "react";
+import { isQuizNextButtonEnabledAtom } from "@/store/quizAtom";
+import { useAtom } from "jotai";
 
-
- function QuizBasicInfoForm({ setIsButtonDisabled } : {setIsButtonDisabled: (isDisabled: boolean) => void}) {
+function QuizBasicInfoForm() {
   const descriptionMaxLength = 150;
-  const  { value:titleInputValue,onChange:onTitleChange }= useInput("");
-  const { value:descriptionTextareaValue,onChange:onDescriptionChange }= useTextarea("");
+  const { value: titleInputValue, onChange: onTitleChange } = useInput("");
+  const { value: descriptionTextareaValue, onChange: onDescriptionChange } =
+    useTextarea("");
+  const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
+    isQuizNextButtonEnabledAtom
+  );
 
   useEffect(() => {
-    const isDisabled = titleInputValue.trim() === "" || descriptionTextareaValue.trim() === "";
-    setIsButtonDisabled(isDisabled);
-  }, [titleInputValue, descriptionTextareaValue, setIsButtonDisabled]);
+    const isDisabled =
+      titleInputValue.trim() === "" || descriptionTextareaValue.trim() === "";
+    setIsQuizNextButtonEnabled(isDisabled);
+  }, [titleInputValue, descriptionTextareaValue]);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // 자동 높이 조절
   useEffect(() => {
-
     if (textareaRef.current) {
-      if(descriptionTextareaValue.length > 0){
+      if (descriptionTextareaValue.length > 0) {
         textareaRef.current.style.height = "auto"; // 초기 높이를 auto로 설정
         textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; // 내용에 따라 높이 조절
-      }else{
+      } else {
         textareaRef.current.style.height = "56px";
       }
     }

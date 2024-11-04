@@ -1,6 +1,6 @@
 import styles from "./_quiz_book_selection_form.module.scss";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 import useInput from "@/hooks/useInput.ts";
 import { bookKeys } from "@/data/queryKeys.ts";
 import { searchBookList } from "@/services/server/bookService.ts";
@@ -10,21 +10,24 @@ import { gray60 } from "@/styles/abstracts/colors";
 import useDebounce from "@/hooks/useDebounce";
 import { BookType } from "@/types/BookType";
 import React from "react";
+import { useAtom } from "jotai";
+import { isQuizNextButtonEnabledAtom } from "@/store/quizAtom";
 
 // 2. 도서 선택
 // Issue: 도서 선택 UI 변경 시 딜레이 있음
-export default function QuizBookSelectionForm({setIsButtonDisabled}: {setIsButtonDisabled: (disabled:boolean) => void}) {
+export default function QuizBookSelectionForm() {
   const {
     value: searchValue,
     onChange: onChangeSearchValue,
     resetInput: resetSearchValueInput,
   } = useInput("");
+  const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
+    isQuizNextButtonEnabledAtom
+  );
 
   const [tempSelectedBook, setTempSelectedBook] = useState<BookType | null>(
     null
   );
-
-  const [selectedBookId, setSelectedBookId] = useState<number | null>(null);
 
   // 검색어 지워져도 남아있는 // 사용자가 확실히 도서를 선택했을 때만 바뀜
   const [selectedBook, setSelectedBook] = useState<BookType | null>(
@@ -47,16 +50,6 @@ export default function QuizBookSelectionForm({setIsButtonDisabled}: {setIsButto
     enabled: debouncedSearchValue !== "",
   });
 
-  useEffect(() => {
-    setIsButtonDisabled(true);
-  },[]);
-
-  useEffect(() => {
-    if(!!selectedBookId){
-      setIsButtonDisabled(false);
-    }
-  },[selectedBookId]);
-  
   useEffect(() => {
     if (debouncedSearchValue !== "") {
       refetch();
@@ -83,10 +76,11 @@ export default function QuizBookSelectionForm({setIsButtonDisabled}: {setIsButto
 
   // 도서 선택(클릭)
   const onBookSelect = (book: BookType) => {
-    // 전역 변수에 저장
     setSelectedBook(book);
-    setTempSelectedBook(book);
     resetSearchValueInput();
+
+    // 책이 선택되면 버튼 enabled
+    setIsQuizNextButtonEnabled(true);
   };
 
   const BookListItem = React.memo(

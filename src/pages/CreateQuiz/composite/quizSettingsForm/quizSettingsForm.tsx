@@ -1,15 +1,49 @@
 import { useEffect, useState } from "react";
 import styles from "./_quiz_settings_form.module.scss";
 import Button from "@/components/atom/button/button";
-// import arrowDown from "/svg/quizSettingForm/arrowDown.svg";
-// TODO: 파일 분리
+import { isQuizNextButtonEnabledAtom } from "@/store/quizAtom";
+import { useAtom } from "jotai";
 
+// TODO: 파일 분리
+interface SelectedOptions {
+  [key: string]: string | null;
+}
 // 4. 퀴즈 설정
 export default function QuizSettingsForm() {
+  const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
+    isQuizNextButtonEnabledAtom
+  );
+  const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>({
+    "time-limit": null,
+    "view-access": null,
+    "edit-access": null,
+  }); // 선택된 옵션들
+
+  const handleOptionSelect = (settingName: string, label: string) => {
+    setSelectedOptions((prev) => ({
+      ...prev,
+      [settingName]: label,
+    }));
+  };
+
+  // 모든 항목이 선택되었는지 체크
+  useEffect(() => {
+    const isAllSelected = quizSettings.every(
+      (setting) => selectedOptions[setting.name] !== null
+    );
+    console.log(selectedOptions, isAllSelected);
+
+    setIsQuizNextButtonEnabled(isAllSelected);
+  }, [selectedOptions, setIsQuizNextButtonEnabled]);
+
   return (
     <>
       {quizSettings.map((quizSetting) => (
-        <SettingContainer key={quizSetting.name} quizSetting={quizSetting} />
+        <SettingContainer
+          key={quizSetting.name}
+          quizSetting={quizSetting}
+          onOptionSelect={handleOptionSelect}
+        />
       ))}
     </>
   );
@@ -91,30 +125,36 @@ const quizSettings: QuizSetting[] = [
   },
 ];
 
-const SettingContainer = ({ quizSetting }: { quizSetting: QuizSetting }) => {
+const SettingContainer = ({
+  quizSetting,
+  onOptionSelect,
+}: {
+  quizSetting: QuizSetting;
+  onOptionSelect: (name: string, label: string) => void;
+}) => {
   const arrowDown = "/assets/svg/quizSettingForm/arrowDown.svg";
   const options = quizSetting.options;
-  // const [selectedLabel, setSelectedValue] = useState("");
   const [label, setLabel] = useState<string | null>(null);
   const [description, setDescription] = useState<string>("");
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
 
-  const onSelect = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const onSelect = (e: React.MouseEvent<HTMLButtonElement>, name: string) => {
     const value = e.currentTarget.value;
     setLabel(value);
+    onOptionSelect(name, value);
     setIsSelectOpen((prev) => !prev);
   };
 
   useEffect(() => {
-    const selectedOption = quizSetting.options.find(
-      (option) => option.label === label
-    );
+    const selectedOption = options.find((option) => option.label === label);
 
     setDescription(
-      selectedOption
-        ? selectedOption.description
-        : quizSetting.options[0].description
+      selectedOption ? selectedOption.description : options[0].description
     );
+  }, [label]);
+
+  useEffect(() => {
+    console.log(quizSetting.options);
   }, [label]);
 
   return (
@@ -137,7 +177,7 @@ const SettingContainer = ({ quizSetting }: { quizSetting: QuizSetting }) => {
           {options.map((option: QuizSettingOption) => (
             <li key={option.label}>
               <Button
-                onClick={onSelect}
+                onClick={(e) => onSelect(e, quizSetting.name)}
                 value={option.label}
                 className={styles.option}
               >
@@ -147,10 +187,7 @@ const SettingContainer = ({ quizSetting }: { quizSetting: QuizSetting }) => {
           ))}
         </ul>
       ) : null}
-      <span className={styles["desc"]}>
-        {/* 옵션 label에 맞는 desc을 보여줘야 함. */}
-        {description}
-      </span>
+      <span className={styles["desc"]}>{description}</span>
     </div>
   );
 };

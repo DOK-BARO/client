@@ -5,11 +5,10 @@ import { FC, useEffect, useState } from "react";
 import { QuizFormMode } from "@/data/constants.ts";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
 
-export const MultipleChoiceQuizForm : FC<{quizMode?: string, questionFormId?: string}> = ({ quizMode , questionFormId}) => {
+export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: string }> = ({ quizMode, questionFormId }) => {
   const [options, setOptions] = useState<RadioOption[]>([]);
   const [focusedOptionIndex, setFocusedOptionIndex] = useState<number | null>(null);
   const { selectedValue: selectedRadioGroupValue, handleChange: handleRadioGroupChange } = useRadioGroup(null);
-  //const disabled : boolean = quizMode === QuizFormMode.QUESTION;
 
   const deleteOption = (optionId: number) => {
     setOptions(options.filter((option) => option.id !== optionId));
@@ -18,8 +17,8 @@ export const MultipleChoiceQuizForm : FC<{quizMode?: string, questionFormId?: st
   const handleOptionFocus = (id: number) => {
     setFocusedOptionIndex(id);
   };
-  
-  useEffect(()=> {
+
+  useEffect(() => {
     handleRadioGroupChange(null);
   }, [quizMode]);
 
@@ -37,7 +36,7 @@ export const MultipleChoiceQuizForm : FC<{quizMode?: string, questionFormId?: st
     setOptions(updatedOptions);
     handleRadioGroupChange(null); // value가 변경되면 라디오 버튼이 자동 선택되기 때문에 라디오 버튼 선택 해제
   };
-  
+
   const onClickAddQuizOptionItem = () => {
     const id = Date.now();
     setOptions((prev) => [
@@ -69,8 +68,8 @@ export const MultipleChoiceQuizForm : FC<{quizMode?: string, questionFormId?: st
         />,
       )}
       {
-        quizMode == QuizFormMode.QUESTION  && 
-            <AddOptionButton onAdd={onClickAddQuizOptionItem}/>
+        quizMode == QuizFormMode.QUESTION &&
+        <AddOptionButton onAdd={onClickAddQuizOptionItem} />
       }
     </fieldset>
   );
@@ -84,7 +83,7 @@ function AddOptionButton({ onAdd }: { onAdd: () => void }) {
       <button
         className={styles["option-add-button"]}
         onClick={onAdd}>
-        <div className={styles["option-add-button-check-circle"]}/>
+        <div className={styles["option-add-button-check-circle"]} />
         <span>옵션 추가하기</span>
       </button>
     </div>

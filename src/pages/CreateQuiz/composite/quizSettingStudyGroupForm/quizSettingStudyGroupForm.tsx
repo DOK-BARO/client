@@ -19,6 +19,7 @@ export interface StudyGroupSelectType extends StudyGroupType {
   isSetAlarm: boolean;
 }
 
+// TODO: 컴포넌트 분리
 // 1.스터디 선택
 export default function QuizSettingStudyGroupForm() {
   const { isModalOpen, openModal, closeModal } = useModal();
@@ -28,6 +29,8 @@ export default function QuizSettingStudyGroupForm() {
   const [selectedStudyGroup, setSelectedStudyGroup] =
     useState<StudyGroupSelectType | null>(null);
   const [newStudyGroup, setNewStudyGroup] = useState<string | null>(null);
+  const [isNewStudyGroupAdded, setNewStudyGroupAdded] =
+    useState<boolean>(false);
   const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
     IsQuizNextButtonEnabledAtom
   );
@@ -35,6 +38,7 @@ export default function QuizSettingStudyGroupForm() {
   useEffect(() => {
     setIsQuizNextButtonEnabled(true);
   }, []);
+
   // 모달 안 인풋
   const {
     value: studyName,
@@ -89,26 +93,15 @@ export default function QuizSettingStudyGroupForm() {
 
     setTempId(tempId - 1);
     closeModal();
+    setNewStudyGroupAdded((prev) => !prev);
   };
 
-  // 전체배열이랑 선택된 배열 상태 동기화 (알람 설정 상태)
-  // useEffect(() => {
-  //   setSelectedStudyGroupList((prevList) =>
-  //     prevList.map((selectedGroup) => {
-  //       const updatedGroup = studyGroupList.find(
-  //         (group) => group.id === selectedGroup.id
-  //       );
-
-  //       return updatedGroup
-  //         ? { ...selectedGroup, isSetAlarm: updatedGroup.isSetAlarm }
-  //         : selectedGroup;
-  //     })
-  //   );
-  // }, [studyGroupList]);
-
-  // useEffect(() => {
-  //   console.log(studyGroupList, selectedStudyGroupList);
-  // }, [studyGroupList, selectedStudyGroupList]);
+  // '스터디 만들기' 버튼 클릭
+  const handleAddStudyGroupButton = () => {
+    openModal();
+    setNewStudyGroup(null);
+    resetStudyNameInput("");
+  };
 
   return (
     <>
@@ -195,16 +188,11 @@ export default function QuizSettingStudyGroupForm() {
           ))}
         </>
       )}
-
-      {!newStudyGroup ? (
+      {!isNewStudyGroupAdded ? (
         <Button
           size="large"
           className={styles["add-study-group"]}
-          onClick={() => {
-            openModal();
-            setNewStudyGroup(null);
-            resetStudyNameInput("");
-          }}
+          onClick={handleAddStudyGroupButton}
           icon={
             <QuizPlus
               alt="스터디 그룹 추가 버튼"

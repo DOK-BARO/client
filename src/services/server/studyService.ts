@@ -1,14 +1,14 @@
-import { StudyGroupType } from "@/types/StudyGroupType";
 import axios from "axios";
 
 // 스터디 그룹 생성
 export const createStudyGroup = async (
-  studyInfo: Omit<StudyGroupType, "id">
-) => {
+  studyName: string
+): Promise<{ id: string }> => {
   try {
-    const response = await axios.post("/study-groups", studyInfo);
-    console.log(response);
+    const { data } = await axios.post("/study-groups", { studyName });
+    console.log(data);
+    return data;
   } catch (error) {
-    console.error(`스터디 그룹 생성 실패: ${error}`);
+    throw new Error(`스터디 그룹 생성 실패: ${error}`);
   }
 };

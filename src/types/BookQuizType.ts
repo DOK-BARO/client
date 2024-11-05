@@ -16,5 +16,4 @@ export interface BookQuizQuestionType {
   // answerExplanationImages
   answerType: "OX" | "FILL_BLANK" | "MULTIPLE_CHOICE" | "SHORT";
   answers: string[];
-  // studyGroupId(optional)
 }

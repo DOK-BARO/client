@@ -5,18 +5,21 @@ import { atom } from "jotai";
 export const IsQuizNextButtonEnabledAtom = atom<boolean>(false);
 
 // 퀴즈 만들기 상태관리를 위한 전역변수
-export const quizCreationInfoAtom = atom<BookQuizType>({
+export const QuizCreationInfoAtom = atom<BookQuizType>({
   title: "",
   description: "",
   bookId: 0,
   timeLimitSecond: 0,
-  viewScope: "",
-  editScope: "",
-  question: {
-    content: "",
-    selectOptions: [],
-    answerExplanationContent: "",
-    answerType: "",
-    answers: [],
-  },
+  viewScope: "EVERYONE",
+  editScope: "EVERYONE",
+  studyGroupIds: 0,
+  questions: [
+    {
+      content: "",
+      selectOptions: [],
+      answerExplanation: "",
+      answerType: "OX",
+      answers: [],
+    },
+  ],
 });

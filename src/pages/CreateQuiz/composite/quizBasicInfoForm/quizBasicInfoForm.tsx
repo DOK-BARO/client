@@ -18,9 +18,8 @@ function QuizBasicInfoForm() {
   );
 
   useEffect(() => {
-    const isDisabled =
-      titleInputValue.trim() === "" || descriptionTextareaValue.trim() === "";
-    setIsQuizNextButtonEnabled(isDisabled);
+    const  disable = titleInputValue.trim() === "" || descriptionTextareaValue.trim() === "";
+    setIsQuizNextButtonEnabled(!disable);
   }, [titleInputValue, descriptionTextareaValue]);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);

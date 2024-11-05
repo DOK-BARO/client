@@ -13,6 +13,8 @@ export interface BookQuizQuestionType {
   content: string;
   selectOptions: string[];
   answerExplanation: string;
-  answerType: "OX" |"FILL_BLANK" | "MULTIPLE_CHOICE" | "SHORT";
+  // answerExplanationImages
+  answerType: "OX" | "FILL_BLANK" | "MULTIPLE_CHOICE" | "SHORT";
   answers: string[];
+  // studyGroupId(optional)
 }

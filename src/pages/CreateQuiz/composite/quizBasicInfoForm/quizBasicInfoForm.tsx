@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 import Textarea from "@/components/atom/textarea/textarea.tsx";
 import useTextarea from "@/hooks/useTextarea.ts";
 import React from "react";
-import { isQuizNextButtonEnabledAtom } from "@/store/quizAtom";
+import { IsQuizNextButtonEnabledAtom } from "@/store/quizAtom";
 import { useAtom } from "jotai";
 
 function QuizBasicInfoForm() {
@@ -14,7 +14,7 @@ function QuizBasicInfoForm() {
   const { value: descriptionTextareaValue, onChange: onDescriptionChange } =
     useTextarea("");
   const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
-    isQuizNextButtonEnabledAtom
+    IsQuizNextButtonEnabledAtom
   );
 
   useEffect(() => {

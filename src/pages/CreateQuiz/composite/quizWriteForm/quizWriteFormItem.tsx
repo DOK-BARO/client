@@ -169,8 +169,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
                   key={index}
                   src={image}
                   alt={`이미지 미리보기 ${index + 1}`}
-                  style={{ width: 'auto', margin: '32px' }}
-                //TODO: 스타일 확정 후 클래스로 만들기
+                  className={styles["image"]}
                 />
               ))}
             </div>

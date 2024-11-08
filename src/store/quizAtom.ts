@@ -20,3 +20,6 @@ export const quizCreationInfoAtom = atom<BookQuizType>({
     answers: [],
   },
 });
+
+export const errorModalTitleAtom = atom<string>("");
+export const openErrorModalAtom = atom<() => void>();

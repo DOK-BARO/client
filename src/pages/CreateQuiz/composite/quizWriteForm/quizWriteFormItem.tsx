@@ -103,6 +103,10 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
   };
 
   const handleButtonClick = () => {
+    if (selectedImages.length >= 3) {
+      setErrorMessage('최대 3장까지만 업로드할 수 있습니다.');
+      return;
+    } 
     fileInputRef.current?.click(); // 버튼 클릭 시 파일 입력 클릭
   };
 

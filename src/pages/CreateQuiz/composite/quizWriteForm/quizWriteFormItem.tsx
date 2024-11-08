@@ -2,7 +2,6 @@ import React, { useState, useRef } from "react";
 import styles from "./_quiz_write_form_item.module.scss";
 import QuizWriteFormTypeUtilButton from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormTypeUtilButton.tsx";
 import Textarea from "@/components/atom/textarea/textarea.tsx";
-import useTextarea from "@/hooks/useTextarea.ts";
 import { ImageAdd } from "@/svg/quizWriteForm/imageAdd.tsx";
 import QuizWriteFormItemHeader from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormItemHeader.tsx";
 import { QuizFormMode } from "@/data/constants.ts";
@@ -58,8 +57,8 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
   const titleMaxLength = 25000;
   const { value: question, onChange: onQuestionChange, textareaRef: questionTextAreaRef } = useAutoResizeTextarea("");
 
-
-  const { value: answerTextAreaValue, onChange: onAnswerTextAreaChange } = useTextarea("");
+  const descriptionMaxLength = 500;
+  const { value: answerTextAreaValue, onChange: onAnswerTextAreaChange, textareaRef: descriptionTextAreaRef } = useAutoResizeTextarea("");
 
   const onQuizModeSelect = (e: React.MouseEvent<HTMLButtonElement>) => {
     setQuizMode(e.currentTarget.value);
@@ -167,7 +166,10 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
             id={QuizFormMode.ANSWER}
             onChange={onAnswerTextAreaChange}
             value={answerTextAreaValue}
+            maxLength={descriptionMaxLength}
             placeholder={"답안에 대한 설명을 입력해주세요"}
+            textAreaRef={descriptionTextAreaRef}
+            maxLengthShow
           />
 
           {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} {/* 오류 메시지 표시 */}

@@ -17,64 +17,62 @@ export default function QuizCreationFormLayout({
 }) {
   const [isQuizNextButtonEnabled, setIsQuizNextButtonEnabled] =
     useAtom<boolean>(IsQuizNextButtonEnabledAtom);
+  const mainStep = Math.trunc(currentStep);
 
   const getCurrentStep = (): Step => {
     const step = steps[currentStep];
     if (step) return step;
 
-    const truncatedStep = Math.trunc(currentStep);
-    return steps[truncatedStep]!.subSteps!.find(
+    // const mainStep = Math.trunc(currentStep);
+    return steps[mainStep]!.subSteps!.find(
       (subStep) => subStep.order === currentStep
     )!;
   };
 
+  const stepItem: Step = getCurrentStep(); // 현재 스탭의 객체
+  console.log("stepItem: %o", stepItem);
+
+  const title = stepItem?.subSteps?.[0].title
+    ? stepItem.subSteps?.[0].title
+    : stepItem!.title;
+
+  const description = stepItem?.description
+    ? stepItem.description
+    : stepItem?.subSteps?.[0].description
+    ? stepItem.subSteps?.[0].description
+    : "";
+
+  const FormComponent = stepItem?.formComponent
+    ? stepItem.formComponent
+    : stepItem?.subSteps?.[0]?.formComponent
+    ? stepItem.subSteps[0].formComponent
+    : null;
+  const endStep = steps.length - 1;
+
+  // "다음" 버튼 클릭 시 단계 이동 로직
   const goToNextStep = () => {
-    if (currentStep == endStep) return;
+    if (currentStep >= endStep) return;
 
-    const step = steps[currentStep];
+    const hasSubSteps = !!stepItem.subSteps; // 서브스텝이 있는지
+    const isSubStep = !Number.isInteger(currentStep); // 2.1, 2.2와 같은 서브스텝일 경우
+    const isLastSubStep =
+      hasSubSteps &&
+      currentStep === stepItem.subSteps![stepItem.subSteps!.length - 1].order; // 마지막 서브스텝일 경우
 
-    const isNotSubStep = Number.isInteger(currentStep);
-    const hasNotSubStep = !step.subSteps;
-
-    if (isNotSubStep && hasNotSubStep) {
-      setCurrentStep((prev) => prev + 1);
-      return;
-    }
-
-    const isLastSubStep = step.subSteps && currentStep === step.subSteps[step.subSteps.length - 1].order;
-    const isFirstSubStep = step.subSteps;
-
-    if (isLastSubStep) {
-      // 마지막 서브스텝인 경우 다음 단계로 이동
-      setCurrentStep((prev) => Math.trunc(prev) + 1);
+    if (!isSubStep && !hasSubSteps) {
+      // 서브스텝도 아니고 서브스텝을 가지고있는 (메인)스텝도 아닐 경우
+      setCurrentStep((prev) => prev + 1); // 그냥 다음 단계 이동
+    } else if (isLastSubStep) {
+      // 마지막 서브스텝일 경우
+      setCurrentStep(mainStep + 1); // 다음 단계로 이동
     } else {
-      // 서브스텝이 있는 경우
-      isFirstSubStep ? setCurrentStep((prev) => Math.trunc(prev) + 0.2) : setCurrentStep((prev) => Math.trunc(prev) + 0.1);
-
+      // 마지막이 아닌 (처음~마지막 전) 서브 스텝일 경우
+      setCurrentStep((prev) => prev + 0.1); // 다음 서브스텝으로 이동
     }
 
     // 새로운 단계(페이지) 넘어갈때 button 상태 다시 disabled로 변경.
     setIsQuizNextButtonEnabled(false);
-  }
-
-  const step: Step = getCurrentStep();
-  console.log("step: %o", step);
-
-  const title = step?.subSteps?.[0].title
-    ? step.subSteps?.[0].title
-    : step!.title;
-  const description = step?.description
-    ? step.description
-    : step?.subSteps?.[0].description
-      ? step.subSteps?.[0].description
-      : "";
-
-  const FormComponent = step?.formComponent
-    ? step.formComponent
-    : step?.subSteps?.[0]?.formComponent
-      ? step.subSteps[0].formComponent
-      : null;
-  const endStep = steps.length - 1;
+  };
 
   return (
     <section className={styles["container"]}>

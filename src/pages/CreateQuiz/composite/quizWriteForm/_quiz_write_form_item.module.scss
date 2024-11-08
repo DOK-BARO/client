@@ -68,7 +68,13 @@
     width: 100%;
     gap: 10px;
 
-    input.question {
+    .title-area {
+    width: 100%;
+  }
+
+    textArea.question {
+      display: flex;
+      width: 100%;
       border: none;
       color: $gray-90;
       font-size: $font-size-xlarge;

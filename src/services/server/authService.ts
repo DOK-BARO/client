@@ -101,12 +101,13 @@ export const getUserIfAuthenticated = async (): Promise<UserType | null> => {
 };
 
 // 회원가입 - 이용약관 조회
-export const getTermsOfService =
-  async (): Promise<TermsOfServiceType | null> => {
-    try {
-      const { data } = await axios.get("/terms-of-services");
-      return data;
-    } catch (error) {
-      throw new Error(`이용약관 가져오기 실패: ${error}`);
-    }
-  };
+export const getTermsOfService = async (): Promise<
+  TermsOfServiceType[] | null
+> => {
+  try {
+    const { data } = await axios.get("/terms-of-services");
+    return data;
+  } catch (error) {
+    throw new Error(`이용약관 가져오기 실패: ${error}`);
+  }
+};

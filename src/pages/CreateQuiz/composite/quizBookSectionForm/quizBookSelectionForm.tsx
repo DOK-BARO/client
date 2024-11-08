@@ -11,7 +11,7 @@ import useDebounce from "@/hooks/useDebounce";
 import { BookType } from "@/types/BookType";
 import React from "react";
 import { useAtom } from "jotai";
-import { isQuizNextButtonEnabledAtom } from "@/store/quizAtom";
+import { IsQuizNextButtonEnabledAtom } from "@/store/quizAtom";
 
 // 2. 도서 선택
 // Issue: 도서 선택 UI 변경 시 딜레이 있음
@@ -22,7 +22,7 @@ export default function QuizBookSelectionForm() {
     resetInput: resetSearchValueInput,
   } = useInput("");
   const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
-    isQuizNextButtonEnabledAtom
+    IsQuizNextButtonEnabledAtom
   );
 
   const [tempSelectedBook, setTempSelectedBook] = useState<BookType | null>(

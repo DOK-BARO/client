@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./_quiz_settings_form.module.scss";
 import Button from "@/components/atom/button/button";
-import { isQuizNextButtonEnabledAtom } from "@/store/quizAtom";
+import { IsQuizNextButtonEnabledAtom } from "@/store/quizAtom";
 import { useAtom } from "jotai";
 
 // TODO: 파일 분리
@@ -11,7 +11,7 @@ interface SelectedOptions {
 // 4. 퀴즈 설정
 export default function QuizSettingsForm() {
   const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
-    isQuizNextButtonEnabledAtom
+    IsQuizNextButtonEnabledAtom
   );
   const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>({
     "time-limit": null,

@@ -13,7 +13,7 @@ import { Copy } from "@/svg/copy";
 import { StudyGroupType } from "@/types/StudyGroupType";
 import Toggle from "@/components/atom/toggle/toggle";
 import { useAtom } from "jotai";
-import { isQuizNextButtonEnabledAtom } from "@/store/quizAtom";
+import { IsQuizNextButtonEnabledAtom } from "@/store/quizAtom";
 
 export interface StudyGroupSelectType extends StudyGroupType {
   isSetAlarm: boolean;
@@ -29,7 +29,7 @@ export default function QuizSettingStudyGroupForm() {
     useState<StudyGroupSelectType | null>(null);
   const [newStudyGroup, setNewStudyGroup] = useState<string | null>(null);
   const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
-    isQuizNextButtonEnabledAtom
+    IsQuizNextButtonEnabledAtom
   );
 
   useEffect(() => {

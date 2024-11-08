@@ -4,7 +4,7 @@ import useInput from "@/hooks/useInput.ts";
 import { useEffect } from "react";
 import Textarea from "@/components/atom/textarea/textarea.tsx";
 import React from "react";
-import { isQuizNextButtonEnabledAtom } from "@/store/quizAtom";
+import { IsQuizNextButtonEnabledAtom } from "@/store/quizAtom";
 import { useAtom } from "jotai";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
 
@@ -16,7 +16,7 @@ function QuizBasicInfoForm() {
   const { value: titleInputValue, onChange: onTitleChange } = useInput("");
 
   const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
-    isQuizNextButtonEnabledAtom
+    IsQuizNextButtonEnabledAtom
   );
 
   useEffect(() => {

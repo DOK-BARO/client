@@ -4,7 +4,7 @@ import Button from "@/components/atom/button/button.tsx";
 import RightArrow from "@/svg/rightArrow.tsx";
 import { gray0, gray60 } from "@/styles/abstracts/colors.ts";
 import { useAtom } from "jotai";
-import { isQuizNextButtonEnabledAtom } from "@/store/quizAtom";
+import { IsQuizNextButtonEnabledAtom } from "@/store/quizAtom";
 
 export default function QuizCreationFormLayout({
   steps,
@@ -16,7 +16,7 @@ export default function QuizCreationFormLayout({
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const [isQuizNextButtonEnabled, setIsQuizNextButtonEnabled] =
-    useAtom<boolean>(isQuizNextButtonEnabledAtom);
+    useAtom<boolean>(IsQuizNextButtonEnabledAtom);
 
   const getCurrentStep = (): Step => {
     const step = steps[currentStep];

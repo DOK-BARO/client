@@ -8,13 +8,17 @@ import { getTermsOfService } from "@/services/server/authService";
 import { TermsOfServiceType } from "@/types/TermsOfServiceType";
 
 export default function TermsAgreement() {
-  // agreement
   const { method } = useParams();
   const navigate = useNavigate();
 
   const [services, setServices] = useState<TermsOfServiceType[] | undefined>(
     undefined
   );
+  const [agreements, setAgreements] = useState<
+    Record<string, { checked: boolean; isRequired: boolean }>
+  >({
+    allAgree: { checked: false, isRequired: false },
+  });
 
   // 이용 약관을 불러와 service에 저장하는 로직
   const fetchTermsOfService = async () => {
@@ -28,53 +32,69 @@ export default function TermsAgreement() {
   }, []);
 
   useEffect(() => {
-    console.log(services);
+    if (services && services.length > 0) {
+      const serviceAgreementObject = services.reduce((acc, service) => {
+        acc[service.title] = { checked: false, isRequired: service.primary };
+        return acc;
+      }, {} as Record<string, { checked: boolean; isRequired: boolean }>);
+      setAgreements({
+        ...serviceAgreementObject,
+        allAgree: { checked: false, isRequired: false },
+      });
+    }
   }, [services]);
 
-  const [agreements, setAgreements] = useState({
-    allAgree: false,
-    termsAgree: false,
-    privacyAgree: false,
-    emailNews: false,
-    adsEmail: false,
-  });
-
+  // 모두 동의
   const onAllAgreeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const isChecked = event.target.checked;
-    setAgreements({
-      allAgree: isChecked,
-      termsAgree: isChecked,
-      privacyAgree: isChecked,
-      emailNews: isChecked,
-      adsEmail: isChecked,
+    const { checked } = event.target;
+
+    setAgreements((prev) => {
+      const updatedAgreements = Object.keys(prev).reduce((acc, key) => {
+        acc[key] = { ...prev[key], checked };
+        return acc;
+      }, {} as Record<string, { checked: boolean; isRequired: boolean }>);
+
+      return {
+        ...updatedAgreements,
+        allAgree: { checked, isRequired: true },
+      };
     });
   };
 
+  // 개별 동의
   const onSingleAgreeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, checked } = event.target;
-    console.log("onSingleAgreeChange", id, checked);
-    setAgreements((prev) => ({
-      ...prev,
-      [id]: checked,
-      allAgree:
-        prev.termsAgree &&
-        prev.privacyAgree &&
-        prev.emailNews &&
-        prev.adsEmail &&
-        checked,
-    }));
+
+    setAgreements((prev) => {
+      const updatedAgreements = {
+        ...prev,
+        [id]: { ...prev[id], checked },
+      };
+
+      const allAgree = Object.values(updatedAgreements)
+        .filter((value) => value.isRequired) // 필수 동의 항목만 체크
+        .every((value) => value.checked);
+
+      return {
+        ...updatedAgreements,
+        allAgree: {
+          checked: allAgree,
+          isRequired: false,
+        },
+      };
+    });
   };
 
-  const isSubmitAble: boolean =
-    agreements.termsAgree && agreements.privacyAgree;
+  // 필수 항목에 동의했을 때
+  const isSubmitAble: boolean = Object.values(agreements).every(
+    (agreement) => agreement.checked || !agreement.isRequired
+  );
 
   const onSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
-    console.log("동의하고 가입하기");
     navigate(`/register/${method}/2`);
   };
 
-  // TODO : 리펙토링 필요
   return (
     <section className={styles["terms-agreement"]}>
       <h3>서비스 이용약관 동의</h3>
@@ -93,9 +113,9 @@ export default function TermsAgreement() {
                 모두 동의 (선택 정보 포함)
               </p>
             }
-            checked={agreements.allAgree}
+            checked={agreements.allAgree.checked}
             onChange={onAllAgreeChange}
-            isOutLined={true}
+            isOutLined
           />
         </div>
         <div className={styles.line} />
@@ -109,13 +129,10 @@ export default function TermsAgreement() {
               >
                 <legend>{service.primary ? "필수 약관" : "선택 약관"}</legend>
                 <span className={styles["checkbox-label-button-container"]}>
-                  <label
-                    htmlFor={`termsAgree-${service.id}`}
-                    className={styles.label}
-                  >
+                  <label htmlFor={service.title} className={styles.label}>
                     <CheckBox
-                      id={`termsAgree-${service.id}`}
-                      checked={agreements.termsAgree}
+                      id={service.title}
+                      checked={agreements[service.title]?.checked || false}
                       onChange={onSingleAgreeChange}
                       isOutLined={false}
                       required={service.primary}

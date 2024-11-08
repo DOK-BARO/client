@@ -1,5 +1,5 @@
 import styles from "./_create_quiz.module.scss";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import QuizSettingStudyGroupForm from "@/pages/CreateQuiz/composite/quizSettingStudyGroupForm/quizSettingStudyGroupForm.tsx";
 import QuizBookSelectionForm from "./composite/quizBookSectionForm/quizBookSelectionForm.tsx";
 import QuizWriteForm from "./composite/quizWriteForm/quizWriteForm.tsx";
@@ -7,6 +7,10 @@ import QuizSettingsForm from "./composite/quizSettingsForm/quizSettingsForm.tsx"
 import QuizCreationFormLayout from "./layout/quizCreationFormLayout/quizCreationFormLayout.tsx";
 import QuizCreationSteps from "./layout/quizCreationSteps/quizCreationSteps.tsx";
 import MemoizedQuizBasicInfoForm from "@/pages/CreateQuiz/composite/quizBasicInfoForm/quizBasicInfoForm.tsx";
+import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom.ts";
+import { useAtom } from "jotai";
+import Modal from "@/components/atom/modal/modal.tsx";
+import useModal from "@/hooks/useModal.ts";
 
 interface FormComponentProps {
   setCurrentStep: Dispatch<SetStateAction<number>>;
@@ -66,6 +70,13 @@ export default function Index() {
   ];
 
   const [currentStep, setCurrentStep] = useState<number>(0);
+  const [errorModalTitle] = useAtom(errorModalTitleAtom);
+  const { isModalOpen, openModal, closeModal } = useModal();
+  const [,setOpenErrorModal] = useAtom(openErrorModalAtom);
+  useEffect(()=>{
+    setOpenErrorModal(() => openModal);
+  },[setOpenErrorModal]);
+
   return (
     <section className={styles["container"]}>
       <h2 className={styles["sr-only"]}>퀴즈 등록</h2>
@@ -79,6 +90,17 @@ export default function Index() {
         currentStep={currentStep}
         setCurrentStep={setCurrentStep}
       />
+      {/* TODO: 컴포넌트 분리 */}
+
+      {isModalOpen &&
+        <Modal
+          closeModal={closeModal}
+          popUpTitle={errorModalTitle}
+          closeButtonText="확인"
+          showHeaderCloseButton={false}
+          className={styles["modal"]}
+          footerCloseButton
+        />}
     </section>
   );
 }

@@ -15,6 +15,9 @@ import { MultipleChoiceQuizForm } from "@/pages/CreateQuiz/composite/quizWriteFo
 import { CheckBoxQuizForm } from "@/pages/CreateQuiz/composite/quizWriteForm/checkBoxQuizForm.tsx";
 import { OXQuizForm } from "@/pages/CreateQuiz/composite/quizWriteForm/oxQuizForm.tsx";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
+import { useAtom } from "jotai";
+import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
+
 
 interface QuizWriteFormItemProps {
   id: number;
@@ -67,12 +70,33 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  const [, setErrorModalTitle] = useAtom(errorModalTitleAtom);
+  const [openModal] = useAtom(openErrorModalAtom);
+
+
+  const checkValidation = () => {
+   // - 질문 입력 안 했을 때: 질문을 입력해 주세요.
+   if(question.length === 0) {
+      setErrorModalTitle("질문을 입력해 주세요");
+      openModal!();
+   }
+  // - 옵션 하나도 없을 때: 선택지를 1개 이상 추가해 주세요.
+// -  중복된 옵션이 있을 때: 중복된 선택지입니다. 다시 입력해 주세요.
+// - 정답 선택 안 했을 때: 답안이 선택되었는지 확인하세요. 
+
+
+  }
+
+
+
   const fileInputRef = useRef<HTMLInputElement | null>(null); // 파일 입력 참조
+  const maxImgFileCount = 3;
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files; // 선택된 파일들
+
     if (files) {
-      if (selectedImages.length + files.length > 3) {
+      if (selectedImages.length + files.length > maxImgFileCount) {
         setErrorMessage('최대 3장까지만 업로드할 수 있습니다.');
         return;
       } else {
@@ -103,12 +127,14 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
   };
 
   const handleButtonClick = () => {
-    if (selectedImages.length >= 3) {
+    if (selectedImages.length >= maxImgFileCount) {
       setErrorMessage('최대 3장까지만 업로드할 수 있습니다.');
       return;
     }
     fileInputRef.current?.click(); // 버튼 클릭 시 파일 입력 클릭
   };
+
+
 
 
   return (
@@ -118,6 +144,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
         quizMode={quizMode}
         onQuizModeSelect={onQuizModeSelect}
         deleteQuizWriteForm={deleteQuizWriteForm}
+        checkValidation={checkValidation}
       />
 
       <div>
@@ -129,14 +156,14 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
           />
           <div className={styles["title-area"]}>
             <Textarea
-            maxLength={titleMaxLength}
-            className={styles["question"]}
-            value={question}
-            onChange={onQuestionChange}
-            id="option"
-            placeholder="질문을 입력해주세요."
-            textAreaRef={questionTextAreaRef}
-          />
+              maxLength={titleMaxLength}
+              className={styles["question"]}
+              value={question}
+              onChange={onQuestionChange}
+              id="option"
+              placeholder="질문을 입력해주세요."
+              textAreaRef={questionTextAreaRef}
+            />
           </div>
         </div>
         {React.cloneElement(questionFormType.FormComponent, { questionFormId: id.toString(), quizMode })}
@@ -185,10 +212,8 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
               ))}
             </div>
           )}
-
         </div>
       }
     </div>
   );
 }
-

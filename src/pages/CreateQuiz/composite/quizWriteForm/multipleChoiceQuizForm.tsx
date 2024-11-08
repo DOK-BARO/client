@@ -1,15 +1,14 @@
 import styles from "@/pages/CreateQuiz/composite/quizWriteForm/_quiz_write_form_item.module.scss";
 import QuizWriteFormOptionItem from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormOptionItem.tsx";
 import { RadioOption } from "@/types/RadioTypes.ts";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { QuizFormMode } from "@/data/constants.ts";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
 
-export const MultipleChoiceQuizForm : FC<{quizMode?: string, questionFormId?: string}> = ({ quizMode , questionFormId}) => {
+export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: string }> = ({ quizMode, questionFormId }) => {
   const [options, setOptions] = useState<RadioOption[]>([]);
   const [focusedOptionIndex, setFocusedOptionIndex] = useState<number | null>(null);
-  const { selectedValue: selectedRadioGroupValue, handleChange: handleRadioGroupChange } = useRadioGroup("");
-  const disabled : boolean = quizMode === QuizFormMode.QUESTION;
+  const { selectedValue: selectedRadioGroupValue, handleChange: handleRadioGroupChange } = useRadioGroup(null);
 
   const deleteOption = (optionId: number) => {
     setOptions(options.filter((option) => option.id !== optionId));
@@ -18,6 +17,10 @@ export const MultipleChoiceQuizForm : FC<{quizMode?: string, questionFormId?: st
   const handleOptionFocus = (id: number) => {
     setFocusedOptionIndex(id);
   };
+
+  useEffect(() => {
+    handleRadioGroupChange(null);
+  }, [quizMode]);
 
   const handleOptionBlur = () => {
     setFocusedOptionIndex(null);
@@ -31,8 +34,9 @@ export const MultipleChoiceQuizForm : FC<{quizMode?: string, questionFormId?: st
       return option;
     });
     setOptions(updatedOptions);
+    handleRadioGroupChange(null); // value가 변경되면 라디오 버튼이 자동 선택되기 때문에 라디오 버튼 선택 해제
   };
-  
+
   const onClickAddQuizOptionItem = () => {
     const id = Date.now();
     setOptions((prev) => [
@@ -57,15 +61,15 @@ export const MultipleChoiceQuizForm : FC<{quizMode?: string, questionFormId?: st
           focusedOptionIndex={focusedOptionIndex}
           handleOptionFocus={handleOptionFocus}
           handleOptionBlur={handleOptionBlur}
-          disabled={disabled}
+          quizMode={quizMode!}
           onChange={handleRadioGroupChange}
           setText={setText}
           selectedValue={selectedRadioGroupValue}
         />,
       )}
       {
-        quizMode == QuizFormMode.QUESTION  && 
-            <AddOptionButton onAdd={onClickAddQuizOptionItem}/>
+        quizMode == QuizFormMode.QUESTION &&
+        <AddOptionButton onAdd={onClickAddQuizOptionItem} />
       }
     </fieldset>
   );
@@ -79,7 +83,7 @@ function AddOptionButton({ onAdd }: { onAdd: () => void }) {
       <button
         className={styles["option-add-button"]}
         onClick={onAdd}>
-        <div className={styles["option-add-button-check-circle"]}/>
+        <div className={styles["option-add-button-check-circle"]} />
         <span>옵션 추가하기</span>
       </button>
     </div>

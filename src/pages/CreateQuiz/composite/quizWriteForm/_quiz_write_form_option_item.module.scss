@@ -16,6 +16,10 @@
       background-color: $background;
     }
 
+    &.checked {
+      background-color: #3DBF0F1A; // 선택된 상태의 색상
+    }
+
     .delete-option-button {
       all: unset;
     }

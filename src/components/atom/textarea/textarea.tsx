@@ -12,6 +12,7 @@ interface TextareaProps {
   disabled?: boolean;
   label?: string;
   maxLength?: number;
+  maxLengthShow?: boolean;
   rows?: number;
   textAreaRef?: React.RefObject<HTMLTextAreaElement>;
 }
@@ -27,6 +28,7 @@ const Textarea: React.FC<TextareaProps> = ({
   disabled = false,
   label,
   maxLength,
+  maxLengthShow,
   rows,
   textAreaRef,
 }) => {
@@ -54,7 +56,7 @@ const Textarea: React.FC<TextareaProps> = ({
         maxLength={maxLength}
         ref={textAreaRef}
       />
-      {message || maxLength ? (
+      {message || maxLength && maxLengthShow || maxLength && maxLength <= value.length ? (
         <div className={styles["message-container"]}>
           {
             <span className={styles[`message${isError ? "--error" : ""}`]}>

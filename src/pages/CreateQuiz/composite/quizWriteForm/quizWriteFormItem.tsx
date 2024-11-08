@@ -1,8 +1,6 @@
 import React, { useState, useRef } from "react";
-import useInput from "@/hooks/useInput.ts";
 import styles from "./_quiz_write_form_item.module.scss";
 import QuizWriteFormTypeUtilButton from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormTypeUtilButton.tsx";
-import Input from "@/components/atom/input/input.tsx";
 import Textarea from "@/components/atom/textarea/textarea.tsx";
 import useTextarea from "@/hooks/useTextarea.ts";
 import { ImageAdd } from "@/svg/quizWriteForm/imageAdd.tsx";
@@ -17,6 +15,7 @@ import { AlignJustify } from "@/svg/quizWriteForm/alignJustify.tsx";
 import { MultipleChoiceQuizForm } from "@/pages/CreateQuiz/composite/quizWriteForm/multipleChoiceQuizForm.tsx";
 import { CheckBoxQuizForm } from "@/pages/CreateQuiz/composite/quizWriteForm/checkBoxQuizForm.tsx";
 import { OXQuizForm } from "@/pages/CreateQuiz/composite/quizWriteForm/oxQuizForm.tsx";
+import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
 
 interface QuizWriteFormItemProps {
   id: number;
@@ -56,7 +55,9 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
 
   const [quizMode, setQuizMode] = useState<string>(QuizFormMode.QUESTION);
 
-  const { onChange: onQuestionChange, value: question } = useInput("");
+  const titleMaxLength = 25000;
+  const { value: question, onChange: onQuestionChange, textareaRef: questionTextAreaRef } = useAutoResizeTextarea("");
+
 
   const { value: answerTextAreaValue, onChange: onAnswerTextAreaChange } = useTextarea("");
 
@@ -103,6 +104,10 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
   };
 
   const handleButtonClick = () => {
+    if (selectedImages.length >= 3) {
+      setErrorMessage('최대 3장까지만 업로드할 수 있습니다.');
+      return;
+    }
     fileInputRef.current?.click(); // 버튼 클릭 시 파일 입력 클릭
   };
 
@@ -123,13 +128,17 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
             selectedOption={questionFormType}
             setSelectedOption={setQuestionFormType}
           />
-          <Input
+          <div className={styles["title-area"]}>
+            <Textarea
+            maxLength={titleMaxLength}
             className={styles["question"]}
             value={question}
             onChange={onQuestionChange}
             id="option"
             placeholder="질문을 입력해주세요."
+            textAreaRef={questionTextAreaRef}
           />
+          </div>
         </div>
         {React.cloneElement(questionFormType.FormComponent, { questionFormId: id.toString(), quizMode })}
       </div>
@@ -169,8 +178,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
                   key={index}
                   src={image}
                   alt={`이미지 미리보기 ${index + 1}`}
-                  style={{ width: 'auto', margin: '32px' }}
-                //TODO: 스타일 확정 후 클래스로 만들기
+                  className={styles["image"]}
                 />
               ))}
             </div>

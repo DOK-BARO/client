@@ -28,7 +28,37 @@ export default function QuizCreationFormLayout({
     )!;
   };
 
+  const goToNextStep = () => {
+    if (currentStep == endStep) return;
+
+    const step = steps[currentStep];
+
+    const isNotSubStep = Number.isInteger(currentStep);
+    const hasNotSubStep = !step.subSteps;
+
+    if (isNotSubStep && hasNotSubStep) {
+      setCurrentStep((prev) => prev + 1);
+      return;
+    }
+
+    const isLastSubStep = step.subSteps && currentStep === step.subSteps[step.subSteps.length - 1].order;
+    const isFirstSubStep = step.subSteps;
+
+    if (isLastSubStep) {
+      // 마지막 서브스텝인 경우 다음 단계로 이동
+      setCurrentStep((prev) => Math.trunc(prev) + 1);
+    } else {
+      // 서브스텝이 있는 경우
+      isFirstSubStep ? setCurrentStep((prev) => Math.trunc(prev) + 0.2) : setCurrentStep((prev) => Math.trunc(prev) + 0.1);
+
+    }
+
+    // 새로운 단계(페이지) 넘어갈때 button 상태 다시 disabled로 변경.
+    setIsQuizNextButtonEnabled(false);
+  }
+
   const step: Step = getCurrentStep();
+  console.log("step: %o", step);
 
   const title = step?.subSteps?.[0].title
     ? step.subSteps?.[0].title
@@ -36,14 +66,14 @@ export default function QuizCreationFormLayout({
   const description = step?.description
     ? step.description
     : step?.subSteps?.[0].description
-    ? step.subSteps?.[0].description
-    : "";
+      ? step.subSteps?.[0].description
+      : "";
 
   const FormComponent = step?.formComponent
     ? step.formComponent
     : step?.subSteps?.[0]?.formComponent
-    ? step.subSteps[0].formComponent
-    : null;
+      ? step.subSteps[0].formComponent
+      : null;
   const endStep = steps.length - 1;
 
   return (
@@ -55,13 +85,7 @@ export default function QuizCreationFormLayout({
         <Button
           className={styles["next"]}
           disabled={!isQuizNextButtonEnabled}
-          onClick={() => {
-            if (currentStep == endStep) return;
-            setCurrentStep((prev) => prev + 1);
-
-            // 새로운 단계(페이지) 넘어갈때 button 상태 다시 disabled로 변경.
-            setIsQuizNextButtonEnabled(false);
-          }}
+          onClick={goToNextStep}
         >
           {currentStep === endStep ? "완료" : "다음"}
           <RightArrow

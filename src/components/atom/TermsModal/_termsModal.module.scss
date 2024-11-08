@@ -1,0 +1,17 @@
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixins";
+
+.modal {
+  &-backdrop {
+    @include modal-backdrop;
+  }
+
+  &-view {
+    @include modal-view;
+  }
+
+  &-header {
+    font-size: $font-size-user-auth-agreement-title;
+    font-weight: $font-weight-semibold;
+  }
+}

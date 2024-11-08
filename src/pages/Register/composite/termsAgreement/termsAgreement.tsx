@@ -4,12 +4,18 @@ import { useNavigate, useParams } from "react-router-dom";
 import Button from "@/components/atom/button/button";
 import CheckBox from "@/pages/Register/components/checkBox/checkBox";
 import { APP_NAME } from "@/data/constants.ts";
-import { getTermsOfService } from "@/services/server/authService";
+import {
+  getTermsOfService,
+  getTermsOfServiceDetail,
+} from "@/services/server/authService";
 import { TermsOfServiceType } from "@/types/TermsOfServiceType";
+import useModal from "@/hooks/useModal";
+import TermsModal from "@/components/atom/TermsModal/termsModal";
 
 export default function TermsAgreement() {
   const { method } = useParams();
   const navigate = useNavigate();
+  const { isModalOpen, openModal, closeModal } = useModal();
 
   const [services, setServices] = useState<TermsOfServiceType[] | undefined>(
     undefined
@@ -20,11 +26,22 @@ export default function TermsAgreement() {
     allAgree: { checked: false, isRequired: false },
   });
 
+  // 이용약관 상세
+  const [serviceDetail, setServiceDetail] = useState<string>();
+
+  // TODO: 패칭 로직 훅으로 분리하기
   // 이용 약관을 불러와 service에 저장하는 로직
   const fetchTermsOfService = async () => {
     const response = await getTermsOfService();
     if (response) {
       setServices(response);
+    }
+  };
+  // 이용 약관 상세를 불러와 serviceDetail에 저장하는 로직
+  const fetchTermsOfServiceDetail = async (id: number) => {
+    const response = await getTermsOfServiceDetail(id);
+    if (response) {
+      setServiceDetail(response);
     }
   };
   useEffect(() => {
@@ -83,6 +100,14 @@ export default function TermsAgreement() {
         },
       };
     });
+  };
+
+  const handleTermsContentShowButton = (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    const { value } = e.target as HTMLButtonElement;
+    fetchTermsOfServiceDetail(Number(value));
+    openModal();
   };
 
   // 필수 항목에 동의했을 때
@@ -145,6 +170,8 @@ export default function TermsAgreement() {
                   </label>
                   <Button
                     className={styles["terms-agreement-content-show-button"]}
+                    onClick={handleTermsContentShowButton}
+                    value={service.id.toString()}
                   >
                     보기
                   </Button>
@@ -166,6 +193,13 @@ export default function TermsAgreement() {
           동의하고 가입하기
         </Button>
       </form>
+      {isModalOpen ? (
+        <TermsModal
+          mainTitle="이용약관"
+          closeModal={closeModal}
+          content={serviceDetail}
+        />
+      ) : null}
     </section>
   );
 }

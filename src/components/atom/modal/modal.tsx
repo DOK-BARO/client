@@ -7,7 +7,7 @@ interface ModalProps {
   popUpTitle?: string;
   contentTitle?: string;
   content?: JSX.Element;
-  footerCloseButton? :boolean;
+  footerCloseButton?: boolean;
   closeButtonText?: string;
   showHeaderCloseButton?: boolean;
   secondButtonText?: string;
@@ -43,13 +43,13 @@ const Modal: React.FC<ModalProps> = ({
             <div className={styles["content-title"]}>{contentTitle}</div>
           )}
           <div className={styles["content"]}>{content}</div>
-       {
-       footerCloseButton &&
-       <div className={styles["modal-footer"]}>
-            <Button className={styles[secondButtonText ? "modal-button" : "close-button"]} onClick={closeModal}>
-              {closeButtonText ?? "닫기"}
-            </Button>
-          </div>}
+          {
+            footerCloseButton &&
+            <div className={styles["modal-footer"]}>
+              <Button className={styles[secondButtonText ? "modal-button" : "close-button"]} onClick={closeModal}>
+                {closeButtonText ?? "닫기"}
+              </Button>
+            </div>}
           {secondButtonText ? (
             <div className={styles["modal-footer"]}>
               <Button className={styles["modal-button"]} onClick={() => { }}>

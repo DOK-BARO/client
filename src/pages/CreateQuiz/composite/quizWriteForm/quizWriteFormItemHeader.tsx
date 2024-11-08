@@ -16,9 +16,9 @@ interface QuizWriteFormItemHeaderProps {
 export default function QuizWriteFormItemHeader(
   {
     id,
-    quizMode, 
-    onQuizModeSelect, 
-    deleteQuizWriteForm, 
+    quizMode,
+    onQuizModeSelect,
+    deleteQuizWriteForm,
     checkValidation,
   }: QuizWriteFormItemHeaderProps) {
 

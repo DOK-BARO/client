@@ -111,3 +111,15 @@ export const getTermsOfService = async (): Promise<
     throw new Error(`이용약관 가져오기 실패: ${error}`);
   }
 };
+
+// 이용약관 상세 내용 조회
+export const getTermsOfServiceDetail = async (
+  id: number
+): Promise<string | undefined> => {
+  try {
+    const { data } = await axios.get(`/terms-of-services/${id}/detail`);
+    return data;
+  } catch (error) {
+    throw new Error(`이용약관 상세 내용 가져오기 실패: ${error}`);
+  }
+};

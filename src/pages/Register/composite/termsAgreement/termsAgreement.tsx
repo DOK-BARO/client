@@ -1,12 +1,32 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import styles from "./_terms_agreement.module.scss";
 import { useNavigate, useParams } from "react-router-dom";
 import Button from "@/components/atom/button/button";
 import CheckBox from "@/pages/Register/components/checkBox/checkBox";
 import { APP_NAME } from "@/data/constants.ts";
+import { getTermsOfService } from "@/services/server/authService";
+import { TermsOfServiceType } from "@/types/TermsOfServiceType";
 
 export default function TermsAgreement() {
+  // agreement
   const { method } = useParams();
+  const [service, setService] = useState<TermsOfServiceType | undefined>(
+    undefined
+  );
+
+  const fetchTermsOfService = async () => {
+    const response = await getTermsOfService();
+    if (response) {
+      setService(response);
+    }
+  };
+  useEffect(() => {
+    fetchTermsOfService();
+  }, []);
+
+  useEffect(() => {
+    console.log(service);
+  }, [service]);
 
   const [agreements, setAgreements] = useState({
     allAgree: false,

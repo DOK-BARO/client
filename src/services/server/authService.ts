@@ -3,6 +3,7 @@ import { AuthResponse } from "../../types/AuthResponse.ts";
 import { SocialLoginType } from "../../types/SocialLoginType.ts";
 import localApi from "../local/LocalApi.ts";
 import { UserType } from "@/types/UserType.ts";
+import { TermsOfServiceType } from "@/types/TermsOfServiceType.ts";
 
 const redirectedUrl = import.meta.env.VITE_AUTH_REDIRECTED_URL;
 
@@ -98,3 +99,14 @@ export const getUserIfAuthenticated = async (): Promise<UserType | null> => {
   // return await getUser();
   return null;
 };
+
+// 회원가입 - 이용약관 조회
+export const getTermsOfService =
+  async (): Promise<TermsOfServiceType | null> => {
+    try {
+      const { data } = await axios.get("/terms-of-services");
+      return data;
+    } catch (error) {
+      throw new Error(`이용약관 가져오기 실패: ${error}`);
+    }
+  };

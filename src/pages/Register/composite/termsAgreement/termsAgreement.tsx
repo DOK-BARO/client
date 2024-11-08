@@ -66,7 +66,11 @@ export default function TermsAgreement() {
         <div className={styles["agreement-all"]}>
           <CheckBox
             id="allAgree"
-            LabelComponent={"모두 동의 (선택 정보 포함)"}
+            LabelComponent={
+              <p className={styles["agreement-all-label"]}>
+                모두 동의 (선택 정보 포함)
+              </p>
+            }
             checked={agreements.allAgree}
             onChange={onAllAgreeChange}
             isOutLined={true}
@@ -79,23 +83,28 @@ export default function TermsAgreement() {
             <div className={styles["agreement-item-required"]}>
               <CheckBox
                 id="termsAgree"
-                LabelComponent={"[필수] 이용 약관 동의"}
+                LabelComponent={
+                  <p className={styles["agreement-item-required-label"]}>
+                    [필수] 이용 약관 동의
+                  </p>
+                }
                 checked={agreements.termsAgree}
                 onChange={onSingleAgreeChange}
                 isOutLined={false}
                 required
               />
-              <button
-                type="button"
-                className={styles["agreement-content-show-button"]}
-              >
+              <Button className={styles["agreement-content-show-button"]}>
                 보기
-              </button>
+              </Button>
             </div>
             <div className={styles["agreement-item-required"]}>
               <CheckBox
                 id="privacyAgree"
-                LabelComponent={"[필수] 개인 정보 수집·이용 동의"}
+                LabelComponent={
+                  <p className={styles["agreement-item-required-label"]}>
+                    [필수] 개인 정보 수집·이용 동의
+                  </p>
+                }
                 checked={agreements.privacyAgree}
                 onChange={onSingleAgreeChange}
                 isOutLined={false}
@@ -116,7 +125,11 @@ export default function TermsAgreement() {
             <div className={styles["agreement-item-optional"]}>
               <CheckBox
                 id="emailNews"
-                LabelComponent={"[선택] 신규 퀴즈 소식을 이메일로 받기"}
+                LabelComponent={
+                  <p className={styles["agreement-item-optional-label"]}>
+                    [선택] 신규 퀴즈 소식을 이메일로 받기
+                  </p>
+                }
                 checked={agreements.emailNews}
                 onChange={onSingleAgreeChange}
                 isOutLined={false}
@@ -129,7 +142,11 @@ export default function TermsAgreement() {
             <div className={styles["agreement-item-optional"]}>
               <CheckBox
                 id="adsEmail"
-                LabelComponent={`[선택] ${APP_NAME} 광고 메세지를 이메일로 받기`}
+                LabelComponent={
+                  <p className={styles["agreement-item-optional-label"]}>
+                    [선택] {APP_NAME} 광고 메세지를 이메일로 받기
+                  </p>
+                }
                 checked={agreements.adsEmail}
                 onChange={onSingleAgreeChange}
                 isOutLined={false}

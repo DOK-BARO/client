@@ -68,6 +68,7 @@
   &:disabled {
     background-color: $gray-20;
     color: $gray-60;
+    cursor: not-allowed;
   }
 
   .icon-container {

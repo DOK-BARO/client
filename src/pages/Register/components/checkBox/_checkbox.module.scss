@@ -15,8 +15,9 @@
   display: inline-flex;
   align-items: center;
   cursor: pointer;
-  font-size: $font-size-user-auth-agreement-content;
-  font-weight: $font-weight-regular;
+  // 폰트 스타일 외부에서 적용시켜야 함
+  // font-size: $font-size-user-auth-agreement-content;
+  // font-weight: $font-weight-regular;
   color: $gray-90;
 }
 

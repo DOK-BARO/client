@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { XSmall } from "@/svg/xSmall";
 import { matchEmailCode, sendEmailCode } from "@/services/server/authService";
+import AuthCodeInput from "@/components/composite/authCodeInput/AuthCodeInput";
 
 export default function Verification() {
   const [user, setUser] = useAtom<RegisterInfoType>(RegisterInfoAtom);
@@ -155,31 +156,13 @@ export default function Verification() {
           size="large"
         />
       ) : (
-        <div className={styles["code-input-message-container"]}>
-          <div className={styles["code-input-container"]}>
-            {code.map((digit, i) => (
-              <Input
-                size="large"
-                key={i}
-                id={`code-input-${i}`}
-                value={digit}
-                onChange={(e) => handleCodeChange(e, i)}
-                onKeyDown={(e) => handleKeyDown(e, i)}
-                maxLength={1}
-                color={fullCode.length !== 6 ? "default" : "black"}
-                isError={isMatch === false}
-              />
-            ))}
-          </div>
-          {isMatch === false ? (
-            <span className={styles["message-container"]}>
-              <p>인증 코드가 일치하지 않습니다.</p>
-              <XSmall stroke={systemDanger} width={20} height={20} />
-            </span>
-          ) : (
-            <></>
-          )}
-        </div>
+        <AuthCodeInput
+          code={code}
+          borderColor={fullCode.length !== 6 ? "default" : "black"}
+          handleCodeChange={handleCodeChange}
+          handleKeyDown={handleKeyDown}
+          isMatch
+        />
       )}
       <Button
         className={styles.next}

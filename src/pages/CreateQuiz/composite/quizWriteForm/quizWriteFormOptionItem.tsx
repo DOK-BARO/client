@@ -39,6 +39,7 @@ export default function QuizWriteFormOptionItem({
   const [, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
 
   const onTextAreaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //FIXME: quizWriteFormCheckBoxOptionItem.tsx와 로직 동일
     onOptionChange(e);
     setText(option.id, e.target.value);
 
@@ -56,7 +57,7 @@ export default function QuizWriteFormOptionItem({
             })
           };
         }
-        return question; // 해당 질문이 아닐 경우 원래 질문을 반환
+        return question;
       });
   
       return {

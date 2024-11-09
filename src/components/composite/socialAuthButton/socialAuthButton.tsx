@@ -10,18 +10,27 @@ import { Naver } from "@/svg/auth/naver.tsx";
 import { Github } from "@/svg/auth/github.tsx";
 import { Email } from "@/svg/auth/email.tsx";
 import Button from "@/components/atom/button/button.tsx";
+import { useNavigate } from "react-router-dom";
 
 const SocialAuthButton: React.FC<{
   authType: AuthType;
   socialType: SocialLoginType;
 }> = ({ authType, socialType }) => {
   const { redirectToAuthPage, loading } = useAuth();
+  const emailRegisterPage = "/register/email/1";
 
   const handleAuth = async () => {
     const action =
-    authType === AuthType.SIGNUP ? AUTH_ACTION.SIGN_UP : AUTH_ACTION.LOGIN;
+      authType === AuthType.SIGNUP ? AUTH_ACTION.SIGN_UP : AUTH_ACTION.LOGIN;
     localStorage.setItem(LOCAL_STORAGE_KEY.AUTH_ACTION, action);
-    await redirectToAuthPage(socialType);
+
+    if (socialType === SocialLoginType.EMAIL) {
+      // 이메일 회원가입
+      window.location.href = emailRegisterPage;
+    } else {
+      // 소셜 미디어 회원가입
+      await redirectToAuthPage(socialType);
+    }
   };
 
   const buttonContent = () => {

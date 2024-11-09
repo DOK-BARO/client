@@ -5,82 +5,73 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
+
   h3 {
     @include sr-only;
   }
+
   .description {
     margin-top: 32px;
     font-size: $font-size-xlarge;
-    font-weight: 600;
+    font-weight: $font-weight-semibold;
     line-height: 1.5;
   }
 
-  legend {
-    @include sr-only;
+  &-all {
+    margin-bottom: 22px;
+    font-size: $font-size-medium;
+    font-weight: $font-weight-medium;
   }
 
-  fieldset {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-    font-size: 14px;
-
-    p {
-      color: $gray-60;
-      font-size: $font-size-small;
-      margin-left: 28px;
-    }
+  .line {
+    width: 100%;
+    height: 1px;
+    background-color: $gray-40;
   }
 
-  // 폼
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-
-    .agreement-all {
-      padding: 22px 0;
-      border-bottom: 1px solid $gray-40;
-    }
-
-    .agreement-item-container {
+  &-item {
+    &-container {
+      margin: 30px 0;
       display: flex;
       flex-direction: column;
-      gap: 32px;
+      gap: 30px;
     }
-
-    .agreement-item-required {
-      display: flex;
-      flex-direction: row;
-      gap: 10px;
-    }
-
-    .agreement-item-optional {
+    &-fieldset {
+      legend {
+        @include sr-only;
+      }
       display: flex;
       flex-direction: column;
-      gap: 16px;
-    }
-
-    .agreement-content-show-button {
-      border: none;
-      background: none;
-      text-decoration: underline;
-      font-size: $font-size-small;
-      color: $gray-90;
+      gap: 10px; // 16px
+      .checkbox-label-button-container {
+        display: flex;
+        align-items: center;
+        gap: 8px; // 10px
+        font-weight: $font-weight-medium;
+        font-size: $font-size-user-auth-agreement-content;
+        .label {
+          display: flex;
+        }
+      }
     }
   }
-}
 
-.submit {
-  background-color: $primary;
-  color: white;
-  font-weight: $font-weight-semibold;
-  font-size: $font-size-large;
-}
+  &-subTitle {
+    font-size: $font-size-small;
+    color: $gray-60;
+    margin-left: 28px;
+  }
 
-.submit-disabled {
-  background-color: $gray-20;
-  color: $gray-60;
-  font-weight: $font-weight-semibold;
-  font-size: $font-size-large;
+  // "보기" 버튼
+  &-content-show-button {
+    border: none;
+    background: none;
+    text-decoration: underline;
+    font-size: $font-size-small;
+    color: $gray-90;
+    font-weight: $font-weight-regular;
+    padding: 0;
+    margin: 0;
+    height: auto;
+  }
 }

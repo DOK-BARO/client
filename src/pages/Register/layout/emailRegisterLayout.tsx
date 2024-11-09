@@ -6,8 +6,8 @@ const EmailRegisterLayout = () => {
   const { step } = useParams<{ step: string }>();
 
   const titles: Record<string, string> = {
-    "1": "간편하게 가입해요",
-    "2": "간편하게 가입해요",
+    "1": "반가워요!",
+    "2": "반가워요!",
     "3": "비밀번호 입력",
     "4": "끝이에요!",
   };

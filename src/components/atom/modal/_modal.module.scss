@@ -11,27 +11,11 @@
 }
 
 .modal-backdrop {
-  display: flex;
-  align-items: center;
-  background-color: $modal-backdrop-color;
-  z-index: 1; //위치지정 요소
-  position: fixed;
-  justify-content: center;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  @include modal-backdrop;
 }
 
 .modal-view {
-  display: flex;
-  align-items: start;
-  background-color: $gray-00;
-  flex-direction: column;
-  border-radius: $border-radius-large; // 12px
-  // border: 1px solid $gray-40;
-  padding: 40px;
-  position: relative;
+  @include modal-view;
 }
 
 .modal-header {

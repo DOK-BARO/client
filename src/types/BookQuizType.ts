@@ -10,10 +10,13 @@ export interface BookQuizType {
 }
 
 export interface BookQuizQuestionType {
+  id: number;
   content: string;
-  selectOptions: string[];
+  //selectOptions: string[];
+  //TODO: api 요청 시 id제거 필요
+  selectOptions: {id: number, option:string}[];
   answerExplanation: string;
-  // answerExplanationImages
+  answerExplanationImages: string[],
   answerType: "OX" | "FILL_BLANK" | "MULTIPLE_CHOICE" | "SHORT";
   answers: string[];
 }

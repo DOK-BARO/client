@@ -10,6 +10,7 @@ interface CheckBoxProps {
   disabled?: boolean;
   className?: string;
   autoFocus?: boolean;
+  value?:string;
   LabelComponent: ReactNode;
 }
 
@@ -19,6 +20,7 @@ export default function CheckBox({
   onChange,
   disabled,
   autoFocus = false,
+  value,
   LabelComponent,
 }: CheckBoxProps) {
   const className = `
@@ -34,6 +36,7 @@ export default function CheckBox({
         onChange={onChange}
         disabled={disabled}
         autoFocus={autoFocus}
+        value={value}
       />
       <label className={className} htmlFor={id}>
         <div className={styles["checkbox-container"]}>

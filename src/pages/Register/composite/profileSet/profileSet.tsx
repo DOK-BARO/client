@@ -2,7 +2,7 @@ import styles from "./_profile_set.module.scss";
 import { FormEvent, useEffect, useState } from "react";
 import { useAtom } from "jotai";
 // import { AUTH_ACTION, LOCAL_STORAGE_KEY } from "@/data/constants";
-// import { useAuth } from "@/hooks/useAuth";
+
 // import { SocialLoginType } from "@/types/SocialLoginType";
 import useInput from "@/hooks/useInput.ts";
 import ProfileUpload from "@/pages/Register/components/profileUpload/profileUpload.tsx";
@@ -28,7 +28,6 @@ export default function ProfileSet() {
   // const navigate = useNavigate();
   const [user, setUser] = useAtom<RegisterInfoType>(RegisterInfoAtom);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-  // const { redirectToAuthPage } = useAuth();
   const onSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     setUser({

@@ -4,53 +4,35 @@ import { useNavigate, useParams } from "react-router-dom";
 import Button from "@/components/atom/button/button";
 import CheckBox from "@/pages/Register/components/checkBox/checkBox";
 import { APP_NAME } from "@/data/constants.ts";
-import {
-  getTermsOfService,
-  getTermsOfServiceDetail,
-} from "@/services/server/authService";
-import { TermsOfServiceType } from "@/types/TermsOfServiceType";
 import useModal from "@/hooks/useModal";
 import TermsModal from "@/components/atom/TermsModal/termsModal";
+import { useGetTermDetail } from "@/hooks/useGetTermDetail";
+import { useGetTerms } from "@/hooks/useGetTerms";
 
 export default function TermsAgreement() {
   const { method } = useParams();
   const navigate = useNavigate();
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const [services, setServices] = useState<TermsOfServiceType[] | undefined>(
-    undefined
-  );
   const [agreements, setAgreements] = useState<
     Record<string, { checked: boolean; isRequired: boolean }>
   >({
     allAgree: { checked: false, isRequired: false },
   });
 
-  // 이용약관 상세
-  const [serviceDetail, setServiceDetail] = useState<string>();
+  // 이용약관 '보기' 클릭 시 상세 불러오기
+  const {
+    getTermDetail,
+    termDetail,
+    isLoading: isTermDetailLoading,
+  } = useGetTermDetail();
 
-  // TODO: 패칭 로직 훅으로 분리하기
-  // 이용 약관을 불러와 service에 저장하는 로직
-  const fetchTermsOfService = async () => {
-    const response = await getTermsOfService();
-    if (response) {
-      setServices(response);
-    }
-  };
-  // 이용 약관 상세를 불러와 serviceDetail에 저장하는 로직
-  const fetchTermsOfServiceDetail = async (id: number) => {
-    const response = await getTermsOfServiceDetail(id);
-    if (response) {
-      setServiceDetail(response);
-    }
-  };
-  useEffect(() => {
-    fetchTermsOfService();
-  }, []);
+  // 이용약관들을 불러오기
+  const { terms, isLoading: isTermsLoading } = useGetTerms();
 
   useEffect(() => {
-    if (services && services.length > 0) {
-      const serviceAgreementObject = services.reduce((acc, service) => {
+    if (terms && terms.length > 0) {
+      const serviceAgreementObject = terms.reduce((acc, service) => {
         acc[service.title] = { checked: false, isRequired: service.primary };
         return acc;
       }, {} as Record<string, { checked: boolean; isRequired: boolean }>);
@@ -59,7 +41,7 @@ export default function TermsAgreement() {
         allAgree: { checked: false, isRequired: false },
       });
     }
-  }, [services]);
+  }, [terms]);
 
   // 모두 동의
   const onAllAgreeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,7 +88,7 @@ export default function TermsAgreement() {
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
     const { value } = e.target as HTMLButtonElement;
-    fetchTermsOfServiceDetail(Number(value));
+    getTermDetail(Number(value));
     openModal();
   };
 
@@ -146,8 +128,9 @@ export default function TermsAgreement() {
         <div className={styles.line} />
         <div className={styles["terms-agreement-item-container"]}>
           {/* 필수 약관 */}
-          {services &&
-            services.map((service, index) => (
+          {!isTermsLoading &&
+            terms &&
+            terms.map((service, index) => (
               <fieldset
                 key={index}
                 className={styles["terms-agreement-item-fieldset"]}
@@ -193,11 +176,13 @@ export default function TermsAgreement() {
           동의하고 가입하기
         </Button>
       </form>
-      {isModalOpen && serviceDetail ? (
+      {isModalOpen && termDetail && !isTermDetailLoading ? (
+        // TODO: 로딩처리, 혹은 약관 내용이 없을때 처리
         <TermsModal
           mainTitle="이용약관"
           closeModal={closeModal}
-          content={serviceDetail}
+          content={termDetail}
+          // isLoading={isTermDetailLoading}
         />
       ) : null}
     </section>

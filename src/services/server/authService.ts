@@ -6,7 +6,7 @@ import { UserType } from "@/types/UserType.ts";
 import { TermsOfServiceType } from "@/types/TermsOfServiceType.ts";
 
 const redirectedUrl = import.meta.env.VITE_AUTH_REDIRECTED_URL;
-
+// TODO: 함수명 api로부터 바로 가져오는건 fetch, 그 외 get
 export const getAuthUrl = async (
   socialLoginType: SocialLoginType
 ): Promise<string> => {
@@ -101,9 +101,7 @@ export const getUserIfAuthenticated = async (): Promise<UserType | null> => {
 };
 
 // 회원가입 - 이용약관 조회
-export const getTermsOfService = async (): Promise<
-  TermsOfServiceType[] | null
-> => {
+export const fetchTerms = async (): Promise<TermsOfServiceType[] | null> => {
   try {
     const { data } = await axios.get("/terms-of-services");
     return data;
@@ -113,7 +111,7 @@ export const getTermsOfService = async (): Promise<
 };
 
 // 이용약관 상세 내용 조회
-export const getTermsOfServiceDetail = async (
+export const fetchTermDetail = async (
   id: number
 ): Promise<string | undefined> => {
   try {

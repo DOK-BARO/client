@@ -9,7 +9,7 @@
   &-view {
     @include modal-view;
     width: 480px;
-    height: 600px;
+    max-height: 600px;
   }
 
   &-header {
@@ -32,9 +32,14 @@
   &-mainTitle {
     margin-top: 30px; // 32px
   }
+
+  &-main {
+    overflow-y: auto;
+    @include inner-content-scroll-bar;
+  }
+
   &-content {
     margin-top: 30px; // 32px
-    overflow-y: auto;
     white-space: pre-line;
     font-size: $font-size-user-auth-agreement-content;
 
@@ -54,6 +59,5 @@
         margin-top: -($font-size-user-auth-agreement-content);
       }
     }
-    @include inner-content-scroll-bar;
   }
 }

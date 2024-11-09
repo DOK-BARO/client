@@ -108,12 +108,11 @@ export default function Verification() {
   };
 
   const handleDone = async () => {
-    try {
-      await matchEmailCode({ email, code: code.join("") });
-      setIsMatch(true);
-    } catch (error) {
-      setIsMatch(false);
+    const { result } = await matchEmailCode({ email, code: fullCode });
+    if (!result) {
+      return;
     }
+    setIsMatch(true);
   };
 
   return (

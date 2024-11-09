@@ -154,16 +154,12 @@ export const matchEmailCode = async ({
   code: string;
 }) => {
   try {
-    const response = await axios.post("/email-authentications/match-code", {
+    const { data } = await axios.post("/email-authentications/match-code", {
       email: email,
       code: code,
     });
-    // navigate("/register/email/3");
     // axios 타입으로 바꾸기
-    if (response.status === 201) {
-      console.log(response);
-    }
-    console.log("response", response);
+    return data;
   } catch (error) {
     // 인증코드가 일치하지 않을 경우
     // TODO: 상세한 에러 처리 필요

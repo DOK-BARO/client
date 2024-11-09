@@ -79,6 +79,23 @@
       background-clip: padding-box;
       border: 16px solid transparent;
       background-color: $gray-40;
+      cursor: pointer;
+    }
+  }
+}
+
+@mixin inner-content-scroll-bar {
+  &::-webkit-scrollbar {
+    width: 17px;
+    background-color: transparent;
+
+    &-thumb {
+      height: 60px;
+      border-radius: 9999px;
+      background-clip: padding-box;
+      border: 6px solid transparent;
+      cursor: pointer;
+      background-color: $gray-40;
     }
   }
 }

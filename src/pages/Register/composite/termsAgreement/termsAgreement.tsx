@@ -193,7 +193,7 @@ export default function TermsAgreement() {
           동의하고 가입하기
         </Button>
       </form>
-      {isModalOpen ? (
+      {isModalOpen && serviceDetail ? (
         <TermsModal
           mainTitle="이용약관"
           closeModal={closeModal}

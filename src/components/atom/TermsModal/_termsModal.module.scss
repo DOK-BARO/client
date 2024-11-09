@@ -8,10 +8,52 @@
 
   &-view {
     @include modal-view;
+    width: 480px;
+    height: 600px;
   }
 
   &-header {
     font-size: $font-size-user-auth-agreement-title;
     font-weight: $font-weight-semibold;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .mainTitle {
+      margin-top: 32px;
+    }
+  }
+
+  &-button {
+    width: fit-content;
+    margin-left: auto;
+  }
+
+  &-mainTitle {
+    margin-top: 30px; // 32px
+  }
+  &-content {
+    margin-top: 30px; // 32px
+    overflow-y: auto;
+    white-space: pre-line;
+    font-size: $font-size-user-auth-agreement-content;
+
+    strong {
+      font-weight: $font-weight-bold;
+    }
+    li {
+      margin: 0;
+      padding: 0;
+    }
+    ol {
+      list-style: decimal;
+      padding-left: 22px;
+      display: block;
+
+      p {
+        margin-top: -($font-size-user-auth-agreement-content);
+      }
+    }
+    @include inner-content-scroll-bar;
   }
 }

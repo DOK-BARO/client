@@ -118,7 +118,7 @@ export const getTermsOfServiceDetail = async (
 ): Promise<string | undefined> => {
   try {
     const { data } = await axios.get(`/terms-of-services/${id}/detail`);
-    return data;
+    return data.value;
   } catch (error) {
     console.error(error);
     throw new Error(`이용약관 상세 내용 가져오기 실패: ${error}`);

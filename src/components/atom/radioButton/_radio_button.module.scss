@@ -55,6 +55,7 @@
 }
 
 .radio-button {
+  width: 100%;
   display: flex;
   align-items: center;
 }
@@ -63,4 +64,10 @@
   margin: 8px 16px 8px 0;
   width: 20px;
   height: 20px;
+}
+
+.radio-button-label {
+  display: flex;
+  width: 100%;
+
 }

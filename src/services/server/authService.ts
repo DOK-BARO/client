@@ -10,7 +10,6 @@ const redirectedUrl = import.meta.env.VITE_AUTH_REDIRECTED_URL;
 export const getAuthUrl = async (
   socialLoginType: SocialLoginType
 ): Promise<string> => {
-  console.log("get kakao auth url");
   try {
     const { data } = await axios.get(
       `/auth/oauth2/authorize/${socialLoginType}?redirectUrl=${redirectedUrl}/${socialLoginType.toLowerCase()}`

@@ -6,6 +6,9 @@ import RadioButton from "@/components/atom/radioButton/radioButton.tsx";
 import { Close } from "@/svg/close.tsx";
 import { gray90 } from "@/styles/abstracts/colors.ts";
 import { QuizFormMode } from "@/data/constants";
+import { useAtom } from "jotai";
+import { BookQuizType } from "@/types/BookQuizType";
+import { QuizCreationInfoAtom } from "@/store/quizAtom";
 
 interface QuizOptionItemProps {
   option: RadioOption;
@@ -33,10 +36,35 @@ export default function QuizWriteFormOptionItem({
   quizMode,
 }: QuizOptionItemProps) {
   const { onChange: onOptionChange, value: optionText } = useInput(option.value); // input임
+  const [, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
 
   const onTextAreaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //FIXME: quizWriteFormCheckBoxOptionItem.tsx와 로직 동일
     onOptionChange(e);
     setText(option.id, e.target.value);
+
+    setQuizCreationInfo((prev) => {
+      const updatedQuestions = prev.questions.map((question) => {
+        if (question.id.toString() === questionFormId!) {
+          return {
+            ...question,
+            selectOptions: 
+            question.selectOptions.map((selectOption) => {
+                if(selectOption.id === option.id) {
+                  return {...selectOption, option: e.target.value};
+                }
+                return selectOption;
+            })
+          };
+        }
+        return question;
+      });
+  
+      return {
+        ...prev,
+        questions: updatedQuestions,
+      };
+    });
   };
 
 

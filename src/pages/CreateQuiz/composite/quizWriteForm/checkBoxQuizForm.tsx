@@ -4,15 +4,37 @@ import { QuizFormMode } from "@/data/constants.ts";
 import { CheckBoxOption } from "@/types/CheckBoxTypes.ts";
 import QuizWriteFormCheckBoxOptionItem
   from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormCheckBoxOptionItem.tsx";
+import { useAtom } from "jotai";
+import { BookQuizType } from "@/types/BookQuizType";
+import { QuizCreationInfoAtom } from "@/store/quizAtom";
+
 // TODO: multipleChoiceQuizForm과 겹치는 부분 리팩토링 필요
-export const CheckBoxQuizForm: FC<{ quizMode?: string }> = ({ quizMode }) => {
+export const CheckBoxQuizForm: FC<{ quizMode?: string, questionFormId?:string }> = ({ quizMode,questionFormId }) => {
   const [options, setOptions] = useState<CheckBoxOption[]>([]);
   const [focusedOptionIndex, setFocusedOptionIndex] = useState<number | null>(null);
   const [checkedOptions, setCheckedOptions] = useState<{[key:string]: boolean}>({});
+  const [, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
 
   const disabled: boolean = quizMode === QuizFormMode.QUESTION;
   const deleteOption = (optionId: number) => {
     setOptions(options.filter((option) => option.id !== optionId));
+
+    setQuizCreationInfo((prev) => {
+      const updatedQuestions = prev.questions.map((question) => {
+        if (question.id.toString() === questionFormId!) {
+          return {
+            ...question,
+            selectOptions: question.selectOptions.filter((option)=> option.id !== optionId),
+          };
+        }
+        return question;
+      });
+
+      return {
+        ...prev,
+        questions: updatedQuestions,
+      };
+    });
   };
 
   const onClickAddQuizOptionItem = () => {
@@ -25,6 +47,26 @@ export const CheckBoxQuizForm: FC<{ quizMode?: string }> = ({ quizMode }) => {
         label: "",
       },
     ]);
+
+    setQuizCreationInfo((prev) => {
+      const updatedQuestions = prev.questions.map((question) => {
+        if (question.id.toString() === questionFormId) {
+          return {
+            ...question,
+            selectOptions: [
+              ...question.selectOptions,
+              { id: id, option: "" }, // 새로운 옵션 추가
+            ],
+          };
+        }
+        return question; // 해당 질문이 아닐 경우 원래 질문을 반환
+      });
+
+      return {
+        ...prev,
+        questions: updatedQuestions,
+      };
+    });
   };
 
 
@@ -36,7 +78,7 @@ export const CheckBoxQuizForm: FC<{ quizMode?: string }> = ({ quizMode }) => {
   };
 
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, checked } = event.target;
+    const { id, checked, value } = event.target;
     console.log("onChange: ",id, checked);
     setCheckedOptions((prev) => {
       return {
@@ -44,6 +86,20 @@ export const CheckBoxQuizForm: FC<{ quizMode?: string }> = ({ quizMode }) => {
         [id]: checked,
       };
     });
+
+    setQuizCreationInfo((prev) => ({
+      ...prev,
+      questions: prev.questions.map((question) => 
+        question.id.toString() === questionFormId 
+      ?
+      { ...question, 
+        answers: checked
+              ? [...question.answers,value ]
+              : question.answers.filter((answer) => answer !== value),
+      } 
+      :
+       question)
+    }));
   };
 
   const setText = (optionId: number, value: string) => {
@@ -72,6 +128,7 @@ export const CheckBoxQuizForm: FC<{ quizMode?: string }> = ({ quizMode }) => {
           disabled={disabled}
           onChange={onChange}
           setText={setText}
+          questionFormId={questionFormId!.toString()}
           selectedValue={option.id.toString()}/>,
       )}
       {

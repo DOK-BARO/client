@@ -5,15 +5,33 @@ import QuizWriteFormTypeUtilList from "@/pages/CreateQuiz/composite/quizWriteFor
 
 import Button from "@/components/atom/button/button.tsx";
 import { QuestionFormTypeType } from "@/types/QuestionFormTypeType.ts";
+import { useAtom } from "jotai";
+import { BookQuizType } from "@/types/BookQuizType";
+import { QuizCreationInfoAtom } from "@/store/quizAtom";
 
-function QuizWriteFormTypeUtilButton({ selectedOption, setSelectedOption, list }: {
+function QuizWriteFormTypeUtilButton({quizId, selectedOption, setSelectedOption, list }: {
+  quizId: number,
   list: QuestionFormTypeType[]
   selectedOption: QuestionFormTypeType,
   setSelectedOption: (option: QuestionFormTypeType) => void
 }) {
 
+  const [, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
 
   const onClick = (option: QuestionFormTypeType) => {
+    setQuizCreationInfo((prev) => ({
+      ...prev,
+      questions: prev.questions.map((question) => 
+      question.id === quizId 
+      ? 
+      { ...question,
+        selectOptions: [],
+        answerType: option.typeFlag,
+        answers:[],
+      } 
+      : 
+      question)
+    }));
     setSelectedOption(option);
     closeDropDownList();
   };

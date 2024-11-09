@@ -9,11 +9,16 @@ import TermsModal from "@/components/atom/TermsModal/termsModal";
 import { useGetTermDetail } from "@/hooks/useGetTermDetail";
 import { useGetTerms } from "@/hooks/useGetTerms";
 import { sendTermsAgreement } from "@/services/server/authService";
+import { RegisterInfoAtom } from "@/store/userAtom";
+import { RegisterInfoType } from "@/types/UserType";
+import { useAtom } from "jotai";
 
 export default function TermsAgreement() {
   const { method } = useParams();
   const navigate = useNavigate();
   const { isModalOpen, openModal, closeModal } = useModal();
+  const [registrationInfo, setRegistrationInfo] =
+    useAtom<RegisterInfoType>(RegisterInfoAtom);
 
   const [agreements, setAgreements] = useState<
     Record<string, { checked: boolean; isRequired: boolean }>
@@ -98,18 +103,24 @@ export default function TermsAgreement() {
     (agreement) => agreement.checked || !agreement.isRequired
   );
 
-  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(agreements);
     const itemsWithLastItem = Object.keys(agreements)
       .filter((key) => agreements[key].checked)
       .map((key) => Object.keys(agreements).indexOf(key));
 
     const items = itemsWithLastItem.slice(0, itemsWithLastItem.length - 1);
-    console.log(items);
 
-    // 이용약관 동의
-    await sendTermsAgreement(items);
+    if (method === "social") {
+      // 이용약관 동의
+      await sendTermsAgreement(items);
+    } else if (method === "email") {
+      // 이용약관 동의 상태 전역에 저장
+      setRegistrationInfo({
+        ...registrationInfo,
+        termsAgreements: items,
+      });
+    }
     navigate(`/register/${method}/2`);
   };
 
@@ -121,7 +132,7 @@ export default function TermsAgreement() {
         <br />
         동의해 주세요.
       </p>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit}>
         {/* 모두 동의 */}
         <div className={styles["terms-agreement-all"]}>
           <CheckBox

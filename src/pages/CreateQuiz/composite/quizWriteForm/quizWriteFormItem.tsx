@@ -16,6 +16,9 @@ import { MultipleChoiceQuizForm } from "@/pages/CreateQuiz/composite/quizWriteFo
 import { CheckBoxQuizForm } from "@/pages/CreateQuiz/composite/quizWriteForm/checkBoxQuizForm.tsx";
 import { OXQuizForm } from "@/pages/CreateQuiz/composite/quizWriteForm/oxQuizForm.tsx";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
+import { useAtom } from "jotai";
+import { BookQuizType } from "@/types/BookQuizType";
+import { QuizCreationInfoAtom } from "@/store/quizAtom";
 
 interface QuizWriteFormItemProps {
   id: number;
@@ -26,26 +29,31 @@ const quizWriteFormTypeUtilList: QuestionFormTypeType[] = [
   {
     Icon: UlList,
     text: "객관식",
+    typeFlag: "MULTIPLE_CHOICE",
     FormComponent: <MultipleChoiceQuizForm />,
   },
   {
     Icon: OlList,
     text: "복수 정답",
+    typeFlag: "MULTIPLE_CHOICE",
     FormComponent: <CheckBoxQuizForm />,
   },
   {
     Icon: OxQuiz,
     text: "OX 퀴즈",
+    typeFlag: "OX",
     FormComponent: <OXQuizForm />,
   },
   {
     Icon: BlankQuiz,
     text: "빈칸 채우기",
+    typeFlag: "FILL_BLANK",
     FormComponent: <div></div>,
   },
   {
     Icon: AlignJustify,
     text: "단답형 주관식",
+    typeFlag: "SHORT",
     FormComponent: <div></div>,
   },
 ] as const;
@@ -58,8 +66,16 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
   const titleMaxLength = 25000;
   const { value: question, onChange: onQuestionChange, textareaRef: questionTextAreaRef } = useAutoResizeTextarea("");
 
-
+  const [, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
   const { value: answerTextAreaValue, onChange: onAnswerTextAreaChange } = useTextarea("");
+
+  const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    onAnswerTextAreaChange(e);
+    setQuizCreationInfo((prev) => ({
+      ...prev,
+      questions: prev.questions.map((question) => question.id === id ? { ...question, answerExplanation: e.target.value } : question) // 해당 질문만 업데이트
+    }));
+  }
 
   const onQuizModeSelect = (e: React.MouseEvent<HTMLButtonElement>) => {
     setQuizMode(e.currentTarget.value);
@@ -99,8 +115,40 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
 
       Promise.all(readerPromises).then(() => {
         setSelectedImages((prev) => [...prev, ...newImages]); // 기존 이미지와 새 이미지를 합칩니다.
+
+
+
+        setQuizCreationInfo((prev) => {
+          const updatedQuestions = prev.questions.map((question) => {
+            if (question.id === id!) { // TODO: questionFormId로 변수 네이밍 통일 필요
+              return {
+                ...question,
+                answerExplanationImages:
+                  [...question.answerExplanationImages , ...newImages]
+              };
+            }
+            return question;
+          });
+  
+          return {
+            ...prev,
+            questions: updatedQuestions,
+          };
+        });
       });
+
+
     }
+
+  };
+
+
+  const handleQuestionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    onQuestionChange(e);
+    setQuizCreationInfo((prev) => ({
+      ...prev,
+      questions: prev.questions.map((question) => question.id === id ? { ...question, content: e.target.value } : question) // 해당 질문만 업데이트
+    }));
   };
 
   const handleButtonClick = () => {
@@ -110,6 +158,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
     }
     fileInputRef.current?.click(); // 버튼 클릭 시 파일 입력 클릭
   };
+
 
 
   return (
@@ -124,20 +173,21 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
       <div>
         <div className={styles["input-container"]}>
           <QuizWriteFormTypeUtilButton
+            quizId={id}
             list={quizWriteFormTypeUtilList}
             selectedOption={questionFormType}
             setSelectedOption={setQuestionFormType}
           />
           <div className={styles["title-area"]}>
             <Textarea
-            maxLength={titleMaxLength}
-            className={styles["question"]}
-            value={question}
-            onChange={onQuestionChange}
-            id="option"
-            placeholder="질문을 입력해주세요."
-            textAreaRef={questionTextAreaRef}
-          />
+              maxLength={titleMaxLength}
+              className={styles["question"]}
+              value={question}
+              onChange={handleQuestionChange}
+              id="option"
+              placeholder="질문을 입력해주세요."
+              textAreaRef={questionTextAreaRef}
+            />
           </div>
         </div>
         {React.cloneElement(questionFormType.FormComponent, { questionFormId: id.toString(), quizMode })}
@@ -165,7 +215,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
           <Textarea
             className={styles["quiz-mode-answer-text-area"]}
             id={QuizFormMode.ANSWER}
-            onChange={onAnswerTextAreaChange}
+            onChange={handleAnswerChange}
             value={answerTextAreaValue}
             placeholder={"답안에 대한 설명을 입력해주세요"}
           />

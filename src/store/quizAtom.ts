@@ -13,13 +13,5 @@ export const QuizCreationInfoAtom = atom<BookQuizType>({
   viewScope: "EVERYONE",
   editScope: "EVERYONE",
   studyGroupIds: 0,
-  questions: [
-    {
-      content: "",
-      selectOptions: [],
-      answerExplanation: "",
-      answerType: "OX",
-      answers: [],
-    },
-  ],
+  questions: [],
 });

@@ -5,7 +5,9 @@ import QuizWriteFormItem from "@/pages/CreateQuiz/composite/quizWriteForm/quizWr
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
 import { Plus } from "@/svg/plus.tsx";
 import { primary } from "@/styles/abstracts/colors.ts";
-
+import { useAtom } from "jotai";
+import { BookQuizType } from "@/types/BookQuizType";
+import { QuizCreationInfoAtom } from "@/store/quizAtom";
 // 3. 퀴즈 작성
 export interface QuizWriteFormItemType {
   id: number;
@@ -14,14 +16,24 @@ export interface QuizWriteFormItemType {
 
 export default function QuizWriteForm() {
   const [quizWriteFormList, setQuizWriteList] = useState<QuizWriteFormItemType[]>([]);
+  const [quizCreationInfo, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
 
   const deleteQuizWriteForm = (targetId: number) => {
+
     setQuizWriteList((prevQuizList) => {
       return prevQuizList.filter(({ id }) => id !== targetId);
     });
+
+    setQuizCreationInfo((prevQuizList) => {
+      const updatedQuestions = prevQuizList.questions.filter((question) => question.id !== targetId);
+      return {
+        ...prevQuizList,
+        questions: updatedQuestions,
+      }
+    }); 
   };
 
-  const moveQuizWriteForm = (result:  DropResult) => {
+  const moveQuizWriteForm = (result: DropResult) => {
     if (!result.destination) return;
     const items = [...quizWriteFormList];
     const [reorderedItem] = items.splice(result.source.index, 1);
@@ -35,9 +47,30 @@ export default function QuizWriteForm() {
       ...prev,
       {
         id: id,
-        component: <QuizWriteFormItem id={id} deleteQuizWriteForm={deleteQuizWriteForm}/>,
+        component: <QuizWriteFormItem id={id} deleteQuizWriteForm={deleteQuizWriteForm} />,
       },
     ]);
+
+    // 퀴즈 질문 초기 값 생성
+    setQuizCreationInfo((prev) => (
+      {
+        ...prev,
+        questions: [
+          ...prev.questions,
+          {
+            id: id,
+            content: "",
+            selectOptions: [],
+            answerExplanation: "",
+            answerType: "MULTIPLE_CHOICE",
+            answerExplanationImages: [],
+            answers: [],
+          },
+        ]
+      })
+    );
+
+    console.log("info: %o",quizCreationInfo);
   };
 
 
@@ -47,7 +80,7 @@ export default function QuizWriteForm() {
         <Droppable droppableId="cardlists">
           {(provided) => (
             <div className="cardlists" {...provided.droppableProps} ref={provided.innerRef}>
-              {quizWriteFormList.map((item,index) => (
+              {quizWriteFormList.map((item, index) => (
                 <Draggable draggableId={`${item.id}`} index={index} key={`${item.id}`}>
                   {(provided) => {
                     return (
@@ -72,7 +105,7 @@ export default function QuizWriteForm() {
         onClick={onClickAddQuizWriteForm}
         className={styles["add-quiz"]}>
         <span>문제 추가하기</span>
-        <Plus stroke={primary} width={24} height={24}/>
+        <Plus stroke={primary} width={24} height={24} />
       </Button>
     </div>
   );

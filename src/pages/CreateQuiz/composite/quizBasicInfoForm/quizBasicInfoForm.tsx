@@ -7,6 +7,8 @@ import React from "react";
 import { IsQuizNextButtonEnabledAtom } from "@/store/quizAtom";
 import { useAtom } from "jotai";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
+import { BookQuizType } from "@/types/BookQuizType";
+import { QuizCreationInfoAtom } from "@/store/quizAtom";
 
 function QuizBasicInfoForm() {
 
@@ -19,9 +21,21 @@ function QuizBasicInfoForm() {
     IsQuizNextButtonEnabledAtom
   );
 
+  const [quizCreationInfo, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
+
+
   useEffect(() => {
     const  disable = titleInputValue.trim() === "" || descriptionTextareaValue.trim() === "";
     setIsQuizNextButtonEnabled(!disable);
+    
+    // FIXME: titleInputValue와 desc onchange에서 따로 구현필요
+    setQuizCreationInfo((prev) => (
+      {
+        ...prev,
+        title: titleInputValue,
+        description: descriptionTextareaValue
+      } 
+    ));
   }, [titleInputValue, descriptionTextareaValue]);
 
   return (

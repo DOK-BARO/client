@@ -61,7 +61,7 @@ export default function QuizWriteForm() {
             id: id,
             content: "",
             selectOptions: [],
-            answerExplanation: "",
+            answerExplanationContent: "",
             answerType: "MULTIPLE_CHOICE",
             answerExplanationImages: [],
             answers: [],

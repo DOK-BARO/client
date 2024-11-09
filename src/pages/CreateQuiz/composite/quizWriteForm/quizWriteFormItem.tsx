@@ -73,7 +73,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
     onAnswerTextAreaChange(e);
     setQuizCreationInfo((prev) => ({
       ...prev,
-      questions: prev.questions.map((question) => question.id === id ? { ...question, answerExplanation: e.target.value } : question) // 해당 질문만 업데이트
+      questions: prev.questions.map((question) => question.id === id ? { ...question, answerExplanationContent: e.target.value } : question) // 해당 질문만 업데이트
     }));
   }
 

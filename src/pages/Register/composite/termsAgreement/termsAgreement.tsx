@@ -8,6 +8,7 @@ import useModal from "@/hooks/useModal";
 import TermsModal from "@/components/atom/TermsModal/termsModal";
 import { useGetTermDetail } from "@/hooks/useGetTermDetail";
 import { useGetTerms } from "@/hooks/useGetTerms";
+import { sendTermsAgreement } from "@/services/server/authService";
 
 export default function TermsAgreement() {
   const { method } = useParams();
@@ -97,8 +98,18 @@ export default function TermsAgreement() {
     (agreement) => agreement.checked || !agreement.isRequired
   );
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>): void => {
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    console.log(agreements);
+    const itemsWithLastItem = Object.keys(agreements)
+      .filter((key) => agreements[key].checked)
+      .map((key) => Object.keys(agreements).indexOf(key));
+
+    const items = itemsWithLastItem.slice(0, itemsWithLastItem.length - 1);
+    console.log(items);
+
+    // 이용약관 동의
+    await sendTermsAgreement(items);
     navigate(`/register/${method}/2`);
   };
 

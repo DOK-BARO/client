@@ -122,3 +122,13 @@ export const fetchTermDetail = async (
     throw new Error(`이용약관 상세 내용 가져오기 실패: ${error}`);
   }
 };
+
+// 이용약관 동의 요청
+export const sendTermsAgreement = async (items: number[]) => {
+  try {
+    const response = await axios.post(`/terms-of-services/agree`, items);
+    console.log(response);
+  } catch (error) {
+    throw new Error(`이용약관 동의 실패: ${error}}`);
+  }
+};

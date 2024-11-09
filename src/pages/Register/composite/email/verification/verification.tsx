@@ -9,9 +9,9 @@ import Button from "@/components/atom/button/button.tsx";
 import { RegisterInfoType } from "@/types/UserType";
 import { RegisterInfoAtom } from "@/store/userAtom";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { XSmall } from "@/svg/xSmall";
+import { matchEmailCode, sendEmailCode } from "@/services/server/authService";
 
 export default function Verification() {
   const [user, setUser] = useAtom<RegisterInfoType>(RegisterInfoAtom);
@@ -25,10 +25,11 @@ export default function Verification() {
   const [code, setCode] = useState<string[]>(Array(6).fill(""));
   const [isMatch, setIsMatch] = useState<boolean | undefined>(undefined);
   const fullCode: string = code.join("");
+  const nextPage = "/register/email/3";
 
   const [isEmailSent, setIsEmailSent] = useState<boolean>(false);
 
-  const onNext = (): void => {
+  const handleNext = async () => {
     if (!email || !isEmailValid) {
       return;
     }
@@ -37,16 +38,19 @@ export default function Verification() {
       email,
     });
     // 인증코드 발송
-    sendEmailCode();
+    await sendEmailCode(email);
+    setIsEmailSent(true);
   };
 
-  const onCodeChange = (
+  const handleCodeChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number
   ) => {
-    const { value } = e.target;
-
+    let { value } = e.target;
     if (value.length > 1) return;
+
+    value = value.toUpperCase();
+
     const newCode = [...code];
 
     if (value) {
@@ -78,49 +82,12 @@ export default function Verification() {
     }
   };
 
-  // 이메일로 인증코드 보내기
-  const sendEmailCode = async () => {
-    console.log(email);
-    try {
-      const response = await axios.post("/email-authentications", {
-        email: email,
-      });
-      // axios 타입으로 바꾸기
-      if (response.status === 201) {
-        console.log(response);
-        setIsEmailSent(true);
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  const matchEmailCode = async () => {
-    try {
-      const response = await axios.post("/email-authentications/match-code", {
-        email: email,
-        code: code,
-      });
-      // navigate("/register/email/3");
-      // axios 타입으로 바꾸기
-      if (response.status === 201) {
-        console.log(response);
-        setIsMatch(true);
-      }
-      console.log("response", response);
-    } catch (e) {
-      // 인증코드가 일치하지 않을 경우
-      // TODO: 상세한 에러 처리 필요
-      console.error("에러", e);
-      setIsMatch(false);
-    }
-  };
-
   useEffect(() => {
-    if (isMatch) {
-      // 인증 코드가 일치할 경우에만 다음 페이지로 이동
-      navigate("/register/email/3");
+    if (!isMatch) {
+      return;
     }
+    // 인증 코드가 일치할 경우에만 다음 페이지로 이동
+    navigate(nextPage);
   }, [isMatch]);
 
   const handleKeyDown = (
@@ -139,8 +106,13 @@ export default function Verification() {
     }
   };
 
-  const onDone = () => {
-    matchEmailCode();
+  const handleDone = async () => {
+    try {
+      await matchEmailCode({ email, code: code.join("") });
+      setIsMatch(true);
+    } catch (error) {
+      setIsMatch(false);
+    }
   };
 
   return (
@@ -191,7 +163,7 @@ export default function Verification() {
                 key={i}
                 id={`code-input-${i}`}
                 value={digit}
-                onChange={(e) => onCodeChange(e, i)}
+                onChange={(e) => handleCodeChange(e, i)}
                 onKeyDown={(e) => handleKeyDown(e, i)}
                 maxLength={1}
                 color={fullCode.length !== 6 ? "default" : "black"}
@@ -213,7 +185,7 @@ export default function Verification() {
         className={styles.next}
         color="primary"
         size="medium"
-        onClick={!isEmailSent ? onNext : onDone}
+        onClick={!isEmailSent ? handleNext : handleDone}
         fullWidth
         disabled={!isEmailSent ? !isEmailValid : fullCode.length !== 6}
       >

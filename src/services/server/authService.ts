@@ -5,8 +5,8 @@ import localApi from "../local/LocalApi.ts";
 import { UserType } from "@/types/UserType.ts";
 import { TermsOfServiceType } from "@/types/TermsOfServiceType.ts";
 
-const redirectedUrl = import.meta.env.VITE_AUTH_REDIRECTED_URL;
 // TODO: 함수명 api로부터 바로 가져오는건 fetch, 그 외 get
+const redirectedUrl = import.meta.env.VITE_AUTH_REDIRECTED_URL;
 export const getAuthUrl = async (
   socialLoginType: SocialLoginType
 ): Promise<string> => {
@@ -129,5 +129,44 @@ export const sendTermsAgreement = async (items: number[]) => {
     console.log(response);
   } catch (error) {
     throw new Error(`이용약관 동의 실패: ${error}}`);
+  }
+};
+
+// 이메일로 인증코드 보내기
+export const sendEmailCode = async (email: string) => {
+  try {
+    const response = await axios.post("/email-authentications", {
+      email: email,
+    });
+    if (response.status === 201) {
+      console.log(response);
+    }
+  } catch (error) {
+    throw new Error(`이메일로 인증코드 보내기 실패: ${error}`);
+  }
+};
+
+export const matchEmailCode = async ({
+  email,
+  code,
+}: {
+  email: string;
+  code: string;
+}) => {
+  try {
+    const response = await axios.post("/email-authentications/match-code", {
+      email: email,
+      code: code,
+    });
+    // navigate("/register/email/3");
+    // axios 타입으로 바꾸기
+    if (response.status === 201) {
+      console.log(response);
+    }
+    console.log("response", response);
+  } catch (error) {
+    // 인증코드가 일치하지 않을 경우
+    // TODO: 상세한 에러 처리 필요
+    throw new Error(`인증코드 일치 실패: ${error}`);
   }
 };

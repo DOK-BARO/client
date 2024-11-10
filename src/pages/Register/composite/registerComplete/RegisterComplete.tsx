@@ -7,13 +7,17 @@ import { RegisterInfoAtom } from "@/store/userAtom";
 import { RegisterInfoType } from "@/types/UserType";
 import { useAtom } from "jotai";
 import { APP_NAME } from "@/data/constants";
+import { joinStudyGroup } from "@/services/server/studyService";
 
 export default function RegisterComplete() {
   const [user] = useAtom<RegisterInfoType>(RegisterInfoAtom);
 
-  const { value: inviteCode, onChange: onInviteCodeChange } = useInput("");
-  const onInviteCodeSubmit = () => {
+  const { value: inviteCode, onChange: handleInviteCodeChange } = useInput("");
+
+  // 초대코드로 스터디 참여
+  const handleInviteCodeSubmit = async () => {
     console.log(inviteCode);
+    await joinStudyGroup(inviteCode);
   };
   return (
     <section className={styles["register-complete"]}>
@@ -36,12 +40,16 @@ export default function RegisterComplete() {
                 placeholder="초대코드 입력"
                 id="invite-code"
                 className={styles["invite-code"]}
-                onChange={onInviteCodeChange}
+                onChange={handleInviteCodeChange}
                 value={inviteCode}
                 size="large"
                 color="default"
               />
-              <Button color="primary" size="large" onClick={onInviteCodeSubmit}>
+              <Button
+                color="primary"
+                size="large"
+                onClick={handleInviteCodeSubmit}
+              >
                 입력
               </Button>
             </div>

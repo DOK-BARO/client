@@ -3,6 +3,7 @@ import styles from "./_profile_upload.module.scss";
 import { InfoFilled } from "@/svg/infoFilled.tsx";
 import { gray40, gray60 } from "@/styles/abstracts/colors.ts";
 import Button from "@/components/atom/button/button.tsx";
+import { ProfileImageState } from "../../composite/profileSet/profileSet";
 
 export default function ProfileUpload({
   email,
@@ -11,12 +12,15 @@ export default function ProfileUpload({
   defaultImagePath,
 }: {
   email: string;
-  profileImage: string;
-  setProfileImage: React.Dispatch<React.SetStateAction<string>>;
+  profileImage: ProfileImageState;
+  setProfileImage: React.Dispatch<React.SetStateAction<ProfileImageState>>;
   defaultImagePath: string;
 }) {
   const onDeleteProfileImage = () => {
-    setProfileImage(defaultImagePath);
+    setProfileImage({
+      url: defaultImagePath,
+      file: null,
+    });
   };
 
   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,7 +28,10 @@ export default function ProfileUpload({
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        setProfileImage(reader.result as string);
+        setProfileImage({
+          url: reader.result as string,
+          file: file,
+        });
       };
       reader.readAsDataURL(file);
     }
@@ -35,7 +42,7 @@ export default function ProfileUpload({
       <div className={styles["profile-email-container"]}>
         <div className={styles["custom-file-upload"]}>
           <img
-            src={profileImage}
+            src={profileImage.url}
             alt="프로필 이미지"
             className={styles["profile-image"]}
           />

@@ -10,7 +10,6 @@ import Button from "@/components/atom/button/button.tsx";
 import { RegisterInfoType } from "@/types/UserType";
 import { RegisterInfoAtom } from "@/store/userAtom";
 import { useNavigate, useParams } from "react-router-dom";
-
 import {
   emailSignup,
   sendTermsAgreement,
@@ -19,9 +18,10 @@ import {
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 export default function ProfileSet() {
-  const navigate = useNavigate();
   const { method } = useParams();
+  const navigate = useNavigate();
   const nextPage = "/register/complete";
+
   const defaultImagePath = "/public/assets/image/default-profile.png";
   const [profileImage, setProfileImage] = useState<string>(defaultImagePath);
   const [user, setUser] = useAtom<RegisterInfoType>(RegisterInfoAtom);
@@ -46,7 +46,6 @@ export default function ProfileSet() {
 
   const handleSignUp = async () => {
     const { id, termsAgreements, ...userInfo } = user;
-    console.log("회원가입하기", userInfo);
 
     if (method === "email") {
       // 이메일

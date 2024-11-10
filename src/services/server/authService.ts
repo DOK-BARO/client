@@ -102,7 +102,7 @@ export const emailSignup = async (userInfo: {
 export const updateUser = async (userInfo: {
   nickname: string;
   email: string;
-  profileImage: string;
+  profileImage: string; // TODO: 필수인가?
 }) => {
   try {
     const response = await axios.put("/members/login-user", userInfo);

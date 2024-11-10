@@ -6,12 +6,6 @@ import { RegisterInfoAtom } from "@/store/userAtom";
 import { RegisterInfoType } from "@/types/UserType";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
-// import { useEffect } from "react";
-// import { useQueryCurrentUser } from "@/hooks/useQueryCurrentUser";
-// import { useAtom } from "jotai";
-// import { RegisterInfoAtom } from "@/store/userAtom";
-// import { RegisterInfoType } from "@/types/UserType";
-// import { setUserInLocalStorage } from "@/hooks/useAuthCode";
 
 const SocialRegisterLayout = () => {
   const { step } = useParams<{ step: string }>();

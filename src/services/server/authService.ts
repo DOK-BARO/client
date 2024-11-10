@@ -2,7 +2,7 @@ import axios, { AxiosError } from "axios";
 import { AuthResponse } from "../../types/AuthResponse.ts";
 import { SocialLoginType } from "../../types/SocialLoginType.ts";
 import localApi from "../local/LocalApi.ts";
-import { UserType } from "@/types/UserType.ts";
+import { UserBaseType, UserType } from "@/types/UserType.ts";
 import { TermsOfServiceType } from "@/types/TermsOfServiceType.ts";
 
 // TODO: 함수명 api로부터 바로 가져오는건 fetch, 그 외 get
@@ -20,6 +20,7 @@ export const getAuthUrl = async (
   }
 };
 
+// TODO: 함수명에서 '소셜' 명시하기
 export const login = async (
   socialType: SocialLoginType,
   token: string
@@ -51,6 +52,8 @@ export const login = async (
   }
 };
 
+// 소셜 회원가입
+// TODO: 함수명에서 '소셜' 명시하기
 export const signup = async (
   socialType: SocialLoginType,
   token: string
@@ -79,6 +82,38 @@ export const signup = async (
   }
 };
 
+// 이메일 회원가입
+export const emailSignup = async (userInfo: {
+  email: string;
+  password: string;
+  nickname: string;
+  profileImage: string;
+}) => {
+  try {
+    const response = await axios.post("/auth/email/signup", userInfo);
+    console.log("이메일 회원가입 post 응답", response);
+    return response;
+  } catch (error) {
+    throw new Error(`이메일 회원가입 실패: ${error}`);
+  }
+};
+
+// 문서 상에는 'modify login member' 로 명시되어 있음.
+export const updateUser = async (userInfo: {
+  nickname: string;
+  email: string;
+  profileImage: string;
+}) => {
+  try {
+    const response = await axios.put("/members/login-user", userInfo);
+    console.log(response);
+  } catch (error) {
+    throw new Error(`로그인 유저 실패: ${error}`);
+  }
+};
+
+// 프로필 업데이트
+// TODO: fetch~로 함수명 변경하기
 export const getUser = async (): Promise<UserType> => {
   try {
     const { data } = await axios.get("/members/login-user");
@@ -99,7 +134,7 @@ export const getUserIfAuthenticated = async (): Promise<UserType | null> => {
   return null;
 };
 
-// 회원가입 - 이용약관 조회
+// 이용약관 조회
 export const fetchTerms = async (): Promise<TermsOfServiceType[] | null> => {
   try {
     const { data } = await axios.get("/terms-of-services");

@@ -1,4 +1,4 @@
-interface UserBaseType {
+export interface UserBaseType {
   id: number;
   email: string;
   nickname: string;
@@ -15,5 +15,5 @@ export interface UserType extends UserBaseType {
 export interface RegisterInfoType extends UserBaseType {
   id: number;
   password: string;
-  termsAgreements?: number[]; // 이메일 회원가입인 경우만 사용
+  termsAgreements: number[]; // 이메일 회원가입인 경우만 사용
 }

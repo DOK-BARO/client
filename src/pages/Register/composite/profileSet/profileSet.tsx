@@ -1,9 +1,6 @@
 import styles from "./_profile_set.module.scss";
 import { FormEvent, useEffect, useState } from "react";
 import { useAtom } from "jotai";
-// import { AUTH_ACTION, LOCAL_STORAGE_KEY } from "@/data/constants";
-
-// import { SocialLoginType } from "@/types/SocialLoginType";
 import useInput from "@/hooks/useInput.ts";
 import ProfileUpload from "@/pages/Register/components/profileUpload/profileUpload.tsx";
 import Input from "@/components/atom/input/input.tsx";
@@ -12,23 +9,32 @@ import { gray30, gray60 } from "@/styles/abstracts/colors.ts";
 import Button from "@/components/atom/button/button.tsx";
 import { RegisterInfoType } from "@/types/UserType";
 import { RegisterInfoAtom } from "@/store/userAtom";
-import { useParams } from "react-router-dom";
-import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
 
+import {
+  emailSignup,
+  sendTermsAgreement,
+  updateUser,
+} from "@/services/server/authService";
+
+/* eslint-disable @typescript-eslint/no-unused-vars */
 export default function ProfileSet() {
+  const navigate = useNavigate();
   const { method } = useParams();
-  const isSubmitAble: boolean = true;
+  const nextPage = "/register/complete";
+  const defaultImagePath = "/public/assets/image/default-profile.png";
+  const [profileImage, setProfileImage] = useState<string>(defaultImagePath);
+  const [user, setUser] = useAtom<RegisterInfoType>(RegisterInfoAtom);
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+
   const {
     value: nickname,
     onChange: onNicknameChange,
     resetInput,
   } = useInput("");
-  const defaultImagePath = "/public/assets/image/default-profile.png";
-  const [profileImage, setProfileImage] = useState<string>(defaultImagePath);
-  // const navigate = useNavigate();
-  const [user, setUser] = useAtom<RegisterInfoType>(RegisterInfoAtom);
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-  const onSubmit = (event: FormEvent<HTMLFormElement>): void => {
+  const isSubmitAble: boolean = !!nickname;
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     setUser({
       ...user,
@@ -36,50 +42,36 @@ export default function ProfileSet() {
       profileImage,
     });
     setIsSubmitted(true);
-    // navigate("/register/complete");
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const onSignUp = async () => {
-    // const userInfo = {
-    //   email: "gimm08377@gmail.com",
-    //   password: "password123!",
-    //   nickname: user.nickname,
-    //   profileImage: user.profileImage,
-    // };
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { id, ...userInfo } = user;
-
+  const handleSignUp = async () => {
+    const { id, termsAgreements, ...userInfo } = user;
     console.log("회원가입하기", userInfo);
 
     if (method === "email") {
+      // 이메일
       const emailUserInfo = userInfo;
-      try {
-        const response = await axios.post("/auth/email/signup", emailUserInfo);
-        console.log("이메일 회원가입 post 응답", response);
-      } catch (e) {
-        console.log(e);
-      }
+
+      // 1. 회원가입
+      // 2. 약관 동의
+      await Promise.all([
+        emailSignup(emailUserInfo),
+        sendTermsAgreement(termsAgreements),
+      ]);
     } else {
-      // method === "social"
-      try {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { password, ...socialUserInfo } = userInfo;
-        const response = await axios.put("/members/login-user", socialUserInfo);
-        console.log("소셜 회원가입 put 응답", response);
-      } catch (e) {
-        console.log(e);
-      }
+      // 소셜
+      const { password, ...socialUserInfo } = userInfo;
+      // 1. 프로필 업데이트
+      await updateUser(socialUserInfo);
     }
-    // localStorage.setItem(LOCAL_STORAGE_KEY.AUTH_ACTION, AUTH_ACTION.SIGN_UP);
-    // await redirectToAuthPage(SocialLoginType.EMAIL);
+    navigate(nextPage);
   };
 
   useEffect(() => {
-    if (isSubmitted) {
-      // navigate("/register/complete");
-      onSignUp();
+    if (!isSubmitted) {
+      return;
     }
+    handleSignUp();
   }, [isSubmitted]);
 
   return (
@@ -88,7 +80,7 @@ export default function ProfileSet() {
       <p className={styles.description} data-for="profile-image">
         프로필을 설정해 주세요.
       </p>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit}>
         <ProfileUpload
           email={user.email}
           profileImage={profileImage}

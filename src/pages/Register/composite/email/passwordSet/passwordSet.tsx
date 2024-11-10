@@ -20,6 +20,9 @@ import { Visible } from "@/svg/visible";
 import { XSmall } from "@/svg/xSmall";
 
 export default function PasswordSet() {
+  const navigate = useNavigate();
+  const nextPage = "/register/email/4";
+
   const {
     value: password,
     onChange: onPasswordChange,
@@ -35,8 +38,6 @@ export default function PasswordSet() {
   const [isShowPasswordCheck, setIsShowPasswordCheck] =
     useState<boolean>(false);
 
-  const navigate = useNavigate();
-
   useEffect(() => {
     // 사용자가 뒤로가기 눌렀다 다시 돌아왔을 때 초기화되도록(비밀번호만)
     setUser({
@@ -45,12 +46,12 @@ export default function PasswordSet() {
     });
   }, []);
 
-  const onSubmit = (): void => {
+  const handleSubmit = (): void => {
     setUser({
       ...user,
       password,
     });
-    navigate("/register/email/4");
+    navigate(nextPage);
   };
 
   const moveToNext = (): void => {
@@ -161,7 +162,7 @@ export default function PasswordSet() {
         disabled={!isPasswordValid}
         className={styles.next}
         size="medium"
-        onClick={step === 1 ? moveToNext : onSubmit}
+        onClick={step === 1 ? moveToNext : handleSubmit}
         color="primary"
         fullWidth
       >

@@ -94,6 +94,7 @@ export default function TermsAgreement() {
       };
     });
   };
+
   const handleTermsContentShowButton = (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
@@ -122,15 +123,15 @@ export default function TermsAgreement() {
 
     const items = itemsWithLastItem.slice(0, itemsWithLastItem.length - 1);
 
-    if (method === "social") {
-      // 이용약관 동의
-      await sendTermsAgreement(items);
-    } else if (method === "email") {
+    if (method === "email") {
       // 이용약관 동의 상태 전역에 저장
       setRegistrationInfo({
         ...registrationInfo,
         termsAgreements: items,
       });
+    } else {
+      // 이용약관 동의
+      await sendTermsAgreement(items);
     }
     navigate(nextPage);
   };

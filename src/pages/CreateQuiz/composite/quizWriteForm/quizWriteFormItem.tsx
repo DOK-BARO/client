@@ -81,7 +81,10 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
     setQuizMode(e.currentTarget.value);
   };
 
-  const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [selectedImages, setSelectedImages] = useState<(File | string)[]>([]);
+  const [imagePreview, setImagePreview] = useState<string[]>([]);
+
+  //const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null); // 파일 입력 참조
@@ -96,6 +99,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
         setErrorMessage(null); // 오류 메시지 초기화
       }
       const newImages: string[] = [];
+      const newImagesFile: File[]= [];
       const readerPromises: Promise<void>[] = [];
 
       for (let i = 0; i < files.length; i++) {
@@ -105,6 +109,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
         const promise = new Promise<void>((resolve) => {
           reader.onloadend = () => {
             newImages.push(reader.result as string); // 이미지 미리보기 URL 추가
+            newImagesFile.push(file);
             resolve();
           };
           reader.readAsDataURL(file); // 파일을 Data URL로 읽기
@@ -114,8 +119,8 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
       }
 
       Promise.all(readerPromises).then(() => {
-        setSelectedImages((prev) => [...prev, ...newImages]); // 기존 이미지와 새 이미지를 합칩니다.
-
+        setSelectedImages((prev) => [...prev, ...newImagesFile]); // 기존 이미지와 새 이미지를 합칩니다.
+        setImagePreview((prev) => [...prev, ...newImages])
 
 
         setQuizCreationInfo((prev) => {
@@ -124,7 +129,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
               return {
                 ...question,
                 answerExplanationImages:
-                  [...question.answerExplanationImages , ...newImages]
+                  [...question.answerExplanationImages , ...newImagesFile]
               };
             }
             return question;
@@ -221,9 +226,9 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
           />
 
           {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} {/* 오류 메시지 표시 */}
-          {selectedImages.length > 0 && (
+          {imagePreview.length > 0 && (
             <div className={styles["image-area"]}>
-              {selectedImages.map((image, index) => (
+              {imagePreview.map((image, index) => (
                 <img
                   key={index}
                   src={image}

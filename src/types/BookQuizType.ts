@@ -14,9 +14,9 @@ export interface BookQuizQuestionType {
   content: string;
   //selectOptions: string[];
   //TODO: api 요청 시 id제거 필요
-  selectOptions: {id: number, option:string}[];
+  selectOptions: {id: number, option:string}[] | string[];
   answerExplanation: string;
-  answerExplanationImages: string[],
+  answerExplanationImages: (string | File )[],
   answerType: "OX" | "FILL_BLANK" | "MULTIPLE_CHOICE" | "SHORT";
   answers: string[];
 }

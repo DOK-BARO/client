@@ -2,7 +2,7 @@ import axios, { AxiosError } from "axios";
 import { AuthResponse } from "../../types/AuthResponse.ts";
 import { SocialLoginType } from "../../types/SocialLoginType.ts";
 import localApi from "../local/LocalApi.ts";
-import { UserBaseType, UserType } from "@/types/UserType.ts";
+import { UserType } from "@/types/UserType.ts";
 import { TermsOfServiceType } from "@/types/TermsOfServiceType.ts";
 
 // TODO: 함수명 api로부터 바로 가져오는건 fetch, 그 외 get

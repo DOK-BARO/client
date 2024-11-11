@@ -86,7 +86,7 @@ export const signup = async (
 export const emailSignup = async (userInfo: {
   email: string;
   password: string;
-  nickname: string;
+  nickName: string;
   profileImage: string;
 }) => {
   try {
@@ -100,7 +100,7 @@ export const emailSignup = async (userInfo: {
 
 // 문서 상에는 'modify login member' 로 명시되어 있음.
 export const updateUser = async (userInfo: {
-  nickname: string;
+  nickName: string;
   email: string;
   profileImage: string; // TODO: 필수인가?
 }) => {

@@ -15,6 +15,8 @@ import { matchEmailCode, sendEmailCode } from "@/services/server/authService";
 import AuthCodeInput from "@/components/composite/authCodeInput/AuthCodeInput";
 
 export default function Verification() {
+  const navigate = useNavigate();
+  const nextPage = "/register/email/3";
   const [user, setUser] = useAtom<RegisterInfoType>(RegisterInfoAtom);
   const {
     value: email,
@@ -22,12 +24,10 @@ export default function Verification() {
     isValid: isEmailValid,
   } = useInput(user.email, emailValidation);
 
-  const navigate = useNavigate();
   const [code, setCode] = useState<string[]>(Array(6).fill(""));
-  const [isMatch, setIsMatch] = useState<boolean | undefined>(undefined);
   const fullCode: string = code.join("");
-  const nextPage = "/register/email/3";
 
+  const [isMatch, setIsMatch] = useState<boolean | undefined>(undefined);
   const [isEmailSent, setIsEmailSent] = useState<boolean>(false);
 
   const handleNext = async () => {

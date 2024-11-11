@@ -15,3 +15,6 @@ export const QuizCreationInfoAtom = atom<BookQuizType>({
   studyGroupIds: 0,
   questions: [],
 });
+
+export const errorModalTitleAtom = atom<string>("");
+export const openErrorModalAtom = atom<() => void>();

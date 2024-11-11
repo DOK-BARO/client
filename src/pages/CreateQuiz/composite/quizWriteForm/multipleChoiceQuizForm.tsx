@@ -49,9 +49,11 @@ export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: st
   };
   const setText = (optionId: number, value: string) => {
     onRadioGroupChange(value);
+
+
     const updatedOptions = options.map((option) => {
       if (option.id === optionId) {
-        return { ...option, value, label: value };
+        return { ...option, label: value };
       }
       return option;
     });
@@ -68,12 +70,13 @@ export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: st
   }
 
   const onClickAddQuizOptionItem = () => {
-    const id = Date.now();
-    setOptions((prev) => [
+    //const id = Date.now();
+    const id = options.length + 1;
+    setOptions((prev) => [ 
       ...prev,
       {
         id: id,
-        value: "",
+        value: id.toString(),
         label: "",
       },
     ]);
@@ -85,7 +88,7 @@ export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: st
             ...question,
             selectOptions: [
               ...question.selectOptions,
-              { id: id, option: "" }, // 새로운 옵션 추가
+              { id: id, option: "" , value: id.toString()},
             ],
           };
         }

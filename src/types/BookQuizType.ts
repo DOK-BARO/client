@@ -31,9 +31,35 @@ export interface BookQuizQuestionType {
   content: string;
   //selectOptions: string[];
   //TODO: api 요청 시 id제거 필요
-  selectOptions: { id: number; option: string }[];
-  answerExplanation: string;
-  answerExplanationImages: string[];
+  selectOptions: {id: number, option:string}[];
+  //selectOptions: {id: number, option:string}[] | string[];
+  answerExplanationContent: string;
+  answerExplanationImages: (string | File )[],
   answerType: "OX" | "FILL_BLANK" | "MULTIPLE_CHOICE" | "SHORT";
   answers: string[];
 }
+
+
+// API 요청 시 사용할 타입 
+// TODO: 리팩토링 필요
+
+export interface BookQuizRequestType {
+  title: string;
+  description: string;
+  bookId: number;
+  timeLimitSecond?: number;
+  viewScope: "EVERYONE" | "STUDY_GROUP" | "CREATOR";
+  editScope: "EVERYONE" | "STUDY_GROUP" | "CREATOR";
+  studyGroupIds: number;
+  questions: BookQuizQuestionRequestApiType[];
+}
+
+
+export type BookQuizQuestionRequestApiType = {
+  content: string;
+  selectOptions: string[]; // API용 타입
+  answerExplanationContent: string;
+  answerExplanationImages: (string | File)[];
+  answerType: "OX" | "FILL_BLANK" | "MULTIPLE_CHOICE" | "SHORT";
+  answers: string[];
+};

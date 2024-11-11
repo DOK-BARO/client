@@ -1,5 +1,6 @@
+import { BookQuizRequestType } from "@/types/BookQuizType";
+import axios, { AxiosError } from "axios";
 import { QuizType } from "@/types/BookQuizType";
-import axios from "axios";
 
 // 퀴즈 목록 조회
 // TODO: fetchQuizzes
@@ -29,3 +30,22 @@ export const fetchQuizzes = async (params: {
     throw new Error(`스터디 그룹 생성 실패: ${error}`);
   }
 };
+
+
+export const createQuiz = async (quiz: BookQuizRequestType) => {
+    try {
+        const { data } = await axios.post("/book-quizzes",quiz);
+        return data;
+    } catch (error: unknown) {
+        if (axios.isAxiosError(error)) {
+            const axiosError = error as AxiosError;
+            if (axiosError.response?.status === 404) {
+                throw error;
+            }
+            throw new Error(`퀴즈 생성 요청 실패: ${error}`);
+        } else {
+            throw new Error(`Unexpected error: ${error}`);
+        }
+    }
+};
+

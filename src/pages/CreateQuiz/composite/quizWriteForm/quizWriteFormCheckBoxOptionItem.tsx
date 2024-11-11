@@ -65,6 +65,30 @@ export default function QuizWriteFormCheckBoxOptionItem({
         questions: updatedQuestions,
       };
     });
+
+    // setQuizCreationInfo((prev) => {
+    //   const updatedQuestions = prev.questions.map((question) => {
+    //     if (question.id.toString() === questionFormId!) {
+    //       return {
+    //         ...question,
+    //         selectOptions: 
+    //         question.selectOptions.map((selectOption,index) => {
+    //             if(index === option.id) {
+    //               //return {selectOption, option: e.target.value};
+    //               return e.target.value;
+    //             }
+    //             return selectOption;
+    //         })
+    //       };
+    //     }
+    //     return question;
+    //   });
+  
+    //   return {
+    //     ...prev,
+    //     questions: updatedQuestions,
+    //   };
+    // });
   };
 
   return (

@@ -35,7 +35,7 @@ export default function QuizWriteFormOptionItem({
   questionFormId,
   quizMode,
 }: QuizOptionItemProps) {
-  const { onChange: onOptionChange, value: optionText } = useInput(option.value); // input임
+  const { onChange: onOptionChange, value: optionText } = useInput(option.label); // input임
   const [, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
 
   const onTextAreaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,7 +81,8 @@ export default function QuizWriteFormOptionItem({
         radioGroupName={questionFormId}
         option={option}
         selectedValue={selectedValue}
-        onChange={() => onChange(optionText)}
+        //FIXME: value가 들어가야 하는것 아닌지 확인
+        onChange={() => onChange(option.id.toString())}
         isDisabled={quizMode === QuizFormMode.QUESTION}
         className={`${styles["new-option"]} ${focusedOptionIndex === option.id ? styles["focused"] : ""}`}
         autoFocus={true}

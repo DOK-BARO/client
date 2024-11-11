@@ -19,6 +19,7 @@ import { useAtom } from "jotai";
 import { BookQuizType } from "@/types/BookQuizType";
 import { QuizCreationInfoAtom } from "@/store/quizAtom";
 import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
+import { Close } from "@/svg/close";
 
 interface QuizWriteFormItemProps {
   id: number;
@@ -59,6 +60,7 @@ const quizWriteFormTypeUtilList: QuestionFormTypeType[] = [
 ] as const;
 
 export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWriteFormItemProps) {
+  const deleteIcon = "/assets/svg/quizWriteForm/delete_ellipse.svg";
   const [questionFormType, setQuestionFormType] = useState<QuestionFormTypeType>(quizWriteFormTypeUtilList[0]);
 
   const [quizMode, setQuizMode] = useState<string>(QuizFormMode.QUESTION);
@@ -86,6 +88,11 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+    // 이미지 삭제 핸들러
+    const handleDeleteImage = (index: number) => {
+      setSelectedImages((prevImages) => prevImages.filter((_, i) => i !== index));
+    };
+
   const [, setErrorModalTitle] = useAtom(errorModalTitleAtom);
   const [openModal] = useAtom(openErrorModalAtom);
 
@@ -104,6 +111,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
 
 
   }
+
 
 
 
@@ -252,16 +260,21 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
 
           {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} {/* 오류 메시지 표시 */}
           {selectedImages.length > 0 && (
-            <div className={styles["image-area"]}>
+            <section className={styles["image-area"]}>
               {selectedImages.map((image, index) => (
+              <div className = {styles["image-item"]}>
                 <img
                   key={index}
                   src={image}
                   alt={`이미지 미리보기 ${index + 1}`}
                   className={styles["image"]}
                 />
+                <button className={styles["delete-button"]}
+                onClick={() => handleDeleteImage(index)}
+                ><img src={deleteIcon}/></button>
+                </div>
               ))}
-            </div>
+            </section>
           )}
         </div>
       }

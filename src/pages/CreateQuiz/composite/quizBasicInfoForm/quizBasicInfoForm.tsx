@@ -27,17 +27,28 @@ function QuizBasicInfoForm() {
   const [, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
 
 
+  const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    onDescriptionChange(e);
+    setQuizCreationInfo((prev) => (
+      {
+        ...prev,
+        description: e.target.value
+      } 
+    ));
+  }
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onTitleChange(e);
+    setQuizCreationInfo((prev) => (
+      {
+        ...prev,
+        title: e.target.value,
+      } 
+    ));
+  }
   useEffect(() => {
-    const disable =
-      titleInputValue.trim() === "" || descriptionTextareaValue.trim() === "";
+    const  disable = titleInputValue.trim() === "" || descriptionTextareaValue.trim() === "";
     setIsQuizNextButtonEnabled(!disable);
-    
-    // FIXME: titleInputValue와 desc onchange에서 따로 구현필요
-    setQuizCreationInfo((prev) => ({
-      ...prev,
-      title: titleInputValue,
-      description: descriptionTextareaValue,
-    }));
   }, [titleInputValue, descriptionTextareaValue]);
 
   return (
@@ -46,14 +57,14 @@ function QuizBasicInfoForm() {
         size="large"
         id="quiz-basic-info-title"
         value={titleInputValue}
-        onChange={onTitleChange}
+        onChange={handleTitleChange}
         placeholder="런닝스쿨! 자바스크립트 첫걸음"
       />
       <div className={styles["quiz-basic-info-description"]}>
         <Textarea
           id="quiz-basic-info-description"
           value={descriptionTextareaValue}
-          onChange={onDescriptionChange}
+          onChange={handleDescriptionChange}
           placeholder="퀴즈 설명"
           maxLength={descriptionMaxLength}
           textAreaRef={textareaRef}

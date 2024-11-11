@@ -47,7 +47,7 @@ export default function ProfileSet() {
     event.preventDefault();
     setUser({
       ...user,
-      nickname,
+      nickName: nickname,
       profileImage: profileImage.file,
     });
     setIsSubmitted(true);

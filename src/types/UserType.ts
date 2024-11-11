@@ -1,7 +1,7 @@
 export interface UserBaseType {
   id: number;
   email: string;
-  nickname: string;
+  nickName: string;
   profileImage: File | null;
 }
 

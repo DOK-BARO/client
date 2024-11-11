@@ -26,7 +26,7 @@ export default function RegisterComplete() {
         <img src={src} alt="회원가입 환영 이미지" height={500} />
         <div className={styles["welcome-text"]}>
           <p className={styles.greeting}>
-            반갑습니다 <em>{user.nickname}</em> 님!
+            반갑습니다 <em>{user.nickName}</em> 님!
           </p>
           <p className={styles.description}>
             {APP_NAME}와 함께 퀴즈를 풀어보세요.

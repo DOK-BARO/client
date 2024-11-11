@@ -11,27 +11,29 @@ import { BookQuizType } from "@/types/BookQuizType";
 import { QuizCreationInfoAtom } from "@/store/quizAtom";
 
 function QuizBasicInfoForm() {
-
   const descriptionMaxLength = 150;
 
-  const { value: descriptionTextareaValue, onChange: onDescriptionChange, textareaRef } = useAutoResizeTextarea("");
+  const {
+    value: descriptionTextareaValue,
+    onChange: onDescriptionChange,
+    textareaRef,
+  } = useAutoResizeTextarea("");
   const { value: titleInputValue, onChange: onTitleChange } = useInput("");
 
   const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
     IsQuizNextButtonEnabledAtom
   );
-  const [quizCreationInfo, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
+  const [, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
 
   useEffect(() => {
-    const  disable = titleInputValue.trim() === "" || descriptionTextareaValue.trim() === "";
+    const disable =
+      titleInputValue.trim() === "" || descriptionTextareaValue.trim() === "";
     setIsQuizNextButtonEnabled(!disable);
-    setQuizCreationInfo((prev) => (
-      {
-        ...prev,
-        title: titleInputValue,
-        description: descriptionTextareaValue
-      } 
-    ));
+    setQuizCreationInfo((prev) => ({
+      ...prev,
+      title: titleInputValue,
+      description: descriptionTextareaValue,
+    }));
   }, [titleInputValue, descriptionTextareaValue]);
 
   return (

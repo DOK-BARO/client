@@ -130,8 +130,7 @@ export const getUserIfAuthenticated = async (): Promise<UserType | null> => {
     return null;
   }
 
-  // return await getUser();
-  return null;
+  return await getUser();
 };
 
 // 이용약관 조회

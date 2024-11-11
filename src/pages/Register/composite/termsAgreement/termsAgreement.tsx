@@ -16,6 +16,8 @@ import { useAtom } from "jotai";
 export default function TermsAgreement() {
   const { method } = useParams();
   const navigate = useNavigate();
+  const nextPage = `/register/${method}/2`;
+
   const { isModalOpen, openModal, closeModal } = useModal();
   const [registrationInfo, setRegistrationInfo] =
     useAtom<RegisterInfoType>(RegisterInfoAtom);
@@ -35,6 +37,7 @@ export default function TermsAgreement() {
 
   // 이용약관들을 불러오기
   const { terms, isLoading: isTermsLoading } = useGetTerms();
+  const [modalTitle, setModalTitle] = useState<string>("");
 
   useEffect(() => {
     if (terms && terms.length > 0) {
@@ -50,7 +53,7 @@ export default function TermsAgreement() {
   }, [terms]);
 
   // 모두 동의
-  const onAllAgreeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAllAgreeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { checked } = event.target;
 
     setAgreements((prev) => {
@@ -67,7 +70,9 @@ export default function TermsAgreement() {
   };
 
   // 개별 동의
-  const onSingleAgreeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSingleAgreeChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const { id, checked } = event.target;
 
     setAgreements((prev) => {
@@ -94,7 +99,14 @@ export default function TermsAgreement() {
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
     const { value } = e.target as HTMLButtonElement;
-    getTermDetail(Number(value));
+    const index = Number(value);
+    getTermDetail(index);
+    if (terms) {
+      const selectedTerm = terms.find((term) => term.id === index)?.title;
+      if (selectedTerm) {
+        setModalTitle(selectedTerm.slice(0, -3));
+      }
+    }
     openModal();
   };
 
@@ -111,17 +123,17 @@ export default function TermsAgreement() {
 
     const items = itemsWithLastItem.slice(0, itemsWithLastItem.length - 1);
 
-    if (method === "social") {
-      // 이용약관 동의
-      await sendTermsAgreement(items);
-    } else if (method === "email") {
+    if (method === "email") {
       // 이용약관 동의 상태 전역에 저장
       setRegistrationInfo({
         ...registrationInfo,
         termsAgreements: items,
       });
+    } else {
+      // 이용약관 동의
+      await sendTermsAgreement(items);
     }
-    navigate(`/register/${method}/2`);
+    navigate(nextPage);
   };
 
   return (
@@ -143,7 +155,7 @@ export default function TermsAgreement() {
               </p>
             }
             checked={agreements.allAgree.checked}
-            onChange={onAllAgreeChange}
+            onChange={handleAllAgreeChange}
             isOutLined
           />
         </div>
@@ -163,7 +175,7 @@ export default function TermsAgreement() {
                     <CheckBox
                       id={service.title}
                       checked={agreements[service.title]?.checked || false}
-                      onChange={onSingleAgreeChange}
+                      onChange={handleSingleAgreeChange}
                       isOutLined={false}
                       required={service.primary}
                       LabelComponent={
@@ -173,13 +185,15 @@ export default function TermsAgreement() {
                       }
                     />
                   </label>
-                  <Button
-                    className={styles["terms-agreement-content-show-button"]}
-                    onClick={handleTermsContentShowButton}
-                    value={service.id.toString()}
-                  >
-                    보기
-                  </Button>
+                  {service.hasDetail ? (
+                    <Button
+                      className={styles["terms-agreement-content-show-button"]}
+                      onClick={handleTermsContentShowButton}
+                      value={service.id.toString()}
+                    >
+                      보기
+                    </Button>
+                  ) : null}
                 </span>
                 {service.subTitle ? (
                   <p className={styles["terms-agreement-subTitle"]}>
@@ -199,12 +213,10 @@ export default function TermsAgreement() {
         </Button>
       </form>
       {isModalOpen && termDetail && !isTermDetailLoading ? (
-        // TODO: 로딩처리, 혹은 약관 내용이 없을때 처리
         <TermsModal
-          mainTitle="이용약관"
+          title={modalTitle}
           closeModal={closeModal}
           content={termDetail}
-          // isLoading={isTermDetailLoading}
         />
       ) : null}
     </section>

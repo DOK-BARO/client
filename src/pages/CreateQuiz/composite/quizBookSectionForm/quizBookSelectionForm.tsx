@@ -1,6 +1,6 @@
 import styles from "./_quiz_book_selection_form.module.scss";
 import { useQuery } from "@tanstack/react-query";
-import { memo, useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useInput from "@/hooks/useInput.ts";
 import { bookKeys } from "@/data/queryKeys.ts";
 import { searchBookList } from "@/services/server/bookService.ts";

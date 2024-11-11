@@ -8,21 +8,17 @@ import remarkBreaks from "remark-breaks";
 import remarkGfm from "remark-gfm";
 
 interface ModalProps {
-  mainTitle: string;
-  subTitle?: JSX.Element;
+  title: string;
   content: string;
   closeModal: () => void;
   className?: string;
-  //   isLoading: boolean;
 }
 
 const TermsModal: React.FC<ModalProps> = ({
-  mainTitle,
-  subTitle,
+  title,
   content,
   closeModal,
   className: customClassName,
-  //   isLoading,
 }) => {
   const className = `${styles["modal-view"]} ${customClassName}`;
   return (
@@ -42,9 +38,7 @@ const TermsModal: React.FC<ModalProps> = ({
               strokeWidth={1.4}
             />
           </Button>
-          {mainTitle && (
-            <span className={styles["modal-mainTitle"]}>{mainTitle}</span>
-          )}
+          {title && <span className={styles["modal-mainTitle"]}>{title}</span>}
         </header>
         <main className={styles["modal-main"]}>
           <ReactMarkdown

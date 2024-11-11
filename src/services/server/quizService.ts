@@ -1,6 +1,6 @@
+import { BookQuizRequestType } from "@/types/BookQuizType";
+import axios, { AxiosError } from "axios";
 import { QuizType } from "@/types/BookQuizType";
-import { BookQuizType } from "@/types/BookQuizType";
-import axios from "axios";
 
 // 퀴즈 목록 조회
 // TODO: fetchQuizzes
@@ -31,11 +31,10 @@ export const fetchQuizzes = async (params: {
   }
 };
 
-export const createQuiz = async (quiz: BookQuizType) => {
+
+export const createQuiz = async (quiz: BookQuizRequestType) => {
     try {
-        const { data } = await axios.post("/book-quizzes", {
-            quiz
-        });
+        const { data } = await axios.post("/book-quizzes",quiz);
         return data;
     } catch (error: unknown) {
         if (axios.isAxiosError(error)) {

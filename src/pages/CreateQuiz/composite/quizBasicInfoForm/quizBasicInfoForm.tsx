@@ -18,13 +18,14 @@ function QuizBasicInfoForm() {
     onChange: onDescriptionChange,
     textareaRef,
   } = useAutoResizeTextarea("");
+  //TODO: 제목 텍스트 값을 전역변수로 사용하고 있다보니 titleInputValue는 사용하지 않아도 될듯 함. 어떻게 처리할지 논의 필요
   const { value: titleInputValue, onChange: onTitleChange } = useInput("");
 
   const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
     IsQuizNextButtonEnabledAtom
   );
 
-  const [, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
+  const [quizCreationInfo, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
 
 
   const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -46,6 +47,7 @@ function QuizBasicInfoForm() {
       } 
     ));
   }
+
   useEffect(() => {
     const  disable = titleInputValue.trim() === "" || descriptionTextareaValue.trim() === "";
     setIsQuizNextButtonEnabled(!disable);
@@ -56,14 +58,14 @@ function QuizBasicInfoForm() {
       <Input
         size="large"
         id="quiz-basic-info-title"
-        value={titleInputValue}
+        value={quizCreationInfo.title}
         onChange={handleTitleChange}
         placeholder="런닝스쿨! 자바스크립트 첫걸음"
       />
       <div className={styles["quiz-basic-info-description"]}>
         <Textarea
           id="quiz-basic-info-description"
-          value={descriptionTextareaValue}
+          value={quizCreationInfo.description}
           onChange={handleDescriptionChange}
           placeholder="퀴즈 설명"
           maxLength={descriptionMaxLength}

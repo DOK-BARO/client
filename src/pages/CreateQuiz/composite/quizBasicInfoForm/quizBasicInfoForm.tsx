@@ -11,22 +11,20 @@ import { BookQuizType } from "@/types/BookQuizType";
 import { QuizCreationInfoAtom } from "@/store/quizAtom";
 
 function QuizBasicInfoForm() {
-  const descriptionMaxLength = 150;
+  const [quizCreationInfo, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
 
+  const descriptionMaxLength = 150;
+  //TODO: 제목 텍스트 값을 전역변수로 사용하고 있다보니 titleInputValue는 사용하지 않아도 될듯 함. 어떻게 처리할지 논의 필요
+  const { value: titleInputValue, onChange: onTitleChange } = useInput(quizCreationInfo.title);
   const {
     value: descriptionTextareaValue,
     onChange: onDescriptionChange,
     textareaRef,
-  } = useAutoResizeTextarea("");
-  //TODO: 제목 텍스트 값을 전역변수로 사용하고 있다보니 titleInputValue는 사용하지 않아도 될듯 함. 어떻게 처리할지 논의 필요
-  const { value: titleInputValue, onChange: onTitleChange } = useInput("");
+  } = useAutoResizeTextarea(quizCreationInfo.description);
 
   const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
     IsQuizNextButtonEnabledAtom
   );
-
-  const [quizCreationInfo, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
-
 
   const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onDescriptionChange(e);
@@ -58,14 +56,14 @@ function QuizBasicInfoForm() {
       <Input
         size="large"
         id="quiz-basic-info-title"
-        value={quizCreationInfo.title}
+        value={titleInputValue}
         onChange={handleTitleChange}
         placeholder="런닝스쿨! 자바스크립트 첫걸음"
       />
       <div className={styles["quiz-basic-info-description"]}>
         <Textarea
           id="quiz-basic-info-description"
-          value={quizCreationInfo.description}
+          value={descriptionTextareaValue}
           onChange={handleDescriptionChange}
           placeholder="퀴즈 설명"
           maxLength={descriptionMaxLength}

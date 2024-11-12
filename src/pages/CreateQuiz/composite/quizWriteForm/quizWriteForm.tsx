@@ -8,7 +8,7 @@ import { primary } from "@/styles/abstracts/colors.ts";
 import { useAtom } from "jotai";
 import { BookQuizType } from "@/types/BookQuizType";
 import { QuizCreationInfoAtom } from "@/store/quizAtom";
-// 3. 퀴즈 작성
+
 export interface QuizWriteFormItemType {
   id: number;
   component: ReactNode;
@@ -30,7 +30,7 @@ export default function QuizWriteForm() {
         ...prevQuizList,
         questions: updatedQuestions,
       }
-    }); 
+    });
   };
 
   const moveQuizWriteForm = (result: DropResult) => {
@@ -70,7 +70,7 @@ export default function QuizWriteForm() {
       })
     );
 
-    console.log("info: %o",quizCreationInfo);
+    console.log("info: %o", quizCreationInfo);
   };
 
 

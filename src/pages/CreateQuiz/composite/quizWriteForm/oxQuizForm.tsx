@@ -20,6 +20,7 @@ export const OXQuizForm: FC<{ quizMode?: string, questionFormId?: string }> = ({
     value: "X",
     label: "X",
   }];
+  
   const { selectedValue: selectedRadioGroupValue, handleChange: onRadioGroupChange } = useRadioGroup(null);
   const disabled: boolean = quizMode === QuizFormMode.QUESTION;
   const [focusedOptionIndex, setFocusedOptionIndex] = useState<number | null>(null);

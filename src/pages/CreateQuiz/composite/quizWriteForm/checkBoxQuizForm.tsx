@@ -9,10 +9,10 @@ import { BookQuizType } from "@/types/BookQuizType";
 import { QuizCreationInfoAtom } from "@/store/quizAtom";
 
 // TODO: multipleChoiceQuizForm과 겹치는 부분 리팩토링 필요
-export const CheckBoxQuizForm: FC<{ quizMode?: string, questionFormId?:string }> = ({ quizMode,questionFormId }) => {
+export const CheckBoxQuizForm: FC<{ quizMode?: string, questionFormId?: string }> = ({ quizMode, questionFormId }) => {
   const [options, setOptions] = useState<CheckBoxOption[]>([]);
   const [focusedOptionIndex, setFocusedOptionIndex] = useState<number | null>(null);
-  const [checkedOptions, setCheckedOptions] = useState<{[key:string]: boolean}>({});
+  const [checkedOptions, setCheckedOptions] = useState<{ [key: string]: boolean }>({});
   const [, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
 
   const disabled: boolean = quizMode === QuizFormMode.QUESTION;
@@ -24,7 +24,7 @@ export const CheckBoxQuizForm: FC<{ quizMode?: string, questionFormId?:string }>
         if (question.id.toString() === questionFormId!) {
           return {
             ...question,
-            selectOptions: question.selectOptions.filter((option)=> option.id !== optionId),
+            selectOptions: question.selectOptions.filter((option) => option.id !== optionId),
           };
         }
         return question;
@@ -38,7 +38,6 @@ export const CheckBoxQuizForm: FC<{ quizMode?: string, questionFormId?:string }>
   };
 
   const onClickAddQuizOptionItem = () => {
-    //const id = Date.now();
     const id = options.length + 1;
 
     setOptions((prev) => [
@@ -57,11 +56,11 @@ export const CheckBoxQuizForm: FC<{ quizMode?: string, questionFormId?:string }>
             ...question,
             selectOptions: [
               ...question.selectOptions,
-              { id: id, option: "" , value: id.toString()},
+              { id: id, option: "", value: id.toString() },
             ],
           };
         }
-        return question; // 해당 질문이 아닐 경우 원래 질문을 반환
+        return question;
       });
 
       return {
@@ -79,10 +78,9 @@ export const CheckBoxQuizForm: FC<{ quizMode?: string, questionFormId?:string }>
     setFocusedOptionIndex(null);
   };
 
-  //TODO: handleCheckboxChange로 명칭 변경
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, checked, value } = event.target;
-    console.log("onChange: ",id, checked);
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { id, checked } = event.target;
+    console.log("onChange: ", id, checked);
     setCheckedOptions((prev) => {
       return {
         ...prev,
@@ -92,24 +90,25 @@ export const CheckBoxQuizForm: FC<{ quizMode?: string, questionFormId?:string }>
 
     setQuizCreationInfo((prev) => ({
       ...prev,
-      questions: prev.questions.map((question) => 
-        question.id.toString() === questionFormId 
-      ?
-      { ...question, 
-        answers: checked
-              ? [...question.answers,id ]
+      questions: prev.questions.map((question) =>
+        question.id.toString() === questionFormId
+          ?
+          {
+            ...question,
+            answers: checked
+              ? [...question.answers, id]
               : question.answers.filter((answer) => answer !== id),
-      } 
-      :
-      question)
+          }
+          :
+          question)
     }));
   };
 
   const setText = (optionId: number, label: string) => {
-    
+
     const updatedOptions = options.map((option) => {
       if (option.id === optionId) {
-        return {...option, label}
+        return { ...option, label }
       }
       return option;
     });
@@ -129,14 +128,14 @@ export const CheckBoxQuizForm: FC<{ quizMode?: string, questionFormId?:string }>
           handleOptionFocus={handleOptionFocus}
           handleOptionBlur={handleOptionBlur}
           disabled={disabled}
-          onChange={onChange}
+          onChange={handleCheckboxChange}
           setText={setText}
           questionFormId={questionFormId!.toString()}
-          selectedValue={option.id.toString()}/>,
+          selectedValue={option.id.toString()} />,
       )}
       {
-      quizMode == QuizFormMode.QUESTION  && 
-            <AddOptionButton onAdd={onClickAddQuizOptionItem}/>
+        quizMode == QuizFormMode.QUESTION &&
+        <AddOptionButton onAdd={onClickAddQuizOptionItem} />
       }
     </fieldset>
   );
@@ -149,7 +148,7 @@ function AddOptionButton({ onAdd }: { onAdd: () => void }) {
       <button
         className={styles["option-add-button"]}
         onClick={onAdd}>
-        <div className={styles["option-add-button-check-square"]}/>
+        <div className={styles["option-add-button-check-square"]} />
         <span>옵션 추가하기</span>
       </button>
     </div>

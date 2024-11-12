@@ -19,7 +19,6 @@ import { useAtom } from "jotai";
 import { BookQuizType } from "@/types/BookQuizType";
 import { QuizCreationInfoAtom } from "@/store/quizAtom";
 import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
-import { Close } from "@/svg/close";
 
 interface QuizWriteFormItemProps {
   id: number;
@@ -91,7 +90,6 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
   //const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-    // 이미지 삭제 핸들러
     const handleDeleteImage = (index: number) => {
       setSelectedImages((prevImages) => prevImages.filter((_, i) => i !== index));
     };
@@ -114,9 +112,6 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
 
 
   }
-
-
-
 
   const fileInputRef = useRef<HTMLInputElement | null>(null); // 파일 입력 참조
   const maxImgFileCount = 3;
@@ -174,10 +169,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
           };
         });
       });
-
-
     }
-
   };
 
 
@@ -194,7 +186,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
       setErrorMessage('최대 3장까지만 업로드할 수 있습니다.');
       return;
     }
-    fileInputRef.current?.click(); // 버튼 클릭 시 파일 입력 클릭
+    fileInputRef.current?.click();
   };
 
 
@@ -263,7 +255,8 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
             maxLengthShow
           />
 
-          {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} {/* 오류 메시지 표시 */}
+          {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+
 {/*           {imagePreview.length > 0 && (
             <div className={styles["image-area"]}>
               {imagePreview.map((image, index) => ( */}
@@ -274,6 +267,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
               <div className = {styles["image-item"]}>
                 <img
                   key={index}
+                  //FIXME: 고칠 예정
                   src={image}
                   alt={`이미지 미리보기 ${index + 1}`}
                   className={styles["image"]}

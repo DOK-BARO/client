@@ -48,18 +48,18 @@ export default function QuizWriteFormOptionItem({
         if (question.id.toString() === questionFormId!) {
           return {
             ...question,
-            selectOptions: 
-            question.selectOptions.map((selectOption) => {
-                if(selectOption.id === option.id) {
-                  return {...selectOption, option: e.target.value};
+            selectOptions:
+              question.selectOptions.map((selectOption) => {
+                if (selectOption.id === option.id) {
+                  return { ...selectOption, option: e.target.value };
                 }
                 return selectOption;
-            })
+              })
           };
         }
         return question;
       });
-  
+
       return {
         ...prev,
         questions: updatedQuestions,

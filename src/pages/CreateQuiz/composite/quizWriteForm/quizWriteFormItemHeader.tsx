@@ -10,26 +10,39 @@ interface QuizWriteFormItemHeaderProps {
   quizMode: string;
   onQuizModeSelect: (e: React.MouseEvent<HTMLButtonElement>) => void;
   deleteQuizWriteForm: (id: number) => void;
+  checkValidation: () => void;
 }
 
-export default function QuizWriteFormItemHeader({id, quizMode, onQuizModeSelect,deleteQuizWriteForm}:QuizWriteFormItemHeaderProps) {
+export default function QuizWriteFormItemHeader(
+  {
+    id,
+    quizMode,
+    onQuizModeSelect,
+    deleteQuizWriteForm,
+    checkValidation,
+  }: QuizWriteFormItemHeaderProps) {
 
-  function QuizWriteUtilButtons (){
+  function QuizWriteUtilButtons() {
     return (
       <span>
         <button
           className={styles["move-quiz-button"]}
           onClick={() => {
           }}>
-          <Move width={24} height={24} stroke={gray60}/>
+          <Move width={24} height={24} stroke={gray60} />
         </button>
         <button
           className={styles["delete-quiz-button"]}
           onClick={() => deleteQuizWriteForm(id)}>
-          <Trash width={24} height={24} stroke={gray90}/>
+          <Trash width={24} height={24} stroke={gray90} />
         </button>
       </span>
     );
+  }
+
+  const onSetAnswerClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    checkValidation();
+    onQuizModeSelect(e);
   }
 
   return (
@@ -38,9 +51,8 @@ export default function QuizWriteFormItemHeader({id, quizMode, onQuizModeSelect,
         <Button
           value="question"
           size="medium"
-          className={`${styles["set-quiz"]} ${
-            quizMode === "question" ? styles["active"] : ""
-          }`}
+          className={`${styles["set-quiz"]} ${quizMode === "question" ? styles["active"] : ""
+            }`}
           onClick={onQuizModeSelect}
         >
           질문 설정
@@ -48,15 +60,14 @@ export default function QuizWriteFormItemHeader({id, quizMode, onQuizModeSelect,
         <Button
           value="answer"
           size="medium"
-          className={`${styles["set-answer"]} ${
-            quizMode === "answer" ? styles["active"] : ""
-          }`}
-          onClick={onQuizModeSelect}
+          className={`${styles["set-answer"]} ${quizMode === "answer" ? styles["active"] : ""
+            }`}
+          onClick={onSetAnswerClick}
         >
           답안 설정
         </Button>
       </div>
-      <QuizWriteUtilButtons/>
+      <QuizWriteUtilButtons />
     </div>
   );
 }

@@ -216,11 +216,36 @@
 .image-area {
   display: flex;
   flex-direction: row;
+  gap:10px;
 }
+
 .image {
+  display: block;
   object-fit: cover;
   width: 9.75em;
   height: 10.75em;
   border-radius: 4px;
-  margin-right: 10px;
+  
 }
+
+.image-item {
+  position:relative;
+
+}
+
+.delete-button {
+  position: absolute;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  top: 4px;
+  right: 4px;
+  padding: 0;
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
+  }

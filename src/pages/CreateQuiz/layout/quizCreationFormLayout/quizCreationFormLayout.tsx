@@ -4,7 +4,10 @@ import Button from "@/components/atom/button/button.tsx";
 import RightArrow from "@/svg/rightArrow.tsx";
 import { gray0, gray60 } from "@/styles/abstracts/colors.ts";
 import { useAtom } from "jotai";
-import { IsQuizNextButtonEnabledAtom } from "@/store/quizAtom";
+import { IsQuizNextButtonEnabledAtom, QuizCreationInfoAtom } from "@/store/quizAtom";
+import { createQuiz } from "@/services/server/quizService";
+import { BookQuizType,BookQuizRequestType } from "@/types/BookQuizType";
+import { uploadImg } from "@/services/server/imageService";
 
 export default function QuizCreationFormLayout({
   steps,
@@ -17,6 +20,7 @@ export default function QuizCreationFormLayout({
 }) {
   const [isQuizNextButtonEnabled, setIsQuizNextButtonEnabled] =
     useAtom<boolean>(IsQuizNextButtonEnabledAtom);
+  const [quizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
 
   const getCurrentStep = (): Step => {
     const step = steps[currentStep];
@@ -28,8 +32,37 @@ export default function QuizCreationFormLayout({
     )!;
   };
 
-  const goToNextStep = () => {
-    if (currentStep == endStep) return;
+  const goToNextStep = async () => {
+    if (currentStep == endStep) {
+      // TODO 퀴즈 생성 api요청
+
+      const quiz: BookQuizRequestType = {
+        ...quizCreationInfo,
+        bookId: 41,//TODO: bookId 전역관리 구현 후 제거
+        questions: quizCreationInfo.questions.map((question) => {
+          const { id, ...rest } = question; // id를 제외한 나머지 속성들
+          return {
+            ...rest, // 나머지 속성들
+            answerExplanationImages: [], // TODO: 이미지 업로드 구현 후 제거
+            selectOptions: question.selectOptions.map(option => option.option) // option 속성만 추출
+          };
+        }),
+      };
+
+
+      console.log("request: %O",quiz);
+        // TODO: 제거필요 (테스트용 코드)
+      // const img : File = quiz.questions.map((question)=> {
+      //   return question.answerExplanationImages[0];
+      // })[0];
+
+      // const formData = new FormData();
+      // formData.append('file', img);
+      // await uploadImg(formData);
+
+      await createQuiz(quiz);
+      return;
+    }
 
     const step = steps[currentStep];
 

@@ -10,7 +10,6 @@ import { Naver } from "@/svg/auth/naver.tsx";
 import { Github } from "@/svg/auth/github.tsx";
 import { Email } from "@/svg/auth/email.tsx";
 import Button from "@/components/atom/button/button.tsx";
-import { useNavigate } from "react-router-dom";
 
 const SocialAuthButton: React.FC<{
   authType: AuthType;

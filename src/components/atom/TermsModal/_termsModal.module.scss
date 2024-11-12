@@ -59,5 +59,9 @@
         margin-top: -($font-size-user-auth-agreement-content);
       }
     }
+    ul {
+      list-style: disc;
+      padding-left: $font-size-user-auth-agreement-content;
+    }
   }
 }

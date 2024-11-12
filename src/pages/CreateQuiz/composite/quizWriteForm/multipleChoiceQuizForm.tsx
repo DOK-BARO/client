@@ -23,7 +23,7 @@ export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: st
         if (question.id.toString() === questionFormId!) {
           return {
             ...question,
-            selectOptions: question.selectOptions.filter((option)=> option.id !== optionId)
+            selectOptions: question.selectOptions.filter((option) => option.id !== optionId)
           };
         }
         return question;
@@ -47,11 +47,13 @@ export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: st
   const handleOptionBlur = () => {
     setFocusedOptionIndex(null);
   };
-  const setText = (optionId: number, value: string) => {
-    onRadioGroupChange(value);
+
+  const setText = (optionId: number, label: string) => {
+    onRadioGroupChange(label);
+
     const updatedOptions = options.map((option) => {
       if (option.id === optionId) {
-        return { ...option, value, label: value };
+        return { ...option, label };
       }
       return option;
     });
@@ -68,12 +70,12 @@ export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: st
   }
 
   const onClickAddQuizOptionItem = () => {
-    const id = Date.now();
+    const id = options.length + 1;
     setOptions((prev) => [
       ...prev,
       {
         id: id,
-        value: "",
+        value: id.toString(),
         label: "",
       },
     ]);
@@ -85,11 +87,11 @@ export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: st
             ...question,
             selectOptions: [
               ...question.selectOptions,
-              { id: id, option: "" }, // 새로운 옵션 추가
+              { id: id, option: "", value: id.toString() },
             ],
           };
         }
-        return question; // 해당 질문이 아닐 경우 원래 질문을 반환
+        return question;
       });
 
       return {

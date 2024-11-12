@@ -38,12 +38,14 @@ export const CheckBoxQuizForm: FC<{ quizMode?: string, questionFormId?:string }>
   };
 
   const onClickAddQuizOptionItem = () => {
-    const id = Date.now();
+    //const id = Date.now();
+    const id = options.length + 1;
+
     setOptions((prev) => [
       ...prev,
       {
         id: id,
-        value: "",
+        value: id.toString(),
         label: "",
       },
     ]);
@@ -55,7 +57,7 @@ export const CheckBoxQuizForm: FC<{ quizMode?: string, questionFormId?:string }>
             ...question,
             selectOptions: [
               ...question.selectOptions,
-              { id: id, option: "" }, // 새로운 옵션 추가
+              { id: id, option: "" , value: id.toString()},
             ],
           };
         }
@@ -77,6 +79,7 @@ export const CheckBoxQuizForm: FC<{ quizMode?: string, questionFormId?:string }>
     setFocusedOptionIndex(null);
   };
 
+  //TODO: handleCheckboxChange로 명칭 변경
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, checked, value } = event.target;
     console.log("onChange: ",id, checked);
@@ -94,19 +97,19 @@ export const CheckBoxQuizForm: FC<{ quizMode?: string, questionFormId?:string }>
       ?
       { ...question, 
         answers: checked
-              ? [...question.answers,value ]
-              : question.answers.filter((answer) => answer !== value),
+              ? [...question.answers,id ]
+              : question.answers.filter((answer) => answer !== id),
       } 
       :
-       question)
+      question)
     }));
   };
 
-  const setText = (optionId: number, value: string) => {
-    //onChange();
+  const setText = (optionId: number, label: string) => {
+    
     const updatedOptions = options.map((option) => {
       if (option.id === optionId) {
-        return { ...option, value, label: value };
+        return {...option, label}
       }
       return option;
     });

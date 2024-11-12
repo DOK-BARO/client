@@ -47,13 +47,13 @@ export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: st
   const handleOptionBlur = () => {
     setFocusedOptionIndex(null);
   };
-  const setText = (optionId: number, value: string) => {
-    onRadioGroupChange(value);
+  const setText = (optionId: number, label: string) => {
+    onRadioGroupChange(label);
 
 
     const updatedOptions = options.map((option) => {
       if (option.id === optionId) {
-        return { ...option, label: value };
+        return { ...option, label };
       }
       return option;
     });

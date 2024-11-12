@@ -36,7 +36,7 @@ export default function QuizWriteFormCheckBoxOptionItem({
   questionFormId,
   checked,
 }: QuizCheckBoxOptionItemProps) {
-  const { onChange: onOptionChange, value: optionText } = useInput(option.value); // input임
+  const { onChange: onOptionChange, value: optionText } = useInput(option.label); // input임
   const [, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
 
   const onTextAreaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,30 +65,6 @@ export default function QuizWriteFormCheckBoxOptionItem({
         questions: updatedQuestions,
       };
     });
-
-    // setQuizCreationInfo((prev) => {
-    //   const updatedQuestions = prev.questions.map((question) => {
-    //     if (question.id.toString() === questionFormId!) {
-    //       return {
-    //         ...question,
-    //         selectOptions: 
-    //         question.selectOptions.map((selectOption,index) => {
-    //             if(index === option.id) {
-    //               //return {selectOption, option: e.target.value};
-    //               return e.target.value;
-    //             }
-    //             return selectOption;
-    //         })
-    //       };
-    //     }
-    //     return question;
-    //   });
-  
-    //   return {
-    //     ...prev,
-    //     questions: updatedQuestions,
-    //   };
-    // });
   };
 
   return (
@@ -110,7 +86,7 @@ export default function QuizWriteFormCheckBoxOptionItem({
             <input
               disabled={!disabled}
               id={`${option.id}`}
-              name={"radio-group"}
+              name={"checkbox-group"}
               value={optionText}
               onChange={onTextAreaChange}
               className={`${styles["new-option-text-input"]} ${focusedOptionIndex === option.id ? styles["focused"] : ""}`}

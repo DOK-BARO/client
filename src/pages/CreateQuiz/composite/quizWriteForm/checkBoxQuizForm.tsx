@@ -10,10 +10,17 @@ import { QuizCreationInfoAtom } from "@/store/quizAtom";
 
 // TODO: multipleChoiceQuizForm과 겹치는 부분 리팩토링 필요
 export const CheckBoxQuizForm: FC<{ quizMode?: string, questionFormId?: string }> = ({ quizMode, questionFormId }) => {
-  const [options, setOptions] = useState<CheckBoxOption[]>([]);
+  const [quizCreationInfo, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
+
+  const setInitialOptions = ():CheckBoxOption[] => {
+    const question = quizCreationInfo.questions.find((question)=>(question.id.toString() === questionFormId));
+    const initialOptions: CheckBoxOption[] = question?.selectOptions.map((option, index) => ({id: option.id, value: index.toString(),label: option.option} as CheckBoxOption)) ?? [];
+    return initialOptions;
+  }
+
+  const [options, setOptions] = useState<CheckBoxOption[]>(setInitialOptions());
   const [focusedOptionIndex, setFocusedOptionIndex] = useState<number | null>(null);
   const [checkedOptions, setCheckedOptions] = useState<{ [key: string]: boolean }>({});
-  const [, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
 
   const disabled: boolean = quizMode === QuizFormMode.QUESTION;
   const deleteOption = (optionId: number) => {

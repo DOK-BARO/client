@@ -49,6 +49,18 @@ export default function QuizWriteForm() {
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
     setQuizWriteList(items);
+
+    //TODO: quiz, questions 이름 api와 통일 필요
+    //TODO: 위의 겹치는 로직과 리팩토링 필요
+    const globalQuizItems = [...quizCreationInfo.questions];
+    const [reorderedGlobalItem] = globalQuizItems.splice(result.source.index, 1);
+    globalQuizItems.splice(result.destination.index,0,reorderedGlobalItem);
+    setQuizCreationInfo((prev) => (
+      {
+        ...prev,
+        questions: globalQuizItems,
+      }
+    ));
   };
 
   const onClickAddQuizWriteForm = () => {

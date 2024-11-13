@@ -19,12 +19,12 @@ import { useAtom } from "jotai";
 import { BookQuizType } from "@/types/BookQuizType";
 import { QuizCreationInfoAtom } from "@/store/quizAtom";
 import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
-import { QuizWriteFormsAtom } from "@/store/quizAtom";
 import { QuizWriteFormItemType } from "@/types/BookQuizType";
 
 interface QuizWriteFormItemProps {
   id: number;
   deleteQuizWriteForm: (id: number) => void;
+  quizWriteFormType: string; 
 }
 
 const quizWriteFormTypeUtilList: QuestionFormTypeType[] = [
@@ -59,27 +59,17 @@ const quizWriteFormTypeUtilList: QuestionFormTypeType[] = [
     FormComponent: <div></div>,
   },
 ] as const;
-
-export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWriteFormItemProps) {
-  const [quizWriteForms, setQuizWriteForms] = useAtom<QuizWriteFormItemType[]>(QuizWriteFormsAtom);
+export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFormType }: QuizWriteFormItemProps) {
   const [quizCreationInfo, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
-
   const deleteIcon = "/assets/svg/quizWriteForm/delete_ellipse.svg";
 
-  const setInitialFormTypeIdx = (): QuestionFormTypeType => {
-    const question = quizCreationInfo.questions.find((question) => question.id === id);
-    const questionForm = quizWriteForms.find((question=> (question.id === id)));
-    
-    const answerType = ((question?.answers.length ?? 0) > 1) || (questionForm?.quizWriteFormType === "CHECK_BOX")
-    ? quizWriteFormTypeUtilList.find(({ FormComponent }) => FormComponent === <CheckBoxQuizForm />)
-    : quizWriteFormTypeUtilList.find(({ typeFlag }) => typeFlag === question?.answerType);
-
-
-    console.log("id, answerType: %d %o",id, answerType);
+  const setInitialFormType = (): QuestionFormTypeType => {
+    const answerType = quizWriteFormTypeUtilList.find(({ typeFlag }) => typeFlag === quizWriteFormType);
+    console.log("id, answerType: %d %o", id, answerType);
     return answerType || quizWriteFormTypeUtilList[0];
   }
 
-  const [questionFormType, setQuestionFormType] = useState<QuestionFormTypeType>(setInitialFormTypeIdx());
+  const [questionFormType, setQuestionFormType] = useState<QuestionFormTypeType>(setInitialFormType());
 
   const [quizMode, setQuizMode] = useState<string>(QuizFormMode.QUESTION);
 

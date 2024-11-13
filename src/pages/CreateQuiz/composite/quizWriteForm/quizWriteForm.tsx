@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 import styles from "./_quiz_write_form.module.scss";
 import Button from "@/components/atom/button/button.tsx";
 import QuizWriteFormItem from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormItem.tsx";
@@ -9,13 +9,10 @@ import { useAtom } from "jotai";
 import { BookQuizType } from "@/types/BookQuizType";
 import { QuizCreationInfoAtom } from "@/store/quizAtom";
 import { QuizWriteFormItemType } from "@/types/BookQuizType";
-import { QuizWriteFormsAtom } from "@/store/quizAtom";
 // 3. 퀴즈 작성
 
 export default function QuizWriteForm() {
-  const [quizWriteFormList, setQuizWriteList] = useAtom<QuizWriteFormItemType[]>(QuizWriteFormsAtom); // TODO: 변수명에서 List 제거
   const [quizCreationInfo, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
-
   const deleteQuizWriteForm = (targetId: number) => {
 
     setQuizWriteList((prevQuizList) => {
@@ -30,6 +27,21 @@ export default function QuizWriteForm() {
       }
     }); 
   };
+
+  const setInitialForms = (): QuizWriteFormItemType[] => {
+    const quizWriteForms: QuizWriteFormItemType[] = 
+    quizCreationInfo.questions.map((question) => (
+      {
+        id: question.id,
+        quizWriteFormType: question.answerType,
+        component: <QuizWriteFormItem id={question.id} deleteQuizWriteForm={deleteQuizWriteForm} quizWriteFormType = {question.answerType}/>,
+      }
+    ) as QuizWriteFormItemType) ?? [];
+
+    return quizWriteForms;
+  }
+  const [quizWriteFormList, setQuizWriteList] = useState<QuizWriteFormItemType[]>(setInitialForms());
+
 
   const moveQuizWriteForm = (result: DropResult) => {
     if (!result.destination) return;
@@ -46,7 +58,7 @@ export default function QuizWriteForm() {
       {
         id: id,
         quizWriteFormType: "MULTIPLE_CHOICE", // TODO: BasicFormType으로 변수화
-        component: <QuizWriteFormItem id={id} deleteQuizWriteForm={deleteQuizWriteForm} />,
+        component: <QuizWriteFormItem id={id} deleteQuizWriteForm={deleteQuizWriteForm} quizWriteFormType={"MULTIPLE_CHOICE"}/>,
       },
     ]);
 

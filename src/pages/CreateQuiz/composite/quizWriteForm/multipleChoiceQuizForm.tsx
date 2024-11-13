@@ -9,10 +9,16 @@ import { BookQuizType } from "@/types/BookQuizType";
 import { QuizCreationInfoAtom } from "@/store/quizAtom";
 
 export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: string }> = ({ quizMode, questionFormId }) => {
-  const [options, setOptions] = useState<RadioOption[]>([]);
+  const [quizCreationInfo, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
+
+  const setInitialOptions = ():RadioOption[] => {
+    const question = quizCreationInfo.questions.find((question)=>(question.id.toString() === questionFormId));
+    const initialOptions: RadioOption[] = question?.selectOptions.map((option, index) => ({id: option.id, value: index.toString(),label: option.option} as RadioOption)) ?? [];
+    return initialOptions;
+  }
+  const [options, setOptions] = useState<RadioOption[]>(setInitialOptions());
   const [focusedOptionIndex, setFocusedOptionIndex] = useState<number | null>(null);
   const { selectedValue: selectedRadioGroupValue, handleChange: onRadioGroupChange } = useRadioGroup(null);
-  const [, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
 
   const deleteOption = (optionId: number) => {
     setOptions(options.filter((option) => option.id !== optionId));

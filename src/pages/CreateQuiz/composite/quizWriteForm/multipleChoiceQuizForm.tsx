@@ -5,20 +5,27 @@ import { FC, useEffect, useState } from "react";
 import { QuizFormMode } from "@/data/constants.ts";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
 import { useAtom } from "jotai";
-import { BookQuizType } from "@/types/BookQuizType";
+import { BookQuizQuestionType, BookQuizType } from "@/types/BookQuizType";
 import { QuizCreationInfoAtom } from "@/store/quizAtom";
 
 export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: string }> = ({ quizMode, questionFormId }) => {
   const [quizCreationInfo, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
 
-  const setInitialOptions = ():RadioOption[] => {
-    const question = quizCreationInfo.questions.find((question)=>(question.id.toString() === questionFormId));
-    const initialOptions: RadioOption[] = question?.selectOptions.map((option, index) => ({id: option.id, value: index.toString(),label: option.option} as RadioOption)) ?? [];
+  const getQuestion = () => (quizCreationInfo.questions.find((question) => (question.id.toString() === questionFormId)) as BookQuizQuestionType);
+
+  const setInitialOptions = (): RadioOption[] => {
+    const question = getQuestion();
+    const initialOptions: RadioOption[] = question?.selectOptions.map((option) => ({ id: option.id, value: option.value, label: option.option } as RadioOption)) ?? [];
     return initialOptions;
   }
   const [options, setOptions] = useState<RadioOption[]>(setInitialOptions());
   const [focusedOptionIndex, setFocusedOptionIndex] = useState<number | null>(null);
-  const { selectedValue: selectedRadioGroupValue, handleChange: onRadioGroupChange } = useRadioGroup(null);
+
+  const setInitialAnswer = (): string => {
+    const question = getQuestion();
+    return question.answers[0];
+  }
+  const { selectedValue: selectedRadioGroupValue, handleChange: onRadioGroupChange } = useRadioGroup(setInitialAnswer());
 
   const deleteOption = (optionId: number) => {
     setOptions(options.filter((option) => option.id !== optionId));
@@ -47,7 +54,17 @@ export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: st
   };
 
   useEffect(() => {
-    onRadioGroupChange(null);
+    if (quizMode === QuizFormMode.QUESTION) {
+      onRadioGroupChange(null);
+    } else {
+      const question = getQuestion();
+      const radioBtnIdx: number = parseInt(question.answers[0]);
+      const index: string = radioBtnIdx.toString();
+      onRadioGroupChange(index);
+    }
+
+
+
   }, [quizMode]);
 
   const handleOptionBlur = () => {
@@ -55,7 +72,6 @@ export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: st
   };
 
   const setText = (optionId: number, label: string) => {
-    onRadioGroupChange(label);
 
     const updatedOptions = options.map((option) => {
       if (option.id === optionId) {
@@ -64,7 +80,6 @@ export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: st
       return option;
     });
     setOptions(updatedOptions);
-    onRadioGroupChange(null); // value가 변경되면 라디오 버튼이 자동 선택되기 때문에 라디오 버튼 선택 해제
   };
 
   const handleRadioGroupChange = (value: string) => {
@@ -76,12 +91,14 @@ export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: st
   }
 
   const onClickAddQuizOptionItem = () => {
-    const id = options.length + 1;
+    const id:number = options.length;
+    const value:string = (options.length + 1).toString() ;
+
     setOptions((prev) => [
       ...prev,
       {
         id: id,
-        value: id.toString(),
+        value: value,
         label: "",
       },
     ]);
@@ -93,7 +110,7 @@ export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: st
             ...question,
             selectOptions: [
               ...question.selectOptions,
-              { id: id, option: "", value: id.toString() },
+              { id: id, option: "", value: value},
             ],
           };
         }

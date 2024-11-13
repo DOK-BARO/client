@@ -32,7 +32,7 @@ export interface BookQuizQuestionType {
   content: string;
   //selectOptions: string[];
   //TODO: api 요청 시 id제거 필요
-  selectOptions: {id: number, option:string}[];
+  selectOptions: {id: number, option:string, value:string}[];
   //selectOptions: {id: number, option:string}[] | string[];
   answerExplanationContent: string;
   answerExplanationImages: (string | File )[],

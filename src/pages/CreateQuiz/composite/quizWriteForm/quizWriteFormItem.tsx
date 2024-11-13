@@ -19,7 +19,6 @@ import { useAtom } from "jotai";
 import { BookQuizType } from "@/types/BookQuizType";
 import { QuizCreationInfoAtom } from "@/store/quizAtom";
 import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
-import { QuizWriteFormItemType } from "@/types/BookQuizType";
 
 interface QuizWriteFormItemProps {
   id: number;

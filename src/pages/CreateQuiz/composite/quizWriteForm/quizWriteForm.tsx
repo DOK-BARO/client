@@ -82,7 +82,6 @@ export default function QuizWriteForm() {
     );
 
     console.log("info: %o",quizCreationInfo);
-    console.log("form: %O",quizWriteFormList);
   };
 
 

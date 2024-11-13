@@ -36,6 +36,7 @@ export default function QuizCreationFormLayout({
     if (currentStep == endStep) {
       // TODO 퀴즈 생성 api요청
 
+      // TODO: request시 CHECK_BOX는 MULTIPLE_CHOICE로 만들어야함
       const quiz: BookQuizRequestType = {
         ...quizCreationInfo,
         bookId: 41,//TODO: bookId 전역관리 구현 후 제거

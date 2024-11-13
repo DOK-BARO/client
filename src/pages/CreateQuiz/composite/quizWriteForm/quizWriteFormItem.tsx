@@ -19,6 +19,8 @@ import { useAtom } from "jotai";
 import { BookQuizType } from "@/types/BookQuizType";
 import { QuizCreationInfoAtom } from "@/store/quizAtom";
 import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
+import { QuizWriteFormsAtom } from "@/store/quizAtom";
+import { QuizWriteFormItemType } from "@/types/BookQuizType";
 
 interface QuizWriteFormItemProps {
   id: number;
@@ -35,7 +37,7 @@ const quizWriteFormTypeUtilList: QuestionFormTypeType[] = [
   {
     Icon: OlList,
     text: "복수 정답",
-    typeFlag: "MULTIPLE_CHOICE",
+    typeFlag: "CHECK_BOX",
     FormComponent: <CheckBoxQuizForm />,
   },
   {
@@ -59,18 +61,34 @@ const quizWriteFormTypeUtilList: QuestionFormTypeType[] = [
 ] as const;
 
 export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWriteFormItemProps) {
+  const [quizWriteForms, setQuizWriteForms] = useAtom<QuizWriteFormItemType[]>(QuizWriteFormsAtom);
+  const [quizCreationInfo, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
+
   const deleteIcon = "/assets/svg/quizWriteForm/delete_ellipse.svg";
-  const [questionFormType, setQuestionFormType] = useState<QuestionFormTypeType>(quizWriteFormTypeUtilList[0]);
+
+  const setInitialFormTypeIdx = (): QuestionFormTypeType => {
+    const question = quizCreationInfo.questions.find((question) => question.id === id);
+    const questionForm = quizWriteForms.find((question=> (question.id === id)));
+    
+    const answerType = ((question?.answers.length ?? 0) > 1) || (questionForm?.quizWriteFormType === "CHECK_BOX")
+    ? quizWriteFormTypeUtilList.find(({ FormComponent }) => FormComponent === <CheckBoxQuizForm />)
+    : quizWriteFormTypeUtilList.find(({ typeFlag }) => typeFlag === question?.answerType);
+
+
+    console.log("id, answerType: %d %o",id, answerType);
+    return answerType || quizWriteFormTypeUtilList[0];
+  }
+
+  const [questionFormType, setQuestionFormType] = useState<QuestionFormTypeType>(setInitialFormTypeIdx());
 
   const [quizMode, setQuizMode] = useState<string>(QuizFormMode.QUESTION);
 
   const titleMaxLength = 25000;
-  const { value: question, onChange: onQuestionChange, textareaRef: questionTextAreaRef } = useAutoResizeTextarea("");
+  const { value: question, onChange: onQuestionChange, textareaRef: questionTextAreaRef } = useAutoResizeTextarea(quizCreationInfo.questions.find((question) => (question.id === id))?.content);
 
   const descriptionMaxLength = 500;
   const { value: answerTextAreaValue, onChange: onAnswerTextAreaChange, textareaRef: descriptionTextAreaRef } = useAutoResizeTextarea("");
 
-  const [, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
   const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onAnswerTextAreaChange(e);
     setQuizCreationInfo((prev) => ({
@@ -90,9 +108,9 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
   //const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-    const handleDeleteImage = (index: number) => {
-      setSelectedImages((prevImages) => prevImages.filter((_, i) => i !== index));
-    };
+  const handleDeleteImage = (index: number) => {
+    setSelectedImages((prevImages) => prevImages.filter((_, i) => i !== index));
+  };
 
   const [, setErrorModalTitle] = useAtom(errorModalTitleAtom);
   const [openModal] = useAtom(openErrorModalAtom);
@@ -127,7 +145,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
         setErrorMessage(null); // 오류 메시지 초기화
       }
       const newImages: string[] = [];
-      const newImagesFile: File[]= [];
+      const newImagesFile: File[] = [];
       const readerPromises: Promise<void>[] = [];
 
       for (let i = 0; i < files.length; i++) {
@@ -157,12 +175,12 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
               return {
                 ...question,
                 answerExplanationImages:
-                  [...question.answerExplanationImages , ...newImagesFile]
+                  [...question.answerExplanationImages, ...newImagesFile]
               };
             }
             return question;
           });
-  
+
           return {
             ...prev,
             questions: updatedQuestions,
@@ -212,14 +230,14 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
           />
           <div className={styles["title-area"]}>
             <Textarea
-            maxLength={titleMaxLength}
-            className={styles["question"]}
-            value={question}
-            onChange={handleQuestionChange}
-            id="option"
-            placeholder="질문을 입력해주세요."
-            textAreaRef={questionTextAreaRef}
-          />
+              maxLength={titleMaxLength}
+              className={styles["question"]}
+              value={question}
+              onChange={handleQuestionChange}
+              id="option"
+              placeholder="질문을 입력해주세요."
+              textAreaRef={questionTextAreaRef}
+            />
           </div>
         </div>
         {React.cloneElement(questionFormType.FormComponent, { questionFormId: id.toString(), quizMode })}
@@ -257,24 +275,24 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm }: QuizWrite
 
           {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
 
-{/*           {imagePreview.length > 0 && (
+          {/*           {imagePreview.length > 0 && (
             <div className={styles["image-area"]}>
               {imagePreview.map((image, index) => ( */}
 
           {selectedImages.length > 0 && (
             <section className={styles["image-area"]}>
               {selectedImages.map((image, index) => (
-              <div className = {styles["image-item"]}>
-                <img
-                  key={index}
-                  //FIXME: 고칠 예정
-                  src={image}
-                  alt={`이미지 미리보기 ${index + 1}`}
-                  className={styles["image"]}
-                />
-                <button className={styles["delete-button"]}
-                onClick={() => handleDeleteImage(index)}
-                ><img src={deleteIcon}/></button>
+                <div className={styles["image-item"]}>
+                  <img
+                    key={index}
+                    //FIXME: 고칠 예정
+                    src={image}
+                    alt={`이미지 미리보기 ${index + 1}`}
+                    className={styles["image"]}
+                  />
+                  <button className={styles["delete-button"]}
+                    onClick={() => handleDeleteImage(index)}
+                  ><img src={deleteIcon} /></button>
                 </div>
               ))}
             </section>

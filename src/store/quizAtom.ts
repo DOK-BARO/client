@@ -1,4 +1,5 @@
 import { BookQuizType } from "@/types/BookQuizType";
+import { QuizWriteFormItemType } from "@/types/BookQuizType";
 import { atom } from "jotai";
 
 // 퀴즈 생성 단계 다음 버튼의 enabled 여부를 저장
@@ -18,3 +19,5 @@ export const QuizCreationInfoAtom = atom<BookQuizType>({
 
 export const errorModalTitleAtom = atom<string>("");
 export const openErrorModalAtom = atom<() => void>();
+
+export const QuizWriteFormsAtom = atom<QuizWriteFormItemType[]>([]);

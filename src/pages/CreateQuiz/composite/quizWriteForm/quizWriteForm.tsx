@@ -8,14 +8,12 @@ import { primary } from "@/styles/abstracts/colors.ts";
 import { useAtom } from "jotai";
 import { BookQuizType } from "@/types/BookQuizType";
 import { QuizCreationInfoAtom } from "@/store/quizAtom";
-
-export interface QuizWriteFormItemType {
-  id: number;
-  component: ReactNode;
-}
+import { QuizWriteFormItemType } from "@/types/BookQuizType";
+import { QuizWriteFormsAtom } from "@/store/quizAtom";
+// 3. 퀴즈 작성
 
 export default function QuizWriteForm() {
-  const [quizWriteFormList, setQuizWriteList] = useState<QuizWriteFormItemType[]>([]);
+  const [quizWriteFormList, setQuizWriteList] = useAtom<QuizWriteFormItemType[]>(QuizWriteFormsAtom); // TODO: 변수명에서 List 제거
   const [quizCreationInfo, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
 
   const deleteQuizWriteForm = (targetId: number) => {
@@ -30,7 +28,7 @@ export default function QuizWriteForm() {
         ...prevQuizList,
         questions: updatedQuestions,
       }
-    });
+    }); 
   };
 
   const moveQuizWriteForm = (result: DropResult) => {
@@ -47,6 +45,7 @@ export default function QuizWriteForm() {
       ...prev,
       {
         id: id,
+        quizWriteFormType: "MULTIPLE_CHOICE", // TODO: BasicFormType으로 변수화
         component: <QuizWriteFormItem id={id} deleteQuizWriteForm={deleteQuizWriteForm} />,
       },
     ]);
@@ -70,7 +69,8 @@ export default function QuizWriteForm() {
       })
     );
 
-    console.log("info: %o", quizCreationInfo);
+    console.log("info: %o",quizCreationInfo);
+    console.log("form: %O",quizWriteFormList);
   };
 
 

@@ -7,6 +7,7 @@ import styles from "./_ox_quiz_form.module.scss";
 import { useAtom } from "jotai";
 import { BookQuizType } from "@/types/BookQuizType";
 import { QuizCreationInfoAtom } from "@/store/quizAtom";
+import { BookQuizQuestionType } from "@/types/BookQuizType";
 
 export const OXQuizForm: FC<{ quizMode?: string, questionFormId?: string }> = ({ quizMode, questionFormId }) => { // TODO: props 만들기 (multipleChoiceQuizForm.tsx랑 겹침)
 
@@ -20,14 +21,26 @@ export const OXQuizForm: FC<{ quizMode?: string, questionFormId?: string }> = ({
     value: "X",
     label: "X",
   }];
+
+  const [quizCreationInfo, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
+  const getQuestion = () => (quizCreationInfo.questions.find((question) => (question.id.toString() === questionFormId)) as BookQuizQuestionType);
+
+  const setInitialAnswer = (): string => {
+    const question = getQuestion();
+    return question.answers[0];
+  }
   
-  const { selectedValue: selectedRadioGroupValue, handleChange: onRadioGroupChange } = useRadioGroup(null);
+  const { selectedValue: selectedRadioGroupValue, handleChange: onRadioGroupChange } = useRadioGroup(setInitialAnswer());
   const disabled: boolean = quizMode === QuizFormMode.QUESTION;
   const [focusedOptionIndex, setFocusedOptionIndex] = useState<number | null>(null);
-  const [, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
 
   useEffect(() => {
-    onRadioGroupChange(null);
+    if (quizMode === QuizFormMode.QUESTION) {
+      onRadioGroupChange(null);
+    } else {
+      const question = getQuestion();
+      onRadioGroupChange(question.answers[0]);
+    }
   }, [quizMode]);
 
   const handleOptionFocus = (id: number) => {

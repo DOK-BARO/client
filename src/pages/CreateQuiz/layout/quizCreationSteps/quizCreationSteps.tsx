@@ -2,7 +2,12 @@ import styles from "./_quiz_creation_steps.module.scss";
 import { Step } from "@/pages/CreateQuiz";
 import Button from "@/components/atom/button/button";
 import { CheckEllipse } from "@/svg/checkEllipse.tsx";
-import { systemSuccess } from "@/styles/abstracts/colors.ts";
+import {
+  gray0,
+  gray20,
+  gray50,
+  systemSuccess,
+} from "@/styles/abstracts/colors.ts";
 
 export default function QuizCreationSteps({
   steps,
@@ -26,16 +31,15 @@ export default function QuizCreationSteps({
       });
     });
   };
-  {/* TODO: section 안에 heading 태그 넣기 */
-  }
-
 
   return (
     <section className={styles["container"]}>
-
+      <h3 className={styles["sr-only"]}>퀴즈 생성 단계</h3>
       {steps.map((step) => {
         const isActiveStep = currentStep === step.order;
-        const isAnySubStepActive = step.subSteps?.some(subStep => subStep.order === currentStep);
+        const isAnySubStepActive = step.subSteps?.some(
+          (subStep) => subStep.order === currentStep
+        );
         const firstSubStepOrder = step.subSteps?.[0]?.order;
 
         return (
@@ -43,27 +47,40 @@ export default function QuizCreationSteps({
             <Button
               onClick={(e) => onChangeStep(e)}
               value={step.title}
-              className={`${styles["steps"]} ${isActiveStep || isAnySubStepActive ? styles["steps--active"] : ""}`}
+              className={`${styles["steps"]} ${
+                isActiveStep || isAnySubStepActive
+                  ? styles["steps--active"]
+                  : ""
+              }`}
             >
               <span>
                 {step.icon && step.icon}&nbsp;
                 {step.title}
               </span>
-              <CheckEllipse fillOut={systemSuccess} fillIn={"white"} width={20} height={20}/>
+              <CheckEllipse
+                fillOut={step.isDone ? systemSuccess : gray20}
+                fillIn={step.isDone ? gray0 : gray50}
+                width={20}
+                height={20}
+              />
             </Button>
-            {step.subSteps && step.subSteps.map((subStep) => (
-              <Button
-                onClick={(e) => onChangeStep(e)}
-                key={subStep.order}
-                value={subStep.title}
-                className={`${styles["sub-steps"]} ${
-                  currentStep === subStep.order || (isActiveStep && firstSubStepOrder === subStep.order) ? styles["sub-steps--active"] : ""
-                }`}
-              >
-                <div style={{ width: 20, height: 20 }} />
-                {subStep.title}
-              </Button>
-            ))}
+            {step.subSteps &&
+              step.subSteps.map((subStep) => (
+                <Button
+                  onClick={(e) => onChangeStep(e)}
+                  key={subStep.order}
+                  value={subStep.title}
+                  className={`${styles["sub-steps"]} ${
+                    currentStep === subStep.order ||
+                    (isActiveStep && firstSubStepOrder === subStep.order)
+                      ? styles["sub-steps--active"]
+                      : ""
+                  }`}
+                >
+                  <div style={{ width: 20, height: 20 }} />
+                  {subStep.title}
+                </Button>
+              ))}
           </div>
         );
       })}

@@ -23,7 +23,8 @@ export default function QuizCreationFormLayout({
 }) {
   const [isQuizNextButtonEnabled, setIsQuizNextButtonEnabled] =
     useAtom<boolean>(IsQuizNextButtonEnabledAtom);
-  const [quizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
+  const [quizCreationInfo, setQuizCreationInfo] =
+    useAtom<BookQuizType>(QuizCreationInfoAtom);
 
   const getCurrentStep = (): Step => {
     const step = steps[currentStep];
@@ -135,6 +136,18 @@ export default function QuizCreationFormLayout({
             stroke={isQuizNextButtonEnabled ? gray0 : gray60}
           />
         </Button>
+        {/* TODO: 테스트용 코드. 지우기 */}
+        {/* <button
+          onClick={() => {
+            setQuizCreationInfo({
+              ...quizCreationInfo,
+              bookId: 3,
+            });
+          }}
+        >
+          dd
+        </button>
+        <button onClick={() => console.log(quizCreationInfo)}>확인</button> */}
       </div>
     </section>
   );

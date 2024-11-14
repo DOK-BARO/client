@@ -58,9 +58,7 @@ export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: st
       onRadioGroupChange(null);
     } else {
       const question = getQuestion();
-      const radioBtnIdx: number = parseInt(question.answers[0]);
-      const index: string = radioBtnIdx.toString();
-      onRadioGroupChange(index);
+      onRadioGroupChange(question.answers[0]);
     }
 
 
@@ -91,7 +89,7 @@ export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: st
   }
 
   const onClickAddQuizOptionItem = () => {
-    const id:number = options.length;
+    const id:number = Date.now();
     const value:string = (options.length + 1).toString() ;
 
     setOptions((prev) => [

@@ -5,6 +5,9 @@ import { Close } from "@/svg/close.tsx";
 import { gray90 } from "@/styles/abstracts/colors.ts";
 import CheckBox from "../../atom/checkBox/checkBox";
 import { CheckBoxOption } from "@/types/CheckBoxTypes.ts";
+import { useAtom } from "jotai";
+import { BookQuizType } from "@/types/BookQuizType";
+import { QuizCreationInfoAtom } from "@/store/quizAtom";
 // TODO: multipleChoiceQuizForm과 겹치는 부분 리팩토링 필요
 
 interface QuizCheckBoxOptionItemProps {
@@ -17,6 +20,7 @@ interface QuizCheckBoxOptionItemProps {
   selectedValue: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   setText: (optionId: number, value: string) => void;
+  questionFormId: string;
   checked: boolean;
 }
 
@@ -29,13 +33,38 @@ export default function QuizWriteFormCheckBoxOptionItem({
   disabled,
   onChange,
   setText,
+  questionFormId,
   checked,
 }: QuizCheckBoxOptionItemProps) {
-  const { onChange: onOptionChange, value: optionText } = useInput(option.value); // input임
+  const { onChange: onOptionChange, value: optionText } = useInput(option.label); // input임
+  const [, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
 
   const onTextAreaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onOptionChange(e);
     setText(option.id, e.target.value);
+
+    setQuizCreationInfo((prev) => {
+      const updatedQuestions = prev.questions.map((question) => {
+        if (question.id.toString() === questionFormId!) {
+          return {
+            ...question,
+            selectOptions: 
+            question.selectOptions.map((selectOption) => {
+                if(selectOption.id === option.id) {
+                  return {...selectOption, option: e.target.value};
+                }
+                return selectOption;
+            })
+          };
+        }
+        return question;
+      });
+  
+      return {
+        ...prev,
+        questions: updatedQuestions,
+      };
+    });
   };
 
   return (
@@ -51,12 +80,13 @@ export default function QuizWriteFormCheckBoxOptionItem({
         disabled={disabled}
         className={`${styles["new-option"]} ${focusedOptionIndex === option.id ? styles["focused"] : ""}`}
         autoFocus={true}
+        value={option.value}
         LabelComponent={
           disabled ?
             <input
               disabled={!disabled}
               id={`${option.id}`}
-              name={"radio-group"}
+              name={"checkbox-group"}
               value={optionText}
               onChange={onTextAreaChange}
               className={`${styles["new-option-text-input"]} ${focusedOptionIndex === option.id ? styles["focused"] : ""}`}

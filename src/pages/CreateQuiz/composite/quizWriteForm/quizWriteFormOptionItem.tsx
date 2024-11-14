@@ -6,6 +6,9 @@ import RadioButton from "@/components/atom/radioButton/radioButton.tsx";
 import { Close } from "@/svg/close.tsx";
 import { gray90 } from "@/styles/abstracts/colors.ts";
 import { QuizFormMode } from "@/data/constants";
+import { useAtom } from "jotai";
+import { BookQuizType } from "@/types/BookQuizType";
+import { QuizCreationInfoAtom } from "@/store/quizAtom";
 
 interface QuizOptionItemProps {
   option: RadioOption;
@@ -32,11 +35,36 @@ export default function QuizWriteFormOptionItem({
   questionFormId,
   quizMode,
 }: QuizOptionItemProps) {
-  const { onChange: onOptionChange, value: optionText } = useInput(option.value); // input임
+  const { onChange: onOptionChange, value: optionText } = useInput(option.label); // input임
+  const [, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
 
   const onTextAreaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //FIXME: quizWriteFormCheckBoxOptionItem.tsx와 로직 동일
     onOptionChange(e);
     setText(option.id, e.target.value);
+
+    setQuizCreationInfo((prev) => {
+      const updatedQuestions = prev.questions.map((question) => {
+        if (question.id.toString() === questionFormId!) {
+          return {
+            ...question,
+            selectOptions:
+              question.selectOptions.map((selectOption) => {
+                if (selectOption.id === option.id) {
+                  return { ...selectOption, option: e.target.value };
+                }
+                return selectOption;
+              })
+          };
+        }
+        return question;
+      });
+
+      return {
+        ...prev,
+        questions: updatedQuestions,
+      };
+    });
   };
 
 
@@ -53,7 +81,8 @@ export default function QuizWriteFormOptionItem({
         radioGroupName={questionFormId}
         option={option}
         selectedValue={selectedValue}
-        onChange={() => onChange(optionText)}
+        //FIXME: value가 들어가야 하는것 아닌지 확인
+        onChange={() => onChange(option.id.toString())}
         isDisabled={quizMode === QuizFormMode.QUESTION}
         className={`${styles["new-option"]} ${focusedOptionIndex === option.id ? styles["focused"] : ""}`}
         autoFocus={true}

@@ -4,14 +4,36 @@ import { RadioOption } from "@/types/RadioTypes.ts";
 import { FC, useEffect, useState } from "react";
 import { QuizFormMode } from "@/data/constants.ts";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
+import { useAtom } from "jotai";
+import { BookQuizType } from "@/types/BookQuizType";
+import { QuizCreationInfoAtom } from "@/store/quizAtom";
 
 export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: string }> = ({ quizMode, questionFormId }) => {
   const [options, setOptions] = useState<RadioOption[]>([]);
   const [focusedOptionIndex, setFocusedOptionIndex] = useState<number | null>(null);
-  const { selectedValue: selectedRadioGroupValue, handleChange: handleRadioGroupChange } = useRadioGroup(null);
+  const { selectedValue: selectedRadioGroupValue, handleChange: onRadioGroupChange } = useRadioGroup(null);
+  const [, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
 
   const deleteOption = (optionId: number) => {
     setOptions(options.filter((option) => option.id !== optionId));
+
+    // TODO: onClickAddQuizOptionItem와 겹치는 로직 리팩토링 필요
+    setQuizCreationInfo((prev) => {
+      const updatedQuestions = prev.questions.map((question) => {
+        if (question.id.toString() === questionFormId!) {
+          return {
+            ...question,
+            selectOptions: question.selectOptions.filter((option) => option.id !== optionId)
+          };
+        }
+        return question;
+      });
+
+      return {
+        ...prev,
+        questions: updatedQuestions,
+      };
+    });
   };
 
   const handleOptionFocus = (id: number) => {
@@ -19,34 +41,64 @@ export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: st
   };
 
   useEffect(() => {
-    handleRadioGroupChange(null);
+    onRadioGroupChange(null);
   }, [quizMode]);
 
   const handleOptionBlur = () => {
     setFocusedOptionIndex(null);
   };
-  const setText = (optionId: number, value: string) => {
-    handleRadioGroupChange(value);
+
+  const setText = (optionId: number, label: string) => {
+    onRadioGroupChange(label);
+
     const updatedOptions = options.map((option) => {
       if (option.id === optionId) {
-        return { ...option, value, label: value };
+        return { ...option, label };
       }
       return option;
     });
     setOptions(updatedOptions);
-    handleRadioGroupChange(null); // value가 변경되면 라디오 버튼이 자동 선택되기 때문에 라디오 버튼 선택 해제
+    onRadioGroupChange(null); // value가 변경되면 라디오 버튼이 자동 선택되기 때문에 라디오 버튼 선택 해제
   };
 
+  const handleRadioGroupChange = (value: string) => {
+    onRadioGroupChange(value);
+    setQuizCreationInfo((prev) => ({
+      ...prev,
+      questions: prev.questions.map((question) => question.id.toString() === questionFormId ? { ...question, answers: [value] } : question) // 해당 질문만 업데이트
+    }));
+  }
+
   const onClickAddQuizOptionItem = () => {
-    const id = Date.now();
+    const id = options.length + 1;
     setOptions((prev) => [
       ...prev,
       {
         id: id,
-        value: "",
+        value: id.toString(),
         label: "",
       },
     ]);
+
+    setQuizCreationInfo((prev) => {
+      const updatedQuestions = prev.questions.map((question) => {
+        if (question.id.toString() === questionFormId!) {
+          return {
+            ...question,
+            selectOptions: [
+              ...question.selectOptions,
+              { id: id, option: "", value: id.toString() },
+            ],
+          };
+        }
+        return question;
+      });
+
+      return {
+        ...prev,
+        questions: updatedQuestions,
+      };
+    });
   };
 
   return (

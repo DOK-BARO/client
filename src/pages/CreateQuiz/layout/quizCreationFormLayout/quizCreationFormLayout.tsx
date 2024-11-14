@@ -4,7 +4,10 @@ import Button from "@/components/atom/button/button.tsx";
 import RightArrow from "@/svg/rightArrow.tsx";
 import { gray0, gray60 } from "@/styles/abstracts/colors.ts";
 import { useAtom } from "jotai";
-import { IsQuizNextButtonEnabledAtom } from "@/store/quizAtom";
+import { IsQuizNextButtonEnabledAtom, QuizCreationInfoAtom } from "@/store/quizAtom";
+import { createQuiz } from "@/services/server/quizService";
+import { BookQuizType,BookQuizRequestType } from "@/types/BookQuizType";
+import { uploadImg } from "@/services/server/imageService";
 
 export default function QuizCreationFormLayout({
   steps,
@@ -17,7 +20,7 @@ export default function QuizCreationFormLayout({
 }) {
   const [isQuizNextButtonEnabled, setIsQuizNextButtonEnabled] =
     useAtom<boolean>(IsQuizNextButtonEnabledAtom);
-  const mainStep = Math.trunc(currentStep);
+  const [quizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
 
   const getCurrentStep = (): Step => {
     const step = steps[currentStep];
@@ -29,29 +32,37 @@ export default function QuizCreationFormLayout({
     )!;
   };
 
-  const stepItem: Step = getCurrentStep(); // 현재 스탭의 객체
-  console.log("stepItem: %o", stepItem);
+  const goToNextStep = async () => {
+    if (currentStep == endStep) {
+      // TODO 퀴즈 생성 api요청
 
-  const title = stepItem?.subSteps?.[0].title
-    ? stepItem.subSteps?.[0].title
-    : stepItem!.title;
+      const quiz: BookQuizRequestType = {
+        ...quizCreationInfo,
+        bookId: 41,//TODO: bookId 전역관리 구현 후 제거
+        questions: quizCreationInfo.questions.map((question) => {
+          const { id, ...rest } = question; // id를 제외한 나머지 속성들
+          return {
+            ...rest, // 나머지 속성들
+            answerExplanationImages: [], // TODO: 이미지 업로드 구현 후 제거
+            selectOptions: question.selectOptions.map(option => option.option) // option 속성만 추출
+          };
+        }),
+      };
 
-  const description = stepItem?.description
-    ? stepItem.description
-    : stepItem?.subSteps?.[0].description
-    ? stepItem.subSteps?.[0].description
-    : "";
 
-  const FormComponent = stepItem?.formComponent
-    ? stepItem.formComponent
-    : stepItem?.subSteps?.[0]?.formComponent
-    ? stepItem.subSteps[0].formComponent
-    : null;
-  const endStep = steps.length - 1;
+      console.log("request: %O",quiz);
+        // TODO: 제거필요 (테스트용 코드)
+      // const img : File = quiz.questions.map((question)=> {
+      //   return question.answerExplanationImages[0];
+      // })[0];
 
-  // "다음" 버튼 클릭 시 단계 이동 로직
-  const goToNextStep = () => {
-    if (currentStep >= endStep) return;
+      // const formData = new FormData();
+      // formData.append('file', img);
+      // await uploadImg(formData);
+
+      await createQuiz(quiz);
+      return;
+    }
 
     const hasSubSteps = !!stepItem.subSteps; // 서브스텝이 있는지
     const isSubStep = !Number.isInteger(currentStep); // 2.1, 2.2와 같은 서브스텝일 경우

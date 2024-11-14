@@ -9,6 +9,8 @@ export const gray70 = "#555555";
 export const gray80 = "#2D2D2D";
 export const gray90 = "#1d1d1d";
 
+export const black = "#000000";
+
 export const primary = "#9747FF";
 export const secondary = "#f5edff";
 export const systemSuccess = "#3dbf0f";

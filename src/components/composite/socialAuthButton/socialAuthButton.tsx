@@ -16,12 +16,20 @@ const SocialAuthButton: React.FC<{
   socialType: SocialLoginType;
 }> = ({ authType, socialType }) => {
   const { redirectToAuthPage, loading } = useAuth();
+  const emailRegisterPage = "/register/email/1";
 
   const handleAuth = async () => {
     const action =
-    authType === AuthType.SIGNUP ? AUTH_ACTION.SIGN_UP : AUTH_ACTION.LOGIN;
+      authType === AuthType.SIGNUP ? AUTH_ACTION.SIGN_UP : AUTH_ACTION.LOGIN;
     localStorage.setItem(LOCAL_STORAGE_KEY.AUTH_ACTION, action);
-    await redirectToAuthPage(socialType);
+
+    if (socialType === SocialLoginType.EMAIL) {
+      // 이메일 회원가입
+      window.location.href = emailRegisterPage;
+    } else {
+      // 소셜 미디어 회원가입
+      await redirectToAuthPage(socialType);
+    }
   };
 
   const buttonContent = () => {

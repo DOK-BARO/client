@@ -3,13 +3,13 @@ import { AuthResponse } from "../../types/AuthResponse.ts";
 import { SocialLoginType } from "../../types/SocialLoginType.ts";
 import localApi from "../local/LocalApi.ts";
 import { UserType } from "@/types/UserType.ts";
+import { TermsOfServiceType } from "@/types/TermsOfServiceType.ts";
 
+// TODO: 함수명 api로부터 바로 가져오는건 fetch, 그 외 get
 const redirectedUrl = import.meta.env.VITE_AUTH_REDIRECTED_URL;
-
 export const getAuthUrl = async (
   socialLoginType: SocialLoginType
 ): Promise<string> => {
-  console.log("get kakao auth url");
   try {
     const { data } = await axios.get(
       `/auth/oauth2/authorize/${socialLoginType}?redirectUrl=${redirectedUrl}/${socialLoginType.toLowerCase()}`
@@ -20,6 +20,7 @@ export const getAuthUrl = async (
   }
 };
 
+// TODO: 함수명에서 '소셜' 명시하기
 export const login = async (
   socialType: SocialLoginType,
   token: string
@@ -51,6 +52,8 @@ export const login = async (
   }
 };
 
+// 소셜 회원가입
+// TODO: 함수명에서 '소셜' 명시하기
 export const signup = async (
   socialType: SocialLoginType,
   token: string
@@ -79,6 +82,38 @@ export const signup = async (
   }
 };
 
+// 이메일 회원가입
+export const emailSignup = async (userInfo: {
+  email: string;
+  password: string;
+  nickName: string;
+  profileImage: string;
+}) => {
+  try {
+    const response = await axios.post("/auth/email/signup", userInfo);
+    console.log("이메일 회원가입 post 응답", response);
+    return response;
+  } catch (error) {
+    throw new Error(`이메일 회원가입 실패: ${error}`);
+  }
+};
+
+// 문서 상에는 'modify login member' 로 명시되어 있음.
+export const updateUser = async (userInfo: {
+  nickName: string;
+  email: string;
+  profileImage: string; // TODO: 필수인가?
+}) => {
+  try {
+    const response = await axios.put("/members/login-user", userInfo);
+    console.log(response);
+  } catch (error) {
+    throw new Error(`로그인 유저 실패: ${error}`);
+  }
+};
+
+// 프로필 업데이트
+// TODO: fetch~로 함수명 변경하기
 export const getUser = async (): Promise<UserType> => {
   try {
     const { data } = await axios.get("/members/login-user");
@@ -95,6 +130,73 @@ export const getUserIfAuthenticated = async (): Promise<UserType | null> => {
     return null;
   }
 
-  // return await getUser();
-  return null;
+  return await getUser();
+};
+
+// 이용약관 조회
+export const fetchTerms = async (): Promise<TermsOfServiceType[] | null> => {
+  try {
+    const { data } = await axios.get("/terms-of-services");
+    return data;
+  } catch (error) {
+    throw new Error(`이용약관 가져오기 실패: ${error}`);
+  }
+};
+
+// 이용약관 상세 내용 조회
+export const fetchTermDetail = async (
+  id: number
+): Promise<string | undefined> => {
+  try {
+    const { data } = await axios.get(`/terms-of-services/${id}/detail`);
+    return data.value;
+  } catch (error) {
+    console.error(error);
+    throw new Error(`이용약관 상세 내용 가져오기 실패: ${error}`);
+  }
+};
+
+// 이용약관 동의 요청
+export const sendTermsAgreement = async (items: number[]) => {
+  try {
+    const response = await axios.post("/terms-of-services/agree", { items });
+    console.log(response);
+  } catch (error) {
+    throw new Error(`이용약관 동의 실패: ${error}}`);
+  }
+};
+
+// 이메일로 인증코드 보내기
+export const sendEmailCode = async (email: string) => {
+  try {
+    const response = await axios.post("/email-authentications", {
+      email: email,
+    });
+    if (response.status === 201) {
+      console.log(response);
+    }
+  } catch (error) {
+    throw new Error(`이메일로 인증코드 보내기 실패: ${error}`);
+  }
+};
+
+export const matchEmailCode = async ({
+  email,
+  code,
+}: {
+  email: string;
+  code: string;
+}) => {
+  try {
+    const { data } = await axios.post("/email-authentications/match-code", {
+      email: email,
+      code: code,
+    });
+    // axios 타입으로 바꾸기
+    return data;
+  } catch (error) {
+    // 인증코드가 일치하지 않을 경우
+    // TODO: 상세한 에러 처리 필요
+    throw new Error(`인증코드 일치 실패: ${error}`);
+  }
 };

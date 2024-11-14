@@ -4,6 +4,9 @@ import useRadioGroup from "@/hooks/useRadioGroup.ts";
 import { RadioOption } from "@/types/RadioTypes.ts";
 import { FC, useState, useEffect } from "react";
 import styles from "./_ox_quiz_form.module.scss";
+import { useAtom } from "jotai";
+import { BookQuizType } from "@/types/BookQuizType";
+import { QuizCreationInfoAtom } from "@/store/quizAtom";
 
 export const OXQuizForm: FC<{ quizMode?: string, questionFormId?: string }> = ({ quizMode, questionFormId }) => { // TODO: props 만들기 (multipleChoiceQuizForm.tsx랑 겹침)
 
@@ -17,12 +20,14 @@ export const OXQuizForm: FC<{ quizMode?: string, questionFormId?: string }> = ({
     value: "X",
     label: "X",
   }];
-  const { selectedValue: selectedRadioGroupValue, handleChange: handleRadioGroupChange } = useRadioGroup(null);
+  
+  const { selectedValue: selectedRadioGroupValue, handleChange: onRadioGroupChange } = useRadioGroup(null);
   const disabled: boolean = quizMode === QuizFormMode.QUESTION;
   const [focusedOptionIndex, setFocusedOptionIndex] = useState<number | null>(null);
+  const [, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
 
   useEffect(() => {
-    handleRadioGroupChange(null);
+    onRadioGroupChange(null);
   }, [quizMode]);
 
   const handleOptionFocus = (id: number) => {
@@ -32,6 +37,14 @@ export const OXQuizForm: FC<{ quizMode?: string, questionFormId?: string }> = ({
   const handleOptionBlur = () => {
     setFocusedOptionIndex(null);
   };
+
+  const handleRadioGroupChange = (value: string) => {
+    onRadioGroupChange(value);
+    setQuizCreationInfo((prev) => ({
+      ...prev,
+      questions: prev.questions.map((question) => question.id.toString() === questionFormId ? { ...question, answers: [value] } : question) // 해당 질문만 업데이트
+    }));
+  }
 
   return (
     <fieldset className={styles["question-options"]}>

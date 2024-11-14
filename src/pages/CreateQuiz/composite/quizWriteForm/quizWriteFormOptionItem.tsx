@@ -81,8 +81,7 @@ export default function QuizWriteFormOptionItem({
         radioGroupName={questionFormId}
         option={option}
         selectedValue={selectedValue}
-        //FIXME: value가 들어가야 하는것 아닌지 확인
-        onChange={() => onChange(option.id.toString())}
+        onChange={() => onChange(option.value)}
         isDisabled={quizMode === QuizFormMode.QUESTION}
         className={`${styles["new-option"]} ${focusedOptionIndex === option.id ? styles["focused"] : ""}`}
         autoFocus={true}

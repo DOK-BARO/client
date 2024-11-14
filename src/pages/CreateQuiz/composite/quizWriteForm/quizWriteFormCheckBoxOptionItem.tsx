@@ -83,6 +83,7 @@ export default function QuizWriteFormCheckBoxOptionItem({
         value={option.value}
         LabelComponent={
           disabled ?
+          //TODO: for속성 사용 고려 (chekbox와 일치시킬 수 있음)
             <input
               disabled={!disabled}
               id={`${option.id}`}

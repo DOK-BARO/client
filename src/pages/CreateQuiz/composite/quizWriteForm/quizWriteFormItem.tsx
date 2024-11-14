@@ -75,7 +75,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFo
   const { value: question, onChange: onQuestionChange, textareaRef: questionTextAreaRef } = useAutoResizeTextarea(quizCreationInfo.questions.find((question) => (question.id === id))?.content);
 
   const descriptionMaxLength = 500;
-  const { value: answerTextAreaValue, onChange: onAnswerTextAreaChange, textareaRef: descriptionTextAreaRef } = useAutoResizeTextarea("");
+  const { value: answerTextAreaValue, onChange: onAnswerTextAreaChange, textareaRef: descriptionTextAreaRef } = useAutoResizeTextarea(quizCreationInfo.questions.find((question) => (question.id === id))?.answerExplanationContent);
 
   const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onAnswerTextAreaChange(e);

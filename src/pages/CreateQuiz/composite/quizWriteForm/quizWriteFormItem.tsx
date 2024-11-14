@@ -64,7 +64,6 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFo
 
   const setInitialFormType = (): QuestionFormTypeType => {
     const answerType = quizWriteFormTypeUtilList.find(({ typeFlag }) => typeFlag === quizWriteFormType);
-    console.log("id, answerType: %d %o", id, answerType);
     return answerType || quizWriteFormTypeUtilList[0];
   }
 

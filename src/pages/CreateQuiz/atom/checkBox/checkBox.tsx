@@ -38,6 +38,7 @@ export default function CheckBox({
         autoFocus={autoFocus}
         value={value}
       />
+      {/* TODO: for 또는 lable로 input을 감싸는 방식+ children으로 구현 변경 */}
       <label className={className} htmlFor={id}>
         <div className={styles["checkbox-container"]}>
           <div className={styles["square"]}/>

@@ -39,7 +39,7 @@ export default function QuizCreationFormLayout({
       const quiz: BookQuizRequestType = {
         ...quizCreationInfo,
         bookId: 41,//TODO: bookId 전역관리 구현 후 제거
-        questions: quizCreationInfo.questions.map((question) => {
+        questions: quizCreationInfo.questions.map((question) => { // TODO: request시 CHECK_BOX는 MULTIPLE_CHOICE로 만들어야함
           const { id, ...rest } = question; // id를 제외한 나머지 속성들
           return {
             ...rest, // 나머지 속성들

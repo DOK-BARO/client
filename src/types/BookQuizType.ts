@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 // TODO: 파일명 QuizType으로 변경
 
 export interface QuizType {
@@ -31,11 +32,12 @@ export interface BookQuizQuestionType {
   content: string;
   //selectOptions: string[];
   //TODO: api 요청 시 id제거 필요
-  selectOptions: {id: number, option:string}[];
+  selectOptions: {id: number, option:string, value:string}[];
   //selectOptions: {id: number, option:string}[] | string[];
   answerExplanationContent: string;
   answerExplanationImages: (string | File )[],
-  answerType: "OX" | "FILL_BLANK" | "MULTIPLE_CHOICE" | "SHORT";
+  // answerExplanationImages: string[],
+  answerType: "OX" | "FILL_BLANK" | "MULTIPLE_CHOICE" | "SHORT" | "CHECK_BOX";
   answers: string[];
 }
 
@@ -60,6 +62,12 @@ export type BookQuizQuestionRequestApiType = {
   selectOptions: string[]; // API용 타입
   answerExplanationContent: string;
   answerExplanationImages: (string | File)[];
-  answerType: "OX" | "FILL_BLANK" | "MULTIPLE_CHOICE" | "SHORT";
+  answerType: "OX" | "FILL_BLANK" | "MULTIPLE_CHOICE" | "SHORT"; // TODO: request시 CHECK_BOX는 MULTIPLE_CHOICE로 만들어야함
   answers: string[];
 };
+
+export interface QuizWriteFormItemType {
+  id: number;
+  quizWriteFormType: "OX" | "FILL_BLANK" | "MULTIPLE_CHOICE" | "SHORT" | "CHECK_BOX"; // TODO : 변수로 만들어야함
+  component: ReactNode;
+}

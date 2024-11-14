@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 import styles from "./_quiz_write_form.module.scss";
 import Button from "@/components/atom/button/button.tsx";
 import QuizWriteFormItem from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormItem.tsx";
@@ -8,16 +8,11 @@ import { primary } from "@/styles/abstracts/colors.ts";
 import { useAtom } from "jotai";
 import { BookQuizType } from "@/types/BookQuizType";
 import { QuizCreationInfoAtom } from "@/store/quizAtom";
-
-export interface QuizWriteFormItemType {
-  id: number;
-  component: ReactNode;
-}
+import { QuizWriteFormItemType } from "@/types/BookQuizType";
+// 3. 퀴즈 작성
 
 export default function QuizWriteForm() {
-  const [quizWriteFormList, setQuizWriteList] = useState<QuizWriteFormItemType[]>([]);
   const [quizCreationInfo, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
-
   const deleteQuizWriteForm = (targetId: number) => {
 
     setQuizWriteList((prevQuizList) => {
@@ -30,8 +25,23 @@ export default function QuizWriteForm() {
         ...prevQuizList,
         questions: updatedQuestions,
       }
-    });
+    }); 
   };
+
+  const setInitialForms = (): QuizWriteFormItemType[] => {
+    const quizWriteForms: QuizWriteFormItemType[] = 
+    quizCreationInfo.questions.map((question) => (
+      {
+        id: question.id,
+        quizWriteFormType: question.answerType,
+        component: <QuizWriteFormItem id={question.id} deleteQuizWriteForm={deleteQuizWriteForm} quizWriteFormType = {question.answerType}/>,
+      }
+    ) as QuizWriteFormItemType) ?? [];
+
+    return quizWriteForms;
+  }
+  const [quizWriteFormList, setQuizWriteList] = useState<QuizWriteFormItemType[]>(setInitialForms());
+
 
   const moveQuizWriteForm = (result: DropResult) => {
     if (!result.destination) return;
@@ -39,6 +49,18 @@ export default function QuizWriteForm() {
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
     setQuizWriteList(items);
+
+    //TODO: quiz, questions 이름 api와 통일 필요
+    //TODO: 위의 겹치는 로직과 리팩토링 필요
+    const globalQuizItems = [...quizCreationInfo.questions];
+    const [reorderedGlobalItem] = globalQuizItems.splice(result.source.index, 1);
+    globalQuizItems.splice(result.destination.index,0,reorderedGlobalItem);
+    setQuizCreationInfo((prev) => (
+      {
+        ...prev,
+        questions: globalQuizItems,
+      }
+    ));
   };
 
   const onClickAddQuizWriteForm = () => {
@@ -47,7 +69,8 @@ export default function QuizWriteForm() {
       ...prev,
       {
         id: id,
-        component: <QuizWriteFormItem id={id} deleteQuizWriteForm={deleteQuizWriteForm} />,
+        quizWriteFormType: "MULTIPLE_CHOICE", // TODO: BasicFormType으로 변수화
+        component: <QuizWriteFormItem id={id} deleteQuizWriteForm={deleteQuizWriteForm} quizWriteFormType={"MULTIPLE_CHOICE"}/>,
       },
     ]);
 
@@ -70,7 +93,7 @@ export default function QuizWriteForm() {
       })
     );
 
-    console.log("info: %o", quizCreationInfo);
+    console.log("info: %o",quizCreationInfo);
   };
 
 

@@ -14,13 +14,12 @@ function QuizBasicInfoForm() {
   const [quizCreationInfo, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
 
   const descriptionMaxLength = 150;
-  //TODO: 제목 텍스트 값을 전역변수로 사용하고 있다보니 titleInputValue는 사용하지 않아도 될듯 함. 어떻게 처리할지 논의 필요
-  const { value: titleInputValue, onChange: onTitleChange } = useInput(quizCreationInfo.title);
+  const { value: titleInputValue, onChange: onTitleChange } = useInput(quizCreationInfo.title ?? "");
   const {
     value: descriptionTextareaValue,
     onChange: onDescriptionChange,
     textareaRef,
-  } = useAutoResizeTextarea(quizCreationInfo.description);
+  } = useAutoResizeTextarea(quizCreationInfo.description ?? "");
 
   const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
     IsQuizNextButtonEnabledAtom

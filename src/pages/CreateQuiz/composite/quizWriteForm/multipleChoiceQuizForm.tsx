@@ -11,7 +11,7 @@ import { QuizCreationInfoAtom } from "@/store/quizAtom";
 export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: string }> = ({ quizMode, questionFormId }) => {
   const [quizCreationInfo, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
 
-  const getQuestion = () => (quizCreationInfo.questions.find((question) => (question.id.toString() === questionFormId)) as BookQuizQuestionType);
+  const getQuestion = () => (quizCreationInfo.questions?.find((question) => (question.id.toString() === questionFormId)) as BookQuizQuestionType);
 
   const setInitialOptions = (): RadioOption[] => {
     const question = getQuestion();
@@ -32,7 +32,7 @@ export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: st
 
     // TODO: onClickAddQuizOptionItem와 겹치는 로직 리팩토링 필요
     setQuizCreationInfo((prev) => {
-      const updatedQuestions = prev.questions.map((question) => {
+      const updatedQuestions = prev.questions!.map((question) => {
         if (question.id.toString() === questionFormId!) {
           return {
             ...question,
@@ -84,7 +84,7 @@ export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: st
     onRadioGroupChange(value);
     setQuizCreationInfo((prev) => ({
       ...prev,
-      questions: prev.questions.map((question) => question.id.toString() === questionFormId ? { ...question, answers: [value] } : question) // 해당 질문만 업데이트
+      questions: prev.questions!.map((question) => question.id.toString() === questionFormId ? { ...question, answers: [value] } : question) // 해당 질문만 업데이트
     }));
   }
 
@@ -102,7 +102,7 @@ export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: st
     ]);
 
     setQuizCreationInfo((prev) => {
-      const updatedQuestions = prev.questions.map((question) => {
+      const updatedQuestions = prev.questions!.map((question) => {
         if (question.id.toString() === questionFormId!) {
           return {
             ...question,

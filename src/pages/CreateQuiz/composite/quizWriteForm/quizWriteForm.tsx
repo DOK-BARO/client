@@ -20,7 +20,7 @@ export default function QuizWriteForm() {
     });
 
     setQuizCreationInfo((prevQuizList) => {
-      const updatedQuestions = prevQuizList.questions.filter((question) => question.id !== targetId);
+      const updatedQuestions = prevQuizList.questions?.filter((question) => question.id !== targetId) ?? [];
       return {
         ...prevQuizList,
         questions: updatedQuestions,
@@ -30,7 +30,7 @@ export default function QuizWriteForm() {
 
   const setInitialForms = (): QuizWriteFormItemType[] => {
     const quizWriteForms: QuizWriteFormItemType[] = 
-    quizCreationInfo.questions.map((question) => (
+    quizCreationInfo.questions?.map((question) => (
       {
         id: question.id,
         quizWriteFormType: question.answerType,
@@ -52,7 +52,7 @@ export default function QuizWriteForm() {
 
     //TODO: quiz, questions 이름 api와 통일 필요
     //TODO: 위의 겹치는 로직과 리팩토링 필요
-    const globalQuizItems = [...quizCreationInfo.questions];
+    const globalQuizItems = [...quizCreationInfo.questions??[]];
     const [reorderedGlobalItem] = globalQuizItems.splice(result.source.index, 1);
     globalQuizItems.splice(result.destination.index,0,reorderedGlobalItem);
     setQuizCreationInfo((prev) => (
@@ -79,7 +79,7 @@ export default function QuizWriteForm() {
       {
         ...prev,
         questions: [
-          ...prev.questions,
+          ...prev.questions ?? [],
           {
             id: id,
             content: "",

@@ -44,7 +44,7 @@ export default function QuizWriteFormCheckBoxOptionItem({
     setText(option.id, e.target.value);
 
     setQuizCreationInfo((prev) => {
-      const updatedQuestions = prev.questions.map((question) => {
+      const updatedQuestions = prev.questions?.map((question) => {
         if (question.id.toString() === questionFormId!) {
           return {
             ...question,
@@ -58,7 +58,7 @@ export default function QuizWriteFormCheckBoxOptionItem({
           };
         }
         return question;
-      });
+      }) ?? [];
   
       return {
         ...prev,

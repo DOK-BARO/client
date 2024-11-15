@@ -72,16 +72,16 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFo
   const [quizMode, setQuizMode] = useState<string>(QuizFormMode.QUESTION);
 
   const titleMaxLength = 25000;
-  const { value: question, onChange: onQuestionChange, textareaRef: questionTextAreaRef } = useAutoResizeTextarea(quizCreationInfo.questions.find((question) => (question.id === id))?.content);
+  const { value: question, onChange: onQuestionChange, textareaRef: questionTextAreaRef } = useAutoResizeTextarea(quizCreationInfo.questions?.find((question) => (question.id === id))?.content);
 
   const descriptionMaxLength = 500;
-  const { value: answerTextAreaValue, onChange: onAnswerTextAreaChange, textareaRef: descriptionTextAreaRef } = useAutoResizeTextarea(quizCreationInfo.questions.find((question) => (question.id === id))?.answerExplanationContent);
+  const { value: answerTextAreaValue, onChange: onAnswerTextAreaChange, textareaRef: descriptionTextAreaRef } = useAutoResizeTextarea(quizCreationInfo.questions?.find((question) => (question.id === id))?.answerExplanationContent);
 
   const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onAnswerTextAreaChange(e);
     setQuizCreationInfo((prev) => ({
       ...prev,
-      questions: prev.questions.map((question) => question.id === id ? { ...question, answerExplanationContent: e.target.value } : question) // 해당 질문만 업데이트
+      questions: prev.questions?.map((question) => question.id === id ? { ...question, answerExplanationContent: e.target.value } : question) ?? []
     }));
   }
 
@@ -158,7 +158,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFo
 
 
         setQuizCreationInfo((prev) => {
-          const updatedQuestions = prev.questions.map((question) => {
+          const updatedQuestions = prev.questions?.map((question) => {
             if (question.id === id!) { // TODO: questionFormId로 변수 네이밍 통일 필요
               return {
                 ...question,
@@ -167,7 +167,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFo
               };
             }
             return question;
-          });
+          }) ?? [];
 
           return {
             ...prev,
@@ -183,7 +183,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFo
     onQuestionChange(e);
     setQuizCreationInfo((prev) => ({
       ...prev,
-      questions: prev.questions.map((question) => question.id === id ? { ...question, content: e.target.value } : question) // 해당 질문만 업데이트
+      questions: prev.questions?.map((question) => question.id === id ? { ...question, content: e.target.value } : question) ?? []
     }));
   };
 

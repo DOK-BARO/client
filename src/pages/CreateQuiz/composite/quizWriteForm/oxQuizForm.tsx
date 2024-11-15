@@ -23,7 +23,7 @@ export const OXQuizForm: FC<{ quizMode?: string, questionFormId?: string }> = ({
   }];
 
   const [quizCreationInfo, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
-  const getQuestion = () => (quizCreationInfo.questions.find((question) => (question.id.toString() === questionFormId)) as BookQuizQuestionType);
+  const getQuestion = () => (quizCreationInfo.questions?.find((question) => (question.id.toString() === questionFormId)) as BookQuizQuestionType);
 
   const setInitialAnswer = (): string => {
     const question = getQuestion();
@@ -55,7 +55,7 @@ export const OXQuizForm: FC<{ quizMode?: string, questionFormId?: string }> = ({
     onRadioGroupChange(value);
     setQuizCreationInfo((prev) => ({
       ...prev,
-      questions: prev.questions.map((question) => question.id.toString() === questionFormId ? { ...question, answers: [value] } : question) // 해당 질문만 업데이트
+      questions: prev.questions?.map((question) => question.id.toString() === questionFormId ? { ...question, answers: [value] } : question) ?? []
     }));
   }
 

@@ -13,7 +13,7 @@ import { BookQuizQuestionType } from "@/types/BookQuizType";
 export const CheckBoxQuizForm: FC<{ quizMode?: string, questionFormId?: string }> = ({ quizMode, questionFormId }) => {
   const [quizCreationInfo, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
 
-  const getQuestion = () => (quizCreationInfo.questions.find((question) => (question.id.toString() === questionFormId)) as BookQuizQuestionType);
+  const getQuestion = () => (quizCreationInfo.questions?.find((question) => (question.id.toString() === questionFormId)) as BookQuizQuestionType);
 
   const setInitialOptions = (): CheckBoxOption[] => {
     const question = getQuestion();
@@ -41,7 +41,7 @@ export const CheckBoxQuizForm: FC<{ quizMode?: string, questionFormId?: string }
     setOptions(options.filter((option) => option.id !== optionId));
 
     setQuizCreationInfo((prev) => {
-      const updatedQuestions = prev.questions.map((question) => {
+      const updatedQuestions = prev.questions!.map((question) => {
         if (question.id.toString() === questionFormId!) {
           return {
             ...question,
@@ -72,7 +72,7 @@ export const CheckBoxQuizForm: FC<{ quizMode?: string, questionFormId?: string }
     ]);
 
     setQuizCreationInfo((prev) => {
-      const updatedQuestions = prev.questions.map((question) => {
+      const updatedQuestions = prev.questions!.map((question) => {
         if (question.id.toString() === questionFormId) {
           return {
             ...question,
@@ -114,7 +114,7 @@ export const CheckBoxQuizForm: FC<{ quizMode?: string, questionFormId?: string }
 
     setQuizCreationInfo((prev) => ({
       ...prev,
-      questions: prev.questions.map((question) =>
+      questions: prev.questions!.map((question) =>
         question.id.toString() === questionFormId
           ?
           {

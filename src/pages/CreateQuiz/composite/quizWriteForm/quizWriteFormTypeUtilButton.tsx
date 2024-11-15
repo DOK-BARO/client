@@ -21,7 +21,7 @@ function QuizWriteFormTypeUtilButton({quizId, selectedOption, setSelectedOption,
   const onClick = (option: QuestionFormTypeType) => {
     setQuizCreationInfo((prev) => ({
       ...prev,
-      questions: prev.questions.map((question) => 
+      questions: prev.questions?.map((question) => 
       question.id === quizId 
       ? 
       { ...question,
@@ -30,7 +30,7 @@ function QuizWriteFormTypeUtilButton({quizId, selectedOption, setSelectedOption,
         answers:[],
       } 
       : 
-      question)
+      question) ?? []
     }));
     setSelectedOption(option);
     closeDropDownList();

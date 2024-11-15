@@ -57,24 +57,29 @@ const quizWriteFormTypeUtilList: QuestionFormTypeType[] = [
     FormComponent: <div></div>,
   },
 ] as const;
+
 export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFormType }: QuizWriteFormItemProps) {
   const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
   const deleteIcon = "/assets/svg/quizWriteForm/delete_ellipse.svg";
 
   const setInitialFormType = (): QuestionFormTypeType => {
-    const answerType = quizWriteFormTypeUtilList.find(({ typeFlag }) => typeFlag === quizWriteFormType);
-    return answerType || quizWriteFormTypeUtilList[0];
-  }
+    return quizWriteFormTypeUtilList.find(({ typeFlag }) => typeFlag === quizWriteFormType) || quizWriteFormTypeUtilList[0];
+  };
 
   const [questionFormType, setQuestionFormType] = useState<QuestionFormTypeType>(setInitialFormType());
-
   const [quizMode, setQuizMode] = useState<string>(QuizFormMode.QUESTION);
-
   const titleMaxLength = 25000;
-  const { value: question, onChange: onQuestionChange, textareaRef: questionTextAreaRef } = useAutoResizeTextarea(quizCreationInfo.questions?.find((question) => (question.id === id))?.content);
-
   const descriptionMaxLength = 500;
+
+  const { value: question, onChange: onQuestionChange, textareaRef: questionTextAreaRef } = useAutoResizeTextarea(quizCreationInfo.questions?.find((question) => (question.id === id))?.content);
   const { value: answerTextAreaValue, onChange: onAnswerTextAreaChange, textareaRef: descriptionTextAreaRef } = useAutoResizeTextarea(quizCreationInfo.questions?.find((question) => (question.id === id))?.answerExplanationContent);
+
+  const [selectedImages, setSelectedImages] = useState<File[]>(quizCreationInfo.questions?.find((question) => (question.id === id))?.answerExplanationImages ?? []);
+  const [imagePreview, setImagePreview] = useState<string[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const [, setErrorModalTitle] = useAtom(errorModalTitleAtom);
+  const [openModal] = useAtom(openErrorModalAtom);
 
   const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onAnswerTextAreaChange(e);
@@ -82,55 +87,24 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFo
     updateQuizCreationInfo("questions", updatedQuestions);
   }
 
-
   const onQuizModeSelect = (e: React.MouseEvent<HTMLButtonElement>) => {
     setQuizMode(e.currentTarget.value);
   };
 
   useEffect(() => {
     const fetchImagePreviews = async () => {
-      const initialImages = await setInitialImgPreview(); // 비동기적으로 이미지 미리보기 URL 가져오기
-      setImagePreview(initialImages); // 상태 업데이트
+      const initialImages = await setInitialImgPreview();
+      setImagePreview(initialImages);
     };
+    fetchImagePreviews();
+  }, []);
 
-    fetchImagePreviews(); // 함수 호출
-  }, []); // 빈 의존성 배열로 컴포넌트 마운트 시 한 번만 실행
+  const setInitialImgPreview = async (): Promise<string[]> => {
+    const answerExplanationImages: File[] = quizCreationInfo.questions?.find((question) => question.id === id)?.answerExplanationImages ?? [];
+    const newImages = await readFilesAsDataURL(answerExplanationImages);
 
-  const setInitialImgPreview = async (): Promise<string[]> => { // TODO: hook으로 만들기
-
-    const answerExplanationImages: File[] = quizCreationInfo.questions?.find((question) => (question.id === id))?.answerExplanationImages ?? [];
-
-    const newImages: string[] = [];
-    const newImagesFile: File[] = [];
-    const readerPromises: Promise<void>[] = [];
-
-    for (let i = 0; i < answerExplanationImages.length; i++) {
-      const file = answerExplanationImages[i];
-      const reader = new FileReader();
-
-      const promise = new Promise<void>((resolve) => {
-        reader.onloadend = () => {
-          newImages.push(reader.result as string); // 이미지 미리보기 URL 추가
-          newImagesFile.push(file);
-          resolve();
-        };
-        reader.readAsDataURL(file); // 파일을 Data URL로 읽기
-      });
-
-      readerPromises.push(promise);
-    }
-
-    await Promise.all(readerPromises); // 모든 파일 읽기가 완료될 때까지 대기
-
-    setImagePreview((prev) => [...prev, ...newImages]); // 상태 업데이트
-
-    return newImages; // 새로운 이미지 리스트를 반환
-  }
-  const [selectedImages, setSelectedImages] = useState<File[]>(quizCreationInfo.questions?.find((question) => (question.id === id))?.answerExplanationImages ?? []);
-  const [imagePreview, setImagePreview] = useState<string[]>([]);
-
-
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    return [...imagePreview, ...newImages];
+  };
 
   const handleDeleteImage = (index: number) => {
     setImagePreview((prevImages) => prevImages.filter((_, i) => i !== index));
@@ -145,11 +119,10 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFo
       }
       return question;
     }) ?? [];
+
     updateQuizCreationInfo("questions", updatedQuestions);
   };
 
-  const [, setErrorModalTitle] = useAtom(errorModalTitleAtom);
-  const [openModal] = useAtom(openErrorModalAtom);
 
 
   const checkValidation = () => {
@@ -164,15 +137,24 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFo
 
     // - 정답 선택 안 했을 때: 답안이 선택되었는지 확인하세요. 
 
-
   }
 
   const fileInputRef = useRef<HTMLInputElement | null>(null); // 파일 입력 참조
   const maxImgFileCount = 3;
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files; // 선택된 파일들
+  const readFilesAsDataURL = async (files: File[]): Promise<string[]> => {
+    const readerPromises: Promise<string>[] = files.map((file) => {
+      return new Promise<string>((resolve) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.readAsDataURL(file);
+      });
+    });
+    return Promise.all(readerPromises);
+  };
 
+  const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
     if (files) {
       if (selectedImages.length + files.length > maxImgFileCount) {
         setErrorMessage('최대 3장까지만 업로드할 수 있습니다.');
@@ -180,50 +162,29 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFo
       } else {
         setErrorMessage(null); // 오류 메시지 초기화
       }
-      const newImages: string[] = [];
-      const newImagesFile: File[] = [];
-      const readerPromises: Promise<void>[] = [];
 
-      for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const reader = new FileReader();
+      const newImagesFile: File[] = Array.from(files);
+      const newImages = await readFilesAsDataURL(newImagesFile);
 
-        const promise = new Promise<void>((resolve) => {
-          reader.onloadend = () => {
-            newImages.push(reader.result as string); // 이미지 미리보기 URL 추가
-            newImagesFile.push(file);
-            resolve();
+      setSelectedImages((prev) => [...prev, ...newImagesFile]);
+      setImagePreview((prev) => [...prev, ...newImages]);
+
+      const updatedQuestions: BookQuizQuestionType[] = quizCreationInfo.questions?.map((question) => {
+        if (question.id === id!) { // TODO: questionFormId로 변수 네이밍 통일 필요
+          return {
+            ...question,
+            answerExplanationImages: [...question.answerExplanationImages, ...newImagesFile]
           };
-          reader.readAsDataURL(file); // 파일을 Data URL로 읽기
-        });
+        }
+        return question;
+      }) ?? [];
 
-        readerPromises.push(promise);
-      }
-
-      Promise.all(readerPromises).then(() => {
-        setSelectedImages((prev) => [...prev, ...newImagesFile]);
-        setImagePreview((prev) => [...prev, ...newImages])
-
-        const updatedQuestions: BookQuizQuestionType[] = quizCreationInfo.questions?.map((question) => {
-          if (question.id === id!) { // TODO: questionFormId로 변수 네이밍 통일 필요
-            return {
-              ...question,
-              answerExplanationImages:
-                [...question.answerExplanationImages, ...newImagesFile]
-            };
-          }
-          return question;
-        }) ?? [];
-
-        updateQuizCreationInfo("questions", updatedQuestions);
-      });
+      updateQuizCreationInfo("questions", updatedQuestions);
     }
   };
 
-
   const handleQuestionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onQuestionChange(e);
-
     const updatedQuestions: BookQuizQuestionType[] = quizCreationInfo.questions?.map((question) => question.id === id ? { ...question, content: e.target.value } : question) ?? [];
     updateQuizCreationInfo("questions", updatedQuestions);
   };
@@ -235,9 +196,6 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFo
     }
     fileInputRef.current?.click();
   };
-
-
-
 
   return (
     <div className={styles["write-quiz"]}>

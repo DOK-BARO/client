@@ -5,33 +5,25 @@ import QuizWriteFormItem from "@/pages/CreateQuiz/composite/quizWriteForm/quizWr
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
 import { Plus } from "@/svg/plus.tsx";
 import { primary } from "@/styles/abstracts/colors.ts";
-import { useAtom } from "jotai";
-import { BookQuizType } from "@/types/BookQuizType";
-import { QuizCreationInfoAtom } from "@/store/quizAtom";
+import { BookQuizQuestionType } from "@/types/BookQuizType";
 import { QuizWriteFormItemType } from "@/types/BookQuizType";
-// 3. 퀴즈 작성
+import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 
 export default function QuizWriteForm() {
-  const [quizCreationInfo, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
+  const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
+
   const deleteQuizWriteForm = (targetId: number) => {
 
-    setQuizWriteList((prevQuizList) => {
-      return prevQuizList.filter(({ id }) => id !== targetId);
-    });
+    setQuizWriteList((prevQuizList) => (prevQuizList.filter(({ id }) => id !== targetId)));
 
-    setQuizCreationInfo((prevQuizList) => {
-      const updatedQuestions = prevQuizList.questions?.filter((question) => question.id !== targetId) ?? [];
-      return {
-        ...prevQuizList,
-        questions: updatedQuestions,
-      }
-    }); 
+    const updatedQuestions = quizCreationInfo.questions?.filter(question => question.id !== targetId) ?? [];
+    updateQuizCreationInfo("questions",updatedQuestions);
   };
+  
 
   const setInitialForms = (): QuizWriteFormItemType[] => {
     const quizWriteForms: QuizWriteFormItemType[] = 
-    quizCreationInfo.questions?.map((question) => (
-      {
+    quizCreationInfo.questions?.map((question) => ({
         id: question.id,
         quizWriteFormType: question.answerType,
         component: <QuizWriteFormItem id={question.id} deleteQuizWriteForm={deleteQuizWriteForm} quizWriteFormType = {question.answerType}/>,
@@ -55,16 +47,20 @@ export default function QuizWriteForm() {
     const globalQuizItems = [...quizCreationInfo.questions??[]];
     const [reorderedGlobalItem] = globalQuizItems.splice(result.source.index, 1);
     globalQuizItems.splice(result.destination.index,0,reorderedGlobalItem);
-    setQuizCreationInfo((prev) => (
-      {
-        ...prev,
-        questions: globalQuizItems,
-      }
-    ));
+    updateQuizCreationInfo("questions", globalQuizItems);
   };
 
-  const onClickAddQuizWriteForm = () => {
-    const id = Date.now();
+  const createNewQuestion = (id: number): BookQuizQuestionType => ({
+      id,
+      content: "",
+      selectOptions: [],
+      answerExplanationContent: "",
+      answerType: "MULTIPLE_CHOICE",
+      answerExplanationImages: [],
+      answers: [],
+  });
+
+  const addQuizWriteForm = (id: number) => {
     setQuizWriteList((prev) => [
       ...prev,
       {
@@ -73,29 +69,15 @@ export default function QuizWriteForm() {
         component: <QuizWriteFormItem id={id} deleteQuizWriteForm={deleteQuizWriteForm} quizWriteFormType={"MULTIPLE_CHOICE"}/>,
       },
     ]);
+  }
 
-    // 퀴즈 질문 초기 값 생성
-    setQuizCreationInfo((prev) => (
-      {
-        ...prev,
-        questions: [
-          ...prev.questions ?? [],
-          {
-            id: id,
-            content: "",
-            selectOptions: [],
-            answerExplanationContent: "",
-            answerType: "MULTIPLE_CHOICE",
-            answerExplanationImages: [],
-            answers: [],
-          },
-        ]
-      })
-    );
-
+  const onClickAddQuizWriteForm = () => {
+    const id = Date.now();
+    const newQuestion : BookQuizQuestionType = createNewQuestion(id);
+    addQuizWriteForm(id);
+    updateQuizCreationInfo("questions",[...(quizCreationInfo.questions ?? []), newQuestion])
     console.log("info: %o",quizCreationInfo);
   };
-
 
   return (
     <div className={styles["container"]}>

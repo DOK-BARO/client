@@ -4,12 +4,11 @@ import { RadioOption } from "@/types/RadioTypes.ts";
 import { FC, useEffect, useState } from "react";
 import { QuizFormMode } from "@/data/constants.ts";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
-import { useAtom } from "jotai";
-import { BookQuizQuestionType, BookQuizType } from "@/types/BookQuizType";
-import { QuizCreationInfoAtom } from "@/store/quizAtom";
+import { BookQuizQuestionType } from "@/types/BookQuizType";
+import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 
 export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: string }> = ({ quizMode, questionFormId }) => {
-  const [quizCreationInfo, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
+  const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
 
   const getQuestion = () => (quizCreationInfo.questions?.find((question) => (question.id.toString() === questionFormId)) as BookQuizQuestionType);
 
@@ -31,22 +30,16 @@ export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: st
     setOptions(options.filter((option) => option.id !== optionId));
 
     // TODO: onClickAddQuizOptionItem와 겹치는 로직 리팩토링 필요
-    setQuizCreationInfo((prev) => {
-      const updatedQuestions = prev.questions!.map((question) => {
-        if (question.id.toString() === questionFormId!) {
-          return {
-            ...question,
-            selectOptions: question.selectOptions.filter((option) => option.id !== optionId)
-          };
-        }
-        return question;
-      });
-
+    const updatedQuestions:BookQuizQuestionType[] = quizCreationInfo.questions?.map((question) => {
+      const filteredSelectOptions = question.selectOptions.filter((option) => option.id !== optionId);
       return {
-        ...prev,
-        questions: updatedQuestions,
+          ...question,
+          selectOptions: filteredSelectOptions,
       };
-    });
+  }) ?? [];
+    
+    updateQuizCreationInfo("questions", updatedQuestions);
+    
   };
 
   const handleOptionFocus = (id: number) => {
@@ -60,9 +53,6 @@ export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: st
       const question = getQuestion();
       onRadioGroupChange(question.answers[0]);
     }
-
-
-
   }, [quizMode]);
 
   const handleOptionBlur = () => {
@@ -82,13 +72,13 @@ export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: st
 
   const handleRadioGroupChange = (value: string) => {
     onRadioGroupChange(value);
-    setQuizCreationInfo((prev) => ({
-      ...prev,
-      questions: prev.questions!.map((question) => question.id.toString() === questionFormId ? { ...question, answers: [value] } : question) // 해당 질문만 업데이트
-    }));
+
+    const updatedQuestions:BookQuizQuestionType[] = quizCreationInfo.questions!.map((question) => question.id.toString() === questionFormId ? { ...question, answers: [value] } : question);
+    updateQuizCreationInfo("questions", updatedQuestions);
   }
 
   const onClickAddQuizOptionItem = () => {
+    // TODO: 코드 길이 리팩토링 필요
     const id:number = Date.now();
     const value:string = (options.length + 1).toString() ;
 
@@ -101,25 +91,20 @@ export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: st
       },
     ]);
 
-    setQuizCreationInfo((prev) => {
-      const updatedQuestions = prev.questions!.map((question) => {
-        if (question.id.toString() === questionFormId!) {
-          return {
-            ...question,
-            selectOptions: [
-              ...question.selectOptions,
-              { id: id, option: "", value: value},
-            ],
-          };
-        }
-        return question;
-      });
-
-      return {
-        ...prev,
-        questions: updatedQuestions,
-      };
+    const updatedQuestions = quizCreationInfo.questions!.map((question) => {
+      if (question.id.toString() === questionFormId!) {
+        return {
+          ...question,
+          selectOptions: [
+            ...question.selectOptions,
+            { id: id, option: "", value: value},
+          ],
+        };
+      }
+      return question;
     });
+
+  updateQuizCreationInfo("questions",updatedQuestions);
   };
 
   return (

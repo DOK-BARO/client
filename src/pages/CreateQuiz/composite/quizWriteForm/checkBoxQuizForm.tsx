@@ -4,14 +4,12 @@ import { QuizFormMode } from "@/data/constants.ts";
 import { CheckBoxOption } from "@/types/CheckBoxTypes.ts";
 import QuizWriteFormCheckBoxOptionItem
   from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormCheckBoxOptionItem.tsx";
-import { useAtom } from "jotai";
-import { BookQuizType } from "@/types/BookQuizType";
-import { QuizCreationInfoAtom } from "@/store/quizAtom";
 import { BookQuizQuestionType } from "@/types/BookQuizType";
+import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 
 // TODO: multipleChoiceQuizForm과 겹치는 부분 리팩토링 필요
 export const CheckBoxQuizForm: FC<{ quizMode?: string, questionFormId?: string }> = ({ quizMode, questionFormId }) => {
-  const [quizCreationInfo, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
+  const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
 
   const getQuestion = () => (quizCreationInfo.questions?.find((question) => (question.id.toString() === questionFormId)) as BookQuizQuestionType);
 
@@ -40,22 +38,15 @@ export const CheckBoxQuizForm: FC<{ quizMode?: string, questionFormId?: string }
   const deleteOption = (optionId: number) => {
     setOptions(options.filter((option) => option.id !== optionId));
 
-    setQuizCreationInfo((prev) => {
-      const updatedQuestions = prev.questions!.map((question) => {
-        if (question.id.toString() === questionFormId!) {
-          return {
-            ...question,
-            selectOptions: question.selectOptions.filter((option) => option.id !== optionId),
-          };
-        }
-        return question;
-      });
-
+    const updatedQuestions:BookQuizQuestionType[] = quizCreationInfo.questions?.map((question) => {
+      const filteredSelectOptions = question.selectOptions.filter((option) => option.id !== optionId);
       return {
-        ...prev,
-        questions: updatedQuestions,
+          ...question,
+          selectOptions: filteredSelectOptions,
       };
-    });
+  }) ?? [];
+    
+    updateQuizCreationInfo("questions", updatedQuestions);
   };
 
   const onClickAddQuizOptionItem = () => {
@@ -71,25 +62,20 @@ export const CheckBoxQuizForm: FC<{ quizMode?: string, questionFormId?: string }
       },
     ]);
 
-    setQuizCreationInfo((prev) => {
-      const updatedQuestions = prev.questions!.map((question) => {
-        if (question.id.toString() === questionFormId) {
-          return {
-            ...question,
-            selectOptions: [
-              ...question.selectOptions,
-              { id: id, option: "", value: value },
-            ],
-          };
-        }
-        return question;
-      });
-
-      return {
-        ...prev,
-        questions: updatedQuestions,
-      };
+    const updatedQuestions = quizCreationInfo.questions!.map((question) => {
+      if (question.id.toString() === questionFormId!) {
+        return {
+          ...question,
+          selectOptions: [
+            ...question.selectOptions,
+            { id: id, option: "", value: value},
+          ],
+        };
+      }
+      return question;
     });
+
+  updateQuizCreationInfo("questions",updatedQuestions);
   };
 
 
@@ -112,20 +98,19 @@ export const CheckBoxQuizForm: FC<{ quizMode?: string, questionFormId?: string }
       };
     });
 
-    setQuizCreationInfo((prev) => ({
-      ...prev,
-      questions: prev.questions!.map((question) =>
-        question.id.toString() === questionFormId
-          ?
-          {
-            ...question,
-            answers: checked
-              ? [...question.answers, value]
-              : question.answers.filter((answer) => answer !== value),
-          }
-          :
-          question)
-    }));
+    const updatedQuestions = quizCreationInfo.questions!.map((question) =>
+      question.id.toString() === questionFormId
+        ?
+        {
+          ...question,
+          answers: checked
+            ? [...question.answers, value]
+            : question.answers.filter((answer) => answer !== value),
+        }
+        :
+        question);
+    updateQuizCreationInfo("questions",updatedQuestions);
+
   };
 
   useEffect(() => {

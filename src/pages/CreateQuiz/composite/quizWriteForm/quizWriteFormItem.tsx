@@ -1,4 +1,4 @@
-import React, { useState, useRef,useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styles from "./_quiz_write_form_item.module.scss";
 import QuizWriteFormTypeUtilButton from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormTypeUtilButton.tsx";
 import Textarea from "@/components/atom/textarea/textarea.tsx";
@@ -16,10 +16,9 @@ import { CheckBoxQuizForm } from "@/pages/CreateQuiz/composite/quizWriteForm/che
 import { OXQuizForm } from "@/pages/CreateQuiz/composite/quizWriteForm/oxQuizForm.tsx";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
 import { useAtom } from "jotai";
-import { BookQuizType } from "@/types/BookQuizType";
-import { QuizCreationInfoAtom } from "@/store/quizAtom";
+import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
-
+import { BookQuizQuestionType } from "@/types/BookQuizType";
 interface QuizWriteFormItemProps {
   id: number;
   deleteQuizWriteForm: (id: number) => void;
@@ -59,7 +58,7 @@ const quizWriteFormTypeUtilList: QuestionFormTypeType[] = [
   },
 ] as const;
 export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFormType }: QuizWriteFormItemProps) {
-  const [quizCreationInfo, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
+  const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
   const deleteIcon = "/assets/svg/quizWriteForm/delete_ellipse.svg";
 
   const setInitialFormType = (): QuestionFormTypeType => {
@@ -79,10 +78,8 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFo
 
   const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onAnswerTextAreaChange(e);
-    setQuizCreationInfo((prev) => ({
-      ...prev,
-      questions: prev.questions?.map((question) => question.id === id ? { ...question, answerExplanationContent: e.target.value } : question) ?? []
-    }));
+    const updatedQuestions: BookQuizQuestionType[] = quizCreationInfo.questions?.map((question) => question.id === id ? { ...question, answerExplanationContent: e.target.value } : question) ?? [];
+    updateQuizCreationInfo("questions", updatedQuestions);
   }
 
 
@@ -95,13 +92,13 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFo
       const initialImages = await setInitialImgPreview(); // 비동기적으로 이미지 미리보기 URL 가져오기
       setImagePreview(initialImages); // 상태 업데이트
     };
-  
+
     fetchImagePreviews(); // 함수 호출
   }, []); // 빈 의존성 배열로 컴포넌트 마운트 시 한 번만 실행
 
-  const setInitialImgPreview = async(): Promise<string[]> => { // TODO: hook으로 만들기
+  const setInitialImgPreview = async (): Promise<string[]> => { // TODO: hook으로 만들기
 
-    const answerExplanationImages:File[] = quizCreationInfo.questions?.find((question) => (question.id === id))?.answerExplanationImages ?? [];
+    const answerExplanationImages: File[] = quizCreationInfo.questions?.find((question) => (question.id === id))?.answerExplanationImages ?? [];
 
     const newImages: string[] = [];
     const newImagesFile: File[] = [];
@@ -122,11 +119,11 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFo
 
       readerPromises.push(promise);
     }
-    
+
     await Promise.all(readerPromises); // 모든 파일 읽기가 완료될 때까지 대기
 
     setImagePreview((prev) => [...prev, ...newImages]); // 상태 업데이트
-    
+
     return newImages; // 새로운 이미지 리스트를 반환
   }
   const [selectedImages, setSelectedImages] = useState<File[]>(quizCreationInfo.questions?.find((question) => (question.id === id))?.answerExplanationImages ?? []);
@@ -139,22 +136,16 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFo
     setImagePreview((prevImages) => prevImages.filter((_, i) => i !== index));
     setSelectedImages((prevImages) => prevImages.filter((_, i) => i !== index));
 
-    setQuizCreationInfo((prev) => {
-      const updatedQuestions = prev.questions?.map((question) => {
-        if (question.id === id!) { // TODO: questionFormId로 변수 네이밍 통일 필요
-          return {
-            ...question,
-            answerExplanationImages:question.answerExplanationImages.filter((_,i)=> i!==index)
-          };
-        }
-        return question;
-      }) ?? [];
-
-      return {
-        ...prev,
-        questions: updatedQuestions,
-      };
-    });
+    const updatedQuestions: BookQuizQuestionType[] = quizCreationInfo.questions?.map((question) => {
+      if (question.id === id!) { // TODO: questionFormId로 변수 네이밍 통일 필요
+        return {
+          ...question,
+          answerExplanationImages: question.answerExplanationImages.filter((_, i) => i !== index)
+        };
+      }
+      return question;
+    }) ?? [];
+    updateQuizCreationInfo("questions", updatedQuestions);
   };
 
   const [, setErrorModalTitle] = useAtom(errorModalTitleAtom);
@@ -213,24 +204,18 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFo
         setSelectedImages((prev) => [...prev, ...newImagesFile]);
         setImagePreview((prev) => [...prev, ...newImages])
 
+        const updatedQuestions: BookQuizQuestionType[] = quizCreationInfo.questions?.map((question) => {
+          if (question.id === id!) { // TODO: questionFormId로 변수 네이밍 통일 필요
+            return {
+              ...question,
+              answerExplanationImages:
+                [...question.answerExplanationImages, ...newImagesFile]
+            };
+          }
+          return question;
+        }) ?? [];
 
-        setQuizCreationInfo((prev) => {
-          const updatedQuestions = prev.questions?.map((question) => {
-            if (question.id === id!) { // TODO: questionFormId로 변수 네이밍 통일 필요
-              return {
-                ...question,
-                answerExplanationImages:
-                  [...question.answerExplanationImages, ...newImagesFile]
-              };
-            }
-            return question;
-          }) ?? [];
-
-          return {
-            ...prev,
-            questions: updatedQuestions,
-          };
-        });
+        updateQuizCreationInfo("questions", updatedQuestions);
       });
     }
   };
@@ -238,10 +223,9 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFo
 
   const handleQuestionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onQuestionChange(e);
-    setQuizCreationInfo((prev) => ({
-      ...prev,
-      questions: prev.questions?.map((question) => question.id === id ? { ...question, content: e.target.value } : question) ?? []
-    }));
+
+    const updatedQuestions: BookQuizQuestionType[] = quizCreationInfo.questions?.map((question) => question.id === id ? { ...question, content: e.target.value } : question) ?? [];
+    updateQuizCreationInfo("questions", updatedQuestions);
   };
 
   const handleButtonClick = () => {

@@ -5,33 +5,33 @@ import QuizWriteFormTypeUtilList from "@/pages/CreateQuiz/composite/quizWriteFor
 
 import Button from "@/components/atom/button/button.tsx";
 import { QuestionFormTypeType } from "@/types/QuestionFormTypeType.ts";
-import { useAtom } from "jotai";
-import { BookQuizType } from "@/types/BookQuizType";
-import { QuizCreationInfoAtom } from "@/store/quizAtom";
+import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
+import { BookQuizQuestionType } from "@/types/BookQuizType";
 
-function QuizWriteFormTypeUtilButton({quizId, selectedOption, setSelectedOption, list }: {
+function QuizWriteFormTypeUtilButton({ quizId, selectedOption, setSelectedOption, list }: {
   quizId: number,
   list: QuestionFormTypeType[]
   selectedOption: QuestionFormTypeType,
   setSelectedOption: (option: QuestionFormTypeType) => void
 }) {
 
-  const [, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
+  const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
 
   const onClick = (option: QuestionFormTypeType) => {
-    setQuizCreationInfo((prev) => ({
-      ...prev,
-      questions: prev.questions?.map((question) => 
-      question.id === quizId 
-      ? 
-      { ...question,
-        selectOptions: [],
-        answerType: option.typeFlag,
-        answers:[],
-      } 
-      : 
-      question) ?? []
-    }));
+
+    const updatedQuestions: BookQuizQuestionType[] = quizCreationInfo.questions?.map((question) =>
+      question.id === quizId
+        ?
+        {
+          ...question,
+          selectOptions: [],
+          answerType: option.typeFlag,
+          answers: [],
+        }
+        :
+        question) ?? [];
+    updateQuizCreationInfo("questions",updatedQuestions);
+
     setSelectedOption(option);
     closeDropDownList();
   };
@@ -51,7 +51,7 @@ function QuizWriteFormTypeUtilButton({quizId, selectedOption, setSelectedOption,
         />}
       >
         <h3>{selectedOption.text}</h3>
-        <ArrowDown width={24} height={24} className={styles["quiz-write-form-type-util-icon"]} stroke={"black"}/>
+        <ArrowDown width={24} height={24} className={styles["quiz-write-form-type-util-icon"]} stroke={"black"} />
       </Button>
       {isOpenDropDownList && anchorEl &&
         <QuizWriteFormTypeUtilList

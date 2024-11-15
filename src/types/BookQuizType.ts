@@ -20,7 +20,7 @@ export interface BookQuizType {
   title: string | null;
   description: string | null;
   bookId: number | null;
-  timeLimitSecond?: number | null;
+  timeLimitSecond?: string | null;
   viewScope: "EVERYONE" | "STUDY_GROUP" | "CREATOR" | null;
   editScope: "EVERYONE" | "STUDY_GROUP" | "CREATOR" | null;
   studyGroupId: number | undefined | null;

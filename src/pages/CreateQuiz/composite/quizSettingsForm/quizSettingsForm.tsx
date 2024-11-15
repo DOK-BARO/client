@@ -3,6 +3,8 @@ import styles from "./_quiz_settings_form.module.scss";
 import Button from "@/components/atom/button/button";
 import { IsQuizNextButtonEnabledAtom } from "@/store/quizAtom";
 import { useAtom } from "jotai";
+import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
+import { BookQuizType } from "@/types/BookQuizType";
 
 // TODO: 파일 분리
 interface SelectedOptions {
@@ -10,20 +12,36 @@ interface SelectedOptions {
 }
 // 4. 퀴즈 설정
 export default function QuizSettingsForm() {
+  const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
   const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
     IsQuizNextButtonEnabledAtom
   );
-  const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>({
-    "time-limit": null,
-    "view-access": null,
-    "edit-access": null,
-  }); // 선택된 옵션들
+
+  const setInitialSetting = (): SelectedOptions => {
+    const selectOptions: SelectedOptions = {
+      "time-limit": quizCreationInfo.timeLimitSecond ?? null,
+      "view-access": quizCreationInfo.viewScope,
+      "edit-access": quizCreationInfo.editScope,
+    }
+    return selectOptions;
+  }
+
+  const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>(setInitialSetting()); // 선택된 옵션들
+
 
   const handleOptionSelect = (settingName: string, label: string) => {
     setSelectedOptions((prev) => ({
       ...prev,
       [settingName]: label,
     }));
+
+    const updateMapping: { [key: string]: keyof BookQuizType } = {
+      "time-limit": "timeLimitSecond",
+      "view-access": "viewScope",
+      "edit-access": "editScope",
+    };
+    const updateKey: keyof BookQuizType = updateMapping[settingName]!;
+    updateQuizCreationInfo(updateKey, label);
   };
 
   // 모든 항목이 선택되었는지 체크
@@ -43,6 +61,7 @@ export default function QuizSettingsForm() {
           key={quizSetting.name}
           quizSetting={quizSetting}
           onOptionSelect={handleOptionSelect}
+          selectedOptionLabel={selectedOptions[quizSetting.name]}
         />
       ))}
     </>
@@ -128,34 +147,36 @@ const quizSettings: QuizSetting[] = [
 const SettingContainer = ({
   quizSetting,
   onOptionSelect,
+  selectedOptionLabel,
 }: {
   quizSetting: QuizSetting;
   onOptionSelect: (name: string, label: string) => void;
+  selectedOptionLabel: string | null;
 }) => {
   const arrowDown = "/assets/svg/quizSettingForm/arrowDown.svg";
   const options = quizSetting.options;
-  const [label, setLabel] = useState<string | null>(null);
+  //const [label, setLabel] = useState<string | null>();
   const [description, setDescription] = useState<string>("");
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
 
   const onSelect = (e: React.MouseEvent<HTMLButtonElement>, name: string) => {
     const value = e.currentTarget.value;
-    setLabel(value);
+    //setLabel(value);
     onOptionSelect(name, value);
     setIsSelectOpen((prev) => !prev);
   };
 
   useEffect(() => {
-    const selectedOption = options.find((option) => option.label === label);
+    const selectedOption = options.find((option) => option.label === selectedOptionLabel);
 
     setDescription(
       selectedOption ? selectedOption.description : options[0].description
     );
-  }, [label]);
+  }, [selectedOptionLabel]);
 
   useEffect(() => {
     console.log(quizSetting.options);
-  }, [label]);
+  }, [selectedOptionLabel]);
 
   return (
     <div className={styles["quiz-setting-container"]}>
@@ -170,7 +191,7 @@ const SettingContainer = ({
         className={styles.select}
         icon={<img src={arrowDown} />}
       >
-        {label ?? "선택"}
+        {selectedOptionLabel ?? "선택"}
       </Button>
       {isSelectOpen ? (
         <ul className={styles["option-list"]}>

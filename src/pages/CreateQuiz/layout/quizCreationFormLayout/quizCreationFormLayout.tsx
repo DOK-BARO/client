@@ -40,14 +40,22 @@ export default function QuizCreationFormLayout({
     if (currentStep == endStep) {
       // TODO 퀴즈 생성 api요청
 
+      //TOOD 이미지 서버로 업로드
+      
+
       const quiz: BookQuizRequestType = {
-        ...quizCreationInfo,
+        title: quizCreationInfo.title!,
+        description: quizCreationInfo.description!,
+        viewScope: quizCreationInfo.viewScope!,
+        editScope: quizCreationInfo.editScope!,
         bookId: 41, //TODO: bookId 전역관리 구현 후 제거
-        questions: quizCreationInfo.questions.map((question) => {
-          const { id, ...rest } = question; // id를 제외한 나머지 속성들
+        studyGroupIds: quizCreationInfo.studyGroupId,
+        questions: quizCreationInfo.questions!.map((question) => {
+          const { id, ...rest } = question;
           return {
-            ...rest, // 나머지 속성들
-            answerExplanationImages: [], // TODO: 이미지 업로드 구현 후 제거
+            ...rest,
+            answerType: question.answerType === "CHECK_BOX" ? "MULTIPLE_CHOICE": question.answerType,
+            answerExplanationImages: [] as string[], // TODO: 이미지 업로드 구현 후 제거
             selectOptions: question.selectOptions.map(
               (option) => option.option
             ), // option 속성만 추출

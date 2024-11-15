@@ -4,9 +4,12 @@ import Button from "@/components/atom/button/button.tsx";
 import RightArrow from "@/svg/rightArrow.tsx";
 import { gray0, gray60 } from "@/styles/abstracts/colors.ts";
 import { useAtom } from "jotai";
-import { IsQuizNextButtonEnabledAtom, QuizCreationInfoAtom } from "@/store/quizAtom";
+import {
+  IsQuizNextButtonEnabledAtom,
+  QuizCreationInfoAtom,
+} from "@/store/quizAtom";
 import { createQuiz } from "@/services/server/quizService";
-import { BookQuizType,BookQuizRequestType } from "@/types/BookQuizType";
+import { BookQuizType, BookQuizRequestType } from "@/types/BookQuizType";
 import { uploadImg } from "@/services/server/imageService";
 
 export default function QuizCreationFormLayout({
@@ -20,7 +23,8 @@ export default function QuizCreationFormLayout({
 }) {
   const [isQuizNextButtonEnabled, setIsQuizNextButtonEnabled] =
     useAtom<boolean>(IsQuizNextButtonEnabledAtom);
-  const [quizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
+  const [quizCreationInfo, setQuizCreationInfo] =
+    useAtom<BookQuizType>(QuizCreationInfoAtom);
 
   const getCurrentStep = (): Step => {
     const step = steps[currentStep];
@@ -38,20 +42,21 @@ export default function QuizCreationFormLayout({
 
       const quiz: BookQuizRequestType = {
         ...quizCreationInfo,
-        bookId: 41,//TODO: bookId 전역관리 구현 후 제거
-        questions: quizCreationInfo.questions.map((question) => { // TODO: request시 CHECK_BOX는 MULTIPLE_CHOICE로 만들어야함
+        bookId: 41, //TODO: bookId 전역관리 구현 후 제거
+        questions: quizCreationInfo.questions.map((question) => {
           const { id, ...rest } = question; // id를 제외한 나머지 속성들
           return {
             ...rest, // 나머지 속성들
             answerExplanationImages: [], // TODO: 이미지 업로드 구현 후 제거
-            selectOptions: question.selectOptions.map(option => option.option) // option 속성만 추출
+            selectOptions: question.selectOptions.map(
+              (option) => option.option
+            ), // option 속성만 추출
           };
         }),
       };
 
-
-      console.log("request: %O",quiz);
-        // TODO: 제거필요 (테스트용 코드)
+      console.log("request: %O", quiz);
+      // TODO: 제거필요 (테스트용 코드)
       // const img : File = quiz.questions.map((question)=> {
       //   return question.answerExplanationImages[0];
       // })[0];
@@ -74,7 +79,9 @@ export default function QuizCreationFormLayout({
       return;
     }
 
-    const isLastSubStep = step.subSteps && currentStep === step.subSteps[step.subSteps.length - 1].order;
+    const isLastSubStep =
+      step.subSteps &&
+      currentStep === step.subSteps[step.subSteps.length - 1].order;
     const isFirstSubStep = step.subSteps;
 
     if (isLastSubStep) {
@@ -82,13 +89,14 @@ export default function QuizCreationFormLayout({
       setCurrentStep((prev) => Math.trunc(prev) + 1);
     } else {
       // 서브스텝이 있는 경우
-      isFirstSubStep ? setCurrentStep((prev) => Math.trunc(prev) + 0.2) : setCurrentStep((prev) => Math.trunc(prev) + 0.1);
-
+      isFirstSubStep
+        ? setCurrentStep((prev) => Math.trunc(prev) + 0.2)
+        : setCurrentStep((prev) => Math.trunc(prev) + 0.1);
     }
 
     // 새로운 단계(페이지) 넘어갈때 button 상태 다시 disabled로 변경.
     setIsQuizNextButtonEnabled(false);
-  }
+  };
 
   const step: Step = getCurrentStep();
   console.log("step: %o", step);
@@ -99,14 +107,14 @@ export default function QuizCreationFormLayout({
   const description = step?.description
     ? step.description
     : step?.subSteps?.[0].description
-      ? step.subSteps?.[0].description
-      : "";
+    ? step.subSteps?.[0].description
+    : "";
 
   const FormComponent = step?.formComponent
     ? step.formComponent
     : step?.subSteps?.[0]?.formComponent
-      ? step.subSteps[0].formComponent
-      : null;
+    ? step.subSteps[0].formComponent
+    : null;
   const endStep = steps.length - 1;
 
   return (
@@ -128,6 +136,18 @@ export default function QuizCreationFormLayout({
             stroke={isQuizNextButtonEnabled ? gray0 : gray60}
           />
         </Button>
+        {/* TODO: 테스트용 코드. 지우기 */}
+        {/* <button
+          onClick={() => {
+            setQuizCreationInfo({
+              ...quizCreationInfo,
+              bookId: 3,
+            });
+          }}
+        >
+          dd
+        </button>
+        <button onClick={() => console.log(quizCreationInfo)}>확인</button> */}
       </div>
     </section>
   );

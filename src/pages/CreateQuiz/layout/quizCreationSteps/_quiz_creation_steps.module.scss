@@ -4,6 +4,10 @@
 .container {
   @include flex(column);
   flex: 1;
+
+  h3 {
+    @include sr-only;
+  }
 }
 button.steps {
   width: 100%;

@@ -1,5 +1,6 @@
 /* Colors */
 export const gray0 = "#ffffff";
+export const gray20 = "#ECECEC";
 export const gray10 = "#f8f8f8";
 export const gray30 = "#d8d8d8";
 export const gray40 = "#c6c6c6";

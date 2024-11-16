@@ -12,6 +12,7 @@ import { BookType } from "@/types/BookType";
 import React from "react";
 import { useAtom } from "jotai";
 import { IsQuizNextButtonEnabledAtom } from "@/store/quizAtom";
+import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 
 // 2. 도서 선택
 // Issue: 도서 선택 UI 변경 시 딜레이 있음
@@ -24,9 +25,9 @@ export default function QuizBookSelectionForm() {
   const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
     IsQuizNextButtonEnabledAtom
   );
-
+  const {quizCreationInfo, updateQuizCreationInfo} = useUpdateQuizCreationInfo();
   const [tempSelectedBook, setTempSelectedBook] = useState<BookType | null>(
-    null
+    quizCreationInfo.book
   );
 
   // 검색어 지워져도 남아있는 // 사용자가 확실히 도서를 선택했을 때만 바뀜
@@ -78,6 +79,8 @@ export default function QuizBookSelectionForm() {
   const onBookSelect = (book: BookType) => {
     setSelectedBook(book);
     resetSearchValueInput();
+
+    updateQuizCreationInfo("book",book);
 
     // 책이 선택되면 버튼 enabled
     setIsQuizNextButtonEnabled(true);

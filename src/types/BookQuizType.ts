@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { BookType } from "./BookType";
 // TODO: 파일명 QuizType으로 변경
 
 export interface QuizType {
@@ -19,7 +20,7 @@ export interface QuizType {
 export interface BookQuizType {
   title: string | null;
   description: string | null;
-  bookId: number | null;
+  book: BookType | null;
   timeLimitSecond?: string | null;
   viewScope: "EVERYONE" | "STUDY_GROUP" | "CREATOR" | null;
   editScope: "EVERYONE" | "STUDY_GROUP" | "CREATOR" | null;

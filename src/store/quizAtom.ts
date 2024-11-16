@@ -8,7 +8,7 @@ export const IsQuizNextButtonEnabledAtom = atom<boolean>(false);
 export const QuizCreationInfoAtom = atom<BookQuizType>({
   title: null,
   description: null,
-  bookId: null,
+  book: null,
   timeLimitSecond: null,
   viewScope: null,
   editScope: null,
@@ -23,7 +23,7 @@ export const isStudyGroupSelectedAtom = atom(
 
 // 도서 선택 단계 완료 여부 Atom
 export const isBookSelectedAtom = atom(
-  (get) => get(QuizCreationInfoAtom).bookId !== null
+  (get) => get(QuizCreationInfoAtom).book !== null
 );
 
 // 퀴즈 작성 단계 완료 여부 Atom

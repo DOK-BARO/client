@@ -48,7 +48,7 @@ export default function QuizCreationFormLayout({
         description: quizCreationInfo.description!,
         viewScope: quizCreationInfo.viewScope!,
         editScope: quizCreationInfo.editScope!,
-        bookId: 41, //TODO: bookId 전역관리 구현 후 제거
+        bookId: quizCreationInfo.book?.id!,
         studyGroupIds: quizCreationInfo.studyGroupId,
         questions: quizCreationInfo.questions!.map((question) => {
           const { id, ...rest } = question;

@@ -1,55 +1,36 @@
+import React, { useEffect } from "react";
+import { useAtom } from "jotai";
 import Input from "@/components/atom/input/input.tsx";
+import Textarea from "@/components/atom/textarea/textarea.tsx";
 import styles from "./_quiz_basic_info_form.module.scss";
 import useInput from "@/hooks/useInput.ts";
-import { useEffect } from "react";
-import Textarea from "@/components/atom/textarea/textarea.tsx";
-import React from "react";
-import { IsQuizNextButtonEnabledAtom } from "@/store/quizAtom";
-import { useAtom } from "jotai";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
-import { BookQuizType } from "@/types/BookQuizType";
-import { QuizCreationInfoAtom } from "@/store/quizAtom";
+import { IsQuizNextButtonEnabledAtom } from "@/store/quizAtom";
+import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 
 function QuizBasicInfoForm() {
-  const [quizCreationInfo, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
+  const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
+  const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(IsQuizNextButtonEnabledAtom);
 
   const descriptionMaxLength = 150;
-  //TODO: 제목 텍스트 값을 전역변수로 사용하고 있다보니 titleInputValue는 사용하지 않아도 될듯 함. 어떻게 처리할지 논의 필요
-  const { value: titleInputValue, onChange: onTitleChange } = useInput(quizCreationInfo.title);
-  const {
-    value: descriptionTextareaValue,
-    onChange: onDescriptionChange,
-    textareaRef,
-  } = useAutoResizeTextarea(quizCreationInfo.description);
+  const { value: titleInputValue, onChange: onTitleChange } = useInput(quizCreationInfo.title ?? "");
+  const { value: descriptionTextareaValue, onChange: onDescriptionChange, textareaRef } = useAutoResizeTextarea(quizCreationInfo.description ?? "");
 
-  const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
-    IsQuizNextButtonEnabledAtom
-  );
+  useEffect(() => {
+    const disable = titleInputValue.trim() === "" || descriptionTextareaValue.trim() === "";
+    setIsQuizNextButtonEnabled(!disable);
+  }, [titleInputValue, descriptionTextareaValue]);
 
   const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onDescriptionChange(e);
-    setQuizCreationInfo((prev) => (
-      {
-        ...prev,
-        description: e.target.value
-      } 
-    ));
+    updateQuizCreationInfo("description", e.target.value);
   }
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onTitleChange(e);
-    setQuizCreationInfo((prev) => (
-      {
-        ...prev,
-        title: e.target.value,
-      } 
-    ));
+    updateQuizCreationInfo("title", e.target.value);
   }
 
-  useEffect(() => {
-    const  disable = titleInputValue.trim() === "" || descriptionTextareaValue.trim() === "";
-    setIsQuizNextButtonEnabled(!disable);
-  }, [titleInputValue, descriptionTextareaValue]);
 
   return (
     <div className={styles["quiz-basic-info-form-container"]}>

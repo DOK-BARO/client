@@ -20,7 +20,7 @@ export interface BookQuizType {
   title: string | null;
   description: string | null;
   bookId: number | null;
-  timeLimitSecond?: number | null;
+  timeLimitSecond?: string | null;
   viewScope: "EVERYONE" | "STUDY_GROUP" | "CREATOR" | null;
   editScope: "EVERYONE" | "STUDY_GROUP" | "CREATOR" | null;
   studyGroupId: number | undefined | null;
@@ -30,12 +30,10 @@ export interface BookQuizType {
 export interface BookQuizQuestionType {
   id: number;
   content: string;
-  //selectOptions: string[];
   //TODO: api 요청 시 id제거 필요
   selectOptions: {id: number, option:string, value:string}[];
-  //selectOptions: {id: number, option:string}[] | string[];
   answerExplanationContent: string;
-  answerExplanationImages: (string | File )[],
+  answerExplanationImages: File[],
   // answerExplanationImages: string[],
   answerType: "OX" | "FILL_BLANK" | "MULTIPLE_CHOICE" | "SHORT" | "CHECK_BOX";
   answers: string[];
@@ -51,7 +49,7 @@ export interface BookQuizRequestType {
   timeLimitSecond?: number;
   viewScope: "EVERYONE" | "STUDY_GROUP" | "CREATOR";
   editScope: "EVERYONE" | "STUDY_GROUP" | "CREATOR";
-  studyGroupIds: number;
+  studyGroupIds: number | undefined | null;
   questions: BookQuizQuestionRequestApiType[];
 }
 
@@ -59,7 +57,7 @@ export type BookQuizQuestionRequestApiType = {
   content: string;
   selectOptions: string[]; // API용 타입
   answerExplanationContent: string;
-  answerExplanationImages: (string | File)[];
+  answerExplanationImages: string[];
   answerType: "OX" | "FILL_BLANK" | "MULTIPLE_CHOICE" | "SHORT"; // TODO: request시 CHECK_BOX는 MULTIPLE_CHOICE로 만들어야함
   answers: string[];
 };

@@ -4,10 +4,8 @@ import useRadioGroup from "@/hooks/useRadioGroup.ts";
 import { RadioOption } from "@/types/RadioTypes.ts";
 import { FC, useState, useEffect } from "react";
 import styles from "./_ox_quiz_form.module.scss";
-import { useAtom } from "jotai";
-import { BookQuizType } from "@/types/BookQuizType";
-import { QuizCreationInfoAtom } from "@/store/quizAtom";
 import { BookQuizQuestionType } from "@/types/BookQuizType";
+import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 
 export const OXQuizForm: FC<{ quizMode?: string, questionFormId?: string }> = ({ quizMode, questionFormId }) => { // TODO: props 만들기 (multipleChoiceQuizForm.tsx랑 겹침)
 
@@ -22,8 +20,8 @@ export const OXQuizForm: FC<{ quizMode?: string, questionFormId?: string }> = ({
     label: "X",
   }];
 
-  const [quizCreationInfo, setQuizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
-  const getQuestion = () => (quizCreationInfo.questions.find((question) => (question.id.toString() === questionFormId)) as BookQuizQuestionType);
+  const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
+  const getQuestion = () => (quizCreationInfo.questions?.find((question) => (question.id.toString() === questionFormId)) as BookQuizQuestionType);
 
   const setInitialAnswer = (): string => {
     const question = getQuestion();
@@ -53,10 +51,9 @@ export const OXQuizForm: FC<{ quizMode?: string, questionFormId?: string }> = ({
 
   const handleRadioGroupChange = (value: string) => {
     onRadioGroupChange(value);
-    setQuizCreationInfo((prev) => ({
-      ...prev,
-      questions: prev.questions.map((question) => question.id.toString() === questionFormId ? { ...question, answers: [value] } : question) // 해당 질문만 업데이트
-    }));
+
+    const updatedQuestions= quizCreationInfo.questions?.map((question) => question.id.toString() === questionFormId ? { ...question, answers: [value] } : question) ?? [];
+    updateQuizCreationInfo("questions",updatedQuestions)
   }
 
   return (

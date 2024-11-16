@@ -119,7 +119,7 @@ export default function TermsAgreement() {
     event.preventDefault();
     const itemsWithLastItem = Object.keys(agreements)
       .filter((key) => agreements[key].checked)
-      .map((key) => Object.keys(agreements).indexOf(key));
+      .map((key) => Object.keys(agreements).indexOf(key) + 1);
 
     const items = itemsWithLastItem.slice(0, itemsWithLastItem.length - 1);
 

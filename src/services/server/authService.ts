@@ -87,7 +87,7 @@ export const emailSignup = async (userInfo: {
   email: string;
   password: string;
   nickName: string;
-  profileImage: string;
+  profileImage?: string | null;
 }) => {
   try {
     const response = await axios.post("/auth/email/signup", userInfo);
@@ -102,7 +102,7 @@ export const emailSignup = async (userInfo: {
 export const updateUser = async (userInfo: {
   nickName: string;
   email: string;
-  profileImage: string; // TODO: 필수인가?
+  profileImage?: string | null; // TODO: 필수인가?
 }) => {
   try {
     const response = await axios.put("/members/login-user", userInfo);

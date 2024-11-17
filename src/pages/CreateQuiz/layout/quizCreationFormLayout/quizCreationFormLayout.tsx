@@ -10,7 +10,6 @@ import {
 } from "@/store/quizAtom";
 import { createQuiz } from "@/services/server/quizService";
 import { BookQuizType, BookQuizRequestType } from "@/types/BookQuizType";
-import { uploadImg } from "@/services/server/imageService";
 
 export default function QuizCreationFormLayout({
   steps,

@@ -1,4 +1,4 @@
-import { AUTH_TYPES, SOCIAL_TYPES } from "@/data/constants.ts";import CheckIcon from "@mui/icons-material/Check";
+import { AUTH_TYPES, SOCIAL_TYPES } from "@/data/constants.ts"; import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import useGNB from "@/hooks/useGNB.ts";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
@@ -14,6 +14,8 @@ import Button from "@/components/atom/button/button.tsx";
 import GNB from "@/components/layout/gnb/gnb.tsx";
 import Modal from "@/components/atom/modal/modal.tsx";
 import Input from "@/components/atom/input/input.tsx";
+import { useRef } from "react";
+import { uploadImg } from "@/services/server/imageService";
 
 const options: RadioOption[] = [
   { id: 1, value: "option1", label: "Option 1" },
@@ -25,8 +27,10 @@ export default function Index() {
   const { openGNB, closeGNB, isGNBOpen } = useGNB();
   const { selectedValue, handleChange } = useRadioGroup("");
   const { openModal, isModalOpen, closeModal } = useModal();
+  const fileInputRef = useRef<HTMLInputElement | null>(null); // 파일 입력 참조
 
   const [inputValue, setInputValue] = useState<string>("");
+  const [selectedImages, setSelectedImages] = useState<File[]>([]);
 
   const getClassNameAndIcon = (optionValue: string, correctOption?: string) => {
     // TODO: currentOption : 채점 전엔 null, 답안이 오면 해당 답안으로 set
@@ -49,11 +53,44 @@ export default function Index() {
     // 선택되지 않은 항목이라면 따로 스타일링 x
     return { className: "radio-button-item", icon: null };
   };
+
+  const handleSelectImg = () => {
+  }
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    fileInputRef.current?.click();
+
+    const files = event.target.files;
+    if (files) {
+
+      const newImagesFile: File[] = Array.from(files);
+      setSelectedImages((prev) => [...prev, ...newImagesFile]);
+    }
+  }
+
+  const handleUploadImg = async () => {
+
+    const img: File = selectedImages[0];
+
+    const formData = new FormData();
+    formData.append('file', img);
+    await uploadImg(formData);
+  }
   return (
     <>
+    <div>
+      <input
+        type="file"
+        accept="image/*"
+        ref={fileInputRef}
+        onChange={handleImageChange}
+        multiple
+      />
+      <button onClick={handleUploadImg}>이미지 업로드 버튼</button>
+      </div>
       <button onClick={getUser}>유저 데이터 가져오는 버튼</button>
       {
-        options.map((option:RadioOption) => {
+        options.map((option: RadioOption) => {
           const { className, icon } = getClassNameAndIcon(option.value, "option2");
 
           return <RadioButton
@@ -89,19 +126,19 @@ export default function Index() {
       </Button>
       {isGNBOpen && <GNB />}
       <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
-        <Button size="xsmall" onClick={() => {}}>
+        <Button size="xsmall" onClick={() => { }}>
           button
         </Button>
-        <Button size="small" onClick={() => {}}>
+        <Button size="small" onClick={() => { }}>
           button
         </Button>
-        <Button size="medium" onClick={() => {}}>
+        <Button size="medium" onClick={() => { }}>
           button
         </Button>
-        <Button size="large" onClick={() => {}}>
+        <Button size="large" onClick={() => { }}>
           button
         </Button>
-        <Button size="xlarge" onClick={() => {}}>
+        <Button size="xlarge" onClick={() => { }}>
           button
         </Button>
       </div>
@@ -160,35 +197,35 @@ export default function Index() {
         rightIcon={<Invisible stroke={gray60} width={24} />}
       />
       <span style={{ display: "flex", gap: "10px" }}>
-        <Button color="primary" size="medium" onClick={() => {}}>
+        <Button color="primary" size="medium" onClick={() => { }}>
           button
         </Button>
-        <Button color="secondary" size="medium" onClick={() => {}}>
+        <Button color="secondary" size="medium" onClick={() => { }}>
           button
         </Button>
-        <Button color="primary-border" size="medium" onClick={() => {}}>
+        <Button color="primary-border" size="medium" onClick={() => { }}>
           button
         </Button>
-        <Button color="black" size="medium" onClick={() => {}}>
+        <Button color="black" size="medium" onClick={() => { }}>
           button
         </Button>
-        <Button color="white" size="medium" onClick={() => {}}>
+        <Button color="white" size="medium" onClick={() => { }}>
           button
         </Button>
-        <Button color="transparent" size="medium" onClick={() => {}}>
+        <Button color="transparent" size="medium" onClick={() => { }}>
           button
         </Button>
-        <Button color="primary" size="medium" disabled onClick={() => {}}>
+        <Button color="primary" size="medium" disabled onClick={() => { }}>
           disabled button
         </Button>
       </span>
       <div
         style={{ margin: "20px 0", width: "390px", background: "lightGray" }}
       >
-        <Button fullWidth color="primary" size="medium" onClick={() => {}}>
+        <Button fullWidth color="primary" size="medium" onClick={() => { }}>
           button fullWidth
         </Button>
-        <Button color="white" size="medium" onClick={() => {}}>
+        <Button color="white" size="medium" onClick={() => { }}>
           button
         </Button>
       </div>

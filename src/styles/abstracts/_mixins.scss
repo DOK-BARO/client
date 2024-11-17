@@ -54,7 +54,7 @@
 @mixin textarea-base {
   line-height: 1.5em;
   font-family: inherit;
-  min-height: 56px;
+  min-height: 48px;
   overflow: hidden;
 
   &:focus {

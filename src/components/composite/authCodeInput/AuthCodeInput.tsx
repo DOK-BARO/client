@@ -31,13 +31,14 @@ export default function AuthCodeInput({
             onKeyDown={(e) => handleKeyDown(e, i)}
             maxLength={1}
             color={borderColor}
-            isError={isMatch === false}
+            isError={!isMatch}
             className={styles["code-input"]}
           />
         ))}
       </div>
-      {isMatch === false ? (
+      {!isMatch ? (
         <span className={styles["message-container"]}>
+          {/* TODO: 순서 바꾸기 */}
           <p>인증 코드가 일치하지 않습니다.</p>
           <XSmall stroke={systemDanger} width={20} height={20} />
         </span>

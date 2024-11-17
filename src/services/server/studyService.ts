@@ -5,7 +5,7 @@ export const createStudyGroup = async (
   studyName: string
 ): Promise<{ id: string }> => {
   try {
-    const { data } = await axios.post("/study-groups", { studyName });
+    const { data } = await axios.post("/study-groups", { name: studyName });
     console.log(data);
     return data;
   } catch (error) {

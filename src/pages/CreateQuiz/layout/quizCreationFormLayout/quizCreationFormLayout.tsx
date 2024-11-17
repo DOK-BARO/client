@@ -10,6 +10,7 @@ import {
 } from "@/store/quizAtom";
 import { createQuiz } from "@/services/server/quizService";
 import { BookQuizType, BookQuizRequestType } from "@/types/BookQuizType";
+import { uploadImg } from "@/services/server/imageService";
 
 export default function QuizCreationFormLayout({
   steps,
@@ -64,15 +65,15 @@ export default function QuizCreationFormLayout({
 
       console.log("request: %O", quiz);
       // TODO: 제거필요 (테스트용 코드)
-      // const img : File = quiz.questions.map((question)=> {
-      //   return question.answerExplanationImages[0];
-      // })[0];
+      const img : File = quizCreationInfo.questions!.map((question)=> {
+        return question.answerExplanationImages[0];
+      })[0];
 
-      // const formData = new FormData();
-      // formData.append('file', img);
-      // await uploadImg(formData);
+      const formData = new FormData();
+      formData.append('file', img);
+      await uploadImg(formData);
 
-      await createQuiz(quiz);
+      //await createQuiz(quiz);
       return;
     }
 

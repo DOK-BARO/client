@@ -54,8 +54,6 @@ export default function Index() {
     return { className: "radio-button-item", icon: null };
   };
 
-  const handleSelectImg = () => {
-  }
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     fileInputRef.current?.click();

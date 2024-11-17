@@ -64,6 +64,10 @@
   & {
     resize: none;
   }
+
+  &::placeholder{
+    color: $gray-60;
+  }
 }
 
 @mixin scroll-bar {

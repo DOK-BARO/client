@@ -47,6 +47,7 @@ export default function Verification() {
     e: React.ChangeEvent<HTMLInputElement>,
     index: number
   ) => {
+    setIsMatch(undefined);
     let { value } = e.target;
     if (value.length > 1) return;
 
@@ -109,10 +110,7 @@ export default function Verification() {
 
   const handleDone = async () => {
     const { result } = await matchEmailCode({ email, code: fullCode });
-    if (!result) {
-      return;
-    }
-    setIsMatch(true);
+    setIsMatch(result);
   };
 
   return (
@@ -160,7 +158,7 @@ export default function Verification() {
           borderColor={fullCode.length !== 6 ? "default" : "black"}
           handleCodeChange={handleCodeChange}
           handleKeyDown={handleKeyDown}
-          isMatch
+          isMatch={isMatch ?? true}
         />
       )}
       <Button

@@ -118,8 +118,21 @@ export const getUser = async (): Promise<UserType> => {
   try {
     const { data } = await axios.get("/members/login-user");
     return data;
-  } catch (error) {
-    throw new Error(`유저 데이터 가져오기 실패: ${error}`);
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      const axiosError = error as AxiosError;
+      if (axiosError.response?.status === 404) {
+        console.log("in 404 in get user");
+        throw error;
+      }
+      if (axiosError.response?.status === 500) {
+        console.log("500 in get user");
+        fetchRefreshToken();
+      }
+      throw new Error(`로그인 요청: ${error}`);
+    } else {
+      throw new Error(`Unexpected error: ${error}`);
+    }
   }
 };
 
@@ -198,5 +211,24 @@ export const matchEmailCode = async ({
     // 인증코드가 일치하지 않을 경우
     // TODO: 상세한 에러 처리 필요
     throw new Error(`인증코드 일치 실패: ${error}`);
+  }
+};
+
+export const fetchRefreshToken = async () => {
+  try {
+    const { data } = await axios.post("/token/refresh");
+    return data;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      const axiosError = error as AxiosError;
+      if (axiosError.response?.status === 404) {
+        console.log("refresh token 404");
+        localApi.removeCertification();
+        throw error;
+      }
+      throw new Error(`리프레시 토큰 요청: ${error}`);
+    } else {
+      throw new Error(`Unexpected error: ${error}`);
+    }
   }
 };

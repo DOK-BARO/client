@@ -62,7 +62,7 @@ export default function QuizWriteFormOptionItem({
   };
 
 
-  const isChecked = selectedValue === optionText;
+  const isChecked = selectedValue === option.value;
 
 
   return (

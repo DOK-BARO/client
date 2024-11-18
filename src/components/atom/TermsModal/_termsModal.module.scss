@@ -31,6 +31,7 @@
 
   &-mainTitle {
     margin-top: 30px; // 32px
+    margin-bottom: 30px;
   }
 
   &-main {
@@ -39,7 +40,6 @@
   }
 
   &-content {
-    margin-top: 30px; // 32px
     white-space: pre-line;
     font-size: $font-size-user-auth-agreement-content;
 

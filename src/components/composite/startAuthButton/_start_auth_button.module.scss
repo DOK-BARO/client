@@ -2,15 +2,5 @@
 @import "../../../styles/abstracts/mixins";
 
 .start-button {
-  background-color: $gray-90;
-  color: $gray-00;
-  font-size: $font-size-large;
-  font-weight: bold;
-  border-radius: 4px;
-  padding: 0 16px 0;
-  height: 40px;
-  border: none;
-  font-family: Pretendard, serif;
-  line-height: 1.5;
-  white-space: nowrap;
+  border-radius: 6px;
 }

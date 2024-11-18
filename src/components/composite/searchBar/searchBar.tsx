@@ -14,8 +14,8 @@ export default function SearchBar() {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    if(!isLoggedIn) {
-      navigate("/",  { state: { openModal: true } }); //TODO: 랜딩페이지로 이동
+    if (!isLoggedIn) {
+      navigate("/", { state: { openModal: true } }); //TODO: 랜딩페이지로 이동
     }
     console.log("Search submitted with:", searchWord);
   };
@@ -31,6 +31,7 @@ export default function SearchBar() {
           onChange={onChangeSearchWord}
           placeholder="배우고 싶은 책을 검색해보세요."
           leftIcon={<Search stroke={gray50} width={20} />}
+          fullWidth
         />
       </form>
     </div>

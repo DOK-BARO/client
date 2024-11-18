@@ -1,11 +1,2 @@
 @import "../../../../styles/abstracts/variables";
 @import "../../../../styles/abstracts/mixins";
-
-.add-quiz{
-  @include flex(row, true);
-  width: 100%;
-  background-color: $secondary;
-  color: $primary;
-  font-size: $font-size-xlarge;
-  font-weight: $font-weight-semibold;
-}

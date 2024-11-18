@@ -13,27 +13,23 @@ interface QuizWriteFormItemHeaderProps {
   checkValidation: () => void;
 }
 
-export default function QuizWriteFormItemHeader(
-  {
-    id,
-    quizMode,
-    onQuizModeSelect,
-    deleteQuizWriteForm,
-    checkValidation,
-  }: QuizWriteFormItemHeaderProps) {
-
+export default function QuizWriteFormItemHeader({
+  id,
+  quizMode,
+  onQuizModeSelect,
+  deleteQuizWriteForm,
+  checkValidation,
+}: QuizWriteFormItemHeaderProps) {
   function QuizWriteUtilButtons() {
     return (
       <span>
-        <button
-          className={styles["move-quiz-button"]}
-          onClick={() => {
-          }}>
+        <button className={styles["move-quiz-button"]} onClick={() => {}}>
           <Move width={24} height={24} stroke={gray60} />
         </button>
         <button
           className={styles["delete-quiz-button"]}
-          onClick={() => deleteQuizWriteForm(id)}>
+          onClick={() => deleteQuizWriteForm(id)}
+        >
           <Trash width={24} height={24} stroke={gray90} />
         </button>
       </span>
@@ -43,7 +39,7 @@ export default function QuizWriteFormItemHeader(
   const onSetAnswerClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     checkValidation();
     onQuizModeSelect(e);
-  }
+  };
 
   return (
     <div className={styles["write-quiz-header"]}>
@@ -51,8 +47,7 @@ export default function QuizWriteFormItemHeader(
         <Button
           value="question"
           size="medium"
-          className={`${styles["set-quiz"]} ${quizMode === "question" ? styles["active"] : ""
-            }`}
+          color={quizMode === "question" ? "secondary" : "transparent"}
           onClick={onQuizModeSelect}
         >
           질문 설정
@@ -60,8 +55,7 @@ export default function QuizWriteFormItemHeader(
         <Button
           value="answer"
           size="medium"
-          className={`${styles["set-answer"]} ${quizMode === "answer" ? styles["active"] : ""
-            }`}
+          color={quizMode === "answer" ? "secondary" : "transparent"}
           onClick={onSetAnswerClick}
         >
           답안 설정

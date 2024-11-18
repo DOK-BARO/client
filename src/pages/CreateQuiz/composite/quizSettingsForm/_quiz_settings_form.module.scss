@@ -4,39 +4,29 @@
 .quiz-setting-container {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
   margin-bottom: 24px;
 
   .title {
-    font-size: $font-size-xlarge;
+    font-size: $font-size-large;
     display: flex;
     align-items: center;
     gap: 8px;
   }
   .select {
-    @include input-base;
     text-align: left;
-    height: $input-height-medium;
     justify-content: space-between;
   }
 
   .option-list {
     @include input-base;
-    color: $gray-90;
     background-color: $gray-00;
     display: flex;
-    font-weight: $font-weight-semibold;
-    font-size: $font-size-large;
     flex-direction: column;
     padding: 8px 0;
 
     .option {
-      width: 100%;
       justify-content: start;
-      background-color: transparent;
-      border-radius: 0;
-      line-height: 1.5;
-      padding: 12px 16px;
     }
   }
 

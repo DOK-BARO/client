@@ -34,35 +34,41 @@ export default function QuizWriteFormCheckBoxOptionItem({
   questionFormId,
   checked,
 }: QuizCheckBoxOptionItemProps) {
-  const { onChange: onOptionChange, value: optionText } = useInput(option.label); // input임
-  const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
+  const { onChange: onOptionChange, value: optionText } = useInput(
+    option.label
+  ); // input임
+  const { quizCreationInfo, updateQuizCreationInfo } =
+    useUpdateQuizCreationInfo();
 
   const onTextAreaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onOptionChange(e);
     setText(option.id, e.target.value);
 
-    const updatedQuestions = quizCreationInfo.questions?.map((question) => {
-      if (question.id.toString() === questionFormId!) {
-        return {
-          ...question,
-          selectOptions: 
-          question.selectOptions.map((selectOption) => {
-              if(selectOption.id === option.id) {
-                return {...selectOption, option: e.target.value};
+    const updatedQuestions =
+      quizCreationInfo.questions?.map((question) => {
+        if (question.id.toString() === questionFormId!) {
+          return {
+            ...question,
+            selectOptions: question.selectOptions.map((selectOption) => {
+              if (selectOption.id === option.id) {
+                return { ...selectOption, option: e.target.value };
               }
               return selectOption;
-          })
-        };
-      }
-      return question;
-    }) ?? [];
+            }),
+          };
+        }
+        return question;
+      }) ?? [];
 
-    updateQuizCreationInfo("questions",updatedQuestions);
+    updateQuizCreationInfo("questions", updatedQuestions);
   };
 
   return (
-    <div key={option.id}
-      className={`${styles["option-container"]} ${focusedOptionIndex === option.id ? styles["focused"] : ""}`}
+    <div
+      key={option.id}
+      className={`${styles["option-container"]} ${
+        focusedOptionIndex === option.id ? styles["focused"] : ""
+      }`}
       onFocus={() => handleOptionFocus(option.id)}
       onBlur={handleOptionBlur}
     >
@@ -71,22 +77,28 @@ export default function QuizWriteFormCheckBoxOptionItem({
         checked={checked}
         onChange={onChange}
         disabled={disabled}
-        className={`${styles["new-option"]} ${focusedOptionIndex === option.id ? styles["focused"] : ""}`}
+        className={`${styles["new-option"]} ${
+          focusedOptionIndex === option.id ? styles["focused"] : ""
+        }`}
         autoFocus={true}
         value={option.value}
         LabelComponent={
-          disabled ?
-          //TODO: for속성 사용 고려 (chekbox와 일치시킬 수 있음)
+          disabled ? (
+            //TODO: for속성 사용 고려 (chekbox와 일치시킬 수 있음)
             <input
               disabled={!disabled}
               id={`${option.id}`}
               name={"checkbox-group"}
               value={optionText}
               onChange={onTextAreaChange}
-              className={`${styles["new-option-text-input"]} ${focusedOptionIndex === option.id ? styles["focused"] : ""}`}
+              className={`${styles["new-option-text-input"]} ${
+                focusedOptionIndex === option.id ? styles["focused"] : ""
+              }`}
               autoFocus
-            /> :
+            />
+          ) : (
             <div className={`${styles["new-option-label"]}`}>{optionText}</div>
+          )
         }
       />
       <button
@@ -95,7 +107,7 @@ export default function QuizWriteFormCheckBoxOptionItem({
           deleteOption(option.id);
         }}
       >
-        <Close width={20} height={20} stroke={gray90} strokeWidth={2}/>
+        <Close width={20} height={20} stroke={gray90} strokeWidth={2} />
       </button>
     </div>
   );

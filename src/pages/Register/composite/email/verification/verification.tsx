@@ -47,6 +47,7 @@ export default function Verification() {
     e: React.ChangeEvent<HTMLInputElement>,
     index: number
   ) => {
+    setIsMatch(undefined);
     let { value } = e.target;
     if (value.length > 1) return;
 
@@ -109,10 +110,7 @@ export default function Verification() {
 
   const handleDone = async () => {
     const { result } = await matchEmailCode({ email, code: fullCode });
-    if (!result) {
-      return;
-    }
-    setIsMatch(true);
+    setIsMatch(result);
   };
 
   return (
@@ -138,8 +136,8 @@ export default function Verification() {
           message={
             isEmailValid === false ? (
               <span className={styles["message-container"]}>
-                <p>옳지 않은 형식의 이메일입니다.</p>
                 <XSmall stroke={systemDanger} width={20} height={20} />
+                <p>옳지 않은 형식의 이메일입니다.</p>
               </span>
             ) : (
               <></>
@@ -152,7 +150,7 @@ export default function Verification() {
           value={email}
           onChange={onEmailChange}
           placeholder="아이디(이메일) 입력"
-          size="large"
+          size="medium"
         />
       ) : (
         <AuthCodeInput
@@ -160,7 +158,7 @@ export default function Verification() {
           borderColor={fullCode.length !== 6 ? "default" : "black"}
           handleCodeChange={handleCodeChange}
           handleKeyDown={handleKeyDown}
-          isMatch
+          isMatch={isMatch ?? true}
         />
       )}
       <Button

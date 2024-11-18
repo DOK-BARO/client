@@ -55,42 +55,41 @@ export default function ProfileSet() {
 
   const handleSignUp = async () => {
     const { id, termsAgreements, ...userInfo } = user;
-    // TODO: 프로필 이미지 없을 경우?
 
-    if (userInfo.profileImage) {
-      // 프로필 이미지 업로드
-      const imageUrl = await uploadImage({
+    let imageUrl;
+
+    if (userInfo.profileImage instanceof File) {
+      imageUrl = await uploadImage({
         image: userInfo.profileImage,
         imageTarget: "MEMBER_PROFILE",
       });
-
-      // }
-
-      if (method === "email") {
-        // 이메일 회원가입
-        const emailUserInfo = {
-          ...userInfo,
-          profileImage: imageUrl,
-        };
-
-        // 1. 회원가입
-        // 2. 약관 동의
-        await Promise.all([
-          emailSignup(emailUserInfo),
-          sendTermsAgreement(termsAgreements),
-        ]);
-      } else {
-        // 소셜 회원가입
-        const { password, ...rest } = userInfo;
-        const socialUserInfo = {
-          ...rest,
-          profileImage: imageUrl,
-        };
-        // 프로필 업데이트
-        await updateUser(socialUserInfo);
-      }
-      navigate(nextPage);
     }
+
+    if (method === "email") {
+      // 이메일 회원가입
+      const emailUserInfo = {
+        ...userInfo,
+        profileImage: imageUrl ?? null,
+      };
+
+      // 1. 회원가입
+      // 2. 약관 동의
+      await Promise.all([
+        emailSignup(emailUserInfo),
+        sendTermsAgreement(termsAgreements),
+      ]);
+    } else {
+      // 소셜 회원가입
+      const { password, ...rest } = userInfo;
+      const socialUserInfo = {
+        ...rest,
+        profileImage: imageUrl,
+      };
+      // 프로필 업데이트
+      await updateUser(socialUserInfo);
+    }
+
+    navigate(nextPage);
   };
 
   useEffect(() => {
@@ -120,7 +119,7 @@ export default function ProfileSet() {
           onChange={onNicknameChange}
           id="nickname"
           value={nickname}
-          size="large"
+          size="medium"
           rightIcon={
             nickname ? (
               <button

@@ -1,14 +1,14 @@
 @import "../../../styles/abstracts/variables";
 @import "../../../styles/abstracts/mixins";
 
-@mixin social-auth-button-base($bg-color, $color) {
+@mixin social-auth-button-base($bg-color, $color, $border-color) {
   justify-content: start;
   width: 310px;
   height: 48px;
   background-color: $bg-color;
   color: $color;
   border-radius: $border-radius-xsmall;
-
+  border: 1.5px solid $border-color !important;
   img {
     margin: 0 8px;
   }
@@ -20,27 +20,41 @@
 }
 
 .github-auth-button {
-  @include social-auth-button-base($bg-color: $gray-100, $color: $gray-00);
+  @include social-auth-button-base(
+    $bg-color: $gray-100,
+    $color: $gray-00,
+    $border-color: $gray-100
+  );
 }
 
 .google-auth-button {
-  @include social-auth-button-base($bg-color: $gray-00, $color: $gray-100);
-  & {
-    border: solid 1px #0000001a;
-  }
+  @include social-auth-button-base(
+    $bg-color: $gray-00,
+    $color: $gray-100,
+    $border-color: $gray-40
+  );
 }
 
 .kakao-auth-button {
-  @include social-auth-button-base($bg-color: #fae100, $color: #3c1e1e);
+  @include social-auth-button-base(
+    $bg-color: #fae100,
+    $color: #3c1e1e,
+    $border-color: #fae100
+  );
 }
 
 .naver-auth-button {
-  @include social-auth-button-base($bg-color: #00c73c, $color: $gray-00);
+  @include social-auth-button-base(
+    $bg-color: #00c73c,
+    $color: $gray-00,
+    $border-color: #00c73c
+  );
 }
 
 .email-auth-button {
-  @include social-auth-button-base($bg-color: $gray-00, $color: $gray-100);
-  & {
-    border: solid 1px #0000001a;
-  }
+  @include social-auth-button-base(
+    $bg-color: $gray-00,
+    $color: $gray-100,
+    $border-color: $gray-40
+  );
 }

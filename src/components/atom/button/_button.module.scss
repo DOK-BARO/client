@@ -48,6 +48,7 @@
   &--secondary {
     background-color: $secondary;
     color: $primary;
+    border: 1.5px solid transparent;
   }
   &--primary-border {
     background-color: $gray-00;
@@ -57,6 +58,7 @@
   &--black {
     background-color: $gray-90;
     color: $gray-00;
+    border: 1.5px solid transparent;
   }
   &--white {
     background-color: $gray-00;
@@ -66,11 +68,13 @@
   &--transparent {
     background-color: transparent;
     color: $gray-90;
+    border: 1.5px solid transparent;
   }
   &:disabled {
     background-color: $gray-20;
     color: $gray-60;
     cursor: not-allowed;
+    border: 1.5px solid transparent;
   }
 
   .icon-container {

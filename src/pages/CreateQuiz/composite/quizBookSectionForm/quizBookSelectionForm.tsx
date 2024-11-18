@@ -127,6 +127,7 @@ export default function QuizBookSelectionForm() {
         placeholder="책이나 저자로 검색해보세요."
         color={isClicked ? "black" : "default"}
         size="large"
+        fullWidth
       />
 
       {searchedBookList && searchedBookList.length > 0 ? (

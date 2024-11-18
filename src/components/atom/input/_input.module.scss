@@ -30,13 +30,13 @@
 
 .input {
   @include input-base;
-  & {
-    width: 100%;
-  }
+  // & {
+  //   width: 100%;
+  // }
 
   // 인풋 사이즈
   &--large {
-    padding: $input-padding-large;
+    // padding: $input-padding-large;
     font-size: $input-font-large;
     height: $input-height-large;
   }

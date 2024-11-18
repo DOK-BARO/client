@@ -51,6 +51,7 @@ function QuizBasicInfoForm() {
         value={titleInputValue}
         onChange={handleTitleChange}
         placeholder="런닝스쿨! 자바스크립트 첫걸음"
+        fullWidth
       />
       <div className={styles["quiz-basic-info-description"]}>
         <Textarea

@@ -37,19 +37,19 @@
   // 인풋 사이즈
   &--large {
     padding: $input-padding-large;
-    font-size: $font-size-xlarge;
+    font-size: $input-font-large;
     height: $input-height-large;
   }
 
   &--medium {
     padding: $input-padding-medium;
-    font-size: $font-size-large;
+    font-size: $input-font-medium;
     height: $input-height-medium;
   }
 
   &--small {
     padding: $input-padding-small;
-    font-size: $font-size-medium;
+    font-size: $input-font-small;
     height: $input-height-small;
   }
 
@@ -80,7 +80,7 @@
 
   &--left-icon-large,
   &--left-icon-medium {
-    padding-left: 48px;
+    padding-left: 44px;
   }
 
   &--left-icon-small {

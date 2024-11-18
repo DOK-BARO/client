@@ -112,7 +112,7 @@ export default function QuizBookSelectionForm() {
       onClick={() => setIsClicked(true)}
     >
       <Input
-        leftIcon={<Search width={24} stroke={gray60} />}
+        leftIcon={<Search width={20} stroke={gray60} />}
         rightIcon={
           isActuallyLoading ? <img src={loadingIcon} width={24} /> : undefined
         }

@@ -57,6 +57,7 @@ $button-height-small: 40px;
 $button-font-small: $font-size-medium; // 15px
 $button-radius-small: $border-radius-small;
 
+/* default button */
 $button-padding-medium: 0 16px;
 $button-height-medium: 48px;
 $button-font-medium: $font-size-large; // 17px
@@ -79,14 +80,18 @@ $button-radius-large: $border-radius-medium;
 // $input-padding-large: 21.5px 16px;
 
 /* Input */
-$input-padding-small: 0 16pxs;
+$input-padding-small: 0 16px;
 $input-height-small: 40px;
+$input-font-small: $font-size-medium; // 15px
 
+// default Input
 $input-padding-medium: 0 16px;
 $input-height-medium: 48px;
+$input-font-medium: $font-size-large; // 17px
 
 $input-padding-large: 0 16px;
 $input-height-large: 56px;
+$input-font-large: $font-size-large; // 17px
 
 /* Textarea Paddings */
 $textarea-padding: 14px 16px;

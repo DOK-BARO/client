@@ -179,7 +179,7 @@ export const CheckBoxQuizForm: FC<{
           onChange={handleCheckboxChange}
           setText={setText}
           questionFormId={questionFormId!.toString()}
-          selectedValue={option.value}
+          selectedValue={checkedOptions}
         />
       ))}
       {quizMode == QuizFormMode.QUESTION && (

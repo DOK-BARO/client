@@ -15,7 +15,7 @@ interface QuizCheckBoxOptionItemProps {
   handleOptionBlur: () => void;
   deleteOption: (id: number) => void;
   disabled: boolean;
-  selectedValue: string;
+  selectedValue: { [key: string]: boolean };
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   setText: (optionId: number, value: string) => void;
   questionFormId: string;
@@ -33,6 +33,7 @@ export default function QuizWriteFormCheckBoxOptionItem({
   setText,
   questionFormId,
   checked,
+  selectedValue,
 }: QuizCheckBoxOptionItemProps) {
   const { onChange: onOptionChange, value: optionText } = useInput(
     option.label
@@ -63,12 +64,15 @@ export default function QuizWriteFormCheckBoxOptionItem({
     updateQuizCreationInfo("questions", updatedQuestions);
   };
 
+  const isChecked = selectedValue[option.id];
+
+
   return (
     <div
       key={option.id}
       className={`${styles["option-container"]} ${
         focusedOptionIndex === option.id ? styles["focused"] : ""
-      }`}
+      } ${isChecked ? styles["checked"] : ""}  `}
       onFocus={() => handleOptionFocus(option.id)}
       onBlur={handleOptionBlur}
     >

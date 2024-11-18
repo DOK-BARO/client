@@ -180,6 +180,7 @@ export const CheckBoxQuizForm: FC<{
           setText={setText}
           questionFormId={questionFormId!.toString()}
           selectedValue={checkedOptions}
+          quizMode={quizMode!}
         />
       ))}
       {quizMode == QuizFormMode.QUESTION && (

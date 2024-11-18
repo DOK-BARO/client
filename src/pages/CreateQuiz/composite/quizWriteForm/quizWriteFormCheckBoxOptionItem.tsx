@@ -6,6 +6,7 @@ import { gray90 } from "@/styles/abstracts/colors.ts";
 import CheckBox from "../../atom/checkBox/checkBox";
 import { CheckBoxOption } from "@/types/CheckBoxTypes.ts";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
+import { QuizFormMode } from "@/data/constants";
 // TODO: multipleChoiceQuizForm과 겹치는 부분 리팩토링 필요
 
 interface QuizCheckBoxOptionItemProps {
@@ -20,6 +21,7 @@ interface QuizCheckBoxOptionItemProps {
   setText: (optionId: number, value: string) => void;
   questionFormId: string;
   checked: boolean;
+  quizMode: string;
 }
 
 export default function QuizWriteFormCheckBoxOptionItem({
@@ -34,6 +36,7 @@ export default function QuizWriteFormCheckBoxOptionItem({
   questionFormId,
   checked,
   selectedValue,
+  quizMode,
 }: QuizCheckBoxOptionItemProps) {
   const { onChange: onOptionChange, value: optionText } = useInput(
     option.label
@@ -70,9 +73,8 @@ export default function QuizWriteFormCheckBoxOptionItem({
   return (
     <div
       key={option.id}
-      className={`${styles["option-container"]} ${
-        focusedOptionIndex === option.id ? styles["focused"] : ""
-      } ${isChecked ? styles["checked"] : ""}  `}
+      className={`${styles["option-container"]} ${focusedOptionIndex === option.id ? styles["focused"] : ""
+        } ${isChecked ? styles["checked"] : ""}  `}
       onFocus={() => handleOptionFocus(option.id)}
       onBlur={handleOptionBlur}
     >
@@ -81,9 +83,8 @@ export default function QuizWriteFormCheckBoxOptionItem({
         checked={checked}
         onChange={onChange}
         disabled={disabled}
-        className={`${styles["new-option"]} ${
-          focusedOptionIndex === option.id ? styles["focused"] : ""
-        }`}
+        className={`${styles["new-option"]} ${focusedOptionIndex === option.id ? styles["focused"] : ""
+          }`}
         autoFocus={true}
         value={option.value}
         LabelComponent={
@@ -95,9 +96,8 @@ export default function QuizWriteFormCheckBoxOptionItem({
               name={"checkbox-group"}
               value={optionText}
               onChange={onTextAreaChange}
-              className={`${styles["new-option-text-input"]} ${
-                focusedOptionIndex === option.id ? styles["focused"] : ""
-              }`}
+              className={`${styles["new-option-text-input"]} ${focusedOptionIndex === option.id ? styles["focused"] : ""
+                }`}
               autoFocus
             />
           ) : (
@@ -105,14 +105,16 @@ export default function QuizWriteFormCheckBoxOptionItem({
           )
         }
       />
-      <button
-        className={styles["delete-option-button"]}
-        onClick={() => {
-          deleteOption(option.id);
-        }}
-      >
-        <Close width={20} height={20} stroke={gray90} strokeWidth={2} />
-      </button>
+      {quizMode === QuizFormMode.QUESTION
+        &&
+        <button
+          className={styles["delete-option-button"]}
+          onClick={() => {
+            deleteOption(option.id);
+          }}
+        >
+          <Close width={20} height={20} stroke={gray90} strokeWidth={2} />
+        </button>}
     </div>
   );
 }

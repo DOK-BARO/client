@@ -44,11 +44,12 @@
   &--primary {
     background-color: $primary;
     color: $gray-00;
+    border: 1px solid $primary;
   }
   &--secondary {
     background-color: $secondary;
     color: $primary;
-    border: 1.5px solid transparent;
+    border: 1.5px solid $secondary;
   }
   &--primary-border {
     background-color: $gray-00;
@@ -58,7 +59,7 @@
   &--black {
     background-color: $gray-90;
     color: $gray-00;
-    border: 1.5px solid transparent;
+    border: 1.5px solid $gray-00;
   }
   &--white {
     background-color: $gray-00;
@@ -74,7 +75,7 @@
     background-color: $gray-20;
     color: $gray-60;
     cursor: not-allowed;
-    border: 1.5px solid transparent;
+    border: 1.5px solid $gray-20;
   }
 
   .icon-container {

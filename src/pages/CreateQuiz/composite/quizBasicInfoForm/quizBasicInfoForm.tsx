@@ -9,28 +9,39 @@ import { IsQuizNextButtonEnabledAtom } from "@/store/quizAtom";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 
 function QuizBasicInfoForm() {
-  const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
-  const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(IsQuizNextButtonEnabledAtom);
+  const { quizCreationInfo, updateQuizCreationInfo } =
+    useUpdateQuizCreationInfo();
+  const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
+    IsQuizNextButtonEnabledAtom
+  );
 
   const descriptionMaxLength = 150;
-  const { value: titleInputValue, onChange: onTitleChange } = useInput(quizCreationInfo.title ?? "");
-  const { value: descriptionTextareaValue, onChange: onDescriptionChange, textareaRef } = useAutoResizeTextarea(quizCreationInfo.description ?? "");
+  const { value: titleInputValue, onChange: onTitleChange } = useInput(
+    quizCreationInfo.title ?? ""
+  );
+  const {
+    value: descriptionTextareaValue,
+    onChange: onDescriptionChange,
+    textareaRef,
+  } = useAutoResizeTextarea(quizCreationInfo.description ?? "");
 
   useEffect(() => {
-    const disable = titleInputValue.trim() === "" || descriptionTextareaValue.trim() === "";
+    const disable =
+      titleInputValue.trim() === "" || descriptionTextareaValue.trim() === "";
     setIsQuizNextButtonEnabled(!disable);
   }, [titleInputValue, descriptionTextareaValue]);
 
-  const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleDescriptionChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     onDescriptionChange(e);
     updateQuizCreationInfo("description", e.target.value);
-  }
+  };
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onTitleChange(e);
     updateQuizCreationInfo("title", e.target.value);
-  }
-
+  };
 
   return (
     <div className={styles["quiz-basic-info-form-container"]}>

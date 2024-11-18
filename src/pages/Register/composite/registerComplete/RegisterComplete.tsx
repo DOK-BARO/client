@@ -42,12 +42,12 @@ export default function RegisterComplete() {
                 className={styles["invite-code"]}
                 onChange={handleInviteCodeChange}
                 value={inviteCode}
-                size="large"
+                size="medium"
                 color="default"
               />
               <Button
                 color="primary"
-                size="large"
+                size="medium"
                 onClick={handleInviteCodeSubmit}
               >
                 입력

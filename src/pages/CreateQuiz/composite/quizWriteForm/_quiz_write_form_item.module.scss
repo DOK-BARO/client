@@ -4,13 +4,14 @@
 .write-quiz {
   @include flex(column);
   gap: 20px;
-  border: 1px solid transparent;
+  border: 1.5px solid transparent;
   background-color: $gray-00;
   padding: 20px;
   border-radius: $border-radius-medium;
   margin-bottom: 20px;
 
-  &-header { // TODO: 리팩토링
+  &-header {
+    // TODO: 리팩토링
     display: flex;
     justify-content: space-between;
 
@@ -21,65 +22,40 @@
   }
 
   &:focus-within {
-    border: 1px solid $primary;
+    border: 1.5px solid $primary;
 
     button.set-answer,
     button.set-quiz {
-      background: none;
-      color: black;
-      font-weight: $font-weight-semibold;
-      padding:11px 16px;
-      line-height: 1.5em;
+      background: transparent;
+      color: $gray-90;
 
       &.active {
         background: $secondary;
-        //color: $gray-60;
         color: $primary;
-        font-weight: 600;
       }
     }
   }
 
   .quiz-mode-buttons {
     display: flex;
+    gap: 2px;
   }
-
-
-  // TODO : 리팩토링
-  button.set-answer,
-  button.set-quiz {
-    background: none;
-    color: $gray-60;
-    font-weight: $font-weight-semibold;
-    padding:11px 16px;
-    line-height: 1.5em;
-
-    &.active {
-      background: $gray-10;
-      color: $gray-70;
-      font-weight: $font-weight-semibold;
-    }
-  }
-
-
 
   .input-container {
     display: flex;
     width: 100%;
-    gap: 10px;
+    gap: 12px;
 
     .title-area {
-    width: 100%;
-  }
+      width: 100%;
+    }
 
     textArea.question {
       display: flex;
-      width: 100%;
       border: none;
       color: $gray-90;
-      font-size: $font-size-xlarge;
-      font-weight: $font-weight-semibold;
-      padding: 8px;
+      font-size: $font-size-large;
+      padding: 12px 0;
     }
 
     .select-box {
@@ -117,16 +93,11 @@
     gap: 13px;
     font-size: $font-size-xlarge;
 
-
     legend {
       @include sr-only;
     }
   }
 }
-
-
-
-
 
 .move-quiz-button {
   all: unset;
@@ -136,24 +107,23 @@
   all: unset;
 }
 
-
-.option-add-button{
+.option-add-button {
   @include flex(row); /* 내부 요소를 정렬하기 위해 flex 사용 */
-  width: 100%;  /* 버튼의 너비를 부모 요소에 맞춤 */
+  width: 100%; /* 버튼의 너비를 부모 요소에 맞춤 */
   background: transparent;
   border: none;
   padding: 0;
-  color:$gray-50;
-  font-size: $font-size-medium;
+  color: $gray-50;
+  font-size: $font-size-large;
 
- &-container {
-   align-items: center;
-   height:48px;
-   @include flex(row);
+  &-container {
+    align-items: center;
+    height: 48px;
+    @include flex(row);
 
-   width: 100%;
-   padding: 0 16px;
- }
+    width: 100%;
+    padding: 0 16px;
+  }
 
   &-check-circle {
     width: 20px;
@@ -163,9 +133,9 @@
     margin-right: 8px;
   }
 
-  &-check-square{
-    width: 16px;
-    height: 16px;
+  &-check-square {
+    width: 18px;
+    height: 18px;
     border-radius: 3px;
     border: 2px solid $gray-50;
     margin-right: 8px;
@@ -173,31 +143,31 @@
 }
 
 .quiz-mode-answer {
-  &-container{
+  &-container {
     background: $background;
     padding: 14px 16px;
     @include flex(column);
-    gap: 16px;
+    gap: 8px;
     border-radius: 8px;
   }
 
-  &-header{
+  &-header {
     @include flex(row);
     align-items: center;
     justify-content: space-between;
     font-size: $font-size-large;
-    font-weight: $font-weight-bold;
+    font-weight: $font-weight-semibold;
     border: none;
   }
 
-  &-text-area{
+  &-text-area {
     border: none;
     background-color: transparent;
-    font-size: $font-size-medium;
+    font-size: $font-size-large;
     font-weight: $font-weight-regular;
     color: $gray-70;
   }
-  }
+}
 .image-add-button {
   background: transparent;
   border: none;
@@ -216,7 +186,7 @@
 .image-area {
   display: flex;
   flex-direction: row;
-  gap:10px;
+  gap: 10px;
 }
 
 .image {
@@ -225,12 +195,10 @@
   width: 9.75em;
   height: 10.75em;
   border-radius: 4px;
-  
 }
 
 .image-item {
-  position:relative;
-
+  position: relative;
 }
 
 .delete-button {
@@ -248,4 +216,4 @@
     width: 24px;
     height: 24px;
   }
-  }
+}

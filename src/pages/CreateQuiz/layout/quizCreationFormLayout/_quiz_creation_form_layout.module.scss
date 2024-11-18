@@ -9,10 +9,10 @@
 
 .title {
   color: $gray-90;
-  font-size: 40px;
-  font-weight: $font-weight-bold;
+  font-size: 32px;
+  font-weight: $font-weight-semibold;
   line-height: 1.5em;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 
 .step-desc {
@@ -20,17 +20,14 @@
   font-size: $font-size-large;
   font-weight: $font-weight-regular;
   line-height: 1.5em;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
 button.next {
-  background-color: $primary;
-  color: $gray-00;
-  padding: 20px 60px;
-  width: fit-content;
   margin-left: auto;
-  gap: 8px;
+  width: 156px; // 고정
 }
+
 .next-container {
   // position: fixed;
   bottom: 0;

@@ -45,13 +45,13 @@ export default function QuizCreationSteps({
         return (
           <div key={step.order}>
             <Button
+              color={
+                isActiveStep || isAnySubStepActive ? "white" : "transparent"
+              }
               onClick={(e) => onChangeStep(e)}
               value={step.title}
-              className={`${styles["steps"]} ${
-                isActiveStep || isAnySubStepActive
-                  ? styles["steps--active"]
-                  : ""
-              }`}
+              className={styles.steps}
+              fullWidth
             >
               <span>
                 {step.icon && step.icon}&nbsp;
@@ -70,12 +70,14 @@ export default function QuizCreationSteps({
                   onClick={(e) => onChangeStep(e)}
                   key={subStep.order}
                   value={subStep.title}
-                  className={`${styles["sub-steps"]} ${
+                  color={
                     currentStep === subStep.order ||
                     (isActiveStep && firstSubStepOrder === subStep.order)
-                      ? styles["sub-steps--active"]
-                      : ""
-                  }`}
+                      ? "white"
+                      : "transparent"
+                  }
+                  fullWidth
+                  className={styles["sub-steps"]}
                 >
                   <div style={{ width: 20, height: 20 }} />
                   {subStep.title}

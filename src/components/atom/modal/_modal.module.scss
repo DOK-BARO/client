@@ -5,8 +5,8 @@
   @include button-base;
   background-color: transparent;
   height: auto;
-  right: 40px;
-  top: 40px;
+  right: 30px;
+  top: 30px;
   position: absolute;
 }
 
@@ -35,7 +35,7 @@
 }
 
 .content-title {
-  font-size: $font-size-xlarge;
+  font-size: $font-size-large;
   font-weight: 500;
   margin-bottom: 24px;
 }

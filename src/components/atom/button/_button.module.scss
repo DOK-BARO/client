@@ -31,12 +31,14 @@
     border-radius: $button-radius-large;
     height: $button-height-large;
   }
-  &--xlarge {
-    padding: $button-padding-xlarge;
-    font-size: $button-font-xlarge;
-    border-radius: $button-radius-xlarge;
-    height: $button-height-xlarge;
-  }
+
+  // 현재 사용되는 곳 없음
+  // &--xlarge {
+  //   padding: $button-padding-xlarge;
+  //   font-size: $button-font-xlarge;
+  //   border-radius: $button-radius-xlarge;
+  //   height: $button-height-xlarge;
+  // }
 
   // 버튼 색상(스타일)
   &--primary {
@@ -46,29 +48,33 @@
   &--secondary {
     background-color: $secondary;
     color: $primary;
+    border: 1.5px solid transparent;
   }
   &--primary-border {
     background-color: $gray-00;
     color: $primary;
-    border: 2px solid $primary;
+    border: 1.5px solid $primary;
   }
   &--black {
     background-color: $gray-90;
     color: $gray-00;
+    border: 1.5px solid transparent;
   }
   &--white {
     background-color: $gray-00;
-    border: 1px solid $gray-40;
+    border: 1.5px solid $gray-40;
     color: $gray-90;
   }
   &--transparent {
     background-color: transparent;
     color: $gray-90;
+    border: 1.5px solid transparent;
   }
   &:disabled {
     background-color: $gray-20;
     color: $gray-60;
     cursor: not-allowed;
+    border: 1.5px solid transparent;
   }
 
   .icon-container {

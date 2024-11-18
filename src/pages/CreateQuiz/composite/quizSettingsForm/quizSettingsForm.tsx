@@ -12,7 +12,8 @@ interface SelectedOptions {
 }
 // 4. 퀴즈 설정
 export default function QuizSettingsForm() {
-  const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
+  const { quizCreationInfo, updateQuizCreationInfo } =
+    useUpdateQuizCreationInfo();
   const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
     IsQuizNextButtonEnabledAtom
   );
@@ -22,12 +23,13 @@ export default function QuizSettingsForm() {
       "time-limit": quizCreationInfo.timeLimitSecond ?? null,
       "view-access": quizCreationInfo.viewScope,
       "edit-access": quizCreationInfo.editScope,
-    }
+    };
     return selectOptions;
-  }
+  };
 
-  const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>(setInitialSetting()); // 선택된 옵션들
-
+  const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>(
+    setInitialSetting()
+  ); // 선택된 옵션들
 
   const handleOptionSelect = (settingName: string, label: string) => {
     setSelectedOptions((prev) => ({
@@ -167,7 +169,9 @@ const SettingContainer = ({
   };
 
   useEffect(() => {
-    const selectedOption = options.find((option) => option.label === selectedOptionLabel);
+    const selectedOption = options.find(
+      (option) => option.label === selectedOptionLabel
+    );
 
     setDescription(
       selectedOption ? selectedOption.description : options[0].description
@@ -189,6 +193,7 @@ const SettingContainer = ({
         id={quizSetting.name}
         onClick={() => setIsSelectOpen(!isSelectOpen)}
         className={styles.select}
+        size="medium"
         icon={<img src={arrowDown} />}
       >
         {selectedOptionLabel ?? "선택"}
@@ -200,7 +205,10 @@ const SettingContainer = ({
               <Button
                 onClick={(e) => onSelect(e, quizSetting.name)}
                 value={option.label}
+                color="transparent"
+                fullWidth
                 className={styles.option}
+                size="medium"
               >
                 {option.label}
               </Button>

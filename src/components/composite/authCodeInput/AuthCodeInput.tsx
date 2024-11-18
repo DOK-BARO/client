@@ -23,7 +23,8 @@ export default function AuthCodeInput({
       <div className={styles["code-input-container"]}>
         {code.map((digit, i) => (
           <Input
-            size="large"
+            fullWidth={false}
+            size="medium"
             key={i}
             id={`code-input-${i}`}
             value={digit}

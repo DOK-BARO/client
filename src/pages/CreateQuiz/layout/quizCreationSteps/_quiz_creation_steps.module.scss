@@ -8,39 +8,19 @@
   h3 {
     @include sr-only;
   }
-}
-button.steps {
-  width: 100%;
-  line-height: 1.5em;
-  color: $gray-90;
-  font-weight: $font-weight-semibold;
-  border-radius: 0;
-  justify-content: space-between;
-  padding: 11px 16px;
-  background-color: transparent;
-  &--active {
-    background-color: $gray-00;
+
+  button {
+    border: none;
+    &:hover {
+      padding-left: 24px;
+    }
+  }
+  button.steps {
+    justify-content: space-between;
   }
 
-  &:hover {
-    //background-color: $gray-00;
-    padding-left: 24px;
-  }
-}
-
-button.sub-steps {
-  width: 100%;
-  color: $gray-60;
-  font-weight: $font-weight-semibold;
-  justify-content: start;
-  background-color: transparent;
-  font-size: $font-size-medium;
-  line-height: 1.5em;
-  &--active {
-    background-color: $gray-00;
-  }
-  &:hover {
-    //background-color: $gray-00;
-    padding-left: 24px;
+  button.sub-steps {
+    justify-content: start;
+    color: $gray-60;
   }
 }

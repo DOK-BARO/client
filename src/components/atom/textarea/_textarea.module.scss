@@ -36,6 +36,10 @@
   color: $gray-60;
   font-size: $font-size-small;
   float: right;
+
+  em {
+    color: $gray-70;
+  }
   &-max-length {
     color: $gray-90;
   }

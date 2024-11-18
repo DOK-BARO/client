@@ -106,7 +106,7 @@ export default function PasswordSet() {
         value={password}
         onChange={onPasswordChange}
         placeholder="비밀번호 입력"
-        size="large"
+        size="medium"
       />
       {step === 2 && (
         <>

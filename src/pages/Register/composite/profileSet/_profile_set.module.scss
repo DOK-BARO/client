@@ -11,12 +11,12 @@
   }
   .description {
     margin-top: 32px;
-    font-size: $font-size-xlarge;
+    font-size: $font-size-large;
     font-weight: 600;
     line-height: 1.5;
   }
   .description[data-for="nickname"] {
-    margin-bottom: 32px;
+    margin-bottom: 16px;
   }
 }
 
@@ -25,5 +25,5 @@
   margin: 0;
 }
 .done {
-  margin-top: 32px;
+  margin-top: 24px;
 }

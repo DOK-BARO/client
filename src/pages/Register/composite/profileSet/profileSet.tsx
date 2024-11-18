@@ -119,7 +119,7 @@ export default function ProfileSet() {
           onChange={onNicknameChange}
           id="nickname"
           value={nickname}
-          size="large"
+          size="medium"
           rightIcon={
             nickname ? (
               <button

@@ -136,8 +136,8 @@ export default function Verification() {
           message={
             isEmailValid === false ? (
               <span className={styles["message-container"]}>
-                <p>옳지 않은 형식의 이메일입니다.</p>
                 <XSmall stroke={systemDanger} width={20} height={20} />
+                <p>옳지 않은 형식의 이메일입니다.</p>
               </span>
             ) : (
               <></>
@@ -150,7 +150,7 @@ export default function Verification() {
           value={email}
           onChange={onEmailChange}
           placeholder="아이디(이메일) 입력"
-          size="large"
+          size="medium"
         />
       ) : (
         <AuthCodeInput

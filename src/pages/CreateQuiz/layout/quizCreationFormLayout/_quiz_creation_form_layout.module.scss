@@ -9,7 +9,7 @@
 
 .title {
   color: $gray-90;
-  font-size: 40px;
+  font-size: 32px;
   font-weight: $font-weight-bold;
   line-height: 1.5em;
   margin-bottom: 16px;
@@ -24,13 +24,10 @@
 }
 
 button.next {
-  background-color: $primary;
-  color: $gray-00;
-  padding: 20px 60px;
-  width: fit-content;
   margin-left: auto;
-  gap: 8px;
+  width: 156px; // 고정
 }
+
 .next-container {
   // position: fixed;
   bottom: 0;

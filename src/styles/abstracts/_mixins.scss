@@ -26,7 +26,7 @@
   border-radius: $border-radius-small;
   font-size: $font-size-medium;
   font-family: inherit;
-  font-weight: $font-weight-semibold;
+  font-weight: $font-weight-medium;
   border: none;
   gap: 8px;
   flex-shrink: 0;
@@ -65,7 +65,7 @@
     resize: none;
   }
 
-  &::placeholder{
+  &::placeholder {
     color: $gray-60;
   }
 }

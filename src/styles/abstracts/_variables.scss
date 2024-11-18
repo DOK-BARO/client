@@ -49,28 +49,29 @@ $border-radius-large: 12px;
 /* Button */
 $button-padding-xsmall: 0 10px;
 $button-height-xsmall: 32px;
-$button-font-xsmall: $font-size-medium;
+$button-font-xsmall: $font-size-medium; // 15px
 $button-radius-xsmall: $border-radius-small;
 
 $button-padding-small: 0 12px;
 $button-height-small: 40px;
-$button-font-small: $font-size-medium;
+$button-font-small: $font-size-medium; // 15px
 $button-radius-small: $border-radius-small;
 
 $button-padding-medium: 0 16px;
 $button-height-medium: 48px;
-$button-font-medium: $font-size-large;
+$button-font-medium: $font-size-large; // 17px
 $button-radius-medium: $border-radius-medium;
 
 $button-padding-large: 0 20px;
 $button-height-large: 56px;
-$button-font-large: $font-size-xlarge;
+$button-font-large: $font-size-large; // 17px
 $button-radius-large: $border-radius-medium;
 
-$button-padding-xlarge: 0 24px;
-$button-height-xlarge: 64px;
-$button-font-xlarge: $font-size-xlarge;
-$button-radius-xlarge: $border-radius-medium;
+// 현재 사용되는 곳 없음
+// $button-padding-xlarge: 0 24px;
+// $button-height-xlarge: 64px;
+// $button-font-xlarge: $font-size-xlarge;
+// $button-radius-xlarge: $border-radius-medium;
 
 /* Input Paddings */
 // $input-padding-small: 14.5px 16px;

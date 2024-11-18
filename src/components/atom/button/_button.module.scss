@@ -31,12 +31,14 @@
     border-radius: $button-radius-large;
     height: $button-height-large;
   }
-  &--xlarge {
-    padding: $button-padding-xlarge;
-    font-size: $button-font-xlarge;
-    border-radius: $button-radius-xlarge;
-    height: $button-height-xlarge;
-  }
+
+  // 현재 사용되는 곳 없음
+  // &--xlarge {
+  //   padding: $button-padding-xlarge;
+  //   font-size: $button-font-xlarge;
+  //   border-radius: $button-radius-xlarge;
+  //   height: $button-height-xlarge;
+  // }
 
   // 버튼 색상(스타일)
   &--primary {

@@ -22,8 +22,7 @@ export default function QuizCreationFormLayout({
 }) {
   const [isQuizNextButtonEnabled, setIsQuizNextButtonEnabled] =
     useAtom<boolean>(IsQuizNextButtonEnabledAtom);
-  const [quizCreationInfo] =
-    useAtom<BookQuizType>(QuizCreationInfoAtom);
+  const [quizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
 
   const getCurrentStep = (): Step => {
     const step = steps[currentStep];
@@ -40,7 +39,6 @@ export default function QuizCreationFormLayout({
       // TODO 퀴즈 생성 api요청
 
       //TOOD 이미지 서버로 업로드
-      
 
       const quiz: BookQuizRequestType = {
         title: quizCreationInfo.title!,
@@ -53,7 +51,10 @@ export default function QuizCreationFormLayout({
           const { id, ...rest } = question;
           return {
             ...rest,
-            answerType: question.answerType === "CHECK_BOX" ? "MULTIPLE_CHOICE": question.answerType,
+            answerType:
+              question.answerType === "CHECK_BOX"
+                ? "MULTIPLE_CHOICE"
+                : question.answerType,
             answerExplanationImages: [] as string[], // TODO: 이미지 업로드 구현 후 제거
             selectOptions: question.selectOptions.map(
               (option) => option.option
@@ -134,6 +135,8 @@ export default function QuizCreationFormLayout({
           className={styles["next"]}
           disabled={!isQuizNextButtonEnabled}
           onClick={goToNextStep}
+          size="medium"
+          color="primary"
         >
           {currentStep === endStep ? "완료" : "다음"}
           <RightArrow

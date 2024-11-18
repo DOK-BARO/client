@@ -125,9 +125,9 @@ export const getUser = async (): Promise<UserType> => {
         console.log("in 404 in get user");
         throw error;
       }
-      if (axiosError.response?.status === 500) {
+      if (axiosError.response?.status === 500) { 
         console.log("500 in get user");
-        fetchRefreshToken();
+        fetchRefreshToken();// TODO: 백엔드에서 401 정의 후 fetchRefreshToken 호출위치 그곳으로 변경
       }
       throw new Error(`로그인 요청: ${error}`);
     } else {

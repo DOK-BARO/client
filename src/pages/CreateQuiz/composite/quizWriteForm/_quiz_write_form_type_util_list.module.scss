@@ -1,16 +1,15 @@
 @import "../../../../styles/abstracts/mixins";
 
 .quiz-write-form-type-util-list {
-  width: 244px;
+  width: 200px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
   background-color: white;
   padding: 8px;
   border-radius: 8px;
-  border: 1px solid #d8d8d8;
+  border: 1.5px solid #d8d8d8;
   position: absolute;
   z-index: 1;
   top: 56px; // 48px + 8px (버튼 height + margin)
-
 }
 
 .quiz-write-form-type-util-list-item {

@@ -30,6 +30,7 @@
   border: none;
   gap: 8px;
   flex-shrink: 0;
+  white-space: nowrap;
 }
 
 @mixin input-base {

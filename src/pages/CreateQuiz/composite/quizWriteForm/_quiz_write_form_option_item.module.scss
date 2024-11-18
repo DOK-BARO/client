@@ -17,13 +17,12 @@
     }
 
     &.checked {
-      background-color: #3DBF0F1A; // 선택된 상태의 색상
+      background-color: #3dbf0f1a; // 선택된 상태의 색상
     }
 
     .delete-option-button {
       all: unset;
     }
-
   }
 
   &-label {
@@ -34,7 +33,6 @@
     color: $gray-90;
     font-size: $font-size-medium;
     font-weight: $font-weight-regular;
-
   }
   &-check-circle {
     width: 20px;
@@ -48,7 +46,7 @@
   border: none;
   padding: 0;
   border-radius: 0;
-  font-size: $font-size-xlarge;
+  font-size: $font-size-large;
 
   &:focus {
     background-color: $background;
@@ -64,21 +62,24 @@ input.new-option-text-input {
   border: none;
   padding: 0;
   border-radius: 0;
-  font-size: $font-size-xlarge;
+  font-size: $font-size-large;
   &:focus {
     background-color: $background;
     outline: none;
     border: none;
+  }
+  &::placeholder {
+    font-family: "Pretendard", sans-serif !important;
+    background-color: yellow;
   }
 }
 
 .new-option-label {
   display: flex;
   align-items: center;
-  font-size: $font-size-xlarge;
-  width: 100%
+  font-size: $font-size-large;
+  width: 100%;
 }
-
 
 .radio-button-item {
   display: flex;

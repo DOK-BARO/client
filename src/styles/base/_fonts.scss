@@ -1,7 +1,48 @@
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
-body {
-  font-family: "Pretendard Variable", Pretendard, -apple-system,
-    BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI",
-    "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+$PretendardRegular: "/assets/fonts/Pretendard-Regular.woff";
+$PretendardMedium: "/assets/fonts/Pretendard-Medium.woff";
+$PretendardSemiBold: "/assets/fonts/Pretendard-SemiBold.woff";
+$PretendardBold: "/assets/fonts/Pretendard-Bold.woff";
+
+@font-face {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 400; // Regular에 해당하는 값
+  src: url($PretendardRegular) format("woff");
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 500; // Medium에 해당하는 값
+  src: url($PretendardMedium) format("woff");
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600; // SemiBold에 해당하는 값
+  src: url($PretendardSemiBold) format("woff");
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 700; // Bold에 해당하는 값
+  src: url($PretendardBold) format("woff");
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

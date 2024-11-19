@@ -2,12 +2,12 @@ import { FC, useState, useEffect } from "react";
 import styles from "@/pages/CreateQuiz/composite/quizWriteForm/_quiz_write_form_item.module.scss";
 import { QuizFormMode } from "@/data/constants.ts";
 import { CheckBoxOption } from "@/types/CheckBoxTypes.ts";
-import QuizWriteFormCheckBoxOptionItem from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormCheckBoxOptionItem.tsx";
+import SelectOptionCheckBox from "@/pages/CreateQuiz/composite/quizWriteForm/selectOptionCheckBox";
 import { BookQuizQuestionType } from "@/types/BookQuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 
 // TODO: multipleChoiceQuizForm과 겹치는 부분 리팩토링 필요
-export const CheckBoxQuizForm: FC<{
+export const CheckBoxQuestionTemplate: FC<{
   quizMode?: string;
   questionFormId?: string;
 }> = ({ quizMode, questionFormId }) => {
@@ -167,7 +167,7 @@ export const CheckBoxQuizForm: FC<{
     <fieldset className={styles["question-options"]}>
       <legend>답안 선택지</legend>
       {options.map((option) => (
-        <QuizWriteFormCheckBoxOptionItem
+        <SelectOptionCheckBox
           key={option.id}
           option={option}
           checked={checkedOptions[option.id]}

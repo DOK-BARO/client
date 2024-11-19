@@ -22,7 +22,7 @@ interface QuizOptionItemProps {
   quizMode: string;
 }
 
-export default function QuizWriteFormOptionItem({
+export default function SelectOptionMultipleChoice({
   option,
   focusedOptionIndex,
   deleteOption,

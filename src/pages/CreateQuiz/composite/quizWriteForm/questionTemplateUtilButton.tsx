@@ -1,28 +1,28 @@
 import styles from "./_quiz_write_form_type_util_button.module.scss";
 import { useDropDownList } from "@/hooks/useDropDownList.ts";
 import { ArrowDown } from "@/svg/arrowDown.tsx";
-import QuizWriteFormTypeUtilList from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormTypeUtilList.tsx";
+import QuestionTemplateUtilList from "@/pages/CreateQuiz/composite/quizWriteForm/questionTemplateUtilList";
 
 import Button from "@/components/atom/button/button.tsx";
-import { QuestionFormTypeType } from "@/types/QuestionFormTypeType.ts";
+import { QuestionTemplateType } from "@/types/QuestionFormTypeType.ts";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { BookQuizQuestionType } from "@/types/BookQuizType";
 
-function QuizWriteFormTypeUtilButton({
+function QuestionTemplateUtilButton({
   quizId,
   selectedOption,
   setSelectedOption,
   list,
 }: {
   quizId: number;
-  list: QuestionFormTypeType[];
-  selectedOption: QuestionFormTypeType;
-  setSelectedOption: (option: QuestionFormTypeType) => void;
+  list: QuestionTemplateType[];
+  selectedOption: QuestionTemplateType;
+  setSelectedOption: (option: QuestionTemplateType) => void;
 }) {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
 
-  const onClick = (option: QuestionFormTypeType) => {
+  const onClick = (option: QuestionTemplateType) => {
     const updatedQuestions: BookQuizQuestionType[] =
       quizCreationInfo.questions?.map((question) =>
         question.id === quizId
@@ -75,10 +75,10 @@ function QuizWriteFormTypeUtilButton({
         />
       </Button>
       {isOpenDropDownList && anchorEl && (
-        <QuizWriteFormTypeUtilList list={list} onClick={onClick} />
+        <QuestionTemplateUtilList list={list} onClick={onClick} />
       )}
     </div>
   );
 }
 
-export default QuizWriteFormTypeUtilButton;
+export default QuestionTemplateUtilButton;

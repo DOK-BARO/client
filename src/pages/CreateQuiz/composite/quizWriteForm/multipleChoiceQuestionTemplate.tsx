@@ -1,5 +1,5 @@
 import styles from "@/pages/CreateQuiz/composite/quizWriteForm/_quiz_write_form_item.module.scss";
-import QuizWriteFormOptionItem from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormOptionItem.tsx";
+import SelectOptionMultipleChoice from "@/pages/CreateQuiz/composite/quizWriteForm/selectOptionMultipleChoice";
 import { RadioOption } from "@/types/RadioTypes.ts";
 import { FC, useEffect, useState } from "react";
 import { QuizFormMode } from "@/data/constants.ts";
@@ -7,7 +7,7 @@ import useRadioGroup from "@/hooks/useRadioGroup.ts";
 import { BookQuizQuestionType } from "@/types/BookQuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 
-export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: string }> = ({ quizMode, questionFormId }) => {
+export const MultipleChoiceQuestionTemplate: FC<{ quizMode?: string, questionFormId?: string }> = ({ quizMode, questionFormId }) => {
   const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
 
   const getQuestion = () => (quizCreationInfo.questions?.find((question) => (question.id.toString() === questionFormId)) as BookQuizQuestionType);
@@ -111,7 +111,7 @@ export const MultipleChoiceQuizForm: FC<{ quizMode?: string, questionFormId?: st
     <fieldset className={styles["question-options"]}>
       <legend>답안 선택지</legend>
       {options.map((item) =>
-        <QuizWriteFormOptionItem
+        <SelectOptionMultipleChoice
           key={item.id}
           questionFormId={questionFormId!}
           option={item}

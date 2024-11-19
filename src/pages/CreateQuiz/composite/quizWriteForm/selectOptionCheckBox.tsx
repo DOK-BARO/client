@@ -24,7 +24,7 @@ interface QuizCheckBoxOptionItemProps {
   quizMode: string;
 }
 
-export default function QuizWriteFormCheckBoxOptionItem({
+export default function SelectOptionCheckBox({
   option,
   focusedOptionIndex,
   deleteOption,

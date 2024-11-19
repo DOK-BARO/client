@@ -7,7 +7,7 @@ import styles from "./_ox_quiz_form.module.scss";
 import { BookQuizQuestionType } from "@/types/BookQuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 
-export const OXQuizForm: FC<{ quizMode?: string, questionFormId?: string }> = ({ quizMode, questionFormId }) => { // TODO: props 만들기 (multipleChoiceQuizForm.tsx랑 겹침)
+export const OXQuestionTemplate: FC<{ quizMode?: string, questionFormId?: string }> = ({ quizMode, questionFormId }) => { // TODO: props 만들기 (multipleChoiceQuizForm.tsx랑 겹침)
 
   const options: RadioOption[] = [{
     id: 1,

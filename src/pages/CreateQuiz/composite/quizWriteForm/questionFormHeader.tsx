@@ -13,14 +13,14 @@ interface QuizWriteFormItemHeaderProps {
   checkValidation: () => void;
 }
 
-export default function QuizWriteFormItemHeader({
+export default function QuestionFormHeader({
   id,
   quizMode,
   onQuizModeSelect,
   deleteQuizWriteForm,
   checkValidation,
 }: QuizWriteFormItemHeaderProps) {
-  function QuizWriteUtilButtons() {
+  function QuestionFormUtilButtons() {
     return (
       <span>
         <button className={styles["move-quiz-button"]} onClick={() => {}}>
@@ -61,7 +61,7 @@ export default function QuizWriteFormItemHeader({
           답안 설정
         </Button>
       </div>
-      <QuizWriteUtilButtons />
+      <QuestionFormUtilButtons />
     </div>
   );
 }

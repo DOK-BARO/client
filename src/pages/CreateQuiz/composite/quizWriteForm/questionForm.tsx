@@ -1,19 +1,19 @@
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./_quiz_write_form_item.module.scss";
-import QuizWriteFormTypeUtilButton from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormTypeUtilButton.tsx";
+import QuestionTemplateUtilButton from "./QuestionTemplateUtilButton";
 import Textarea from "@/components/atom/textarea/textarea.tsx";
 import { ImageAdd } from "@/svg/quizWriteForm/imageAdd.tsx";
-import QuizWriteFormItemHeader from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormItemHeader.tsx";
+import QuestionFormHeader from "@/pages/CreateQuiz/composite/quizWriteForm/questionFormHeader";
 import { QuizFormMode } from "@/data/constants.ts";
-import { QuestionFormTypeType } from "@/types/QuestionFormTypeType.ts";
+import { QuestionTemplateType as QuestionTemplateType } from "@/types/QuestionFormTypeType.ts";
 import { UlList } from "@/svg/quizWriteForm/ulList.tsx";
 import { OlList } from "@/svg/quizWriteForm/olList.tsx";
 import { OxQuiz } from "@/svg/quizWriteForm/oxQuiz.tsx";
 import { BlankQuiz } from "@/svg/quizWriteForm/blankQuiz.tsx";
 import { AlignJustify } from "@/svg/quizWriteForm/alignJustify.tsx";
-import { MultipleChoiceQuizForm } from "@/pages/CreateQuiz/composite/quizWriteForm/multipleChoiceQuizForm.tsx";
-import { CheckBoxQuizForm } from "@/pages/CreateQuiz/composite/quizWriteForm/checkBoxQuizForm.tsx";
-import { OXQuizForm } from "@/pages/CreateQuiz/composite/quizWriteForm/oxQuizForm.tsx";
+import { MultipleChoiceQuestionTemplate } from "@/pages/CreateQuiz/composite/quizWriteForm/multipleChoiceQuestionTemplate";
+import { CheckBoxQuestionTemplate } from "@/pages/CreateQuiz/composite/quizWriteForm/checkBoxQuestionTemplate";
+import { OXQuestionTemplate } from "@/pages/CreateQuiz/composite/quizWriteForm/oxQuestionTemplate";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
 import { useAtom } from "jotai";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
@@ -25,24 +25,24 @@ interface QuizWriteFormItemProps {
   quizWriteFormType: string;
 }
 
-const quizWriteFormTypeUtilList: QuestionFormTypeType[] = [
+const questionTemplates: QuestionTemplateType[] = [
   {
     Icon: UlList,
     text: "객관식",
     typeFlag: "MULTIPLE_CHOICE",
-    FormComponent: <MultipleChoiceQuizForm />,
+    FormComponent: <MultipleChoiceQuestionTemplate />,
   },
   {
     Icon: OlList,
     text: "복수 정답",
     typeFlag: "CHECK_BOX",
-    FormComponent: <CheckBoxQuizForm />,
+    FormComponent: <CheckBoxQuestionTemplate />,
   },
   {
     Icon: OxQuiz,
     text: "OX 퀴즈",
     typeFlag: "OX",
-    FormComponent: <OXQuizForm />,
+    FormComponent: <OXQuestionTemplate />,
   },
   {
     Icon: BlankQuiz,
@@ -58,15 +58,15 @@ const quizWriteFormTypeUtilList: QuestionFormTypeType[] = [
   },
 ] as const;
 
-export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFormType }: QuizWriteFormItemProps) {
+export default function QuestionForm({ id, deleteQuizWriteForm, quizWriteFormType }: QuizWriteFormItemProps) {
   const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
   const deleteIcon = "/assets/svg/quizWriteForm/delete_ellipse.svg";
 
-  const setInitialFormType = (): QuestionFormTypeType => {
-    return quizWriteFormTypeUtilList.find(({ typeFlag }) => typeFlag === quizWriteFormType) || quizWriteFormTypeUtilList[0];
+  const setInitialFormType = (): QuestionTemplateType => {
+    return questionTemplates.find(({ typeFlag }) => typeFlag === quizWriteFormType) || questionTemplates[0];
   };
 
-  const [questionFormType, setQuestionFormType] = useState<QuestionFormTypeType>(setInitialFormType());
+  const [questionFormType, setQuestionFormType] = useState<QuestionTemplateType>(setInitialFormType());
   const [quizMode, setQuizMode] = useState<string>(QuizFormMode.QUESTION);
   const titleMaxLength = 25000;
   const descriptionMaxLength = 500;
@@ -199,7 +199,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFo
 
   return (
     <div className={styles["write-quiz"]}>
-      <QuizWriteFormItemHeader
+      <QuestionFormHeader
         id={id}
         quizMode={quizMode}
         onQuizModeSelect={onQuizModeSelect}
@@ -209,9 +209,9 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFo
 
       <div>
         <div className={styles["input-container"]}>
-          <QuizWriteFormTypeUtilButton
+          <QuestionTemplateUtilButton
             quizId={id}
-            list={quizWriteFormTypeUtilList}
+            list={questionTemplates}
             selectedOption={questionFormType}
             setSelectedOption={setQuestionFormType}
           />

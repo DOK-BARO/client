@@ -1,20 +1,19 @@
 import { useState } from "react";
 import styles from "./_quiz_write_form.module.scss";
 import Button from "@/components/atom/button/button.tsx";
-import QuizWriteFormItem from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormItem.tsx";
+import QuestionForm from "@/pages/CreateQuiz/composite/quizWriteForm/questionForm";
 import {
   DragDropContext,
   Draggable,
   Droppable,
   DropResult,
 } from "react-beautiful-dnd";
-import { Plus } from "@/svg/plus.tsx";
 import { primary } from "@/styles/abstracts/colors.ts";
 import { BookQuizQuestionType } from "@/types/BookQuizType";
 import { QuizWriteFormItemType } from "@/types/BookQuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { QuizPlus } from "@/svg/quizPlus";
-
+//TODO: 아이콘 정리 필요
 export default function QuizWriteForm() {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
@@ -39,7 +38,7 @@ export default function QuizWriteForm() {
             id: question.id,
             quizWriteFormType: question.answerType,
             component: (
-              <QuizWriteFormItem
+              <QuestionForm
                 id={question.id}
                 deleteQuizWriteForm={deleteQuizWriteForm}
                 quizWriteFormType={question.answerType}
@@ -89,7 +88,7 @@ export default function QuizWriteForm() {
         id: id,
         quizWriteFormType: "MULTIPLE_CHOICE", // TODO: BasicFormType으로 변수화
         component: (
-          <QuizWriteFormItem
+          <QuestionForm
             id={id}
             deleteQuizWriteForm={deleteQuizWriteForm}
             quizWriteFormType={"MULTIPLE_CHOICE"}

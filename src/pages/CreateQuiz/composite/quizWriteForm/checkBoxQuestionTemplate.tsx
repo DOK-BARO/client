@@ -1,10 +1,10 @@
 import { FC, useState, useEffect } from "react";
 import styles from "@/pages/CreateQuiz/composite/quizWriteForm/_quiz_write_form_item.module.scss";
 import { QuestionFormMode } from "@/data/constants.ts";
-import SelectOptionCheckBox from "@/pages/CreateQuiz/composite/quizWriteForm/selectOptionCheckBox";
 import { QuizQuestionType } from "@/types/QuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { useQuestionTemplate } from "@/hooks/useQuestionTemplate";
+import SelectOption from "./selectOption";
 
 export const CheckBoxQuestionTemplate: FC<{
   questionFormMode?: string;
@@ -32,7 +32,6 @@ export const CheckBoxQuestionTemplate: FC<{
     return initCheckedOptions;
   };
   const [checkedOptions, setCheckedOptions] = useState<{ [key: string]: boolean; }>(setInitialAnswer());
-  const disabled: boolean = questionFormMode === QuestionFormMode.QUESTION;
 
   const handleOptionFocus = (id: number) => {
     setFocusedOptionIndex(id);
@@ -95,7 +94,7 @@ export const CheckBoxQuestionTemplate: FC<{
     <fieldset className={styles["question-options"]}>
       <legend>답안 선택지</legend>
       {options.map((option) => (
-        <SelectOptionCheckBox
+      <SelectOption 
           key={option.id}
           option={option}
           checked={checkedOptions[option.id]}
@@ -103,13 +102,13 @@ export const CheckBoxQuestionTemplate: FC<{
           focusedOptionIndex={focusedOptionIndex}
           handleOptionFocus={handleOptionFocus}
           handleOptionBlur={handleOptionBlur}
-          disabled={disabled}
           onChange={handleCheckboxChange}
           setText={setText}
           questionFormId={questionFormId!.toString()}
           selectedValue={checkedOptions}
           quizMode={questionFormMode!}
-        />
+          answerType={"CHECK_BOX"}
+      />
       ))}
       {questionFormMode == QuestionFormMode.QUESTION && (
         <AddOptionButton onAdd={onClickAddQuizOptionItem} />

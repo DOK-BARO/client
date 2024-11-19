@@ -29,7 +29,7 @@ function QuestionTemplateUtilButton({
           ? {
               ...question,
               selectOptions: [],
-              answerType: option.typeFlag,
+              answerType: option.answerType,
               answers: [],
             }
           : question

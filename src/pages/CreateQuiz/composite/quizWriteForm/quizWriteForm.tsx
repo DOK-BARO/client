@@ -10,16 +10,15 @@ import {
 } from "react-beautiful-dnd";
 import { primary } from "@/styles/abstracts/colors.ts";
 import { BookQuizQuestionType } from "@/types/BookQuizType";
-import { QuizWriteFormItemType } from "@/types/BookQuizType";
+import { QuestionFormType } from "@/types/BookQuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { QuizPlus } from "@/svg/quizPlus";
 //TODO: 아이콘 정리 필요
 export default function QuizWriteForm() {
-  const { quizCreationInfo, updateQuizCreationInfo } =
-    useUpdateQuizCreationInfo();
+  const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
 
-  const deleteQuizWriteForm = (targetId: number) => {
-    setQuizWriteList((prevQuizList) =>
+  const deleteQuestion = (targetId: number) => {
+    setQuestionForms((prevQuizList) =>
       prevQuizList.filter(({ id }) => id !== targetId)
     );
 
@@ -30,37 +29,34 @@ export default function QuizWriteForm() {
     updateQuizCreationInfo("questions", updatedQuestions);
   };
 
-  const setInitialForms = (): QuizWriteFormItemType[] => {
-    const quizWriteForms: QuizWriteFormItemType[] =
+  const setInitialForms = (): QuestionFormType[] => {
+    const quizWriteForms: QuestionFormType[] =
       quizCreationInfo.questions?.map(
         (question) =>
           ({
             id: question.id,
-            quizWriteFormType: question.answerType,
+            questionType: question.answerType,
             component: (
               <QuestionForm
-                id={question.id}
-                deleteQuizWriteForm={deleteQuizWriteForm}
-                quizWriteFormType={question.answerType}
+                questionFormId={question.id}
+                deleteQuestion={deleteQuestion}
+                answerType={question.answerType}
               />
             ),
-          } as QuizWriteFormItemType)
+          } as QuestionFormType)
       ) ?? [];
 
     return quizWriteForms;
   };
-  const [quizWriteFormList, setQuizWriteList] = useState<
-    QuizWriteFormItemType[]
-  >(setInitialForms());
+  const [questionForms, setQuestionForms] = useState<QuestionFormType[]>(setInitialForms());
 
-  const moveQuizWriteForm = (result: DropResult) => {
+  const moveQuestions = (result: DropResult) => {
     if (!result.destination) return;
-    const items = [...quizWriteFormList];
+    const items = [...questionForms];
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
-    setQuizWriteList(items);
+    setQuestionForms(items);
 
-    //TODO: quiz, questions 이름 api와 통일 필요
     //TODO: 위의 겹치는 로직과 리팩토링 필요
     const globalQuizItems = [...(quizCreationInfo.questions ?? [])];
     const [reorderedGlobalItem] = globalQuizItems.splice(
@@ -81,27 +77,27 @@ export default function QuizWriteForm() {
     answers: [],
   });
 
-  const addQuizWriteForm = (id: number) => {
-    setQuizWriteList((prev) => [
+  const addQuestionForm = (id: number) => {
+    setQuestionForms((prev) => [
       ...prev,
       {
         id: id,
-        quizWriteFormType: "MULTIPLE_CHOICE", // TODO: BasicFormType으로 변수화
+        questionType: "MULTIPLE_CHOICE", // TODO: BasicFormType으로 변수화
         component: (
           <QuestionForm
-            id={id}
-            deleteQuizWriteForm={deleteQuizWriteForm}
-            quizWriteFormType={"MULTIPLE_CHOICE"}
+            questionFormId={id}
+            deleteQuestion={deleteQuestion}
+            answerType={"MULTIPLE_CHOICE"}
           />
         ),
       },
     ]);
   };
 
-  const onClickAddQuizWriteForm = () => {
+  const onClickAddQuestionForm = () => {
     const id = Date.now();
     const newQuestion: BookQuizQuestionType = createNewQuestion(id);
-    addQuizWriteForm(id);
+    addQuestionForm(id);
     updateQuizCreationInfo("questions", [
       ...(quizCreationInfo.questions ?? []),
       newQuestion,
@@ -111,7 +107,7 @@ export default function QuizWriteForm() {
 
   return (
     <div className={styles["container"]}>
-      <DragDropContext onDragEnd={moveQuizWriteForm}>
+      <DragDropContext onDragEnd={moveQuestions}>
         <Droppable droppableId="cardlists">
           {(provided) => (
             <div
@@ -119,7 +115,7 @@ export default function QuizWriteForm() {
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {quizWriteFormList.map((item, index) => (
+              {questionForms.map((item, index) => (
                 <Draggable
                   draggableId={`${item.id}`}
                   index={index}
@@ -145,7 +141,7 @@ export default function QuizWriteForm() {
       </DragDropContext>
       <Button
         size="large"
-        onClick={onClickAddQuizWriteForm}
+        onClick={onClickAddQuestionForm}
         fullWidth
         icon={
           <QuizPlus

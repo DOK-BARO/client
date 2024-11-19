@@ -2,12 +2,12 @@ import styles from "@/pages/CreateQuiz/composite/quizWriteForm/_quiz_write_form_
 import SelectOptionMultipleChoice from "@/pages/CreateQuiz/composite/quizWriteForm/selectOptionMultipleChoice";
 import { RadioOption } from "@/types/RadioTypes.ts";
 import { FC, useEffect, useState } from "react";
-import { QuizFormMode } from "@/data/constants.ts";
+import { QuestionFormMode } from "@/data/constants.ts";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
 import { BookQuizQuestionType } from "@/types/BookQuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 
-export const MultipleChoiceQuestionTemplate: FC<{ quizMode?: string, questionFormId?: string }> = ({ quizMode, questionFormId }) => {
+export const MultipleChoiceQuestionTemplate: FC<{ questionFormMode?: string, questionFormId?: string }> = ({ questionFormMode, questionFormId }) => {
   const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
 
   const getQuestion = () => (quizCreationInfo.questions?.find((question) => (question.id.toString() === questionFormId)) as BookQuizQuestionType);
@@ -47,13 +47,13 @@ export const MultipleChoiceQuestionTemplate: FC<{ quizMode?: string, questionFor
   };
 
   useEffect(() => {
-    if (quizMode === QuizFormMode.QUESTION) {
+    if (questionFormMode === QuestionFormMode.QUESTION) {
       onRadioGroupChange(null);
     } else {
       const question = getQuestion();
       onRadioGroupChange(question.answers[0]);
     }
-  }, [quizMode]);
+  }, [questionFormMode]);
 
   const handleOptionBlur = () => {
     setFocusedOptionIndex(null);
@@ -119,14 +119,14 @@ export const MultipleChoiceQuestionTemplate: FC<{ quizMode?: string, questionFor
           focusedOptionIndex={focusedOptionIndex}
           handleOptionFocus={handleOptionFocus}
           handleOptionBlur={handleOptionBlur}
-          quizMode={quizMode!}
+          quizMode={questionFormMode!}
           onChange={handleRadioGroupChange}
           setText={setText}
           selectedValue={selectedRadioGroupValue}
         />,
       )}
       {
-        quizMode == QuizFormMode.QUESTION &&
+        questionFormMode == QuestionFormMode.QUESTION &&
         <AddOptionButton onAdd={onClickAddQuizOptionItem} />
       }
     </fieldset>

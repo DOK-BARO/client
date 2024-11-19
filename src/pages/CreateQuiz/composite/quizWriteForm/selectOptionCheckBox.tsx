@@ -6,7 +6,7 @@ import { gray90 } from "@/styles/abstracts/colors.ts";
 import CheckBox from "../../atom/checkBox/checkBox";
 import { CheckBoxOption } from "@/types/CheckBoxTypes.ts";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
-import { QuizFormMode } from "@/data/constants";
+import { QuestionFormMode } from "@/data/constants";
 // TODO: multipleChoiceQuizForm과 겹치는 부분 리팩토링 필요
 
 interface QuizCheckBoxOptionItemProps {
@@ -105,7 +105,7 @@ export default function SelectOptionCheckBox({
           )
         }
       />
-      {quizMode === QuizFormMode.QUESTION
+      {quizMode === QuestionFormMode.QUESTION
         &&
         <button
           className={styles["delete-option-button"]}

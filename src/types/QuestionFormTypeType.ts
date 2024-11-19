@@ -4,6 +4,6 @@ import { SVGProps } from "@/types/SVGProps.ts";
 export type QuestionTemplateType = {
   Icon: React.FC<SVGProps>,
   text : string,
-  typeFlag: "OX" | "FILL_BLANK" | "MULTIPLE_CHOICE" | "SHORT" | "CHECK_BOX";
+  answerType: "OX" | "FILL_BLANK" | "MULTIPLE_CHOICE" | "SHORT" | "CHECK_BOX";
   FormComponent : ReactElement,
 }

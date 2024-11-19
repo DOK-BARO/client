@@ -5,7 +5,7 @@ import styles from "./_quiz_write_form_option_item.module.scss";
 import RadioButton from "@/components/atom/radioButton/radioButton.tsx";
 import { Close } from "@/svg/close.tsx";
 import { gray90 } from "@/styles/abstracts/colors.ts";
-import { QuizFormMode } from "@/data/constants";
+import { QuestionFormMode } from "@/data/constants";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { BookQuizQuestionType } from "@/types/BookQuizType";
 
@@ -76,11 +76,11 @@ export default function SelectOptionMultipleChoice({
         option={option}
         selectedValue={selectedValue}
         onChange={() => onChange(option.value)}
-        isDisabled={quizMode === QuizFormMode.QUESTION}
+        isDisabled={quizMode === QuestionFormMode.QUESTION}
         className={`${styles["new-option"]} ${focusedOptionIndex === option.id ? styles["focused"] : ""}`}
         autoFocus={true}
         LabelComponent={
-          quizMode === QuizFormMode.QUESTION ?
+          quizMode === QuestionFormMode.QUESTION ?
             <input
               id={`${option.id}`}
               name={"radio-group"}
@@ -92,7 +92,7 @@ export default function SelectOptionMultipleChoice({
             <div className={`${styles["new-option-label"]}`}>{optionText}</div>
         }
       />
-      {quizMode === QuizFormMode.QUESTION
+      {quizMode === QuestionFormMode.QUESTION
         &&
         <button
           className={styles["delete-option-button"]}

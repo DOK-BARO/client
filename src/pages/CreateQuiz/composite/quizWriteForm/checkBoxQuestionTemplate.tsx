@@ -1,6 +1,6 @@
 import { FC, useState, useEffect } from "react";
 import styles from "@/pages/CreateQuiz/composite/quizWriteForm/_quiz_write_form_item.module.scss";
-import { QuizFormMode } from "@/data/constants.ts";
+import { QuestionFormMode } from "@/data/constants.ts";
 import { CheckBoxOption } from "@/types/CheckBoxTypes.ts";
 import SelectOptionCheckBox from "@/pages/CreateQuiz/composite/quizWriteForm/selectOptionCheckBox";
 import { BookQuizQuestionType } from "@/types/BookQuizType";
@@ -8,9 +8,9 @@ import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 
 // TODO: multipleChoiceQuizForm과 겹치는 부분 리팩토링 필요
 export const CheckBoxQuestionTemplate: FC<{
-  quizMode?: string;
+  questionFormMode?: string;
   questionFormId?: string;
-}> = ({ quizMode, questionFormId }) => {
+}> = ({ questionFormMode, questionFormId }) => {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
 
@@ -53,7 +53,7 @@ export const CheckBoxQuestionTemplate: FC<{
     [key: string]: boolean;
   }>(setInitialAnswer());
 
-  const disabled: boolean = quizMode === QuizFormMode.QUESTION;
+  const disabled: boolean = questionFormMode === QuestionFormMode.QUESTION;
   const deleteOption = (optionId: number) => {
     setOptions(options.filter((option) => option.id !== optionId));
 
@@ -137,7 +137,7 @@ export const CheckBoxQuestionTemplate: FC<{
     const question = getQuestion();
     const initCheckedOptions: { [key: string]: boolean } = {};
 
-    if (quizMode === QuizFormMode.QUESTION) {
+    if (questionFormMode === QuestionFormMode.QUESTION) {
       question.selectOptions.forEach(({ id }) => {
         initCheckedOptions[id] = false;
       });
@@ -151,7 +151,7 @@ export const CheckBoxQuestionTemplate: FC<{
       });
       setCheckedOptions(initCheckedOptions);
     }
-  }, [quizMode]);
+  }, [questionFormMode]);
 
   const setText = (optionId: number, label: string) => {
     const updatedOptions = options.map((option) => {
@@ -180,10 +180,10 @@ export const CheckBoxQuestionTemplate: FC<{
           setText={setText}
           questionFormId={questionFormId!.toString()}
           selectedValue={checkedOptions}
-          quizMode={quizMode!}
+          quizMode={questionFormMode!}
         />
       ))}
-      {quizMode == QuizFormMode.QUESTION && (
+      {questionFormMode == QuestionFormMode.QUESTION && (
         <AddOptionButton onAdd={onClickAddQuizOptionItem} />
       )}
     </fieldset>

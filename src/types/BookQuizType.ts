@@ -62,8 +62,8 @@ export type BookQuizQuestionRequestApiType = {
   answers: string[];
 };
 
-export interface QuizWriteFormItemType {
+export interface QuestionFormType {
   id: number;
-  quizWriteFormType: "OX" | "FILL_BLANK" | "MULTIPLE_CHOICE" | "SHORT" | "CHECK_BOX"; // TODO : 변수로 만들어야함
+  questionType: "OX" | "FILL_BLANK" | "MULTIPLE_CHOICE" | "SHORT" | "CHECK_BOX"; // TODO : 변수로 만들어야함
   component: ReactNode;
 }

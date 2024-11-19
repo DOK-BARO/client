@@ -37,12 +37,8 @@ export const OXQuestionTemplate: FC<{ questionFormMode?: string, questionFormId?
   const disabled: boolean = questionFormMode === QuestionFormMode.QUESTION;
 
   useEffect(() => {
-    if (questionFormMode === QuestionFormMode.QUESTION) {
-      onRadioGroupChange(null);
-    } else {
-      const question = getQuestion();
-      onRadioGroupChange(question.answers[0]);
-    }
+    const question = getQuestion();
+    questionFormMode === QuestionFormMode.QUESTION ?  onRadioGroupChange(null) : onRadioGroupChange(question.answers[0]);
   }, [questionFormMode]);
 
   const handleOptionFocus = (id: number) => {

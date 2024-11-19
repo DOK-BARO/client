@@ -19,37 +19,31 @@ export const CheckBoxQuestionTemplate: FC<{
     deleteOption,
     onClickAddQuizOptionItem,
     getQuestion,
-  } = useQuestionTemplate("CHECK_BOX",questionFormId!);
+  } = useQuestionTemplate("CHECK_BOX", questionFormId!);
 
   const setInitialAnswer = (): { [key: string]: boolean } => {
-    const question:QuizQuestionType = getQuestion();
-    console.log(question);
+    const question: QuizQuestionType = getQuestion();
     const initCheckedOptions: { [key: string]: boolean } = {};
+
     question.selectOptions.forEach(({ id, value }) => {
-      if (question.answers.includes(value)) {
-        // 답안에 value가 포함되어 있으면
-        initCheckedOptions[id] = true; // 해당 선택지의 id를 true로 설정
-      }
+      initCheckedOptions[id] = question.answers.includes(value);
     });
+
     return initCheckedOptions;
   };
-  const [checkedOptions, setCheckedOptions] = useState<{
-    [key: string]: boolean;
-  }>(setInitialAnswer());
-
+  const [checkedOptions, setCheckedOptions] = useState<{ [key: string]: boolean; }>(setInitialAnswer());
   const disabled: boolean = questionFormMode === QuestionFormMode.QUESTION;
-  
+
   const handleOptionFocus = (id: number) => {
     setFocusedOptionIndex(id);
   };
+
   const handleOptionBlur = () => {
     setFocusedOptionIndex(null);
   };
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, checked, value } = event.target;
-    console.log("onChange: ", id, checked, value);
-    console.log("quesformid; ", questionFormId);
 
     setCheckedOptions((prev) => {
       return {
@@ -72,25 +66,20 @@ export const CheckBoxQuestionTemplate: FC<{
   };
 
   useEffect(() => {
-    //TODO: 리팩토링 필요
     const question = getQuestion();
-    const initCheckedOptions: { [key: string]: boolean } = {};
+    const initCheckedOptions = initializeCheckedOptions(question);
 
-    if (questionFormMode === QuestionFormMode.QUESTION) {
-      question.selectOptions.forEach(({ id }) => {
-        initCheckedOptions[id] = false;
-      });
-      setCheckedOptions(initCheckedOptions);
-    } else {
-      question.selectOptions.forEach(({ id, value }) => {
-        if (question.answers.includes(value)) {
-          // 답안에 value가 포함되어 있으면
-          initCheckedOptions[id] = true; // 해당 선택지의 id를 true로 설정
-        }
-      });
-      setCheckedOptions(initCheckedOptions);
-    }
+    setCheckedOptions(initCheckedOptions);
   }, [questionFormMode]);
+
+  const initializeCheckedOptions = (question: QuizQuestionType): { [key: string]: boolean } => {
+    const checkedOptions: { [key: string]: boolean } = {};
+    question.selectOptions.forEach(({ id, value }) => {
+      checkedOptions[id] = questionFormMode === QuestionFormMode.QUESTION ? false : question.answers.includes(value);
+    });
+
+    return checkedOptions;
+  }
 
   const setText = (optionId: number, label: string) => {
     const updatedOptions = options.map((option) => {

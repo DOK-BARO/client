@@ -41,38 +41,33 @@ export const useQuestionTemplate = (questionFormType: AnswerType, questionFormId
 
         updateQuizCreationInfo("questions", updatedQuestions);
     };
-    const createNewOption = () => {
+
+
+    const onClickAddQuizOptionItem = () => {
         const id: number = Date.now();
         const value: string = (options.length + 1).toString();
 
-        return {
+        setOptions((prev) => [...prev, {
             id: id,
             value: value,
             label: "",
-        }
-    }
+        }]);
 
-    const updateQuestions = (newOption: { id: number, value: string, label: string }) => {
-        quizCreationInfo.questions!.map((question) => {
+        const updatedQuestions = quizCreationInfo.questions!.map((question) => {
             if (question.id.toString() === questionFormId!) {
                 return {
                     ...question,
                     selectOptions: [
                         ...question.selectOptions,
-                        { id: newOption.id, option: "", value: newOption.value },
+                        { id: id, option: "", value: value },
                     ],
                 };
             }
             return question;
         });
-    }
-
-    const onClickAddQuizOptionItem = () => {
-        const newOption = createNewOption();
-        setOptions((prev) => [...prev, newOption]);
-
-        const updatedQuestions = updateQuestions(newOption);
+        
         updateQuizCreationInfo("questions", updatedQuestions);
+
     };
 
     return {

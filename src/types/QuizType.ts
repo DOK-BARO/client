@@ -27,7 +27,7 @@ export interface QuizCreationType {
   viewScope: ViewScope | null;
   editScope: EditScope | null;
   studyGroupId: number | undefined | null;
-  questions: BookQuizQuestionType[] | null;
+  questions: QuizQuestionType[] | null;
 }
 
 export interface SelectOptionType {
@@ -36,7 +36,7 @@ export interface SelectOptionType {
   value: string;
 }
 
-export interface BookQuizQuestionType {
+export interface QuizQuestionType {
   id: number;
   content: string;
   selectOptions: SelectOptionType[];
@@ -46,7 +46,7 @@ export interface BookQuizQuestionType {
   answers: string[];
 }
 
-export interface BookQuizRequestType {
+export interface QuizRequestType {
   title: string;
   description: string;
   bookId: number;
@@ -54,10 +54,10 @@ export interface BookQuizRequestType {
   viewScope: ViewScope;
   editScope: EditScope;
   studyGroupIds?: number | null;
-  questions: BookQuizQuestionRequestApiType[];
+  questions: QuizQuestionRequestApiType[];
 }
 
-export type BookQuizQuestionRequestApiType = {
+export type QuizQuestionRequestApiType = {
   content: string;
   selectOptions: string[];
   answerExplanationContent: string;

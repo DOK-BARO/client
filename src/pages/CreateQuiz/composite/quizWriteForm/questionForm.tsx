@@ -1,9 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./_quiz_write_form_item.module.scss";
-import QuestionTemplateUtilButton from "./QuestionTemplateUtilButton";
 import Textarea from "@/components/atom/textarea/textarea.tsx";
 import { ImageAdd } from "@/svg/quizWriteForm/imageAdd.tsx";
-import QuestionFormHeader from "@/pages/CreateQuiz/composite/quizWriteForm/questionFormHeader";
+import QuestionFormHeader from "./questionFormHeader";
 import { QuestionFormMode } from "@/data/constants.ts";
 import { QuestionTemplateType as QuestionTemplateType } from "@/types/QuestionFormTypeType.ts";
 import { UlList } from "@/svg/quizWriteForm/ulList.tsx";
@@ -18,7 +17,10 @@ import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
 import { useAtom } from "jotai";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
-import { BookQuizQuestionType } from "@/types/QuizType";
+import { QuizQuestionType } from "@/types/QuizType";
+import QuestionTemplateUtilButton from "./questionTemplateUtilButton";
+
+
 interface QuizWriteFormItemProps {
   questionFormId: number;
   deleteQuestion: (id: number) => void;
@@ -58,16 +60,16 @@ const questionTemplates: QuestionTemplateType[] = [
   },
 ] as const;
 
-export default function QuestionForm({ questionFormId, deleteQuestion, answerType: quizWriteFormType }: QuizWriteFormItemProps) {
+export default function QuestionForm({ questionFormId, deleteQuestion, answerType }: QuizWriteFormItemProps) {
   const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
   const deleteIcon = "/assets/svg/quizWriteForm/delete_ellipse.svg";
 
   const setInitialFormType = (): QuestionTemplateType => {
-    return questionTemplates.find(({ answerType: typeFlag }) => typeFlag === quizWriteFormType) || questionTemplates[0];
+    return questionTemplates.find(({ answerType: typeFlag }) => typeFlag === answerType) || questionTemplates[0];
   };
 
   const [questionFormType, setQuestionFormType] = useState<QuestionTemplateType>(setInitialFormType());
-  const [quizMode, setQuizMode] = useState<string>(QuestionFormMode.QUESTION);
+  const [questionFormMode, setQuestionFormMode] = useState<string>(QuestionFormMode.QUESTION);
   const titleMaxLength = 25000;
   const descriptionMaxLength = 500;
 
@@ -83,12 +85,13 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
 
   const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onAnswerTextAreaChange(e);
-    const updatedQuestions: BookQuizQuestionType[] = quizCreationInfo.questions?.map((question) => question.id === questionFormId ? { ...question, answerExplanationContent: e.target.value } : question) ?? [];
+    const updatedQuestions: QuizQuestionType[] = quizCreationInfo.questions?.map((question) => question.id === questionFormId ? { ...question, answerExplanationContent: e.target.value } : question) ?? [];
     updateQuizCreationInfo("questions", updatedQuestions);
   }
 
   const onQuizModeSelect = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setQuizMode(e.currentTarget.value);
+    console.log("sdfd: ",e.currentTarget.value)
+    setQuestionFormMode(e.currentTarget.value);
   };
 
   useEffect(() => {
@@ -110,7 +113,7 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
     setImagePreview((prevImages) => prevImages.filter((_, i) => i !== index));
     setSelectedImages((prevImages) => prevImages.filter((_, i) => i !== index));
 
-    const updatedQuestions: BookQuizQuestionType[] = quizCreationInfo.questions?.map((question) => {
+    const updatedQuestions: QuizQuestionType[] = quizCreationInfo.questions?.map((question) => {
       if (question.id === questionFormId!) {
         return {
           ...question,
@@ -169,7 +172,7 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
       setSelectedImages((prev) => [...prev, ...newImagesFile]);
       setImagePreview((prev) => [...prev, ...newImages]);
 
-      const updatedQuestions: BookQuizQuestionType[] = quizCreationInfo.questions?.map((question) => {
+      const updatedQuestions: QuizQuestionType[] = quizCreationInfo.questions?.map((question) => {
         if (question.id === questionFormId!) {
           return {
             ...question,
@@ -185,7 +188,7 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
 
   const handleQuestionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onQuestionChange(e);
-    const updatedQuestions: BookQuizQuestionType[] = quizCreationInfo.questions?.map((question) => question.id === questionFormId ? { ...question, content: e.target.value } : question) ?? [];
+    const updatedQuestions: QuizQuestionType[] = quizCreationInfo.questions?.map((question) => question.id === questionFormId ? { ...question, content: e.target.value } : question) ?? [];
     updateQuizCreationInfo("questions", updatedQuestions);
   };
 
@@ -201,7 +204,7 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
     <div className={styles["write-quiz"]}>
       <QuestionFormHeader
         id={questionFormId}
-        quizMode={quizMode}
+        quizMode={questionFormMode}
         onQuizModeSelect={onQuizModeSelect}
         deleteQuizWriteForm={deleteQuestion}
         checkValidation={checkValidation}
@@ -227,11 +230,11 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
             />
           </div>
         </div>
-        {React.cloneElement(questionFormType.FormComponent, { questionFormId: questionFormId.toString(), quizMode })}
+        {React.cloneElement(questionFormType.FormComponent, { questionFormId: questionFormId.toString(), questionFormMode: questionFormMode })}
       </div>
 
       {
-        quizMode === QuestionFormMode.ANSWER &&
+        questionFormMode === QuestionFormMode.ANSWER &&
         <div className={styles["quiz-mode-answer-container"]}>
           <div className={styles["quiz-mode-answer-header"]}>
             <span>답안 설명</span>

@@ -9,7 +9,7 @@ import {
   DropResult,
 } from "react-beautiful-dnd";
 import { primary } from "@/styles/abstracts/colors.ts";
-import { BookQuizQuestionType } from "@/types/QuizType";
+import { QuizQuestionType } from "@/types/QuizType";
 import { QuestionFormType } from "@/types/QuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { QuizPlus } from "@/svg/quizPlus";
@@ -69,7 +69,7 @@ export default function QuizWriteForm() {
     updateQuizCreationInfo("questions", globalQuizItems);
   };
 
-  const createNewQuestion = (id: number): BookQuizQuestionType => ({
+  const createNewQuestion = (id: number): QuizQuestionType => ({
     id,
     content: "",
     selectOptions: [],
@@ -98,7 +98,7 @@ export default function QuizWriteForm() {
 
   const onClickAddQuestionForm = () => {
     const id = Date.now();
-    const newQuestion: BookQuizQuestionType = createNewQuestion(id);
+    const newQuestion: QuizQuestionType = createNewQuestion(id);
     addQuestionForm(id);
     updateQuizCreationInfo("questions", [
       ...(quizCreationInfo.questions ?? []),

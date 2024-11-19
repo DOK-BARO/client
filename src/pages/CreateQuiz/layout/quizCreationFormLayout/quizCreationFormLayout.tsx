@@ -9,7 +9,7 @@ import {
   QuizCreationInfoAtom,
 } from "@/store/quizAtom";
 import { createQuiz } from "@/services/server/quizService";
-import { QuizCreationType, BookQuizRequestType } from "@/types/QuizType";
+import { QuizCreationType, QuizRequestType } from "@/types/QuizType";
 
 export default function QuizCreationFormLayout({
   steps,
@@ -40,7 +40,7 @@ export default function QuizCreationFormLayout({
 
       //TOOD 이미지 서버로 업로드
 
-      const quiz: BookQuizRequestType = {
+      const quiz: QuizRequestType = {
         title: quizCreationInfo.title!,
         description: quizCreationInfo.description!,
         viewScope: quizCreationInfo.viewScope!,

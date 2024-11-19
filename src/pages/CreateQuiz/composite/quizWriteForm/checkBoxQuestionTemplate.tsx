@@ -1,45 +1,29 @@
 import { FC, useState, useEffect } from "react";
 import styles from "@/pages/CreateQuiz/composite/quizWriteForm/_quiz_write_form_item.module.scss";
 import { QuestionFormMode } from "@/data/constants.ts";
-import { CheckBoxOption } from "@/types/CheckBoxTypes.ts";
 import SelectOptionCheckBox from "@/pages/CreateQuiz/composite/quizWriteForm/selectOptionCheckBox";
-import { BookQuizQuestionType } from "@/types/QuizType";
+import { QuizQuestionType } from "@/types/QuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
+import { useQuestionTemplate } from "@/hooks/useQuestionTemplate";
 
-// TODO: multipleChoiceQuizForm과 겹치는 부분 리팩토링 필요
 export const CheckBoxQuestionTemplate: FC<{
   questionFormMode?: string;
   questionFormId?: string;
 }> = ({ questionFormMode, questionFormId }) => {
-  const { quizCreationInfo, updateQuizCreationInfo } =
-    useUpdateQuizCreationInfo();
-
-  const getQuestion = () =>
-    quizCreationInfo.questions?.find(
-      (question) => question.id.toString() === questionFormId
-    ) as BookQuizQuestionType;
-
-  const setInitialOptions = (): CheckBoxOption[] => {
-    const question = getQuestion();
-    const initialOptions: CheckBoxOption[] =
-      question?.selectOptions.map(
-        (option) =>
-          ({
-            id: option.id,
-            value: option.value,
-            label: option.option,
-          } as CheckBoxOption)
-      ) ?? [];
-    return initialOptions;
-  };
-
-  const [options, setOptions] = useState<CheckBoxOption[]>(setInitialOptions());
-  const [focusedOptionIndex, setFocusedOptionIndex] = useState<number | null>(
-    null
-  );
+  const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
+  const {
+    options,
+    setOptions,
+    focusedOptionIndex,
+    setFocusedOptionIndex,
+    deleteOption,
+    onClickAddQuizOptionItem,
+    getQuestion,
+  } = useQuestionTemplate("CHECK_BOX",questionFormId!);
 
   const setInitialAnswer = (): { [key: string]: boolean } => {
-    const question = getQuestion();
+    const question:QuizQuestionType = getQuestion();
+    console.log(question);
     const initCheckedOptions: { [key: string]: boolean } = {};
     question.selectOptions.forEach(({ id, value }) => {
       if (question.answers.includes(value)) {
@@ -54,52 +38,7 @@ export const CheckBoxQuestionTemplate: FC<{
   }>(setInitialAnswer());
 
   const disabled: boolean = questionFormMode === QuestionFormMode.QUESTION;
-  const deleteOption = (optionId: number) => {
-    setOptions(options.filter((option) => option.id !== optionId));
-
-    const updatedQuestions: BookQuizQuestionType[] =
-      quizCreationInfo.questions?.map((question) => {
-        const filteredSelectOptions = question.selectOptions.filter(
-          (option) => option.id !== optionId
-        );
-        return {
-          ...question,
-          selectOptions: filteredSelectOptions,
-        };
-      }) ?? [];
-
-    updateQuizCreationInfo("questions", updatedQuestions);
-  };
-
-  const onClickAddQuizOptionItem = () => {
-    const id: number = Date.now();
-    const value: string = (options.length + 1).toString();
-
-    setOptions((prev) => [
-      ...prev,
-      {
-        id: id,
-        value: value,
-        label: "",
-      },
-    ]);
-
-    const updatedQuestions = quizCreationInfo.questions!.map((question) => {
-      if (question.id.toString() === questionFormId!) {
-        return {
-          ...question,
-          selectOptions: [
-            ...question.selectOptions,
-            { id: id, option: "", value: value },
-          ],
-        };
-      }
-      return question;
-    });
-
-    updateQuizCreationInfo("questions", updatedQuestions);
-  };
-
+  
   const handleOptionFocus = (id: number) => {
     setFocusedOptionIndex(id);
   };
@@ -122,11 +61,11 @@ export const CheckBoxQuestionTemplate: FC<{
     const updatedQuestions = quizCreationInfo.questions!.map((question) =>
       question.id.toString() === questionFormId
         ? {
-            ...question,
-            answers: checked
-              ? [...question.answers, value]
-              : question.answers.filter((answer) => answer !== value),
-          }
+          ...question,
+          answers: checked
+            ? [...question.answers, value]
+            : question.answers.filter((answer) => answer !== value),
+        }
         : question
     );
     updateQuizCreationInfo("questions", updatedQuestions);

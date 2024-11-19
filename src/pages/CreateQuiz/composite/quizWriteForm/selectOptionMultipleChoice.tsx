@@ -7,7 +7,7 @@ import { Close } from "@/svg/close.tsx";
 import { gray90 } from "@/styles/abstracts/colors.ts";
 import { QuestionFormMode } from "@/data/constants";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
-import { BookQuizQuestionType } from "@/types/QuizType";
+import { QuizQuestionType } from "@/types/QuizType";
 
 interface QuizOptionItemProps {
   option: RadioOption;
@@ -42,7 +42,7 @@ export default function SelectOptionMultipleChoice({
     onOptionChange(e);
     setText(option.id, e.target.value);
 
-    const updatedQuestions: BookQuizQuestionType[] = quizCreationInfo.questions?.map((question) => {
+    const updatedQuestions: QuizQuestionType[] = quizCreationInfo.questions?.map((question) => {
       if (question.id.toString() === questionFormId!) {
         return {
           ...question,

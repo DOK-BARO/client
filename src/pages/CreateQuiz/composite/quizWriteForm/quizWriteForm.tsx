@@ -13,9 +13,11 @@ import { BookQuizQuestionType } from "@/types/QuizType";
 import { QuestionFormType } from "@/types/QuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { QuizPlus } from "@/svg/quizPlus";
+import { AnswerType } from "@/types/QuizType";
 //TODO: 아이콘 정리 필요
 export default function QuizWriteForm() {
   const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
+  const defaultAnswerType:AnswerType = "MULTIPLE_CHOICE"
 
   const deleteQuestion = (targetId: number) => {
     setQuestionForms((prevQuizList) =>
@@ -72,7 +74,7 @@ export default function QuizWriteForm() {
     content: "",
     selectOptions: [],
     answerExplanationContent: "",
-    answerType: "MULTIPLE_CHOICE",
+    answerType: defaultAnswerType,
     answerExplanationImages: [],
     answers: [],
   });
@@ -82,12 +84,12 @@ export default function QuizWriteForm() {
       ...prev,
       {
         id: id,
-        answerType: "MULTIPLE_CHOICE", // TODO: BasicFormType으로 변수화
+        answerType: defaultAnswerType,
         component: (
           <QuestionForm
             questionFormId={id}
             deleteQuestion={deleteQuestion}
-            answerType={"MULTIPLE_CHOICE"}
+            answerType={defaultAnswerType}
           />
         ),
       },

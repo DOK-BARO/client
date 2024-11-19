@@ -111,7 +111,7 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
     setSelectedImages((prevImages) => prevImages.filter((_, i) => i !== index));
 
     const updatedQuestions: BookQuizQuestionType[] = quizCreationInfo.questions?.map((question) => {
-      if (question.id === questionFormId!) { // TODO: questionFormId로 변수 네이밍 통일 필요
+      if (question.id === questionFormId!) {
         return {
           ...question,
           answerExplanationImages: question.answerExplanationImages.filter((_, i) => i !== index)

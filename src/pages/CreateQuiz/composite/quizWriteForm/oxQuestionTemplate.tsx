@@ -2,12 +2,12 @@ import RadioButton from "@/components/atom/radioButton/radioButton.tsx";
 import { QuestionFormMode } from "@/data/constants.ts";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
 import { RadioOption } from "@/types/RadioTypes.ts";
-import { FC, useState, useEffect } from "react";
+import { FC, useEffect } from "react";
 import styles from "./_ox_quiz_form.module.scss";
-import { QuizQuestionType } from "@/types/QuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
+import { useQuestionTemplate } from "@/hooks/useQuestionTemplate";
 
-export const OXQuestionTemplate: FC<{ questionFormMode?: string, questionFormId?: string }> = ({ questionFormMode, questionFormId }) => { // TODO: props 만들기 (multipleChoiceQuizForm.tsx랑 겹침)
+export const OXQuestionTemplate: FC<{ questionFormMode?: string, questionFormId?: string }> = ({ questionFormMode, questionFormId }) => {
 
   const options: RadioOption[] = [{
     id: 1,
@@ -21,7 +21,12 @@ export const OXQuestionTemplate: FC<{ questionFormMode?: string, questionFormId?
   }];
 
   const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
-  const getQuestion = () => (quizCreationInfo.questions?.find((question) => (question.id.toString() === questionFormId)) as QuizQuestionType);
+
+  const { 
+    focusedOptionIndex,
+    setFocusedOptionIndex,
+    getQuestion,
+    } = useQuestionTemplate("OX",questionFormId!);
 
   const setInitialAnswer = (): string => {
     const question = getQuestion();
@@ -30,7 +35,6 @@ export const OXQuestionTemplate: FC<{ questionFormMode?: string, questionFormId?
   
   const { selectedValue: selectedRadioGroupValue, handleChange: onRadioGroupChange } = useRadioGroup(setInitialAnswer());
   const disabled: boolean = questionFormMode === QuestionFormMode.QUESTION;
-  const [focusedOptionIndex, setFocusedOptionIndex] = useState<number | null>(null);
 
   useEffect(() => {
     if (questionFormMode === QuestionFormMode.QUESTION) {

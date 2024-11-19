@@ -6,6 +6,7 @@ import { FC, useEffect } from "react";
 import styles from "./_ox_quiz_form.module.scss";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { useQuestionTemplate } from "@/hooks/useQuestionTemplate";
+import { ChangeEvent } from "react";
 
 export const OXQuestionTemplate: FC<{ questionFormMode?: string, questionFormId?: string }> = ({ questionFormMode, questionFormId }) => {
 
@@ -38,7 +39,14 @@ export const OXQuestionTemplate: FC<{ questionFormMode?: string, questionFormId?
 
   useEffect(() => {
     const question = getQuestion();
-    questionFormMode === QuestionFormMode.QUESTION ?  onRadioGroupChange(null) : onRadioGroupChange(question.answers[0]);
+     // ChangeEvent 객체 생성
+    const event: ChangeEvent<HTMLInputElement> = {
+      target: {
+          value: questionFormMode === QuestionFormMode.QUESTION ? "" : question.answers[0],
+      },
+  } as ChangeEvent<HTMLInputElement>;
+  onRadioGroupChange(event);
+
   }, [questionFormMode]);
 
   const handleOptionFocus = (id: number) => {
@@ -49,8 +57,9 @@ export const OXQuestionTemplate: FC<{ questionFormMode?: string, questionFormId?
     setFocusedOptionIndex(null);
   };
 
-  const handleRadioGroupChange = (value: string) => {
-    onRadioGroupChange(value);
+  const handleRadioGroupChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    onRadioGroupChange(event);
 
     const updatedQuestions= quizCreationInfo.questions?.map((question) => question.id.toString() === questionFormId ? { ...question, answers: [value] } : question) ?? [];
     updateQuizCreationInfo("questions",updatedQuestions)

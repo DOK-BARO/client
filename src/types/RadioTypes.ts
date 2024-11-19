@@ -9,7 +9,7 @@ export interface RadioOption {
 export interface RadioButtonProps {
   option: RadioOption;
   selectedValue: string|null;
-  onChange: (value: string) => void;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   isDisabled: boolean;
   className?: string;
   autoFocus : boolean;

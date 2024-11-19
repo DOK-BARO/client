@@ -1,80 +1,82 @@
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./_quiz_write_form_item.module.scss";
-import QuizWriteFormTypeUtilButton from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormTypeUtilButton.tsx";
 import Textarea from "@/components/atom/textarea/textarea.tsx";
 import { ImageAdd } from "@/svg/quizWriteForm/imageAdd.tsx";
-import QuizWriteFormItemHeader from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormItemHeader.tsx";
-import { QuizFormMode } from "@/data/constants.ts";
-import { QuestionFormTypeType } from "@/types/QuestionFormTypeType.ts";
+import QuestionFormHeader from "./questionFormHeader";
+import { QuestionFormMode } from "@/data/constants.ts";
+import { QuestionTemplateType as QuestionTemplateType } from "@/types/QuestionFormTypeType.ts";
 import { UlList } from "@/svg/quizWriteForm/ulList.tsx";
 import { OlList } from "@/svg/quizWriteForm/olList.tsx";
 import { OxQuiz } from "@/svg/quizWriteForm/oxQuiz.tsx";
 import { BlankQuiz } from "@/svg/quizWriteForm/blankQuiz.tsx";
 import { AlignJustify } from "@/svg/quizWriteForm/alignJustify.tsx";
-import { MultipleChoiceQuizForm } from "@/pages/CreateQuiz/composite/quizWriteForm/multipleChoiceQuizForm.tsx";
-import { CheckBoxQuizForm } from "@/pages/CreateQuiz/composite/quizWriteForm/checkBoxQuizForm.tsx";
-import { OXQuizForm } from "@/pages/CreateQuiz/composite/quizWriteForm/oxQuizForm.tsx";
+import { MultipleChoiceQuestionTemplate } from "@/pages/CreateQuiz/composite/quizWriteForm/multipleChoiceQuestionTemplate";
+import { CheckBoxQuestionTemplate } from "@/pages/CreateQuiz/composite/quizWriteForm/checkBoxQuestionTemplate";
+import { OXQuestionTemplate } from "@/pages/CreateQuiz/composite/quizWriteForm/oxQuestionTemplate";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
 import { useAtom } from "jotai";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
-import { BookQuizQuestionType } from "@/types/BookQuizType";
+import { QuizQuestionType } from "@/types/QuizType";
+import QuestionTemplateUtilButton from "./questionTemplateUtilButton";
+
+
 interface QuizWriteFormItemProps {
-  id: number;
-  deleteQuizWriteForm: (id: number) => void;
-  quizWriteFormType: string;
+  questionFormId: number;
+  deleteQuestion: (id: number) => void;
+  answerType: string;
 }
 
-const quizWriteFormTypeUtilList: QuestionFormTypeType[] = [
+const questionTemplates: QuestionTemplateType[] = [
   {
     Icon: UlList,
     text: "객관식",
-    typeFlag: "MULTIPLE_CHOICE",
-    FormComponent: <MultipleChoiceQuizForm />,
+    answerType: "MULTIPLE_CHOICE",
+    FormComponent: <MultipleChoiceQuestionTemplate />,
   },
   {
     Icon: OlList,
     text: "복수 정답",
-    typeFlag: "CHECK_BOX",
-    FormComponent: <CheckBoxQuizForm />,
+    answerType: "CHECK_BOX",
+    FormComponent: <CheckBoxQuestionTemplate />,
   },
   {
     Icon: OxQuiz,
     text: "OX 퀴즈",
-    typeFlag: "OX",
-    FormComponent: <OXQuizForm />,
+    answerType: "OX",
+    FormComponent: <OXQuestionTemplate />,
   },
   {
     Icon: BlankQuiz,
     text: "빈칸 채우기",
-    typeFlag: "FILL_BLANK",
+    answerType: "FILL_BLANK",
     FormComponent: <div></div>,
   },
   {
     Icon: AlignJustify,
     text: "단답형 주관식",
-    typeFlag: "SHORT",
+    answerType: "SHORT",
     FormComponent: <div></div>,
   },
 ] as const;
 
-export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFormType }: QuizWriteFormItemProps) {
+export default function QuestionForm({ questionFormId, deleteQuestion, answerType }: QuizWriteFormItemProps) {
   const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
   const deleteIcon = "/assets/svg/quizWriteForm/delete_ellipse.svg";
 
-  const setInitialFormType = (): QuestionFormTypeType => {
-    return quizWriteFormTypeUtilList.find(({ typeFlag }) => typeFlag === quizWriteFormType) || quizWriteFormTypeUtilList[0];
+  const setInitialFormType = (): QuestionTemplateType => {
+    return questionTemplates.find(({ answerType: typeFlag }) => typeFlag === answerType) || questionTemplates[0];
   };
 
-  const [questionFormType, setQuestionFormType] = useState<QuestionFormTypeType>(setInitialFormType());
-  const [quizMode, setQuizMode] = useState<string>(QuizFormMode.QUESTION);
+  const [questionFormType, setQuestionFormType] = useState<QuestionTemplateType>(setInitialFormType());
+  const [questionFormMode, setQuestionFormMode] = useState<string>(QuestionFormMode.QUESTION);
   const titleMaxLength = 25000;
   const descriptionMaxLength = 500;
 
-  const { value: question, onChange: onQuestionChange, textareaRef: questionTextAreaRef } = useAutoResizeTextarea(quizCreationInfo.questions?.find((question) => (question.id === id))?.content);
-  const { value: answerTextAreaValue, onChange: onAnswerTextAreaChange, textareaRef: descriptionTextAreaRef } = useAutoResizeTextarea(quizCreationInfo.questions?.find((question) => (question.id === id))?.answerExplanationContent);
+  const { value: question, onChange: onQuestionChange, textareaRef: questionTextAreaRef } = useAutoResizeTextarea(quizCreationInfo.questions?.find((question) => (question.id === questionFormId))?.content);
+  const { value: answerTextAreaValue, onChange: onAnswerTextAreaChange, textareaRef: descriptionTextAreaRef } = useAutoResizeTextarea(quizCreationInfo.questions?.find((question) => (question.id === questionFormId))?.answerExplanationContent);
 
-  const [selectedImages, setSelectedImages] = useState<File[]>(quizCreationInfo.questions?.find((question) => (question.id === id))?.answerExplanationImages ?? []);
+  const [selectedImages, setSelectedImages] = useState<File[]>(quizCreationInfo.questions?.find((question) => (question.id === questionFormId))?.answerExplanationImages ?? []);
   const [imagePreview, setImagePreview] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -83,12 +85,13 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFo
 
   const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onAnswerTextAreaChange(e);
-    const updatedQuestions: BookQuizQuestionType[] = quizCreationInfo.questions?.map((question) => question.id === id ? { ...question, answerExplanationContent: e.target.value } : question) ?? [];
+    const updatedQuestions: QuizQuestionType[] = quizCreationInfo.questions?.map((question) => question.id === questionFormId ? { ...question, answerExplanationContent: e.target.value } : question) ?? [];
     updateQuizCreationInfo("questions", updatedQuestions);
   }
 
   const onQuizModeSelect = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setQuizMode(e.currentTarget.value);
+    console.log("sdfd: ",e.currentTarget.value)
+    setQuestionFormMode(e.currentTarget.value);
   };
 
   useEffect(() => {
@@ -100,7 +103,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFo
   }, []);
 
   const setInitialImgPreview = async (): Promise<string[]> => {
-    const answerExplanationImages: File[] = quizCreationInfo.questions?.find((question) => question.id === id)?.answerExplanationImages ?? [];
+    const answerExplanationImages: File[] = quizCreationInfo.questions?.find((question) => question.id === questionFormId)?.answerExplanationImages ?? [];
     const newImages = await readFilesAsDataURL(answerExplanationImages);
 
     return [...imagePreview, ...newImages];
@@ -110,8 +113,8 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFo
     setImagePreview((prevImages) => prevImages.filter((_, i) => i !== index));
     setSelectedImages((prevImages) => prevImages.filter((_, i) => i !== index));
 
-    const updatedQuestions: BookQuizQuestionType[] = quizCreationInfo.questions?.map((question) => {
-      if (question.id === id!) { // TODO: questionFormId로 변수 네이밍 통일 필요
+    const updatedQuestions: QuizQuestionType[] = quizCreationInfo.questions?.map((question) => {
+      if (question.id === questionFormId!) {
         return {
           ...question,
           answerExplanationImages: question.answerExplanationImages.filter((_, i) => i !== index)
@@ -169,8 +172,8 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFo
       setSelectedImages((prev) => [...prev, ...newImagesFile]);
       setImagePreview((prev) => [...prev, ...newImages]);
 
-      const updatedQuestions: BookQuizQuestionType[] = quizCreationInfo.questions?.map((question) => {
-        if (question.id === id!) { // TODO: questionFormId로 변수 네이밍 통일 필요
+      const updatedQuestions: QuizQuestionType[] = quizCreationInfo.questions?.map((question) => {
+        if (question.id === questionFormId!) {
           return {
             ...question,
             answerExplanationImages: [...question.answerExplanationImages, ...newImagesFile]
@@ -185,7 +188,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFo
 
   const handleQuestionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onQuestionChange(e);
-    const updatedQuestions: BookQuizQuestionType[] = quizCreationInfo.questions?.map((question) => question.id === id ? { ...question, content: e.target.value } : question) ?? [];
+    const updatedQuestions: QuizQuestionType[] = quizCreationInfo.questions?.map((question) => question.id === questionFormId ? { ...question, content: e.target.value } : question) ?? [];
     updateQuizCreationInfo("questions", updatedQuestions);
   };
 
@@ -199,19 +202,19 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFo
 
   return (
     <div className={styles["write-quiz"]}>
-      <QuizWriteFormItemHeader
-        id={id}
-        quizMode={quizMode}
+      <QuestionFormHeader
+        id={questionFormId}
+        quizMode={questionFormMode}
         onQuizModeSelect={onQuizModeSelect}
-        deleteQuizWriteForm={deleteQuizWriteForm}
+        deleteQuizWriteForm={deleteQuestion}
         checkValidation={checkValidation}
       />
 
       <div>
         <div className={styles["input-container"]}>
-          <QuizWriteFormTypeUtilButton
-            quizId={id}
-            list={quizWriteFormTypeUtilList}
+          <QuestionTemplateUtilButton
+            quizId={questionFormId}
+            list={questionTemplates}
             selectedOption={questionFormType}
             setSelectedOption={setQuestionFormType}
           />
@@ -227,11 +230,11 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFo
             />
           </div>
         </div>
-        {React.cloneElement(questionFormType.FormComponent, { questionFormId: id.toString(), quizMode })}
+        {React.cloneElement(questionFormType.FormComponent, { questionFormId: questionFormId.toString(), questionFormMode: questionFormMode })}
       </div>
 
       {
-        quizMode === QuizFormMode.ANSWER &&
+        questionFormMode === QuestionFormMode.ANSWER &&
         <div className={styles["quiz-mode-answer-container"]}>
           <div className={styles["quiz-mode-answer-header"]}>
             <span>답안 설명</span>
@@ -251,7 +254,7 @@ export default function QuizWriteFormItem({ id, deleteQuizWriteForm, quizWriteFo
           </div>
           <Textarea
             className={styles["quiz-mode-answer-text-area"]}
-            id={QuizFormMode.ANSWER}
+            id={QuestionFormMode.ANSWER}
             onChange={handleAnswerChange}
             value={answerTextAreaValue}
             maxLength={descriptionMaxLength}

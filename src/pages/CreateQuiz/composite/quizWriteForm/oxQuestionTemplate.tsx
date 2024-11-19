@@ -1,13 +1,13 @@
 import RadioButton from "@/components/atom/radioButton/radioButton.tsx";
-import { QuizFormMode } from "@/data/constants.ts";
+import { QuestionFormMode } from "@/data/constants.ts";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
 import { RadioOption } from "@/types/RadioTypes.ts";
-import { FC, useState, useEffect } from "react";
+import { FC, useEffect } from "react";
 import styles from "./_ox_quiz_form.module.scss";
-import { BookQuizQuestionType } from "@/types/BookQuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
+import { useQuestionTemplate } from "@/hooks/useQuestionTemplate";
 
-export const OXQuizForm: FC<{ quizMode?: string, questionFormId?: string }> = ({ quizMode, questionFormId }) => { // TODO: props 만들기 (multipleChoiceQuizForm.tsx랑 겹침)
+export const OXQuestionTemplate: FC<{ questionFormMode?: string, questionFormId?: string }> = ({ questionFormMode, questionFormId }) => {
 
   const options: RadioOption[] = [{
     id: 1,
@@ -21,7 +21,12 @@ export const OXQuizForm: FC<{ quizMode?: string, questionFormId?: string }> = ({
   }];
 
   const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
-  const getQuestion = () => (quizCreationInfo.questions?.find((question) => (question.id.toString() === questionFormId)) as BookQuizQuestionType);
+
+  const { 
+    focusedOptionIndex,
+    setFocusedOptionIndex,
+    getQuestion,
+    } = useQuestionTemplate("OX",questionFormId!);
 
   const setInitialAnswer = (): string => {
     const question = getQuestion();
@@ -29,17 +34,12 @@ export const OXQuizForm: FC<{ quizMode?: string, questionFormId?: string }> = ({
   }
   
   const { selectedValue: selectedRadioGroupValue, handleChange: onRadioGroupChange } = useRadioGroup(setInitialAnswer());
-  const disabled: boolean = quizMode === QuizFormMode.QUESTION;
-  const [focusedOptionIndex, setFocusedOptionIndex] = useState<number | null>(null);
+  const disabled: boolean = questionFormMode === QuestionFormMode.QUESTION;
 
   useEffect(() => {
-    if (quizMode === QuizFormMode.QUESTION) {
-      onRadioGroupChange(null);
-    } else {
-      const question = getQuestion();
-      onRadioGroupChange(question.answers[0]);
-    }
-  }, [quizMode]);
+    const question = getQuestion();
+    questionFormMode === QuestionFormMode.QUESTION ?  onRadioGroupChange(null) : onRadioGroupChange(question.answers[0]);
+  }, [questionFormMode]);
 
   const handleOptionFocus = (id: number) => {
     setFocusedOptionIndex(id);
@@ -64,8 +64,8 @@ export const OXQuizForm: FC<{ quizMode?: string, questionFormId?: string }> = ({
           <div
             key={option.id}
             className={`${styles["option-container"]} 
-            ${focusedOptionIndex === option.id && ( quizMode === QuizFormMode.QUESTION ) ? styles["focused"] : ""} 
-            ${selectedRadioGroupValue === option.label && ( quizMode === QuizFormMode.ANSWER ) ? styles["checked"] : styles["notchecked"]}`}
+            ${focusedOptionIndex === option.id && ( questionFormMode === QuestionFormMode.QUESTION ) ? styles["focused"] : ""} 
+            ${selectedRadioGroupValue === option.label && ( questionFormMode === QuestionFormMode.ANSWER ) ? styles["checked"] : styles["notchecked"]}`}
             onFocus={() => handleOptionFocus(option.id)}
             onBlur={handleOptionBlur}
           >

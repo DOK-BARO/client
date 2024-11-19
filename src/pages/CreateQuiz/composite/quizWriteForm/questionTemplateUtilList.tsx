@@ -1,17 +1,17 @@
 import styles from "./_quiz_write_form_type_util_list.module.scss";
-import { QuestionFormTypeType } from "@/types/QuestionFormTypeType.ts";
+import { QuestionTemplateType } from "@/types/QuestionFormTypeType.ts";
 
 type Props = {
-  onClick: (optionTitle: QuestionFormTypeType) => void;
-  list: QuestionFormTypeType[];
+  onClick: (optionTitle: QuestionTemplateType) => void;
+  list: QuestionTemplateType[];
 }
 
-export default function QuizWriteFormTypeUtilList({ list, onClick } : Props) {
+export default function QuestionTemplateUtilList({ list, onClick } : Props) {
 
   return (
     <ul className={styles["quiz-write-form-type-util-list"]}>
       {list.map((item) => (
-        <QuizWriteFormTypeUtilListItem
+        <QuestionTemplateUtilListItem
           key={item.text}
           {...item}
           onClick={onClick}
@@ -23,7 +23,7 @@ export default function QuizWriteFormTypeUtilList({ list, onClick } : Props) {
 
 
 
-export function QuizWriteFormTypeUtilListItem (item: QuestionFormTypeType & { onClick: (option: QuestionFormTypeType) => void; }) {
+export function QuestionTemplateUtilListItem (item: QuestionTemplateType & { onClick: (option: QuestionTemplateType) => void; }) {
   return (
     <li
       onClick={() => item.onClick(item)}

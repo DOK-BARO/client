@@ -52,21 +52,21 @@ export default function QuizWriteForm() {
   };
   const [questionForms, setQuestionForms] = useState<QuestionFormType[]>(setInitialForms());
 
+  const reorderItems = (items: any[], result: DropResult) => {
+    const reorderedItems = [...items];
+    const [movedItem] =  reorderedItems.splice(result.source.index, 1);
+    reorderedItems.splice(result.destination!.index, 0, movedItem);
+    return reorderedItems
+  }
+
   const moveQuestions = (result: DropResult) => {
     if (!result.destination) return;
-    const items = [...questionForms];
-    const [reorderedItem] = items.splice(result.source.index, 1);
-    items.splice(result.destination.index, 0, reorderedItem);
-    setQuestionForms(items);
 
-    //TODO: 위의 겹치는 로직과 리팩토링 필요
-    const globalQuizItems = [...(quizCreationInfo.questions ?? [])];
-    const [reorderedGlobalItem] = globalQuizItems.splice(
-      result.source.index,
-      1
-    );
-    globalQuizItems.splice(result.destination.index, 0, reorderedGlobalItem);
-    updateQuizCreationInfo("questions", globalQuizItems);
+    const updatedQuestionForms = reorderItems(questionForms, result);
+    setQuestionForms(updatedQuestionForms);
+
+    const updatedGlobalQuizItems = reorderItems(quizCreationInfo.questions ?? [], result);
+    updateQuizCreationInfo("questions", updatedGlobalQuizItems);
   };
 
   const createNewQuestion = (id: number): QuizQuestionType => ({

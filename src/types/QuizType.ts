@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-// TODO: 파일명 QuizType으로 변경
 
 export interface QuizType {
   id: number;
@@ -15,55 +14,60 @@ export interface QuizType {
   };
 }
 
-// TODO: QuizCreationType으로 타입명 변경하기
-export interface BookQuizType {
+export type ViewScope = "EVERYONE" | "STUDY_GROUP" | "CREATOR";
+export type EditScope = "EVERYONE" | "STUDY_GROUP" | "CREATOR";
+export type AnswerType = "OX" | "FILL_BLANK" | "MULTIPLE_CHOICE" | "SHORT" | "CHECK_BOX";
+export type RequestAnswerType = "OX" | "FILL_BLANK" | "MULTIPLE_CHOICE" | "SHORT";
+
+export interface QuizCreationType {
   title: string | null;
   description: string | null;
   bookId: number | null;
   timeLimitSecond?: string | null;
-  viewScope: "EVERYONE" | "STUDY_GROUP" | "CREATOR" | null;
-  editScope: "EVERYONE" | "STUDY_GROUP" | "CREATOR" | null;
+  viewScope: ViewScope | null;
+  editScope: EditScope | null;
   studyGroupId: number | undefined | null;
   questions: BookQuizQuestionType[] | null;
+}
+
+export interface SelectOptionType {
+  id: number;
+  option: string;
+  value: string;
 }
 
 export interface BookQuizQuestionType {
   id: number;
   content: string;
-  //TODO: api 요청 시 id제거 필요
-  selectOptions: {id: number, option:string, value:string}[];
+  selectOptions: SelectOptionType[];
   answerExplanationContent: string;
   answerExplanationImages: File[],
-  // answerExplanationImages: string[],
-  answerType: "OX" | "FILL_BLANK" | "MULTIPLE_CHOICE" | "SHORT" | "CHECK_BOX";
+  answerType: AnswerType;
   answers: string[];
 }
-
-// API 요청 시 사용할 타입
-// TODO: 리팩토링 필요
 
 export interface BookQuizRequestType {
   title: string;
   description: string;
   bookId: number;
   timeLimitSecond?: number;
-  viewScope: "EVERYONE" | "STUDY_GROUP" | "CREATOR";
-  editScope: "EVERYONE" | "STUDY_GROUP" | "CREATOR";
-  studyGroupIds: number | undefined | null;
+  viewScope: ViewScope;
+  editScope: EditScope;
+  studyGroupIds?: number | null;
   questions: BookQuizQuestionRequestApiType[];
 }
 
 export type BookQuizQuestionRequestApiType = {
   content: string;
-  selectOptions: string[]; // API용 타입
+  selectOptions: string[];
   answerExplanationContent: string;
   answerExplanationImages: string[];
-  answerType: "OX" | "FILL_BLANK" | "MULTIPLE_CHOICE" | "SHORT"; // TODO: request시 CHECK_BOX는 MULTIPLE_CHOICE로 만들어야함
+  answerType: RequestAnswerType;
   answers: string[];
 };
 
 export interface QuestionFormType {
   id: number;
-  questionType: "OX" | "FILL_BLANK" | "MULTIPLE_CHOICE" | "SHORT" | "CHECK_BOX"; // TODO : 변수로 만들어야함
+  answerType: AnswerType;
   component: ReactNode;
 }

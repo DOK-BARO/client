@@ -18,7 +18,7 @@ import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
 import { useAtom } from "jotai";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
-import { BookQuizQuestionType } from "@/types/BookQuizType";
+import { BookQuizQuestionType } from "@/types/QuizType";
 interface QuizWriteFormItemProps {
   questionFormId: number;
   deleteQuestion: (id: number) => void;

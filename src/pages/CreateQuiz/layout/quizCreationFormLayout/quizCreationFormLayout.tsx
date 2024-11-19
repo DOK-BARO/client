@@ -9,7 +9,7 @@ import {
   QuizCreationInfoAtom,
 } from "@/store/quizAtom";
 import { createQuiz } from "@/services/server/quizService";
-import { BookQuizType, BookQuizRequestType } from "@/types/BookQuizType";
+import { QuizCreationType, BookQuizRequestType } from "@/types/QuizType";
 
 export default function QuizCreationFormLayout({
   steps,
@@ -22,7 +22,7 @@ export default function QuizCreationFormLayout({
 }) {
   const [isQuizNextButtonEnabled, setIsQuizNextButtonEnabled] =
     useAtom<boolean>(IsQuizNextButtonEnabledAtom);
-  const [quizCreationInfo] = useAtom<BookQuizType>(QuizCreationInfoAtom);
+  const [quizCreationInfo] = useAtom<QuizCreationType>(QuizCreationInfoAtom);
 
   const getCurrentStep = (): Step => {
     const step = steps[currentStep];

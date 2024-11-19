@@ -9,8 +9,8 @@ import {
   DropResult,
 } from "react-beautiful-dnd";
 import { primary } from "@/styles/abstracts/colors.ts";
-import { BookQuizQuestionType } from "@/types/BookQuizType";
-import { QuestionFormType } from "@/types/BookQuizType";
+import { BookQuizQuestionType } from "@/types/QuizType";
+import { QuestionFormType } from "@/types/QuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { QuizPlus } from "@/svg/quizPlus";
 //TODO: 아이콘 정리 필요
@@ -35,7 +35,7 @@ export default function QuizWriteForm() {
         (question) =>
           ({
             id: question.id,
-            questionType: question.answerType,
+            answerType: question.answerType,
             component: (
               <QuestionForm
                 questionFormId={question.id}
@@ -82,7 +82,7 @@ export default function QuizWriteForm() {
       ...prev,
       {
         id: id,
-        questionType: "MULTIPLE_CHOICE", // TODO: BasicFormType으로 변수화
+        answerType: "MULTIPLE_CHOICE", // TODO: BasicFormType으로 변수화
         component: (
           <QuestionForm
             questionFormId={id}

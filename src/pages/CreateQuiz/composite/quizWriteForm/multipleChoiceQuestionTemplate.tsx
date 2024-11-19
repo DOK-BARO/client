@@ -4,7 +4,7 @@ import { RadioOption } from "@/types/RadioTypes.ts";
 import { FC, useEffect, useState } from "react";
 import { QuestionFormMode } from "@/data/constants.ts";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
-import { BookQuizQuestionType } from "@/types/BookQuizType";
+import { BookQuizQuestionType } from "@/types/QuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 
 export const MultipleChoiceQuestionTemplate: FC<{ questionFormMode?: string, questionFormId?: string }> = ({ questionFormMode, questionFormId }) => {

@@ -4,7 +4,7 @@ import useRadioGroup from "@/hooks/useRadioGroup.ts";
 import { RadioOption } from "@/types/RadioTypes.ts";
 import { FC, useState, useEffect } from "react";
 import styles from "./_ox_quiz_form.module.scss";
-import { BookQuizQuestionType } from "@/types/BookQuizType";
+import { BookQuizQuestionType } from "@/types/QuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 
 export const OXQuestionTemplate: FC<{ questionFormMode?: string, questionFormId?: string }> = ({ questionFormMode, questionFormId }) => { // TODO: props 만들기 (multipleChoiceQuizForm.tsx랑 겹침)

@@ -6,7 +6,7 @@ import QuestionTemplateUtilList from "@/pages/CreateQuiz/composite/quizWriteForm
 import Button from "@/components/atom/button/button.tsx";
 import { QuestionTemplateType } from "@/types/QuestionFormTypeType.ts";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
-import { BookQuizQuestionType } from "@/types/BookQuizType";
+import { BookQuizQuestionType } from "@/types/QuizType";
 
 function QuestionTemplateUtilButton({
   quizId,

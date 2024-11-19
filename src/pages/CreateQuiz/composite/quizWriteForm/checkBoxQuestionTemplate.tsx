@@ -3,7 +3,7 @@ import styles from "@/pages/CreateQuiz/composite/quizWriteForm/_quiz_write_form_
 import { QuestionFormMode } from "@/data/constants.ts";
 import { CheckBoxOption } from "@/types/CheckBoxTypes.ts";
 import SelectOptionCheckBox from "@/pages/CreateQuiz/composite/quizWriteForm/selectOptionCheckBox";
-import { BookQuizQuestionType } from "@/types/BookQuizType";
+import { BookQuizQuestionType } from "@/types/QuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 
 // TODO: multipleChoiceQuizForm과 겹치는 부분 리팩토링 필요

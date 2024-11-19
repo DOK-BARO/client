@@ -1,6 +1,6 @@
-import { BookQuizRequestType } from "@/types/BookQuizType";
+import { BookQuizRequestType } from "@/types/QuizType";
 import axios, { AxiosError } from "axios";
-import { QuizType } from "@/types/BookQuizType";
+import { QuizType } from "@/types/QuizType";
 
 // 퀴즈 목록 조회
 // TODO: fetchQuizzes

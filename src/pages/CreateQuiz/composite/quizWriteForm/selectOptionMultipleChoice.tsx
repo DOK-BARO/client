@@ -7,7 +7,7 @@ import { Close } from "@/svg/close.tsx";
 import { gray90 } from "@/styles/abstracts/colors.ts";
 import { QuestionFormMode } from "@/data/constants";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
-import { BookQuizQuestionType } from "@/types/BookQuizType";
+import { BookQuizQuestionType } from "@/types/QuizType";
 
 interface QuizOptionItemProps {
   option: RadioOption;

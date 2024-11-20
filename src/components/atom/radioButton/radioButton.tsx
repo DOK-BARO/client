@@ -22,7 +22,7 @@ const RadioButton: React.FC<RadioButtonProps> = ({
             name={radioGroupName}
             value={option.value}
             checked={selectedValue === option.value}
-            onChange={() => onChange(option.value)}
+            onChange={onChange}
             disabled={isDisabled}
             autoFocus={autoFocus}
           />

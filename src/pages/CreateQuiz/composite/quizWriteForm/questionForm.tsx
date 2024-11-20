@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import styles from "./_quiz_write_form_item.module.scss";
+import styles from "./_question_form.module.scss";
 import Textarea from "@/components/atom/textarea/textarea.tsx";
 import { ImageAdd } from "@/svg/quizWriteForm/imageAdd.tsx";
 import QuestionFormHeader from "./questionFormHeader";
@@ -18,7 +18,7 @@ import { useAtom } from "jotai";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
 import { QuizQuestionType } from "@/types/QuizType";
-import QuestionTemplateUtilButton from "./questionTemplateUtilButton";
+import QuestionTemplateTypeUtilButton from "./questionTemplateTypeUtilButton";
 
 
 interface QuizWriteFormItemProps {
@@ -157,6 +157,7 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
   };
 
   const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    // TODO: 이미지 핸들링 hook으로 만들기
     const files = event.target.files;
     if (files) {
       if (selectedImages.length + files.length > maxImgFileCount) {
@@ -201,7 +202,8 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
   };
 
   return (
-    <div className={styles["write-quiz"]}>
+    <section className={styles["question-form"]}>
+      <h2 className={styles["sr-only"]}>퀴즈 문제 작성 폼</h2>
       <QuestionFormHeader
         id={questionFormId}
         quizMode={questionFormMode}
@@ -210,9 +212,9 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
         checkValidation={checkValidation}
       />
 
-      <div>
-        <div className={styles["input-container"]}>
-          <QuestionTemplateUtilButton
+      <div className={styles["question-form-content"]}>
+        <div className={styles["setting-container"]}>
+          <QuestionTemplateTypeUtilButton
             quizId={questionFormId}
             list={questionTemplates}
             selectedOption={questionFormType}
@@ -221,7 +223,7 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
           <div className={styles["title-area"]}>
             <Textarea
               maxLength={titleMaxLength}
-              className={styles["question"]}
+              className={styles["title"]}
               value={question}
               onChange={handleQuestionChange}
               id="option"
@@ -235,11 +237,11 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
 
       {
         questionFormMode === QuestionFormMode.ANSWER &&
-        <div className={styles["quiz-mode-answer-container"]}>
-          <div className={styles["quiz-mode-answer-header"]}>
+        <div className={styles["answer-area"]}>
+          <div className={styles["answer-area-header"]}>
             <span>답안 설명</span>
             <input
-              className={styles["a11y-hidden"]}
+              className={styles["sr-only"]}
               type="file"
               accept="image/*"
               ref={fileInputRef}
@@ -253,7 +255,7 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
             </button>
           </div>
           <Textarea
-            className={styles["quiz-mode-answer-text-area"]}
+            className={styles["answer"]}
             id={QuestionFormMode.ANSWER}
             onChange={handleAnswerChange}
             value={answerTextAreaValue}
@@ -267,7 +269,7 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
           {imagePreview.length > 0 && (
             <section className={styles["image-area"]}>
               {imagePreview.map((image, index) => (
-                <div className={styles["image-item"]} key={index}>
+                <div className={styles["image-item-container"]} key={index}>
                   <img
                     key={index}
                     src={image}
@@ -283,6 +285,6 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
           )}
         </div>
       }
-    </div>
+    </section>
   );
 }

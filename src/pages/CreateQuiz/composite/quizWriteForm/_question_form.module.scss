@@ -1,0 +1,313 @@
+@import "../../../../styles/abstracts/variables";
+@import "../../../../styles/abstracts/mixins";
+
+.sr-only {
+  @include sr-only;
+}
+
+.question-form {
+  @include flex(column);
+  gap: 20px;
+  border: 1.5px solid transparent;
+  background-color: $gray-00;
+  padding: 20px;
+  border-radius: $border-radius-medium;
+  margin-bottom: 20px;
+
+  &-header {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &:focus-within {
+    border: 1.5px solid $primary;
+  }
+
+  &-mode-button-area {
+    display: flex;
+    gap: 2px;
+  }
+
+  .setting-container {
+    display: flex;
+    width: 100%;
+    gap: 12px;
+
+    .title-area {
+      width: 100%;
+    }
+
+    textArea.title {
+      display: flex;
+      border: none;
+      color: $gray-90;
+      font-size: $font-size-large;
+      padding: 12px 0;
+    }
+  }
+}
+
+.util-button-area {
+  display: flex;
+  gap: 16px;
+
+  button.move-quiz {
+    all: unset;
+  }
+
+  button.delete-quiz {
+    all: unset;
+  }
+}
+
+.option-add-button {
+  @include flex(row);
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: $gray-50;
+  font-size: $font-size-large;
+
+  &-container {
+    align-items: center;
+    height: 48px;
+    @include flex(row);
+
+    width: 100%;
+    padding: 0 16px;
+  }
+
+  &-check-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid $gray-50;
+    margin-right: 8px;
+  }
+
+  &-check-square {
+    width: 18px;
+    height: 18px;
+    border-radius: 3px;
+    border: 2px solid $gray-50;
+    margin-right: 8px;
+  }
+}
+
+.answer-area {
+  background: $background;
+  padding: 14px 16px;
+  @include flex(column);
+  gap: 8px;
+  border-radius: 8px;
+
+  &-header {
+    @include flex(row);
+    align-items: center;
+    justify-content: space-between;
+    font-size: $font-size-large;
+    font-weight: $font-weight-semibold;
+    border: none;
+
+    .image-add-button {
+      background: transparent;
+      border: none;
+      padding: 0;
+    }
+  }
+
+  textArea.answer {
+    border: none;
+    background-color: transparent;
+    font-size: $font-size-large;
+    font-weight: $font-weight-regular;
+    color: $gray-70;
+  }
+}
+
+.image-area {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+
+  &-item-container {
+    position: relative;
+  }
+
+  .image {
+    display: block;
+    object-fit: cover;
+    width: 9.75em;
+    height: 10.75em;
+    border-radius: 4px;
+  }
+
+
+  .delete-button {
+    position: absolute;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    top: 4px;
+    right: 4px;
+    padding: 0;
+
+    img {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}
+
+// _quiz_write_form_option_item.module.scss 시작
+.option {
+  &-label {
+    @include flex(row);
+    width: 100%;
+    height: 100%;
+    gap: 8px;
+    color: $gray-90;
+    font-size: $font-size-medium;
+    font-weight: $font-weight-regular;
+  }
+
+  &-check-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid $gray-60;
+  }
+}
+
+.new-option {
+  border: none;
+  padding: 0;
+  border-radius: 0;
+  font-size: $font-size-large;
+
+  &:focus {
+    background-color: $background;
+    outline: none;
+    border: none;
+  }
+}
+
+input.new-option-text-input {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  border: none;
+  padding: 0;
+  border-radius: 0;
+  font-size: $font-size-large;
+
+  &:focus {
+    background-color: $background;
+    outline: none;
+    border: none;
+  }
+
+  &::placeholder {
+    font-family: "Pretendard", sans-serif !important;
+  }
+}
+
+.new-option-label {
+  display: flex;
+  align-items: center;
+  font-size: $font-size-large;
+  width: 100%;
+}
+
+.radio-button-item {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: start;
+}
+// _quiz_write_form_option_item.module.scss 끝
+
+// ox_quiz_form.module.scss 시작
+.question-form-content {
+  @include flex(column);
+  gap: 16px;
+}
+
+.question-options {
+  @include flex(column);
+  align-items: start;
+  gap: 13px;
+
+  legend {
+    @include sr-only;
+  }
+}
+
+.option-container {
+  @include flex(row, center);
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 16px;
+  height: 48px;
+
+  &.focused {
+    background-color: $background;
+  }
+
+  &.checked {
+    background-color: #3DBF0F1A;
+  }
+
+  .delete-option-button {
+    all: unset;
+  }
+}
+// ox_quiz_form.module.scss 끝
+
+// _quiz_write_form_type_util_button.module.scss 시작
+.question-template-type-util {
+  &-button-container {
+    position: relative;
+    @include flex(row);
+  }
+
+  &-list {
+    width: 200px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+    background-color: white;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1.5px solid #d8d8d8;
+    position: absolute;
+    z-index: 1;
+    top: 56px; // 48px + 8px (버튼 height + margin)
+
+    &-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 48px;
+      padding: 10px 16px;
+      border-radius: 6px;
+      gap: 5px;
+    
+      &:hover {
+        background-color: $gray-10;
+      }
+    
+      span {
+        width: 100%;
+        font-size: $font-size-large;
+        color: $gray-90;
+        margin-left: 8px;
+      }
+    }
+  }
+}
+// _quiz_write_form_type_util_button.module.scss 끝

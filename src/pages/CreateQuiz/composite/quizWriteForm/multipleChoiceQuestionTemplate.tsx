@@ -1,16 +1,17 @@
-import styles from "@/pages/CreateQuiz/composite/quizWriteForm/_quiz_write_form_item.module.scss";
-import SelectOptionMultipleChoice from "@/pages/CreateQuiz/composite/quizWriteForm/selectOptionMultipleChoice";
+import styles from "./_question_form.module.scss";
 import { FC, useEffect } from "react";
 import { QuestionFormMode } from "@/data/constants.ts";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
 import { QuizQuestionType } from "@/types/QuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { useQuestionTemplate } from "@/hooks/useQuestionTemplate";
+import SelectOption from "./selectOption";
+import { ChangeEvent } from "react";
 
 export const MultipleChoiceQuestionTemplate: FC<{ questionFormMode?: string, questionFormId?: string }> = ({ questionFormMode, questionFormId }) => {
   const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
 
-  const { 
+  const {
     options,
     setOptions,
     focusedOptionIndex,
@@ -18,7 +19,7 @@ export const MultipleChoiceQuestionTemplate: FC<{ questionFormMode?: string, que
     deleteOption,
     onClickAddQuizOptionItem,
     getQuestion,
-    } = useQuestionTemplate("MULTIPLE_CHOICE",questionFormId!);
+  } = useQuestionTemplate("MULTIPLE_CHOICE", questionFormId!);
 
   const setInitialAnswer = (): string => {
     const question = getQuestion();
@@ -32,7 +33,12 @@ export const MultipleChoiceQuestionTemplate: FC<{ questionFormMode?: string, que
 
   useEffect(() => {
     const question = getQuestion();
-    questionFormMode === QuestionFormMode.QUESTION ? onRadioGroupChange(null): onRadioGroupChange(question.answers[0]);
+    const event: ChangeEvent<HTMLInputElement> = {
+      target: {
+          value: questionFormMode === QuestionFormMode.QUESTION ? "" : question.answers[0],
+      },
+  } as ChangeEvent<HTMLInputElement>;
+  onRadioGroupChange(event);
   }, [questionFormMode]);
 
   const handleOptionBlur = () => {
@@ -50,8 +56,9 @@ export const MultipleChoiceQuestionTemplate: FC<{ questionFormMode?: string, que
     setOptions(updatedOptions);
   };
 
-  const handleRadioGroupChange = (value: string) => {
-    onRadioGroupChange(value);
+  const handleRadioGroupChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    onRadioGroupChange(event);
 
     const updatedQuestions: QuizQuestionType[] = quizCreationInfo.questions!.map((question) => question.id.toString() === questionFormId ? { ...question, answers: [value] } : question);
     updateQuizCreationInfo("questions", updatedQuestions);
@@ -61,7 +68,7 @@ export const MultipleChoiceQuestionTemplate: FC<{ questionFormMode?: string, que
     <fieldset className={styles["question-options"]}>
       <legend>답안 선택지</legend>
       {options.map((item) =>
-        <SelectOptionMultipleChoice
+        <SelectOption
           key={item.id}
           questionFormId={questionFormId!}
           option={item}
@@ -73,7 +80,8 @@ export const MultipleChoiceQuestionTemplate: FC<{ questionFormMode?: string, que
           onChange={handleRadioGroupChange}
           setText={setText}
           selectedValue={selectedRadioGroupValue}
-        />,
+          answerType={"MULTIPLE_CHOICE"}
+        />
       )}
       {
         questionFormMode == QuestionFormMode.QUESTION &&

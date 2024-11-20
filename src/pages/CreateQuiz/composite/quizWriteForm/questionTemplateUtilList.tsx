@@ -1,4 +1,4 @@
-import styles from "./_quiz_write_form_type_util_list.module.scss";
+import styles from "./_question_form.module.scss";
 import { QuestionTemplateType } from "@/types/QuestionFormTypeType.ts";
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
 export default function QuestionTemplateUtilList({ list, onClick } : Props) {
 
   return (
-    <ul className={styles["quiz-write-form-type-util-list"]}>
+    <ul className={styles["question-template-type-util-list"]}>
       {list.map((item) => (
         <QuestionTemplateUtilListItem
           key={item.text}
@@ -27,7 +27,7 @@ export function QuestionTemplateUtilListItem (item: QuestionTemplateType & { onC
   return (
     <li
       onClick={() => item.onClick(item)}
-      className={styles["quiz-write-form-type-util-list-item"]}
+      className={styles["question-template-type-util-list-item"]}
     >
       <item.Icon
         width={24}

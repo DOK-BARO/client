@@ -60,6 +60,9 @@ export default function QuizBookSelectionForm() {
   const isActuallyLoading = isLoading || isFetching;
 
   useEffect(() => {
+    if(!selectedBook){
+      setIsQuizNextButtonEnabled(false);
+    }
     const onClickOutside = (event: MouseEvent) => {
       if (
         inputRef.current &&

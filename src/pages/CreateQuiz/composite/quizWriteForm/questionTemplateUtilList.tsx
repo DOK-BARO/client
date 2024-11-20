@@ -1,5 +1,5 @@
 import styles from "./_question_form.module.scss";
-import { QuestionTemplateType } from "@/types/QuestionFormTypeType.ts";
+import { QuestionTemplateType } from "@/types/QuestionTemplateType";
 
 type Props = {
   onClick: (optionTitle: QuestionTemplateType) => void;

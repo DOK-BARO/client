@@ -4,29 +4,47 @@
 .gnb {
   background-color: $background;
   width: 100%;
-  padding-bottom: 40px;
+  padding-bottom: 2px;
   position: absolute;
-  top: 60px; // header 크기만큼
+  top: 58px; // header 크기만큼
   left: 0;
-  display: flex;
+
+  transform: translateY(0);
+  opacity: 1;
+  // transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.hidden {
+  transform: translateY(-100%);
+  opacity: 0;
 }
 .gnb-inner-container {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 1140px;
+  margin: 0 auto;
 }
 
 .category-list {
   @include flex(row);
-  padding: 0 64px;
+
+  // TODO: 이 부분 믹스인으로 만들기
+  margin: 0 auto;
+  width: 92%;
+  max-width: calc(100% - 48px);
 
   h2 {
     cursor: pointer;
-    font-size: $font-size-xlarge;
+    font-size: $font-size-large;
     padding: 12px 10px;
+
     border-radius: 0;
     background-color: transparent;
     color: $gray-70;
-    font-weight: 700;
+    font-weight: $font-weight-semibold;
     margin-right: 16px;
+    border-bottom: 2px solid transparent;
 
     &.hover {
       color: $gray-90;
@@ -38,13 +56,17 @@
 .sub-category-list {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  padding: 24px 64px 40px 64px;
+
+  margin: 0 auto;
+  width: 92%;
+  max-width: calc(100% - 48px);
 
   h3 {
-    font-weight: 700;
+    font-weight: $font-weight-medium;
     align-items: center;
     padding: 12px 10px;
-    font-size: $font-size-large;
+    margin: 12px 0;
+    font-size: $font-size-medium;
   }
   span {
     display: flex;
@@ -66,6 +88,8 @@
 
   h4 {
     padding: 12px 10px;
+    font-size: $font-size-medium;
+    font-weight: $font-weight-regular;
   }
 }
 

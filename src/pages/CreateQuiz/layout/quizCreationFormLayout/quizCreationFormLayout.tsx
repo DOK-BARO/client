@@ -79,6 +79,7 @@ export default function QuizCreationFormLayout({
   const goToNextStep = async () => {
     if (currentStep == endStep) {
       await requestCreateQuiz();
+    }
 
       const step = steps[currentStep];
       const mainStepOrder: number = Math.trunc(currentStep);
@@ -113,7 +114,7 @@ export default function QuizCreationFormLayout({
 
       // 새로운 단계(페이지) 넘어갈때 button 상태 다시 disabled로 변경.
       setIsQuizNextButtonEnabled(false);
-    }
+    
   };
 
   const step: Step = getCurrentStep();

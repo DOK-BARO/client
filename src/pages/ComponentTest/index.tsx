@@ -29,7 +29,6 @@ const options: RadioOption[] = [
 ];
 
 export default function Index() {
-  const { openGNB, closeGNB, isGNBOpen } = useGNB();
   const { selectedValue, handleChange } = useRadioGroup("");
   const { openModal, isModalOpen, closeModal } = useModal();
   const fileInputRef = useRef<HTMLInputElement | null>(null); // 파일 입력 참조
@@ -78,7 +77,7 @@ export default function Index() {
   };
   return (
     <>
-      <GNB />
+      {/* <GNB /> */}
       <div>
         <input
           type="file"
@@ -125,10 +124,7 @@ export default function Index() {
           </div>
         ))}
       </div>
-      <Button size="large" onClick={isGNBOpen ? closeGNB : openGNB}>
-        GNB {isGNBOpen ? "닫기" : "열기"}
-      </Button>
-      {isGNBOpen && <GNB />}
+
       <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
         <Button size="xsmall" onClick={() => {}}>
           button

@@ -7,8 +7,10 @@ import { getBookCategories } from "@/services/server/bookService.ts";
 import { useQuery } from "@tanstack/react-query";
 import { bookKeys } from "@/data/queryKeys";
 import Button from "@/components/atom/button/button";
+import useGNB from "@/hooks/useGNB";
 
 export default function GNB() {
+  const { isGNBHidden } = useGNB();
   const [activeCategoryIndex, setActiveCategoryIndex] = useState<number | null>(
     null
   );
@@ -45,7 +47,10 @@ export default function GNB() {
   };
 
   return (
-    <nav className={styles["gnb"]} onMouseLeave={handleMouseLeave}>
+    <nav
+      className={`${styles.gnb} ${isGNBHidden ? styles.hidden : ""}`}
+      onMouseLeave={handleMouseLeave}
+    >
       <div className={styles["gnb-inner-container"]}>
         <ul className={styles["category-list"]}>
           {categories?.map((category, index) => (

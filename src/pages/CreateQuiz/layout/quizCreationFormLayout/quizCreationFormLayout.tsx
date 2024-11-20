@@ -34,72 +34,82 @@ export default function QuizCreationFormLayout({
     )!;
   };
 
+  const requestCreateQuiz = async () => {
+    // TODO 퀴즈 생성 api요청
+
+    //TOOD 이미지 서버로 업로드
+
+    const quiz: QuizRequestType = {
+      title: quizCreationInfo.title!,
+      description: quizCreationInfo.description!,
+      viewScope: quizCreationInfo.viewScope!,
+      editScope: quizCreationInfo.editScope!,
+      bookId: 41, //TODO: bookId 전역관리 구현 후 제거
+      studyGroupIds: quizCreationInfo.studyGroupId,
+      questions: quizCreationInfo.questions!.map((question) => {
+        const { id, ...rest } = question;
+        return {
+          ...rest,
+          answerType:
+            question.answerType === "CHECK_BOX"
+              ? "MULTIPLE_CHOICE"
+              : question.answerType,
+          answerExplanationImages: [] as string[], // TODO: 이미지 업로드 구현 후 제거
+          selectOptions: question.selectOptions.map(
+            (option) => option.option
+          ), // option 속성만 추출
+        };
+      }),
+    };
+
+    console.log("request: %O", quiz);
+    // TODO: 제거필요 (테스트용 코드)
+    // const img : File = quiz.questions.map((question)=> {
+    //   return question.answerExplanationImages[0];
+    // })[0];
+
+    // const formData = new FormData();
+    // formData.append('file', img);
+    // await uploadImg(formData);
+
+    await createQuiz(quiz);
+    return;
+  }
+
   const goToNextStep = async () => {
     if (currentStep == endStep) {
-      // TODO 퀴즈 생성 api요청
-
-      //TOOD 이미지 서버로 업로드
-
-      const quiz: QuizRequestType = {
-        title: quizCreationInfo.title!,
-        description: quizCreationInfo.description!,
-        viewScope: quizCreationInfo.viewScope!,
-        editScope: quizCreationInfo.editScope!,
-        bookId: 41, //TODO: bookId 전역관리 구현 후 제거
-        studyGroupIds: quizCreationInfo.studyGroupId,
-        questions: quizCreationInfo.questions!.map((question) => {
-          const { id, ...rest } = question;
-          return {
-            ...rest,
-            answerType:
-              question.answerType === "CHECK_BOX"
-                ? "MULTIPLE_CHOICE"
-                : question.answerType,
-            answerExplanationImages: [] as string[], // TODO: 이미지 업로드 구현 후 제거
-            selectOptions: question.selectOptions.map(
-              (option) => option.option
-            ), // option 속성만 추출
-          };
-        }),
-      };
-
-      console.log("request: %O", quiz);
-      // TODO: 제거필요 (테스트용 코드)
-      // const img : File = quiz.questions.map((question)=> {
-      //   return question.answerExplanationImages[0];
-      // })[0];
-
-      // const formData = new FormData();
-      // formData.append('file', img);
-      // await uploadImg(formData);
-
-      await createQuiz(quiz);
-      return;
+      await requestCreateQuiz();
     }
 
     const step = steps[currentStep];
+    const mainStepOrder: number = Math.trunc(currentStep);
+    const isMainStep = Number.isInteger(currentStep);
+    const hasSubStep = !!step?.subSteps;
 
-    const isNotSubStep = Number.isInteger(currentStep);
-    const hasNotSubStep = !step.subSteps;
-
-    if (isNotSubStep && hasNotSubStep) {
-      setCurrentStep((prev) => prev + 1);
+    if (isMainStep) {
+      if (hasSubStep) {
+        setCurrentStep((prev) => prev + 0.2);
+      } else {
+        setCurrentStep((prev) => prev + 1);
+      }
       return;
     }
 
-    const isLastSubStep =
-      step.subSteps &&
-      currentStep === step.subSteps[step.subSteps.length - 1].order;
-    const isFirstSubStep = step.subSteps;
+    const isSubStep: boolean = !!steps[mainStepOrder].subSteps;
+    if (isSubStep) {
+      const currentSubStep = steps[mainStepOrder].subSteps!;
+      const lastOrderIdx: number = currentSubStep.length! - 1;
+      const isLastSubStep = currentStep === currentSubStep[lastOrderIdx].order;
+      const isFirstSubStep = currentStep === currentSubStep[0].order
 
-    if (isLastSubStep) {
-      // 마지막 서브스텝인 경우 다음 단계로 이동
-      setCurrentStep((prev) => Math.trunc(prev) + 1);
-    } else {
-      // 서브스텝이 있는 경우
-      isFirstSubStep
-        ? setCurrentStep((prev) => Math.trunc(prev) + 0.2)
-        : setCurrentStep((prev) => Math.trunc(prev) + 0.1);
+      if (isFirstSubStep) {
+        setCurrentStep((prev) => Math.trunc(prev) + 0.2);
+        return ;
+      }
+      if (isLastSubStep) {
+        setCurrentStep((prev) => Math.trunc(prev) + 1);
+        return ;
+      }
     }
 
     // 새로운 단계(페이지) 넘어갈때 button 상태 다시 disabled로 변경.
@@ -115,14 +125,14 @@ export default function QuizCreationFormLayout({
   const description = step?.description
     ? step.description
     : step?.subSteps?.[0].description
-    ? step.subSteps?.[0].description
-    : "";
+      ? step.subSteps?.[0].description
+      : "";
 
   const FormComponent = step?.formComponent
     ? step.formComponent
     : step?.subSteps?.[0]?.formComponent
-    ? step.subSteps[0].formComponent
-    : null;
+      ? step.subSteps[0].formComponent
+      : null;
   const endStep = steps.length - 1;
 
   return (

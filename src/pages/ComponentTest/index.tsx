@@ -1,4 +1,5 @@
-import { AUTH_TYPES, SOCIAL_TYPES } from "@/data/constants.ts"; import CheckIcon from "@mui/icons-material/Check";
+import { AUTH_TYPES, SOCIAL_TYPES } from "@/data/constants.ts";
+import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import useGNB from "@/hooks/useGNB.ts";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
@@ -7,7 +8,11 @@ import useModal from "@/hooks/useModal.ts";
 import { getUser } from "@/services/server/authService.ts";
 import { useState } from "react";
 import { Invisible } from "@/svg/invisible.tsx";
-import { gray60, systemDanger, systemSuccess } from "@/styles/abstracts/colors.ts";
+import {
+  gray60,
+  systemDanger,
+  systemSuccess,
+} from "@/styles/abstracts/colors.ts";
 import RadioButton from "@/components/atom/radioButton/radioButton.tsx";
 import SocialAuthButton from "@/components/composite/socialAuthButton/socialAuthButton.tsx";
 import Button from "@/components/atom/button/button.tsx";
@@ -54,44 +59,45 @@ export default function Index() {
     return { className: "radio-button-item", icon: null };
   };
 
-
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     fileInputRef.current?.click();
 
     const files = event.target.files;
     if (files) {
-
       const newImagesFile: File[] = Array.from(files);
       setSelectedImages((prev) => [...prev, ...newImagesFile]);
     }
-  }
+  };
 
   const handleUploadImg = async () => {
-
     const img: File = selectedImages[0];
 
     const formData = new FormData();
-    formData.append('file', img);
+    formData.append("file", img);
     await uploadImg(formData);
-  }
+  };
   return (
     <>
-    <div>
-      <input
-        type="file"
-        accept="image/*"
-        ref={fileInputRef}
-        onChange={handleImageChange}
-        multiple
-      />
-      <button onClick={handleUploadImg}>이미지 업로드 버튼</button>
+      <GNB />
+      <div>
+        <input
+          type="file"
+          accept="image/*"
+          ref={fileInputRef}
+          onChange={handleImageChange}
+          multiple
+        />
+        <button onClick={handleUploadImg}>이미지 업로드 버튼</button>
       </div>
       <button onClick={getUser}>유저 데이터 가져오는 버튼</button>
-      {
-        options.map((option: RadioOption) => {
-          const { className, icon } = getClassNameAndIcon(option.value, "option2");
+      {options.map((option: RadioOption) => {
+        const { className, icon } = getClassNameAndIcon(
+          option.value,
+          "option2"
+        );
 
-          return <RadioButton
+        return (
+          <RadioButton
             key={option.id}
             radioGroupName={"radio-group"}
             option={option}
@@ -102,9 +108,9 @@ export default function Index() {
             className={className}
             autoFocus={false}
             LabelComponent={<div>{option.label}</div>}
-          />;
-        })
-      }
+          />
+        );
+      })}
 
       <div style={{ display: "flex", gap: "10px" }}>
         {SOCIAL_TYPES.map((socialType) => (
@@ -124,19 +130,19 @@ export default function Index() {
       </Button>
       {isGNBOpen && <GNB />}
       <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
-        <Button size="xsmall" onClick={() => { }}>
+        <Button size="xsmall" onClick={() => {}}>
           button
         </Button>
-        <Button size="small" onClick={() => { }}>
+        <Button size="small" onClick={() => {}}>
           button
         </Button>
-        <Button size="medium" onClick={() => { }}>
+        <Button size="medium" onClick={() => {}}>
           button
         </Button>
-        <Button size="large" onClick={() => { }}>
+        <Button size="large" onClick={() => {}}>
           button
         </Button>
-        <Button size="xlarge" onClick={() => { }}>
+        <Button size="xlarge" onClick={() => {}}>
           button
         </Button>
       </div>
@@ -195,35 +201,35 @@ export default function Index() {
         rightIcon={<Invisible stroke={gray60} width={24} />}
       />
       <span style={{ display: "flex", gap: "10px" }}>
-        <Button color="primary" size="medium" onClick={() => { }}>
+        <Button color="primary" size="medium" onClick={() => {}}>
           button
         </Button>
-        <Button color="secondary" size="medium" onClick={() => { }}>
+        <Button color="secondary" size="medium" onClick={() => {}}>
           button
         </Button>
-        <Button color="primary-border" size="medium" onClick={() => { }}>
+        <Button color="primary-border" size="medium" onClick={() => {}}>
           button
         </Button>
-        <Button color="black" size="medium" onClick={() => { }}>
+        <Button color="black" size="medium" onClick={() => {}}>
           button
         </Button>
-        <Button color="white" size="medium" onClick={() => { }}>
+        <Button color="white" size="medium" onClick={() => {}}>
           button
         </Button>
-        <Button color="transparent" size="medium" onClick={() => { }}>
+        <Button color="transparent" size="medium" onClick={() => {}}>
           button
         </Button>
-        <Button color="primary" size="medium" disabled onClick={() => { }}>
+        <Button color="primary" size="medium" disabled onClick={() => {}}>
           disabled button
         </Button>
       </span>
       <div
         style={{ margin: "20px 0", width: "390px", background: "lightGray" }}
       >
-        <Button fullWidth color="primary" size="medium" onClick={() => { }}>
+        <Button fullWidth color="primary" size="medium" onClick={() => {}}>
           button fullWidth
         </Button>
-        <Button color="white" size="medium" onClick={() => { }}>
+        <Button color="white" size="medium" onClick={() => {}}>
           button
         </Button>
       </div>

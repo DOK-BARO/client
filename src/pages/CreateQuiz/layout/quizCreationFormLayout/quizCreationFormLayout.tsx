@@ -44,7 +44,7 @@ export default function QuizCreationFormLayout({
       viewScope: quizCreationInfo.viewScope!,
       editScope: quizCreationInfo.editScope!,
       bookId: quizCreationInfo.book!.id,
-      studyGroupIds: quizCreationInfo.studyGroupId,
+      studyGroupIds: quizCreationInfo.studyGroup?.id || undefined,
       questions: quizCreationInfo.questions!.map((question) => {
         const { id, ...rest } = question;
         return {
@@ -54,9 +54,7 @@ export default function QuizCreationFormLayout({
               ? "MULTIPLE_CHOICE"
               : question.answerType,
           answerExplanationImages: [] as string[], // TODO: 이미지 업로드 구현 후 제거
-          selectOptions: question.selectOptions.map(
-            (option) => option.option
-          ), // option 속성만 추출
+          selectOptions: question.selectOptions.map((option) => option.option), // option 속성만 추출
         };
       }),
     };
@@ -73,48 +71,51 @@ export default function QuizCreationFormLayout({
 
     //await createQuiz(quiz);
     return;
-  }
+  };
   const endStep = steps.length - 1;
 
   const goToNextStep = async () => {
+    // if (currentStep === 0) {
+    //   alert("첫번째");
+    // }
+
     if (currentStep == endStep) {
       await requestCreateQuiz();
     }
 
-      const step = steps[currentStep];
-      const mainStepOrder: number = Math.trunc(currentStep);
-      const isMainStep = Number.isInteger(currentStep);
-      const hasSubStep = !!step?.subSteps;
+    const step = steps[currentStep];
+    const mainStepOrder: number = Math.trunc(currentStep);
+    const isMainStep = Number.isInteger(currentStep);
+    const hasSubStep = !!step?.subSteps;
 
-      if (isMainStep) {
-        if (hasSubStep) {
-          setCurrentStep((prev) => prev + 0.2);
-        } else {
-          setCurrentStep((prev) => prev + 1);
-        }
+    if (isMainStep) {
+      if (hasSubStep) {
+        setCurrentStep((prev) => prev + 0.2);
+      } else {
+        setCurrentStep((prev) => prev + 1);
+      }
+      return;
+    }
+
+    const isSubStep: boolean = !!steps[mainStepOrder].subSteps;
+    if (isSubStep) {
+      const currentSubStep = steps[mainStepOrder].subSteps!;
+      const lastOrderIdx: number = currentSubStep.length! - 1;
+      const isLastSubStep = currentStep === currentSubStep[lastOrderIdx].order;
+      const isFirstSubStep = currentStep === currentSubStep[0].order;
+
+      if (isFirstSubStep) {
+        setCurrentStep((prev) => Math.trunc(prev) + 0.2);
         return;
       }
-
-      const isSubStep: boolean = !!steps[mainStepOrder].subSteps;
-      if (isSubStep) {
-        const currentSubStep = steps[mainStepOrder].subSteps!;
-        const lastOrderIdx: number = currentSubStep.length! - 1;
-        const isLastSubStep = currentStep === currentSubStep[lastOrderIdx].order;
-        const isFirstSubStep = currentStep === currentSubStep[0].order
-
-        if (isFirstSubStep) {
-          setCurrentStep((prev) => Math.trunc(prev) + 0.2);
-          return;
-        }
-        if (isLastSubStep) {
-          setCurrentStep((prev) => Math.trunc(prev) + 1);
-          return;
-        }
+      if (isLastSubStep) {
+        setCurrentStep((prev) => Math.trunc(prev) + 1);
+        return;
       }
+    }
 
-      // 새로운 단계(페이지) 넘어갈때 button 상태 다시 disabled로 변경.
-      setIsQuizNextButtonEnabled(false);
-    
+    // 새로운 단계(페이지) 넘어갈때 button 상태 다시 disabled로 변경.
+    setIsQuizNextButtonEnabled(false);
   };
 
   const step: Step = getCurrentStep();
@@ -126,14 +127,14 @@ export default function QuizCreationFormLayout({
   const description = step?.description
     ? step.description
     : step?.subSteps?.[0].description
-      ? step.subSteps?.[0].description
-      : "";
+    ? step.subSteps?.[0].description
+    : "";
 
   const FormComponent = step?.formComponent
     ? step.formComponent
     : step?.subSteps?.[0]?.formComponent
-      ? step.subSteps[0].formComponent
-      : null;
+    ? step.subSteps[0].formComponent
+    : null;
 
   return (
     <section className={styles["container"]}>

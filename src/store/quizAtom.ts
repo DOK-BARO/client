@@ -47,8 +47,8 @@ export const isSetAtom = atom(
 export const stepsCompletionStatusAtom = atom((get) => ({
   isStudyGroupSelected: get(isStudyGroupSelectedAtom),
   isBookSelected: get(isBookSelectedAtom),
-  isQuestionsWrittenAtom: get(isQuestionsWrittenAtom),
-  isSetAtom: get(isSetAtom),
+  isQuestionsWritten: get(isQuestionsWrittenAtom),
+  isSet: get(isSetAtom),
 }));
 
 export const errorModalTitleAtom = atom<string>("");

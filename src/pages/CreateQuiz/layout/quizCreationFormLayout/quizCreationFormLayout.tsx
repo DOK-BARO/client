@@ -8,7 +8,6 @@ import {
   IsQuizNextButtonEnabledAtom,
   QuizCreationInfoAtom,
 } from "@/store/quizAtom";
-import { createQuiz } from "@/services/server/quizService";
 import { QuizCreationType, QuizRequestType } from "@/types/QuizType";
 
 export default function QuizCreationFormLayout({
@@ -44,7 +43,7 @@ export default function QuizCreationFormLayout({
       description: quizCreationInfo.description!,
       viewScope: quizCreationInfo.viewScope!,
       editScope: quizCreationInfo.editScope!,
-      bookId: quizCreationInfo.book?.id!,
+      bookId: quizCreationInfo.book!.id,
       studyGroupIds: quizCreationInfo.studyGroupId,
       questions: quizCreationInfo.questions!.map((question) => {
         const { id, ...rest } = question;
@@ -64,51 +63,57 @@ export default function QuizCreationFormLayout({
 
     console.log("request: %O", quiz);
     // TODO: 제거필요 (테스트용 코드)
-    const img : File = quizCreationInfo.questions!.map((question)=> {
-      return question.answerExplanationImages[0];
-    })[0];
+    // const img: File = quizCreationInfo.questions!.map((question) => {
+    //   return question.answerExplanationImages[0];
+    // })[0];
 
-      const formData = new FormData();
-      formData.append('file', img);
-      await uploadImg(formData);
+    // const formData = new FormData();
+    // formData.append('file', img);
+    // await uploadImage(formData);
 
-      //await createQuiz(quiz);
-      return;
-    }
+    //await createQuiz(quiz);
+    return;
+  }
+  const endStep = steps.length - 1;
 
-    const step = steps[currentStep];
-    const mainStepOrder: number = Math.trunc(currentStep);
-    const isMainStep = Number.isInteger(currentStep);
-    const hasSubStep = !!step?.subSteps;
+  const goToNextStep = async () => {
+    if (currentStep == endStep) {
+      await requestCreateQuiz();
 
-    if (isMainStep) {
-      if (hasSubStep) {
-        setCurrentStep((prev) => prev + 0.2);
-      } else {
-        setCurrentStep((prev) => prev + 1);
+      const step = steps[currentStep];
+      const mainStepOrder: number = Math.trunc(currentStep);
+      const isMainStep = Number.isInteger(currentStep);
+      const hasSubStep = !!step?.subSteps;
+
+      if (isMainStep) {
+        if (hasSubStep) {
+          setCurrentStep((prev) => prev + 0.2);
+        } else {
+          setCurrentStep((prev) => prev + 1);
+        }
+        return;
       }
-      return;
-    }
 
-    const isSubStep: boolean = !!steps[mainStepOrder].subSteps;
-    if (isSubStep) {
-      const currentSubStep = steps[mainStepOrder].subSteps!;
-      const lastOrderIdx: number = currentSubStep.length! - 1;
-      const isLastSubStep = currentStep === currentSubStep[lastOrderIdx].order;
-      const isFirstSubStep = currentStep === currentSubStep[0].order
+      const isSubStep: boolean = !!steps[mainStepOrder].subSteps;
+      if (isSubStep) {
+        const currentSubStep = steps[mainStepOrder].subSteps!;
+        const lastOrderIdx: number = currentSubStep.length! - 1;
+        const isLastSubStep = currentStep === currentSubStep[lastOrderIdx].order;
+        const isFirstSubStep = currentStep === currentSubStep[0].order
 
-      if (isFirstSubStep) {
-        setCurrentStep((prev) => Math.trunc(prev) + 0.2);
-        return ;
+        if (isFirstSubStep) {
+          setCurrentStep((prev) => Math.trunc(prev) + 0.2);
+          return;
+        }
+        if (isLastSubStep) {
+          setCurrentStep((prev) => Math.trunc(prev) + 1);
+          return;
+        }
       }
-      if (isLastSubStep) {
-        setCurrentStep((prev) => Math.trunc(prev) + 1);
-        return ;
-      }
-    }
 
-    // 새로운 단계(페이지) 넘어갈때 button 상태 다시 disabled로 변경.
-    setIsQuizNextButtonEnabled(false);
+      // 새로운 단계(페이지) 넘어갈때 button 상태 다시 disabled로 변경.
+      setIsQuizNextButtonEnabled(false);
+    }
   };
 
   const step: Step = getCurrentStep();
@@ -128,7 +133,6 @@ export default function QuizCreationFormLayout({
     : step?.subSteps?.[0]?.formComponent
       ? step.subSteps[0].formComponent
       : null;
-  const endStep = steps.length - 1;
 
   return (
     <section className={styles["container"]}>

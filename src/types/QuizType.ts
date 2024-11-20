@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-
+import { BookType } from "./BookType";
 export interface QuizType {
   id: number;
   title: string;
@@ -22,7 +22,7 @@ export type RequestAnswerType = "OX" | "FILL_BLANK" | "MULTIPLE_CHOICE" | "SHORT
 export interface QuizCreationType {
   title: string | null;
   description: string | null;
-  bookId: number | null;
+  book: BookType | null;
   timeLimitSecond?: string | null;
   viewScope: ViewScope | null;
   editScope: EditScope | null;

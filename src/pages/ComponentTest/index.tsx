@@ -15,7 +15,7 @@ import GNB from "@/components/layout/gnb/gnb.tsx";
 import Modal from "@/components/atom/modal/modal.tsx";
 import Input from "@/components/atom/input/input.tsx";
 import { useRef } from "react";
-import { uploadImg } from "@/services/server/imageService";
+import { uploadImage } from "@/services/server/imageService";
 
 const options: RadioOption[] = [
   { id: 1, value: "option1", label: "Option 1" },
@@ -69,22 +69,24 @@ export default function Index() {
   const handleUploadImg = async () => {
 
     const img: File = selectedImages[0];
+    const uploadImgArg: { image: File, imageTarget: "MEMBER_PROFILE" | "STUDY_GROUP_PROFILE" } = {
+      image: img,
+      imageTarget: "STUDY_GROUP_PROFILE"
+    };
 
-    const formData = new FormData();
-    formData.append('file', img);
-    await uploadImg(formData);
+    await uploadImage(uploadImgArg);
   }
   return (
     <>
-    <div>
-      <input
-        type="file"
-        accept="image/*"
-        ref={fileInputRef}
-        onChange={handleImageChange}
-        multiple
-      />
-      <button onClick={handleUploadImg}>이미지 업로드 버튼</button>
+      <div>
+        <input
+          type="file"
+          accept="image/*"
+          ref={fileInputRef}
+          onChange={handleImageChange}
+          multiple
+        />
+        <button onClick={handleUploadImg}>이미지 업로드 버튼</button>
       </div>
       <button onClick={getUser}>유저 데이터 가져오는 버튼</button>
       {

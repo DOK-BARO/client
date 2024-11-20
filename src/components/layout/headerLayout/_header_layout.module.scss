@@ -2,6 +2,10 @@
 @import "../../../styles/abstracts/mixins";
 
 .header {
+  width: 100vw;
+  background-color: $background;
+  position: fixed;
+
   &-container {
     display: flex;
     height: 58px;
@@ -18,6 +22,5 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-
   }
 }

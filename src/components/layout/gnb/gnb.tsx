@@ -6,8 +6,9 @@ import { gray50 } from "@/styles/abstracts/colors";
 import { getBookCategories } from "@/services/server/bookService.ts";
 import { useQuery } from "@tanstack/react-query";
 import { bookKeys } from "@/data/queryKeys";
+import Button from "@/components/atom/button/button";
 
-const GNB = () => {
+export default function GNB() {
   const [activeCategoryIndex, setActiveCategoryIndex] = useState<number | null>(
     null
   );
@@ -34,23 +35,21 @@ const GNB = () => {
     }));
   };
 
+  const handleMouseLeave = () => {
+    setActiveCategoryIndex(null);
+  };
+
+  const handleMouseEnter = (index: number) => {
+    setActiveCategoryIndex(index);
+    setExpandedSubCategories({});
+  };
+
   return (
-    <nav
-      className={styles["gnb"]}
-      onMouseLeave={() => {
-        setActiveCategoryIndex(null);
-      }}
-    >
+    <nav className={styles["gnb"]} onMouseLeave={handleMouseLeave}>
       <div className={styles["gnb-inner-container"]}>
         <ul className={styles["category-list"]}>
           {categories?.map((category, index) => (
-            <li
-              key={index}
-              onMouseEnter={() => {
-                setActiveCategoryIndex(index);
-                setExpandedSubCategories({});
-              }}
-            >
+            <li key={index} onMouseEnter={() => handleMouseEnter(index)}>
               <h2
                 className={`${
                   activeCategoryIndex === index ? styles["hover"] : ""
@@ -72,17 +71,18 @@ const GNB = () => {
                         <h3>{subCategory.name}</h3>
                       </a>
                       {subCategory?.details?.length ?? 0 > 0 ? (
-                        <button
+                        <Button
                           onClick={() => {
                             toggleSubCategory(subCategoryId);
                           }}
+                          iconOnly
                         >
                           {expandedSubCategories[subCategoryId] ? (
-                            <Minus stroke={gray50} width={20} />
+                            <Minus stroke={gray50} width={20} height={20} />
                           ) : (
-                            <Plus stroke={gray50} width={20} />
+                            <Plus stroke={gray50} width={20} height={20} />
                           )}
-                        </button>
+                        </Button>
                       ) : null}
                     </span>
 
@@ -106,6 +106,4 @@ const GNB = () => {
       </div>
     </nav>
   );
-};
-
-export default GNB;
+}

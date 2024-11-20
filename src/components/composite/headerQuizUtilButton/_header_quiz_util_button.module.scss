@@ -3,27 +3,11 @@
 
 .header {
   &-quiz-util-button-container {
-    position: relative;
     display: flex;
-    flex-direction: row;
-    margin-right: 8px;
-    padding: 0 14px 0;
-    height: 40px;
-  }
+    margin-left: 8px;
 
-  &-quiz-util-button {
-    display: flex;
-    align-items: center;
-    background-color: $background;
-    border: none;
-    white-space: nowrap;
-    padding: 0;
-
-    h3 {
-      font-family: Pretendard, serif;
-      font-weight: $font-weight-bold;
-      font-size: $font-size-large;
-      margin-right: 6px;
+    button {
+      font-weight: $font-weight-semibold;
     }
   }
 }

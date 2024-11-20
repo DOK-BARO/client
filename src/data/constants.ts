@@ -28,7 +28,7 @@ export const ICON_SIZE = 20;
 
 export const APP_NAME = "DOKBARO";
 
-export const QuizFormMode = {
+export const QuestionFormMode = {
   QUESTION: "question",
   ANSWER: "answer",
 } as const;

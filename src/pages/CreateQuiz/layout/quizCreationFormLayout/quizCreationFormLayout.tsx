@@ -9,8 +9,7 @@ import {
   QuizCreationInfoAtom,
 } from "@/store/quizAtom";
 import { createQuiz } from "@/services/server/quizService";
-import { BookQuizType, BookQuizRequestType } from "@/types/BookQuizType";
-import { uploadImg } from "@/services/server/imageService";
+import { QuizCreationType, QuizRequestType } from "@/types/QuizType";
 
 export default function QuizCreationFormLayout({
   steps,
@@ -23,8 +22,7 @@ export default function QuizCreationFormLayout({
 }) {
   const [isQuizNextButtonEnabled, setIsQuizNextButtonEnabled] =
     useAtom<boolean>(IsQuizNextButtonEnabledAtom);
-  const [quizCreationInfo] =
-    useAtom<BookQuizType>(QuizCreationInfoAtom);
+  const [quizCreationInfo] = useAtom<QuizCreationType>(QuizCreationInfoAtom);
 
   const getCurrentStep = (): Step => {
     const step = steps[currentStep];
@@ -41,9 +39,8 @@ export default function QuizCreationFormLayout({
       // TODO 퀴즈 생성 api요청
 
       //TOOD 이미지 서버로 업로드
-      
 
-      const quiz: BookQuizRequestType = {
+      const quiz: QuizRequestType = {
         title: quizCreationInfo.title!,
         description: quizCreationInfo.description!,
         viewScope: quizCreationInfo.viewScope!,
@@ -54,7 +51,10 @@ export default function QuizCreationFormLayout({
           const { id, ...rest } = question;
           return {
             ...rest,
-            answerType: question.answerType === "CHECK_BOX" ? "MULTIPLE_CHOICE": question.answerType,
+            answerType:
+              question.answerType === "CHECK_BOX"
+                ? "MULTIPLE_CHOICE"
+                : question.answerType,
             answerExplanationImages: [] as string[], // TODO: 이미지 업로드 구현 후 제거
             selectOptions: question.selectOptions.map(
               (option) => option.option
@@ -135,6 +135,8 @@ export default function QuizCreationFormLayout({
           className={styles["next"]}
           disabled={!isQuizNextButtonEnabled}
           onClick={goToNextStep}
+          size="medium"
+          color="primary"
         >
           {currentStep === endStep ? "완료" : "다음"}
           <RightArrow

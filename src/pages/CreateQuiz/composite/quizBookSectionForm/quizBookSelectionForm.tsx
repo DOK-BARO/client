@@ -115,7 +115,7 @@ export default function QuizBookSelectionForm() {
       onClick={() => setIsClicked(true)}
     >
       <Input
-        leftIcon={<Search width={24} stroke={gray60} />}
+        leftIcon={<Search width={20} stroke={gray60} />}
         rightIcon={
           isActuallyLoading ? <img src={loadingIcon} width={24} /> : undefined
         }
@@ -130,6 +130,7 @@ export default function QuizBookSelectionForm() {
         placeholder="책이나 저자로 검색해보세요."
         color={isClicked ? "black" : "default"}
         size="large"
+        fullWidth
       />
 
       {searchedBookList && searchedBookList.length > 0 ? (

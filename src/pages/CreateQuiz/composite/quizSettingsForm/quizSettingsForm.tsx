@@ -4,7 +4,7 @@ import Button from "@/components/atom/button/button";
 import { IsQuizNextButtonEnabledAtom } from "@/store/quizAtom";
 import { useAtom } from "jotai";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
-import { BookQuizType } from "@/types/BookQuizType";
+import { QuizCreationType } from "@/types/QuizType";
 
 // TODO: 파일 분리
 interface SelectedOptions {
@@ -12,7 +12,8 @@ interface SelectedOptions {
 }
 // 4. 퀴즈 설정
 export default function QuizSettingsForm() {
-  const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
+  const { quizCreationInfo, updateQuizCreationInfo } =
+    useUpdateQuizCreationInfo();
   const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
     IsQuizNextButtonEnabledAtom
   );
@@ -22,12 +23,13 @@ export default function QuizSettingsForm() {
       "time-limit": quizCreationInfo.timeLimitSecond ?? null,
       "view-access": quizCreationInfo.viewScope,
       "edit-access": quizCreationInfo.editScope,
-    }
+    };
     return selectOptions;
-  }
+  };
 
-  const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>(setInitialSetting()); // 선택된 옵션들
-
+  const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>(
+    setInitialSetting()
+  ); // 선택된 옵션들
 
   const handleOptionSelect = (settingName: string, label: string) => {
     setSelectedOptions((prev) => ({
@@ -35,12 +37,12 @@ export default function QuizSettingsForm() {
       [settingName]: label,
     }));
 
-    const updateMapping: { [key: string]: keyof BookQuizType } = {
+    const updateMapping: { [key: string]: keyof QuizCreationType } = {
       "time-limit": "timeLimitSecond",
       "view-access": "viewScope",
       "edit-access": "editScope",
     };
-    const updateKey: keyof BookQuizType = updateMapping[settingName]!;
+    const updateKey: keyof QuizCreationType = updateMapping[settingName]!;
     updateQuizCreationInfo(updateKey, label);
   };
 
@@ -167,7 +169,9 @@ const SettingContainer = ({
   };
 
   useEffect(() => {
-    const selectedOption = options.find((option) => option.label === selectedOptionLabel);
+    const selectedOption = options.find(
+      (option) => option.label === selectedOptionLabel
+    );
 
     setDescription(
       selectedOption ? selectedOption.description : options[0].description
@@ -189,6 +193,7 @@ const SettingContainer = ({
         id={quizSetting.name}
         onClick={() => setIsSelectOpen(!isSelectOpen)}
         className={styles.select}
+        size="medium"
         icon={<img src={arrowDown} />}
       >
         {selectedOptionLabel ?? "선택"}
@@ -200,7 +205,10 @@ const SettingContainer = ({
               <Button
                 onClick={(e) => onSelect(e, quizSetting.name)}
                 value={option.label}
+                color="transparent"
+                fullWidth
                 className={styles.option}
+                size="medium"
               >
                 {option.label}
               </Button>

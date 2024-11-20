@@ -199,8 +199,8 @@ export default function QuizSettingStudyGroupForm() {
           icon={
             <QuizPlus
               alt="스터디 그룹 추가 버튼"
-              width={24}
-              height={24}
+              width={20}
+              height={20}
               stroke={primary}
             />
           }
@@ -246,11 +246,13 @@ export default function QuizSettingStudyGroupForm() {
                     value={studyName}
                     onChange={onChangeStudyName}
                     className={styles.input}
+                    size="medium"
                   />
                   <Button
                     className={styles["add"]}
                     color="primary-border"
                     onClick={() => addStudyGroup(studyName)}
+                    size="medium"
                   >
                     스터디 만들기
                   </Button>
@@ -284,9 +286,10 @@ export default function QuizSettingStudyGroupForm() {
                       className={styles["copy-link"]}
                       color="primary-border"
                       onClick={copyLink}
+                      size="medium"
                       icon={
                         <Link
-                          width={24}
+                          width={20}
                           stroke={primary}
                           alt="초대 링크 복사"
                         />
@@ -299,6 +302,7 @@ export default function QuizSettingStudyGroupForm() {
                       color="primary"
                       className={styles.done}
                       onClick={done}
+                      size="medium"
                     >
                       완료
                     </Button>

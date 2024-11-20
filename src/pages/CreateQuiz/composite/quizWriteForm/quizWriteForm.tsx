@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./_quiz_write_form.module.scss";
 import Button from "@/components/atom/button/button.tsx";
 import QuizWriteFormItem from "@/pages/CreateQuiz/composite/quizWriteForm/quizWriteFormItem.tsx";
@@ -8,16 +8,18 @@ import {
   Droppable,
   DropResult,
 } from "react-beautiful-dnd";
-import { Plus } from "@/svg/plus.tsx";
 import { primary } from "@/styles/abstracts/colors.ts";
 import { BookQuizQuestionType } from "@/types/BookQuizType";
 import { QuizWriteFormItemType } from "@/types/BookQuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { QuizPlus } from "@/svg/quizPlus";
+import { IsQuizNextButtonEnabledAtom } from "@/store/quizAtom";
+import { useAtom } from "jotai";
 
 export default function QuizWriteForm() {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
+  const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(IsQuizNextButtonEnabledAtom);
 
   const deleteQuizWriteForm = (targetId: number) => {
     setQuizWriteList((prevQuizList) =>
@@ -35,17 +37,17 @@ export default function QuizWriteForm() {
     const quizWriteForms: QuizWriteFormItemType[] =
       quizCreationInfo.questions?.map(
         (question) =>
-          ({
-            id: question.id,
-            quizWriteFormType: question.answerType,
-            component: (
-              <QuizWriteFormItem
-                id={question.id}
-                deleteQuizWriteForm={deleteQuizWriteForm}
-                quizWriteFormType={question.answerType}
-              />
-            ),
-          } as QuizWriteFormItemType)
+        ({
+          id: question.id,
+          quizWriteFormType: question.answerType,
+          component: (
+            <QuizWriteFormItem
+              id={question.id}
+              deleteQuizWriteForm={deleteQuizWriteForm}
+              quizWriteFormType={question.answerType}
+            />
+          ),
+        } as QuizWriteFormItemType)
       ) ?? [];
 
     return quizWriteForms;

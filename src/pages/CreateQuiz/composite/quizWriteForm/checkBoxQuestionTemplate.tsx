@@ -1,5 +1,5 @@
 import { FC, useState, useEffect } from "react";
-import styles from "@/pages/CreateQuiz/composite/quizWriteForm/_quiz_write_form_item.module.scss";
+import styles from "./_question_form.module.scss";
 import { QuestionFormMode } from "@/data/constants.ts";
 import { QuizQuestionType } from "@/types/QuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";

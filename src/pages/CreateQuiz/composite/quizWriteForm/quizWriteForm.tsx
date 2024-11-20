@@ -1,5 +1,4 @@
 import { useState } from "react";
-import styles from "./_quiz_write_form.module.scss";
 import Button from "@/components/atom/button/button.tsx";
 import QuestionForm from "@/pages/CreateQuiz/composite/quizWriteForm/questionForm";
 import {
@@ -108,7 +107,7 @@ export default function QuizWriteForm() {
   };
 
   return (
-    <div className={styles["container"]}>
+    <section>
       <DragDropContext onDragEnd={moveQuestions}>
         <Droppable droppableId="cardlists">
           {(provided) => (
@@ -157,6 +156,6 @@ export default function QuizWriteForm() {
       >
         문제 추가하기
       </Button>
-    </div>
+    </section>
   );
 }

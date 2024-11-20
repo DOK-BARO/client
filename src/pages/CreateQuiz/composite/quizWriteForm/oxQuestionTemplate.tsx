@@ -3,7 +3,7 @@ import { QuestionFormMode } from "@/data/constants.ts";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
 import { RadioOption } from "@/types/RadioTypes.ts";
 import { FC, useEffect } from "react";
-import styles from "./_ox_quiz_form.module.scss";
+import styles from "./_question_form.module.scss";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { useQuestionTemplate } from "@/hooks/useQuestionTemplate";
 import { ChangeEvent } from "react";

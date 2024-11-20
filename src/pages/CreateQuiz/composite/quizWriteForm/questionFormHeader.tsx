@@ -1,4 +1,4 @@
-import styles from "./_quiz_write_form_item.module.scss";
+import styles from "./_question_form.module.scss";
 import Button from "@/components/atom/button/button.tsx";
 import { Move } from "@/svg/quizWriteForm/move.tsx";
 import { gray60, gray90 } from "@/styles/abstracts/colors.ts";
@@ -22,12 +22,12 @@ export default function QuestionFormHeader({
 }: QuizWriteFormItemHeaderProps) {
   function QuestionFormUtilButtons() {
     return (
-      <span>
-        <button className={styles["move-quiz-button"]} onClick={() => {}}>
+      <span className={styles["util-button-area"]}>
+        <button className={styles["move-quiz"]} onClick={() => {}}>
           <Move width={24} height={24} stroke={gray60} />
         </button>
         <button
-          className={styles["delete-quiz-button"]}
+          className={styles["delete-quiz"]}
           onClick={() => deleteQuizWriteForm(id)}
         >
           <Trash width={24} height={24} stroke={gray90} />
@@ -42,8 +42,8 @@ export default function QuestionFormHeader({
   };
 
   return (
-    <div className={styles["write-quiz-header"]}>
-      <div className={styles["quiz-mode-buttons"]}>
+    <div className={styles["question-form-header"]}>
+      <div className={styles["question-form-mode-button-area"]}>
         <Button
           value="question"
           size="medium"

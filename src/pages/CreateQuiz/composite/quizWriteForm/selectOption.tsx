@@ -2,7 +2,7 @@ import React from "react";
 import { RadioOption } from "@/types/RadioTypes";
 import { CheckBoxOption } from "@/types/CheckBoxTypes";
 import useInput from "@/hooks/useInput.ts";
-import styles from "./_quiz_write_form_option_item.module.scss";
+import styles from "./_question_form.module.scss";
 import RadioButton from "@/components/atom/radioButton/radioButton.tsx";
 import CheckBox from "@/pages/CreateQuiz/atom/checkBox/checkBox";
 import { Close } from "@/svg/close.tsx";

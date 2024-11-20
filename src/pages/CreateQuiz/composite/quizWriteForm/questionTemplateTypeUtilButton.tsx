@@ -1,4 +1,4 @@
-import styles from "./_quiz_write_form_type_util_button.module.scss";
+import styles from "./_question_form.module.scss";
 import { useDropDownList } from "@/hooks/useDropDownList.ts";
 import { ArrowDown } from "@/svg/arrowDown.tsx";
 import QuestionTemplateUtilList from "@/pages/CreateQuiz/composite/quizWriteForm/questionTemplateUtilList";
@@ -7,8 +7,8 @@ import Button from "@/components/atom/button/button.tsx";
 import { QuestionTemplateType } from "@/types/QuestionFormTypeType.ts";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { QuizQuestionType } from "@/types/QuizType";
-
-function QuestionTemplateUtilButton({
+//TODO: 변수명 직관적으로 변경 필요
+function QuestionTemplateTypeUtilButton({
     quizId,
     selectedOption,
     setSelectedOption,
@@ -49,7 +49,7 @@ function QuestionTemplateUtilButton({
     } = useDropDownList();
     return (
         <div
-            className={styles["quiz-write-form-type-util-button-container"]}
+            className={styles["question-template-type-util-button-container"]}
             ref={dropDownListRef}
         >
             <Button
@@ -59,7 +59,6 @@ function QuestionTemplateUtilButton({
                 iconPosition={"left"}
                 icon={
                     <selectedOption.Icon
-                        className={styles["header-quiz-util-icon"]}
                         width={20}
                         height={20}
                         stroke={"black"}
@@ -81,4 +80,4 @@ function QuestionTemplateUtilButton({
     );
 }
 
-export default QuestionTemplateUtilButton;
+export default QuestionTemplateTypeUtilButton;

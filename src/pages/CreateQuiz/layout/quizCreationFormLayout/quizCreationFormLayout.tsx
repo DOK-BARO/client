@@ -9,6 +9,7 @@ import {
   QuizCreationInfoAtom,
 } from "@/store/quizAtom";
 import { QuizCreationType, QuizRequestType } from "@/types/QuizType";
+import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 
 export default function QuizCreationFormLayout({
   steps,
@@ -73,11 +74,12 @@ export default function QuizCreationFormLayout({
     return;
   };
   const endStep = steps.length - 1;
+  const { updateQuizCreationInfo } = useUpdateQuizCreationInfo();
 
   const goToNextStep = async () => {
-    // if (currentStep === 0) {
-    //   alert("첫번째");
-    // }
+    if (currentStep === 0) {
+      updateQuizCreationInfo("studyGroup", undefined);
+    }
 
     if (currentStep == endStep) {
       await requestCreateQuiz();

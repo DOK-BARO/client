@@ -1,0 +1,31 @@
+@import "../../../../styles/abstracts/variables";
+@import "../../../../styles/abstracts/mixins";
+
+.sr-only {
+  @include sr-only;
+}
+
+.container {
+  @include flex(column);
+  flex: 1;
+  min-width: 164px;
+  max-width: 276px;
+
+
+  button {
+    border: none;
+
+    &:hover {
+      padding-left: 24px;
+    }
+  }
+
+  button.steps {
+    justify-content: space-between;
+  }
+
+  button.sub-steps {
+    justify-content: start;
+    color: $gray-60;
+  }
+}

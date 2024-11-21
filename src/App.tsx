@@ -16,6 +16,7 @@ import BaseLayout from "./components/layout/baseLayout/baseLayout";
 import RegisterComplete from "./pages/Register/composite/registerComplete/RegisterComplete.tsx";
 import BookList from "./pages/Home/components/composite/bookList/bookList.tsx";
 import BookListLayout from "./components/layout/bookListLayout/bookListLayout.tsx";
+import MyPage from "./pages/MyPage/index.tsx";
 
 function App() {
   axios.defaults.withCredentials = true;
@@ -66,6 +67,10 @@ function App() {
         {
           path: "/register/complete",
           element: <RegisterComplete />,
+        },
+        {
+          path: "/my",
+          element: <MyPage />,
         },
 
         {

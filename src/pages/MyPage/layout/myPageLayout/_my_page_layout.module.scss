@@ -1,0 +1,49 @@
+@import "../../../../styles/abstracts/mixins";
+@import "../../../../styles/abstracts/variables";
+
+.container {
+  @include flex(column);
+  width: 80%;
+  gap: 20px;
+
+  h2 {
+    font-size: 32px;
+    font-weight: $font-weight-bold;
+  }
+
+  .list-section {
+    @include flex(column);
+    gap: 16px;
+    padding: 20px 0 40px;
+
+    .no-data {
+      display: inline-flex;
+      flex-direction: column;
+      gap:18px;
+      justify-content: center;
+      align-items: center;
+      background-color: white;
+      padding: 40px 0;
+      border-radius: 8px;
+      p {
+        font-weight: $font-weight-medium;
+        font-size: 22px;
+      }
+    }
+  }
+}
+
+.list-header {
+  @include flex(row);
+  justify-content: space-between;
+
+  .button-area {
+    @include flex(row);
+
+    button {
+      padding: 4px 10px;
+      border: none;
+      background-color: transparent;
+    }
+  }
+}

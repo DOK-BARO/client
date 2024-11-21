@@ -1,5 +1,5 @@
 import styles from "./_quiz_creation_steps.module.scss";
-import { Step } from "@/pages/CreateQuiz";
+import { Step } from "@/types/StepType";
 import Button from "@/components/atom/button/button";
 import { CheckEllipse } from "@/svg/checkEllipse.tsx";
 import {
@@ -22,11 +22,11 @@ export default function QuizCreationSteps({
     const currentStepButtonValue = e.currentTarget.value;
     steps.forEach((step) => {
       if (step.title === currentStepButtonValue) {
-        setCurrentStep(step.order);
+        setCurrentStep(step.order!);
       }
       step.subSteps?.forEach((subStep) => {
         if (subStep.title === currentStepButtonValue) {
-          setCurrentStep(subStep.order);
+          setCurrentStep(subStep.order!);
         }
       });
     });

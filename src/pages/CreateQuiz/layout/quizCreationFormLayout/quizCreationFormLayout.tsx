@@ -1,5 +1,5 @@
 import styles from "./_quiz_creation_form_layout.module.scss";
-import { Step } from "@/pages/CreateQuiz";
+import { Step } from "@/types/StepType";
 import Button from "@/components/atom/button/button.tsx";
 import RightArrow from "@/svg/rightArrow.tsx";
 import { gray0, gray60 } from "@/styles/abstracts/colors.ts";

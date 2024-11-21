@@ -1,0 +1,35 @@
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixins";
+
+.lnb {
+  width: 164px;
+  &-inner-container {
+    .current-category {
+      font-size: $font-size-large;
+      font-weight: $font-weight-semibold;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      height: 48px;
+      padding: 0 16px;
+    }
+    .category-list {
+      .category-item {
+        &-button {
+          border: none;
+        }
+      }
+      .category-detail-item {
+        &-button {
+          font-size: 14px;
+          border-radius: 0;
+          color: $gray-70;
+          font-weight: $font-weight-medium;
+        }
+      }
+    }
+  }
+  .selected {
+    color: $gray-90 !important;
+  }
+}

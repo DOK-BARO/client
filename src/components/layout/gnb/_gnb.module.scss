@@ -34,13 +34,9 @@
   width: 92%;
   max-width: calc(100% - 48px);
 
-  h2 {
-    cursor: pointer;
-    font-size: $font-size-large;
-    padding: 12px 10px;
-
+  .category-item-title {
+    padding: 12px 8px;
     border-radius: 0;
-    background-color: transparent;
     color: $gray-70;
     font-weight: $font-weight-semibold;
     margin-right: 16px;
@@ -56,29 +52,25 @@
 .sub-category-list {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-
   margin: 0 auto;
   width: 92%;
   max-width: calc(100% - 48px);
 
-  h3 {
-    font-weight: $font-weight-medium;
-    align-items: center;
-    padding: 12px 10px;
-    margin: 12px 0;
-    font-size: $font-size-medium;
+  .sub-category-item {
+    padding: 7px 4px 7px 8px;
+    border-radius: 0;
+    font-weight: $font-weight-semibold;
   }
-  span {
+  .sub-category-item-button-container {
     display: flex;
     align-items: center;
     gap: 4px;
   }
-  button {
-    padding: 10px;
+  .more {
     border: none;
     background: none;
     display: flex;
-    margin-left: -20px;
+    margin-left: -4px;
   }
 }
 
@@ -86,9 +78,9 @@
   display: flex;
   flex-direction: column;
 
-  h4 {
-    padding: 12px 10px;
-    font-size: $font-size-medium;
+  .sub-category-detail-item {
+    border-radius: 0;
+    padding: 7px 8px;
     font-weight: $font-weight-regular;
   }
 }

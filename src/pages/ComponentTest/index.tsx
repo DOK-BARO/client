@@ -1,7 +1,6 @@
 import { AUTH_TYPES, SOCIAL_TYPES } from "@/data/constants.ts";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
-import useGNB from "@/hooks/useGNB.ts";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
 import { RadioOption } from "@/types/RadioTypes.ts";
 import useModal from "@/hooks/useModal.ts";
@@ -16,7 +15,6 @@ import {
 import RadioButton from "@/components/atom/radioButton/radioButton.tsx";
 import SocialAuthButton from "@/components/composite/socialAuthButton/socialAuthButton.tsx";
 import Button from "@/components/atom/button/button.tsx";
-import GNB from "@/components/layout/gnb/gnb.tsx";
 import Modal from "@/components/atom/modal/modal.tsx";
 import Input from "@/components/atom/input/input.tsx";
 import { useRef } from "react";

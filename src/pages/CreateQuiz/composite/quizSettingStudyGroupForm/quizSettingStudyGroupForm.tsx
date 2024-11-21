@@ -59,9 +59,6 @@ export default function QuizSettingStudyGroupForm() {
     if (selectedStudyGroup) {
       // 스터디 그룹 선택 -> 스터디 그룹 ID 저장(전역)
       updateQuizCreationInfo("studyGroup", selectedStudyGroup.id);
-    } else {
-      // 선택한 스터디 그룹 없음
-      updateQuizCreationInfo("studyGroup", undefined);
     }
   }, [selectedStudyGroup]);
 

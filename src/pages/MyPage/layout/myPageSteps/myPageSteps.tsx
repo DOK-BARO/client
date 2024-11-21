@@ -10,6 +10,9 @@ export default function MyPageSteps({ steps }: { steps: Step[] }) {
                     <Button
                         onClick={() => { }}
                         value={step.title}
+                        className={styles["steps"]}
+                        fullWidth
+                        color="white"
                     >
                         {step.title}
                     </Button>
@@ -19,6 +22,8 @@ export default function MyPageSteps({ steps }: { steps: Step[] }) {
                                 value={subStep.title}
                                 onClick={() => { }}
                                 className={styles["sub-steps"]}
+                                color="transparent"
+                                fullWidth
                             >
                                 <div style={{ width: 20, height: 20 }} />
                                 {subStep.title}

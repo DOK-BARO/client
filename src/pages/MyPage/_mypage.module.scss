@@ -1,0 +1,36 @@
+@import "../../styles/abstracts/variables";
+@import "../../styles/abstracts/mixins";
+
+.sr-only {
+  @include sr-only;
+}
+
+.container {
+  @include flex(column);
+  gap: 40px;
+  padding: 40px;
+
+  .section {
+    &-header {
+      @include flex(row);
+      justify-content: space-between;
+
+      .title {
+        font-weight: $font-weight-regular;
+        font-size: 40px;
+
+        .nickname {
+          color: $primary;
+          font-weight: $font-weight-bold;
+        }
+      }
+    }
+
+    &-content {
+      @include flex(row);
+      gap: 40px;
+
+
+    }
+  }
+}

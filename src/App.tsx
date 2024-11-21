@@ -39,10 +39,6 @@ function App() {
               path: "/book-list/:categoryId",
               element: <BookList />,
             },
-            {
-              path: "/book-list/:categoryId/:subCategoryId",
-              element: <BookList />,
-            },
           ],
         },
         {

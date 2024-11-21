@@ -69,7 +69,7 @@ export default function Index() {
           formComponent: () => <QuizWriteForm />,
         },
       ],
-      isDone: completionStatus.isQuestionsWrittenAtom,
+      isDone: completionStatus.isQuestionsWritten,
     },
     {
       order: 3,
@@ -77,7 +77,7 @@ export default function Index() {
       title: "공유 설정",
       description: "퀴즈를 볼 수 있는 사람과 제한 시간을 설정해 주세요.",
       formComponent: () => <QuizSettingsForm />,
-      isDone: completionStatus.isSetAtom,
+      isDone: completionStatus.isSet,
     },
   ];
 
@@ -85,6 +85,7 @@ export default function Index() {
   const [errorModalTitle] = useAtom(errorModalTitleAtom);
   const { isModalOpen, openModal, closeModal } = useModal();
   const [, setOpenErrorModal] = useAtom(openErrorModalAtom);
+
   useEffect(() => {
     setOpenErrorModal(() => openModal);
   }, [setOpenErrorModal]);

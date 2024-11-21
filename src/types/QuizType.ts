@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { BookType } from "./BookType";
+import { StudyGroupType } from "./StudyGroupType";
 export interface QuizType {
   id: number;
   title: string;
@@ -16,8 +17,17 @@ export interface QuizType {
 
 export type ViewScope = "EVERYONE" | "STUDY_GROUP" | "CREATOR";
 export type EditScope = "EVERYONE" | "STUDY_GROUP" | "CREATOR";
-export type AnswerType = "OX" | "FILL_BLANK" | "MULTIPLE_CHOICE" | "SHORT" | "CHECK_BOX";
-export type RequestAnswerType = "OX" | "FILL_BLANK" | "MULTIPLE_CHOICE" | "SHORT";
+export type AnswerType =
+  | "OX"
+  | "FILL_BLANK"
+  | "MULTIPLE_CHOICE"
+  | "SHORT"
+  | "CHECK_BOX";
+export type RequestAnswerType =
+  | "OX"
+  | "FILL_BLANK"
+  | "MULTIPLE_CHOICE"
+  | "SHORT";
 
 export interface QuizCreationType {
   title: string | null;
@@ -26,7 +36,7 @@ export interface QuizCreationType {
   timeLimitSecond?: string | null;
   viewScope: ViewScope | null;
   editScope: EditScope | null;
-  studyGroupId: number | undefined | null;
+  studyGroup: StudyGroupType | null | undefined; // undefined -> 스터디그룹 선택 안함
   questions: QuizQuestionType[] | null;
 }
 
@@ -41,7 +51,7 @@ export interface QuizQuestionType {
   content: string;
   selectOptions: SelectOptionType[];
   answerExplanationContent: string;
-  answerExplanationImages: File[],
+  answerExplanationImages: File[];
   answerType: AnswerType;
   answers: string[];
 }

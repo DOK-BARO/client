@@ -1,0 +1,19 @@
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixins";
+
+.lnb {
+  width: 164px;
+  float: left;
+  margin-right: 40px;
+  &-inner-container {
+    .category-list {
+      .category-item {
+        font-size: $font-size-large;
+        font-weight: $font-weight-semibold;
+        &-button {
+          border: none;
+        }
+      }
+    }
+  }
+}

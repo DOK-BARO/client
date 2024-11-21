@@ -2,6 +2,8 @@
 @import "../../styles/abstracts/mixins";
 
 .container {
+  margin-top: 40px;
+
   @include respond-to(lg) {
     padding: 16px 160px 16px;
   }

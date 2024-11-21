@@ -9,6 +9,7 @@ import { bookKeys } from "@/data/queryKeys";
 import Button from "@/components/atom/button/button";
 import useGNB from "@/hooks/useGNB";
 
+// Book Category GNB
 export default function GNB() {
   const { isGNBHidden } = useGNB();
   const [activeCategoryIndex, setActiveCategoryIndex] = useState<number | null>(
@@ -46,6 +47,7 @@ export default function GNB() {
     setExpandedSubCategories({});
   };
 
+  // TODO: heading 태그 다른 태그로 변경하기
   return (
     <nav
       className={`${styles.gnb} ${isGNBHidden ? styles.hidden : ""}`}

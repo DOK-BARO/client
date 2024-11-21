@@ -53,16 +53,12 @@ export default function QuizSettingStudyGroupForm() {
   useEffect(() => {
     setIsQuizNextButtonEnabled(true);
     // TODO: 다음 버튼 누를 때 불이 들어와야 하는 건지, 아니면 지금처럼 처음 페이지에 접근했을 때부터 불이 들어와도 되는 건지
-    updateQuizCreationInfo("studyGroup", null);
   }, []);
 
   useEffect(() => {
     if (selectedStudyGroup) {
       // 스터디 그룹 선택 -> 스터디 그룹 ID 저장(전역)
       updateQuizCreationInfo("studyGroup", selectedStudyGroup.id);
-    } else {
-      // 선택한 스터디 그룹 없음
-      updateQuizCreationInfo("studyGroup", undefined);
     }
   }, [selectedStudyGroup]);
 

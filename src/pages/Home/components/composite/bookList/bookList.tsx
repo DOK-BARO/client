@@ -28,15 +28,12 @@ export default function BookList() {
   }
 
   return (
-    <section className={styles[""]}>
-      <h2 className={styles["sr-only"]}>책 목록</h2>
-      <ul className={styles["book-list-container"]}>
-        {bookList?.map((book) => (
-          <li key={book.id}>
-            <BookItem book={book} />
-          </li>
-        ))}
-      </ul>
-    </section>
+    <ul className={styles["book-list-container"]}>
+      {bookList?.map((book) => (
+        <li key={book.id}>
+          <BookItem book={book} />
+        </li>
+      ))}
+    </ul>
   );
 }

@@ -9,6 +9,7 @@ interface BookDetailSectionProps {
 export default function BookDetailSection({
   bookDetailContent,
 }: BookDetailSectionProps) {
+  console.log(bookDetailContent);
   return (
     <section className={"container"}>
       <div className={styles["category-depth-list"]}>

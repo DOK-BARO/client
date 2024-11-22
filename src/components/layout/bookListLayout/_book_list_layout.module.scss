@@ -1,0 +1,12 @@
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixins";
+
+.container {
+  margin-top: 40px;
+  display: flex;
+  gap: 40px;
+
+  .lnb-container {
+    float: left;
+  }
+}

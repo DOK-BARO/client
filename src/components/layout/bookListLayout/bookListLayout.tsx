@@ -10,6 +10,7 @@ import {
   findTopParentCategoryInfo,
 } from "@/utils/findCategoryInfo";
 import Breadcrumb from "../breadcrumb/breadcrumb";
+import BookListFilter from "../bookListFilter/bookListFilter";
 
 export default function BookListLayout() {
   const { data: categories, isLoading } = useQuery({
@@ -39,8 +40,13 @@ export default function BookListLayout() {
     <section className={styles.container}>
       <LNB categoryId={Number(categoryId)} categories={categories} />
       <div className={styles["book-list-container"]}>
-        <h2 className={styles.title}>{topParentCategoryInfo?.name}</h2>
-        <Breadcrumb list={[parentCategoryInfo, currentCategoryInfo]} />
+        <h2 className={styles.title}>
+          {topParentCategoryInfo?.name || "전체 책 목록"}
+        </h2>
+        <div className={styles["breadcrumb-filter-container"]}>
+          <Breadcrumb list={[parentCategoryInfo, currentCategoryInfo]} />
+          <BookListFilter />
+        </div>
         <Outlet />
       </div>
     </section>

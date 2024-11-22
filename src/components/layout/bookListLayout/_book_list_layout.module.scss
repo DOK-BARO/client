@@ -15,5 +15,12 @@
   .book-list-container {
     display: flex;
     flex-direction: column;
+    width: 100%;
+
+    .breadcrumb-filter-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
   }
 }

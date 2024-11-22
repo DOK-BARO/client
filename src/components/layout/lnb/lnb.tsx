@@ -32,7 +32,7 @@ export default function LNB({
             <span className={styles["current-category"]}>
               <Button
                 color="transparent"
-                icon={<img src={arrowLeft} />}
+                icon={<img alt="뒤로가기" src={arrowLeft} />}
                 iconOnly
                 onClick={() => navigate("/")}
               />

@@ -34,7 +34,7 @@ export default function BookListLayout() {
     <section className={styles.container}>
       <LNB categoryId={Number(categoryId)} categories={categories} />
       <div className={styles["book-list-container"]}>
-        <h2 className={styles.title}>전체 책 목록</h2>
+        <h2 className={styles.title}>{parentCategoryInfo?.name}</h2>
         <Breadcrumb list={[parentCategoryInfo, currentCategoryInfo]} />
         <Outlet />
       </div>

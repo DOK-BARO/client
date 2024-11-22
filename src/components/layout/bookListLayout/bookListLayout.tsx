@@ -7,6 +7,7 @@ import LNB from "../lnb/lnb";
 import {
   findCurrentCategoryInfo,
   findParentCategoryInfo,
+  findTopParentCategoryInfo,
 } from "@/utils/findCategoryInfo";
 import Breadcrumb from "../breadcrumb/breadcrumb";
 
@@ -21,6 +22,10 @@ export default function BookListLayout() {
     return <div>로딩중</div>;
   }
 
+  const topParentCategoryInfo = findTopParentCategoryInfo(
+    categories,
+    Number(categoryId)
+  );
   const parentCategoryInfo = findParentCategoryInfo(
     categories,
     Number(categoryId)
@@ -34,7 +39,7 @@ export default function BookListLayout() {
     <section className={styles.container}>
       <LNB categoryId={Number(categoryId)} categories={categories} />
       <div className={styles["book-list-container"]}>
-        <h2 className={styles.title}>{parentCategoryInfo?.name}</h2>
+        <h2 className={styles.title}>{topParentCategoryInfo?.name}</h2>
         <Breadcrumb list={[parentCategoryInfo, currentCategoryInfo]} />
         <Outlet />
       </div>

@@ -6,11 +6,12 @@ export interface FormComponentProps {
   }
   
   export interface Step {
-    order?: number;
+    order: number;
     icon?: string;
     title: string;
     description?: string;
     formComponent?: (props?: FormComponentProps) => JSX.Element;
     subSteps?: Step[];
     isDone?: boolean;
+    sectionId?: string;
   }

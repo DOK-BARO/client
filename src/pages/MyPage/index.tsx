@@ -12,17 +12,23 @@ export default function Index() {
 
   const steps: Step[] = [
     {
+      order: 0,
       title: "내 퀴즈",
       subSteps: [
         {
+          order: 0.1,
           title: "만든 퀴즈",
+          sectionId: "made-quiz"
         },
         {
+          order: 0.2,
           title: "푼 퀴즈",
+          sectionId: "solved-quiz"
         }
       ],
     },
     {
+      order: 1,
       title: "내 스터디",
     }
   ];
@@ -40,7 +46,7 @@ export default function Index() {
         >회원정보 수정</Button>
       </div>
       <div className={styles["section-content"]}>
-        <MyPageSteps steps={steps} />
+        <MyPageSteps steps={steps} currentStep={currentStep} setCurrentStep={setCurrentStep} />
         <MyPageLayout
           steps={steps}
           currentStep={currentStep}

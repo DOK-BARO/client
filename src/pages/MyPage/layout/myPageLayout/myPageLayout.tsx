@@ -30,7 +30,7 @@ export default function MyPageLayout({ steps,
   return (
     <section className={styles["container"]}>
       <h2>📝 {title}</h2>
-      <section className={styles["list-section"]}>
+      <section className={styles["list-section"]} id="made-quiz">
         <ListHeader title="내가 만든 퀴즈" />
         <NoData title={"아직 내가 만든 퀴즈가 없어요. 😞"} buttonName="퀴즈 만들러 가기"
           onClick={() =>{ navigate("/create-quiz") }}
@@ -38,7 +38,7 @@ export default function MyPageLayout({ steps,
         {/* TODO: 리스트 */}
       </section>
 
-      <section className={styles["list-section"]}>
+      <section className={styles["list-section"]} id="solved-quiz">
         <ListHeader title="내가 푼 퀴즈" />
         <NoData title={"아직 내가 푼 퀴즈가 없어요. 😞"} buttonName="퀴즈 풀러 가기"
           onClick={() => () => { }}
@@ -53,7 +53,7 @@ export default function MyPageLayout({ steps,
 const ListHeader = ({ title }: { title: string }) => {
   return (
     <p className={styles["list-header"]}>
-      <p>{title}</p>
+      <span>{title}</span>
       <span className={styles["button-area"]}>
         <button>최신순</button>
         <button>가나다순</button>

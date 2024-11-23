@@ -15,6 +15,13 @@ export interface QuizType {
   };
 }
 
+export interface MyQuizType {
+  id: number,
+  bookImageUrl: string,
+  title: string,
+  updatedAt: string
+}
+
 export type ViewScope = "EVERYONE" | "STUDY_GROUP" | "CREATOR";
 export type EditScope = "EVERYONE" | "STUDY_GROUP" | "CREATOR";
 export type AnswerType =
@@ -56,7 +63,7 @@ export interface QuizQuestionType {
   answers: string[];
 }
 
-export interface QuizRequestType {
+export interface QuizRequestType { // TODO: 이름 아래와 통일 필요
   title: string;
   description: string;
   bookId: number;

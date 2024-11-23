@@ -3,7 +3,8 @@
 
 .container {
   @include flex(column);
-  width: 80%;
+  flex:1;
+  // width: 80%;
   gap: 20px;
 
   h2 {
@@ -15,6 +16,27 @@
     @include flex(column);
     gap: 16px;
     padding: 20px 0 40px;
+
+    ul {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+        // TODO: 피그마에 크기 확인 필요
+        max-width: 816px;
+    }
+
+    li {
+      @include flex(column);
+      justify-content: start;
+      gap: 10px;
+      padding: 16px;
+      background-color: white;
+    
+      .quiz-util {
+        @include flex(column);
+        justify-content: center;
+      }
+    }
 
     .no-data {
       display: inline-flex;

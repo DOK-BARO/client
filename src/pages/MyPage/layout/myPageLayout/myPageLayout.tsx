@@ -56,7 +56,7 @@ export default function MyPageLayout({ steps,
         <ul>
           {myQuizzes && myQuizzes.map((myQuiz: MyQuizType) => (
             <li>
-              <img>{myQuiz.bookImageUrl}</img>
+              <img src={myQuiz.bookImageUrl}></img>
               <span>최종 수정일</span>
               <span>{myQuiz.updatedAt}</span>
               <span>{myQuiz.title}</span>
@@ -64,49 +64,6 @@ export default function MyPageLayout({ steps,
               <button>퀴즈 삭제하기</button>
             </li>
           ))}
-          {/* TODO: layout 맞춰야 할듯 li가 ul을 뚫고나감 */}
-          <li>
-              <img src="http://via.placeholder.com/160x200"></img>
-              <span>최종 수정일</span>
-              <span>2025.01.01</span>
-              <span>책제목</span>
-              <div className={styles["quiz-util"]}>
-              <Button color="primary" size="small">수정하기</Button>
-              <button>퀴즈 삭제하기</button>
-              </div>
-            </li>
-
-            <li>
-              <img src="http://via.placeholder.com/160x200"></img>
-              <span>최종 수정일</span>
-              <span>2025.01.01</span>
-              <span>책제목</span>
-              <div className={styles["quiz-util"]}>
-              <Button color="primary" size="small">수정하기</Button>
-              <button>퀴즈 삭제하기</button>
-              </div>
-            </li>
-            <li>
-              <img src="http://via.placeholder.com/160x200"></img>
-              <span>최종 수정일</span>
-              <span>2025.01.01</span>
-              <span>책제목</span>
-              <div className={styles["quiz-util"]}>
-              <Button color="primary" size="small">수정하기</Button>
-              <button>퀴즈 삭제하기</button>
-              </div>
-            </li>
-            <li>
-              <img src="http://via.placeholder.com/160x200"></img>
-              <span>최종 수정일</span>
-              <span>2025.01.01</span>
-              <span>책제목</span>
-              <div className={styles["quiz-util"]}>
-              <Button color="primary" size="small">수정하기</Button>
-              <button>퀴즈 삭제하기</button>
-              </div>
-            </li>
-        
         </ul>
 
       </section>

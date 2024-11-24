@@ -37,7 +37,7 @@ export default function QuizCreationFormLayout({
   };
 
   function getScopeKeyByTranslation(translation: string): ViewScope | EditScope| undefined {
-    const entry = Object.entries(scopeTranslations).find(([key, value]) => value === translation);
+    const entry = Object.entries(scopeTranslations).find(([_, value]) => value === translation);
     return entry ? entry[0] as ViewScope : undefined;
   }
   

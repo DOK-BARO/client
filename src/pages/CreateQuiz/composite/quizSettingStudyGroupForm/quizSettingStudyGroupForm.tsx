@@ -11,24 +11,38 @@ import { XMedium } from "@/svg/xMedium";
 import { Link } from "@/svg/link";
 import { Copy } from "@/svg/copy";
 import { StudyGroupType } from "@/types/StudyGroupType";
-import Toggle from "@/components/atom/toggle/toggle";
+// 현재 알람 토클 기능 제외해놓았음.
+// import Toggle from "@/components/atom/toggle/toggle";
 import { useAtom } from "jotai";
 import { IsQuizNextButtonEnabledAtom } from "@/store/quizAtom";
 import { createStudyGroup } from "@/services/server/studyService";
+import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 
-export interface StudyGroupSelectType extends StudyGroupType {
-  isSetAlarm: boolean;
-}
+// export interface StudyGroupSelectType extends StudyGroupType {
+//   isSetAlarm: boolean;
+// }
 
 // TODO: 컴포넌트 분리
 // 1.스터디 선택
+// TODO: 스터디 생성 실패 시 alert 띄우기 -> 디자인 없음
 export default function QuizSettingStudyGroupForm() {
   const { isModalOpen, openModal, closeModal } = useModal();
-  const [studyGroupList, setStudyGroupList] = useState<StudyGroupSelectType[]>(
-    []
-  );
+  const [studyGroupList, setStudyGroupList] = useState<StudyGroupType[]>([]);
+  const { quizCreationInfo, updateQuizCreationInfo } =
+    useUpdateQuizCreationInfo();
   const [selectedStudyGroup, setSelectedStudyGroup] =
-    useState<StudyGroupSelectType | null>(null);
+    useState<StudyGroupType | null>(() => {
+      if (
+        quizCreationInfo.studyGroup?.id &&
+        quizCreationInfo.studyGroup?.name
+      ) {
+        return {
+          id: quizCreationInfo.studyGroup.id,
+          name: quizCreationInfo.studyGroup.name,
+        };
+      }
+      return null; // id나 name이 없으면 null
+    });
   const [newStudyGroup, setNewStudyGroup] = useState<string | null>(null);
   const [isNewStudyGroupAdded, setNewStudyGroupAdded] =
     useState<boolean>(false);
@@ -38,7 +52,15 @@ export default function QuizSettingStudyGroupForm() {
 
   useEffect(() => {
     setIsQuizNextButtonEnabled(true);
+    // TODO: 다음 버튼 누를 때 불이 들어와야 하는 건지, 아니면 지금처럼 처음 페이지에 접근했을 때부터 불이 들어와도 되는 건지
   }, []);
+
+  useEffect(() => {
+    if (selectedStudyGroup) {
+      // 스터디 그룹 선택 -> 스터디 그룹 ID 저장(전역)
+      updateQuizCreationInfo("studyGroup", selectedStudyGroup.id);
+    }
+  }, [selectedStudyGroup]);
 
   // 모달 안 인풋
   const {
@@ -89,7 +111,7 @@ export default function QuizSettingStudyGroupForm() {
         {
           id: tempId, // 임시
           name: newStudyGroup,
-          isSetAlarm: false,
+          // isSetAlarm: false,
         },
       ]);
     }
@@ -163,7 +185,7 @@ export default function QuizSettingStudyGroupForm() {
                 {studyGroup.name}
               </div>
 
-              <Toggle
+              {/* <Toggle
                 isActive={studyGroup.isSetAlarm}
                 onClick={() => {
                   // 전체 리스트 - 토글
@@ -186,7 +208,7 @@ export default function QuizSettingStudyGroupForm() {
                     return prev;
                   });
                 }}
-              />
+              /> */}
             </article>
           ))}
         </>

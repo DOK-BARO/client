@@ -8,22 +8,22 @@ export const IsQuizNextButtonEnabledAtom = atom<boolean>(false);
 export const QuizCreationInfoAtom = atom<QuizCreationType>({
   title: null,
   description: null,
-  bookId: null,
+  book: null,
   timeLimitSecond: null,
   viewScope: null,
   editScope: null,
-  studyGroupId: null,
+  studyGroup: null,
   questions: null,
 });
 
 // 스터디 선택 단계 완료 여부 Atom
 export const isStudyGroupSelectedAtom = atom(
-  (get) => get(QuizCreationInfoAtom).studyGroupId !== null
+  (get) => get(QuizCreationInfoAtom).studyGroup !== null
 );
 
 // 도서 선택 단계 완료 여부 Atom
 export const isBookSelectedAtom = atom(
-  (get) => get(QuizCreationInfoAtom).bookId !== null
+  (get) => get(QuizCreationInfoAtom).book !== null
 );
 
 // 퀴즈 작성 단계 완료 여부 Atom
@@ -47,8 +47,8 @@ export const isSetAtom = atom(
 export const stepsCompletionStatusAtom = atom((get) => ({
   isStudyGroupSelected: get(isStudyGroupSelectedAtom),
   isBookSelected: get(isBookSelectedAtom),
-  isQuestionsWrittenAtom: get(isQuestionsWrittenAtom),
-  isSetAtom: get(isSetAtom),
+  isQuestionsWritten: get(isQuestionsWrittenAtom),
+  isSet: get(isSetAtom),
 }));
 
 export const errorModalTitleAtom = atom<string>("");

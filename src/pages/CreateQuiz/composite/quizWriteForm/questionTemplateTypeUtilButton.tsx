@@ -4,7 +4,7 @@ import { ArrowDown } from "@/svg/arrowDown.tsx";
 import QuestionTemplateUtilList from "@/pages/CreateQuiz/composite/quizWriteForm/questionTemplateUtilList";
 
 import Button from "@/components/atom/button/button.tsx";
-import { QuestionTemplateType } from "@/types/QuestionFormTypeType.ts";
+import { QuestionTemplateType } from "@/types/QuestionTemplateType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { QuizQuestionType } from "@/types/QuizType";
 //TODO: 변수명 직관적으로 변경 필요

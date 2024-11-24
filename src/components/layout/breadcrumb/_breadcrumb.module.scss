@@ -1,0 +1,28 @@
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixins";
+
+.breadcrumb {
+  &-list {
+    display: flex;
+    gap: 10px;
+
+    &-item-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    &-item {
+      padding: 0;
+      border-radius: 0;
+      border: none;
+      color: $gray-70;
+      font-size: $font-size-large;
+      font-weight: $font-weight-medium;
+    }
+
+    .last-item {
+      color: $gray-90;
+    }
+  }
+}

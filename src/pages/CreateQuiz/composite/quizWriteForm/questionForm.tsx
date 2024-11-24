@@ -4,7 +4,7 @@ import Textarea from "@/components/atom/textarea/textarea.tsx";
 import { ImageAdd } from "@/svg/quizWriteForm/imageAdd.tsx";
 import QuestionFormHeader from "./questionFormHeader";
 import { QuestionFormMode } from "@/data/constants.ts";
-import { QuestionTemplateType as QuestionTemplateType } from "@/types/QuestionFormTypeType.ts";
+import { QuestionTemplateType as QuestionTemplateType } from "@/types/QuestionTemplateType";
 import { UlList } from "@/svg/quizWriteForm/ulList.tsx";
 import { OlList } from "@/svg/quizWriteForm/olList.tsx";
 import { OxQuiz } from "@/svg/quizWriteForm/oxQuiz.tsx";

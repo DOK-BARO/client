@@ -23,7 +23,7 @@ export const getBookList = async (
   } = params || {};
 
   try {
-    const response = await axios.get("/books", {
+    const { data } = await axios.get("/books", {
       params: {
         title,
         authorName,
@@ -35,8 +35,8 @@ export const getBookList = async (
         direction,
       },
     });
-    console.log("책 목록!!", response);
-    return response.data;
+    // console.log("책 목록!!", response);
+    return data;
   } catch (error) {
     throw new Error(`책 목록 가져오기 실패: ${error}`);
   }

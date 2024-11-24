@@ -2,7 +2,7 @@
 import styles from "./_lnb.module.scss";
 import Button from "@/components/atom/button/button";
 import { useNavigate } from "react-router-dom";
-import arrowLeft from "/assets/svg/arrowLeft.svg";
+import arrowLeft from "/assets/svg/bookList/arrowLeft.svg";
 import { BookCategory } from "@/types/GNBCategoryType";
 import { findTopParentCategoryInfo } from "@/utils/findCategoryInfo";
 
@@ -32,11 +32,13 @@ export default function LNB({
             <span className={styles["current-category"]}>
               <Button
                 color="transparent"
+                size="xsmall"
                 icon={<img alt="뒤로가기" src={arrowLeft} />}
                 iconOnly
                 onClick={() => navigate("/")}
               />
               <Button
+                size="xsmall"
                 color="transparent"
                 className={styles["parent-category-name"]}
                 onClick={() => navigate(`/book-list/${parentCategoryInfo?.id}`)}
@@ -53,7 +55,7 @@ export default function LNB({
                 <li key={category.id} className={styles["category-item"]}>
                   <Button
                     color="transparent"
-                    size="medium"
+                    size="xsmall"
                     // fullWidth
                     className={styles["category-item-button"]}
                     onClick={() => navigate(`/book-list/${category.id}`)}
@@ -70,6 +72,7 @@ export default function LNB({
                     className={styles["category-detail-item"]}
                   >
                     <Button
+                      size="xsmall"
                       color="transparent"
                       className={`${styles["category-detail-item-button"]} ${
                         categoryId === categoryDetail.id ? styles.selected : ""

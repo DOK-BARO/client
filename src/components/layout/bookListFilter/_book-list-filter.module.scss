@@ -2,15 +2,16 @@
 @import "../../../styles/abstracts/mixins";
 
 .book-list-filter {
-  display: flex;
-
-  gap: 20px;
   ul {
     display: flex;
 
     button {
       border: none;
       border-radius: 0;
+      color: $gray-60;
+    }
+    .active {
+      color: $gray-90;
     }
   }
 }

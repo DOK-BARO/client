@@ -7,6 +7,7 @@ export interface BookType {
   imageUrl: string;
   categories: BookCategories[];
   authors: string[];
+  quizCount?: number;
 }
 
 interface BookCategories {

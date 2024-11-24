@@ -1,31 +1,46 @@
+import { Dispatch } from "react";
 import styles from "./_book-list-filter.module.scss";
 import Button from "@/components/atom/button/button";
-import gridView from "/assets/svg/gridView.svg";
-import listView from "/assets/svg/listView.svg";
+import { SetStateAction } from "jotai";
+import { SortFilterType } from "../bookListLayout/bookListLayout";
 
-export default function BookListFilter() {
+export default function BookListFilter({
+  setSortFilter,
+  sortFilter,
+}: {
+  setSortFilter: Dispatch<SetStateAction<SortFilterType>>;
+  sortFilter: SortFilterType;
+}) {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const { value } = e.target as HTMLButtonElement;
+    setSortFilter(value as SortFilterType);
+  };
+
   return (
     <div className={styles["book-list-filter"]}>
       <ul>
-        <Button size="xsmall" color="transparent">
+        <Button
+          size="xsmall"
+          color="transparent"
+          value="TITLE"
+          onClick={handleClick}
+          className={`${styles["filter-button"]} ${
+            sortFilter === "TITLE" ? styles.active : null
+          }`}
+        >
           가나다순
         </Button>
-        <Button size="xsmall" color="transparent">
+        <Button
+          size="xsmall"
+          color="transparent"
+          value="QUIZ_COUNT"
+          onClick={handleClick}
+          className={`${styles["filter-button"]} ${
+            sortFilter === "QUIZ_COUNT" ? styles.active : null
+          }`}
+        >
           퀴즈순
         </Button>
-      </ul>
-      <ul>
-        <Button
-          size="xsmall"
-          color="transparent"
-          iconOnly
-          icon={<img src={gridView} width={24} alt="그리드 뷰로 보기" />}
-        />
-        <Button
-          size="xsmall"
-          color="transparent"
-          icon={<img src={listView} width={24} alt="리스트 뷰로 보기" />}
-        />
       </ul>
     </div>
   );

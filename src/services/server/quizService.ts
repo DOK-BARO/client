@@ -35,6 +35,7 @@ export const fetchQuizzes = async (params: {
 export const createQuiz = async (quiz: QuizRequestType) => {
     try {
         const { data } = await axios.post("/book-quizzes",quiz);
+        console.log("data result: %o",data);
         return data;
     } catch (error: unknown) {
         if (axios.isAxiosError(error)) {

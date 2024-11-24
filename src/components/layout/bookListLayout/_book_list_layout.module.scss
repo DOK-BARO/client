@@ -6,7 +6,14 @@
   display: flex;
   gap: 40px;
 
-  .lnb-container {
-    float: left;
+  .title {
+    font-size: $font-size-user-auth-agreement-title;
+    font-weight: $font-weight-semibold;
+    margin-bottom: 20px;
+    line-height: 1.5;
+  }
+  .book-list-container {
+    display: flex;
+    flex-direction: column;
   }
 }

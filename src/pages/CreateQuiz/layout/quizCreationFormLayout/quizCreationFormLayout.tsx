@@ -10,6 +10,8 @@ import {
 } from "@/store/quizAtom";
 import { QuizCreationType, QuizRequestType } from "@/types/QuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
+import { createQuiz } from "@/services/server/quizService";
+import { ViewScope, EditScope,scopeTranslations } from "@/types/QuizType";
 
 export default function QuizCreationFormLayout({
   steps,
@@ -34,6 +36,12 @@ export default function QuizCreationFormLayout({
     )!;
   };
 
+  function getScopeKeyByTranslation(translation: string): ViewScope | EditScope| undefined {
+    const entry = Object.entries(scopeTranslations).find(([key, value]) => value === translation);
+    return entry ? entry[0] as ViewScope : undefined;
+  }
+  
+
   const requestCreateQuiz = async () => {
     // TODO 퀴즈 생성 api요청
 
@@ -42,8 +50,9 @@ export default function QuizCreationFormLayout({
     const quiz: QuizRequestType = {
       title: quizCreationInfo.title!,
       description: quizCreationInfo.description!,
-      viewScope: quizCreationInfo.viewScope!,
-      editScope: quizCreationInfo.editScope!,
+      //viewScope: quizCreationInfo.viewScope!,
+      viewScope: getScopeKeyByTranslation(quizCreationInfo.viewScope!)!,
+      editScope: getScopeKeyByTranslation(quizCreationInfo.editScope!)!,
       bookId: quizCreationInfo.book!.id,
       studyGroupIds: quizCreationInfo.studyGroup?.id || undefined,
       questions: quizCreationInfo.questions!.map((question) => {
@@ -70,7 +79,7 @@ export default function QuizCreationFormLayout({
     // formData.append('file', img);
     // await uploadImage(formData);
 
-    //await createQuiz(quiz);
+    await createQuiz(quiz);
     return;
   };
   const endStep = steps.length - 1;

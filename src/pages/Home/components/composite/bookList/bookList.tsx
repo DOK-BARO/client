@@ -11,7 +11,7 @@ export default function BookList() {
   const { categoryId } = useParams();
   // alert(id);
   const { data, isLoading } = useQuery({
-    queryKey: bookKeys.list(),
+    queryKey: bookKeys.list({ category: Number(categoryId) }),
     queryFn: () => getBookList({ category: Number(categoryId) || undefined }),
   });
 

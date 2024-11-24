@@ -8,10 +8,11 @@ import {
   IsQuizNextButtonEnabledAtom,
   QuizCreationInfoAtom,
 } from "@/store/quizAtom";
-import { QuizCreationType, QuizRequestType } from "@/types/QuizType";
+import { QuizCreationType, QuizQuestionRequestApiType, QuizRequestType } from "@/types/QuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { createQuiz } from "@/services/server/quizService";
-import { ViewScope, EditScope,scopeTranslations } from "@/types/QuizType";
+import { ViewScope, EditScope, scopeTranslations } from "@/types/QuizType";
+import { uploadImage } from "@/services/server/imageService";
 
 export default function QuizCreationFormLayout({
   steps,
@@ -36,49 +37,56 @@ export default function QuizCreationFormLayout({
     )!;
   };
 
-  function getScopeKeyByTranslation(translation: string): ViewScope | EditScope| undefined {
+  function getScopeKeyByTranslation(translation: string): ViewScope | EditScope | undefined {
     const entry = Object.entries(scopeTranslations).find(([_, value]) => value === translation);
     return entry ? entry[0] as ViewScope : undefined;
   }
-  
+
+  const requestUploadExplanationImages = async(uploadTargetImgs:File[]):Promise<string[]> => {
+    const promiseImgList = uploadTargetImgs.map(async(img) => {
+      const paramObj: {
+        image: File,
+        imageTarget: "MEMBER_PROFILE" | "STUDY_GROUP_PROFILE" | "BOOK_QUIZ_ANSWER"
+      } = {
+        image: img,
+        imageTarget: "BOOK_QUIZ_ANSWER"
+      }
+      return await uploadImage(paramObj);
+    });
+    const uploadedImgUrl: string[] = await Promise.all(promiseImgList);
+    return uploadedImgUrl;
+  }
+
+  const setRequestQuestion = async ():Promise<QuizQuestionRequestApiType[]> => {
+
+    const uploadedImgQuestions = quizCreationInfo.questions!.map(async(question) => {
+      const { id, ...rest } = question;
+      return {
+        ...rest,
+        answerType:
+          question.answerType === "CHECK_BOX"
+            ? "MULTIPLE_CHOICE"
+            : question.answerType,
+        answerExplanationImages: await requestUploadExplanationImages(question.answerExplanationImages),
+        selectOptions: question.selectOptions.map((option) => option.option),
+      };
+    })
+    return await Promise.all(uploadedImgQuestions);
+  }
+
 
   const requestCreateQuiz = async () => {
-    // TODO 퀴즈 생성 api요청
-
-    //TOOD 이미지 서버로 업로드
-
     const quiz: QuizRequestType = {
       title: quizCreationInfo.title!,
       description: quizCreationInfo.description!,
-      //viewScope: quizCreationInfo.viewScope!,
       viewScope: getScopeKeyByTranslation(quizCreationInfo.viewScope!)!,
       editScope: getScopeKeyByTranslation(quizCreationInfo.editScope!)!,
       bookId: quizCreationInfo.book!.id,
       studyGroupIds: quizCreationInfo.studyGroup?.id || undefined,
-      questions: quizCreationInfo.questions!.map((question) => {
-        const { id, ...rest } = question;
-        return {
-          ...rest,
-          answerType:
-            question.answerType === "CHECK_BOX"
-              ? "MULTIPLE_CHOICE"
-              : question.answerType,
-          answerExplanationImages: [] as string[], // TODO: 이미지 업로드 구현 후 제거
-          selectOptions: question.selectOptions.map((option) => option.option), // option 속성만 추출
-        };
-      }),
+      questions: await setRequestQuestion(),
     };
 
     console.log("request: %O", quiz);
-    // TODO: 제거필요 (테스트용 코드)
-    // const img: File = quizCreationInfo.questions!.map((question) => {
-    //   return question.answerExplanationImages[0];
-    // })[0];
-
-    // const formData = new FormData();
-    // formData.append('file', img);
-    // await uploadImage(formData);
-
     await createQuiz(quiz);
     return;
   };
@@ -139,14 +147,14 @@ export default function QuizCreationFormLayout({
   const description = step?.description
     ? step.description
     : step?.subSteps?.[0].description
-    ? step.subSteps?.[0].description
-    : "";
+      ? step.subSteps?.[0].description
+      : "";
 
   const FormComponent = step?.formComponent
     ? step.formComponent
     : step?.subSteps?.[0]?.formComponent
-    ? step.subSteps[0].formComponent
-    : null;
+      ? step.subSteps[0].formComponent
+      : null;
 
   return (
     <section className={styles["container"]}>

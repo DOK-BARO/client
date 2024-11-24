@@ -83,6 +83,7 @@ export default function QuizCreationFormLayout({
 
     if (currentStep == endStep) {
       await requestCreateQuiz();
+      return;
     }
 
     const step = steps[currentStep];

@@ -24,6 +24,7 @@
   flex-direction: column;
   width: 1140px;
   margin: 0 auto;
+  padding: 0 40px;
 }
 
 .category-list {
@@ -31,8 +32,7 @@
 
   // TODO: 이 부분 믹스인으로 만들기
   margin: 0 auto;
-  width: 92%;
-  max-width: calc(100% - 48px);
+  width: 100%;
 
   .category-item-title {
     padding: 12px 8px;
@@ -53,8 +53,7 @@
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   margin: 0 auto;
-  width: 92%;
-  max-width: calc(100% - 48px);
+  width: 100%;
 
   .sub-category-item {
     padding: 7px 4px 7px 8px;

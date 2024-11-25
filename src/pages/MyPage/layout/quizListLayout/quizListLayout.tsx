@@ -21,16 +21,33 @@ export default function QuizListLayout({
           onClick={onClickBtnWhenNoData}
         />}
       <ul>
-        {quizzes && quizzes.map((myQuiz: MyQuizType) => (
-          <li>
-            <img src={myQuiz.bookImageUrl}></img>
-            <span>최종 수정일</span>
-            <span>{myQuiz.updatedAt}</span>
-            <span>{myQuiz.title}</span>
-            <Button color="primary">수정하기</Button>
-            <button>퀴즈 삭제하기</button>
-          </li>
-        ))}
+        {quizzes && quizzes.map((myQuiz: MyQuizType, index: number) => {
+          const updatedAtDate: Date = new Date(myQuiz.updatedAt);
+
+          const year = updatedAtDate.getFullYear();
+          const month = updatedAtDate.getMonth() + 1;
+          const date = updatedAtDate.getDate();
+
+          const formattedDate: string = `${year}년 ${month}월 ${date}일`
+
+          return (<li key={index}>
+            <div className={styles["info"]}>
+              <img src={myQuiz.bookImageUrl}></img>
+              <div className={styles["sub-info"]}>
+                {/* TODO: 공용 컴포넌트로 만들기 */}
+                <span className={styles["label"]}>최종 수정일</span>
+                <span className={styles["quiz-updated-at"]}>{formattedDate}</span>
+              </div>
+              <span className={styles["quiz-name"]}>{myQuiz.title}</span>
+            </div>
+            <div className={styles["util"]}>
+              <Button color="primary" size="small">수정하기</Button>
+              <Button
+                className={styles["delete"]}
+                color="transparent" size="xsmall">퀴즈 삭제하기</Button>
+            </div>
+          </li>)
+        })}
       </ul>
     </section>
   );

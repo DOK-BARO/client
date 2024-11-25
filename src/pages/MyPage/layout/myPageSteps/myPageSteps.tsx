@@ -58,8 +58,8 @@ export default function MyPageSteps({ steps, currentStep, setCurrentStep }: {
               <ul className={`${styles["sub-steps-container"]} ${subStepsClass}`}>
                 {step.subSteps &&
                   step.subSteps.map((subStep, index: number) => (
-                    <li>
-                      <Button key={index}
+                    <li  key={index}>
+                      <Button
                         value={subStep.title}
                         onClick={(e) => onChangeStep(e)}
                         className={styles["sub-steps"]}

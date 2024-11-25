@@ -37,20 +37,22 @@ export default function MyPageLayout({ steps,
   return (
     <section className={styles["container"]}>
       <h2>마이페이지</h2>
+      <article>
       <ListHeader title={title}/>
       {FormComponent && <FormComponent setCurrentStep={setCurrentStep} />}
+      </article>
     </section>
   );
 }
 
 const ListHeader = ({ title }: { title: string }) => {
   return (
-    <p className={styles["list-header"]}>
+    <div className={styles["list-header"]}>
       <h3>{title}</h3>
       <span className={styles["button-area"]}>
         <Button size="xsmall" color="transparent">최신순</Button>
         <Button size="xsmall" color="transparent">가나다순</Button>
       </span>
-    </p>
+    </div>
   );
 }

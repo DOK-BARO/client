@@ -12,7 +12,7 @@ export default function MyMadeQuiz() {
     queryFn: async () => await fetchMyMadeQuizzes(),
   });
   const navigate = useNavigate();
-  const onClickBtnWhenNoData = (_: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClickWhenNoData = (_: React.MouseEvent<HTMLButtonElement>) => {
     navigate("/create-quiz");
   }
 
@@ -26,7 +26,7 @@ export default function MyMadeQuiz() {
       quizzes={myQuizzes!}
       titleWhenNoData="아직 내가 만든 퀴즈가 없어요. 😞"
       buttonNameWhenNoData="퀴즈 만들러 가기"
-      onClickBtnWhenNoData={onClickBtnWhenNoData}
+      onClickBtnWhenNoData={handleClickWhenNoData}
     />
   );
 }

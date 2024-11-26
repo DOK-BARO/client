@@ -14,12 +14,12 @@ export default function MyPageSteps({ steps, currentStep, setCurrentStep }: {
     const currentStepButtonValue = e.currentTarget.value;
     steps.forEach((step) => {
       if (step.title === currentStepButtonValue) {
-        setCurrentStep(step.order!);
+        setCurrentStep(step.order);
         setActiveSubStep(null); // 메인 스텝 클릭 시 서브 스텝 비활성화
       }
       step.subSteps?.forEach((subStep) => {
         if (subStep.title === currentStepButtonValue) {
-          setCurrentStep(subStep.order!);
+          setCurrentStep(subStep.order);
           setActiveSubStep(subStep.order); // 서브 스텝 클릭 시 해당 서브 스텝 활성화
         }
       });

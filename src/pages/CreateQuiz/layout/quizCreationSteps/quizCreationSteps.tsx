@@ -31,7 +31,6 @@ export default function QuizCreationSteps({
       });
     });
   };
-
   return (
     <section className={styles["container"]}>
       <h3 className={styles["sr-only"]}>퀴즈 생성 단계</h3>

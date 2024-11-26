@@ -1,6 +1,5 @@
 import { Step } from "@/types/StepType";
 import styles from "./_my_page_layout.module.scss";
-import Button from "@/components/atom/button/button";
 
 
 export default function MyPageLayout({ steps,
@@ -24,10 +23,6 @@ export default function MyPageLayout({ steps,
 
   const step: Step = getCurrentStep();
 
-  const title = step?.subSteps?.[0].title
-    ? step.subSteps?.[0].title
-    : step!.title;
-
   const FormComponent = step?.formComponent
     ? step.formComponent
     : step?.subSteps?.[0]?.formComponent
@@ -38,21 +33,8 @@ export default function MyPageLayout({ steps,
     <section className={styles["container"]}>
       <h2>마이페이지</h2>
       <article>
-      <ListHeader title={title}/>
-      {FormComponent && <FormComponent setCurrentStep={setCurrentStep} />}
+        {FormComponent && <FormComponent setCurrentStep={setCurrentStep} />}
       </article>
     </section>
-  );
-}
-
-const ListHeader = ({ title }: { title: string }) => {
-  return (
-    <div className={styles["list-header"]}>
-      <h3>{title}</h3>
-      <span className={styles["button-area"]}>
-        <Button size="xsmall" color="transparent">최신순</Button>
-        <Button size="xsmall" color="transparent">가나다순</Button>
-      </span>
-    </div>
   );
 }

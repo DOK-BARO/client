@@ -16,19 +16,3 @@
     padding: 20px 0 40px;
   }
 }
-
-.list-header {
-  @include flex(row);
-  justify-content: space-between;
-
-  h3 {
-    font-size: 18px;
-    line-height: 1.5;
-    font-weight: $font-weight-semibold;
-
-  }
-
-  .button-area {
-    @include flex(row);
-  }
-}

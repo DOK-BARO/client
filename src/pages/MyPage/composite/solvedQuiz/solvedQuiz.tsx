@@ -22,6 +22,7 @@ export default function SolvedQuiz() {
 
   return (
     <QuizListLayout
+      title="내가 푼 퀴즈"
       quizzes={myQuizzes!}
       titleWhenNoData="아직 내가 푼 퀴즈가 없어요. 😞"
       buttonNameWhenNoData="퀴즈 풀러 가기"

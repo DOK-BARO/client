@@ -3,11 +3,13 @@ import Button from "@/components/atom/button/button";
 import styles from "./_quiz_list_layout.module.scss";
 
 export default function QuizListLayout({
+  title,
   quizzes,
   titleWhenNoData,
   buttonNameWhenNoData,
   onClickBtnWhenNoData,
 }: {
+  title:string,
   quizzes: MyQuizType[],
   titleWhenNoData: string,
   buttonNameWhenNoData: string,
@@ -16,6 +18,7 @@ export default function QuizListLayout({
 
   return (
     <section className={styles["list-section"]}>
+      <ListHeader title={title}/>
       {!quizzes?.length &&
         <NoData title={titleWhenNoData} buttonName={buttonNameWhenNoData}
           onClick={onClickBtnWhenNoData}
@@ -62,6 +65,18 @@ const NoData = ({ title, buttonName, onClick }: { title: string, buttonName: str
         onClick={onClick}
         color="primary"
       >{buttonName}</Button>
+    </div>
+  );
+}
+
+const ListHeader = ({ title }: { title: string }) => {
+  return (
+    <div className={styles["list-header"]}>
+      <h3>{title}</h3>
+      <span className={styles["button-area"]}>
+        <Button size="xsmall" color="transparent">최신순</Button>
+        <Button size="xsmall" color="transparent">가나다순</Button>
+      </span>
     </div>
   );
 }

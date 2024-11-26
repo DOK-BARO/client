@@ -3,7 +3,7 @@
 
 .list-section {
   @include flex(column);
-
+  gap: 16px;
 
   ul {
     display: grid;
@@ -97,5 +97,22 @@
     button {
       width: 200px;
     }
+  }
+}
+
+
+.list-header {
+  @include flex(row);
+  justify-content: space-between;
+
+  h3 {
+    font-size: 18px;
+    line-height: 1.5;
+    font-weight: $font-weight-semibold;
+
+  }
+
+  .button-area {
+    @include flex(row);
   }
 }

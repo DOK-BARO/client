@@ -5,6 +5,7 @@ import MyPageLayout from "./layout/myPageLayout/myPageLayout";
 import { useState } from "react";
 import MyMadeQuiz from "./composite/myMadeQuiz/myMadeQuiz";
 import SolvedQuiz from "./composite/solvedQuiz/solvedQuiz";
+import EditMyInfo from "./composite/accountSetting/editMyInfo";
 
 export default function Index() {
   const [currentStep, setCurrentStep] = useState<number>(0);
@@ -31,7 +32,7 @@ export default function Index() {
         {
           order: 3.1,
           title: "회원정보 수정",
-          formComponent: () => <></>
+          formComponent: () => <EditMyInfo />
         },
         {
           order: 3.2,

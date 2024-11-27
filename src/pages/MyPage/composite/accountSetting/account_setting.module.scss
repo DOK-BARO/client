@@ -34,9 +34,32 @@ section {
       border-radius: 10px;
     }
 
+    .edit-img-bg {
+      top:0px;
+      left: 0px;
+      width: 200px;
+      height: 200px;
+      border-radius: 10px;
+      position: absolute;
+      background-color: #00000080;
+    }
+
+    .edit-img-icon-bg {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background-color: #ffffff80;
+      top: 50px;
+      left: 50px;
+    }
+
     .edit-img-icon {
       position: absolute;
-
+      width: 40px;
+      height: 40px;
+      top: 80px;
+      left: 80px;
     }
   }
 

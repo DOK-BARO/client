@@ -51,7 +51,9 @@ export default function EditMyInfo() {
             >
               <img src={user?.profileImage}
               className={styles["edit-profile-img"]}
-              />
+              /> 
+              <div className={styles["edit-img-bg"]}></div>
+              <div className={styles["edit-img-icon-bg"]}></div>
               <img src={editProfile} 
               className={styles["edit-img-icon"]}
               width={100} height={100} />

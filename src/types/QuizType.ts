@@ -15,8 +15,21 @@ export interface QuizType {
   };
 }
 
+export interface MyQuizType {
+  id: number,
+  bookImageUrl: string,
+  title: string,
+  updatedAt: string
+}
+
 export type ViewScope = "EVERYONE" | "STUDY_GROUP" | "CREATOR";
 export type EditScope = "EVERYONE" | "STUDY_GROUP" | "CREATOR";
+export const scopeTranslations: Record<ViewScope, string> = {
+  EVERYONE: "모두",
+  STUDY_GROUP: "스터디원만",
+  CREATOR: "나만",
+};
+
 export type AnswerType =
   | "OX"
   | "FILL_BLANK"
@@ -56,7 +69,7 @@ export interface QuizQuestionType {
   answers: string[];
 }
 
-export interface QuizRequestType {
+export interface QuizRequestType { // TODO: 이름 아래와 통일 필요
   title: string;
   description: string;
   bookId: number;

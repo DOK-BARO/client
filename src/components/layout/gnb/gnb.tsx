@@ -8,9 +8,12 @@ import { useQuery } from "@tanstack/react-query";
 import { bookKeys } from "@/data/queryKeys";
 import Button from "@/components/atom/button/button";
 import useGNB from "@/hooks/useGNB";
+import { useNavigate } from "react-router-dom";
 
+// Book Category GNB
 export default function GNB() {
   const { isGNBHidden } = useGNB();
+  const navigate = useNavigate();
   const [activeCategoryIndex, setActiveCategoryIndex] = useState<number | null>(
     null
   );
@@ -46,6 +49,7 @@ export default function GNB() {
     setExpandedSubCategories({});
   };
 
+  // TODO: heading 태그 다른 태그로 변경하기
   return (
     <nav
       className={`${styles.gnb} ${isGNBHidden ? styles.hidden : ""}`}
@@ -55,13 +59,17 @@ export default function GNB() {
         <ul className={styles["category-list"]}>
           {categories?.map((category, index) => (
             <li key={index} onMouseEnter={() => handleMouseEnter(index)}>
-              <h2
-                className={`${
+              <Button
+                className={`${styles["category-item-title"]} ${
                   activeCategoryIndex === index ? styles["hover"] : ""
                 }`}
+                color="transparent"
+                onClick={() => {
+                  navigate(`/book-list/${category.id}`);
+                }}
               >
                 {category.name}
-              </h2>
+              </Button>
             </li>
           ))}
         </ul>
@@ -71,15 +79,25 @@ export default function GNB() {
               <ul className={styles["sub-category-list"]}>
                 {category.details?.map((subCategory, subCategoryId) => (
                   <li key={subCategoryId}>
-                    <span>
-                      <a href={`/${subCategory.name}`}>
-                        <h3>{subCategory.name}</h3>
-                      </a>
+                    <span
+                      className={styles["sub-category-item-button-container"]}
+                    >
+                      <Button
+                        color="transparent"
+                        size="small"
+                        onClick={() => {
+                          navigate(`/book-list/${subCategory.id}`);
+                        }}
+                        className={styles["sub-category-item"]}
+                      >
+                        {subCategory.name}
+                      </Button>
                       {subCategory?.details?.length ?? 0 > 0 ? (
                         <Button
                           onClick={() => {
                             toggleSubCategory(subCategoryId);
                           }}
+                          className={styles.more}
                           iconOnly
                         >
                           {expandedSubCategories[subCategoryId] ? (
@@ -95,9 +113,16 @@ export default function GNB() {
                       <ul className={styles["sub-category-detail-list"]}>
                         {subCategory?.details?.map((detail, detailIndex) => (
                           <li key={detailIndex}>
-                            <a href={`/${detail.name}`}>
-                              <h4>{detail.name}</h4>
-                            </a>
+                            <Button
+                              size="small"
+                              color="transparent"
+                              className={styles["sub-category-detail-item"]}
+                              onClick={() => {
+                                navigate(`/book-list/${detail.id}`);
+                              }}
+                            >
+                              {detail.name}
+                            </Button>
                           </li>
                         ))}
                       </ul>

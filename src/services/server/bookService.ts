@@ -35,6 +35,7 @@ export const getBookList = async (
         direction,
       },
     });
+    // console.log("책 목록!!", response);
     return data;
   } catch (error) {
     throw new Error(`책 목록 가져오기 실패: ${error}`);

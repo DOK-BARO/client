@@ -168,6 +168,7 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
   const fileInputRef = useRef<HTMLInputElement | null>(null); // 파일 입력 참조
   const maxImgFileCount = 3;
 
+  //TODO: hook으로 만들기
   const readFilesAsDataURL = async (files: File[]): Promise<string[]> => {
     const readerPromises: Promise<string>[] = files.map((file) => {
       return new Promise<string>((resolve) => {

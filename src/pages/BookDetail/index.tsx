@@ -23,9 +23,9 @@ export default function Index() {
   }
 
   return (
-    <div className={styles["container"]}>
+    <section className={styles.container}>
       <BookDetailSection bookDetailContent={data!} />
       <QuizListSection />
-    </div>
+    </section>
   );
 }

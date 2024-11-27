@@ -1,7 +1,6 @@
 import { AUTH_TYPES, SOCIAL_TYPES } from "@/data/constants.ts";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
-import useGNB from "@/hooks/useGNB.ts";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
 import { RadioOption } from "@/types/RadioTypes.ts";
 import useModal from "@/hooks/useModal.ts";
@@ -16,11 +15,10 @@ import {
 import RadioButton from "@/components/atom/radioButton/radioButton.tsx";
 import SocialAuthButton from "@/components/composite/socialAuthButton/socialAuthButton.tsx";
 import Button from "@/components/atom/button/button.tsx";
-import GNB from "@/components/layout/gnb/gnb.tsx";
 import Modal from "@/components/atom/modal/modal.tsx";
 import Input from "@/components/atom/input/input.tsx";
 import { useRef } from "react";
-import { uploadImg } from "@/services/server/imageService";
+import { uploadImage } from "@/services/server/imageService";
 
 const options: RadioOption[] = [
   { id: 1, value: "option1", label: "Option 1" },
@@ -70,11 +68,13 @@ export default function Index() {
 
   const handleUploadImg = async () => {
     const img: File = selectedImages[0];
+    const uploadImgArg: { image: File, imageTarget: "MEMBER_PROFILE" | "STUDY_GROUP_PROFILE" } = {
+      image: img,
+      imageTarget: "STUDY_GROUP_PROFILE"
+    };
 
-    const formData = new FormData();
-    formData.append("file", img);
-    await uploadImg(formData);
-  };
+    await uploadImage(uploadImgArg);
+  }
   return (
     <>
       {/* <GNB /> */}

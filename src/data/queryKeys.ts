@@ -10,3 +10,7 @@ export const bookKeys = {
 export const userKeys = {
   user: () => ["user"] as const,
 };
+
+export const quizKey = {
+  myQuiz: () => ["myQuiz"] as const,
+}

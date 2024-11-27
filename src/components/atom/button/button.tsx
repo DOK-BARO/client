@@ -2,7 +2,7 @@ import React, { ReactNode } from "react";
 import styles from "./_button.module.scss";
 interface ButtonProps {
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  children: ReactNode;
+  children?: ReactNode;
   id?: string;
   type?: "button" | "submit" | "reset";
   size?: "xsmall" | "small" | "medium" | "large" | "xlarge";

@@ -29,12 +29,11 @@
   .main {
     width: 1140px;
     margin: 0 auto;
+    padding: 0 40px;
     margin-top: 103px; // 헤더 크기(GNB 포함) 45 + 58 = 103 (최소 margin-top)
 
     .inner-container {
-      margin: 0 auto;
-      width: 92%;
-      max-width: calc(100% - 48px);
+      width: 100%;
     }
   }
   .footer {

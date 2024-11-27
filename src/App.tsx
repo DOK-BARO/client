@@ -14,6 +14,9 @@ import RegisterStep from "./pages/Register/registerStep.tsx";
 //import BaseLayout from "@/components/layout/baseLayout/baseLayout";
 import BaseLayout from "./components/layout/baseLayout/baseLayout";
 import RegisterComplete from "./pages/Register/composite/registerComplete/RegisterComplete.tsx";
+import BookList from "./pages/Home/components/composite/bookList/bookList.tsx";
+import BookListLayout from "./components/layout/bookListLayout/bookListLayout.tsx";
+import MyPage from "./pages/MyPage/index.tsx";
 
 function App() {
   axios.defaults.withCredentials = true;
@@ -27,7 +30,17 @@ function App() {
       children: [
         {
           path: "/",
-          element: <Index />,
+          element: <BookListLayout />, // 책 목록,
+          children: [
+            {
+              path: "/",
+              element: <Index />,
+            },
+            {
+              path: "/book-list/:categoryId",
+              element: <BookList />,
+            },
+          ],
         },
         {
           path: "/create-quiz",
@@ -37,6 +50,7 @@ function App() {
           path: "/book-detail/:id",
           element: <BookDetailSection />,
         },
+
         {
           path: "/register/:method",
           element: <Register />,
@@ -53,6 +67,10 @@ function App() {
         {
           path: "/register/complete",
           element: <RegisterComplete />,
+        },
+        {
+          path: "/my",
+          element: <MyPage />,
         },
 
         {

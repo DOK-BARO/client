@@ -8,7 +8,7 @@ import editProfile from "/assets/svg/accountSetting/editProfile.svg";
 export default function EditMyInfo() {
   const { user } = useQueryCurrentUser();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [, setImagePreview] = useState<string[]>([]);
+  const [previewImg, setImagePreview] = useState<string[]>([]);
 
 
 //TODO: questionForm과 동일코드 . hook으로 분리 예정
@@ -51,8 +51,11 @@ export default function EditMyInfo() {
             >
               <img src={user?.profileImage}
               className={styles["edit-profile-img"]}
-              /> 
-              <div className={styles["edit-img-bg"]}></div>
+              />
+              <img 
+              className={styles["edit-img-bg"]} 
+              src={previewImg[0]}
+              />
               <div className={styles["edit-img-icon-bg"]}></div>
               <img src={editProfile} 
               className={styles["edit-img-icon"]}

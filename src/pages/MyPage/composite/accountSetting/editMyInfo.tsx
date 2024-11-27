@@ -8,8 +8,8 @@ import editProfile from "/assets/svg/accountSetting/editProfile.svg";
 export default function EditMyInfo() {
   const { user } = useQueryCurrentUser();
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [, setImagePreview] = 
-  useState<string[]>([]);
+  const [, setImagePreview] = useState<string[]>([]);
+
 
 //TODO: questionForm과 동일코드 . hook으로 분리 예정
   const readFilesAsDataURL = async (files: File[]): Promise<string[]> => {
@@ -49,9 +49,9 @@ export default function EditMyInfo() {
               onClick={handleButtonClick}
               className={styles["edit-img-btn"]}
             >
-              {/* <img src={user?.profileImage}
+              <img src={user?.profileImage}
               className={styles["edit-profile-img"]}
-              /> */}
+              />
               <img src={editProfile} 
               className={styles["edit-img-icon"]}
               width={100} height={100} />

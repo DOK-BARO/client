@@ -2,8 +2,8 @@ import axios, { AxiosError } from "axios";
 import { AuthResponse } from "../../types/AuthResponse.ts";
 import { SocialLoginType } from "../../types/SocialLoginType.ts";
 import localApi from "../local/LocalApi.ts";
-import { UserType } from "@/types/UserType.ts";
 import { TermsOfServiceType } from "@/types/TermsOfServiceType.ts";
+import { UserProfileType } from "@/types/UserType.ts";
 
 // TODO: 함수명 api로부터 바로 가져오는건 fetch, 그 외 get
 const redirectedUrl = import.meta.env.VITE_AUTH_REDIRECTED_URL;
@@ -114,7 +114,7 @@ export const updateUser = async (userInfo: {
 
 // 프로필 업데이트
 // TODO: fetch~로 함수명 변경하기
-export const getUser = async (): Promise<UserType> => {
+export const getUser = async (): Promise<UserProfileType> => {
   try {
     const { data } = await axios.get("/members/login-user");
     console.log("%o",data);
@@ -137,7 +137,7 @@ export const getUser = async (): Promise<UserType> => {
   }
 };
 
-export const getUserIfAuthenticated = async (): Promise<UserType | null> => {
+export const getUserIfAuthenticated = async (): Promise<UserProfileType | null> => {
   const certificationId = !!localApi.getUserCertificationId();
 
   if (!certificationId) {

@@ -6,7 +6,10 @@
 }
 
 .book-list-container {
+  margin-top: 16px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
+  grid-template-columns: repeat(5, 1fr);
+  width: 100%;
+  column-gap: 14px;
+  row-gap: 34px;
 }

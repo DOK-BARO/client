@@ -2,22 +2,26 @@
 @import "../../../styles/abstracts/mixins";
 
 .header {
+  width: 100vw;
+  background-color: $background;
+  position: fixed;
+
   &-container {
     display: flex;
     height: 58px;
     width: 1140px;
-    margin: auto;
+    padding: 0 40px;
+    margin: 0 auto;
     align-items: center;
   }
 
   &-inner-container {
     display: flex;
-    width: 92%;
     margin: 0 auto;
-    max-width: calc(100% - 48px);
+    width: 100%;
+    // max-width: calc(100% - 48px);
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-
   }
 }

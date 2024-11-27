@@ -1,0 +1,18 @@
+@import "../../../../styles/abstracts/mixins";
+@import "../../../../styles/abstracts/variables";
+
+.container {
+  @include flex(column);
+  flex: 1;
+
+  h2 {
+    font-size: 32px; //TODO: 변경필요
+    font-weight: $font-weight-bold;
+  }
+
+  article {
+    @include flex(column);
+    gap: 16px;
+    padding: 20px 0 40px;
+  }
+}

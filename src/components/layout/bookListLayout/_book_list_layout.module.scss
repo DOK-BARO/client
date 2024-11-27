@@ -1,0 +1,26 @@
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixins";
+
+.container {
+  margin-top: 40px;
+  display: flex;
+  gap: 40px;
+
+  .title {
+    font-size: 30px;
+    font-weight: $font-weight-semibold;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+  .book-list-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .breadcrumb-filter-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+}

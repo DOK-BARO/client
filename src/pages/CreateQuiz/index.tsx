@@ -1,5 +1,5 @@
 import styles from "./_create_quiz.module.scss";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import QuizSettingStudyGroupForm from "@/pages/CreateQuiz/composite/quizSettingStudyGroupForm/quizSettingStudyGroupForm.tsx";
 import QuizBookSelectionForm from "./composite/quizBookSectionForm/quizBookSelectionForm.tsx";
 import QuizWriteForm from "./composite/quizWriteForm/quizWriteForm.tsx";
@@ -15,20 +15,7 @@ import {
 import { useAtom } from "jotai";
 import Modal from "@/components/atom/modal/modal.tsx";
 import useModal from "@/hooks/useModal.ts";
-
-interface FormComponentProps {
-  setCurrentStep: Dispatch<SetStateAction<number>>;
-}
-
-export interface Step {
-  order: number;
-  icon?: string;
-  title: string;
-  description?: string;
-  formComponent?: (props?: FormComponentProps) => JSX.Element;
-  subSteps?: Step[];
-  isDone?: boolean;
-}
+import { Step } from "@/types/StepType.ts";
 
 export default function Index() {
   const [completionStatus] = useAtom(stepsCompletionStatusAtom);
@@ -69,7 +56,7 @@ export default function Index() {
           formComponent: () => <QuizWriteForm />,
         },
       ],
-      isDone: completionStatus.isQuestionsWrittenAtom,
+      isDone: completionStatus.isQuestionsWritten,
     },
     {
       order: 3,
@@ -77,7 +64,7 @@ export default function Index() {
       title: "공유 설정",
       description: "퀴즈를 볼 수 있는 사람과 제한 시간을 설정해 주세요.",
       formComponent: () => <QuizSettingsForm />,
-      isDone: completionStatus.isSetAtom,
+      isDone: completionStatus.isSet,
     },
   ];
 
@@ -85,6 +72,7 @@ export default function Index() {
   const [errorModalTitle] = useAtom(errorModalTitleAtom);
   const { isModalOpen, openModal, closeModal } = useModal();
   const [, setOpenErrorModal] = useAtom(openErrorModalAtom);
+
   useEffect(() => {
     setOpenErrorModal(() => openModal);
   }, [setOpenErrorModal]);

@@ -117,6 +117,7 @@ export const updateUser = async (userInfo: {
 export const getUser = async (): Promise<UserType> => {
   try {
     const { data } = await axios.get("/members/login-user");
+    console.log("%o",data);
     return data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {

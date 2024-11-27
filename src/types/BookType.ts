@@ -7,6 +7,7 @@ export interface BookType {
   imageUrl: string;
   categories: BookCategories[];
   authors: string[];
+  quizCount?: number;
 }
 
 interface BookCategories {
@@ -20,7 +21,7 @@ export interface GetBookListParams {
   title?: string;
   authorName?: string;
   description?: string;
-  category?: string;
+  category?: number;
   page?: number;
   size?: number;
   sort?: "PUBLISHED_AT" | "TITLE" | "QUIZ_COUNT";

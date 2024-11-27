@@ -1,5 +1,5 @@
 import { fetchQuizzes } from "@/services/server/quizService";
-import { QuizType } from "@/types/BookQuizType";
+import { QuizType } from "@/types/QuizType";
 import { useEffect, useState } from "react";
 
 // 퀴즈 목록들을 불러오는 훅

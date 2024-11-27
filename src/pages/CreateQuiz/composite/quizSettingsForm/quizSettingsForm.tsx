@@ -4,7 +4,7 @@ import Button from "@/components/atom/button/button";
 import { IsQuizNextButtonEnabledAtom } from "@/store/quizAtom";
 import { useAtom } from "jotai";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
-import { BookQuizType } from "@/types/BookQuizType";
+import { QuizCreationType } from "@/types/QuizType";
 
 // TODO: 파일 분리
 interface SelectedOptions {
@@ -37,12 +37,12 @@ export default function QuizSettingsForm() {
       [settingName]: label,
     }));
 
-    const updateMapping: { [key: string]: keyof BookQuizType } = {
+    const updateMapping: { [key: string]: keyof QuizCreationType } = {
       "time-limit": "timeLimitSecond",
       "view-access": "viewScope",
       "edit-access": "editScope",
     };
-    const updateKey: keyof BookQuizType = updateMapping[settingName]!;
+    const updateKey: keyof QuizCreationType = updateMapping[settingName]!;
     updateQuizCreationInfo(updateKey, label);
   };
 

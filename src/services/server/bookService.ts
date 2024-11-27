@@ -17,13 +17,13 @@ export const getBookList = async (
     description = null,
     category = null,
     page = 1,
-    size = 24,
+    size = null,
     sort = "QUIZ_COUNT",
     direction = "ASC",
   } = params || {};
 
   try {
-    const { data } = await axios.get("/books", {
+    const response = await axios.get("/books", {
       params: {
         title,
         authorName,
@@ -35,8 +35,8 @@ export const getBookList = async (
         direction,
       },
     });
-    // console.log("책 목록!!", response);
-    return data;
+    console.log("책 목록!!", response);
+    return response.data;
   } catch (error) {
     throw new Error(`책 목록 가져오기 실패: ${error}`);
   }

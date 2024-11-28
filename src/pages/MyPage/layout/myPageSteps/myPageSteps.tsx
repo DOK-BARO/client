@@ -12,17 +12,22 @@ export default function MyPageSteps({ steps, currentStep, setCurrentStep }: {
 
   const onChangeStep = (e: React.MouseEvent<HTMLButtonElement>) => {
     const currentStepButtonValue = e.currentTarget.value;
+
     steps.forEach((step) => {
+      if (step.subSteps?.length) {
+        step.subSteps?.forEach((subStep) => {
+          if (subStep.title === currentStepButtonValue) {
+            setCurrentStep(subStep.order);
+            setActiveSubStep(subStep.order); // 서브 스텝 클릭 시 해당 서브 스텝 활성화
+          }
+        });
+        return;
+      }
+      
       if (step.title === currentStepButtonValue) {
         setCurrentStep(step.order);
         setActiveSubStep(null); // 메인 스텝 클릭 시 서브 스텝 비활성화
       }
-      step.subSteps?.forEach((subStep) => {
-        if (subStep.title === currentStepButtonValue) {
-          setCurrentStep(subStep.order);
-          setActiveSubStep(subStep.order); // 서브 스텝 클릭 시 해당 서브 스텝 활성화
-        }
-      });
     });
   }
   return (
@@ -37,13 +42,13 @@ export default function MyPageSteps({ steps, currentStep, setCurrentStep }: {
           const subStepsClass = activeSubStep === firstSubStepOrder || activeSubStep ? styles["is-visible"] : '';
 
           return (
-            <li 
-            key={index}
-            className={
-              `${styles["steps"]}
+            <li
+              key={index}
+              className={
+                `${styles["steps"]}
             ${styles[step.subSteps ? "have-sub-step" : ""]}
             `
-            }
+              }
             >
               <Button
                 onClick={(e) => onChangeStep(e)}
@@ -58,7 +63,7 @@ export default function MyPageSteps({ steps, currentStep, setCurrentStep }: {
               <ul className={`${styles["sub-steps-container"]} ${subStepsClass}`}>
                 {step.subSteps &&
                   step.subSteps.map((subStep, index: number) => (
-                    <li  key={index}>
+                    <li key={index}>
                       <Button
                         value={subStep.title}
                         onClick={(e) => onChangeStep(e)}

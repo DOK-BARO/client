@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "@/components/atom/button/button.tsx";
 import QuestionForm from "@/pages/CreateQuiz/composite/quizWriteForm/questionForm";
 import {
@@ -12,14 +12,11 @@ import { QuizQuestionType } from "@/types/QuizType";
 import { QuestionFormType } from "@/types/QuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { QuizPlus } from "@/svg/quizPlus";
-import { IsQuizNextButtonEnabledAtom } from "@/store/quizAtom";
-import { useAtom } from "jotai";
 import { AnswerType } from "@/types/QuizType";
 //TODO: 아이콘 정리 필요
 export default function QuizWriteForm() {
   const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
   const defaultAnswerType:AnswerType = "MULTIPLE_CHOICE"
-  const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(IsQuizNextButtonEnabledAtom);
 
   const deleteQuestion = (targetId: number) => {
     setQuestionForms((prevQuizList) =>

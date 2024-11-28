@@ -16,3 +16,10 @@ export interface RegisterInfoType extends UserBaseType {
   password: string;
   termsAgreements: number[]; // 이메일 회원가입인 경우만 사용
 }
+
+// 유저 데이터 가져올 때 쓰일 타입
+export type UserProfileType = UserBaseType & {
+  certificationId: string;
+  roles: string[];
+  profileImage: string;
+}

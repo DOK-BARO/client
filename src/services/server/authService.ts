@@ -2,8 +2,8 @@ import axios, { AxiosError } from "axios";
 import { AuthResponse } from "../../types/AuthResponse.ts";
 import { SocialLoginType } from "../../types/SocialLoginType.ts";
 import localApi from "../local/LocalApi.ts";
-import { UserType } from "@/types/UserType.ts";
 import { TermsOfServiceType } from "@/types/TermsOfServiceType.ts";
+import { UserProfileType } from "@/types/UserType.ts";
 
 // TODO: 함수명 api로부터 바로 가져오는건 fetch, 그 외 get
 const redirectedUrl = import.meta.env.VITE_AUTH_REDIRECTED_URL;
@@ -114,7 +114,7 @@ export const updateUser = async (userInfo: {
 
 // 프로필 업데이트
 // TODO: fetch~로 함수명 변경하기
-export const getUser = async (): Promise<UserType> => {
+export const getUser = async (): Promise<UserProfileType> => {
   try {
     const { data } = await axios.get("/members/login-user");
     console.log("%o",data);
@@ -126,9 +126,11 @@ export const getUser = async (): Promise<UserType> => {
         console.log("in 404 in get user");
         throw error;
       }
-      if (axiosError.response?.status === 500) {
-        console.log("500 in get user");
-        fetchRefreshToken();
+      if (axiosError.response?.status === 403) { 
+        //TODO: 403에러는 리프레시 토큰이 유효하지 않아 재로그인 필요한 상황이다. 리팩토링하여 모든 요청에 적용 필요
+        console.log("get user 403");
+        localApi.removeCertification();
+        throw error;
       }
       throw new Error(`로그인 요청: ${error}`);
     } else {
@@ -137,7 +139,7 @@ export const getUser = async (): Promise<UserType> => {
   }
 };
 
-export const getUserIfAuthenticated = async (): Promise<UserType | null> => {
+export const getUserIfAuthenticated = async (): Promise<UserProfileType | null> => {
   const certificationId = !!localApi.getUserCertificationId();
 
   if (!certificationId) {
@@ -212,24 +214,5 @@ export const matchEmailCode = async ({
     // 인증코드가 일치하지 않을 경우
     // TODO: 상세한 에러 처리 필요
     throw new Error(`인증코드 일치 실패: ${error}`);
-  }
-};
-
-export const fetchRefreshToken = async () => {
-  try {
-    const { data } = await axios.post("/token/refresh");
-    return data;
-  } catch (error: unknown) {
-    if (axios.isAxiosError(error)) {
-      const axiosError = error as AxiosError;
-      if (axiosError.response?.status === 404) {
-        console.log("refresh token 404");
-        localApi.removeCertification();
-        throw error;
-      }
-      throw new Error(`리프레시 토큰 요청: ${error}`);
-    } else {
-      throw new Error(`Unexpected error: ${error}`);
-    }
   }
 };

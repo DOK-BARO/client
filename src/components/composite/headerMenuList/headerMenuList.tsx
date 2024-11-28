@@ -54,7 +54,7 @@ export default function HeaderMenuList({ closeDropDownList }: Props) {
     return <></>;
   }
 
-  const nickName = user?.nickName.length ?? 0 > 5 ? `${user?.nickName.slice(0,6) +"..."}` : user?.nickName;
+  const nickName = (user?.nickName.length ?? 0) > 5 ? `${user?.nickName.slice(0,6) +"..."}` : user?.nickName;
 
   return (
     <ul className={styles["header-menu-list"]}>

@@ -32,7 +32,8 @@ export const isQuestionsWrittenAtom = atom(
   (get) =>
     get(QuizCreationInfoAtom).title !== null &&
     get(QuizCreationInfoAtom).description !== null &&
-    get(QuizCreationInfoAtom).questions !== null
+    get(QuizCreationInfoAtom).questions !== null && 
+    get(QuizCreationInfoAtom).questions!.length > 0
 );
 
 // 공유 설정 단계 완료 여부 Atom

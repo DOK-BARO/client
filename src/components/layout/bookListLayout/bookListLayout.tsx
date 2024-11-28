@@ -24,7 +24,7 @@ export default function BookListLayout() {
     queryFn: getBookCategories,
   });
   const [sortFilter, setSortFilter] = useState<SortFilterType>("QUIZ_COUNT");
-  const { currentPage, handleClick } = usePagination(1);
+  const { currentPage } = usePagination({ totalPagesLength: 6 });
 
   const { data: bookListData, isLoading: isBookListLoading } = useQuery({
     queryKey: bookKeys.list({
@@ -45,30 +45,25 @@ export default function BookListLayout() {
   const endPageNumber = bookListData?.endPageNumber;
 
   console.log(endPageNumber);
-  if (isBookListLoading || !bookListData) {
-    return <div>책 목록 로딩중</div>;
-  }
 
-  if (isCategoriesLoading || !categories) {
-    return <div>카테고리 로딩중</div>;
-  }
-
-  const topParentCategoryInfo = findTopParentCategoryInfo(
-    categories,
-    Number(categoryId)
-  );
-  const parentCategoryInfo = findParentCategoryInfo(
-    categories,
-    Number(categoryId)
-  );
-  const currentCategoryInfo = findCurrentCategoryInfo(
-    categories,
-    Number(categoryId)
-  );
+  const topParentCategoryInfo = categories
+    ? findTopParentCategoryInfo(categories, Number(categoryId))
+    : null;
+  const parentCategoryInfo = categories
+    ? findParentCategoryInfo(categories, Number(categoryId))
+    : null;
+  const currentCategoryInfo = categories
+    ? findCurrentCategoryInfo(categories, Number(categoryId))
+    : null;
 
   return (
     <section className={styles.container}>
-      <LNB categoryId={Number(categoryId)} categories={categories} />
+      {isCategoriesLoading || !categories ? (
+        <div>카테고리 로딩중</div>
+      ) : (
+        <LNB categoryId={Number(categoryId)} categories={categories} />
+      )}
+
       <div className={styles["book-list-container"]}>
         <h2 className={styles.title}>
           {topParentCategoryInfo?.name || "전체 책 목록"}
@@ -84,8 +79,12 @@ export default function BookListLayout() {
             sortFilter={sortFilter}
           />
         </div>
-        <Outlet context={{ bookList }} />
-        <Pagination currentPage={currentPage} handleClick={handleClick} />
+        {isBookListLoading || !bookListData ? (
+          <div>책 목록 로딩중</div>
+        ) : (
+          <Outlet context={{ bookList }} />
+        )}
+        <Pagination totalPagesLength={15} />
       </div>
     </section>
   );

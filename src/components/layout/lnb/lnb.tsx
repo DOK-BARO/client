@@ -2,9 +2,10 @@
 import styles from "./_lnb.module.scss";
 import Button from "@/components/atom/button/button";
 import { useNavigate } from "react-router-dom";
-import arrowLeft from "/assets/svg/bookList/arrowLeft.svg";
 import { BookCategory } from "@/types/GNBCategoryType";
 import { findTopParentCategoryInfo } from "@/utils/findCategoryInfo";
+import { ArrowLeft } from "@/svg/arrowLeft";
+import { gray90 } from "@/styles/abstracts/colors";
 
 // Book Category GNB
 export default function LNB({
@@ -33,7 +34,14 @@ export default function LNB({
               <Button
                 color="transparent"
                 size="xsmall"
-                icon={<img alt="뒤로가기" src={arrowLeft} />}
+                icon={
+                  <ArrowLeft
+                    alt="뒤로가기"
+                    width={20}
+                    height={20}
+                    stroke={gray90}
+                  />
+                }
                 iconOnly
                 onClick={() => navigate("/")}
               />

@@ -1,7 +1,8 @@
 import Button from "@/components/atom/button/button";
 import styles from "./_breadcrumb.module.scss";
-import arrowRight from "/assets/svg/bookList/arrowRight.svg";
 import { useNavigate } from "react-router-dom";
+import { ArrowRight } from "@/svg/arrowRight";
+import { gray90 } from "@/styles/abstracts/colors";
 
 export default function Breadcrumb({
   list,
@@ -22,7 +23,10 @@ export default function Breadcrumb({
     <nav className={styles.breadcrumb}>
       <ol className={styles["breadcrumb-list"]}>
         {list.map((item, index) => (
-          <li className={styles["breadcrumb-list-item-container"]}>
+          <li
+            className={styles["breadcrumb-list-item-container"]}
+            key={item?.id}
+          >
             <Button
               size="xsmall"
               color="transparent"
@@ -36,7 +40,7 @@ export default function Breadcrumb({
               {item?.name || null}
             </Button>
             {index !== list.length - 1 ? (
-              <img src={arrowRight} width={20} height={20} />
+              <ArrowRight width={20} height={20} stroke={gray90} alt="" />
             ) : null}
           </li>
         ))}

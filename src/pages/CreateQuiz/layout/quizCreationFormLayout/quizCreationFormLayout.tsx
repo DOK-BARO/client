@@ -100,8 +100,7 @@ export default function QuizCreationFormLayout({
   const goToNextStep = async () => {
     if (currentStep === 0) {
       updateQuizCreationInfo("studyGroup", undefined);
-    }
-    else if (currentStep === 2.2) {
+    } else if (currentStep === 2.2) {
       console.log("validation check!");
       //TODO: 질문이 하나도 없을 때 버튼 다시 disable 필요
       
@@ -114,7 +113,7 @@ export default function QuizCreationFormLayout({
         }
       }
 
-    }else if (currentStep == endStep) {
+    } else if (currentStep == endStep) {
       await requestCreateQuiz();
       return;
     }

@@ -126,9 +126,11 @@ export const getUser = async (): Promise<UserType> => {
         console.log("in 404 in get user");
         throw error;
       }
-      if (axiosError.response?.status === 500) {
-        console.log("500 in get user");
-        fetchRefreshToken();
+      if (axiosError.response?.status === 403) { 
+        //TODO: 403에러는 리프레시 토큰이 유효하지 않아 재로그인 필요한 상황이다. 리팩토링하여 모든 요청에 적용 필요
+        console.log("get user 403");
+        localApi.removeCertification();
+        throw error;
       }
       throw new Error(`로그인 요청: ${error}`);
     } else {
@@ -212,24 +214,5 @@ export const matchEmailCode = async ({
     // 인증코드가 일치하지 않을 경우
     // TODO: 상세한 에러 처리 필요
     throw new Error(`인증코드 일치 실패: ${error}`);
-  }
-};
-
-export const fetchRefreshToken = async () => {
-  try {
-    const { data } = await axios.post("/token/refresh");
-    return data;
-  } catch (error: unknown) {
-    if (axios.isAxiosError(error)) {
-      const axiosError = error as AxiosError;
-      if (axiosError.response?.status === 404) {
-        console.log("refresh token 404");
-        localApi.removeCertification();
-        throw error;
-      }
-      throw new Error(`리프레시 토큰 요청: ${error}`);
-    } else {
-      throw new Error(`Unexpected error: ${error}`);
-    }
   }
 };

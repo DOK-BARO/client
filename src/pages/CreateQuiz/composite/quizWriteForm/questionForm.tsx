@@ -17,7 +17,7 @@ import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
 import { useAtom } from "jotai";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
-import { QuizQuestionType } from "@/types/QuizType";
+import { QuizQuestionType, SelectOptionType } from "@/types/QuizType";
 import QuestionTemplateTypeUtilButton from "./questionTemplateTypeUtilButton";
 
 
@@ -127,19 +127,34 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
   };
 
 
-
+  const hasDuplicate = (arr:SelectOptionType[]) => {
+    const options: string[] = arr.map(({option})=>(option));
+    return new Set(options).size !== options.length;
+  }
   const checkValidation = () => {
+    const questionForm: QuizQuestionType = quizCreationInfo.questions?.find(({id}) => id === questionFormId)!;
+    const selectOptions:SelectOptionType[] = questionForm.selectOptions;
+
     // - 질문 입력 안 했을 때: 질문을 입력해 주세요.
-    if (question.length === 0) {
+    if (questionForm.content.length === 0) {
       setErrorModalTitle("질문을 입력해 주세요");
       openModal!();
+      return;
     }
     // - 옵션 하나도 없을 때: 선택지를 1개 이상 추가해 주세요.
-    //TODO: 퀴즈 만들기 프로세스 데이터를 전역 상태로 구현 후 구현 예정
-    // -  중복된 옵션이 있을 때: 중복된 선택지입니다. 다시 입력해 주세요.
+    if (questionForm.selectOptions.length === 0) {
+      setErrorModalTitle("선택지를 1개 이상 추가해 주세요");
+      openModal!();
+      return;
+    }
 
-    // - 정답 선택 안 했을 때: 답안이 선택되었는지 확인하세요. 
-
+    // -  중복된 옵션이 있을 때: 중복된 옵션입니다. 다시 입력해 주세요.
+    const duplicated:boolean = hasDuplicate(selectOptions);
+    if(duplicated){
+      setErrorModalTitle("중복된 옵션입니다. 다시 입력해 주세요.");
+      openModal!();
+      return;
+    }
   }
 
   const fileInputRef = useRef<HTMLInputElement | null>(null); // 파일 입력 참조

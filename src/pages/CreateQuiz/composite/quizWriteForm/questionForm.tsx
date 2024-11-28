@@ -155,14 +155,6 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
       openModal!();
       return;
     }
-    //TODO: 다른곳에서 유효성 검사 해아함
-    // // - 정답 선택 안 했을 때: 답안이 선택되었는지 확인하세요. 
-    // if(questionForm.answers.length === 0){
-    //   setErrorModalTitle("답안이 선택되었는지 확인하세요.");
-    //   openModal!();
-    //   return;
-    // }
-
   }
 
   const fileInputRef = useRef<HTMLInputElement | null>(null); // 파일 입력 참조

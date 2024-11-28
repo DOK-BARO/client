@@ -13,6 +13,7 @@ import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { createQuiz } from "@/services/server/quizService";
 import { ViewScope, EditScope, scopeTranslations } from "@/types/QuizType";
 import { uploadImage } from "@/services/server/imageService";
+import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
 
 export default function QuizCreationFormLayout({
   steps,
@@ -26,6 +27,8 @@ export default function QuizCreationFormLayout({
   const [isQuizNextButtonEnabled, setIsQuizNextButtonEnabled] =
     useAtom<boolean>(IsQuizNextButtonEnabledAtom);
   const [quizCreationInfo] = useAtom<QuizCreationType>(QuizCreationInfoAtom);
+  const [, setErrorModalTitle] = useAtom(errorModalTitleAtom);
+  const [openModal] = useAtom(openErrorModalAtom);
 
   const getCurrentStep = (): Step => {
     const step = steps[currentStep];
@@ -37,13 +40,13 @@ export default function QuizCreationFormLayout({
     )!;
   };
 
-  const getScopeKeyByTranslation = (translation: string): ViewScope | EditScope | undefined  => {
+  const getScopeKeyByTranslation = (translation: string): ViewScope | EditScope | undefined => {
     const entry = Object.entries(scopeTranslations).find(([_, value]) => value === translation);
     return entry ? entry[0] as ViewScope : undefined;
   }
 
-  const requestUploadExplanationImages = async(uploadTargetImgs:File[]):Promise<string[]> => {
-    const promiseImgList = uploadTargetImgs.map(async(img) => {
+  const requestUploadExplanationImages = async (uploadTargetImgs: File[]): Promise<string[]> => {
+    const promiseImgList = uploadTargetImgs.map(async (img) => {
       const paramObj: {
         image: File,
         imageTarget: "MEMBER_PROFILE" | "STUDY_GROUP_PROFILE" | "BOOK_QUIZ_ANSWER"
@@ -57,9 +60,9 @@ export default function QuizCreationFormLayout({
     return uploadedImgUrl;
   }
 
-  const setRequestQuestion = async ():Promise<QuizQuestionRequestApiType[]> => {
+  const setRequestQuestion = async (): Promise<QuizQuestionRequestApiType[]> => {
 
-    const uploadedImgQuestions = quizCreationInfo.questions!.map(async(question) => {
+    const uploadedImgQuestions = quizCreationInfo.questions!.map(async (question) => {
       const { id, ...rest } = question;
       return {
         ...rest,
@@ -93,12 +96,24 @@ export default function QuizCreationFormLayout({
   const endStep = steps.length - 1;
   const { updateQuizCreationInfo } = useUpdateQuizCreationInfo();
 
+
   const goToNextStep = async () => {
     if (currentStep === 0) {
       updateQuizCreationInfo("studyGroup", undefined);
-    }
+    } else if (currentStep === 2.2) {
+      console.log("validation check!");
+      //TODO: 질문이 하나도 없을 때 버튼 다시 disable 필요
+      
+      // - 정답 선택 안 했을 때: 답안이 선택되었는지 확인하세요. 
+      for (const question of quizCreationInfo.questions ?? []) {
+        if (!question.answers?.length) {
+          setErrorModalTitle("답안이 선택되었는지 확인하세요.");
+          openModal!();
+          return;
+        }
+      }
 
-    if (currentStep == endStep) {
+    } else if (currentStep == endStep) {
       await requestCreateQuiz();
       return;
     }
@@ -177,18 +192,6 @@ export default function QuizCreationFormLayout({
             stroke={isQuizNextButtonEnabled ? gray0 : gray60}
           />
         </Button>
-        {/* TODO: 테스트용 코드. 지우기 */}
-        {/* <button
-          onClick={() => {
-            setQuizCreationInfo({
-              ...quizCreationInfo,
-              bookId: 3,
-            });
-          }}
-        >
-          dd
-        </button>
-        <button onClick={() => console.log(quizCreationInfo)}>확인</button> */}
       </div>
     </section>
   );

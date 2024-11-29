@@ -2,8 +2,8 @@ import { Dispatch } from "react";
 import styles from "./_book-list-filter.module.scss";
 import Button from "@/components/atom/button/button";
 import { SetStateAction } from "jotai";
-import { SortFilterType } from "@/components/layout/bookListLayout/bookListLayout";
 import { useNavigate } from "react-router-dom";
+import { SortFilterType } from "@/types/BookType";
 
 export default function BookListFilter({
   setSortFilter,

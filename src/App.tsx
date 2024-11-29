@@ -4,7 +4,7 @@ import {
   createBrowserRouter,
 } from "react-router-dom";
 import "./styles/main.scss";
-import Index from "./pages/Home/index.tsx";
+// import Index from "./pages/Home/index.tsx";
 import axios from "axios";
 
 import AuthRedirectedPage from "./pages/Redirect/authRedirectedPage.tsx";
@@ -51,7 +51,7 @@ function App() {
           element: <CreateQuiz />,
         },
         {
-          path: "/book-detail/:id",
+          path: "/book/:id",
           element: <BookDetailSection />,
         },
 

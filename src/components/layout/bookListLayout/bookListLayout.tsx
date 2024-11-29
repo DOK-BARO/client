@@ -1,8 +1,8 @@
-import { Outlet, useLocation, useParams } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import styles from "./_book_list_layout.module.scss";
 import { useQuery } from "@tanstack/react-query";
 import { bookKeys } from "@/data/queryKeys";
-import { getBookCategories, getBookList } from "@/services/server/bookService";
+import { getBookCategories, getBooks } from "@/services/server/bookService";
 import LNB from "../lnb/lnb";
 import {
   findCurrentCategoryInfo,
@@ -30,14 +30,14 @@ export default function BookListLayout() {
   const page = queryParams.get("page");
 
   // 책 목록 가져오기
-  const { data: bookListData, isLoading: isBookListLoading } = useQuery({
+  const { data: booksData, isLoading: isBooksLoading } = useQuery({
     queryKey: bookKeys.list({
       category: category ? Number(category) : undefined,
       sort: sort ? (sort as SortFilterType) : undefined,
       page: page ? Number(page) : 1,
     }),
     queryFn: () =>
-      getBookList({
+      getBooks({
         category: category ? Number(category) : undefined,
         sort: sort ? (sort as SortFilterType) : undefined,
         page: page ? Number(page) : 1,
@@ -45,9 +45,9 @@ export default function BookListLayout() {
       }),
   });
 
-  const bookList = bookListData?.data;
-  // const endPageNumber = bookListData?.endPageNumber;
-  // console.log(endPageNumber);
+  const books = booksData?.data;
+  const endPageNumber = booksData?.endPageNumber;
+  console.log(endPageNumber);
 
   const topParentCategoryInfo = categories
     ? findTopParentCategoryInfo(categories, Number(category))
@@ -82,12 +82,12 @@ export default function BookListLayout() {
             sortFilter={sortFilter}
           />
         </div>
-        {isBookListLoading || !bookListData ? (
+        {isBooksLoading || !booksData ? (
           <div>책 목록 로딩중</div>
         ) : (
-          <Outlet context={{ bookList }} />
+          <Outlet context={{ books }} />
         )}
-        <Pagination totalPagesLength={15} />
+        <Pagination totalPagesLength={endPageNumber ?? 0} />
       </div>
     </section>
   );

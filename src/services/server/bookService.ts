@@ -1,15 +1,15 @@
 import axios from "axios";
 import {
   BookType,
-  GetBookListParams,
-  SearchBookListParams,
+  GetBooksParams,
+  SearchBooksParams,
 } from "../../types/BookType.ts";
 import { BookDetailType } from "../../types/BookDetailType.ts";
 import { BookCategory } from "../../types/GNBCategoryType.ts";
 
 // 책 목록, 책 상세정보 가져오기
-export const getBookList = async (
-  params: GetBookListParams = {}
+export const getBooks = async (
+  params: GetBooksParams = {}
 ): Promise<{ data: BookType[]; endPageNumber: number }> => {
   const {
     title = undefined,
@@ -43,8 +43,8 @@ export const getBookList = async (
 };
 
 // 책 통합검색
-export const searchBookList = async (
-  params?: SearchBookListParams
+export const searchBooks = async (
+  params?: SearchBooksParams
 ): Promise<BookType[]> => {
   const { keyword, lastId = null, size = 10 } = params || {};
 

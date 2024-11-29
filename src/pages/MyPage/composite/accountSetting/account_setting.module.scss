@@ -27,7 +27,7 @@ section {
 
     .edit-profile-img {
       position: absolute;
-      top:0px;
+      top: 0px;
       left: 0px;
       width: 100%;
       object-fit: cover;
@@ -35,7 +35,7 @@ section {
     }
 
     .edit-img-bg {
-      top:0px;
+      top: 0px;
       left: 0px;
       width: 200px;
       height: 200px;
@@ -70,14 +70,30 @@ section {
     padding: 16px 0 40px;
   }
 
-  .change-email {
+  .current-email {
     display: flex;
+    width: 100%;
     justify-content: space-between;
     align-items: center;
-    font-size: 24px;
+  }
 
-    button {
-      padding: 11px 32px;
-    }
+  .change-email {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .new-email-input{
+    width: 100%;
+  margin-right: 32px;
+  }
+
+  .disabled {
+    color: $gray-60;
+  }
+
+  button {
+    padding: 11px 32px;
   }
 }

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 interface UsePaginationReturn {
   currentPage: number;
@@ -33,12 +32,13 @@ const usePagination = ({
       { length: middlePagesLength },
       (_, i) => startIndex + i + 1
     );
+    console.log(pageList);
     const middlePageList = pageList.filter(
       (page) => page > 1 && page < totalPagesLength
     );
-
     return middlePageList;
   };
+
   const [middlePages, setMiddlePages] = useState<number[]>([]);
 
   useEffect(() => {

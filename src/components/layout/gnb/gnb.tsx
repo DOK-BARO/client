@@ -9,6 +9,7 @@ import { bookKeys } from "@/data/queryKeys";
 import Button from "@/components/atom/button/button";
 import useGNB from "@/hooks/useGNB";
 import { useNavigate } from "react-router-dom";
+import { setQueryParam } from "@/utils/setQueryParam";
 
 // Book Category GNB
 export default function GNB() {
@@ -49,6 +50,15 @@ export default function GNB() {
     setExpandedSubCategories({});
   };
 
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const { value } = e.target as HTMLButtonElement;
+    const queryParams = setQueryParam("category", value);
+    navigate({
+      pathname: "/books",
+      search: `?${queryParams.toString()}`,
+    });
+  };
+
   // TODO: heading 태그 다른 태그로 변경하기
   return (
     <nav
@@ -85,9 +95,8 @@ export default function GNB() {
                       <Button
                         color="transparent"
                         size="small"
-                        onClick={() => {
-                          navigate(`/book-list/${subCategory.id}`);
-                        }}
+                        value={subCategory.id.toString()}
+                        onClick={handleClick}
                         className={styles["sub-category-item"]}
                       >
                         {subCategory.name}
@@ -117,9 +126,8 @@ export default function GNB() {
                               size="small"
                               color="transparent"
                               className={styles["sub-category-detail-item"]}
-                              onClick={() => {
-                                navigate(`/book-list/${detail.id}`);
-                              }}
+                              value={detail.id.toString()}
+                              onClick={handleClick}
                             >
                               {detail.name}
                             </Button>

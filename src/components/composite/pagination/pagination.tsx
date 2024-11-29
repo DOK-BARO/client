@@ -6,28 +6,25 @@ import { ArrowRight } from "@/svg/arrowRight";
 import usePagination from "@/hooks/usePagination";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { setQueryParam } from "@/utils/setQueryParam";
 
 export default function Pagination({
   totalPagesLength,
 }: {
   totalPagesLength: number;
 }) {
+  const navigate = useNavigate();
   const { currentPage, handlePageClick, middlePages } = usePagination({
     initialPage: 1,
     totalPagesLength: totalPagesLength,
   });
-  const navigate = useNavigate();
-
-  // TODO: 통일하기
-  const handleClick = (paramName: string, paramValue: string) => {
-    const queryParams = new URLSearchParams(window.location.search);
-
-    queryParams.set(paramName, paramValue);
-    navigate(`books?${queryParams.toString()}`);
-  };
 
   useEffect(() => {
-    handleClick("page", currentPage.toString());
+    const queryParams = setQueryParam("page", currentPage.toString());
+    navigate({
+      pathname: "/books",
+      search: `?${queryParams.toString()}`,
+    });
   }, [currentPage]);
 
   const renderButton = (page: number, isEllipsis: boolean = false) => {

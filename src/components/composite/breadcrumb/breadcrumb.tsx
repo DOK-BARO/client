@@ -3,6 +3,7 @@ import styles from "./_breadcrumb.module.scss";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "@/svg/arrowRight";
 import { gray90 } from "@/styles/abstracts/colors";
+import { setQueryParam } from "@/utils/setQueryParam";
 
 export default function Breadcrumb({
   list,
@@ -19,11 +20,13 @@ export default function Breadcrumb({
     list.shift();
   }
 
-  const handleClick = (paramName: string, paramValue: string) => {
-    const queryParams = new URLSearchParams(window.location.search);
-
-    queryParams.set(paramName, paramValue);
-    navigate(`books?${queryParams.toString()}`);
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const { value } = e.target as HTMLButtonElement;
+    const queryParams = setQueryParam("category", value);
+    navigate({
+      pathname: "/books",
+      search: `?${queryParams.toString()}`,
+    });
   };
 
   return (
@@ -40,11 +43,8 @@ export default function Breadcrumb({
               className={`${styles["breadcrumb-list-item"]} ${
                 index === list.length - 1 ? styles["last-item"] : null
               }`}
-              onClick={() => {
-                if (!item) return;
-                handleClick("page", item.id.toString());
-                // navigate(`/book-list/${item?.id}`);
-              }}
+              value={item?.id.toString()}
+              onClick={handleClick}
             >
               {item?.name || null}
             </Button>

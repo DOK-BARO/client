@@ -4,6 +4,7 @@ import Button from "@/components/atom/button/button";
 import { SetStateAction } from "jotai";
 import { useNavigate } from "react-router-dom";
 import { SortFilterType } from "@/types/BookType";
+import { setQueryParam } from "@/utils/setQueryParam";
 
 export default function BookListFilter({
   setSortFilter,
@@ -16,11 +17,13 @@ export default function BookListFilter({
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { value } = e.target as HTMLButtonElement;
-    const queryParams = new URLSearchParams(window.location.search);
     setSortFilter(value as SortFilterType);
+    const queryParams = setQueryParam("sort", value);
 
-    queryParams.set("sort", value);
-    navigate(`?${queryParams.toString()}`, { replace: true });
+    navigate({
+      pathname: "/books",
+      search: `?${queryParams.toString()}`,
+    });
   };
 
   return (

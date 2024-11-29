@@ -87,7 +87,11 @@ export default function BookListLayout() {
         ) : (
           <Outlet context={{ books }} />
         )}
-        <Pagination totalPagesLength={endPageNumber ?? 0} />
+        {endPageNumber ? (
+          <Pagination totalPagesLength={endPageNumber} />
+        ) : (
+          <>로딩중</>
+        )}
       </div>
     </section>
   );

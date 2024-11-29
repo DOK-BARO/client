@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface UsePaginationReturn {
   currentPage: number;
-  handleClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handlePageClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   middlePages: number[];
 }
 
@@ -47,7 +48,7 @@ const usePagination = ({
     }
   }, [pagePosition]);
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handlePageClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const value = e.currentTarget.value;
 
     if (value === "before") {
@@ -81,7 +82,7 @@ const usePagination = ({
 
   return {
     currentPage,
-    handleClick,
+    handlePageClick,
     middlePages,
   };
 };

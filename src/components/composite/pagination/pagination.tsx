@@ -4,16 +4,31 @@ import { ArrowLeft } from "@/svg/arrowLeft";
 import { gray60 } from "@/styles/abstracts/colors";
 import { ArrowRight } from "@/svg/arrowRight";
 import usePagination from "@/hooks/usePagination";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function Pagination({
   totalPagesLength,
 }: {
   totalPagesLength: number;
 }) {
-  const { currentPage, handleClick, middlePages } = usePagination({
+  const { currentPage, handlePageClick, middlePages } = usePagination({
     initialPage: 1,
     totalPagesLength: totalPagesLength,
   });
+  const navigate = useNavigate();
+
+  // TODO: 통일하기
+  const handleClick = (paramName: string, paramValue: string) => {
+    const queryParams = new URLSearchParams(window.location.search);
+
+    queryParams.set(paramName, paramValue);
+    navigate(`books?${queryParams.toString()}`);
+  };
+
+  useEffect(() => {
+    handleClick("page", currentPage.toString());
+  }, [currentPage]);
 
   const renderButton = (page: number, isEllipsis: boolean = false) => {
     if (isEllipsis) {
@@ -27,7 +42,7 @@ export default function Pagination({
       <Button
         key={page}
         size="xsmall"
-        onClick={handleClick}
+        onClick={handlePageClick}
         value={page.toString()}
         color="transparent"
         className={
@@ -46,7 +61,7 @@ export default function Pagination({
         icon={<ArrowLeft width={16} height={16} stroke={gray60} />}
         className={styles["page-button"]}
         value={"before"}
-        onClick={handleClick}
+        onClick={handlePageClick}
       />
 
       <span className={styles["page-container"]}>
@@ -63,7 +78,7 @@ export default function Pagination({
         icon={<ArrowRight width={16} height={16} stroke={gray60} />}
         className={styles["page-button"]}
         value={"next"}
-        onClick={handleClick}
+        onClick={handlePageClick}
       />
     </article>
   );

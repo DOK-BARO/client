@@ -12,12 +12,12 @@ export const getBookList = async (
   params: GetBookListParams = {}
 ): Promise<{ data: BookType[]; endPageNumber: number }> => {
   const {
-    title = null,
-    authorName = null,
-    description = null,
-    category = null,
+    title = undefined,
+    authorName = undefined,
+    description = undefined,
+    category = undefined,
     page = 1,
-    size = null,
+    size = undefined,
     sort = "QUIZ_COUNT",
     direction = "ASC",
   } = params || {};

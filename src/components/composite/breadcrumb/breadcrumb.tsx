@@ -19,6 +19,13 @@ export default function Breadcrumb({
     list.shift();
   }
 
+  const handleClick = (paramName: string, paramValue: string) => {
+    const queryParams = new URLSearchParams(window.location.search);
+
+    queryParams.set(paramName, paramValue);
+    navigate(`books?${queryParams.toString()}`);
+  };
+
   return (
     <nav className={styles.breadcrumb}>
       <ol className={styles["breadcrumb-list"]}>
@@ -34,7 +41,9 @@ export default function Breadcrumb({
                 index === list.length - 1 ? styles["last-item"] : null
               }`}
               onClick={() => {
-                navigate(`/book-list/${item?.id}`);
+                if (!item) return;
+                handleClick("page", item.id.toString());
+                // navigate(`/book-list/${item?.id}`);
               }}
             >
               {item?.name || null}

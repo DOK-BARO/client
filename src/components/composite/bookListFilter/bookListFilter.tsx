@@ -3,6 +3,7 @@ import styles from "./_book-list-filter.module.scss";
 import Button from "@/components/atom/button/button";
 import { SetStateAction } from "jotai";
 import { SortFilterType } from "@/components/layout/bookListLayout/bookListLayout";
+import { useNavigate } from "react-router-dom";
 
 export default function BookListFilter({
   setSortFilter,
@@ -11,9 +12,15 @@ export default function BookListFilter({
   setSortFilter: Dispatch<SetStateAction<SortFilterType>>;
   sortFilter: SortFilterType;
 }) {
+  const navigate = useNavigate();
+
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { value } = e.target as HTMLButtonElement;
+    const queryParams = new URLSearchParams(window.location.search);
     setSortFilter(value as SortFilterType);
+
+    queryParams.set("sort", value);
+    navigate(`?${queryParams.toString()}`, { replace: true });
   };
 
   return (

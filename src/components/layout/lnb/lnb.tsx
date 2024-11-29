@@ -25,6 +25,13 @@ export default function LNB({
     ? findTopParentCategoryInfo(categories, categoryId)
     : null;
 
+  const handleClick = (paramName: string, paramValue: string) => {
+    const queryParams = new URLSearchParams(window.location.search);
+
+    queryParams.set(paramName, paramValue);
+    navigate(`books?${queryParams.toString()}`);
+  };
+
   return (
     <nav className={styles.lnb} aria-label="Category Navigation">
       <div className={styles["lnb-inner-container"]}>
@@ -49,7 +56,10 @@ export default function LNB({
                 size="xsmall"
                 color="transparent"
                 className={styles["parent-category-name"]}
-                onClick={() => navigate(`/book-list/${parentCategoryInfo?.id}`)}
+                onClick={() => {
+                  if (!parentCategoryInfo?.id) return;
+                  handleClick("category", parentCategoryInfo?.id.toString());
+                }}
               >
                 {parentCategoryInfo?.name}
               </Button>
@@ -66,7 +76,9 @@ export default function LNB({
                     size="xsmall"
                     // fullWidth
                     className={styles["category-item-button"]}
-                    onClick={() => navigate(`/book-list/${category.id}`)}
+                    onClick={() => {
+                      handleClick("category", category.id.toString());
+                    }}
                   >
                     {category.name}
                   </Button>
@@ -86,7 +98,7 @@ export default function LNB({
                         categoryId === categoryDetail.id ? styles.selected : ""
                       }`}
                       onClick={() =>
-                        navigate(`/book-list/${categoryDetail.id}`)
+                        handleClick("category", categoryDetail.id.toString())
                       }
                     >
                       {categoryDetail.name}

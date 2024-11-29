@@ -17,7 +17,9 @@ export default function BookListFilter({
 
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { value } = e.target as HTMLButtonElement;
+    // resetPagination();
     setSortFilter(value as SortFilterType);
+
     const queryParams = setQueryParam("sort", value);
 
     navigate({

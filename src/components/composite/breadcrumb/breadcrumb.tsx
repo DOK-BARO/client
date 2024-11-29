@@ -23,6 +23,9 @@ export default function Breadcrumb({
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { value } = e.target as HTMLButtonElement;
     const queryParams = setQueryParam("category", value);
+    queryParams.delete("page");
+    queryParams.delete("sort");
+
     navigate({
       pathname: "/books",
       search: `?${queryParams.toString()}`,

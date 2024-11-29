@@ -6,6 +6,7 @@ import { BookCategory } from "@/types/GNBCategoryType";
 import { findTopParentCategoryInfo } from "@/utils/findCategoryInfo";
 import { ArrowLeft } from "@/svg/arrowLeft";
 import { gray90 } from "@/styles/abstracts/colors";
+import { setQueryParam } from "@/utils/setQueryParam";
 
 // Book Category GNB
 export default function LNB({
@@ -25,11 +26,15 @@ export default function LNB({
     ? findTopParentCategoryInfo(categories, categoryId)
     : null;
 
-  const handleClick = (paramName: string, paramValue: string) => {
-    const queryParams = new URLSearchParams(window.location.search);
-
-    queryParams.set(paramName, paramValue);
-    navigate(`books?${queryParams.toString()}`);
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const { value } = e.target as HTMLButtonElement;
+    const queryParams = setQueryParam("category", value);
+    queryParams.set("page", "1");
+    queryParams.set("sort", "QUIZ_COUNT");
+    navigate({
+      pathname: "/books",
+      search: `?${queryParams.toString()}`,
+    });
   };
 
   return (
@@ -56,10 +61,8 @@ export default function LNB({
                 size="xsmall"
                 color="transparent"
                 className={styles["parent-category-name"]}
-                onClick={() => {
-                  if (!parentCategoryInfo?.id) return;
-                  handleClick("category", parentCategoryInfo?.id.toString());
-                }}
+                value={parentCategoryInfo?.id.toString()}
+                onClick={handleClick}
               >
                 {parentCategoryInfo?.name}
               </Button>
@@ -75,10 +78,9 @@ export default function LNB({
                     color="transparent"
                     size="xsmall"
                     // fullWidth
+                    value={category.id.toString()}
                     className={styles["category-item-button"]}
-                    onClick={() => {
-                      handleClick("category", category.id.toString());
-                    }}
+                    onClick={handleClick}
                   >
                     {category.name}
                   </Button>
@@ -97,9 +99,8 @@ export default function LNB({
                       className={`${styles["category-detail-item-button"]} ${
                         categoryId === categoryDetail.id ? styles.selected : ""
                       }`}
-                      onClick={() =>
-                        handleClick("category", categoryDetail.id.toString())
-                      }
+                      value={categoryDetail.id.toString()}
+                      onClick={handleClick}
                     >
                       {categoryDetail.name}
                     </Button>

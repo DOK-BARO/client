@@ -53,6 +53,8 @@ export default function GNB() {
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { value } = e.target as HTMLButtonElement;
     const queryParams = setQueryParam("category", value);
+    queryParams.set("page", "1");
+    queryParams.set("sort", "QUIZ_COUNT");
     navigate({
       pathname: "/books",
       search: `?${queryParams.toString()}`,
@@ -74,9 +76,8 @@ export default function GNB() {
                   activeCategoryIndex === index ? styles["hover"] : ""
                 }`}
                 color="transparent"
-                onClick={() => {
-                  navigate(`/book-list/${category.id}`);
-                }}
+                value={category.id.toString()}
+                onClick={handleClick}
               >
                 {category.name}
               </Button>

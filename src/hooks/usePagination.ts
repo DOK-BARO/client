@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { PagePositionType, PaginationType } from "@/types/PaginationType";
+import { Dispatch, SetStateAction, useEffect } from "react";
+import { useSyncPaginationWithURL } from "./useSyncPaginationWithURL";
 
 interface UsePaginationReturn {
   currentPage: number;
@@ -7,20 +9,23 @@ interface UsePaginationReturn {
 }
 
 const usePagination = ({
-  initialPage,
-  totalPagesLength,
+  paginationState,
+  setPaginationState,
 }: {
-  initialPage?: number;
-  totalPagesLength: number;
+  paginationState: PaginationType;
+  setPaginationState: Dispatch<SetStateAction<PaginationType>>;
 }): UsePaginationReturn => {
-  const [currentPage, setCurrentPage] = useState<number>(initialPage ?? 1); // TODO: 쿼리로 변경하기
-  const [pagePosition, setPagePosition] = useState<"start" | "end" | undefined>(
-    "start"
-  );
-  const middlePagesLength = 6;
+  useSyncPaginationWithURL();
+
+  const totalPagesLength = paginationState.totalPagesLength;
+  const currentPage = paginationState.currentPage;
+  const pagePosition = paginationState.pagePosition;
+  const middlePages = paginationState.middlePages;
+  const middlePagesLength = paginationState.middlePagesLength;
 
   const getMiddlePages = (position: "start" | "end", basePage: number) => {
     let startIndex: number;
+    console.log("position", position);
 
     if (position === "start") {
       startIndex = basePage - 1;
@@ -32,21 +37,33 @@ const usePagination = ({
       { length: middlePagesLength },
       (_, i) => startIndex + i + 1
     );
-    console.log(pageList);
+
     const middlePageList = pageList.filter(
-      (page) => page > 1 && page < totalPagesLength
+      (page) => page > 1 && page < totalPagesLength!
     );
     return middlePageList;
   };
 
-  const [middlePages, setMiddlePages] = useState<number[]>([]);
-
   useEffect(() => {
-    if (pagePosition) {
+    if (pagePosition && totalPagesLength) {
       const middlePageList = getMiddlePages(pagePosition, currentPage);
-      setMiddlePages(middlePageList);
+      setPaginationState({
+        ...paginationState,
+        middlePages: middlePageList,
+      });
     }
   }, [pagePosition]);
+
+  const setPageState = (
+    currentPage: number,
+    pagePosition: PagePositionType
+  ) => {
+    setPaginationState((prev) => ({
+      ...prev,
+      currentPage,
+      pagePosition,
+    }));
+  };
 
   const handlePageClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const value = e.currentTarget.value;
@@ -56,27 +73,28 @@ const usePagination = ({
         currentPage > middlePages[0]
         // 범위 안에 있다면
       ) {
-        setCurrentPage(currentPage - 1);
-        setPagePosition(undefined);
+        setPageState(currentPage - 1, undefined);
       } else {
-        setCurrentPage(middlePages[0] - 1);
-        setPagePosition("end");
+        setPageState(middlePages[0] - 1, "end");
       }
     } else if (value === "next") {
       if (
         currentPage < middlePages[middlePages.length - 1]
         // 범위 안에 있다면
       ) {
-        setCurrentPage(currentPage + 1);
-        setPagePosition(undefined);
+        setPageState(currentPage + 1, undefined);
       } else {
-        setCurrentPage(middlePages[middlePages.length - 1] + 1);
-        setPagePosition("start");
+        setPageState(middlePages[middlePages.length - 1] + 1, "start");
       }
     } else {
       // 숫자 클릭
-      setCurrentPage(Number(value));
-      setPagePosition(undefined);
+      let position = undefined;
+      if (Number(value) === 1) {
+        position = "start" as PagePositionType;
+      } else if (Number(value) === paginationState.totalPagesLength) {
+        position = "end" as PagePositionType;
+      }
+      setPageState(Number(value), position);
     }
   };
 

@@ -10,10 +10,12 @@ import {
   findTopParentCategoryInfo,
 } from "@/utils/findCategoryInfo";
 import Breadcrumb from "../../composite/breadcrumb/breadcrumb";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BookListFilter from "@/components/composite/bookListFilter/bookListFilter";
 import Pagination from "@/components/composite/pagination/pagination";
 import { SortFilterType } from "@/types/BookType";
+import { useAtom } from "jotai";
+import { PaginationAtom } from "@/store/paginationAtom";
 
 export default function BookListLayout() {
   // 책 카테고리 목록 가져오기
@@ -25,29 +27,38 @@ export default function BookListLayout() {
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
 
+  const [paginationState, setPaginationState] = useAtom(PaginationAtom);
+  const currentPage = paginationState.currentPage;
+  const totalPagesLength = paginationState.totalPagesLength;
+
   const category = queryParams.get("category");
   const sort = queryParams.get("sort");
-  const page = queryParams.get("page");
 
   // 책 목록 가져오기
   const { data: booksData, isLoading: isBooksLoading } = useQuery({
     queryKey: bookKeys.list({
       category: category ? Number(category) : undefined,
       sort: sort ? (sort as SortFilterType) : undefined,
-      page: page ? Number(page) : 1,
+      page: currentPage,
     }),
     queryFn: () =>
       getBooks({
         category: category ? Number(category) : undefined,
         sort: sort ? (sort as SortFilterType) : undefined,
-        page: page ? Number(page) : 1,
+        page: currentPage,
         size: 10,
       }),
   });
 
   const books = booksData?.data;
   const endPageNumber = booksData?.endPageNumber;
-  console.log(endPageNumber);
+
+  useEffect(() => {
+    setPaginationState({
+      ...paginationState,
+      totalPagesLength: booksData?.endPageNumber,
+    });
+  }, [endPageNumber]);
 
   const topParentCategoryInfo = categories
     ? findTopParentCategoryInfo(categories, Number(category))
@@ -87,11 +98,7 @@ export default function BookListLayout() {
         ) : (
           <Outlet context={{ books }} />
         )}
-        {endPageNumber ? (
-          <Pagination totalPagesLength={endPageNumber} />
-        ) : (
-          <>로딩중</>
-        )}
+        {totalPagesLength ? <Pagination /> : <>로딩중</>}
       </div>
     </section>
   );

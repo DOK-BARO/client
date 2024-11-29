@@ -127,8 +127,7 @@ export const getUser = async (): Promise<UserType> => {
         throw error;
       }
       if (axiosError.response?.status === 403) { 
-        //TODO: 403에러는 리프레시 토큰이 유효하지 않아 재로그인 필요한 상황이다. 리팩토링하여 모든 요청에 적용 필요
-        console.log("get user 403");
+        //TODO: 403에러는 리프레시 토큰이 유효하지 않아 재로그인 필요한 상황이다. 리팩토링하여 모든 요청에 적용 필요. 코드 중복 어떻게 줄일지 고민..
         localApi.removeCertification();
         throw error;
       }

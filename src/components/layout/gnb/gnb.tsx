@@ -33,6 +33,10 @@ export default function GNB() {
     return <div>book categories page error!!</div>;
   }
 
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    navigateWithParams(e, "BOOKS", "category", ["page"]);
+  };
+
   const toggleSubCategory = (subCategoryId: number) => {
     setExpandedSubCategories((prev) => ({
       ...prev,
@@ -65,9 +69,7 @@ export default function GNB() {
                 }`}
                 color="transparent"
                 value={category.id.toString()}
-                onClick={(e) => {
-                  navigateWithParams(e, "BOOKS", "category", ["page"]);
-                }}
+                onClick={handleClick}
               >
                 {category.name}
               </Button>
@@ -87,9 +89,7 @@ export default function GNB() {
                         color="transparent"
                         size="small"
                         value={subCategory.id.toString()}
-                        onClick={(e) => {
-                          navigateWithParams(e, "BOOKS", "category", ["page"]);
-                        }}
+                        onClick={handleClick}
                         className={styles["sub-category-item"]}
                       >
                         {subCategory.name}
@@ -120,11 +120,7 @@ export default function GNB() {
                               color="transparent"
                               className={styles["sub-category-detail-item"]}
                               value={detail.id.toString()}
-                              onClick={(e) => {
-                                navigateWithParams(e, "BOOKS", "category", [
-                                  "page",
-                                ]);
-                              }}
+                              onClick={handleClick}
                             >
                               {detail.name}
                             </Button>

@@ -19,6 +19,10 @@ export default function Breadcrumb({
     list.shift();
   }
 
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    navigateWithParams(e, "BOOKS", "category", ["page"]);
+  };
+
   return (
     <nav className={styles.breadcrumb}>
       <ol className={styles["breadcrumb-list"]}>
@@ -34,9 +38,7 @@ export default function Breadcrumb({
                 index === list.length - 1 ? styles["last-item"] : null
               }`}
               value={item?.id.toString()}
-              onClick={(e) =>
-                navigateWithParams(e, "BOOKS", "category", ["page"])
-              }
+              onClick={handleClick}
             >
               {item?.name || null}
             </Button>

@@ -27,6 +27,10 @@ export default function LNB({
     ? findTopParentCategoryInfo(categories, categoryId)
     : null;
 
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    navigateWithParams(e, "BOOKS", "category", ["page"]);
+  };
+
   return (
     <nav className={styles.lnb} aria-label="Category Navigation">
       <div className={styles["lnb-inner-container"]}>
@@ -45,7 +49,6 @@ export default function LNB({
                   />
                 }
                 iconOnly
-                // TODO: 수정하기
                 onClick={() => navigate("/")}
               />
               <Button
@@ -53,9 +56,7 @@ export default function LNB({
                 color="transparent"
                 className={styles["parent-category-name"]}
                 value={parentCategoryInfo?.id.toString()}
-                onClick={(e) => {
-                  navigateWithParams(e, "BOOKS", "category", ["page"]);
-                }}
+                onClick={handleClick}
               >
                 {parentCategoryInfo?.name}
               </Button>
@@ -73,9 +74,7 @@ export default function LNB({
                     // fullWidth
                     value={category.id.toString()}
                     className={styles["category-item-button"]}
-                    onClick={(e) => {
-                      navigateWithParams(e, "BOOKS", "category", ["page"]);
-                    }}
+                    onClick={handleClick}
                   >
                     {category.name}
                   </Button>
@@ -95,9 +94,7 @@ export default function LNB({
                         categoryId === categoryDetail.id ? styles.selected : ""
                       }`}
                       value={categoryDetail.id.toString()}
-                      onClick={(e) => {
-                        navigateWithParams(e, "BOOKS", "category", ["page"]);
-                      }}
+                      onClick={handleClick}
                     >
                       {categoryDetail.name}
                     </Button>

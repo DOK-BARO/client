@@ -14,6 +14,7 @@ const initialPaginationState: PaginationType = {
   totalPagesLength: undefined,
   middlePages: [],
   middlePagesLength: 6,
+  isMiddlePagesUpdated: false,
 };
 
 export const PaginationAtom = atom<PaginationType>(initialPaginationState);

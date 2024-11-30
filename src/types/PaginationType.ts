@@ -6,4 +6,5 @@ export interface PaginationType {
   totalPagesLength: number | undefined;
   middlePages: number[];
   middlePagesLength: number;
+  isMiddlePagesUpdated: boolean;
 }

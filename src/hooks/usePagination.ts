@@ -1,11 +1,8 @@
 import { PagePositionType, PaginationType } from "@/types/PaginationType";
 import { Dispatch, SetStateAction, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 
 interface UsePaginationReturn {
-  currentPage: number;
   handlePageClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  middlePages: number[];
 }
 
 const usePagination = ({
@@ -15,27 +12,14 @@ const usePagination = ({
   paginationState: PaginationType;
   setPaginationState: Dispatch<SetStateAction<PaginationType>>;
 }): UsePaginationReturn => {
-  const { search } = useLocation();
-
-  const totalPagesLength = paginationState.totalPagesLength;
+  const totalPagesLength = paginationState.totalPagesLength ?? 0;
   const currentPage = paginationState.currentPage;
   const pagePosition = paginationState.pagePosition;
   const middlePages = paginationState.middlePages;
   const middlePagesLength = paginationState.middlePagesLength;
 
-  // URL에서 쿼리 파라미터 가져오기 및 상태 동기화
-  useEffect(() => {
-    const queryParams = new URLSearchParams(search);
-    const page = queryParams.get("page");
-    setPaginationState((prev) => ({
-      ...prev,
-      currentPage: page ? Number(page) : 1,
-    }));
-  }, [search, setPaginationState]);
-
   const getMiddlePages = (position: "start" | "end", basePage: number) => {
     let startIndex: number;
-    console.log("position", position);
 
     if (position === "start") {
       startIndex = basePage - 1;
@@ -49,20 +33,26 @@ const usePagination = ({
     );
 
     const middlePageList = pageList.filter(
-      (page) => page > 1 && page < totalPagesLength!
+      (page) => page > 1 && page < totalPagesLength
     );
     return middlePageList;
   };
 
   useEffect(() => {
     if (pagePosition && totalPagesLength) {
-      const middlePageList = getMiddlePages(pagePosition, currentPage);
+      // 로딩 상태 업데이트
       setPaginationState({
         ...paginationState,
-        middlePages: middlePageList,
+        isMiddlePagesUpdated: false,
       });
+      const middlePageList = getMiddlePages(pagePosition, currentPage);
+      setPaginationState((prev) => ({
+        ...prev,
+        middlePages: middlePageList,
+        isMiddlePagesUpdated: true, // 중간 페이지 업데이트 완료
+      }));
     }
-  }, [pagePosition]);
+  }, [pagePosition, totalPagesLength]);
 
   const setPageState = (
     currentPage: number,
@@ -109,9 +99,7 @@ const usePagination = ({
   };
 
   return {
-    currentPage,
     handlePageClick,
-    middlePages,
   };
 };
 export default usePagination;

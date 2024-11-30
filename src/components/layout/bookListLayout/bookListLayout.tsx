@@ -23,30 +23,29 @@ export default function BookListLayout() {
     queryKey: bookKeys.categories(),
     queryFn: getBookCategories,
   });
-  // const [sortFilter, setSortFilter] = useState<SortFilterType>("QUIZ_COUNT");
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
 
   const [paginationState, setPaginationState] = useAtom(PaginationAtom);
-  const currentPage = paginationState.currentPage;
   const totalPagesLength = paginationState.totalPagesLength;
 
   const category = queryParams.get("category");
   const sort = queryParams.get("sort");
+  const page = queryParams.get("page");
 
   // 책 목록 가져오기
   const { data: booksData, isLoading: isBooksLoading } = useQuery({
     queryKey: bookKeys.list({
       category: category ? Number(category) : undefined,
       sort: sort ? (sort as SortFilterType) : undefined,
-      page: currentPage,
+      page: page ? Number(page) : undefined,
       size: 10,
     }),
     queryFn: () =>
       getBooks({
         category: category ? Number(category) : undefined,
         sort: sort ? (sort as SortFilterType) : undefined,
-        page: currentPage,
+        page: page ? Number(page) : undefined,
         size: 10,
       }),
   });

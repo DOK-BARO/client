@@ -69,6 +69,9 @@ const usePagination = ({
     const value = e.currentTarget.value;
 
     if (value === "before") {
+      if (currentPage === 1) {
+        return;
+      }
       if (
         currentPage > middlePages[0]
         // 범위 안에 있다면
@@ -78,6 +81,9 @@ const usePagination = ({
         setPageState(middlePages[0] - 1, "end");
       }
     } else if (value === "next") {
+      if (currentPage >= totalPagesLength) {
+        return;
+      }
       if (
         currentPage < middlePages[middlePages.length - 1]
         // 범위 안에 있다면

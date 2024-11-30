@@ -9,20 +9,18 @@ import { useEffect } from "react";
 import { setQueryParam } from "@/utils/setQueryParam";
 import { useAtom } from "jotai";
 import { PaginationAtom } from "@/store/paginationAtom";
-import { useSyncPaginationWithURL } from "@/hooks/useSyncPaginationWithURL";
 
 export default function Pagination() {
-  useSyncPaginationWithURL();
   const navigate = useNavigate();
+
   const [paginationState, setPaginationState] = useAtom(PaginationAtom);
+  const currentPage = paginationState.currentPage;
+  const totalPagesLength = paginationState.totalPagesLength ?? 0;
 
   const { handlePageClick, middlePages } = usePagination({
     paginationState: paginationState,
     setPaginationState: setPaginationState,
   });
-
-  const currentPage = paginationState.currentPage;
-  const totalPagesLength = paginationState.totalPagesLength ?? 0;
 
   useEffect(() => {
     const queryParams = setQueryParam("page", currentPage.toString());

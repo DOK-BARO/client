@@ -1,6 +1,6 @@
 import { PagePositionType, PaginationType } from "@/types/PaginationType";
 import { Dispatch, SetStateAction, useEffect } from "react";
-import { useSyncPaginationWithURL } from "./useSyncPaginationWithURL";
+import { useLocation } from "react-router-dom";
 
 interface UsePaginationReturn {
   currentPage: number;
@@ -15,13 +15,23 @@ const usePagination = ({
   paginationState: PaginationType;
   setPaginationState: Dispatch<SetStateAction<PaginationType>>;
 }): UsePaginationReturn => {
-  useSyncPaginationWithURL();
+  const { search } = useLocation();
 
   const totalPagesLength = paginationState.totalPagesLength;
   const currentPage = paginationState.currentPage;
   const pagePosition = paginationState.pagePosition;
   const middlePages = paginationState.middlePages;
   const middlePagesLength = paginationState.middlePagesLength;
+
+  // URL에서 쿼리 파라미터 가져오기 및 상태 동기화
+  useEffect(() => {
+    const queryParams = new URLSearchParams(search);
+    const page = queryParams.get("page");
+    setPaginationState((prev) => ({
+      ...prev,
+      currentPage: page ? Number(page) : 1,
+    }));
+  }, [search, setPaginationState]);
 
   const getMiddlePages = (position: "start" | "end", basePage: number) => {
     let startIndex: number;

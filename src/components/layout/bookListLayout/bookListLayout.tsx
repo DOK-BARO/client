@@ -10,7 +10,7 @@ import {
   findTopParentCategoryInfo,
 } from "@/utils/findCategoryInfo";
 import Breadcrumb from "../../composite/breadcrumb/breadcrumb";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import BookListFilter from "@/components/composite/bookListFilter/bookListFilter";
 import Pagination from "@/components/composite/pagination/pagination";
 import { SortFilterType } from "@/types/BookType";
@@ -23,7 +23,7 @@ export default function BookListLayout() {
     queryKey: bookKeys.categories(),
     queryFn: getBookCategories,
   });
-  const [sortFilter, setSortFilter] = useState<SortFilterType>("QUIZ_COUNT");
+  // const [sortFilter, setSortFilter] = useState<SortFilterType>("QUIZ_COUNT");
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
 
@@ -40,6 +40,7 @@ export default function BookListLayout() {
       category: category ? Number(category) : undefined,
       sort: sort ? (sort as SortFilterType) : undefined,
       page: currentPage,
+      size: 10,
     }),
     queryFn: () =>
       getBooks({
@@ -53,6 +54,7 @@ export default function BookListLayout() {
   const books = booksData?.data;
   const endPageNumber = booksData?.endPageNumber;
 
+  // 마지막 페이지 번호 저장
   useEffect(() => {
     setPaginationState({
       ...paginationState,
@@ -88,10 +90,7 @@ export default function BookListLayout() {
           ) : (
             <span />
           )}
-          <BookListFilter
-            setSortFilter={setSortFilter}
-            sortFilter={sortFilter}
-          />
+          <BookListFilter />
         </div>
         {isBooksLoading || !booksData ? (
           <div>책 목록 로딩중</div>

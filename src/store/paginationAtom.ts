@@ -1,3 +1,4 @@
+// TODO: bookAtom 으로 옮길지 고려
 import { PaginationType } from "@/types/PaginationType";
 import { atom } from "jotai";
 

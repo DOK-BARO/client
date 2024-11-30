@@ -2,6 +2,7 @@ import { QuizRequestType } from "@/types/QuizType";
 import axios, { AxiosError } from "axios";
 import { QuizType } from "@/types/QuizType";
 import { MyQuizType } from "@/types/QuizType";
+import localApi from "../local/LocalApi";
 //TODO: 클래스화
 // 퀴즈 목록 조회
 // TODO: fetchQuizzes
@@ -27,7 +28,15 @@ export const fetchQuizzes = async (params: {
 
     console.log(data);
     return data;
-  } catch (error) {
+  }  catch (error: unknown) {
+    if(axios.isAxiosError(error)){
+      const axiosError = error as AxiosError;
+      if (axiosError.response?.status === 403) { 
+        console.log("get user 403");
+        localApi.removeCertification();
+        throw error;
+      }
+    }
     throw new Error(`스터디 그룹 생성 실패: ${error}`);
   }
 };
@@ -43,6 +52,10 @@ export const createQuiz = async (quiz: QuizRequestType) => {
             const axiosError = error as AxiosError;
             if (axiosError.response?.status === 404) {
                 throw error;
+            }
+            if (axiosError.response?.status === 403) { 
+              localApi.removeCertification();
+              throw error;
             }
             throw new Error(`퀴즈 생성 요청 실패: ${error}`);
         } else {
@@ -61,6 +74,10 @@ export const fetchMyMadeQuizzes = async ():Promise<MyQuizType[]> => {
         const axiosError = error as AxiosError;
         if (axiosError.response?.status === 404) {
             throw error;
+        }
+        if (axiosError.response?.status === 403) {
+          localApi.removeCertification();
+          throw error;
         }
         throw new Error(`내가 만든 퀴즈 가져오기 실패: ${error}`);
     } else {

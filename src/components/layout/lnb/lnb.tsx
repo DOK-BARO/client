@@ -6,7 +6,7 @@ import { BookCategory } from "@/types/GNBCategoryType";
 import { findTopParentCategoryInfo } from "@/utils/findCategoryInfo";
 import { ArrowLeft } from "@/svg/arrowLeft";
 import { gray90 } from "@/styles/abstracts/colors";
-import { setQueryParam } from "@/utils/setQueryParam";
+import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 
 // Book Category GNB
 export default function LNB({
@@ -17,6 +17,7 @@ export default function LNB({
   categoryId?: number;
 }) {
   const navigate = useNavigate();
+  const { navigateWithParams } = useNavigateWithParams();
 
   if (!categories) {
     return <div>book categories page error!!</div>;
@@ -25,17 +26,6 @@ export default function LNB({
   const parentCategoryInfo = categoryId
     ? findTopParentCategoryInfo(categories, categoryId)
     : null;
-
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const { value } = e.target as HTMLButtonElement;
-    const queryParams = setQueryParam("category", value);
-    queryParams.set("page", "1");
-    queryParams.set("sort", "QUIZ_COUNT");
-    navigate({
-      pathname: "/books",
-      search: `?${queryParams.toString()}`,
-    });
-  };
 
   return (
     <nav className={styles.lnb} aria-label="Category Navigation">
@@ -55,6 +45,7 @@ export default function LNB({
                   />
                 }
                 iconOnly
+                // TODO: 수정하기
                 onClick={() => navigate("/")}
               />
               <Button
@@ -62,7 +53,9 @@ export default function LNB({
                 color="transparent"
                 className={styles["parent-category-name"]}
                 value={parentCategoryInfo?.id.toString()}
-                onClick={handleClick}
+                onClick={(e) => {
+                  navigateWithParams(e, "category", ["page"]);
+                }}
               >
                 {parentCategoryInfo?.name}
               </Button>
@@ -80,7 +73,9 @@ export default function LNB({
                     // fullWidth
                     value={category.id.toString()}
                     className={styles["category-item-button"]}
-                    onClick={handleClick}
+                    onClick={(e) => {
+                      navigateWithParams(e, "category", ["page"]);
+                    }}
                   >
                     {category.name}
                   </Button>
@@ -100,7 +95,9 @@ export default function LNB({
                         categoryId === categoryDetail.id ? styles.selected : ""
                       }`}
                       value={categoryDetail.id.toString()}
-                      onClick={handleClick}
+                      onClick={(e) => {
+                        navigateWithParams(e, "category", ["page"]);
+                      }}
                     >
                       {categoryDetail.name}
                     </Button>

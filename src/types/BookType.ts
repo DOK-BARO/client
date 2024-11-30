@@ -29,6 +29,9 @@ export interface GetBooksParams {
   sort?: SortFilterType;
   direction?: "ASC" | "DESC";
 }
+
+export type BookParamKeyType = keyof GetBooksParams;
+
 export interface SearchBooksParams {
   keyword?: string;
   lastId?: number;

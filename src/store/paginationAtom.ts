@@ -9,8 +9,9 @@ const getPageFromURL = () => {
 };
 
 const initialPaginationState: PaginationType = {
+  parentComponentType: "BOOKS",
   currentPage: getPageFromURL(),
-  pagePosition: "start",
+  pagePosition: "START",
   totalPagesLength: undefined,
   middlePages: [],
   middlePagesLength: 6,

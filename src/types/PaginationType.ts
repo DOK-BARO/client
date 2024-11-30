@@ -1,6 +1,8 @@
-export type PagePositionType = "start" | "end" | undefined;
+export type PagePositionType = "START" | "END" | undefined;
+export type ParentComponentType = "BOOKS" | "MYPAGE";
 
 export interface PaginationType {
+  parentComponentType: ParentComponentType; // 페이지 타입: ex) 책 목록, 마이페이지
   currentPage: number;
   pagePosition: PagePositionType;
   totalPagesLength: number | undefined;

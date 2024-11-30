@@ -1,5 +1,6 @@
 import { PaginationAtom } from "@/store/paginationAtom";
 import { BookParamKeyType } from "@/types/BookType";
+import { ParentComponentType } from "@/types/PaginationType";
 import { useAtom } from "jotai";
 import { useNavigate } from "react-router-dom";
 
@@ -9,6 +10,7 @@ const useNavigateWithParams = () => {
 
   const navigateWithParams = (
     e: React.MouseEvent<HTMLButtonElement>, // 값
+    parentComponentType: ParentComponentType,
     includeParamName: BookParamKeyType, // 포함할 파라미터
     excludeParams: BookParamKeyType[] // 삭제할 파라미터
   ) => {
@@ -25,14 +27,14 @@ const useNavigateWithParams = () => {
       setPaginationState((prev) => ({
         ...prev,
         currentPage: 1, // or 아예 삭제 (초기화)
-        pagePosition: "start",
+        pagePosition: "START",
         middlePages: [],
         isMiddlePagesUpdated: false,
       }));
     }
 
     navigate({
-      pathname: "/books",
+      pathname: `/${parentComponentType.toLocaleLowerCase()}`,
       search: `?${queryParams.toString()}`,
     });
   };

@@ -34,7 +34,9 @@ export default function Breadcrumb({
                 index === list.length - 1 ? styles["last-item"] : null
               }`}
               value={item?.id.toString()}
-              onClick={(e) => navigateWithParams(e, "category", ["page"])}
+              onClick={(e) =>
+                navigateWithParams(e, "BOOKS", "category", ["page"])
+              }
             >
               {item?.name || null}
             </Button>

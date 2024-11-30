@@ -54,7 +54,7 @@ export default function LNB({
                 className={styles["parent-category-name"]}
                 value={parentCategoryInfo?.id.toString()}
                 onClick={(e) => {
-                  navigateWithParams(e, "category", ["page"]);
+                  navigateWithParams(e, "BOOKS", "category", ["page"]);
                 }}
               >
                 {parentCategoryInfo?.name}
@@ -74,7 +74,7 @@ export default function LNB({
                     value={category.id.toString()}
                     className={styles["category-item-button"]}
                     onClick={(e) => {
-                      navigateWithParams(e, "category", ["page"]);
+                      navigateWithParams(e, "BOOKS", "category", ["page"]);
                     }}
                   >
                     {category.name}
@@ -96,7 +96,7 @@ export default function LNB({
                       }`}
                       value={categoryDetail.id.toString()}
                       onClick={(e) => {
-                        navigateWithParams(e, "category", ["page"]);
+                        navigateWithParams(e, "BOOKS", "category", ["page"]);
                       }}
                     >
                       {categoryDetail.name}

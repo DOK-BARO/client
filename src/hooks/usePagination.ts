@@ -18,12 +18,12 @@ const usePagination = ({
   const middlePages = paginationState.middlePages;
   const middlePagesLength = paginationState.middlePagesLength;
 
-  const getMiddlePages = (position: "start" | "end", basePage: number) => {
+  const getMiddlePages = (position: PagePositionType, basePage: number) => {
     let startIndex: number;
 
-    if (position === "start") {
+    if (position === "START") {
       startIndex = basePage - 1;
-    } else if (position === "end" && basePage) {
+    } else if (position === "END" && basePage) {
       startIndex = basePage - middlePagesLength;
     }
 
@@ -78,7 +78,7 @@ const usePagination = ({
       ) {
         setPageState(currentPage - 1, undefined);
       } else {
-        setPageState(middlePages[0] - 1, "end");
+        setPageState(middlePages[0] - 1, "END");
       }
     } else if (value === "next") {
       if (currentPage >= totalPagesLength) {
@@ -90,15 +90,15 @@ const usePagination = ({
       ) {
         setPageState(currentPage + 1, undefined);
       } else {
-        setPageState(middlePages[middlePages.length - 1] + 1, "start");
+        setPageState(middlePages[middlePages.length - 1] + 1, "START");
       }
     } else {
       // 숫자 클릭
-      let position = undefined;
+      let position: PagePositionType = undefined;
       if (Number(value) === 1) {
-        position = "start" as PagePositionType;
+        position = "START";
       } else if (Number(value) === paginationState.totalPagesLength) {
-        position = "end" as PagePositionType;
+        position = "END";
       }
       setPageState(Number(value), position);
     }

@@ -91,8 +91,7 @@ export default function EditMyInfo() {
                       value={value}
                       onChange={onChange}
                       placeholder="새로운 이메일을 입력해주세요"
-                      className={styles["new-email-input"]}
-                      
+											fullWidth
                     />
                     {/* TODO: isvalid */}
                     <Button disabled={false}>

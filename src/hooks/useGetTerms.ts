@@ -1,4 +1,4 @@
-import { fetchTerms } from "@/services/server/authService";
+import { authService } from "@/services/server/authService";
 import { TermsOfServiceType } from "@/types/TermsOfServiceType";
 import { useEffect, useState } from "react";
 
@@ -9,7 +9,7 @@ export const useGetTerms = () => {
 
   const getTerms = async () => {
     setIsLoading(true);
-    const response = await fetchTerms();
+    const response = await authService.fetchTerms();
     if (response) {
       setTerms(response);
       setIsLoading(false);

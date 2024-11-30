@@ -10,12 +10,8 @@ import Button from "@/components/atom/button/button.tsx";
 import { RegisterInfoType } from "@/types/UserType";
 import { RegisterInfoAtom } from "@/store/userAtom";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  emailSignup,
-  sendTermsAgreement,
-  updateUser,
-} from "@/services/server/authService";
 import { uploadImage } from "@/services/server/imageService";
+import { authService } from "@/services/server/authService";
 
 export interface ProfileImageState {
   url: string;
@@ -75,8 +71,8 @@ export default function ProfileSet() {
       // 1. 회원가입
       // 2. 약관 동의
       await Promise.all([
-        emailSignup(emailUserInfo),
-        sendTermsAgreement(termsAgreements),
+        authService.emailSignup(emailUserInfo),
+        authService.sendTermsAgreement(termsAgreements),
       ]);
     } else {
       // 소셜 회원가입
@@ -86,7 +82,7 @@ export default function ProfileSet() {
         profileImage: imageUrl,
       };
       // 프로필 업데이트
-      await updateUser(socialUserInfo);
+      await authService.updateUser(socialUserInfo);
     }
 
     navigate(nextPage);

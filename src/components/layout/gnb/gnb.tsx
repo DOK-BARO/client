@@ -8,13 +8,11 @@ import { useQuery } from "@tanstack/react-query";
 import { bookKeys } from "@/data/queryKeys";
 import Button from "@/components/atom/button/button";
 import useGNB from "@/hooks/useGNB";
-import { useNavigate } from "react-router-dom";
-import { setQueryParam } from "@/utils/setQueryParam";
+import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 
 // Book Category GNB
 export default function GNB() {
   const { isGNBHidden } = useGNB();
-  const navigate = useNavigate();
   const [activeCategoryIndex, setActiveCategoryIndex] = useState<number | null>(
     null
   );
@@ -26,6 +24,7 @@ export default function GNB() {
     queryKey: bookKeys.categories(),
     queryFn: getBookCategories,
   });
+  const { navigateWithParams } = useNavigateWithParams();
 
   if (isLoading) {
     return <div>loading</div>;
@@ -50,17 +49,6 @@ export default function GNB() {
     setExpandedSubCategories({});
   };
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const { value } = e.target as HTMLButtonElement;
-    const queryParams = setQueryParam("category", value);
-    queryParams.set("page", "1");
-    queryParams.set("sort", "QUIZ_COUNT");
-    navigate({
-      pathname: "/books",
-      search: `?${queryParams.toString()}`,
-    });
-  };
-
   // TODO: heading 태그 다른 태그로 변경하기
   return (
     <nav
@@ -77,7 +65,9 @@ export default function GNB() {
                 }`}
                 color="transparent"
                 value={category.id.toString()}
-                onClick={handleClick}
+                onClick={(e) => {
+                  navigateWithParams(e, "BOOKS", "category", ["page"]);
+                }}
               >
                 {category.name}
               </Button>
@@ -97,7 +87,9 @@ export default function GNB() {
                         color="transparent"
                         size="small"
                         value={subCategory.id.toString()}
-                        onClick={handleClick}
+                        onClick={(e) => {
+                          navigateWithParams(e, "BOOKS", "category", ["page"]);
+                        }}
                         className={styles["sub-category-item"]}
                       >
                         {subCategory.name}
@@ -128,7 +120,11 @@ export default function GNB() {
                               color="transparent"
                               className={styles["sub-category-detail-item"]}
                               value={detail.id.toString()}
-                              onClick={handleClick}
+                              onClick={(e) => {
+                                navigateWithParams(e, "BOOKS", "category", [
+                                  "page",
+                                ]);
+                              }}
                             >
                               {detail.name}
                             </Button>

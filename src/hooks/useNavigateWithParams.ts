@@ -10,7 +10,7 @@ const useNavigateWithParams = () => {
 
   const navigateWithParams = (
     e: React.MouseEvent<HTMLButtonElement>, // 값
-    parentComponentType: ParentComponentType,
+    parentComponentType: ParentComponentType, // 페이지 타입
     includeParamName: BookParamKeyType, // 포함할 파라미터
     excludeParams: BookParamKeyType[] // 삭제할 파라미터
   ) => {

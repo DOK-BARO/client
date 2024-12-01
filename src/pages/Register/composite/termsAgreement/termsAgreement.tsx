@@ -8,10 +8,11 @@ import useModal from "@/hooks/useModal";
 import TermsModal from "@/components/atom/TermsModal/termsModal";
 import { useGetTermDetail } from "@/hooks/useGetTermDetail";
 import { useGetTerms } from "@/hooks/useGetTerms";
-import { sendTermsAgreement } from "@/services/server/authService";
+
 import { RegisterInfoAtom } from "@/store/userAtom";
 import { RegisterInfoType } from "@/types/UserType";
 import { useAtom } from "jotai";
+import { authService } from "@/services/server/authService";
 
 export default function TermsAgreement() {
   const { method } = useParams();
@@ -131,7 +132,7 @@ export default function TermsAgreement() {
       });
     } else {
       // 이용약관 동의
-      await sendTermsAgreement(items);
+      await authService.sendTermsAgreement(items);
     }
     navigate(nextPage);
   };

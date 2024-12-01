@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { getAuthUrl } from "@/services/server/authService.ts";
 import { SocialLoginType } from "@/types/SocialLoginType.ts";
+import { authService } from "@/services/server/authService";
 
 export const useAuth = () => {
   const [loading, setLoading] = useState(false);
@@ -8,7 +8,7 @@ export const useAuth = () => {
   const redirectToAuthPage = async (socialLoginType: SocialLoginType) => {
     setLoading(true);
     try {
-      const url = await getAuthUrl(socialLoginType);
+      const url = await authService.getAuthUrl(socialLoginType);
       console.log(url);
       window.location.href = url; // 해당 url로 이동
     } catch (error) {

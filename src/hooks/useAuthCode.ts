@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { signup, login, getUser } from "@/services/server/authService.ts";
+
 import {
   AUTH_ACTION,
   LOCAL_STORAGE_KEY,
@@ -10,6 +10,7 @@ import { SocialLoginType } from "../types/SocialLoginType.ts";
 import axios, { AxiosError } from "axios";
 import { UserType } from "@/types/UserType.ts";
 import { useAuth } from "@/hooks/useAuth.ts";
+import { authService } from "@/services/server/authService.ts";
 
 export const useAuthCode = (provider: string) => {
   const location = useLocation();
@@ -17,7 +18,7 @@ export const useAuthCode = (provider: string) => {
   const { redirectToAuthPage } = useAuth();
 
   const setUserInLocalStorage = async () => {
-    const user: UserType = await getUser();
+    const user: UserType = await authService.getUser();
     localStorage.setItem("certificationId", user.certificationId); // 로컬 스토리지에 토큰 저장
   };
 
@@ -25,7 +26,7 @@ export const useAuthCode = (provider: string) => {
     try {
       console.log("in do signup in useAuthcode");
       // 사용자 정보 전달하기
-      await signup(provider.toUpperCase() as SocialLoginType, code);
+      await authService.signup(provider.toUpperCase() as SocialLoginType, code);
       await setUserInLocalStorage();
 
       if (
@@ -51,7 +52,7 @@ export const useAuthCode = (provider: string) => {
 
   const doLogin = async (code: string) => {
     try {
-      await login(provider.toUpperCase() as SocialLoginType, code);
+      await authService.login(provider.toUpperCase() as SocialLoginType, code);
       await setUserInLocalStorage();
       navigate("/");
       localStorage.removeItem(LOCAL_STORAGE_KEY.AUTH_ACTION);

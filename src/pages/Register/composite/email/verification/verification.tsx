@@ -11,8 +11,8 @@ import { RegisterInfoAtom } from "@/store/userAtom";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { XSmall } from "@/svg/xSmall";
-import { matchEmailCode, sendEmailCode } from "@/services/server/authService";
 import AuthCodeInput from "@/components/composite/authCodeInput/AuthCodeInput";
+import { authService } from "@/services/server/authService";
 
 export default function Verification() {
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ export default function Verification() {
       email,
     });
     // 인증코드 발송
-    await sendEmailCode(email);
+    await authService.sendEmailCode(email);
     setIsEmailSent(true);
   };
 
@@ -109,7 +109,7 @@ export default function Verification() {
   };
 
   const handleDone = async () => {
-    const { result } = await matchEmailCode({ email, code: fullCode });
+    const { result } = await authService.matchEmailCode({ email, code: fullCode });
     setIsMatch(result);
   };
 

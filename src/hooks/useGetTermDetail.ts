@@ -1,4 +1,4 @@
-import { fetchTermDetail } from "@/services/server/authService";
+import { authService } from "@/services/server/authService";
 import { useState } from "react";
 
 // 이용약관 상세를 불러오는 훅
@@ -8,7 +8,7 @@ export const useGetTermDetail = () => {
 
   const getTermDetail = async (id: number) => {
     setIsLoading(true);
-    const response = await fetchTermDetail(id);
+    const response = await authService.fetchTermDetail(id);
     if (response) {
       setTermDetail(response);
       setIsLoading(false);

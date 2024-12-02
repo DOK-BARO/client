@@ -1,19 +1,19 @@
-import { Dispatch } from "react";
 import styles from "./_book-list-filter.module.scss";
 import Button from "@/components/atom/button/button";
-import { SetStateAction } from "jotai";
-import { SortFilterType } from "../bookListLayout/bookListLayout";
+import useBookFilter from "@/hooks/useBookFilter";
+import { useAtom } from "jotai";
+import { BookFilterAtom } from "@/store/bookAtom";
+import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 
-export default function BookListFilter({
-  setSortFilter,
-  sortFilter,
-}: {
-  setSortFilter: Dispatch<SetStateAction<SortFilterType>>;
-  sortFilter: SortFilterType;
-}) {
+export default function BookListFilter() {
+  useBookFilter();
+  const [filterCriteria] = useAtom(BookFilterAtom);
+
+  const sortFilter = filterCriteria.sort;
+  const { navigateWithParams } = useNavigateWithParams();
+
   const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const { value } = e.target as HTMLButtonElement;
-    setSortFilter(value as SortFilterType);
+    navigateWithParams(e, "BOOKS", "sort", []);
   };
 
   return (

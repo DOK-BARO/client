@@ -1,8 +1,8 @@
 import axios from "axios";
 import {
   BookType,
-  GetBookListParams,
-  SearchBookListParams,
+  GetBooksParams,
+  SearchBooksParams,
 } from "../../types/BookType.ts";
 import { BookDetailType } from "../../types/BookDetailType.ts";
 import { BookCategory } from "../../types/GNBCategoryType.ts";
@@ -10,16 +10,16 @@ import { AxiosError } from "axios";
 import localApi from "../local/LocalApi.ts";
 
 // 책 목록, 책 상세정보 가져오기
-export const getBookList = async (
-  params: GetBookListParams = {}
+export const getBooks = async (
+  params: GetBooksParams = {}
 ): Promise<{ data: BookType[]; endPageNumber: number }> => {
   const {
-    title = null,
-    authorName = null,
-    description = null,
-    category = null,
+    title = undefined,
+    authorName = undefined,
+    description = undefined,
+    category = undefined,
     page = 1,
-    size = 24,
+    size = undefined,
     sort = "QUIZ_COUNT",
     direction = "ASC",
   } = params || {};
@@ -40,9 +40,9 @@ export const getBookList = async (
     // console.log("책 목록!!", response);
     return data;
   } catch (error: unknown) {
-    if(axios.isAxiosError(error)){
+    if (axios.isAxiosError(error)) {
       const axiosError = error as AxiosError;
-      if (axiosError.response?.status === 403) { 
+      if (axiosError.response?.status === 403) {
         localApi.removeCertification();
         throw error;
       }
@@ -52,8 +52,8 @@ export const getBookList = async (
 };
 
 // 책 통합검색
-export const searchBookList = async (
-  params?: SearchBookListParams
+export const searchBooks = async (
+  params?: SearchBooksParams
 ): Promise<BookType[]> => {
   const { keyword, lastId = null, size = 10 } = params || {};
 
@@ -66,10 +66,10 @@ export const searchBookList = async (
       },
     });
     return data;
-  }  catch (error: unknown) {
-    if(axios.isAxiosError(error)){
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
       const axiosError = error as AxiosError;
-      if (axiosError.response?.status === 403) { 
+      if (axiosError.response?.status === 403) {
         localApi.removeCertification();
         throw error;
       }
@@ -82,10 +82,10 @@ export const getBook = async (bookId: string): Promise<BookDetailType> => {
   try {
     const { data } = await axios.get(`/books/${bookId}`);
     return data;
-  }  catch (error: unknown) {
-    if(axios.isAxiosError(error)){
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
       const axiosError = error as AxiosError;
-      if (axiosError.response?.status === 403) { 
+      if (axiosError.response?.status === 403) {
         localApi.removeCertification();
         throw error;
       }
@@ -98,10 +98,10 @@ export const getBookCategories = async (): Promise<BookCategory[]> => {
   try {
     const { data } = await axios.get("/book-categories");
     return data.details[0].details;
-  }  catch (error: unknown) {
-    if(axios.isAxiosError(error)){
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
       const axiosError = error as AxiosError;
-      if (axiosError.response?.status === 403) { 
+      if (axiosError.response?.status === 403) {
         console.log("Sdfsdf");
         localApi.removeCertification();
         throw error;

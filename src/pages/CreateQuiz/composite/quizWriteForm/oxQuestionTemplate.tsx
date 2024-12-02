@@ -1,4 +1,4 @@
-import RadioButton from "@/components/atom/radioButton/radioButton.tsx";
+import RadioButton from "@/components/atom/radioOption/radioOption";
 import { QuestionFormMode } from "@/data/constants.ts";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
 import { RadioOption } from "@/types/RadioTypes.ts";

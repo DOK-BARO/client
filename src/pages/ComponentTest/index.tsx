@@ -12,7 +12,7 @@ import {
   systemDanger,
   systemSuccess,
 } from "@/styles/abstracts/colors.ts";
-import RadioButton from "@/components/atom/radioButton/radioButton.tsx";
+import RadioButton from "@/components/atom/radioOption/radioOption";
 import SocialAuthButton from "@/components/composite/socialAuthButton/socialAuthButton.tsx";
 import Button from "@/components/atom/button/button.tsx";
 import Modal from "@/components/atom/modal/modal.tsx";

@@ -3,7 +3,7 @@ import { RadioOption } from "@/types/RadioTypes";
 import { CheckBoxOption } from "@/types/CheckBoxTypes";
 import useInput from "@/hooks/useInput.ts";
 import styles from "./_question_form.module.scss";
-import RadioButton from "@/components/atom/radioButton/radioButton.tsx";
+import RadioButton from "@/components/atom/radioOption/radioOption";
 import CheckBox from "@/pages/CreateQuiz/atom/checkBox/checkBox";
 import { Close } from "@/svg/close.tsx";
 import { gray90 } from "@/styles/abstracts/colors.ts";

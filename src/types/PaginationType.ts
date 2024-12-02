@@ -1,4 +1,4 @@
-export type PagePositionType = "START" | "END" | undefined;
+export type PagePositionType = "START" | "END" | "BETWEEN";
 export type ParentComponentType = "BOOKS" | "MYPAGE";
 
 export interface PaginationType {

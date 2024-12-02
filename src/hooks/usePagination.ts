@@ -39,7 +39,7 @@ const usePagination = ({
   };
 
   useEffect(() => {
-    if (pagePosition && totalPagesLength) {
+    if (pagePosition !== "BETWEEN" && totalPagesLength) {
       // 로딩 상태 업데이트
       setPaginationState({
         ...paginationState,
@@ -76,7 +76,7 @@ const usePagination = ({
         currentPage > middlePages[0]
         // 범위 안에 있다면
       ) {
-        setPageState(currentPage - 1, undefined);
+        setPageState(currentPage - 1, "BETWEEN");
       } else {
         setPageState(middlePages[0] - 1, "END");
       }
@@ -88,13 +88,13 @@ const usePagination = ({
         currentPage < middlePages[middlePages.length - 1]
         // 범위 안에 있다면
       ) {
-        setPageState(currentPage + 1, undefined);
+        setPageState(currentPage + 1, "BETWEEN");
       } else {
         setPageState(middlePages[middlePages.length - 1] + 1, "START");
       }
     } else {
       // 숫자 클릭
-      let position: PagePositionType = undefined;
+      let position: PagePositionType = "BETWEEN";
       if (Number(value) === 1) {
         position = "START";
       } else if (Number(value) === paginationState.totalPagesLength) {

@@ -4,7 +4,6 @@ import {
   createBrowserRouter,
 } from "react-router-dom";
 import "./styles/main.scss";
-import Index from "./pages/Home/index.tsx";
 
 import AuthRedirectedPage from "./pages/Redirect/authRedirectedPage.tsx";
 import ComponentTest from "./pages/ComponentTest/index.tsx";

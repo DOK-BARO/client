@@ -2,7 +2,7 @@ import React from "react";
 import { CheckBoxOption } from "@/types/CheckBoxTypes";
 import useInput from "@/hooks/useInput.ts";
 import styles from "./_question_form.module.scss";
-import CheckBox from "@/pages/CreateQuiz/atom/checkBox/checkBox";
+import CheckBox from "@/components/atom/checkbox/checkbox";
 import { QuestionFormMode } from "@/data/constants";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { AnswerType, QuizQuestionType } from "@/types/QuizType";
@@ -71,13 +71,9 @@ const SelectOption: React.FC<SelectOptionProps> = ({
 					selectedValue={typeof selectedValue === "string" ? selectedValue : ""}
 					onChange={onChange}
 					isDisabled={quizMode === QuestionFormMode.QUESTION}
-					// className={`${styles["new-option"]} ${focusedOptionIndex === option.id ? styles["focused"] : ""}`}
-					className={`${styles["new-option"]}`}
-					autoFocus={true}
 					labelValue={optionText}
 					handleLabelValueChange={onTextAreaChange}
-					// focusedOptionIndex={focusedOptionIndex}
-					type={quizMode === QuestionFormMode.QUESTION ? "option-writing" : "option-default"}
+					type={quizMode === QuestionFormMode.QUESTION ? "option-writing" : isChecked ? "option-correct": "option-default"}
 					deleteOption={deleteOption}
 					fullWidth
 				/>
@@ -87,40 +83,14 @@ const SelectOption: React.FC<SelectOptionProps> = ({
 					checked={checked!}
 					onChange={onChange}
 					disabled={quizMode === QuestionFormMode.QUESTION}
-					// className={`${styles["new-option"]} ${focusedOptionIndex === option.id ? styles["focused"] : ""}`}
+					// TODO: 이름 이상함
 					className={`${styles["new-option"]}`}
-					autoFocus={true}
-					value={option.value}
-					LabelComponent={
-						quizMode === QuestionFormMode.QUESTION ? ( // TOOD: 변수화
-							<input
-								id={`${option.id}`}
-								name={"checkbox-group"}
-								value={optionText}
-								onChange={onTextAreaChange}
-								// className={`${styles["new-option-text-input"]} ${focusedOptionIndex === option.id ? styles["focused"] : ""}`}
-								className={`${styles["new-option-text-input"]}`}
-								autoFocus
-							/>
-						) : (
-							<div className={`${styles["new-option-label"]}`}>{optionText}</div>
-						)
-					}
+					value={optionText}
+					handleLabelValueChange={onTextAreaChange}
+					deleteOption={deleteOption}
+					type={quizMode === QuestionFormMode.QUESTION ? "checkbox-writing" : "checkbox-correct"}
 				/>
 			)}
-			{/* {quizMode === QuestionFormMode.QUESTION && (
-				<button
-					className={styles["delete-option-button"]}
-					onClick={() => {
-						deleteOption(option.id);
-					}}
-				>
-					<Close width={20} height={20} stroke={gray90} strokeWidth={2} />
-				</button>
-			)} */}
-
-
-
 		</div>
 	);
 };

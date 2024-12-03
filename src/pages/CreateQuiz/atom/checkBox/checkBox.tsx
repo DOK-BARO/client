@@ -1,7 +1,6 @@
 import styles from "./_checkbox.module.scss";
 import React, { ReactNode } from "react";
-
-// TODO: 회원가입의 체크박스와 합칠 수 있으면 합쳐야함
+//TODO: 제거예정
 interface CheckBoxProps {
   id: string;
   checked: boolean;

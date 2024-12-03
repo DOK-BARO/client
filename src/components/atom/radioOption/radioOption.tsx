@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styles from "./_radio_option.module.scss";
 import { RadioOptionType } from "@/types/RadioTypes";
 // TODO: 아이콘 변경 필요
@@ -7,23 +7,18 @@ import CloseIcon from "@mui/icons-material/Close";
 import { systemSuccess, systemDanger } from "@/styles/abstracts/colors";
 import { Close } from "@/svg/close.tsx";
 import { gray90 } from "@/styles/abstracts/colors";
+import { useState } from "react";
 
 interface RadioOptionProps {
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	option: RadioOptionType;
-	//TODO:  check, hover, focus상태는 type으로 나누는것보다 css 가상클래스로 처리하는게 나을듯 함. 하지만 확인해봐야 함
-	// TODO: option 빼도 될듯
-	type?: "option-writing" | "option-default" | "option-correct" | "option-incorrect" | "option-add";
-	selectedValue: string | null;
-	isDisabled: boolean;
-	className?: string;
-	autoFocus: boolean;
-	// icon?: ReactElement | null;
+	option: RadioOptionType; //TODO: id, check,value 나눠서 써도 될듯
+	type?: "option-writing" | "option-default" | "option-correct" | "option-incorrect" | "option-add" | "option-selected";
+	selectedValue: string | null; // TODO sected option으로 이름변경
+	isDisabled: boolean; //TODO: disabled로 이름변경
 	radioGroupName: string;
-	labelValue: string;
+	labelValue: string; //TODO: 그냥 value로 이름변경
 	handleLabelValueChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	fullWidth?: boolean;
-	focusedOptionIndex?: number | null;
 	deleteOption?: (id: number) => void;
 }
 
@@ -33,15 +28,21 @@ const RadioOption: React.FC<RadioOptionProps> = ({
 	onChange,
 	type = "option-default", //TOOD: 기본설정 확인
 	isDisabled,
-	className: customClassName,
-	autoFocus = false,
 	fullWidth = false,
 	labelValue,
 	handleLabelValueChange,
 	radioGroupName,
-	deleteOption,
+	deleteOption = () => { },
 }) => {
-	const className = `${styles["radio-button-item"]} ${styles[customClassName ?? ""]} ${fullWidth ? styles["full"] : ""}`;
+
+	const containerClassName = `
+			${styles["radio-button-container"]}
+			${styles["radio-button-item"]}
+			${fullWidth ? styles["full"] : ""}
+			${styles[type]}
+			`
+		;
+
 	const labelClassName = `${styles["new-option-text-input"]}`;
 
 	const icon = () => {
@@ -54,22 +55,15 @@ const RadioOption: React.FC<RadioOptionProps> = ({
 			} else {
 				return null;;
 			}
-
 		}
-
 	}
-	const isChecked = (typeof selectedValue === "string") ? (selectedValue === option.value) : selectedValue ? selectedValue[option.id] : false;
-
 
 	return (
 		<div
 			key={option.id}
-			className={
-				`${styles["radio-button-container"]}
-			${styles["option-container"]} ${isChecked ? styles["checked"] : ""}
-			${fullWidth ? styles["full"] : ""}`}
+			className={containerClassName}
 		>
-			<label key={option.value} className={className}>
+			<label className={styles["new-option-label-container"]}>
 				<div className={styles["radio-button"]}>
 					<input
 						type="radio"
@@ -78,37 +72,42 @@ const RadioOption: React.FC<RadioOptionProps> = ({
 						checked={selectedValue === option.value}
 						onChange={onChange}
 						disabled={isDisabled}
-						autoFocus={autoFocus}
+						id={option.value}
 					/>
-					{type === "option-writing" ? (
-						<input
-							id={`${option.id}`}
-							name={"radio-group"}
-							value={labelValue}
-							onChange={handleLabelValueChange}
-							className={labelClassName}
-							autoFocus
-						/>
-					) : (
-						<div className={`${styles["new-option-label"]}`}>{labelValue}</div>
-					)
+
+					{
+						type === "option-writing" ? (
+							<input
+								id={`${option.id}`}
+								name={"radio-group"}
+								value={labelValue}
+								onChange={handleLabelValueChange}
+								className={labelClassName}
+							/>
+						)
+							:
+							(
+								<div className={`${styles["new-option-label"]}`}>{labelValue}</div>
+							)
 					}
+
 				</div>
-				{type === "option-writing" && (
-					<button
-						className={styles["delete-option-button"]}
-						onClick={() => {
-							deleteOption!(option.id);
-						}}
-					>
-						<Close width={20} height={20} stroke={gray90} strokeWidth={2} />
-					</button>
-				)}
-				{
-					icon &&
-					<div className={styles["radio-button-item-icon"]}>{icon()}</div>
-				}
 			</label>
+
+			{type === "option-writing" && (
+				<button
+					className={styles["delete-option-button"]}
+					onClick={() => {
+						deleteOption(option.id);
+					}}
+				>
+					<Close width={20} height={20} stroke={gray90} strokeWidth={2} />
+				</button>
+			)}
+			{
+				icon &&
+				<div className={styles["radio-button-item-icon"]}>{icon()}</div>
+			}
 		</div>
 	);
 };

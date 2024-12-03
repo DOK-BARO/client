@@ -14,7 +14,7 @@ function useAutoResizeTextarea(initialValue = "", minHeight = "48px") {
 						console.log(textareaRef.current.style.height);
 					}
         }
-    }, [value,initialValue, textareaRef]); // value가 변경될 때마다 실행
+    }, [value,initialValue, textareaRef.current]); // value가 변경될 때마다 실행
 
     return { value, onChange, textareaRef };
 }

@@ -27,7 +27,6 @@ export const useQuestionTemplate = (questionFormType: AnswerType, questionFormId
     };
 
     const [options, setOptions] = useState<(RadioOptionType | CheckBoxOption)[]>(setInitialOptions(questionFormType));
-    const [focusedOptionIndex, setFocusedOptionIndex] = useState<number | null>(null);
 
     const deleteOption = (optionId: number) => {
         setOptions(options.filter((option) => option.id !== optionId));
@@ -73,8 +72,6 @@ export const useQuestionTemplate = (questionFormType: AnswerType, questionFormId
     return {
         options,
         setOptions,
-        focusedOptionIndex,
-        setFocusedOptionIndex,
         deleteOption,
         onClickAddQuizOptionItem,
         getQuestion,

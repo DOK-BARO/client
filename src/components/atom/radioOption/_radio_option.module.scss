@@ -1,17 +1,10 @@
 @import "../../../styles/abstracts/variables";
 @import "../../../styles/abstracts/mixins";
+
 //TODO: option mixin 정의 필요
-@mixin basic-radio-button-item {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	width: 100%;
-	height: 100%;
-}
+@mixin basic-radio-button-item {}
 
 @mixin basic-radio-button($default-color, $checked-color) {
-	@include basic-radio-button-item;
-
 	input[type="radio"] {
 		margin: 0 8px 0 0;
 		-webkit-appearance: none;
@@ -33,26 +26,30 @@
 	}
 }
 
-.radio-button-container {
+.option-container {
 	@include flex(row);
-	width: 100%;
-	height: 100%;
+	align-items: center;
+	justify-content: space-between;
+
+
+	@include basic-radio-button($default-color: $gray-60, $checked-color: $system-success);
 
 	&:focus-within {
-	background-color: $background;
+		background-color: $background;
 	}
+
 	&.option-correct {
 		background-color: #3DBF0F1A;
 	}
+
+	&.full {
+		width: 100%;
+		height: 100%;
+	}
 }
 
-.radio-button-item {
-	@include basic-radio-button-item;
-	@include basic-radio-button($default-color: $gray-60, $checked-color: $system-success);
-}
-
+// TODO: radio-option으로 변경
 .radio-button-item-corrected {
-	@include basic-radio-button-item;
 	background-color: #1dcc001a; // TODO: 색 지정 필요
 	@include basic-radio-button($default-color: #1dcc00, $checked-color: #1dcc00);
 }
@@ -63,12 +60,6 @@
 	@include basic-radio-button($default-color: #eb003b, $checked-color: #eb003b);
 }
 
-.radio-button {
-	width: 100%;
-	display: flex;
-	align-items: center;
-}
-
 .radio-button-item-icon {
 	margin: 8px 16px 8px 0;
 	width: 20px;
@@ -77,19 +68,15 @@
 
 .radio-button-label {
 	display: flex;
-	width: 100%;
-
 }
 
-//TODO: export
-input.new-option-text-input {
+.option-label-textarea {
 	display: flex;
-	width: 100%;
-	height: 100%;
 	border: none;
-	padding: 0;
+	padding-top: 8px; //TODO: textarea padding 정의 필요
 	border-radius: 0;
 	font-size: $font-size-large;
+	width: 100%;
 
 	&:focus {
 		background-color: $background;
@@ -102,53 +89,28 @@ input.new-option-text-input {
 	}
 }
 
-
-.new-option-label-container {
-	width: 100%;
-	height: 100%;
-}
-.new-option-label {
-	display: flex;
+.option-label {
+	@include flex(row);
 	align-items: center;
-	font-size: $font-size-large;
+	gap: 8px;
+	flex: 1;
 	width: 100%;
-	height: 100%;
+	padding: 10px 16px;
 }
 
-.option-container {
-  @include flex(row, center);
-  width: 100%;
-  height: 100%;
-  border-radius: 8px;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 0 16px;
-  height: 48px;
-
-  &:focused {
-    background-color: $background;
-  }
-
-  &.checked {
-    background-color: #3DBF0F1A;
-  }
-
-  .delete-option-button {
-		// TODO 스타일링 다시 
-		//  cursor: position
-    all: unset;
-  }
+.option-label-value {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	width: 100%;
+	font-size: $font-size-large;
 }
 
-.full{
-width: 100%;
+.delete-option-button {
+	border:none;
+	padding: 0;
+	margin:0;
+	background:none;
 }
 
-.option-label{
-width: 100%;
-height: 100%;
-}
-
-.option-correct {
-	background-color: #3DBF0F1A;
-}
+.option-label-icon {}

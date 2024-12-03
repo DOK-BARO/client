@@ -7,10 +7,14 @@ function useAutoResizeTextarea(initialValue = "", minHeight = "48px") {
 
     useEffect(() => {
         if (textareaRef.current) {
+					if(initialValue.length==0){
             textareaRef.current.style.height = minHeight;
-            textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; // 내용에 따라 높이 조절
+					}else{
+						textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`; // 내용에 따라 높이 조절
+						console.log(textareaRef.current.style.height);
+					}
         }
-    }, [value]); // value가 변경될 때마다 실행
+    }, [value,initialValue, textareaRef]); // value가 변경될 때마다 실행
 
     return { value, onChange, textareaRef };
 }

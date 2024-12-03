@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styles from "./_radio_option.module.scss";
 import { RadioOptionType } from "@/types/RadioTypes";
 // TODO: 아이콘 변경 필요
@@ -7,43 +7,41 @@ import CloseIcon from "@mui/icons-material/Close";
 import { systemSuccess, systemDanger } from "@/styles/abstracts/colors";
 import { Close } from "@/svg/close.tsx";
 import { gray90 } from "@/styles/abstracts/colors";
-import { useState } from "react";
+import Textarea from "@/components/atom/textarea/textarea.tsx";
 
 interface RadioOptionProps {
-	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	option: RadioOptionType; //TODO: id, check,value 나눠서 써도 될듯
+	option: RadioOptionType;
 	type?: "option-writing" | "option-default" | "option-correct" | "option-incorrect" | "option-add" | "option-selected";
-	selectedValue: string | null; // TODO sected option으로 이름변경
-	isDisabled: boolean; //TODO: disabled로 이름변경
+	checked: boolean;
+	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	radioGroupName: string;
-	labelValue: string; //TODO: 그냥 value로 이름변경
-	handleLabelValueChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	fullWidth?: boolean;
+	disabled: boolean;
+	labelValue: string;
+	handleLabelValueChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 	deleteOption?: (id: number) => void;
+	textAreaRef?: React.RefObject<HTMLTextAreaElement>;
+	fullWidth?: boolean;
 }
 
 const RadioOption: React.FC<RadioOptionProps> = ({
 	option,
-	selectedValue,
+	type = "option-default",
+	checked,
 	onChange,
-	type = "option-default", //TOOD: 기본설정 확인
-	isDisabled,
-	fullWidth = false,
-	labelValue,
-	handleLabelValueChange,
 	radioGroupName,
+	disabled,
+	labelValue,
+	handleLabelValueChange = () => { },
 	deleteOption = () => { },
+	textAreaRef,
+	fullWidth = false,
 }) => {
 
 	const containerClassName = `
-			${styles["radio-button-container"]}
-			${styles["radio-button-item"]}
+			${styles["option-container"]}
 			${fullWidth ? styles["full"] : ""}
 			${styles[type]}
-			`
-		;
-
-	const labelClassName = `${styles["new-option-text-input"]}`;
+			`;
 
 	const icon = () => {
 		if (type) {
@@ -57,44 +55,44 @@ const RadioOption: React.FC<RadioOptionProps> = ({
 			}
 		}
 	}
+	const optionMaxLength = 500;
 
 	return (
 		<div
 			key={option.id}
 			className={containerClassName}
 		>
-			<label className={styles["new-option-label-container"]}>
-				<div className={styles["radio-button"]}>
-					<input
-						type="radio"
-						name={radioGroupName}
-						value={option.value}
-						checked={selectedValue === option.value}
-						onChange={onChange}
-						disabled={isDisabled}
-						id={option.value}
-					/>
-
-					{
-						type === "option-writing" ? (
-							<input
-								id={`${option.id}`}
-								name={"radio-group"}
-								value={labelValue}
-								onChange={handleLabelValueChange}
-								className={labelClassName}
-							/>
+			<label className={styles["option-label"]}>
+				<input
+					id={option.id.toString()}
+					type="radio"
+					name={radioGroupName}
+					value={option.value}
+					checked={checked}
+					onChange={onChange}
+					disabled={disabled}
+				/>
+				{
+					type === "option-writing" ? (
+						<Textarea
+							id={`${option.id}`}
+							value={labelValue}
+							onChange={handleLabelValueChange}
+							className={styles["option-label-textarea"]}
+							maxLength={optionMaxLength}
+							textAreaRef={textAreaRef}
+							autoFocus
+							fullWidth
+						/>
+					)
+						:
+						(
+							<div className={`${styles["option-label-value"]}`}>{labelValue}</div>
 						)
-							:
-							(
-								<div className={`${styles["new-option-label"]}`}>{labelValue}</div>
-							)
-					}
+				}
+		
 
-				</div>
-			</label>
-
-			{type === "option-writing" && (
+			{type === "option-default" && (
 				<button
 					className={styles["delete-option-button"]}
 					onClick={() => {
@@ -106,8 +104,9 @@ const RadioOption: React.FC<RadioOptionProps> = ({
 			)}
 			{
 				icon &&
-				<div className={styles["radio-button-item-icon"]}>{icon()}</div>
+				<div className={styles["option-label-icon"]}>{icon()}</div>
 			}
+				</label>
 		</div>
 	);
 };

@@ -63,6 +63,7 @@ function QuizBasicInfoForm() {
           textAreaRef={textareaRef}
           className={styles["quiz-basic-info-description-text-area"]}
           maxLengthShow
+					fullWidth
         />
       </div>
     </div>

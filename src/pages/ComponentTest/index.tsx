@@ -102,7 +102,7 @@ export default function Index() {
             option={option}
             selectedValue={selectedValue}
             onChange={handleChange}
-            isDisabled={false} // TODO 답안이 오면 true
+            disabled={false} // TODO 답안이 오면 true
             className={className}
             autoFocus={false}
 					labelValue={inputValue}

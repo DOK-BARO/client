@@ -15,6 +15,8 @@ interface TextareaProps {
   maxLengthShow?: boolean;
   rows?: number;
   textAreaRef?: React.RefObject<HTMLTextAreaElement>;
+	autoFocus?:boolean;
+	fullWidth?:boolean;
 }
 
 const Textarea: React.FC<TextareaProps> = ({
@@ -31,13 +33,15 @@ const Textarea: React.FC<TextareaProps> = ({
   maxLengthShow,
   rows,
   textAreaRef,
+	autoFocus,
+	fullWidth = false,
 }) => {
   const className = `${styles.textarea}  ${
     isError ? styles["textarea--error"] : ""
-  } ${customClassName}`;
+  } ${customClassName}  ${fullWidth ? styles["full"] : ""}`;
 
   return (
-    <div className={styles["container"]}>
+    <div className={`${styles["container"]} ${fullWidth ? styles["full"] : ""}`}>
       {label ? (
         <label className={styles["label"]} htmlFor={id}>
           {label}
@@ -55,6 +59,7 @@ const Textarea: React.FC<TextareaProps> = ({
         rows={rows}
         maxLength={maxLength}
         ref={textAreaRef}
+				autoFocus={autoFocus}
       />
       {message || maxLength && maxLengthShow || maxLength && maxLength <= value.length ? (
         <div className={styles["message-container"]}>

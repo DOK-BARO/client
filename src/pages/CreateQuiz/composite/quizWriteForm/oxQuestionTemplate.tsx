@@ -82,7 +82,7 @@ export const OXQuestionTemplate: FC<{ questionFormMode?: string, questionFormId?
               option={option}
               selectedValue={selectedRadioGroupValue}
               onChange={handleRadioGroupChange}
-              isDisabled={disabled}
+              disabled={disabled}
               autoFocus={true}
               radioGroupName={questionFormId?.toString()!}
               LabelComponent={

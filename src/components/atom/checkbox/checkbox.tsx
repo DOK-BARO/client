@@ -4,18 +4,20 @@ import { gray90 } from "@/styles/abstracts/colors";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import { systemSuccess, systemDanger } from "@/styles/abstracts/colors";
+import Textarea from "../textarea/textarea";
 
 interface CheckBoxProps {
-	id: string;
+	id: string;//TODO: CheckBoxType사용
 	checked: boolean;
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	type?: "checkbox-writing" | "checkbox-default" | "checkbox-correct" | "checkbox-incorrect" | "checkbox-add" | "checkbox-selected";
 	disabled?: boolean;
 	className?: string;
 	value: string;
-	handleLabelValueChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	fullWidth?: boolean;
+	handleLabelValueChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 	deleteOption?: (id: number) => void;
+	textAreaRef?: React.RefObject<HTMLTextAreaElement>;
+	fullWidth?: boolean;
 }
 
 export default function CheckBox({
@@ -28,12 +30,14 @@ export default function CheckBox({
 	handleLabelValueChange = () => { },
 	deleteOption = () => { },
 	fullWidth,
+	textAreaRef,
 	disabled,
 }: CheckBoxProps) {
-	const className = `${styles[customClassName]}
-  ${styles.label} ${styles["outlined"]} ${fullWidth ? styles["full"] : ""}
 
-  `
+	const containerClassName = `${styles["option-container"]}
+	${fullWidth ? styles["full"] : ""}
+	${styles[type]}
+	`;
 
 	const icon = () => {
 		if (type) {
@@ -46,55 +50,56 @@ export default function CheckBox({
 				return null;;
 			}
 		}
-
 	}
-	return (
-		<div className={
-				`${styles["container"]}
-			${styles["option-container"]} ${type==="checkbox-correct" ? styles["checked"] : ""}
-			${fullWidth ? styles["full"] : ""}`}>
-			<input
-				id={id}
-				className={styles.checkbox}
-				type="checkbox"
-				checked={checked}
-				onChange={onChange}
-				disabled={disabled}
-				value={value}
-			/>
+	const optionMaxLength = 500;
 
-			<label className={className} htmlFor={id}>
+	return (
+		<div className={containerClassName}>
+			<label className={`${styles["option-label"]} ${styles["outlined"]}`}>
+				<input
+					id={id}
+					className={styles.checkbox}
+					type="checkbox"
+					checked={checked}
+					onChange={onChange}
+					disabled={disabled}
+					value={value}
+				/>
+
 				<div className={styles["checkbox-container"]}>
 					<div className={styles["square"]} />
 				</div>
 				{type === "checkbox-writing" ? (
-					<input
-						id={`${id}`}
-						name={"checkbox-group"}
+					<Textarea
+						id={id}
 						value={value}
 						onChange={handleLabelValueChange}
-						className={`${styles["new-option-text-input"]}`}
+						className={styles["option-label-textarea"]}
+						maxLength={optionMaxLength}
+						textAreaRef={textAreaRef}
 						autoFocus
+						fullWidth
 					/>
 				) : (
-					<div className={`${styles["new-option-label"]}`}>{value}</div>
+					<div className={`${styles["option-label-value"]}`}>{value}</div>
 				)}
-				{type === "checkbox-writing" && (
-					<button
-						className={styles["delete-option-button"]}
-						onClick={() => {
-							deleteOption(parseInt(id));
-						}}
-					>
-						<Close width={20} height={20} stroke={gray90} strokeWidth={2} />
-					</button>
-				)}
-				{
-					icon &&
-					<div className={styles["radio-button-item-icon"]}>{icon()}</div>
-				}
+		
 
-			</label>
+			{type === "checkbox-writing" && (
+				<button
+					className={styles["delete-option-button"]}
+					onClick={() => {
+						deleteOption(parseInt(id));
+					}}
+				>
+					<Close width={20} height={20} stroke={gray90} strokeWidth={2} />
+				</button>
+			)}
+			{
+				icon &&
+				<div className={styles["option-label-icon"]}>{icon()}</div>
+			}
+	</label>
 		</div>
 	);
 }

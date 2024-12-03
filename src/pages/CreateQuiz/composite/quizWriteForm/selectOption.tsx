@@ -1,6 +1,5 @@
 import React from "react";
 import { CheckBoxOption } from "@/types/CheckBoxTypes";
-import useInput from "@/hooks/useInput.ts";
 import styles from "./_question_form.module.scss";
 import CheckBox from "@/components/atom/checkbox/checkbox";
 import { QuestionFormMode } from "@/data/constants";
@@ -8,7 +7,7 @@ import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { AnswerType, QuizQuestionType } from "@/types/QuizType";
 import { RadioOptionType } from "@/types/RadioTypes";
 import RadioOption from "@/components/atom/radioOption/radioOption";
-
+import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
 interface SelectOptionProps {
 	option: RadioOptionType | CheckBoxOption;
 	deleteOption: (id: number) => void;
@@ -32,10 +31,15 @@ const SelectOption: React.FC<SelectOptionProps> = ({
 	answerType,
 	checked,
 }) => {
-	const { onChange: onOptionChange, value: optionText } = useInput(option.label);
-	const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
 
-	const onTextAreaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
+	const {
+    value: optionText,
+    onChange: onOptionChange,
+    textareaRef,
+  } = useAutoResizeTextarea(option.label,"26px");
+
+	const onTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		onOptionChange(e);
 		setText(option.id, e.target.value);
 
@@ -58,6 +62,7 @@ const SelectOption: React.FC<SelectOptionProps> = ({
 	};
 
 	const isChecked = (typeof selectedValue === "string") ? (selectedValue === option.value) : selectedValue ? selectedValue[option.id] : false;
+	console.log(isChecked)
 
 	return (
 		<div
@@ -68,14 +73,14 @@ const SelectOption: React.FC<SelectOptionProps> = ({
 				<RadioOption
 					radioGroupName={questionFormId}
 					option={option as RadioOptionType}
-					selectedValue={typeof selectedValue === "string" ? selectedValue : ""}
+					checked={selectedValue === option.value}
 					onChange={onChange}
-					isDisabled={quizMode === QuestionFormMode.QUESTION}
+					disabled={quizMode === QuestionFormMode.QUESTION}
 					labelValue={optionText}
 					handleLabelValueChange={onTextAreaChange}
 					type={quizMode === QuestionFormMode.QUESTION ? "option-writing" : isChecked ? "option-correct": "option-default"}
 					deleteOption={deleteOption}
-					fullWidth
+					textAreaRef={textareaRef}
 				/>
 			) : (
 				<CheckBox
@@ -83,12 +88,11 @@ const SelectOption: React.FC<SelectOptionProps> = ({
 					checked={checked!}
 					onChange={onChange}
 					disabled={quizMode === QuestionFormMode.QUESTION}
-					// TODO: 이름 이상함
-					className={`${styles["new-option"]}`}
 					value={optionText}
 					handleLabelValueChange={onTextAreaChange}
+					type={quizMode === QuestionFormMode.QUESTION ? "checkbox-writing" : isChecked ? "checkbox-correct": "checkbox-default"}
 					deleteOption={deleteOption}
-					type={quizMode === QuestionFormMode.QUESTION ? "checkbox-writing" : "checkbox-correct"}
+					textAreaRef={textareaRef}
 				/>
 			)}
 		</div>

@@ -8,16 +8,12 @@ import {
   IsQuizNextButtonEnabledAtom,
   QuizCreationInfoAtom,
 } from "@/store/quizAtom";
-import {
-  QuizCreationType,
-  QuizQuestionRequestApiType,
-  QuizRequestType,
-} from "@/types/QuizType";
+import { QuizCreationType, QuizQuestionRequestApiType, QuizRequestType } from "@/types/QuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
+import { createQuiz } from "@/services/server/quizService";
 import { ViewScope, EditScope, scopeTranslations } from "@/types/QuizType";
+import { uploadImage } from "@/services/server/imageService";
 import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
-import { imageService } from "@/services/server/imageService";
-import { quizService } from "@/services/server/quizService";
 
 export default function QuizCreationFormLayout({
   steps,
@@ -44,56 +40,43 @@ export default function QuizCreationFormLayout({
     )!;
   };
 
-  const getScopeKeyByTranslation = (
-    translation: string
-  ): ViewScope | EditScope | undefined => {
-    const entry = Object.entries(scopeTranslations).find(
-      ([_, value]) => value === translation
-    );
-    return entry ? (entry[0] as ViewScope) : undefined;
-  };
+  const getScopeKeyByTranslation = (translation: string): ViewScope | EditScope | undefined => {
+    const entry = Object.entries(scopeTranslations).find(([_, value]) => value === translation);
+    return entry ? entry[0] as ViewScope : undefined;
+  }
 
-  const requestUploadExplanationImages = async (
-    uploadTargetImgs: File[]
-  ): Promise<string[]> => {
+  const requestUploadExplanationImages = async (uploadTargetImgs: File[]): Promise<string[]> => {
     const promiseImgList = uploadTargetImgs.map(async (img) => {
       const paramObj: {
-        image: File;
-        imageTarget:
-          | "MEMBER_PROFILE"
-          | "STUDY_GROUP_PROFILE"
-          | "BOOK_QUIZ_ANSWER";
+        image: File,
+        imageTarget: "MEMBER_PROFILE" | "STUDY_GROUP_PROFILE" | "BOOK_QUIZ_ANSWER"
       } = {
         image: img,
-        imageTarget: "BOOK_QUIZ_ANSWER",
-      };
-      return await imageService.uploadImage(paramObj);
+        imageTarget: "BOOK_QUIZ_ANSWER"
+      }
+      return await uploadImage(paramObj);
     });
     const uploadedImgUrl: string[] = await Promise.all(promiseImgList);
     return uploadedImgUrl;
-  };
+  }
 
-  const setRequestQuestion = async (): Promise<
-    QuizQuestionRequestApiType[]
-  > => {
-    const uploadedImgQuestions = quizCreationInfo.questions!.map(
-      async (question) => {
-        const { id, ...rest } = question;
-        return {
-          ...rest,
-          answerType:
-            question.answerType === "CHECK_BOX"
-              ? "MULTIPLE_CHOICE"
-              : question.answerType,
-          answerExplanationImages: await requestUploadExplanationImages(
-            question.answerExplanationImages
-          ),
-          selectOptions: question.selectOptions.map((option) => option.option),
-        };
-      }
-    );
+  const setRequestQuestion = async (): Promise<QuizQuestionRequestApiType[]> => {
+
+    const uploadedImgQuestions = quizCreationInfo.questions!.map(async (question) => {
+      const { id, ...rest } = question;
+      return {
+        ...rest,
+        answerType:
+          question.answerType === "CHECK_BOX"
+            ? "MULTIPLE_CHOICE"
+            : question.answerType,
+        answerExplanationImages: await requestUploadExplanationImages(question.answerExplanationImages),
+        selectOptions: question.selectOptions.map((option) => option.option),
+      };
+    })
     return await Promise.all(uploadedImgQuestions);
-  };
+  }
+
 
   const requestCreateQuiz = async () => {
     const quiz: QuizRequestType = {
@@ -107,11 +90,12 @@ export default function QuizCreationFormLayout({
     };
 
     console.log("request: %O", quiz);
-    await quizService.createQuiz(quiz);
+    await createQuiz(quiz);
     return;
   };
   const endStep = steps.length - 1;
   const { updateQuizCreationInfo } = useUpdateQuizCreationInfo();
+
 
   const goToNextStep = async () => {
     if (currentStep === 0) {
@@ -119,8 +103,8 @@ export default function QuizCreationFormLayout({
     } else if (currentStep === 2.2) {
       console.log("validation check!");
       //TODO: 질문이 하나도 없을 때 버튼 다시 disable 필요
-
-      // - 정답 선택 안 했을 때: 답안이 선택되었는지 확인하세요.
+      
+      // - 정답 선택 안 했을 때: 답안이 선택되었는지 확인하세요. 
       for (const question of quizCreationInfo.questions ?? []) {
         if (!question.answers?.length) {
           setErrorModalTitle("답안이 선택되었는지 확인하세요.");
@@ -128,6 +112,7 @@ export default function QuizCreationFormLayout({
           return;
         }
       }
+
     } else if (currentStep == endStep) {
       await requestCreateQuiz();
       return;
@@ -177,14 +162,14 @@ export default function QuizCreationFormLayout({
   const description = step?.description
     ? step.description
     : step?.subSteps?.[0].description
-    ? step.subSteps?.[0].description
-    : "";
+      ? step.subSteps?.[0].description
+      : "";
 
   const FormComponent = step?.formComponent
     ? step.formComponent
     : step?.subSteps?.[0]?.formComponent
-    ? step.subSteps[0].formComponent
-    : null;
+      ? step.subSteps[0].formComponent
+      : null;
 
   return (
     <section className={styles["container"]}>

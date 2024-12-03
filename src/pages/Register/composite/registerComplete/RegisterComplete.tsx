@@ -7,7 +7,7 @@ import { RegisterInfoAtom } from "@/store/userAtom";
 import { RegisterInfoType } from "@/types/UserType";
 import { useAtom } from "jotai";
 import { APP_NAME } from "@/data/constants";
-import { joinStudyGroup } from "@/services/server/studyService";
+import { studyService } from "@/services/server/studyService";
 
 export default function RegisterComplete() {
   const [user] = useAtom<RegisterInfoType>(RegisterInfoAtom);
@@ -17,7 +17,7 @@ export default function RegisterComplete() {
   // 초대코드로 스터디 참여
   const handleInviteCodeSubmit = async () => {
     console.log(inviteCode);
-    await joinStudyGroup(inviteCode);
+    await studyService.joinStudyGroup(inviteCode);
   };
   return (
     <section className={styles["register-complete"]}>

@@ -2,7 +2,6 @@ import { Outlet, useParams } from "react-router-dom";
 import styles from "./_book_list_layout.module.scss";
 import { useQuery } from "@tanstack/react-query";
 import { bookKeys } from "@/data/queryKeys";
-import { getBookCategories, getBookList } from "@/services/server/bookService";
 import LNB from "../lnb/lnb";
 import {
   findCurrentCategoryInfo,
@@ -12,6 +11,7 @@ import {
 import Breadcrumb from "../breadcrumb/breadcrumb";
 import BookListFilter from "../bookListFilter/bookListFilter";
 import { useState } from "react";
+import { bookService } from "@/services/server/bookService";
 
 export type SortFilterType = "PUBLISHED_AT" | "TITLE" | "QUIZ_COUNT";
 
@@ -19,14 +19,14 @@ export default function BookListLayout() {
   const { categoryId } = useParams();
   const { data: categories, isLoading: isCategoriesLoading } = useQuery({
     queryKey: bookKeys.categories(),
-    queryFn: getBookCategories,
+    queryFn: bookService.getBookCategories,
   });
   const [sortFilter, setSortFilter] = useState<SortFilterType>("QUIZ_COUNT");
 
   const { data: bookListData, isLoading: isBookListLoading } = useQuery({
     queryKey: bookKeys.list({ category: Number(categoryId), sort: sortFilter }),
     queryFn: () =>
-      getBookList({
+      bookService.getBookList({
         category: Number(categoryId) || undefined,
         sort: sortFilter,
       }),

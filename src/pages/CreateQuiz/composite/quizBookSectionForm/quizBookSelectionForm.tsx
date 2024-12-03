@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import useInput from "@/hooks/useInput.ts";
 import { bookKeys } from "@/data/queryKeys.ts";
-import { searchBookList } from "@/services/server/bookService.ts";
+import { bookService } from "@/services/server/bookService.ts";
 import Input from "@/components/atom/input/input.tsx";
 import { Search } from "@/svg/search";
 import { gray60 } from "@/styles/abstracts/colors";
@@ -25,7 +25,8 @@ export default function QuizBookSelectionForm() {
   const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
     IsQuizNextButtonEnabledAtom
   );
-  const {quizCreationInfo, updateQuizCreationInfo} = useUpdateQuizCreationInfo();
+  const { quizCreationInfo, updateQuizCreationInfo } =
+    useUpdateQuizCreationInfo();
   const [tempSelectedBook, setTempSelectedBook] = useState<BookType | null>(
     quizCreationInfo.book
   );
@@ -47,7 +48,8 @@ export default function QuizBookSelectionForm() {
     refetch,
   } = useQuery({
     queryKey: bookKeys.search({ keyword: debouncedSearchValue }),
-    queryFn: () => searchBookList({ keyword: debouncedSearchValue }),
+    queryFn: () =>
+      bookService.searchBookList({ keyword: debouncedSearchValue }),
     enabled: debouncedSearchValue !== "",
   });
 
@@ -60,7 +62,7 @@ export default function QuizBookSelectionForm() {
   const isActuallyLoading = isLoading || isFetching;
 
   useEffect(() => {
-    if(!selectedBook){
+    if (!selectedBook) {
       setIsQuizNextButtonEnabled(false);
     }
     const onClickOutside = (event: MouseEvent) => {
@@ -83,7 +85,7 @@ export default function QuizBookSelectionForm() {
     setSelectedBook(book);
     resetSearchValueInput();
 
-    updateQuizCreationInfo("book",book);
+    updateQuizCreationInfo("book", book);
 
     // 책이 선택되면 버튼 enabled
     setIsQuizNextButtonEnabled(true);

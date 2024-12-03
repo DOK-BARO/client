@@ -3,7 +3,7 @@ import styles from "./_gnb.module.scss";
 import { Plus } from "@/svg/plus";
 import { Minus } from "@/svg/minus";
 import { gray50 } from "@/styles/abstracts/colors";
-import { getBookCategories } from "@/services/server/bookService.ts";
+import { bookService } from "@/services/server/bookService.ts";
 import { useQuery } from "@tanstack/react-query";
 import { bookKeys } from "@/data/queryKeys";
 import Button from "@/components/atom/button/button";
@@ -23,7 +23,7 @@ export default function GNB() {
 
   const { data: categories, isLoading } = useQuery({
     queryKey: bookKeys.categories(),
-    queryFn: getBookCategories,
+    queryFn: bookService.getBookCategories,
   });
 
   if (isLoading) {

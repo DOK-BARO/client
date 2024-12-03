@@ -4,7 +4,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
 import { RadioOption } from "@/types/RadioTypes.ts";
 import useModal from "@/hooks/useModal.ts";
-import { getUser } from "@/services/server/authService.ts";
 import { useState } from "react";
 import { Invisible } from "@/svg/invisible.tsx";
 import {
@@ -18,7 +17,7 @@ import Button from "@/components/atom/button/button.tsx";
 import Modal from "@/components/atom/modal/modal.tsx";
 import Input from "@/components/atom/input/input.tsx";
 import { useRef } from "react";
-import { uploadImage } from "@/services/server/imageService";
+import { imageService } from "@/services/server/imageService";
 
 const options: RadioOption[] = [
   { id: 1, value: "option1", label: "Option 1" },
@@ -68,13 +67,16 @@ export default function Index() {
 
   const handleUploadImg = async () => {
     const img: File = selectedImages[0];
-    const uploadImgArg: { image: File, imageTarget: "MEMBER_PROFILE" | "STUDY_GROUP_PROFILE" } = {
+    const uploadImgArg: {
+      image: File;
+      imageTarget: "MEMBER_PROFILE" | "STUDY_GROUP_PROFILE";
+    } = {
       image: img,
-      imageTarget: "STUDY_GROUP_PROFILE"
+      imageTarget: "STUDY_GROUP_PROFILE",
     };
 
-    await uploadImage(uploadImgArg);
-  }
+    await imageService.uploadImage(uploadImgArg);
+  };
   return (
     <>
       {/* <GNB /> */}

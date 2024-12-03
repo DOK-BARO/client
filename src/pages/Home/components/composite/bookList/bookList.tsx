@@ -5,16 +5,15 @@ import { BookType } from "@/types/BookType";
 
 export default function BookList() {
   // TODO: 페이징
-  const { bookList } = useOutletContext<{ bookList: BookType[] }>();
+  const { books } = useOutletContext<{ books: BookType[] }>();
 
-  console.log(bookList);
-  if (!bookList) {
+  if (!books) {
     return <div>book list page error!!</div>;
   }
 
   return (
     <ul className={styles["book-list-container"]}>
-      {bookList?.map((book) => (
+      {books?.map((book) => (
         <li key={book.id}>
           <BookItem book={book} />
         </li>

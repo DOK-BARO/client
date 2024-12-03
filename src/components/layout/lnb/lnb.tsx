@@ -2,9 +2,11 @@
 import styles from "./_lnb.module.scss";
 import Button from "@/components/atom/button/button";
 import { useNavigate } from "react-router-dom";
-import arrowLeft from "/assets/svg/bookList/arrowLeft.svg";
 import { BookCategory } from "@/types/GNBCategoryType";
 import { findTopParentCategoryInfo } from "@/utils/findCategoryInfo";
+import { ArrowLeft } from "@/svg/arrowLeft";
+import { gray90 } from "@/styles/abstracts/colors";
+import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 
 // Book Category GNB
 export default function LNB({
@@ -15,6 +17,7 @@ export default function LNB({
   categoryId?: number;
 }) {
   const navigate = useNavigate();
+  const { navigateWithParams } = useNavigateWithParams();
 
   if (!categories) {
     return <div>book categories page error!!</div>;
@@ -23,6 +26,10 @@ export default function LNB({
   const parentCategoryInfo = categoryId
     ? findTopParentCategoryInfo(categories, categoryId)
     : null;
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    navigateWithParams(e, "BOOKS", "category", ["page"]);
+  };
 
   return (
     <nav className={styles.lnb} aria-label="Category Navigation">
@@ -33,7 +40,14 @@ export default function LNB({
               <Button
                 color="transparent"
                 size="xsmall"
-                icon={<img alt="뒤로가기" src={arrowLeft} />}
+                icon={
+                  <ArrowLeft
+                    alt="뒤로가기"
+                    width={20}
+                    height={20}
+                    stroke={gray90}
+                  />
+                }
                 iconOnly
                 onClick={() => navigate("/")}
               />
@@ -41,7 +55,8 @@ export default function LNB({
                 size="xsmall"
                 color="transparent"
                 className={styles["parent-category-name"]}
-                onClick={() => navigate(`/book-list/${parentCategoryInfo?.id}`)}
+                value={parentCategoryInfo?.id.toString()}
+                onClick={handleClick}
               >
                 {parentCategoryInfo?.name}
               </Button>
@@ -57,8 +72,9 @@ export default function LNB({
                     color="transparent"
                     size="xsmall"
                     // fullWidth
+                    value={category.id.toString()}
                     className={styles["category-item-button"]}
-                    onClick={() => navigate(`/book-list/${category.id}`)}
+                    onClick={handleClick}
                   >
                     {category.name}
                   </Button>
@@ -77,9 +93,8 @@ export default function LNB({
                       className={`${styles["category-detail-item-button"]} ${
                         categoryId === categoryDetail.id ? styles.selected : ""
                       }`}
-                      onClick={() =>
-                        navigate(`/book-list/${categoryDetail.id}`)
-                      }
+                      value={categoryDetail.id.toString()}
+                      onClick={handleClick}
                     >
                       {categoryDetail.name}
                     </Button>

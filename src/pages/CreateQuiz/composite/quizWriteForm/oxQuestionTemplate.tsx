@@ -1,7 +1,7 @@
-import RadioButton from "@/components/atom/radioOption/radioOption";
 import { QuestionFormMode } from "@/data/constants.ts";
+import RadioOption from "@/components/atom/radioOption/radioOption";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
-import { RadioOption } from "@/types/RadioTypes.ts";
+import { RadioOptionType } from "@/types/RadioTypes.ts";
 import { FC, useEffect } from "react";
 import styles from "./_question_form.module.scss";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
@@ -10,7 +10,7 @@ import { ChangeEvent } from "react";
 
 export const OXQuestionTemplate: FC<{ questionFormMode?: string, questionFormId?: string }> = ({ questionFormMode, questionFormId }) => {
 
-  const options: RadioOption[] = [{
+  const options: RadioOptionType[] = [{
     id: 1,
     value: "O",
     label: "O",
@@ -78,7 +78,7 @@ export const OXQuestionTemplate: FC<{ questionFormMode?: string, questionFormId?
             onFocus={() => handleOptionFocus(option.id)}
             onBlur={handleOptionBlur}
           >
-            <RadioButton
+            <RadioOption
               option={option}
               selectedValue={selectedRadioGroupValue}
               onChange={handleRadioGroupChange}

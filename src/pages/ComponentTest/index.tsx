@@ -2,25 +2,25 @@ import { AUTH_TYPES, SOCIAL_TYPES } from "@/data/constants.ts";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
-import { RadioOption } from "@/types/RadioTypes.ts";
+import { RadioOptionType } from "@/types/RadioTypes";
 import useModal from "@/hooks/useModal.ts";
-import { getUser } from "@/services/server/authService.ts";
 import { useState } from "react";
 import { Invisible } from "@/svg/invisible.tsx";
+import RadioOption from "@/components/atom/radioOption/radioOption";
 import {
   gray60,
   systemDanger,
   systemSuccess,
 } from "@/styles/abstracts/colors.ts";
-import RadioButton from "@/components/atom/radioOption/radioOption";
 import SocialAuthButton from "@/components/composite/socialAuthButton/socialAuthButton.tsx";
 import Button from "@/components/atom/button/button.tsx";
 import Modal from "@/components/atom/modal/modal.tsx";
 import Input from "@/components/atom/input/input.tsx";
 import { useRef } from "react";
 import { uploadImage } from "@/services/server/imageService";
+import { authService } from "@/services/server/authService";
 
-const options: RadioOption[] = [
+const options: RadioOptionType[] = [
   { id: 1, value: "option1", label: "Option 1" },
   { id: 2, value: "option2", label: "Option 2" },
   { id: 3, value: "option3", label: "Option 3" },
@@ -88,25 +88,25 @@ export default function Index() {
         />
         <button onClick={handleUploadImg}>이미지 업로드 버튼</button>
       </div>
-      <button onClick={getUser}>유저 데이터 가져오는 버튼</button>
-      {options.map((option: RadioOption) => {
+      <button onClick={authService.getUser}>유저 데이터 가져오는 버튼</button>
+      {options.map((option: RadioOptionType) => {
         const { className, icon } = getClassNameAndIcon(
           option.value,
           "option2"
         );
 
         return (
-          <RadioButton
+          <RadioOption
             key={option.id}
             radioGroupName={"radio-group"}
             option={option}
             selectedValue={selectedValue}
             onChange={handleChange}
             isDisabled={false} // TODO 답안이 오면 true
-            icon={icon}
             className={className}
             autoFocus={false}
-            LabelComponent={<div>{option.label}</div>}
+					labelValue={inputValue}
+					type="option-correct" // TODO:로직 작성 필요
           />
         );
       })}

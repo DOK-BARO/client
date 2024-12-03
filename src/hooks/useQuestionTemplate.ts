@@ -1,7 +1,7 @@
 import useUpdateQuizCreationInfo from "./useUpdateQuizCreationInfo";
 import { AnswerType, QuizQuestionType } from "@/types/QuizType";
 import { CheckBoxOption } from "@/types/CheckBoxTypes";
-import { RadioOption } from "@/types/RadioTypes";
+import { RadioOptionType } from "@/types/RadioTypes";
 import { useState } from "react";
 
 export const useQuestionTemplate = (questionFormType: AnswerType, questionFormId: string) => {
@@ -12,7 +12,7 @@ export const useQuestionTemplate = (questionFormType: AnswerType, questionFormId
             (question) => question.id.toString() === questionFormId
         ) as QuizQuestionType ?? [];
 
-    const setInitialOptions = (questionFormType: AnswerType): (CheckBoxOption | RadioOption)[] => {
+    const setInitialOptions = (questionFormType: AnswerType): (CheckBoxOption | RadioOptionType)[] => {
         const question: QuizQuestionType = getQuestion();
         const initialOptions = question?.selectOptions.map(
             (option) =>
@@ -23,10 +23,10 @@ export const useQuestionTemplate = (questionFormType: AnswerType, questionFormId
             })
         ) ?? [];
 
-        return questionFormType === "CHECK_BOX" ? initialOptions as CheckBoxOption[] : initialOptions as RadioOption[];
+        return questionFormType === "CHECK_BOX" ? initialOptions as CheckBoxOption[] : initialOptions as RadioOptionType[];
     };
 
-    const [options, setOptions] = useState<(RadioOption | CheckBoxOption)[]>(setInitialOptions(questionFormType));
+    const [options, setOptions] = useState<(RadioOptionType | CheckBoxOption)[]>(setInitialOptions(questionFormType));
     const [focusedOptionIndex, setFocusedOptionIndex] = useState<number | null>(null);
 
     const deleteOption = (optionId: number) => {

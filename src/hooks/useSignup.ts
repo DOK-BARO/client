@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { axiosInstance } from "@/config/axiosConfig";
 
 interface UseSignupResponse {
   signup: (token: string, redirectUrl: string) => Promise<void>;
@@ -20,7 +21,10 @@ export const useSignup = (): UseSignupResponse => {
         token: token,
         redirectUrl: "http://localhost:5173/oauth2/redirected/kakao",
       };
-      const response = await axios.post("/auth/oauth2/signup/KAKAO", postData);
+      const response = await axiosInstance.post(
+        "/auth/oauth2/signup/KAKAO",
+        postData
+      );
 
       console.log("회원가입 완료:", response.data);
     } catch (err) {

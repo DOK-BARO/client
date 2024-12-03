@@ -3,10 +3,10 @@ import axios, { AxiosError } from "axios";
 import { QuizType } from "@/types/QuizType";
 import { MyQuizType } from "@/types/QuizType";
 import localApi from "../local/LocalApi";
+import { axiosInstance } from "@/config/axiosConfig";
 //TODO: 클래스화
 // 퀴즈 목록 조회
 // TODO: fetchQuizzes
-
 class QuizService {
   fetchQuizzes = async (params: {
     page?: number;
@@ -24,7 +24,7 @@ class QuizService {
         direction = "ASC",
       } = params;
 
-      const { data } = await axios.get("/book-quizzes", {
+      const { data } = await axiosInstance.get("/book-quizzes", {
         params: { page, size, bookId, sort, direction },
       });
 
@@ -43,20 +43,9 @@ class QuizService {
     }
   };
 
-  // 퀴즈 질문 조회
-  fetchQuiz = async (id: string) => {
-    try {
-      const { data } = await axios.get(`/book-quizzes/${id}/questions`);
-      console.log(data);
-      return data;
-    } catch (error) {
-      throw new Error(`퀴즈 질문 조회 실패: ${error}`);
-    }
-  };
-
   createQuiz = async (quiz: QuizRequestType) => {
     try {
-      const { data } = await axios.post("/book-quizzes", quiz);
+      const { data } = await axiosInstance.post("/book-quizzes", quiz);
       console.log("data result: %o", data);
       return data;
     } catch (error: unknown) {
@@ -78,7 +67,7 @@ class QuizService {
 
   fetchMyMadeQuizzes = async (): Promise<MyQuizType[]> => {
     try {
-      const { data } = await axios.get("/book-quizzes/my");
+      const { data } = await axiosInstance.get("/book-quizzes/my");
       console.log("quizzes: %o", data);
       return data;
     } catch (error: unknown) {

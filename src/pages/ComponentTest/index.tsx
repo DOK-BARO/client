@@ -18,6 +18,7 @@ import Modal from "@/components/atom/modal/modal.tsx";
 import Input from "@/components/atom/input/input.tsx";
 import { useRef } from "react";
 import { imageService } from "@/services/server/imageService";
+import { authService } from "@/services/server/authService";
 
 const options: RadioOption[] = [
   { id: 1, value: "option1", label: "Option 1" },
@@ -90,7 +91,7 @@ export default function Index() {
         />
         <button onClick={handleUploadImg}>이미지 업로드 버튼</button>
       </div>
-      <button onClick={getUser}>유저 데이터 가져오는 버튼</button>
+      <button onClick={authService.getUser}>유저 데이터 가져오는 버튼</button>
       {options.map((option: RadioOption) => {
         const { className, icon } = getClassNameAndIcon(
           option.value,

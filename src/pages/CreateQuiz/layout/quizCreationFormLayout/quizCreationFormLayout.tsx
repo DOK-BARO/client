@@ -15,8 +15,8 @@ import {
 } from "@/types/QuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { ViewScope, EditScope, scopeTranslations } from "@/types/QuizType";
-import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
 import { imageService } from "@/services/server/imageService";
+import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
 import { quizService } from "@/services/server/quizService";
 
 export default function QuizCreationFormLayout({

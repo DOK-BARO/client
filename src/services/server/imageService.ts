@@ -1,3 +1,4 @@
+import { axiosInstance } from "@/config/axiosConfig";
 import axios, { AxiosError } from "axios";
 
 // 이미지 업로드
@@ -13,7 +14,10 @@ class ImageService {
     formData.append("file", image);
 
     try {
-      const { data } = await axios.post(`/images/${imageTarget}`, formData);
+      const { data } = await axiosInstance.post(
+        `/images/${imageTarget}`,
+        formData
+      );
       console.log("data: %o", data);
       return data.url;
     } catch (error: unknown) {

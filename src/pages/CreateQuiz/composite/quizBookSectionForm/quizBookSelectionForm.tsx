@@ -3,7 +3,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import useInput from "@/hooks/useInput.ts";
 import { bookKeys } from "@/data/queryKeys.ts";
-import { bookService } from "@/services/server/bookService.ts";
 import Input from "@/components/atom/input/input.tsx";
 import { Search } from "@/svg/search";
 import { gray60 } from "@/styles/abstracts/colors";
@@ -13,6 +12,7 @@ import React from "react";
 import { useAtom } from "jotai";
 import { IsQuizNextButtonEnabledAtom } from "@/store/quizAtom";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
+import { bookService } from "@/services/server/bookService";
 
 // 2. 도서 선택
 // Issue: 도서 선택 UI 변경 시 딜레이 있음
@@ -42,14 +42,13 @@ export default function QuizBookSelectionForm() {
   const debouncedSearchValue = useDebounce(searchValue, 500);
 
   const {
-    data: searchedBookList,
+    data: searchedBooks,
     isLoading,
     isFetching,
     refetch,
   } = useQuery({
     queryKey: bookKeys.search({ keyword: debouncedSearchValue }),
-    queryFn: () =>
-      bookService.searchBookList({ keyword: debouncedSearchValue }),
+    queryFn: () => bookService.searchBooks({ keyword: debouncedSearchValue }),
     enabled: debouncedSearchValue !== "",
   });
 
@@ -138,13 +137,13 @@ export default function QuizBookSelectionForm() {
         fullWidth
       />
 
-      {searchedBookList && searchedBookList.length > 0 ? (
+      {searchedBooks && searchedBooks.length > 0 ? (
         <ul
           className={styles["selection-list"]}
           role="listbox"
           aria-label="도서 선택 상자"
         >
-          {searchedBookList.map((book) => (
+          {searchedBooks.map((book) => (
             <BookListItem key={book.id} book={book} isSelected={false} />
           ))}
         </ul>

@@ -10,8 +10,8 @@ import Button from "@/components/atom/button/button.tsx";
 import { RegisterInfoType } from "@/types/UserType";
 import { RegisterInfoAtom } from "@/store/userAtom";
 import { useNavigate, useParams } from "react-router-dom";
-import { imageService } from "@/services/server/imageService";
 import { authService } from "@/services/server/authService";
+import { imageService } from "@/services/server/imageService";
 
 export interface ProfileImageState {
   url: string;

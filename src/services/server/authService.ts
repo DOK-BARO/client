@@ -4,6 +4,7 @@ import { SocialLoginType } from "../../types/SocialLoginType.ts";
 import localApi from "../local/LocalApi.ts";
 import { TermsOfServiceType } from "@/types/TermsOfServiceType.ts";
 import { UserProfileType } from "@/types/UserType.ts";
+import { axiosInstance } from "@/config/axiosConfig.ts";
 
 // TODO: 함수명 api로부터 바로 가져오는건 fetch, 그 외 get
 class AuthService {
@@ -17,7 +18,7 @@ class AuthService {
 		socialLoginType: SocialLoginType
 	): Promise<string> => {
 		try {
-			const { data } = await axios.get(
+			const { data } = await axiosInstance.get(
 				`/auth/oauth2/authorize/${socialLoginType}?redirectUrl=${this.redirectedUrl}/${socialLoginType.toLowerCase()}`
 			);
 			return data.url; // 임시 임의 리턴값
@@ -37,24 +38,13 @@ class AuthService {
 		};
 		console.log(postData.redirectUrl);
 		try {
-			const { data } = await axios.post(
+			const { data } = await axiosInstance.post(
 				`/auth/oauth2/login/${socialType}`,
 				postData
 			);
-			console.log("data", data); // 응답 객체 출력
 			return data;
 		} catch (error: unknown) {
-			if (axios.isAxiosError(error)) {
-				const axiosError = error as AxiosError;
-				if (axiosError.response?.status === 404) {
-					console.log("in 404 in authService");
-					throw error;
-					//throw new Error(`존재하지 않는 계정입니다: ${error}`);
-				}
-				throw new Error(`로그인 요청: ${error}`);
-			} else {
-				throw new Error(`Unexpected error: ${error}`);
-			}
+			throw new Error(`Unexpected error: ${error}`);
 		}
 	};
 
@@ -69,7 +59,7 @@ class AuthService {
 				token,
 				redirectUrl: `${this.redirectedUrl}/${socialType.toLocaleLowerCase()}`,
 			};
-			const { data } = await axios.post(
+			const { data } = await axiosInstance.post(
 				`/auth/oauth2/signup/${socialType}`,
 				postData
 			);
@@ -96,7 +86,7 @@ class AuthService {
 		profileImage?: string | null;
 	}) => {
 		try {
-			const response = await axios.post("/auth/email/signup", userInfo);
+			const response = await axiosInstance.post("/auth/email/signup", userInfo);
 			console.log("이메일 회원가입 post 응답", response);
 			return response;
 		} catch (error) {
@@ -112,7 +102,7 @@ class AuthService {
 		profileImage?: string | null; // TODO: 필수인가?
 	}) => {
 		try {
-			const response = await axios.put("/members/login-user", userInfo);
+			const response = await axiosInstance.put("/members/login-user", userInfo);
 			console.log(response);
 		} catch (error) {
 			throw new Error(`로그인 유저 실패: ${error}`);
@@ -124,21 +114,11 @@ class AuthService {
 	// TODO: fetch~로 함수명 변경하기
 	getUser = async (): Promise<UserProfileType> => {
 		try {
-			const { data } = await axios.get("/members/login-user");
+			const { data } = await axiosInstance.get("/members/login-user");
 			console.log("%o", data);
 			return data;
 		} catch (error: unknown) {
 			if (axios.isAxiosError(error)) {
-				const axiosError = error as AxiosError;
-				if (axiosError.response?.status === 404) {
-					console.log("in 404 in get user");
-					throw error;
-				}
-				if (axiosError.response?.status === 403) {
-					//TODO: 403에러는 리프레시 토큰이 유효하지 않아 재로그인 필요한 상황이다. 리팩토링하여 모든 요청에 적용 필요. 코드 중복 어떻게 줄일지 고민..
-					localApi.removeCertification();
-					throw error;
-				}
 				throw new Error(`로그인 요청: ${error}`);
 			} else {
 				throw new Error(`Unexpected error: ${error}`);
@@ -159,7 +139,7 @@ class AuthService {
 	// 이용약관 조회
 	fetchTerms = async (): Promise<TermsOfServiceType[] | null> => {
 		try {
-			const { data } = await axios.get("/terms-of-services");
+			const { data } = await axiosInstance.get("/terms-of-services");
 			return data;
 		} catch (error) {
 			throw new Error(`이용약관 가져오기 실패: ${error}`);
@@ -172,7 +152,7 @@ class AuthService {
 		id: number
 	): Promise<string | undefined> => {
 		try {
-			const { data } = await axios.get(`/terms-of-services/${id}/detail`);
+			const { data } = await axiosInstance.get(`/terms-of-services/${id}/detail`);
 			return data.value;
 		} catch (error) {
 			console.error(error);
@@ -183,7 +163,7 @@ class AuthService {
 	// 이용약관 동의 요청
 	sendTermsAgreement = async (items: number[]) => {
 		try {
-			const response = await axios.post("/terms-of-services/agree", { items });
+			const response = await axiosInstance.post("/terms-of-services/agree", { items });
 			console.log(response);
 		} catch (error) {
 			throw new Error(`이용약관 동의 실패: ${error}}`);
@@ -194,7 +174,7 @@ class AuthService {
 	// 이메일로 인증코드 보내기
 	sendEmailCode = async (email: string) => {
 		try {
-			const response = await axios.post("/email-authentications", {
+			const response = await axiosInstance.post("/email-authentications", {
 				email: email,
 			});
 			if (response.status === 201) {
@@ -213,7 +193,7 @@ class AuthService {
 		code: string;
 	}) => {
 		try {
-			const { data } = await axios.post("/email-authentications/match-code", {
+			const { data } = await axiosInstance.post("/email-authentications/match-code", {
 				email: email,
 				code: code,
 			});

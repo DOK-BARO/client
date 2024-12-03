@@ -4,8 +4,6 @@ import {
   createBrowserRouter,
 } from "react-router-dom";
 import "./styles/main.scss";
-// import Index from "./pages/Home/index.tsx";
-import axios from "axios";
 
 import AuthRedirectedPage from "./pages/Redirect/authRedirectedPage.tsx";
 import ComponentTest from "./pages/ComponentTest/index.tsx";
@@ -23,8 +21,6 @@ import BookListLayout from "./components/layout/bookListLayout/bookListLayout.ts
 import MyPage from "./pages/MyPage/index.tsx";
 
 function App() {
-  axios.defaults.withCredentials = true;
-  axios.defaults.baseURL = import.meta.env.VITE_API_URL;
   const queryClient = new QueryClient();
 
   const router = createBrowserRouter([

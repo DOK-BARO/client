@@ -6,6 +6,7 @@ import { BookType } from "@/types/BookType";
 export default function BookList() {
   // TODO: 페이징
   const { books } = useOutletContext<{ books: BookType[] }>();
+  console.log(books);
 
   if (!books) {
     return <div>book list page error!!</div>;

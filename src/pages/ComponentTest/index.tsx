@@ -17,7 +17,7 @@ import Button from "@/components/atom/button/button.tsx";
 import Modal from "@/components/atom/modal/modal.tsx";
 import Input from "@/components/atom/input/input.tsx";
 import { useRef } from "react";
-import { uploadImage } from "@/services/server/imageService";
+import { imageService } from "@/services/server/imageService";
 import { authService } from "@/services/server/authService";
 
 const options: RadioOptionType[] = [
@@ -68,13 +68,16 @@ export default function Index() {
 
   const handleUploadImg = async () => {
     const img: File = selectedImages[0];
-    const uploadImgArg: { image: File, imageTarget: "MEMBER_PROFILE" | "STUDY_GROUP_PROFILE" } = {
+    const uploadImgArg: {
+      image: File;
+      imageTarget: "MEMBER_PROFILE" | "STUDY_GROUP_PROFILE";
+    } = {
       image: img,
-      imageTarget: "STUDY_GROUP_PROFILE"
+      imageTarget: "STUDY_GROUP_PROFILE",
     };
 
-    await uploadImage(uploadImgArg);
-  }
+    await imageService.uploadImage(uploadImgArg);
+  };
   return (
     <>
       {/* <GNB /> */}

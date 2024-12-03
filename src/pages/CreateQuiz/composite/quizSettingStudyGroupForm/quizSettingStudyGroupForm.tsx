@@ -15,8 +15,8 @@ import { StudyGroupType } from "@/types/StudyGroupType";
 // import Toggle from "@/components/atom/toggle/toggle";
 import { useAtom } from "jotai";
 import { IsQuizNextButtonEnabledAtom } from "@/store/quizAtom";
+import { createStudyGroup } from "@/services/server/studyService";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
-import { studyService } from "@/services/server/studyService";
 
 // export interface StudyGroupSelectType extends StudyGroupType {
 //   isSetAlarm: boolean;
@@ -75,9 +75,7 @@ export default function QuizSettingStudyGroupForm() {
   // 새로운 스터디 그룹 추가
   // API 연결
   const addStudyGroup = async (newStudyName: string) => {
-    const { id: studyGroupId } = await studyService.createStudyGroup(
-      newStudyName
-    );
+    const { id: studyGroupId } = await createStudyGroup(newStudyName);
     console.log(studyGroupId);
     setNewStudyGroup(newStudyName);
   };

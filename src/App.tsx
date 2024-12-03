@@ -1,7 +1,10 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+  Navigate,
+  RouterProvider,
+  createBrowserRouter,
+} from "react-router-dom";
 import "./styles/main.scss";
 import Index from "./pages/Home/index.tsx";
-import axios from "axios";
 
 import AuthRedirectedPage from "./pages/Redirect/authRedirectedPage.tsx";
 import ComponentTest from "./pages/ComponentTest/index.tsx";
@@ -19,8 +22,6 @@ import BookListLayout from "./components/layout/bookListLayout/bookListLayout.ts
 import MyPage from "./pages/MyPage/index.tsx";
 
 function App() {
-  axios.defaults.withCredentials = true;
-  axios.defaults.baseURL = import.meta.env.VITE_API_URL;
   const queryClient = new QueryClient();
 
   const router = createBrowserRouter([
@@ -30,14 +31,14 @@ function App() {
       children: [
         {
           path: "/",
-          element: <BookListLayout />, // 책 목록,
+          element: <BookListLayout />,
           children: [
             {
               path: "/",
-              element: <Index />,
+              element: <Navigate to="/books" replace />, // "/"로 들어왔을 때 "/books"로 리다이렉트
             },
             {
-              path: "/book-list/:categoryId",
+              path: "/books",
               element: <BookList />,
             },
           ],
@@ -47,7 +48,7 @@ function App() {
           element: <CreateQuiz />,
         },
         {
-          path: "/book-detail/:id",
+          path: "/book/:id",
           element: <BookDetailSection />,
         },
 

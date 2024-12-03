@@ -6,7 +6,7 @@ import pencil from "/assets/svg/bookList/pencil.svg";
 export default function BookItem({ book }: { book: BookType }) {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate(`/book-detail/${book.id}`);
+    navigate(`/book/${book.id}`);
   };
   const bookAuthor =
     book.authors.length > 1 ? `${book.authors[0]} 외` : book.authors;

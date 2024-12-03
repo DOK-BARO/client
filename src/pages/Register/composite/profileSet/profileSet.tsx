@@ -10,7 +10,7 @@ import Button from "@/components/atom/button/button.tsx";
 import { RegisterInfoType } from "@/types/UserType";
 import { RegisterInfoAtom } from "@/store/userAtom";
 import { useNavigate, useParams } from "react-router-dom";
-import { imageService } from "@/services/server/imageService";
+import { uploadImage } from "@/services/server/imageService";
 import { authService } from "@/services/server/authService";
 
 export interface ProfileImageState {
@@ -55,7 +55,7 @@ export default function ProfileSet() {
     let imageUrl;
 
     if (userInfo.profileImage instanceof File) {
-      imageUrl = await imageService.uploadImage({
+      imageUrl = await uploadImage({
         image: userInfo.profileImage,
         imageTarget: "MEMBER_PROFILE",
       });

@@ -1,4 +1,4 @@
-import { bookService } from "@/services/server/bookService.ts";
+import { getBook } from "@/services/server/bookService.ts";
 import { useParams } from "react-router-dom";
 import styles from "./_book_detail.module.scss";
 import { useQuery } from "@tanstack/react-query";
@@ -11,7 +11,7 @@ export default function Index() {
 
   const { data, isLoading } = useQuery({
     queryKey: bookKeys.detail(id!),
-    queryFn: () => bookService.getBook(id!),
+    queryFn: () => getBook(id!),
   });
 
   if (isLoading) {
@@ -24,7 +24,7 @@ export default function Index() {
 
   return (
     <section className={styles.container}>
-      <BookDetailSection bookDetailContent={data} />
+      <BookDetailSection bookDetailContent={data!} />
       <QuizListSection />
     </section>
   );

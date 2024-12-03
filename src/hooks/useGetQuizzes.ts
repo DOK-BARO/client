@@ -1,4 +1,4 @@
-import { fetchQuizzes } from "@/services/server/quizService";
+import { quizService } from "@/services/server/quizService";
 import { QuizType } from "@/types/QuizType";
 import { useEffect, useState } from "react";
 
@@ -15,7 +15,7 @@ export const useGetQuizzes = (params: {
 
   const getQuizzes = async () => {
     setIsLoading(true);
-    const { data } = await fetchQuizzes(params);
+    const { data } = await quizService.fetchQuizzes(params);
     if (data) {
       setQuizzes(data);
       setIsLoading(false);

@@ -2,7 +2,6 @@ import { Outlet, useLocation } from "react-router-dom";
 import styles from "./_book_list_layout.module.scss";
 import { useQuery } from "@tanstack/react-query";
 import { bookKeys } from "@/data/queryKeys";
-import { getBookCategories, getBooks } from "@/services/server/bookService";
 import LNB from "../lnb/lnb";
 import {
   findCurrentCategoryInfo,
@@ -16,12 +15,13 @@ import Pagination from "@/components/composite/pagination/pagination";
 import { SortFilterType } from "@/types/BookType";
 import { useAtom } from "jotai";
 import { PaginationAtom } from "@/store/paginationAtom";
+import { bookService } from "@/services/server/bookService";
 
 export default function BookListLayout() {
   // 책 카테고리 목록 가져오기
   const { data: categories, isLoading: isCategoriesLoading } = useQuery({
     queryKey: bookKeys.categories(),
-    queryFn: getBookCategories,
+    queryFn: bookService.getBookCategories,
   });
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
@@ -42,13 +42,14 @@ export default function BookListLayout() {
       size: 10,
     }),
     queryFn: () =>
-      getBooks({
+      bookService.getBooks({
         category: category ? Number(category) : undefined,
         sort: sort ? (sort as SortFilterType) : undefined,
         page: page ? Number(page) : undefined,
         size: 10,
       }),
   });
+  console.log(booksData, isBooksLoading);
 
   const books = booksData?.data;
   const endPageNumber = booksData?.endPageNumber;

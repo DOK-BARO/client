@@ -92,7 +92,7 @@ export default function Index() {
         <button onClick={handleUploadImg}>이미지 업로드 버튼</button>
       </div>
       <button onClick={authService.getUser}>유저 데이터 가져오는 버튼</button>
-      {options.map((option: RadioOptionType) => {
+      {/* {options.map((option: RadioOptionType) => {
         const { className, icon } = getClassNameAndIcon(
           option.value,
           "option2"
@@ -112,7 +112,7 @@ export default function Index() {
 					type="option-correct" // TODO:로직 작성 필요
           />
         );
-      })}
+      })} */}
 
       <div style={{ display: "flex", gap: "10px" }}>
         {SOCIAL_TYPES.map((socialType) => (

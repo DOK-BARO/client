@@ -3,16 +3,17 @@ import styles from "./_gnb.module.scss";
 import { Plus } from "@/svg/plus";
 import { Minus } from "@/svg/minus";
 import { gray50 } from "@/styles/abstracts/colors";
-import { getBookCategories } from "@/services/server/bookService.ts";
+import { bookService } from "@/services/server/bookService.ts";
 import { useQuery } from "@tanstack/react-query";
 import { bookKeys } from "@/data/queryKeys";
 import Button from "@/components/atom/button/button";
 import useGNB from "@/hooks/useGNB";
-import useNavigateWithParams from "@/hooks/useNavigateWithParams";
+import { useNavigate } from "react-router-dom";
 
 // Book Category GNB
 export default function GNB() {
   const { isGNBHidden } = useGNB();
+  const navigate = useNavigate();
   const [activeCategoryIndex, setActiveCategoryIndex] = useState<number | null>(
     null
   );
@@ -22,9 +23,8 @@ export default function GNB() {
 
   const { data: categories, isLoading } = useQuery({
     queryKey: bookKeys.categories(),
-    queryFn: getBookCategories,
+    queryFn: bookService.getBookCategories,
   });
-  const { navigateWithParams } = useNavigateWithParams();
 
   if (isLoading) {
     return <div>loading</div>;
@@ -32,10 +32,6 @@ export default function GNB() {
   if (!categories) {
     return <div>book categories page error!!</div>;
   }
-
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    navigateWithParams(e, "BOOKS", "category", ["page"]);
-  };
 
   const toggleSubCategory = (subCategoryId: number) => {
     setExpandedSubCategories((prev) => ({
@@ -68,8 +64,9 @@ export default function GNB() {
                   activeCategoryIndex === index ? styles["hover"] : ""
                 }`}
                 color="transparent"
-                value={category.id.toString()}
-                onClick={handleClick}
+                onClick={() => {
+                  navigate(`/book-list/${category.id}`);
+                }}
               >
                 {category.name}
               </Button>
@@ -88,8 +85,9 @@ export default function GNB() {
                       <Button
                         color="transparent"
                         size="small"
-                        value={subCategory.id.toString()}
-                        onClick={handleClick}
+                        onClick={() => {
+                          navigate(`/book-list/${subCategory.id}`);
+                        }}
                         className={styles["sub-category-item"]}
                       >
                         {subCategory.name}
@@ -119,8 +117,9 @@ export default function GNB() {
                               size="small"
                               color="transparent"
                               className={styles["sub-category-detail-item"]}
-                              value={detail.id.toString()}
-                              onClick={handleClick}
+                              onClick={() => {
+                                navigate(`/book-list/${detail.id}`);
+                              }}
                             >
                               {detail.name}
                             </Button>

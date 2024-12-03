@@ -1,84 +1,63 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import styles from "./_book_list_layout.module.scss";
 import { useQuery } from "@tanstack/react-query";
 import { bookKeys } from "@/data/queryKeys";
-import { getBookCategories, getBooks } from "@/services/server/bookService";
 import LNB from "../lnb/lnb";
 import {
   findCurrentCategoryInfo,
   findParentCategoryInfo,
   findTopParentCategoryInfo,
 } from "@/utils/findCategoryInfo";
-import Breadcrumb from "../../composite/breadcrumb/breadcrumb";
-import { useEffect } from "react";
-import BookListFilter from "@/components/composite/bookListFilter/bookListFilter";
-import Pagination from "@/components/composite/pagination/pagination";
-import { SortFilterType } from "@/types/BookType";
-import { useAtom } from "jotai";
-import { PaginationAtom } from "@/store/paginationAtom";
+import Breadcrumb from "../breadcrumb/breadcrumb";
+import BookListFilter from "../bookListFilter/bookListFilter";
+import { useState } from "react";
+import { bookService } from "@/services/server/bookService";
+
+export type SortFilterType = "PUBLISHED_AT" | "TITLE" | "QUIZ_COUNT";
 
 export default function BookListLayout() {
-  // 책 카테고리 목록 가져오기
+  const { categoryId } = useParams();
   const { data: categories, isLoading: isCategoriesLoading } = useQuery({
     queryKey: bookKeys.categories(),
-    queryFn: getBookCategories,
+    queryFn: bookService.getBookCategories,
   });
-  const { search } = useLocation();
-  const queryParams = new URLSearchParams(search);
+  const [sortFilter, setSortFilter] = useState<SortFilterType>("QUIZ_COUNT");
 
-  const [paginationState, setPaginationState] = useAtom(PaginationAtom);
-  const totalPagesLength = paginationState.totalPagesLength;
-
-  const category = queryParams.get("category");
-  const sort = queryParams.get("sort");
-  const page = queryParams.get("page");
-
-  // 책 목록 가져오기
-  const { data: booksData, isLoading: isBooksLoading } = useQuery({
-    queryKey: bookKeys.list({
-      category: category ? Number(category) : undefined,
-      sort: sort ? (sort as SortFilterType) : undefined,
-      page: page ? Number(page) : undefined,
-      size: 10,
-    }),
+  const { data: bookListData, isLoading: isBookListLoading } = useQuery({
+    queryKey: bookKeys.list({ category: Number(categoryId), sort: sortFilter }),
     queryFn: () =>
-      getBooks({
-        category: category ? Number(category) : undefined,
-        sort: sort ? (sort as SortFilterType) : undefined,
-        page: page ? Number(page) : undefined,
-        size: 10,
+      bookService.getBookList({
+        category: Number(categoryId) || undefined,
+        sort: sortFilter,
       }),
   });
 
-  const books = booksData?.data;
-  const endPageNumber = booksData?.endPageNumber;
+  const bookList = bookListData?.data;
 
-  // 마지막 페이지 번호 저장
-  useEffect(() => {
-    setPaginationState({
-      ...paginationState,
-      totalPagesLength: booksData?.endPageNumber,
-    });
-  }, [endPageNumber]);
+  if (isBookListLoading || !bookListData) {
+    return <div>책 목록 로딩중</div>;
+  }
 
-  const topParentCategoryInfo = categories
-    ? findTopParentCategoryInfo(categories, Number(category))
-    : null;
-  const parentCategoryInfo = categories
-    ? findParentCategoryInfo(categories, Number(category))
-    : null;
-  const currentCategoryInfo = categories
-    ? findCurrentCategoryInfo(categories, Number(category))
-    : null;
+  if (isCategoriesLoading || !categories) {
+    return <div>카테고리 로딩중</div>;
+  }
+
+  const topParentCategoryInfo = findTopParentCategoryInfo(
+    categories,
+    Number(categoryId)
+  );
+  const parentCategoryInfo = findParentCategoryInfo(
+    categories,
+    Number(categoryId)
+  );
+  const currentCategoryInfo = findCurrentCategoryInfo(
+    categories,
+    Number(categoryId)
+  );
 
   return (
     <section className={styles.container}>
-      {isCategoriesLoading || !categories ? (
-        <div>카테고리 로딩중</div>
-      ) : (
-        <LNB categoryId={Number(category)} categories={categories} />
-      )}
-
+      <LNB categoryId={Number(categoryId)} categories={categories} />
       <div className={styles["book-list-container"]}>
         <h2 className={styles.title}>
           {topParentCategoryInfo?.name || "전체 책 목록"}
@@ -89,14 +68,12 @@ export default function BookListLayout() {
           ) : (
             <span />
           )}
-          <BookListFilter />
+          <BookListFilter
+            setSortFilter={setSortFilter}
+            sortFilter={sortFilter}
+          />
         </div>
-        {isBooksLoading || !booksData ? (
-          <div>책 목록 로딩중</div>
-        ) : (
-          <Outlet context={{ books }} />
-        )}
-        {totalPagesLength ? <Pagination /> : <>로딩중</>}
+        <Outlet context={{ bookList }} />
       </div>
     </section>
   );

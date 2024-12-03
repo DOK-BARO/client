@@ -17,8 +17,7 @@ import Button from "@/components/atom/button/button.tsx";
 import Modal from "@/components/atom/modal/modal.tsx";
 import Input from "@/components/atom/input/input.tsx";
 import { useRef } from "react";
-import { uploadImage } from "@/services/server/imageService";
-import { authService } from "@/services/server/authService";
+import { imageService } from "@/services/server/imageService";
 
 const options: RadioOption[] = [
   { id: 1, value: "option1", label: "Option 1" },
@@ -68,13 +67,16 @@ export default function Index() {
 
   const handleUploadImg = async () => {
     const img: File = selectedImages[0];
-    const uploadImgArg: { image: File, imageTarget: "MEMBER_PROFILE" | "STUDY_GROUP_PROFILE" } = {
+    const uploadImgArg: {
+      image: File;
+      imageTarget: "MEMBER_PROFILE" | "STUDY_GROUP_PROFILE";
+    } = {
       image: img,
-      imageTarget: "STUDY_GROUP_PROFILE"
+      imageTarget: "STUDY_GROUP_PROFILE",
     };
 
-    await uploadImage(uploadImgArg);
-  }
+    await imageService.uploadImage(uploadImgArg);
+  };
   return (
     <>
       {/* <GNB /> */}
@@ -88,7 +90,7 @@ export default function Index() {
         />
         <button onClick={handleUploadImg}>이미지 업로드 버튼</button>
       </div>
-      <button onClick={authService.getUser}>유저 데이터 가져오는 버튼</button>
+      <button onClick={getUser}>유저 데이터 가져오는 버튼</button>
       {options.map((option: RadioOption) => {
         const { className, icon } = getClassNameAndIcon(
           option.value,

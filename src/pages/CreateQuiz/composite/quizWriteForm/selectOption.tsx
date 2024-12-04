@@ -90,7 +90,7 @@ const SelectOption: React.FC<SelectOptionProps> = ({
 					disabled={quizMode === QuestionFormMode.QUESTION}
 					value={optionText}
 					handleLabelValueChange={onTextAreaChange}
-					type={quizMode === QuestionFormMode.QUESTION ? "checkbox-writing" : isChecked ? "checkbox-correct": "checkbox-default"}
+					type={quizMode === QuestionFormMode.QUESTION ? "checkbox-writing" : isChecked ? "checkbox-correct": "checkbox-written"}
 					deleteOption={deleteOption}
 					textAreaRef={textareaRef}
 				/>

@@ -91,7 +91,7 @@ export default function Index() {
         />
         <button onClick={handleUploadImg}>이미지 업로드 버튼</button>
       </div>
-      <button onClick={authService.getUser}>유저 데이터 가져오는 버튼</button>
+      <button onClick={authService.fetchUser}>유저 데이터 가져오는 버튼</button>
       {options.map((option: RadioOption) => {
         const { className, icon } = getClassNameAndIcon(
           option.value,

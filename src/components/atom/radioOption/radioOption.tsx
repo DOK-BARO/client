@@ -7,7 +7,14 @@ import Textarea from "@/components/atom/textarea/textarea.tsx";
 
 interface RadioOptionProps {
 	option: RadioOptionType;
-	type?: "option-writing" | "option-default" | "option-correct" | "option-incorrect" | "option-add" | "option-selected" | "option-written";
+	type?: 
+	"option-writing" 
+	| "option-written" 
+	| "option-default" 
+	| "option-correct" 
+	| "option-incorrect" 
+	| "option-selected" 
+	| "option-add" ;
 	checked: boolean;
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	radioGroupName: string;
@@ -32,22 +39,23 @@ const RadioOption: React.FC<RadioOptionProps> = ({
 	textAreaRef,
 	fullWidth = false,
 }) => {
+	const optionMaxLength = 500;
+	const correctIconUrl = "/public/assets/svg/common/correct.svg";
+	const inCorrectIconUrl = "/public/assets/svg/common/incorrect.svg";
 
 	const containerClassName = `
 			${styles["option-container"]}
 			${fullWidth ? styles["full"] : ""}
 			${styles[type]}
 			`;
-	const optionMaxLength = 500;
-	const correctIconUrl = "/public/assets/svg/common/correct.svg";
-	const inCorrectIconUrl = "/public/assets/svg/common/incorrect.svg";
+
 
 	const icon = () => {
 		if (type) {
 			if (type === "option-correct") {
-				return <img src={correctIconUrl} />;
+				return <img src={correctIconUrl} alt="정답인 선지입니다" />;
 			} else if (type === "option-incorrect") {
-				return <img src={inCorrectIconUrl} />;
+				return <img src={inCorrectIconUrl} alt="오답인 선지입니다" />;
 
 			} else {
 				return null;;
@@ -100,8 +108,8 @@ const RadioOption: React.FC<RadioOptionProps> = ({
 					</button>
 				)}
 				{
-					icon &&
-					<div className={styles["option-label-icon"]}>{icon()}</div>
+					icon() &&
+					<div>{icon()}</div>
 				}
 			</label>
 		</div>

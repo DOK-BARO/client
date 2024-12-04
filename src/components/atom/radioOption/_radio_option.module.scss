@@ -33,17 +33,17 @@
 
 	@include basic-radio-button($default-color: $gray-90, $checked-color: $system-success);
 
-
 	&:focus-within {
 		background-color: $background;
 	}
 
-	&.option-writing {
+	&.option-writing, &.option-written {
 		@include basic-radio-button($default-color: $gray-60, $checked-color: $system-success);
 	}
 
-	&.option-written {
+	&.option-correct {
 		@include basic-radio-button($default-color: $gray-60, $checked-color: $system-success);
+		background-color: #3DBF0F1A;
 	}
 
 	&.option-default {
@@ -55,15 +55,8 @@
 		background-color: $secondary;
 	}
 
-	&.option-correct {
-		@include basic-radio-button($default-color: $gray-60, $checked-color: $system-success);
-
-		background-color: #3DBF0F1A;
-	}
-
 	&.option-incorrect {
 		@include basic-radio-button($default-color: $gray-60, $checked-color: $system-danger);
-
 		background-color: #EB003B1A;
 	}
 
@@ -115,5 +108,3 @@
 	margin: 0;
 	background: none;
 }
-
-.option-label-icon {}

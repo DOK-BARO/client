@@ -73,28 +73,6 @@
 	}
 }
 
-// TODO: radio-option으로 변경
-.radio-button-item-corrected {
-	background-color: #1dcc001a; // TODO: 색 지정 필요
-	@include basic-radio-button($default-color: #1dcc00, $checked-color: #1dcc00);
-}
-
-.radio-button-item-wrong {
-	@include basic-radio-button-item;
-	background-color: #eb003b1a;
-	@include basic-radio-button($default-color: #eb003b, $checked-color: #eb003b);
-}
-
-.radio-button-item-icon {
-	margin: 8px 16px 8px 0;
-	width: 20px;
-	height: 20px;
-}
-
-.radio-button-label {
-	display: flex;
-}
-
 .option-label-textarea {
 	display: flex;
 	border: none;

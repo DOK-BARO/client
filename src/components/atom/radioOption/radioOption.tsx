@@ -89,7 +89,6 @@ const RadioOption: React.FC<RadioOptionProps> = ({
 						)
 				}
 
-
 				{type === "option-writing" && (
 					<button
 						className={styles["delete-option-button"]}

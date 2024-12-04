@@ -14,8 +14,6 @@ export const CheckBoxQuestionTemplate: FC<{
   const {
     options,
     setOptions,
-    focusedOptionIndex,
-    setFocusedOptionIndex,
     deleteOption,
     onClickAddQuizOptionItem,
     getQuestion,
@@ -32,14 +30,6 @@ export const CheckBoxQuestionTemplate: FC<{
     return initCheckedOptions;
   };
   const [checkedOptions, setCheckedOptions] = useState<{ [key: string]: boolean; }>(setInitialAnswer());
-
-  const handleOptionFocus = (id: number) => {
-    setFocusedOptionIndex(id);
-  };
-
-  const handleOptionBlur = () => {
-    setFocusedOptionIndex(null);
-  };
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, checked, value } = event.target;
@@ -98,10 +88,7 @@ export const CheckBoxQuestionTemplate: FC<{
           key={option.id}
           option={option}
           checked={checkedOptions[option.id]}
-          deleteOption={deleteOption}
-          focusedOptionIndex={focusedOptionIndex}
-          handleOptionFocus={handleOptionFocus}
-          handleOptionBlur={handleOptionBlur}
+          deleteOption={deleteOption}        
           onChange={handleCheckboxChange}
           setText={setText}
           questionFormId={questionFormId!.toString()}

@@ -43,7 +43,7 @@ export default function ProfileSet() {
     event.preventDefault();
     setUser({
       ...user,
-      nickName: nickname,
+      nickname,
       profileImage: profileImage.file,
     });
     setIsSubmitted(true);
@@ -69,11 +69,9 @@ export default function ProfileSet() {
       };
 
       // 1. 회원가입
+      await authService.emailSignup(emailUserInfo);
       // 2. 약관 동의
-      await Promise.all([
-        authService.emailSignup(emailUserInfo),
-        authService.sendTermsAgreement(termsAgreements),
-      ]);
+      await authService.sendTermsAgreement(termsAgreements);
     } else {
       // 소셜 회원가입
       const { password, ...rest } = userInfo;

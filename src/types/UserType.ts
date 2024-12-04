@@ -1,7 +1,7 @@
 export interface UserBaseType {
   id: number;
   email: string;
-  nickName: string;
+  nickname: string;
   profileImage: File | null;
 }
 
@@ -22,4 +22,4 @@ export type UserProfileType = UserBaseType & {
   certificationId: string;
   roles: string[];
   profileImage: string;
-}
+};

@@ -31,14 +31,39 @@
 	align-items: center;
 	justify-content: space-between;
 
+	@include basic-radio-button($default-color: $gray-90, $checked-color: $system-success);
 
-	@include basic-radio-button($default-color: $gray-60, $checked-color: $system-success);
 
 	&:focus-within {
 		background-color: $background;
 	}
 
+	&.option-writing {
+		@include basic-radio-button($default-color: $gray-60, $checked-color: $system-success);
+	}
+
+	&.option-written {
+		@include basic-radio-button($default-color: $gray-60, $checked-color: $system-success);
+	}
+
+	&.option-default {
+		@include basic-radio-button($default-color: $gray-90, $checked-color: $system-success);
+	}
+
+	&.option-selected {
+		@include basic-radio-button($default-color: $gray-90, $checked-color: $primary);
+		background-color: $secondary;
+	}
+
 	&.option-correct {
+		@include basic-radio-button($default-color: $gray-60, $checked-color: $system-success);
+
+		background-color: #3DBF0F1A;
+	}
+
+	&.option-incorrect {
+		@include basic-radio-button($default-color: $gray-60, $checked-color: $system-danger);
+
 		background-color: #3DBF0F1A;
 	}
 
@@ -107,10 +132,10 @@
 }
 
 .delete-option-button {
-	border:none;
+	border: none;
 	padding: 0;
-	margin:0;
-	background:none;
+	margin: 0;
+	background: none;
 }
 
 .option-label-icon {}

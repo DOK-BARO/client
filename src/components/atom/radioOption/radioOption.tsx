@@ -11,7 +11,7 @@ import Textarea from "@/components/atom/textarea/textarea.tsx";
 
 interface RadioOptionProps {
 	option: RadioOptionType;
-	type?: "option-writing" | "option-default" | "option-correct" | "option-incorrect" | "option-add" | "option-selected";
+	type?: "option-writing" | "option-default" | "option-correct" | "option-incorrect" | "option-add" | "option-selected" | "option-written";
 	checked: boolean;
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	radioGroupName: string;
@@ -92,7 +92,7 @@ const RadioOption: React.FC<RadioOptionProps> = ({
 				}
 		
 
-			{type === "option-default" && (
+			{type === "option-writing" && (
 				<button
 					className={styles["delete-option-button"]}
 					onClick={() => {

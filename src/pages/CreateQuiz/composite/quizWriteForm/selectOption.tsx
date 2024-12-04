@@ -78,7 +78,7 @@ const SelectOption: React.FC<SelectOptionProps> = ({
 					disabled={quizMode === QuestionFormMode.QUESTION}
 					labelValue={optionText}
 					handleLabelValueChange={onTextAreaChange}
-					type={quizMode === QuestionFormMode.QUESTION ? "option-writing" : isChecked ? "option-correct": "option-default"}
+					type={quizMode === QuestionFormMode.QUESTION ? "option-writing" : isChecked ? "option-correct": "option-written"}
 					deleteOption={deleteOption}
 					textAreaRef={textareaRef}
 				/>

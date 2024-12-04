@@ -1,6 +1,4 @@
 import { AUTH_TYPES, SOCIAL_TYPES } from "@/data/constants.ts";
-import CheckIcon from "@mui/icons-material/Check";
-import CloseIcon from "@mui/icons-material/Close";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
 import { RadioOptionType } from "@/types/RadioTypes";
 import useModal from "@/hooks/useModal.ts";
@@ -9,8 +7,6 @@ import { Invisible } from "@/svg/invisible.tsx";
 import RadioOption from "@/components/atom/radioOption/radioOption";
 import {
 	gray60,
-	systemDanger,
-	systemSuccess,
 } from "@/styles/abstracts/colors.ts";
 import SocialAuthButton from "@/components/composite/socialAuthButton/socialAuthButton.tsx";
 import Button from "@/components/atom/button/button.tsx";
@@ -33,28 +29,6 @@ export default function Index() {
 
 	const [inputValue, setInputValue] = useState<string>("");
 	const [selectedImages, setSelectedImages] = useState<File[]>([]);
-
-	const getClassNameAndIcon = (optionValue: string, correctOption?: string) => {
-		// TODO: currentOption : 채점 전엔 null, 답안이 오면 해당 답안으로 set
-		const isCorrect = correctOption === optionValue; // 정답인 항목
-		const isSelected = selectedValue === optionValue; // 선택된 항목
-
-		// 선택된 항목의 경우 정답 or 오답에 따른 분기 스타일링
-		if (isSelected) {
-			return {
-				className: isCorrect
-					? "radio-button-item-corrected"
-					: "radio-button-item-wrong",
-				icon: isCorrect ? (
-					<CheckIcon style={{ color: systemSuccess }} />
-				) : (
-					<CloseIcon style={{ color: systemDanger }} />
-				),
-			};
-		}
-		// 선택되지 않은 항목이라면 따로 스타일링 x
-		return { className: "radio-button-item", icon: null };
-	};
 
 	const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		fileInputRef.current?.click();
@@ -102,7 +76,7 @@ export default function Index() {
 						onChange={handleChange}
 						disabled={false}
 						labelValue={option.label}
-						type="option-correct"
+						type="option-incorrect"
 					/>
 				);
 			})}

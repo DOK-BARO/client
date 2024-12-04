@@ -64,7 +64,7 @@
 	&.option-incorrect {
 		@include basic-radio-button($default-color: $gray-60, $checked-color: $system-danger);
 
-		background-color: #3DBF0F1A;
+		background-color: #EB003B1A;
 	}
 
 	&.full {

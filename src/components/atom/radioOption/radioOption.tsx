@@ -1,10 +1,6 @@
 import React from "react";
 import styles from "./_radio_option.module.scss";
 import { RadioOptionType } from "@/types/RadioTypes";
-// TODO: 아이콘 변경 필요
-import CheckIcon from "@mui/icons-material/Check";
-import CloseIcon from "@mui/icons-material/Close";
-import { systemSuccess, systemDanger } from "@/styles/abstracts/colors";
 import { Close } from "@/svg/close.tsx";
 import { gray90 } from "@/styles/abstracts/colors";
 import Textarea from "@/components/atom/textarea/textarea.tsx";
@@ -42,20 +38,22 @@ const RadioOption: React.FC<RadioOptionProps> = ({
 			${fullWidth ? styles["full"] : ""}
 			${styles[type]}
 			`;
+	const optionMaxLength = 500;
+	const correctIconUrl = "/public/assets/svg/common/correct.svg";
+	const inCorrectIconUrl = "/public/assets/svg/common/incorrect.svg";
 
 	const icon = () => {
 		if (type) {
 			if (type === "option-correct") {
-				return <CheckIcon style={{ color: systemSuccess }} />;
+				return <img src={correctIconUrl} />;
 			} else if (type === "option-incorrect") {
-				return <CloseIcon style={{ color: systemDanger }} />;
+				return <img src={inCorrectIconUrl} />;
 
 			} else {
 				return null;;
 			}
 		}
 	}
-	const optionMaxLength = 500;
 
 	return (
 		<div
@@ -90,23 +88,23 @@ const RadioOption: React.FC<RadioOptionProps> = ({
 							<div className={`${styles["option-label-value"]}`}>{labelValue}</div>
 						)
 				}
-		
 
-			{type === "option-writing" && (
-				<button
-					className={styles["delete-option-button"]}
-					onClick={() => {
-						deleteOption(option.id);
-					}}
-				>
-					<Close width={20} height={20} stroke={gray90} strokeWidth={2} />
-				</button>
-			)}
-			{
-				icon &&
-				<div className={styles["option-label-icon"]}>{icon()}</div>
-			}
-				</label>
+
+				{type === "option-writing" && (
+					<button
+						className={styles["delete-option-button"]}
+						onClick={() => {
+							deleteOption(option.id);
+						}}
+					>
+						<Close width={20} height={20} stroke={gray90} strokeWidth={2} />
+					</button>
+				)}
+				{
+					icon &&
+					<div className={styles["option-label-icon"]}>{icon()}</div>
+				}
+			</label>
 		</div>
 	);
 };

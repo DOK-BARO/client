@@ -54,16 +54,22 @@ export default function HeaderMenuList({ closeDropDownList }: Props) {
     return <></>;
   }
 
-  const nickName = (user?.nickName.length ?? 0) > 5 ? `${user?.nickName.slice(0,6) +"..."}` : user?.nickName;
+  const nickName =
+    (user?.nickname.length ?? 0) > 5
+      ? `${user?.nickname.slice(0, 6) + "..."}`
+      : user?.nickname;
 
   return (
     <ul className={styles["header-menu-list"]}>
       <li className={styles["user-info-container"]}>
-        <button className={styles["user-info"]} onClick={()=> {
-          navigate("/my");
-        }}>
-        <span className={styles["user-name"]}>{nickName} 님</span>
-        <span className={styles["user-email"]}>{user?.email}</span>
+        <button
+          className={styles["user-info"]}
+          onClick={() => {
+            navigate("/my");
+          }}
+        >
+          <span className={styles["user-name"]}>{nickName} 님</span>
+          <span className={styles["user-email"]}>{user?.email}</span>
         </button>
       </li>
       <div className={styles["header-menu-list-item-container"]}>

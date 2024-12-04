@@ -6,7 +6,6 @@ import { TermsOfServiceType } from "@/types/TermsOfServiceType.ts";
 import { UserProfileType } from "@/types/UserType.ts";
 import { axiosInstance } from "@/config/axiosConfig.ts";
 
-// TODO: 함수명 api로부터 바로 가져오는건 fetch, 그 외 get
 class AuthService {
   constructor(
     private readonly redirectedUrl = import.meta.env.VITE_AUTH_REDIRECTED_URL
@@ -14,7 +13,7 @@ class AuthService {
     this.redirectedUrl = redirectedUrl;
   }
 
-  getAuthUrl = async (socialLoginType: SocialLoginType): Promise<string> => {
+  fetchAuthUrl = async (socialLoginType: SocialLoginType): Promise<string> => {
     try {
       const { data } = await axiosInstance.get(
         `/auth/oauth2/authorize/${socialLoginType}?redirectUrl=${
@@ -27,8 +26,7 @@ class AuthService {
     }
   };
 
-  // TODO: 함수명에서 '소셜' 명시하기
-  login = async (
+  socialLogin = async (
     socialType: SocialLoginType,
     token: string
   ): Promise<AuthResponse> => {
@@ -49,8 +47,7 @@ class AuthService {
   };
 
   // 소셜 회원가입
-  // TODO: 함수명에서 '소셜' 명시하기
-  signup = async (
+  socialSignup = async (
     socialType: SocialLoginType,
     token: string
   ): Promise<AuthResponse> => {
@@ -109,9 +106,7 @@ class AuthService {
     }
   };
 
-  // 프로필 업데이트
-  // TODO: fetch~로 함수명 변경하기
-  getUser = async (): Promise<UserProfileType> => {
+  fetchUser = async (): Promise<UserProfileType> => {
     try {
       const { data } = await axiosInstance.get("/members/login-user");
       console.log("%o", data);
@@ -132,7 +127,7 @@ class AuthService {
       return null;
     }
 
-    return await this.getUser();
+    return await this.fetchUser();
   };
 
   // 이용약관 조회

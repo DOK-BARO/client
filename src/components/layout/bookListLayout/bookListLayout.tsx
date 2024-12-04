@@ -21,7 +21,7 @@ export default function BookListLayout() {
   // 책 카테고리 목록 가져오기
   const { data: categories, isLoading: isCategoriesLoading } = useQuery({
     queryKey: bookKeys.categories(),
-    queryFn: bookService.getBookCategories,
+    queryFn: bookService.fetchBookCategories,
   });
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
@@ -42,7 +42,7 @@ export default function BookListLayout() {
       size: 10,
     }),
     queryFn: () =>
-      bookService.getBooks({
+      bookService.fetchBooks({
         category: category ? Number(category) : undefined,
         sort: sort ? (sort as SortFilterType) : undefined,
         page: page ? Number(page) : undefined,

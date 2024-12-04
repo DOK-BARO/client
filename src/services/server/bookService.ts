@@ -11,7 +11,7 @@ import { axiosInstance } from "@/config/axiosConfig.ts";
 
 // 책 목록, 책 상세정보 가져오기
 class BookService {
-  getBooks = async (
+  fetchBooks = async (
     params: GetBooksParams = {}
   ): Promise<{ data: BookType[]; endPageNumber: number }> => {
     const {
@@ -52,7 +52,7 @@ class BookService {
     }
   };
   // 책 통합검색
-  searchBooks = async (params?: SearchBooksParams): Promise<BookType[]> => {
+  fetchSearchBooks = async (params?: SearchBooksParams): Promise<BookType[]> => {
     const { keyword, lastId = null, size = 10 } = params || {};
 
     try {
@@ -76,7 +76,7 @@ class BookService {
     }
   };
 
-  getBook = async (bookId: string): Promise<BookDetailType> => {
+  fetchBook = async (bookId: string): Promise<BookDetailType> => {
     try {
       const { data } = await axiosInstance.get(`/books/${bookId}`);
       return data;
@@ -92,7 +92,7 @@ class BookService {
     }
   };
 
-  getBookCategories = async (): Promise<BookCategory[]> => {
+  fetchBookCategories = async (): Promise<BookCategory[]> => {
     try {
       const { data } = await axiosInstance.get("/book-categories");
       return data.details[0].details;

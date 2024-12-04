@@ -4,9 +4,7 @@ import { QuizType } from "@/types/QuizType";
 import { MyQuizType } from "@/types/QuizType";
 import localApi from "../local/LocalApi";
 import { axiosInstance } from "@/config/axiosConfig";
-//TODO: 클래스화
-// 퀴즈 목록 조회
-// TODO: fetchQuizzes
+
 class QuizService {
   fetchQuizzes = async (params: {
     page?: number;

@@ -245,6 +245,7 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
               id="option"
               placeholder="질문을 입력해주세요."
               textAreaRef={questionTextAreaRef}
+							fullWidth
             />
           </div>
         </div>
@@ -279,6 +280,7 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
             placeholder={"답안에 대한 설명을 입력해주세요"}
             textAreaRef={descriptionTextAreaRef}
             maxLengthShow
+						fullWidth
           />
 
           {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}

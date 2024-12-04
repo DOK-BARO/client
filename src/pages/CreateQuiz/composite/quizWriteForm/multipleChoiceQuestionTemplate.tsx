@@ -14,8 +14,6 @@ export const MultipleChoiceQuestionTemplate: FC<{ questionFormMode?: string, que
   const {
     options,
     setOptions,
-    focusedOptionIndex,
-    setFocusedOptionIndex,
     deleteOption,
     onClickAddQuizOptionItem,
     getQuestion,
@@ -27,10 +25,6 @@ export const MultipleChoiceQuestionTemplate: FC<{ questionFormMode?: string, que
   }
   const { selectedValue: selectedRadioGroupValue, handleChange: onRadioGroupChange } = useRadioGroup(setInitialAnswer());
 
-  const handleOptionFocus = (id: number) => {
-    setFocusedOptionIndex(id);
-  };
-
   useEffect(() => {
     const question = getQuestion();
     const event: ChangeEvent<HTMLInputElement> = {
@@ -41,9 +35,6 @@ export const MultipleChoiceQuestionTemplate: FC<{ questionFormMode?: string, que
   onRadioGroupChange(event);
   }, [questionFormMode]);
 
-  const handleOptionBlur = () => {
-    setFocusedOptionIndex(null);
-  };
 
   const setText = (optionId: number, label: string) => {
 
@@ -73,9 +64,6 @@ export const MultipleChoiceQuestionTemplate: FC<{ questionFormMode?: string, que
           questionFormId={questionFormId!}
           option={item}
           deleteOption={deleteOption}
-          focusedOptionIndex={focusedOptionIndex}
-          handleOptionFocus={handleOptionFocus}
-          handleOptionBlur={handleOptionBlur}
           quizMode={questionFormMode!}
           onChange={handleRadioGroupChange}
           setText={setText}

@@ -119,7 +119,7 @@ export default function PasswordSet() {
             onChange={onPasswordCheckChange}
             className={styles["password-check"]}
             placeholder="비밀번호를 다시 한 번 입력해 주세요."
-            size="large"
+            size="medium"
             type={isShowPasswordCheck ? "text" : "password"}
             rightIcon={
               <Button
@@ -159,7 +159,7 @@ export default function PasswordSet() {
         </>
       )}
       <Button
-        disabled={!isPasswordValid}
+        disabled={step === 1 ? !isPasswordValid : !isPasswordMatched}
         className={styles.next}
         size="medium"
         onClick={step === 1 ? moveToNext : handleSubmit}

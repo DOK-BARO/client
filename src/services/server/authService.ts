@@ -79,10 +79,11 @@ class AuthService {
   emailSignup = async (userInfo: {
     email: string;
     password: string;
-    nickName: string;
+    nickname: string;
     profileImage?: string | null;
   }) => {
     try {
+      console.log(userInfo);
       const response = await axiosInstance.post("/auth/email/signup", userInfo);
       console.log("이메일 회원가입 post 응답", response);
       return response;
@@ -93,7 +94,7 @@ class AuthService {
 
   // 문서 상에는 'modify login member' 로 명시되어 있음.
   updateUser = async (userInfo: {
-    nickName: string;
+    nickname: string;
     email: string;
     profileImage?: string | null; // TODO: 필수인가?
   }) => {
@@ -154,6 +155,7 @@ class AuthService {
 
   // 이용약관 동의 요청
   sendTermsAgreement = async (items: number[]) => {
+    console.log(items);
     try {
       const response = await axiosInstance.post("/terms-of-services/agree", {
         items,

@@ -39,9 +39,8 @@ export default function AuthCodeInput({
       </div>
       {!isMatch ? (
         <span className={styles["message-container"]}>
-          {/* TODO: 순서 바꾸기 */}
-          <p>인증 코드가 일치하지 않습니다.</p>
           <XSmall stroke={systemDanger} width={20} height={20} />
+          <p>인증 코드가 일치하지 않습니다.</p>
         </span>
       ) : (
         <></>

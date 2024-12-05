@@ -14,23 +14,38 @@ import { Google } from "@/svg/auth/google.tsx";
 import { Naver } from "@/svg/auth/naver.tsx";
 import { Github } from "@/svg/auth/github.tsx";
 import useInput from "@/hooks/useInput.ts";
-import { Check } from "@/svg/check.tsx";
+import { XSmall } from "@/svg/xSmall.tsx";
+import { Invisible } from "@/svg/invisible.tsx";
 interface LoginModalProps {
   closeModal: () => void;
 }
-const LoginModal: React.FC<LoginModalProps> = ({ closeModal }) => {
+
+const socialLoginMethodButtonImage = [
+  <Github width={32} height={32} alt="깃허브" key="github" />,
+  <Google width={32} height={32} alt="구글" key="google" />,
+  <Kakao width={32} height={32} alt="카카오" key="kakao" />,
+  <Naver width={32} height={32} alt="네이버" key="naver" />,
+];
+
+const LoginModal = ({ closeModal }: LoginModalProps) => {
   const [isEmailSelected, setIsEmailSelected] = useState<boolean>(false);
-  const [isInputFilled, setIsInputFilled] = useState<boolean>(false);
 
   const { value: email, onChange: onEmailChange } = useInput("");
   const { value: password, onChange: onPasswordChange } = useInput("");
 
-  const socialLoginMethodButtonImage = [
-    <Github width={32} height={32} alt="깃허브" key="github" />,
-    <Google width={32} height={32} alt="구글" key="google" />,
-    <Kakao width={32} height={32} alt="카카오" key="kakao" />,
-    <Naver width={32} height={32} alt="네이버" key="naver" />,
-  ];
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+  const isInputFilled = email && password;
+
+  const [isMatched, setIsMatched] = useState<boolean>(false);
+
+  const handlePasswordVisible = () => {
+    setIsPasswordVisible((prev) => !prev);
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
+
   return (
     <Modal
       className={styles["auth-modal"]}
@@ -55,7 +70,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ closeModal }) => {
                 />
               ))
             ) : (
-              <>
+              <form className={styles["login-form"]} onSubmit={handleSubmit}>
                 <Input
                   fullWidth
                   id="email"
@@ -67,17 +82,32 @@ const LoginModal: React.FC<LoginModalProps> = ({ closeModal }) => {
                 <Input
                   fullWidth
                   id="password"
-                  type="password"
+                  type={isPasswordVisible ? "text" : "password"}
                   value={password}
                   placeholder="비밀번호를 입력해주세요"
                   label="비밀번호"
                   onChange={onPasswordChange}
                   rightIcon={
-                    <Visible
-                      alt="비밀번호 표시 해제"
-                      stroke={gray60}
-                      width={24}
-                      height={24}
+                    <Button
+                      onClick={handlePasswordVisible}
+                      iconOnly
+                      icon={
+                        isPasswordVisible ? (
+                          <Visible
+                            alt="비밀번호 표시 해제"
+                            stroke={gray60}
+                            width={24}
+                            height={24}
+                          />
+                        ) : (
+                          <Invisible
+                            alt="비밀번호 표시"
+                            stroke={gray60}
+                            width={24}
+                            height={24}
+                          />
+                        )
+                      }
                     />
                   }
                   rightLabel={
@@ -88,12 +118,22 @@ const LoginModal: React.FC<LoginModalProps> = ({ closeModal }) => {
                       비밀번호 찾기
                     </Button>
                   }
+                  isError={!isMatched}
+                  message={
+                    !isMatched ? (
+                      <span className={styles["message-container"]}>
+                        <XSmall width={20} height={20} stroke={systemDanger} />
+                        <p>입력한 정보가 일치하지 않습니다.</p>
+                      </span>
+                    ) : undefined
+                  }
                 />
                 <Button
                   color="primary"
                   size="small"
                   fullWidth
                   disabled={!isInputFilled}
+                  type="submit"
                 >
                   로그인
                 </Button>
@@ -115,7 +155,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ closeModal }) => {
                     </Button>
                   ))}
                 </section>
-              </>
+              </form>
             )}
           </main>
         </>

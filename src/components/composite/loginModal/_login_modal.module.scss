@@ -19,19 +19,24 @@
     margin-top: 8px;
   }
 }
-@mixin main-base {
+
+.main {
+  gap: 16px;
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 16px;
-}
-.main {
-  @include main-base;
-  gap: 16px;
 
   &-email-login {
-    @include main-base;
-    gap: 24px;
+    input {
+      border-color: $gray-40 !important;
+    }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
   }
 }
 
@@ -88,7 +93,13 @@
   font-size: 14px;
   padding: 0;
   margin: 0;
-  border-radius: 0; 
+  border-radius: 0;
   border: 0;
   font-weight: 400;
+}
+
+.message-container {
+  display: flex;
+  align-items: center;
+  gap: 3px;
 }

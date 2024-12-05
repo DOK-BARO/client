@@ -1,5 +1,4 @@
 import { axiosInstance } from "@/config/axiosConfig";
-import axios, { AxiosError } from "axios";
 
 // 이미지 업로드
 class ImageService {
@@ -21,15 +20,7 @@ class ImageService {
       console.log("data: %o", data);
       return data.url;
     } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError;
-        if (axiosError.response?.status === 404) {
-          throw error;
-        }
-        throw new Error(`파일(이미지) 업로드 실패: ${error}`);
-      } else {
-        throw new Error(`Unexpected error: ${error}`);
-      }
+			throw new Error(`파일(이미지) 업로드 실패: ${error}`);
     }
   };
 }

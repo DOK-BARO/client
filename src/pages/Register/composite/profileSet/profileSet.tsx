@@ -12,6 +12,7 @@ import { RegisterInfoAtom } from "@/store/userAtom";
 import { useNavigate, useParams } from "react-router-dom";
 import { authService } from "@/services/server/authService";
 import { imageService } from "@/services/server/imageService";
+import { ImageTargetType } from "@/types/ImageTargetType";
 
 export interface ProfileImageState {
   url: string;
@@ -39,47 +40,57 @@ export default function ProfileSet() {
   } = useInput("");
   const isSubmitAble: boolean = !!nickname;
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
+  // TODO: 공통 로직 분리
+  const handleUploadImage = async (image: File): Promise<string> => {
+    const uploadImgArg: {
+      image: File;
+      imageTarget: ImageTargetType;
+    } = {
+      image,
+      imageTarget: "MEMBER_PROFILE",
+    };
+
+    const imageUrl = await imageService.uploadImage(uploadImgArg);
+    return imageUrl;
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    let imageUrl;
+    // 프로필 사진 등록
+    if (profileImage.file) {
+      // 에러처리
+      imageUrl = await handleUploadImage(profileImage.file);
+    }
+
     setUser({
       ...user,
-      nickName: nickname,
-      profileImage: profileImage.file,
+      nickname,
+      profileImage: imageUrl,
     });
+
     setIsSubmitted(true);
   };
 
   const handleSignUp = async () => {
     const { id, termsAgreements, ...userInfo } = user;
 
-    let imageUrl;
-
-    if (userInfo.profileImage instanceof File) {
-      imageUrl = await imageService.uploadImage({
-        image: userInfo.profileImage,
-        imageTarget: "MEMBER_PROFILE",
-      });
-    }
-
     if (method === "email") {
       // 이메일 회원가입
       const emailUserInfo = {
         ...userInfo,
-        profileImage: imageUrl ?? null,
       };
 
       // 1. 회원가입
+      await authService.emailSignup(emailUserInfo);
       // 2. 약관 동의
-      await Promise.all([
-        authService.emailSignup(emailUserInfo),
-        authService.sendTermsAgreement(termsAgreements),
-      ]);
+      await authService.sendTermsAgreement(termsAgreements);
     } else {
       // 소셜 회원가입
       const { password, ...rest } = userInfo;
       const socialUserInfo = {
         ...rest,
-        profileImage: imageUrl,
       };
       // 프로필 업데이트
       await authService.updateUser(socialUserInfo);
@@ -107,6 +118,7 @@ export default function ProfileSet() {
           profileImage={profileImage}
           setProfileImage={setProfileImage}
           defaultImagePath={defaultImagePath}
+          // handleUploadImage={handleUploadImage}
         />
         <p className={styles.description} data-for="nickname">
           사용할 닉네임을 입력해주세요.

@@ -14,6 +14,9 @@
   border-radius: $border-radius-medium;
   margin-bottom: 20px;
 
+	max-width: 792px;
+	min-width: 560px;
+
   &-header {
     display: flex;
     justify-content: space-between;
@@ -196,33 +199,6 @@
   }
 }
 
-input.new-option-text-input {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  border: none;
-  padding: 0;
-  border-radius: 0;
-  font-size: $font-size-large;
-
-  &:focus {
-    background-color: $background;
-    outline: none;
-    border: none;
-  }
-
-  &::placeholder {
-    font-family: "Pretendard", sans-serif !important;
-  }
-}
-
-.new-option-label {
-  display: flex;
-  align-items: center;
-  font-size: $font-size-large;
-  width: 100%;
-}
-
 .radio-button-item {
   display: flex;
   width: 100%;
@@ -242,6 +218,8 @@ input.new-option-text-input {
   @include flex(column);
   align-items: start;
   gap: 13px;
+	// max-width:100%;
+	
 
   legend {
     @include sr-only;
@@ -249,26 +227,7 @@ input.new-option-text-input {
 }
 
 .option-container {
-  @include flex(row, center);
-  width: 100%;
-  height: 100%;
-  border-radius: 8px;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 0 16px;
-  height: 48px;
-
-  &.focused {
-    background-color: $background;
-  }
-
-  &.checked {
-    background-color: #3DBF0F1A;
-  }
-
-  .delete-option-button {
-    all: unset;
-  }
+	width: 100%;
 }
 
 // ox_quiz_form.module.scss 끝

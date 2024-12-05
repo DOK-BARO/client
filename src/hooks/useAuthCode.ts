@@ -18,7 +18,7 @@ export const useAuthCode = (provider: string) => {
   const { redirectToAuthPage } = useAuth();
 
   const setUserInLocalStorage = async () => {
-    const user: UserType = await authService.getUser();
+    const user: UserType = await authService.fetchUser();
     localStorage.setItem("certificationId", user.certificationId); // 로컬 스토리지에 토큰 저장
   };
 
@@ -26,7 +26,7 @@ export const useAuthCode = (provider: string) => {
     try {
       console.log("in do signup in useAuthcode");
       // 사용자 정보 전달하기
-      await authService.signup(provider.toUpperCase() as SocialLoginType, code);
+      await authService.socialSignup(provider.toUpperCase() as SocialLoginType, code);
       await setUserInLocalStorage();
 
       if (
@@ -52,7 +52,7 @@ export const useAuthCode = (provider: string) => {
 
   const doLogin = async (code: string) => {
     try {
-      await authService.login(provider.toUpperCase() as SocialLoginType, code);
+      await authService.socialLogin(provider.toUpperCase() as SocialLoginType, code);
       await setUserInLocalStorage();
       navigate("/");
       localStorage.removeItem(LOCAL_STORAGE_KEY.AUTH_ACTION);

@@ -56,9 +56,8 @@
 @mixin textarea-base {
   line-height: 1.5em;
   font-family: inherit;
-  min-height: 48px;
   overflow: hidden;
-
+	padding: 0px; // 기본 스타일 제거
   &:focus {
     outline: none;
   }

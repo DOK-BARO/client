@@ -17,13 +17,16 @@ const EmailRegisterLayout = () => {
 
   useEffect(() => {
     if (step && step !== "1") {
-      confirm(
-        "새로고침을 하면 입력한 정보가 모두 초기화되며, 첫 단계로 돌아갑니다. 그래도 새로고침하시겠습니까?"
-      );
-      const savedStep = localStorage.getItem("registerStep");
-      if (savedStep == step) {
-        navigate("/register/email/1", { replace: true });
-        localStorage.removeItem("registerStep");
+      if (
+        confirm(
+          "새로고침을 하면 입력한 정보가 모두 초기화되며, 첫 단계로 돌아갑니다. 그래도 새로고침하시겠습니까?"
+        )
+      ) {
+        const savedStep = localStorage.getItem("registerStep");
+        if (savedStep == step) {
+          navigate("/register/email/1", { replace: true });
+          localStorage.removeItem("registerStep");
+        }
       }
     }
   }, [navigate]);

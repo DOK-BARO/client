@@ -1,4 +1,5 @@
 import { axiosInstance } from "@/config/axiosConfig";
+import { ImageTargetType } from "@/types/ImageTargetType";
 
 // 이미지 업로드
 class ImageService {
@@ -7,7 +8,7 @@ class ImageService {
     imageTarget,
   }: {
     image: File;
-    imageTarget: "MEMBER_PROFILE" | "STUDY_GROUP_PROFILE" | "BOOK_QUIZ_ANSWER"; //TODO: 이미지 타겟 생성
+    imageTarget: ImageTargetType; //TODO: 이미지 타겟 생성
   }): Promise<string> => {
     const formData = new FormData();
     formData.append("file", image);

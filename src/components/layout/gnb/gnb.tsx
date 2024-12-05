@@ -22,7 +22,7 @@ export default function GNB() {
 
   const { data: categories, isLoading } = useQuery({
     queryKey: bookKeys.categories(),
-    queryFn: bookService.getBookCategories,
+    queryFn: bookService.fetchBookCategories,
   });
   const { navigateWithParams } = useNavigateWithParams();
 

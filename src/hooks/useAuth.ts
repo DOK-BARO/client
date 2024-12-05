@@ -8,7 +8,7 @@ export const useAuth = () => {
   const redirectToAuthPage = async (socialLoginType: SocialLoginType) => {
     setLoading(true);
     try {
-      const url = await authService.getAuthUrl(socialLoginType);
+      const url = await authService.fetchAuthUrl(socialLoginType);
       console.log(url);
       window.location.href = url; // 해당 url로 이동
     } catch (error) {

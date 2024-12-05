@@ -11,7 +11,7 @@ export default function Index() {
 
   const { data, isLoading } = useQuery({
     queryKey: bookKeys.detail(id!),
-    queryFn: () => bookService.getBook(id!),
+    queryFn: () => bookService.fetchBook(id!),
   });
 
   if (isLoading) {

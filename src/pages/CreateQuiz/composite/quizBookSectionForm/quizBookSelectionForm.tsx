@@ -48,7 +48,7 @@ export default function QuizBookSelectionForm() {
     refetch,
   } = useQuery({
     queryKey: bookKeys.search({ keyword: debouncedSearchValue }),
-    queryFn: () => bookService.searchBooks({ keyword: debouncedSearchValue }),
+    queryFn: () => bookService.fetchSearchBooks({ keyword: debouncedSearchValue }),
     enabled: debouncedSearchValue !== "",
   });
 

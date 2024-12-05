@@ -60,6 +60,7 @@ export default function PasswordSet() {
 
   const isPasswordMatched = password === passwordCheck && passwordCheck !== "";
 
+  // TODO: isSuccess 추가하고 적용시키기
   const renderPasswordValidationMessage = () => (
     <div className={styles["password-message-container"]}>
       {Object.entries(passwordValidations).map(([key, isValid]) => (

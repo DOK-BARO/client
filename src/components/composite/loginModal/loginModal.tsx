@@ -7,13 +7,14 @@ import HeaderLogo from "@/components/atom/headerLogo/headerLogo.tsx";
 import Modal from "@/components/atom/modal/modal.tsx";
 import Input from "@/components/atom/input/input.tsx";
 import { Visible } from "@/svg/visible.tsx";
-import { gray60 } from "@/styles/abstracts/colors.ts";
+import { gray60, systemDanger } from "@/styles/abstracts/colors.ts";
 import Button from "@/components/atom/button/button.tsx";
 import { Kakao } from "@/svg/auth/kakao.tsx";
 import { Google } from "@/svg/auth/google.tsx";
 import { Naver } from "@/svg/auth/naver.tsx";
 import { Github } from "@/svg/auth/github.tsx";
-// import useInput from "@/hooks/useInput.ts";
+import useInput from "@/hooks/useInput.ts";
+import { Check } from "@/svg/check.tsx";
 interface LoginModalProps {
   closeModal: () => void;
 }
@@ -21,7 +22,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ closeModal }) => {
   const [isEmailSelected, setIsEmailSelected] = useState<boolean>(false);
   const [isInputFilled, setIsInputFilled] = useState<boolean>(false);
 
-  // const {} = useInput({ id: "", password: "" });
+  const { value: email, onChange: onEmailChange } = useInput("");
+  const { value: password, onChange: onPasswordChange } = useInput("");
 
   const socialLoginMethodButtonImage = [
     <Github width={32} height={32} alt="깃허브" key="github" />,
@@ -57,16 +59,19 @@ const LoginModal: React.FC<LoginModalProps> = ({ closeModal }) => {
                 <Input
                   fullWidth
                   id="email"
+                  value={email}
                   placeholder="이메일을 입력해주세요"
                   label="이메일"
-                  onChange={() => {}}
+                  onChange={onEmailChange}
                 />
                 <Input
                   fullWidth
                   id="password"
                   type="password"
+                  value={password}
                   placeholder="비밀번호를 입력해주세요"
                   label="비밀번호"
+                  onChange={onPasswordChange}
                   rightIcon={
                     <Visible
                       alt="비밀번호 표시 해제"
@@ -83,7 +88,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ closeModal }) => {
                       비밀번호 찾기
                     </Button>
                   }
-                  onChange={() => {}}
                 />
                 <Button
                   color="primary"

@@ -8,6 +8,7 @@ import { RegisterInfoType } from "@/types/UserType";
 import { useAtom } from "jotai";
 import { APP_NAME } from "@/data/constants";
 import { studyService } from "@/services/server/studyService";
+import { useEffect } from "react";
 
 export default function RegisterComplete() {
   const [user] = useAtom<RegisterInfoType>(RegisterInfoAtom);
@@ -19,6 +20,11 @@ export default function RegisterComplete() {
     console.log(inviteCode);
     await studyService.joinStudyGroup(inviteCode);
   };
+
+  useEffect(() => {
+    localStorage.removeItem("registerStep");
+  }, []);
+
   return (
     <section className={styles["register-complete"]}>
       <h3>회원가입 완료</h3>

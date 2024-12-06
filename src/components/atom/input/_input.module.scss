@@ -6,11 +6,19 @@
   position: relative;
 }
 
-.label {
-  color: $gray-90;
-  font-size: 14px;
+.label-container {
+  display: flex;
   margin-bottom: 16px;
-  float: left;
+  justify-content: space-between;
+  line-height: 1.5;
+
+  .label {
+    color: $gray-90;
+    font-size: 14px;
+    float: left;
+    display: flex;
+    align-items: center;
+  }
 }
 
 .message {

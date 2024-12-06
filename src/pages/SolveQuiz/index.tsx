@@ -48,6 +48,7 @@ export default function Index() {
 		<section>
 			<ProgressBar
 				questions={quiz.questions}
+				currentStep={currentStep}
 			/>
 			{/* layout빼도 될듯 */}
 			<div className={styles["container"]}>

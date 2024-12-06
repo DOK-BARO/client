@@ -34,8 +34,8 @@ export default function PasswordSet() {
 
   const [user, setUser] = useAtom<RegisterInfoType>(RegisterInfoAtom);
   const [step, setStep] = useState<number>(1);
-  const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
-  const [isShowPasswordCheck, setIsShowPasswordCheck] =
+  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+  const [isPasswordVisibleCheck, setIsPasswordVisibleCheck] =
     useState<boolean>(false);
 
   useEffect(() => {
@@ -60,6 +60,7 @@ export default function PasswordSet() {
 
   const isPasswordMatched = password === passwordCheck && passwordCheck !== "";
 
+  // TODO: isSuccess 추가하고 적용시키기
   const renderPasswordValidationMessage = () => (
     <div className={styles["password-message-container"]}>
       {Object.entries(passwordValidations).map(([key, isValid]) => (
@@ -84,17 +85,17 @@ export default function PasswordSet() {
         비밀번호를 입력해 주세요.
       </p>
       <Input
-        type={isShowPassword ? "text" : "password"}
+        type={isPasswordVisible ? "text" : "password"}
         isSuccess={isPasswordValid}
         message={renderPasswordValidationMessage()}
         rightIcon={
           <Button
             iconOnly
             onClick={() => {
-              setIsShowPassword(!isShowPassword);
+              setIsPasswordVisible(!isPasswordVisible);
             }}
           >
-            {isShowPassword ? (
+            {isPasswordVisible ? (
               <Visible alt="비밀번호 표시 해제" stroke={gray60} width={24} />
             ) : (
               <Invisible alt="비밀번호 표시" stroke={gray60} width={24} />
@@ -120,15 +121,15 @@ export default function PasswordSet() {
             className={styles["password-check"]}
             placeholder="비밀번호를 다시 한 번 입력해 주세요."
             size="medium"
-            type={isShowPasswordCheck ? "text" : "password"}
+            type={isPasswordVisibleCheck ? "text" : "password"}
             rightIcon={
               <Button
                 iconOnly
                 onClick={() => {
-                  setIsShowPasswordCheck(!isShowPasswordCheck);
+                  setIsPasswordVisibleCheck(!isPasswordVisibleCheck);
                 }}
               >
-                {isShowPasswordCheck ? (
+                {isPasswordVisibleCheck ? (
                   <Visible
                     alt="비밀번호 표시 해제"
                     stroke={gray60}

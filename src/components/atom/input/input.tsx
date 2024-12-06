@@ -14,7 +14,8 @@ interface InputProps {
   isSuccess?: boolean;
   message?: string | JSX.Element;
   disabled?: boolean;
-  label?: string;
+  label?: string; // left
+  rightLabel?: JSX.Element; // right
   leftIcon?: JSX.Element;
   rightIcon?: JSX.Element;
   maxLength?: number;
@@ -35,7 +36,8 @@ const Input: React.FC<InputProps> = ({
   isSuccess = false,
   message = "",
   disabled = false,
-  label,
+  label, // left
+  rightLabel, // right
   leftIcon,
   rightIcon,
   maxLength,
@@ -52,11 +54,14 @@ const Input: React.FC<InputProps> = ({
 
   return (
     <div className={`${styles.container} ${fullWidth ? styles.full : ""}`}>
-      {label && (
-        <label className={styles["label"]} htmlFor={id}>
-          {label}
-        </label>
-      )}
+      <div className={styles["label-container"]}>
+        {label ? (
+          <label className={styles["label"]} htmlFor={id}>
+            {label}
+          </label>
+        ) : null}
+        {rightLabel ? rightLabel : null}
+      </div>
       <div className={styles["input-wrapper"]}>
         {leftIcon && <span className={styles["icon-left"]}>{leftIcon}</span>}
         <input

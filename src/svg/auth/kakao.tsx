@@ -6,16 +6,12 @@ export const Kakao: React.FC<SVGProps> = ({ alt, ...props }) => {
     <svg
       width={props.width ?? 30}
       height={props.height ?? 30}
-      viewBox={`0 0 ${props.width ?? 30} ${props.height ?? 30}`}
+      viewBox="0 0 30 30"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
       <title id="svgTitle">{alt}</title>
-      <rect
-        width={props.width ?? 30}
-        height={props.height ?? 30}
-        fill="url(#pattern0_630_5453)"
-      />
+      <rect width="30" height="30" fill="url(#pattern0_630_5453)" />
       <defs>
         <pattern
           id="pattern0_630_5453"

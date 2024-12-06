@@ -22,6 +22,7 @@ export default function Index() {
 		queryFn: () => quizService.fetchQuiz(quizId),
 	});
 	const [currentStep, setCurrentStep] = useState<number>(1);
+	const [submitDisabled, setSubmitDisabled] = useState<boolean>(true);
 
 	const handleQuestionSubmit = (_: React.MouseEvent<HTMLButtonElement>) => {
 		const endStep = quiz!.questions.length;
@@ -32,6 +33,7 @@ export default function Index() {
 			return;
 		} else {
 			setCurrentStep((prev) => (prev + 1));
+			setSubmitDisabled(true);
 		}
 	}
 
@@ -53,6 +55,7 @@ export default function Index() {
 			<div className={styles["container"]}>
 				<div className={styles["inner-container"]}>
 					<SolvingQuizForm
+						setSubmitDisabled={setSubmitDisabled}
 						question={quiz.questions[currentStep - 1]}
 					/>
 					<Button
@@ -65,7 +68,7 @@ export default function Index() {
 				</div>
 				<Button
 					onClick={handleQuestionSubmit}
-					disabled={false}
+					disabled={submitDisabled}
 					color="primary"
 					icon={<ArrowRight stroke={gray0} width={20} height={20} />}
 					className={styles["submit"]}

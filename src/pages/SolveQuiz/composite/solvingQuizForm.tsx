@@ -4,14 +4,21 @@ import { RadioOptionType } from "@/types/RadioTypes";
 import RadioOption from "@/components/atom/radioOption/radioOption";
 import useRadioGroup from "@/hooks/useRadioGroup";
 import styles from "./_solving_quiz_form.module.scss"
+import { useEffect } from "react";
 
 export default function SolvingQuizForm({
 	question,
+	setSubmitDisabled,
 }: {
 	question: SolvingQuizQuestionType;
+	setSubmitDisabled: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
 	const { selectedValue: selectedRadioOption, handleChange } = useRadioGroup('');
-
+	useEffect(()=>{
+		if(selectedRadioOption){
+			setSubmitDisabled(false);
+		}
+	},[selectedRadioOption]);
 	return (
 		<section className={styles["container"]}>
 			<div className={styles["title-area"]}>
@@ -44,7 +51,6 @@ export default function SolvingQuizForm({
 							onChange={handleChange}
 							disabled={false}
 							labelValue={option.content}
-							//TODO: css로 해도 될듯
 							type={isChecked ? "option-selected" : "option-default"}
 						/>
 						</div>

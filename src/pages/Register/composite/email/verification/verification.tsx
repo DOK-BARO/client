@@ -121,14 +121,6 @@ export default function Verification({
     <section className={styles["verification"]}>
       <h3>로그인 이메일 입력</h3>
       <p className={styles["description"]}>
-        <button
-          onClick={() => {
-            console.log(user);
-          }}
-        >
-          상태확인
-        </button>
-
         {!isEmailSent ? (
           <>
             로그인에 사용할

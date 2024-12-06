@@ -19,7 +19,7 @@ import BookList from "./pages/Home/components/composite/bookList/bookList.tsx";
 import BookListLayout from "./components/layout/bookListLayout/bookListLayout.tsx";
 import MyPage from "./pages/MyPage/index.tsx";
 // import FindPasswordLayout from "./pages/FindPassword/layout/findPasswordLayout.tsx";
-// import FindPassword from "./pages/FindPassword/index.tsx";
+import FindPassword from "./pages/FindPassword/index.tsx";
 
 function App() {
   const queryClient = new QueryClient();
@@ -51,13 +51,10 @@ function App() {
           path: "/book/:id",
           element: <BookDetailSection />,
         },
-        // {
-        //   path: "/find-password",
-        //   element: <FindPasswordLayout />,
-        //   children: [
-        //     path: ""
-        //   ]
-        // },
+        {
+          path: "/find-password",
+          element: <FindPassword />,
+        },
 
         {
           path: "/register/:method",

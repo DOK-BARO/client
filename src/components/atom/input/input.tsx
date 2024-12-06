@@ -54,14 +54,16 @@ const Input: React.FC<InputProps> = ({
 
   return (
     <div className={`${styles.container} ${fullWidth ? styles.full : ""}`}>
-      <div className={styles["label-container"]}>
-        {label ? (
-          <label className={styles["label"]} htmlFor={id}>
-            {label}
-          </label>
-        ) : null}
-        {rightLabel ? rightLabel : null}
-      </div>
+      {label || rightLabel ? (
+        <div className={styles["label-container"]}>
+          {label ? (
+            <label className={styles["label"]} htmlFor={id}>
+              {label}
+            </label>
+          ) : null}
+          {rightLabel ? rightLabel : null}
+        </div>
+      ) : null}
       <div className={styles["input-wrapper"]}>
         {leftIcon && <span className={styles["icon-left"]}>{leftIcon}</span>}
         <input

@@ -50,7 +50,6 @@ export default function Index() {
 				questions={quiz.questions}
 				currentStep={currentStep}
 			/>
-			{/* layout빼도 될듯 */}
 			<div className={styles["container"]}>
 				<div className={styles["inner-container"]}>
 					<SolvingQuizForm

@@ -1,0 +1,40 @@
+@import "../../../styles/abstracts/mixins";
+@import "../../../styles/abstracts/variables";
+
+/* progress bar 시작 */
+.progress-bar{
+	display: flex;
+	justify-content: space-between;
+}
+
+.step-container:not(:last-child) {
+	position: relative;
+	// width를 100%로 하기 위해 wrapping
+	width: 100%;
+}
+
+.step-container:last-child > .step-bar {
+	display: none;
+}
+
+.step{
+	@include flex(row, center);
+
+	width: 30px;
+	height: 30px;
+
+	background-color: $secondary;
+	color: $primary;
+	font-size: $font-size-medium;
+	border-radius: 50%;
+}
+
+.step-bar{
+	position: absolute;
+	top: 15px;
+	left: 30px;
+	width: calc(100% - 30px);
+	height: 2px;
+	background-color: $gray-20;
+}
+/* progress bar 끝 */

@@ -137,6 +137,16 @@ const LoginModal = ({ closeModal }: LoginModalProps) => {
                 >
                   로그인
                 </Button>
+                <span className={styles["register-actions-container"]}>
+                  <Button size="xsmall" color="transparent">
+                    회원가입
+                  </Button>
+                  <div className={styles["vertical-line"]} />
+                  <Button size="xsmall" color="transparent">
+                    비밀번호 찾기
+                  </Button>
+                </span>
+
                 <span className={styles["divider-container"]}>
                   <div className={styles.line} />
                   <p className={styles.text}>또는</p>

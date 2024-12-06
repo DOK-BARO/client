@@ -16,7 +16,7 @@ const SocialAuthButton: React.FC<{
   socialType: SocialLoginType;
 }> = ({ authType, socialType }) => {
   const { redirectToAuthPage, loading } = useAuth();
-  const emailRegisterPage = "/register/email/1";
+  const emailRegisterPage = "/register/email";
 
   const handleAuth = async () => {
     const action =

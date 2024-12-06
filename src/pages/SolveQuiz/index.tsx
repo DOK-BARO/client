@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./_solve_quiz.module.scss";
-import SolvingQuizFormLayout from "./layout/solvingQuizFormLayout/solvingQuizFormLayout";
+import SolvingQuizForm from "./composite/solvingQuizForm";
 import ProgressBar from "./composite/progressBar";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -53,7 +53,7 @@ export default function Index() {
 			{/* layout빼도 될듯 */}
 			<div className={styles["container"]}>
 				<div className={styles["inner-container"]}>
-					<SolvingQuizFormLayout
+					<SolvingQuizForm
 						question={quiz.questions[currentStep - 1]}
 					/>
 					<Button

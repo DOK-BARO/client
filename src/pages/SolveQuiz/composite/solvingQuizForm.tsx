@@ -3,9 +3,9 @@ import Button from "@/components/atom/button/button";
 import { RadioOptionType } from "@/types/RadioTypes";
 import RadioOption from "@/components/atom/radioOption/radioOption";
 import useRadioGroup from "@/hooks/useRadioGroup";
-import styles from "./_solving_quiz_form_layout.module.scss";
+import styles from "./_solving_quiz_form.module.scss"
 
-export default function SolvingQuizFormLayout({
+export default function SolvingQuizForm({
 	question,
 }: {
 	question: SolvingQuizQuestionType;

@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../../Register/layout/_register_layout.module.scss";
 import SendTemporaryPassword from "../composite/sendTemporaryPassword/sendTemporaryPassword";
 import Complete from "../composite/complete/complete";
 
 export default function FindPasswordLayout() {
-  const [step, setStep] = useState<number>(2);
+  const [step, setStep] = useState<number>(1);
 
   const titles: Record<string, string> = {
     "1": "비밀번호 찾기",
@@ -16,7 +16,7 @@ export default function FindPasswordLayout() {
   const renderStepComponent = () => {
     switch (step) {
       case 1:
-        return <SendTemporaryPassword />;
+        return <SendTemporaryPassword setStep={setStep} />;
       case 2:
         return <Complete />;
       default:

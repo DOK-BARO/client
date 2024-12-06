@@ -4,9 +4,18 @@ import styles from "./_send_temporary_password.module.scss";
 import useInput from "@/hooks/useInput";
 import { XSmall } from "@/svg/xSmall";
 import { systemDanger } from "@/styles/abstracts/colors";
+import { Dispatch } from "react";
+import { SetStateAction } from "jotai";
 
-export default function SendTemporaryPassword() {
-  const handleSubmit = () => {};
+export default function SendTemporaryPassword({
+  setStep,
+}: {
+  setStep: Dispatch<SetStateAction<number>>;
+}) {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setStep((prev) => prev + 1);
+  };
   const { value: email, onChange: onEmailChange } = useInput("");
   return (
     <section className={styles["send-temporary-password"]}>
@@ -35,6 +44,7 @@ export default function SendTemporaryPassword() {
           fullWidth
           disabled={!email}
           color="primary"
+          type="submit"
         >
           임시 비밀번호 발송
         </Button>

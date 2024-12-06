@@ -34,7 +34,9 @@ const EmailRegisterLayout = () => {
 
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      const message = "";
+      // TODO: 문구 표시 안되고 기본 문구로 표시됨 (크롬 정책)
+      const message =
+        "새로고침을 하면 입력한 정보가 모두 초기화되며, 첫 단계로 돌아갑니다. 그래도 새로고침하시겠습니까?";
       e.returnValue = message;
       return message;
     };

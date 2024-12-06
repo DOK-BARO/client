@@ -10,13 +10,15 @@ import { Naver } from "@/svg/auth/naver.tsx";
 import { Github } from "@/svg/auth/github.tsx";
 import { Email } from "@/svg/auth/email.tsx";
 import Button from "@/components/atom/button/button.tsx";
+import { IsEmailLoginPage } from "@/store/authModalAtom";
+import { useAtom } from "jotai";
 
 const SocialAuthButton: React.FC<{
   authType: AuthType;
   socialType: SocialLoginType;
-  setIsEmailSelected: Dispatch<SetStateAction<boolean>>;
-}> = ({ authType, socialType, setIsEmailSelected }) => {
+}> = ({ authType, socialType }) => {
   const { redirectToAuthPage, loading } = useAuth();
+  const [, setIsEmailLoginPage] = useAtom(IsEmailLoginPage);
   const emailRegisterPage = "/register/email";
   const handleAuth = async () => {
     const action =
@@ -27,7 +29,7 @@ const SocialAuthButton: React.FC<{
       // 이메일 회원가입
       // window.location.href = emailRegisterPage;
       // 이메일로 계속하기 누르면 로그인 창 뜨고 사용자가 선택해서 회원가입할 수 있도록 하기
-      setIsEmailSelected(true);
+      setIsEmailLoginPage(true);
     } else {
       // 소셜 미디어 회원가입
       await redirectToAuthPage(socialType);

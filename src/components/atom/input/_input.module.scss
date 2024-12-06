@@ -18,12 +18,14 @@
     float: left;
     display: flex;
     align-items: center;
+    font-weight: $font-weight-medium;
   }
 }
 
 .message {
   color: $gray-60;
   font-size: $font-size-small;
+  font-weight: $font-weight-medium;
   margin-top: 12px;
   text-align: left;
   &--error {

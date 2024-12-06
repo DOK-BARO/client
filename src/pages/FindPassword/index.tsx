@@ -1,3 +1,5 @@
+import FindPasswordLayout from "./layout/findPasswordLayout";
+
 export default function Index() {
-  return <div>Index</div>;
+  return <FindPasswordLayout />;
 }

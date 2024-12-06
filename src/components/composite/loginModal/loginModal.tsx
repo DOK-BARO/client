@@ -16,6 +16,9 @@ import { Github } from "@/svg/auth/github.tsx";
 import useInput from "@/hooks/useInput.ts";
 import { XSmall } from "@/svg/xSmall.tsx";
 import { Invisible } from "@/svg/invisible.tsx";
+import { useNavigate } from "react-router-dom";
+import { useAtom } from "jotai";
+import { IsEmailLoginPage } from "@/store/authModalAtom.ts";
 interface LoginModalProps {
   closeModal: () => void;
 }
@@ -28,7 +31,10 @@ const socialLoginMethodButtonImage = [
 ];
 
 const LoginModal = ({ closeModal }: LoginModalProps) => {
-  const [isEmailSelected, setIsEmailSelected] = useState<boolean>(false);
+  // TODO: 전역으로 상태 변경할 수 있도록 해야함
+  // const [isEmailSelected, setIsEmailSelected] = useState<boolean>(false);
+  const [isEmailLoginPage] = useAtom(IsEmailLoginPage);
+  const navigate = useNavigate();
 
   const { value: email, onChange: onEmailChange } = useInput("");
   const { value: password, onChange: onPasswordChange } = useInput("");
@@ -46,6 +52,16 @@ const LoginModal = ({ closeModal }: LoginModalProps) => {
     e.preventDefault();
   };
 
+  const handleSignupClick = () => {
+    closeModal();
+    navigate("/register/email");
+  };
+
+  const handleFindPasswordClick = () => {
+    closeModal();
+    navigate("/find-password");
+  };
+
   return (
     <Modal
       className={styles["auth-modal"]}
@@ -58,15 +74,14 @@ const LoginModal = ({ closeModal }: LoginModalProps) => {
             </span>
           </header>
           <main
-            className={styles[`main${!isEmailSelected ? "" : "-email-login"}`]}
+            className={styles[`main${!isEmailLoginPage ? "" : "-email-login"}`]}
           >
-            {!isEmailSelected ? (
+            {!isEmailLoginPage ? (
               SOCIAL_TYPES.map((socialType) => (
                 <SocialAuthButton
                   key={socialType}
                   authType={AuthType.LOGIN}
                   socialType={socialType}
-                  setIsEmailSelected={setIsEmailSelected}
                 />
               ))
             ) : (
@@ -137,6 +152,24 @@ const LoginModal = ({ closeModal }: LoginModalProps) => {
                 >
                   로그인
                 </Button>
+                <span className={styles["register-actions-container"]}>
+                  <Button
+                    size="xsmall"
+                    color="transparent"
+                    onClick={handleSignupClick}
+                  >
+                    회원가입
+                  </Button>
+                  <div className={styles["vertical-line"]} />
+                  <Button
+                    size="xsmall"
+                    color="transparent"
+                    onClick={handleFindPasswordClick}
+                  >
+                    비밀번호 찾기
+                  </Button>
+                </span>
+
                 <span className={styles["divider-container"]}>
                   <div className={styles.line} />
                   <p className={styles.text}>또는</p>

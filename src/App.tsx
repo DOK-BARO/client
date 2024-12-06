@@ -19,8 +19,8 @@ import RegisterComplete from "./pages/Register/composite/registerComplete/Regist
 import BookList from "./pages/Home/components/composite/bookList/bookList.tsx";
 import BookListLayout from "./components/layout/bookListLayout/bookListLayout.tsx";
 import MyPage from "./pages/MyPage/index.tsx";
-import QuizSolvingFormLayout from "./pages/SolveQuiz/layout/quizSolvingFormLayout/quizSolvingFormLayout.tsx";
-import SolvingQuiz from "./pages/SolveQuiz/composite/solvingQuiz.tsx";
+import WithoutHeaderLayout from "./components/layout/withoutHeaderLayout/withoutHeaderLayout.tsx";
+import SolvingQuizPage from "./pages/SolveQuiz/index.tsx";
 
 function App() {
   const queryClient = new QueryClient();
@@ -88,11 +88,11 @@ function App() {
     },
 		{
 			path: "/quiz/:quizId",
-			element: <QuizSolvingFormLayout />,
+			element: <WithoutHeaderLayout />,
 			children: [
 				{
 					path: "/quiz/:quizId",
-					element: <SolvingQuiz />,
+					element: <SolvingQuizPage />,
 				},
 			],
 		},

@@ -1,7 +1,7 @@
-import styles from "./quiz_solving_form_layout.module.scss";
+import styles from "../_layout.module.scss";
 import { Outlet } from "react-router-dom";
 
-export default function QuizSolvingFormLayout() {
+export default function WithoutHeaderLayout() {
 	return (
 		<div className={styles["container"]}>
 		<main className={styles["main"]}>

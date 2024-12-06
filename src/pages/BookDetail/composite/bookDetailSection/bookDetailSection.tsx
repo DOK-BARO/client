@@ -9,11 +9,15 @@ interface BookDetailSectionProps {
 export default function BookDetailSection({
   bookDetailContent,
 }: BookDetailSectionProps) {
-  console.log(bookDetailContent);
+
+	const handleNavigateSolvingQuizPage = async(_:React.MouseEvent<HTMLButtonElement>) => {
+		//TODO: 퀴즈 리스트 화면으로 가기??
+	}
+
   return (
     <section className={"container"}>
       <div className={styles["category-depth-list"]}>
-        {bookDetailContent.categories.join(">")}
+				{bookDetailContent.categories.map((e)=> e.name).join(">")}
       </div>
       <div className={styles["book-detail-section-container"]}>
         <img
@@ -61,7 +65,7 @@ export default function BookDetailSection({
             />
             <Button
               className={styles["take-quiz-button"]}
-              onClick={() => {}}
+              onClick={handleNavigateSolvingQuizPage}
               size={"large"}
               children={"퀴즈 풀기"}
             />

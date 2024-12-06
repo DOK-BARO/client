@@ -15,6 +15,21 @@ export interface QuizType {
   };
 }
 
+// 퀴즈 풀기 시 사용되는 타입
+export interface SolvingQuizType {
+	id: number;
+	title: string;
+	timeLimitSecond?: number;
+	questions: SolvingQuizQuestionType[],
+}
+
+export interface SolvingQuizQuestionType {
+	id: number;
+	content:string;
+	selectOptions: string[];
+	type: RequestAnswerType;
+}
+
 export interface MyQuizType {
   id: number,
   bookImageUrl: string,

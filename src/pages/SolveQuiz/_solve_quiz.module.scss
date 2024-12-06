@@ -1,0 +1,21 @@
+@import "../../styles/abstracts/mixins";
+@import "../../styles/abstracts/variables";
+
+.container {
+	@include flex(column);
+	width: 100%;
+	align-items: center;
+	gap: 16px;
+}
+
+.inner-container {
+	@include flex(column);
+	width: 100%;
+	align-items: end;
+	gap: 8px;
+}
+
+.submit{
+	width: 120px;;
+}
+

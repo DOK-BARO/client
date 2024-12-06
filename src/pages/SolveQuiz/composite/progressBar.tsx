@@ -13,7 +13,9 @@ export default function ProgressBar({
 		<section className={styles["progress-bar"]}>
 			{
 				questions.map((_, index) => (
-					<div className={styles["step-container"]}>
+					<div 
+					key={index}
+					className={styles["step-container"]}>
 						<div className={styles["step"]}>
 							{index + 1}
 						</div>

@@ -26,7 +26,7 @@ export interface SolvingQuizType {
 export interface SolvingQuizQuestionType {
 	id: number;
 	content:string;
-	selectOptions: string[];
+	selectOptions: {content:string}[];
 	type: RequestAnswerType;
 }
 

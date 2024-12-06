@@ -8,7 +8,12 @@ export default function Index() {
   switch (method) {
     case "email":
       return <EmailRegisterLayout />;
-    default:
+    case "google":
+    case "github":
+    case "naver":
+    case "kakao":
       return <SocialRegisterLayout />;
+    default:
+      return <div>404</div>;
   }
 }

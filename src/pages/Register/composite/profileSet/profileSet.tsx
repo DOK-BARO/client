@@ -22,8 +22,8 @@ export interface ProfileImageState {
 /* eslint-disable @typescript-eslint/no-unused-vars */
 export default function ProfileSet() {
   const { method } = useParams();
+  const completePage = "/register/complete";
   const navigate = useNavigate();
-  const nextPage = "/register/complete";
 
   const defaultImagePath = "/public/assets/image/default-profile.png";
   const [profileImage, setProfileImage] = useState<ProfileImageState>({
@@ -96,7 +96,7 @@ export default function ProfileSet() {
       await authService.updateUser(socialUserInfo);
     }
 
-    navigate(nextPage);
+    navigate(completePage);
   };
 
   useEffect(() => {

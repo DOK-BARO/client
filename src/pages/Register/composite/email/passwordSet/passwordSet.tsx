@@ -1,6 +1,5 @@
-import { useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styles from "./_password_set.module.scss";
 import useInput from "@/hooks/useInput.ts";
 import { passwordValidation } from "@/validation/passwordValidation.ts";
@@ -19,10 +18,11 @@ import { Invisible } from "@/svg/invisible";
 import { Visible } from "@/svg/visible";
 import { XSmall } from "@/svg/xSmall";
 
-export default function PasswordSet() {
-  const navigate = useNavigate();
-  const nextPage = "/register/email/4";
-
+export default function PasswordSet({
+  setStep,
+}: {
+  setStep: Dispatch<SetStateAction<number>>;
+}) {
   const {
     value: password,
     onChange: onPasswordChange,
@@ -33,10 +33,10 @@ export default function PasswordSet() {
     useInput("");
 
   const [user, setUser] = useAtom<RegisterInfoType>(RegisterInfoAtom);
-  const [step, setStep] = useState<number>(1);
-  const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
-  const [isPasswordVisibleCheck, setIsPasswordVisibleCheck] =
-    useState<boolean>(false);
+
+  const [subStep, setSubStep] = useState<number>(1);
+  const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
+  const [isShowPasswordCheck, setIsShowPasswordCheck] = useState<boolean>(false);
 
   useEffect(() => {
     // 사용자가 뒤로가기 눌렀다 다시 돌아왔을 때 초기화되도록(비밀번호만)
@@ -51,11 +51,11 @@ export default function PasswordSet() {
       ...user,
       password,
     });
-    navigate(nextPage);
+    setStep((prev) => prev + 1);
   };
 
   const moveToNext = (): void => {
-    setStep(2);
+    setSubStep(2);
   };
 
   const isPasswordMatched = password === passwordCheck && passwordCheck !== "";
@@ -109,7 +109,7 @@ export default function PasswordSet() {
         placeholder="비밀번호 입력"
         size="medium"
       />
-      {step === 2 && (
+      {subStep === 2 && (
         <>
           <p className={styles["password-check-desc"]}>
             비밀번호를 다시 한 번 입력해 주세요.
@@ -160,10 +160,10 @@ export default function PasswordSet() {
         </>
       )}
       <Button
-        disabled={step === 1 ? !isPasswordValid : !isPasswordMatched}
+        disabled={subStep === 1 ? !isPasswordValid : !isPasswordMatched}
         className={styles.next}
         size="medium"
-        onClick={step === 1 ? moveToNext : handleSubmit}
+        onClick={subStep === 1 ? moveToNext : handleSubmit}
         color="primary"
         fullWidth
       >

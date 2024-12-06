@@ -1,11 +1,13 @@
 import styles from "./_register_layout.module.scss";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
 import ProgressBar from "@/pages/Register/components/progressBar/progressBar.tsx";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import TermsAgreement from "../composite/termsAgreement/termsAgreement";
+import Verification from "../composite/email/verification/verification";
+import PasswordSet from "../composite/email/passwordSet/passwordSet";
+import ProfileSet from "../composite/profileSet/profileSet";
 
 const EmailRegisterLayout = () => {
-  const { step } = useParams<{ step: string }>();
-  const navigate = useNavigate();
+  const [step, setStep] = useState<number>(1);
 
   const titles: Record<string, string> = {
     "1": "반가워요!",
@@ -15,26 +17,37 @@ const EmailRegisterLayout = () => {
   };
   const title = titles[step || ""] || "";
 
-  useEffect(() => {
-    if (step && step !== "1") {
-      if (
-        confirm(
-          "새로고침을 하면 입력한 정보가 모두 초기화되며, 첫 단계로 돌아갑니다. 그래도 새로고침하시겠습니까?"
-        )
-      ) {
-        const savedStep = localStorage.getItem("registerStep");
-        if (savedStep == step) {
-          navigate("/register/email/1", { replace: true });
-          localStorage.removeItem("registerStep");
-        }
-      }
+  const renderStepComponent = () => {
+    switch (step) {
+      case 1:
+        return <TermsAgreement setStep={setStep} />;
+      case 2:
+        return <Verification setStep={setStep} />;
+      case 3:
+        return <PasswordSet setStep={setStep} />;
+      case 4:
+        return <ProfileSet />;
+      default:
+        return <div>404</div>;
     }
-  }, [navigate]);
+  };
 
   useEffect(() => {
-    if (step) {
-      localStorage.setItem("registerStep", step);
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      // TODO: 문구 표시 안되고 기본 문구로 표시됨 (크롬 정책)
+      const message =
+        "새로고침을 하면 입력한 정보가 모두 초기화되며, 첫 단계로 돌아갑니다. 그래도 새로고침하시겠습니까?";
+      e.returnValue = message;
+      return message;
+    };
+
+    if (step !== 1) {
+      window.addEventListener("beforeunload", handleBeforeUnload);
     }
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
   }, [step]);
 
   return (
@@ -45,7 +58,7 @@ const EmailRegisterLayout = () => {
           <p className={styles["title"]}>{title}</p>
           <ProgressBar ratio={Number(step) / Object.keys(titles).length} />
         </header>
-        <Outlet context={"email"} />
+        {renderStepComponent()}
       </div>
     </section>
   );

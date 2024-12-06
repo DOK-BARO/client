@@ -26,13 +26,16 @@ export const useAuthCode = (provider: string) => {
     try {
       console.log("in do signup in useAuthcode");
       // 사용자 정보 전달하기
-      await authService.socialSignup(provider.toUpperCase() as SocialLoginType, code);
+      await authService.socialSignup(
+        provider.toUpperCase() as SocialLoginType,
+        code
+      );
       await setUserInLocalStorage();
 
       if (
         (provider.toUpperCase() as SocialLoginType) !== SocialLoginType.EMAIL
       ) {
-        navigate("/register/social/1");
+        navigate("/register/social");
       } else {
         // 회원가입 페이지로 이동
         navigate("/register/complete");
@@ -52,7 +55,10 @@ export const useAuthCode = (provider: string) => {
 
   const doLogin = async (code: string) => {
     try {
-      await authService.socialLogin(provider.toUpperCase() as SocialLoginType, code);
+      await authService.socialLogin(
+        provider.toUpperCase() as SocialLoginType,
+        code
+      );
       await setUserInLocalStorage();
       navigate("/");
       localStorage.removeItem(LOCAL_STORAGE_KEY.AUTH_ACTION);
@@ -61,7 +67,10 @@ export const useAuthCode = (provider: string) => {
         const axiosError = error as AxiosError;
         if (axiosError.response?.status === 404) {
           // TODO : 회원가입
-          localStorage.setItem(LOCAL_STORAGE_KEY.AUTH_ACTION, AUTH_ACTION.SIGN_UP);
+          localStorage.setItem(
+            LOCAL_STORAGE_KEY.AUTH_ACTION,
+            AUTH_ACTION.SIGN_UP
+          );
           await redirectToAuthPage(provider.toUpperCase() as SocialLoginType);
         }
       }

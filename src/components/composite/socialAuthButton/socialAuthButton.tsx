@@ -17,8 +17,7 @@ const SocialAuthButton: React.FC<{
   setIsEmailSelected: Dispatch<SetStateAction<boolean>>;
 }> = ({ authType, socialType, setIsEmailSelected }) => {
   const { redirectToAuthPage, loading } = useAuth();
-  // const emailRegisterPage = "/register/email/1";
-
+  const emailRegisterPage = "/register/email";
   const handleAuth = async () => {
     const action =
       authType === AuthType.SIGNUP ? AUTH_ACTION.SIGN_UP : AUTH_ACTION.LOGIN;

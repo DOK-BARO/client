@@ -8,15 +8,16 @@ import Input from "@/components/atom/input/input.tsx";
 import Button from "@/components/atom/button/button.tsx";
 import { RegisterInfoType } from "@/types/UserType";
 import { RegisterInfoAtom } from "@/store/userAtom";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { XSmall } from "@/svg/xSmall";
 import AuthCodeInput from "@/components/composite/authCodeInput/AuthCodeInput";
 import { authService } from "@/services/server/authService";
 
-export default function Verification() {
-  const navigate = useNavigate();
-  const nextPage = "/register/email/3";
+export default function Verification({
+  setStep,
+}: {
+  setStep: Dispatch<SetStateAction<number>>;
+}) {
   const [user, setUser] = useAtom<RegisterInfoType>(RegisterInfoAtom);
   const {
     value: email,
@@ -88,8 +89,8 @@ export default function Verification() {
     if (!isMatch) {
       return;
     }
-    // 인증 코드가 일치할 경우에만 다음 페이지로 이동
-    navigate(nextPage);
+    // 인증 코드가 일치할 경우에만 다음 스텝으로 이동
+    setStep((prev) => prev + 1);
   }, [isMatch]);
 
   const handleKeyDown = (
@@ -109,7 +110,10 @@ export default function Verification() {
   };
 
   const handleDone = async () => {
-    const { result } = await authService.matchEmailCode({ email, code: fullCode });
+    const { result } = await authService.matchEmailCode({
+      email,
+      code: fullCode,
+    });
     setIsMatch(result);
   };
 

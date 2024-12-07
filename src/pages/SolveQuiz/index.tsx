@@ -10,26 +10,38 @@ import { useState } from "react";
 import Button from "@/components/atom/button/button";
 import { ArrowRight } from "@/svg/arrowRight";
 import { gray0 } from "@/styles/abstracts/colors";
+import { useAtom } from "jotai";
+import { selectedOptions, solvingQuizIdAtom } from "@/store/quizAtom";
+
 export default function Index() {
-	//TODO: 퀴즈 풀러가기 버튼 핸들러 구현 지점에서 사용될 hook으로 만들어도 될듯
-	// await quizService.startSolvingQuiz(bookDetailContent.id.toString());
-	// navigate(`/quiz/${bookDetailContent.id}`);
 	const { quizId } = useParams<{ quizId: string }>();
 	if (!quizId) return;
-
+	
+	const [solvingQuizId, setSolvingQuizIdAtom] = useAtom(solvingQuizIdAtom);
 	const { data: quiz, isLoading: isQuizLoading } = useQuery({
 		queryKey: quizKeys.detail(quizId),
 		queryFn: () => quizService.fetchQuiz(quizId),
 	});
 	const [currentStep, setCurrentStep] = useState<number>(1);
 	const [submitDisabled, setSubmitDisabled] = useState<boolean>(true);
+	const [options] = useAtom(selectedOptions);
 
-	const handleQuestionSubmit = (_: React.MouseEvent<HTMLButtonElement>) => {
+	//TODO: 퀴즈 풀러가기 버튼 핸들러 구현 지점에서 사용될 hook으로 만들어도 될듯
+	// navigate(`/quiz/${bookDetailContent.id}`);
+	const handleTestBtn = async() => {
+		// 퀴즈 풀기 시작시 넣어야 하는 로직
+		const {id} = await quizService.startSolvingQuiz(quizId.toString());
+		console.log("id: %o",id);
+		setSolvingQuizIdAtom(id);
+	}
+
+	const handleQuestionSubmit = async(_: React.MouseEvent<HTMLButtonElement>) => {
 		const endStep = quiz!.questions.length;
-
-
+		const questionId: number = quiz?.questions[currentStep - 1].id ?? 0;
+		const solvingQuizIdToString:string = solvingQuizId.toString();
+		console.log("index:%o",solvingQuizIdToString);
+		await quizService.submitQuestion(solvingQuizIdToString,questionId,options);
 		if (endStep === currentStep) {
-			console.log("end: ", endStep, "currnet:", currentStep);
 			return;
 		} else {
 			setCurrentStep((prev) => (prev + 1));
@@ -74,6 +86,10 @@ export default function Index() {
 					className={styles["submit"]}
 				>채점하기</Button>
 			</div>
+			{/* TODO: 책 상세 페이지에 들어갈 로직 (이 코드는 테스트용) */}
+			<button
+			onClick={()=> handleTestBtn()}
+			>퀴즈 풀기 시작 시 눌러야할 버튼</button>
 		</section>
 	);
 }

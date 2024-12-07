@@ -5,6 +5,8 @@ import RadioOption from "@/components/atom/radioOption/radioOption";
 import useRadioGroup from "@/hooks/useRadioGroup";
 import styles from "./_solving_quiz_form.module.scss"
 import { useEffect } from "react";
+import { useAtom } from "jotai";
+import { selectedOptions } from "@/store/quizAtom";
 
 export default function SolvingQuizForm({
 	question,
@@ -14,11 +16,19 @@ export default function SolvingQuizForm({
 	setSubmitDisabled: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
 	const { selectedValue: selectedRadioOption, handleChange } = useRadioGroup('');
+	const [, setSelectedOptions] = useAtom(selectedOptions);
 	useEffect(()=>{
 		if(selectedRadioOption){
 			setSubmitDisabled(false);
 		}
 	},[selectedRadioOption]);
+
+	const handleSelectOptions = (e: React.ChangeEvent<HTMLInputElement>) => {
+		handleChange(e);
+		const option =(parseInt( e.target.value)+1).toString();
+			setSelectedOptions([option]);
+	}
+
 	return (
 		<section className={styles["container"]}>
 			<div className={styles["title-area"]}>
@@ -48,7 +58,7 @@ export default function SolvingQuizForm({
 							radioGroupName={question.id.toString()}
 							option={radioOption}
 							checked={isChecked}
-							onChange={handleChange}
+							onChange={handleSelectOptions}
 							disabled={false}
 							labelValue={option.content}
 							type={isChecked ? "option-selected" : "option-default"}

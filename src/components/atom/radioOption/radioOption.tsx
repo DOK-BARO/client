@@ -5,16 +5,16 @@ import { Close } from "@/svg/close.tsx";
 import { gray90 } from "@/styles/abstracts/colors";
 import Textarea from "@/components/atom/textarea/textarea.tsx";
 
-interface RadioOptionProps {
-	option: RadioOptionType;
-	type?: 
-	"option-writing" 
+export type OptionStatusType = "option-writing" 
 	| "option-written" 
 	| "option-default" 
 	| "option-correct" 
 	| "option-incorrect" 
 	| "option-selected" 
 	| "option-add" ;
+interface RadioOptionProps {
+	option: RadioOptionType;
+	type?: OptionStatusType
 	checked: boolean;
 	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 	radioGroupName: string;

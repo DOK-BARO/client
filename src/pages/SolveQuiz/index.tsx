@@ -25,11 +25,13 @@ export default function Index() {
 	});
 	const [currentStep, setCurrentStep] = useState<number>(1);
 	const [submitDisabled, setSubmitDisabled] = useState<boolean>(true);
-	const [selectedOptions,setSelectedOptions] = useAtom(selectedOptionsAtom);
-	const [correctAnswer, setCorrectAnswer] = useState<string[]>([]);
+	const [selectedOptions, setSelectedOptions] = useAtom(selectedOptionsAtom);
+	const [questionCheckedResult, setQuestionCheckedResult] = useState<QuestionCheckedResult>();
 	const [optionDisabled, setOptionDisabled] = useState<boolean>(false);
 	const [didAnswerChecked, setDidAnswerChecked] = useState<boolean>(false);
+	const [toggleAnswerDescription, setToggleAnswerDescription] = useState<boolean>(false);
 
+	const warning = "/assets/svg/solvingQuizFormLayout/warning.svg";
 
 	//TODO: 퀴즈 풀러가기 버튼 핸들러 구현 지점에서 사용될 hook으로 만들어도 될듯
 	// navigate(`/quiz/${bookDetailContent.id}`);
@@ -43,16 +45,16 @@ export default function Index() {
 		setOptionDisabled(true);
 		const questionId: number = quiz?.questions[currentStep - 1].id ?? 0;
 		const solvingQuizIdToString: string = solvingQuizId.toString();
-		const checkedResult:QuestionCheckedResult= await quizService.submitQuestion(solvingQuizIdToString,questionId,selectedOptions);
+		const checkedResult: QuestionCheckedResult = await quizService.submitQuestion(solvingQuizIdToString, questionId, selectedOptions);
 
 		if (checkedResult) {
-			setCorrectAnswer(checkedResult.correctAnswer);
+			setQuestionCheckedResult(checkedResult)
 			setDidAnswerChecked(true);
 		}
 	}
 
 	const handleShowAnswerDescriptionBtn = () => {
-
+		setToggleAnswerDescription(!toggleAnswerDescription);
 	}
 
 	const handleNextQuestionBtn = () => {
@@ -67,11 +69,9 @@ export default function Index() {
 			setSelectedOptions([]);
 			setDidAnswerChecked(false);
 
-			setCurrentStep((prev) =>(prev + 1));
+			setCurrentStep((prev) => (prev + 1));
 		}
 	}
-
-	const warning = "/assets/svg/solvingQuizFormLayout/warning.svg";
 
 	// TODO 에러처리 필요
 	if (!quiz) {
@@ -81,18 +81,18 @@ export default function Index() {
 		return <>로딩</>
 	}
 	return (
-		<section>
+		<section className={styles["container"]}>
 			<ProgressBar
 				questions={quiz.questions}
 				currentStep={currentStep}
 			/>
-			<div className={styles["container"]}>
-				<div className={styles["inner-container"]}>
+			<div className={styles["inner-container"]}>
+				<div className={styles["question-area"]}>
 					<SolvingQuizForm
 						optionDisabled={optionDisabled}
 						setSubmitDisabled={setSubmitDisabled}
 						question={quiz.questions[currentStep - 1]}
-						correctAnswer={correctAnswer}
+						correctAnswer={questionCheckedResult?.correctAnswer ?? []}
 					/>
 					<Button
 						size="xsmall"
@@ -102,33 +102,59 @@ export default function Index() {
 						className={styles["report"]}
 					>신고하기</Button>
 				</div>
+				{toggleAnswerDescription
+					&&
+					<section className={styles["answer-description-area"]}>
+						<Button
+							color="secondary"
+							size="xsmall"
+							className={styles["answer-description"]}
+						>해설</Button>
+						{questionCheckedResult?.answerExplanationContent}
+						{questionCheckedResult?.answerExplanationImages && (
+							<section className={styles["image-area"]}>
+								{questionCheckedResult?.answerExplanationImages.map((image, index) => (
+									<img
+										key={index}
+										src={image}
+										alt={`해설 이미지 ${index + 1}`}
+										className={styles["image"]}
+									/>
+								))}
+							</section>
+						)}
+					</section>
+				}
+			</div>
 
-			{	!didAnswerChecked &&
+
+			{
+				!didAnswerChecked &&
 				<Button
 					onClick={handleQuestionSubmit}
 					disabled={submitDisabled}
 					color="primary"
 					icon={<ArrowRight stroke={gray0} width={20} height={20} />}
 					className={styles["footer-btn"]}
-				>채점하기</Button>}
+				>채점하기</Button>
+			}
 
-				{
-					didAnswerChecked &&
-					<div className={styles["footer-btn-container"]}>
-						<Button
-							onClick={handleShowAnswerDescriptionBtn}
-							color="primary-border"
-							className={styles["footer-btn"]}
-						>해설보기</Button>
-						<Button
-							onClick={handleNextQuestionBtn}
-							color="primary"
-							icon={<ArrowRight stroke={gray0} width={20} height={20} />}
-							className={styles["footer-btn"]}
-						>다음문제</Button>
-					</div>
-				}
-			</div>
+			{
+				didAnswerChecked &&
+				<div className={styles["footer-btn-container"]}>
+					<Button
+						onClick={handleShowAnswerDescriptionBtn}
+						color="primary-border"
+						className={styles["footer-btn"]}
+					>해설보기</Button>
+					<Button
+						onClick={handleNextQuestionBtn}
+						color="primary"
+						icon={<ArrowRight stroke={gray0} width={20} height={20} />}
+						className={styles["footer-btn"]}
+					>다음문제</Button>
+				</div>
+			}
 			{/* TODO: 책 상세 페이지에 들어갈 로직 (이 코드는 테스트용) */}
 			<button
 				onClick={() => handleTestBtn()}

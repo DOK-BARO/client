@@ -5,7 +5,7 @@ const useRadioGroup = (initialValue: string|null) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedValue(event.target.value);
   };
-  return { selectedValue, handleChange };
+  return { selectedValue, handleChange, setSelectedValue };
 };
 
 export default useRadioGroup;

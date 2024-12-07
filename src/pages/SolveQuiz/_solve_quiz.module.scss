@@ -15,7 +15,13 @@
 	gap: 8px;
 }
 
-.submit{
-	width: 120px;;
+.footer-btn{
+	width: 120px;
+
+	&-container{
+	display: flex;
+	gap: 20px;
+	}
 }
+
 

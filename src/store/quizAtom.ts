@@ -55,5 +55,5 @@ export const stepsCompletionStatusAtom = atom((get) => ({
 export const errorModalTitleAtom = atom<string>("");
 export const openErrorModalAtom = atom<() => void>();
 
-export const selectedOptions = atom<string[]>([]);
+export const selectedOptionsAtom = atom<string[]>([]);
 export const solvingQuizIdAtom = atom<number>(0);

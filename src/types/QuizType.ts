@@ -109,3 +109,14 @@ export interface QuestionFormType {
   answerType: AnswerType;
   component: ReactNode;
 }
+
+export interface QuestionCheckedResult {
+	solvingQuizId : number;
+	playerId : number;
+	quizId : number;
+	questionId : number;
+	correct : boolean;
+	correctAnswer : string[];
+	answerExplanationContent : string;
+	answerExplanationImages : string[];
+}

@@ -2,6 +2,7 @@ import { QuizRequestType } from "@/types/QuizType";
 import { QuizType, SolvingQuizType } from "@/types/QuizType";
 import { MyQuizType } from "@/types/QuizType";
 import { axiosInstance } from "@/config/axiosConfig";
+import { QuestionCheckedResult } from "@/types/QuizType";
 
 class QuizService {
 	fetchQuizzes = async (params: {
@@ -71,9 +72,8 @@ class QuizService {
 		}
 	}
 
-	submitQuestion = async (solvingQuizId:string, questionId: number, answers: string[]) => {
+	submitQuestion = async (solvingQuizId:string, questionId: number, answers: string[]): Promise<QuestionCheckedResult> => {
 		try {
-			console.log("sdf:%o",solvingQuizId);
 			const { data } = await axiosInstance.post(`/solving-quiz/${solvingQuizId.toString()}/sheets`, {
 				"questionId": questionId,
 				"answers": answers,

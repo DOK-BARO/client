@@ -90,7 +90,6 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
   }
 
   const onQuizModeSelect = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log("sdfd: ",e.currentTarget.value)
     setQuestionFormMode(e.currentTarget.value);
   };
 

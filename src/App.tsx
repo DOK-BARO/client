@@ -12,7 +12,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import CreateQuiz from "./pages/CreateQuiz/index.tsx";
 import Register from "./pages/Register/index.tsx";
 
-import RegisterStep from "./pages/Register/registerStep.tsx";
 //import BaseLayout from "@/components/layout/baseLayout/baseLayout";
 import BaseLayout from "./components/layout/baseLayout/baseLayout";
 import RegisterComplete from "./pages/Register/composite/registerComplete/RegisterComplete.tsx";
@@ -21,6 +20,7 @@ import BookListLayout from "./components/layout/bookListLayout/bookListLayout.ts
 import MyPage from "./pages/MyPage/index.tsx";
 import WithoutHeaderLayout from "./components/layout/withoutHeaderLayout/withoutHeaderLayout.tsx";
 import SolvingQuizPage from "./pages/SolveQuiz/index.tsx";
+import FindPassword from "./pages/FindPassword/index.tsx";
 
 function App() {
   const queryClient = new QueryClient();
@@ -52,20 +52,16 @@ function App() {
           path: "/book/:id",
           element: <BookDetailSection />,
         },
+        {
+          path: "/find-password",
+          element: <FindPassword />,
+        },
 
         {
           path: "/register/:method",
           element: <Register />,
-          children: [
-            {
-              path: ":step",
-              element: <RegisterStep />,
-            }, // {
-            //   index: true,
-            //   element: <Navigate to="1" />,
-            // },
-          ],
         },
+
         {
           path: "/register/complete",
           element: <RegisterComplete />,

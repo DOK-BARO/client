@@ -6,7 +6,7 @@ export const Email: React.FC<SVGProps> = ({ alt, ...props }) => {
     <svg
       width={props.width ?? 24}
       height={props.height ?? 25}
-      viewBox={`0 0 ${props.width ?? 24} ${props.height ?? 25}`}
+      viewBox="0 0 24 25"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >

@@ -1,6 +1,12 @@
-import React, { FormEvent, useEffect, useState } from "react";
+import React, {
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import styles from "./_terms_agreement.module.scss";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Button from "@/components/atom/button/button";
 import CheckBox from "@/pages/Register/components/checkBox/checkBox";
 import { APP_NAME } from "@/data/constants.ts";
@@ -14,13 +20,15 @@ import { RegisterInfoType } from "@/types/UserType";
 import { useAtom } from "jotai";
 import { authService } from "@/services/server/authService";
 
-export default function TermsAgreement() {
+export default function TermsAgreement({
+  setStep,
+}: {
+  setStep: Dispatch<SetStateAction<number>>;
+}) {
   const { method } = useParams();
-  const navigate = useNavigate();
-  const nextPage = `/register/${method}/2`;
 
   const { isModalOpen, openModal, closeModal } = useModal();
-  const [registrationInfo, setRegistrationInfo] =
+  const [user, setUser] =
     useAtom<RegisterInfoType>(RegisterInfoAtom);
 
   const [agreements, setAgreements] = useState<
@@ -126,15 +134,15 @@ export default function TermsAgreement() {
 
     if (method === "email") {
       // 이용약관 동의 상태 전역에 저장
-      setRegistrationInfo({
-        ...registrationInfo,
+      setUser({
+        ...user,
         termsAgreements: items,
       });
     } else {
       // 이용약관 동의
       await authService.sendTermsAgreement(items);
     }
-    navigate(nextPage);
+    setStep((prev) => prev + 1);
   };
 
   return (
@@ -144,7 +152,7 @@ export default function TermsAgreement() {
         {APP_NAME}의 서비스 이용약관에
         <br />
         동의해 주세요.
-      </p>
+      </p>{" "}
       <form onSubmit={handleSubmit}>
         {/* 모두 동의 */}
         <div className={styles["terms-agreement-all"]}>

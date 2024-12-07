@@ -6,17 +6,12 @@ export const Naver: React.FC<SVGProps> = ({ alt, ...props }) => {
     <svg
       width={props.width ?? 27}
       height={props.height ?? 28}
-      viewBox={`0 0 ${props.width ?? 27} ${props.height ?? 27}`}
+      viewBox="0 0 27 28"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
       <title id="svgTitle">{alt}</title>
-      <rect
-        y="0.5"
-        width={props.width ?? 27}
-        height={props.height ?? 27}
-        fill="url(#pattern0_630_5456)"
-      />
+      <rect y="0.5" width="27" height="27" fill="url(#pattern0_630_5456)" />
       <defs>
         <pattern
           id="pattern0_630_5456"

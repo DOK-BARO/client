@@ -1,6 +1,5 @@
-import { useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styles from "./_password_set.module.scss";
 import useInput from "@/hooks/useInput.ts";
 import { passwordValidation } from "@/validation/passwordValidation.ts";
@@ -19,10 +18,11 @@ import { Invisible } from "@/svg/invisible";
 import { Visible } from "@/svg/visible";
 import { XSmall } from "@/svg/xSmall";
 
-export default function PasswordSet() {
-  const navigate = useNavigate();
-  const nextPage = "/register/email/4";
-
+export default function PasswordSet({
+  setStep,
+}: {
+  setStep: Dispatch<SetStateAction<number>>;
+}) {
   const {
     value: password,
     onChange: onPasswordChange,
@@ -33,10 +33,10 @@ export default function PasswordSet() {
     useInput("");
 
   const [user, setUser] = useAtom<RegisterInfoType>(RegisterInfoAtom);
-  const [step, setStep] = useState<number>(1);
+
+  const [subStep, setSubStep] = useState<number>(1);
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
-  const [isShowPasswordCheck, setIsShowPasswordCheck] =
-    useState<boolean>(false);
+  const [isShowPasswordCheck, setIsShowPasswordCheck] = useState<boolean>(false);
 
   useEffect(() => {
     // 사용자가 뒤로가기 눌렀다 다시 돌아왔을 때 초기화되도록(비밀번호만)
@@ -51,15 +51,16 @@ export default function PasswordSet() {
       ...user,
       password,
     });
-    navigate(nextPage);
+    setStep((prev) => prev + 1);
   };
 
   const moveToNext = (): void => {
-    setStep(2);
+    setSubStep(2);
   };
 
   const isPasswordMatched = password === passwordCheck && passwordCheck !== "";
 
+  // TODO: isSuccess 추가하고 적용시키기
   const renderPasswordValidationMessage = () => (
     <div className={styles["password-message-container"]}>
       {Object.entries(passwordValidations).map(([key, isValid]) => (
@@ -84,17 +85,17 @@ export default function PasswordSet() {
         비밀번호를 입력해 주세요.
       </p>
       <Input
-        type={isShowPassword ? "text" : "password"}
+        type={isPasswordVisible ? "text" : "password"}
         isSuccess={isPasswordValid}
         message={renderPasswordValidationMessage()}
         rightIcon={
           <Button
             iconOnly
             onClick={() => {
-              setIsShowPassword(!isShowPassword);
+              setIsPasswordVisible(!isPasswordVisible);
             }}
           >
-            {isShowPassword ? (
+            {isPasswordVisible ? (
               <Visible alt="비밀번호 표시 해제" stroke={gray60} width={24} />
             ) : (
               <Invisible alt="비밀번호 표시" stroke={gray60} width={24} />
@@ -108,7 +109,7 @@ export default function PasswordSet() {
         placeholder="비밀번호 입력"
         size="medium"
       />
-      {step === 2 && (
+      {subStep === 2 && (
         <>
           <p className={styles["password-check-desc"]}>
             비밀번호를 다시 한 번 입력해 주세요.
@@ -120,15 +121,15 @@ export default function PasswordSet() {
             className={styles["password-check"]}
             placeholder="비밀번호를 다시 한 번 입력해 주세요."
             size="medium"
-            type={isShowPasswordCheck ? "text" : "password"}
+            type={isPasswordVisibleCheck ? "text" : "password"}
             rightIcon={
               <Button
                 iconOnly
                 onClick={() => {
-                  setIsShowPasswordCheck(!isShowPasswordCheck);
+                  setIsPasswordVisibleCheck(!isPasswordVisibleCheck);
                 }}
               >
-                {isShowPasswordCheck ? (
+                {isPasswordVisibleCheck ? (
                   <Visible
                     alt="비밀번호 표시 해제"
                     stroke={gray60}
@@ -159,10 +160,10 @@ export default function PasswordSet() {
         </>
       )}
       <Button
-        disabled={step === 1 ? !isPasswordValid : !isPasswordMatched}
+        disabled={subStep === 1 ? !isPasswordValid : !isPasswordMatched}
         className={styles.next}
         size="medium"
-        onClick={step === 1 ? moveToNext : handleSubmit}
+        onClick={subStep === 1 ? moveToNext : handleSubmit}
         color="primary"
         fullWidth
       >

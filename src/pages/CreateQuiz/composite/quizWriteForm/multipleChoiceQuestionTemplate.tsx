@@ -15,7 +15,7 @@ export const MultipleChoiceQuestionTemplate: FC<{ questionFormMode?: string, que
     options,
     setOptions,
     deleteOption,
-    onClickAddQuizOptionItem,
+    handleAddQuizOptionItemBtn,
     getQuestion,
   } = useQuestionTemplate("MULTIPLE_CHOICE", questionFormId!);
 
@@ -73,7 +73,7 @@ export const MultipleChoiceQuestionTemplate: FC<{ questionFormMode?: string, que
       )}
       {
         questionFormMode == QuestionFormMode.QUESTION &&
-        <AddOptionButton onAdd={onClickAddQuizOptionItem} />
+        <AddOptionButton onAdd={handleAddQuizOptionItemBtn} />
       }
     </fieldset>
   );

@@ -6,6 +6,7 @@ import { useState } from "react";
 
 export const useQuestionTemplate = (questionFormType: AnswerType, questionFormId: string) => {
     const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
+		const optionMaxLength = 5;
 
     const getQuestion = (): QuizQuestionType =>
         quizCreationInfo.questions?.find(
@@ -43,7 +44,8 @@ export const useQuestionTemplate = (questionFormType: AnswerType, questionFormId
 
 
     const handleAddQuizOptionItemBtn = () => {
-        const id: number = Date.now();
+			if(options.length < optionMaxLength){
+				const id: number = Date.now();
         const value: string = (options.length + 1).toString();
 
         setOptions((prev) => [...prev, {
@@ -66,7 +68,7 @@ export const useQuestionTemplate = (questionFormType: AnswerType, questionFormId
         });
         
         updateQuizCreationInfo("questions", updatedQuestions);
-
+			}
     };
 
     return {

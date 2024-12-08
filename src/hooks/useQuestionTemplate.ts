@@ -3,10 +3,10 @@ import { AnswerType, QuizQuestionType } from "@/types/QuizType";
 import { CheckBoxOption } from "@/types/CheckBoxTypes";
 import { RadioOptionType } from "@/types/RadioTypes";
 import { useState } from "react";
+import { BOOK_QUIZ_OPTION_MAX_LENGTH } from "@/data/constants";
 
 export const useQuestionTemplate = (questionFormType: AnswerType, questionFormId: string) => {
     const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
-		const optionMaxLength = 5;
 
     const getQuestion = (): QuizQuestionType =>
         quizCreationInfo.questions?.find(
@@ -44,7 +44,7 @@ export const useQuestionTemplate = (questionFormType: AnswerType, questionFormId
 
 
     const handleAddQuizOptionItemBtn = () => {
-			if(options.length < optionMaxLength){
+			if(options.length < BOOK_QUIZ_OPTION_MAX_LENGTH){
 				const id: number = Date.now();
         const value: string = (options.length + 1).toString();
 

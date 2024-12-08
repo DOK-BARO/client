@@ -5,6 +5,9 @@ class LocalApi {
   removeCertification ():void {
     localStorage.removeItem("certificationId");
   }
+	removeAll ():void{
+		localStorage.clear();
+	}
 
 }
 

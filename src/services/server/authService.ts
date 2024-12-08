@@ -105,7 +105,6 @@ class AuthService {
 	fetchUser = async (): Promise<UserProfileType> => {
 		try {
 			const { data } = await axiosInstance.get("/members/login-user");
-			console.log("%o", data);
 			return data;
 		} catch (error: unknown) {
 			if (axios.isAxiosError(error)) {
@@ -125,6 +124,10 @@ class AuthService {
 
 		return await this.fetchUser();
 	};
+
+	logout = () => {
+		localApi.removeCertification();
+	}
 
 	// 이용약관 조회
 	fetchTerms = async (): Promise<TermsOfServiceType[] | null> => {

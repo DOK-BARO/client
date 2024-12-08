@@ -21,6 +21,7 @@ import MyPage from "./pages/MyPage/index.tsx";
 import NoHeaderLayout from "./components/layout/noHeaderLayout/noHeaderLayout.tsx";
 import SolvingQuizPage from "./pages/SolveQuiz/index.tsx";
 import FindPassword from "./pages/FindPassword/index.tsx";
+import NotFound from "./pages/NotFound/index.tsx";
 
 function App() {
   const queryClient = new QueryClient();
@@ -93,6 +94,16 @@ function App() {
         },
       ],
     },
+		{
+			path:"*",
+			element: <NoHeaderLayout />,
+			children: [
+        {
+          path: "*",
+          element: <NotFound />,
+        },
+      ],
+		}
   ]);
   return (
     <QueryClientProvider client={queryClient}>

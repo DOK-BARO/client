@@ -43,12 +43,9 @@ axiosInstance.interceptors.response.use(
       // 로그인 된경우: 접근할 권한이 없습니다
       //   toast.error("로그인한 계정으로는 접근할 권한이 없습니다.");
       toast.error("로그인 후 이용할 수 있는 페이지입니다.");
-    // } else if (status === 404 && !isToastShown) {
-    //   isToastShown = true;
-    // } else if (status === 500 && !isToastShown) {
+    } else if (status === 500 && !isToastShown) {
       isToastShown = true;
       toast.error("알 수 없는 에러가 발생했습니다.");
-      // toast: 알수없는 에러가 발생했습니다
       clearAuthWithPageStatus();
     }
 

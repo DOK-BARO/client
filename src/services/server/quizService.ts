@@ -3,6 +3,7 @@ import { QuizType, SolvingQuizType } from "@/types/QuizType";
 import { MyQuizType } from "@/types/QuizType";
 import { axiosInstance } from "@/config/axiosConfig";
 import { QuestionCheckedResult } from "@/types/QuizType";
+import axios, { AxiosError } from "axios";
 
 class QuizService {
 	fetchQuizzes = async (params: {
@@ -56,6 +57,12 @@ class QuizService {
 			const { data } = await axiosInstance.get(`/book-quizzes/${quizId}/questions`);
 			return data;
 		} catch (error) {
+			if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+        if (axiosError.response?.status === 404) {
+          throw error;
+        }
+      }
 			throw new Error(`풀이할 퀴즈 가져오기 실패: ${error}`);
 		}
 	}

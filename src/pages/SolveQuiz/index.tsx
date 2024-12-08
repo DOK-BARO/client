@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./_solve_quiz.module.scss";
 import SolvingQuizForm from "./composite/solvingQuizForm";
 import ProgressBar from "./composite/progressBar";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { quizKeys } from "@/data/queryKeys";
 import { quizService } from "@/services/server/quizService";
@@ -13,15 +13,21 @@ import { gray0 } from "@/styles/abstracts/colors";
 import { useAtom } from "jotai";
 import { selectedOptionsAtom, solvingQuizIdAtom } from "@/store/quizAtom";
 import { QuestionCheckedResult } from "@/types/QuizType";
+import toast from "react-hot-toast";
 
 export default function Index() {
 	const { quizId } = useParams<{ quizId: string }>();
-	if (!quizId) return;
+	if (!quizId) {
+		return;
+	}
+	const warning = "/assets/svg/solvingQuizFormLayout/warning.svg";
+	const navigate = useNavigate();
 
 	const [solvingQuizId, setSolvingQuizIdAtom] = useAtom(solvingQuizIdAtom);
-	const { data: quiz, isLoading: isQuizLoading } = useQuery({
+	const { data: quiz, isLoading: isQuizLoading, error } = useQuery({
 		queryKey: quizKeys.detail(quizId),
 		queryFn: () => quizService.fetchQuiz(quizId),
+		retry: false,
 	});
 	const [currentStep, setCurrentStep] = useState<number>(1);
 	const [submitDisabled, setSubmitDisabled] = useState<boolean>(true);
@@ -30,8 +36,6 @@ export default function Index() {
 	const [optionDisabled, setOptionDisabled] = useState<boolean>(false);
 	const [didAnswerChecked, setDidAnswerChecked] = useState<boolean>(false);
 	const [toggleAnswerDescription, setToggleAnswerDescription] = useState<boolean>(false);
-
-	const warning = "/assets/svg/solvingQuizFormLayout/warning.svg";
 
 	//TODO: 퀴즈 풀러가기 버튼 핸들러 구현 지점에서 사용될 hook으로 만들어도 될듯
 	// navigate(`/quiz/${bookDetailContent.id}`);
@@ -73,13 +77,31 @@ export default function Index() {
 		}
 	}
 
-	// TODO 에러처리 필요
-	if (!quiz) {
-		return <div>퀴즈 없음</div>
+	const handleNoQuiz = () => {
+		toast.error("퀴즈를 불러오는데 실패했습니다.\n없는 퀴즈일 수 있습니다.");
+		navigate('/');
 	}
+	const handleError = (error: any) => {
+		if (error.response?.status === 404) {
+			handleNoQuiz();
+		}
+	};
 	if (isQuizLoading) {
 		return <>로딩</>
 	}
+
+	if (error) {
+		handleError(error);
+		return;
+	}
+
+	if (!quiz) {
+		//TODO: 함수 분리
+		handleNoQuiz();
+		return;
+	}
+
+
 	return (
 		<section className={styles["container"]}>
 			<ProgressBar

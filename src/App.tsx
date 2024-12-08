@@ -16,7 +16,7 @@ import Register from "./pages/Register/index.tsx";
 import BaseLayout from "./components/layout/baseLayout/baseLayout";
 import RegisterComplete from "./pages/Register/composite/registerComplete/RegisterComplete.tsx";
 import BookList from "./pages/Home/components/composite/bookList/bookList.tsx";
-import BookListLayout from "./components/layout/bookListLayout/bookListLayout.tsx";
+import BookListLayout from "./pages/BookList/layout/bookListLayout/bookListLayout.tsx";
 import MyPage from "./pages/MyPage/index.tsx";
 import WithoutHeaderLayout from "./components/layout/withoutHeaderLayout/withoutHeaderLayout.tsx";
 import SolvingQuizPage from "./pages/SolveQuiz/index.tsx";
@@ -82,16 +82,16 @@ function App() {
       path: "/oauth2/redirected/:provider",
       element: <AuthRedirectedPage />,
     },
-		{
-			path: "/quiz/:quizId",
-			element: <WithoutHeaderLayout />,
-			children: [
-				{
-					path: "/quiz/:quizId",
-					element: <SolvingQuizPage />,
-				},
-			],
-		},
+    {
+      path: "/quiz/:quizId",
+      element: <WithoutHeaderLayout />,
+      children: [
+        {
+          path: "/quiz/:quizId",
+          element: <SolvingQuizPage />,
+        },
+      ],
+    },
   ]);
   return (
     <QueryClientProvider client={queryClient}>

@@ -18,7 +18,8 @@ import RegisterComplete from "./pages/Register/composite/registerComplete/Regist
 import BookList from "./pages/Home/components/composite/bookList/bookList.tsx";
 import BookListLayout from "./components/layout/bookListLayout/bookListLayout.tsx";
 import MyPage from "./pages/MyPage/index.tsx";
-// import FindPasswordLayout from "./pages/FindPassword/layout/findPasswordLayout.tsx";
+import WithoutHeaderLayout from "./components/layout/withoutHeaderLayout/withoutHeaderLayout.tsx";
+import SolvingQuizPage from "./pages/SolveQuiz/index.tsx";
 import FindPassword from "./pages/FindPassword/index.tsx";
 
 function App() {
@@ -81,6 +82,16 @@ function App() {
       path: "/oauth2/redirected/:provider",
       element: <AuthRedirectedPage />,
     },
+		{
+			path: "/quiz/:quizId",
+			element: <WithoutHeaderLayout />,
+			children: [
+				{
+					path: "/quiz/:quizId",
+					element: <SolvingQuizPage />,
+				},
+			],
+		},
   ]);
   return (
     <QueryClientProvider client={queryClient}>

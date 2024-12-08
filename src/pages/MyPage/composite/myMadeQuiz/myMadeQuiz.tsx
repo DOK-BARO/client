@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { quizKey } from "@/data/queryKeys";
+import { quizKeys } from "@/data/queryKeys";
 import QuizListLayout from "../../layout/quizListLayout/quizListLayout";
 import { useNavigate } from "react-router-dom";
 import { quizService } from "@/services/server/quizService";
 
 export default function MyMadeQuiz() {
   const { isLoading, data: myQuizzes } = useQuery({
-    queryKey: quizKey.myQuiz(),
+    queryKey: quizKeys.myQuiz(),
     queryFn: async () => await quizService.fetchMyMadeQuizzes(),
   });
   const navigate = useNavigate();

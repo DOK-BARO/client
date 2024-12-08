@@ -15,6 +15,21 @@ export interface QuizType {
   };
 }
 
+// 퀴즈 풀기 시 사용되는 타입
+export interface SolvingQuizType {
+	id: number;
+	title: string;
+	timeLimitSecond?: number;
+	questions: SolvingQuizQuestionType[],
+}
+
+export interface SolvingQuizQuestionType {
+	id: number;
+	content:string;
+	selectOptions: {content:string}[];
+	type: RequestAnswerType;
+}
+
 export interface MyQuizType {
   id: number,
   bookImageUrl: string,
@@ -93,4 +108,15 @@ export interface QuestionFormType {
   id: number;
   answerType: AnswerType;
   component: ReactNode;
+}
+
+export interface QuestionCheckedResult {
+	solvingQuizId : number;
+	playerId : number;
+	quizId : number;
+	questionId : number;
+	correct : boolean;
+	correctAnswer : string[];
+	answerExplanationContent : string;
+	answerExplanationImages : string[];
 }

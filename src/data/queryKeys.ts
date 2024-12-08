@@ -11,6 +11,7 @@ export const userKeys = {
   user: () => ["user"] as const,
 };
 
-export const quizKey = {
+export const quizKeys = {
   myQuiz: () => ["myQuiz"] as const,
+	detail: (id:string) => ["quizDetail",id] as const,
 };

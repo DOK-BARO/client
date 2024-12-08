@@ -90,7 +90,6 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
   }
 
   const onQuizModeSelect = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log("sdfd: ",e.currentTarget.value)
     setQuestionFormMode(e.currentTarget.value);
   };
 
@@ -284,6 +283,7 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
           />
 
           {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+					{/* TODO: refactor 퀴즈 풀기 해설과 같은 컴포넌트 */}
           {imagePreview.length > 0 && (
             <section className={styles["image-area"]}>
               {imagePreview.map((image, index) => (

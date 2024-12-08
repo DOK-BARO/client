@@ -1,0 +1,59 @@
+@import "../../styles/abstracts/mixins";
+@import "../../styles/abstracts/variables";
+
+.container {
+	@include flex(column);
+	align-items: center;
+	gap: 8px;
+}
+
+.inner-container{
+	@include flex(column);
+	align-items: center;
+	width: 100%;
+	gap:16px;
+}
+
+.question-area {
+	@include flex(column);
+	width: 100%;
+	align-items: end;
+	gap: 8px;
+}
+
+.footer-btn{
+	width: 120px;
+
+	&-container{
+	display: flex;
+	gap: 20px;
+	}
+}
+
+.answer-description-area{
+	@include flex(column);
+	width: 100%;
+	gap: 16px;
+	padding: 16px;
+	border-radius: 8px;
+	background-color: white;
+	
+	.answer-description{
+	width: 46px;
+	}
+
+	.image-area{
+		display: flex;
+    flex-direction: row;
+    gap: 10px;
+	}
+
+	.image {
+		object-fit: cover;
+		width: 9.75em;
+		height: 10.75em;
+		border-radius: 4px;
+	}
+}
+
+

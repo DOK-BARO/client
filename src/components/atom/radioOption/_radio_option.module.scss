@@ -29,6 +29,8 @@
 	@include flex(row);
 	align-items: center;
 	justify-content: space-between;
+	border-radius: 8px;
+	background-color: white;
 
 	@include basic-radio-button($default-color: $gray-90, $checked-color: $system-success);
 
@@ -70,6 +72,7 @@
 	border: none;
 	border-radius: 0;
 	font-size: $font-size-large;
+	height: 1.5em;
 
 	&:focus {
 		background-color: $background;
@@ -97,6 +100,7 @@
 	align-items: center;
 	width: 100%;
 	font-size: $font-size-large;
+	height: 1.5em; // TODO: 전역 적용이 안된다?
 }
 
 .delete-option-button {

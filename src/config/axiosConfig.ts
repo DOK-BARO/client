@@ -5,9 +5,14 @@ import localApi from "@/services/local/LocalApi";
 export const axiosInstance = axios.create({
   withCredentials: true,
   baseURL: import.meta.env.VITE_API_URL,
+  withCredentials: true,
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 const logOnDev = (message: string) => {
+  if (import.meta.env.DEV) {
+    console.log(message);
+  }
   if (import.meta.env.DEV) {
     console.log(message);
   }
@@ -18,9 +23,10 @@ const clearAuthWithPageStatus = () => {
 	localApi.removeAll();
 }
 
-axiosInstance.interceptors.response.use((response) => {
-  const { method, url } = response.config;
-  const { status } = response;
+axiosInstance.interceptors.response.use(
+  (response) => {
+    const { method, url } = response.config;
+    const { status } = response;
 
   logOnDev(`[API] ${method?.toUpperCase()} ${url} | Request ${status}`);
   return response;

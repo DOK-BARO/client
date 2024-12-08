@@ -18,7 +18,7 @@ import RegisterComplete from "./pages/Register/composite/registerComplete/Regist
 import BookList from "./pages/Home/components/composite/bookList/bookList.tsx";
 import BookListLayout from "./pages/BookList/layout/bookListLayout/bookListLayout.tsx";
 import MyPage from "./pages/MyPage/index.tsx";
-import WithoutHeaderLayout from "./components/layout/withoutHeaderLayout/withoutHeaderLayout.tsx";
+import NoHeaderLayout from "./components/layout/noHeaderLayout/noHeaderLayout.tsx";
 import SolvingQuizPage from "./pages/SolveQuiz/index.tsx";
 import FindPassword from "./pages/FindPassword/index.tsx";
 
@@ -84,7 +84,7 @@ function App() {
     },
     {
       path: "/quiz/:quizId",
-      element: <WithoutHeaderLayout />,
+      element: <NoHeaderLayout />,
       children: [
         {
           path: "/quiz/:quizId",

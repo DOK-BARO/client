@@ -12,13 +12,12 @@ import CheckBox from "@/pages/Register/components/checkBox/checkBox";
 import { APP_NAME } from "@/data/constants.ts";
 import useModal from "@/hooks/useModal";
 import TermsModal from "@/components/atom/TermsModal/termsModal";
-import { useGetTermDetail } from "@/hooks/useGetTermDetail";
-import { useGetTerms } from "@/hooks/useGetTerms";
-
 import { RegisterInfoAtom } from "@/store/userAtom";
 import { RegisterInfoType } from "@/types/UserType";
 import { useAtom } from "jotai";
 import { authService } from "@/services/server/authService";
+import { useQuery } from "@tanstack/react-query";
+import { authKeys } from "@/data/queryKeys";
 
 export default function TermsAgreement({
   setStep,
@@ -28,8 +27,12 @@ export default function TermsAgreement({
   const { method } = useParams();
 
   const { isModalOpen, openModal, closeModal } = useModal();
-  const [user, setUser] =
-    useAtom<RegisterInfoType>(RegisterInfoAtom);
+
+  useEffect(() => {
+    console.log(isModalOpen);
+  }, [isModalOpen]);
+  const [user, setUser] = useAtom<RegisterInfoType>(RegisterInfoAtom);
+  const [termId, setTermId] = useState<number | null>(null);
 
   const [agreements, setAgreements] = useState<
     Record<string, { checked: boolean; isRequired: boolean }>
@@ -38,14 +41,16 @@ export default function TermsAgreement({
   });
 
   // 이용약관 '보기' 클릭 시 상세 불러오기
-  const {
-    getTermDetail,
-    termDetail,
-    isLoading: isTermDetailLoading,
-  } = useGetTermDetail();
+  const { data: termDetail, isLoading: isTermDetailLoading } = useQuery({
+    queryKey: authKeys.termDetail(termId),
+    queryFn: () => (termId ? authService.fetchTermDetail(termId) : null),
+  });
 
   // 이용약관들을 불러오기
-  const { terms, isLoading: isTermsLoading } = useGetTerms();
+  const { data: terms, isLoading: isTermsLoading } = useQuery({
+    queryKey: authKeys.terms(),
+    queryFn: authService.fetchTerms,
+  });
   const [modalTitle, setModalTitle] = useState<string>("");
 
   useEffect(() => {
@@ -109,7 +114,8 @@ export default function TermsAgreement({
   ) => {
     const { value } = e.target as HTMLButtonElement;
     const index = Number(value);
-    getTermDetail(index);
+    setTermId(index);
+
     if (terms) {
       const selectedTerm = terms.find((term) => term.id === index)?.title;
       if (selectedTerm) {

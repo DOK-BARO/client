@@ -21,7 +21,7 @@ import NoHeaderLayout from "./components/layout/noHeaderLayout/noHeaderLayout.ts
 import SolvingQuizPage from "./pages/SolveQuiz/index.tsx";
 import FindPassword from "./pages/FindPassword/index.tsx";
 import NotFound from "./pages/NotFound/index.tsx";
-import ToastWrapper from "./components/layout/toastPortal/toastPortal.tsx";
+import ToastPortal from "./components/layout/toastPortal/toastPortal.tsx";
 
 function App() {
   const queryClient = new QueryClient();
@@ -107,9 +107,9 @@ function App() {
   ]);
   return (
     <QueryClientProvider client={queryClient}>
-      <ToastWrapper />
       {/* <button onClick={notify}>ddd</button> */}
       <RouterProvider router={router} />
+      <ToastPortal />
     </QueryClientProvider>
   );
 }

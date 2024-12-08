@@ -77,30 +77,14 @@ export default function Index() {
 		}
 	}
 
-	const handleNoQuiz = () => {
+	if (isQuizLoading) {
+		return <>로딩</>	
+	}
+	if(error || !quiz){
 		toast.error("퀴즈를 불러오는데 실패했습니다.\n없는 퀴즈일 수 있습니다.");
 		navigate('/');
-	}
-	const handleError = (error: any) => {
-		if (error.response?.status === 404) {
-			handleNoQuiz();
-		}
-	};
-	if (isQuizLoading) {
-		return <>로딩</>
-	}
-
-	if (error) {
-		handleError(error);
 		return;
 	}
-
-	if (!quiz) {
-		//TODO: 함수 분리
-		handleNoQuiz();
-		return;
-	}
-
 
 	return (
 		<section className={styles["container"]}>

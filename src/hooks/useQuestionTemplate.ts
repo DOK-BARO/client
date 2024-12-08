@@ -42,7 +42,7 @@ export const useQuestionTemplate = (questionFormType: AnswerType, questionFormId
     };
 
 
-    const onClickAddQuizOptionItem = () => {
+    const handleAddQuizOptionItemBtn = () => {
         const id: number = Date.now();
         const value: string = (options.length + 1).toString();
 
@@ -73,7 +73,7 @@ export const useQuestionTemplate = (questionFormType: AnswerType, questionFormId
         options,
         setOptions,
         deleteOption,
-        onClickAddQuizOptionItem,
+        handleAddQuizOptionItemBtn,
         getQuestion,
     };
 

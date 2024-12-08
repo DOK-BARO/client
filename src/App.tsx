@@ -4,7 +4,6 @@ import {
   createBrowserRouter,
 } from "react-router-dom";
 import "./styles/main.scss";
-import toast, { Toaster } from "react-hot-toast";
 import AuthRedirectedPage from "./pages/Redirect/authRedirectedPage.tsx";
 import ComponentTest from "./pages/ComponentTest/index.tsx";
 import BookDetailSection from "./pages/BookDetail/";
@@ -22,6 +21,7 @@ import NoHeaderLayout from "./components/layout/noHeaderLayout/noHeaderLayout.ts
 import SolvingQuizPage from "./pages/SolveQuiz/index.tsx";
 import FindPassword from "./pages/FindPassword/index.tsx";
 import NotFound from "./pages/NotFound/index.tsx";
+import ToastWrapper from "./components/layout/toastPortal/toastPortal.tsx";
 
 function App() {
   const queryClient = new QueryClient();
@@ -94,20 +94,20 @@ function App() {
         },
       ],
     },
-		{
-			path:"*",
-			element: <NoHeaderLayout />,
-			children: [
+    {
+      path: "*",
+      element: <NoHeaderLayout />,
+      children: [
         {
           path: "*",
           element: <NotFound />,
         },
       ],
-		}
+    },
   ]);
   return (
     <QueryClientProvider client={queryClient}>
-      <Toaster />
+      <ToastWrapper />
       {/* <button onClick={notify}>ddd</button> */}
       <RouterProvider router={router} />
     </QueryClientProvider>

@@ -4,7 +4,7 @@ import {
   createBrowserRouter,
 } from "react-router-dom";
 import "./styles/main.scss";
-
+import toast, { Toaster } from "react-hot-toast";
 import AuthRedirectedPage from "./pages/Redirect/authRedirectedPage.tsx";
 import ComponentTest from "./pages/ComponentTest/index.tsx";
 import BookDetailSection from "./pages/BookDetail/";
@@ -24,6 +24,7 @@ import FindPassword from "./pages/FindPassword/index.tsx";
 
 function App() {
   const queryClient = new QueryClient();
+  // const notify = () => toast.error("Here is your toast.");
 
   const router = createBrowserRouter([
     {
@@ -95,6 +96,8 @@ function App() {
   ]);
   return (
     <QueryClientProvider client={queryClient}>
+      <Toaster />
+      {/* <button onClick={notify}>ddd</button> */}
       <RouterProvider router={router} />
     </QueryClientProvider>
   );

@@ -12,7 +12,6 @@ import Modal from "@/components/atom/modal/modal.tsx";
 import Input from "@/components/atom/input/input.tsx";
 import { useRef } from "react";
 import { imageService } from "@/services/server/imageService";
-import { authService } from "@/services/server/authService";
 import { ImageTargetType } from "@/types/ImageTargetType";
 
 const options: RadioOptionType[] = [

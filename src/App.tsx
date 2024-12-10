@@ -4,7 +4,6 @@ import {
   createBrowserRouter,
 } from "react-router-dom";
 import "./styles/main.scss";
-import AuthRedirectedPage from "./pages/Redirect/authRedirectedPage.tsx";
 import ComponentTest from "./pages/ComponentTest/index.tsx";
 import BookDetailSection from "./pages/BookDetail/";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -80,10 +79,10 @@ function App() {
         },
       ],
     },
-    {
-      path: "/oauth2/redirected/:provider",
-      element: <AuthRedirectedPage />,
-    },
+    // {
+    //   path: "/oauth2/redirected/:provider",
+    //   element: <AuthRedirectedPage />,
+    // },
     {
       path: "/quiz/:quizId",
       element: <NoHeaderLayout />,

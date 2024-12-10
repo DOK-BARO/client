@@ -78,11 +78,7 @@ const LoginModal = ({ closeModal }: LoginModalProps) => {
           >
             {!isEmailLoginPage ? (
               SOCIAL_TYPES.map((socialType) => (
-                <SocialAuthButton
-                  key={socialType}
-                  authType={AuthType.LOGIN}
-                  socialType={socialType}
-                />
+                <SocialAuthButton key={socialType} socialType={socialType} />
               ))
             ) : (
               <form className={styles["login-form"]} onSubmit={handleSubmit}>

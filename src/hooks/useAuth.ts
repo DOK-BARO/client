@@ -9,18 +9,19 @@ import {
 import { SocialLoginType } from "../types/SocialLoginType.ts";
 import axios, { AxiosError } from "axios";
 import { UserType } from "@/types/UserType.ts";
-import { useRedirectToAuthPage } from "@/hooks/useRedirectToAuthPage.ts";
+// import { useRedirectToAuthPage } from "@/hooks/useRedirectToAuthPage.ts";
 import { authService } from "@/services/server/authService.ts";
 
 // 로그인, 회원가입
 export const useAuth = (provider: string) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { redirectToAuthPage } = useRedirectToAuthPage();
+  // const { redirectToAuthPage } = useRedirectToAuthPage();
 
+  // 로컬 스토리지에 토큰(certificationId) 저장
   const setUserInLocalStorage = async () => {
     const user: UserType = await authService.fetchUser();
-    localStorage.setItem("certificationId", user.certificationId); // 로컬 스토리지에 토큰 저장
+    localStorage.setItem("certificationId", user.certificationId);
   };
 
   const doSignUp = async (code: string) => {
@@ -72,19 +73,19 @@ export const useAuth = (provider: string) => {
             LOCAL_STORAGE_KEY.AUTH_ACTION,
             AUTH_ACTION.SIGN_UP
           );
-          await redirectToAuthPage(provider.toUpperCase() as SocialLoginType);
+          // await redirectToAuthPage(provider.toUpperCase() as SocialLoginType);
         }
       }
     }
   };
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(location.search);
-    const code = urlParams.get(URL_PARAMS_KEY.AUTH_CODE);
-
-    if (code) {
-      const action = localStorage.getItem(LOCAL_STORAGE_KEY.AUTH_ACTION);
-      action === AUTH_ACTION.LOGIN ? doLogin(code) : doSignUp(code);
-    }
+    // const urlParams = new URLSearchParams(location.search);
+    // const code = urlParams.get(URL_PARAMS_KEY.AUTH_CODE);
+    // if (code) {
+    // console.log(code);
+    // const action = localStorage.getItem(LOCAL_STORAGE_KEY.AUTH_ACTION);
+    // action === AUTH_ACTION.LOGIN ? doLogin(code) : doSignUp(code);
+    // }
   }, []);
 };

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styles from "../../Register/layout/_register_layout.module.scss";
 import SendTemporaryPassword from "../composite/sendTemporaryPassword/sendTemporaryPassword";
 import Complete from "../composite/complete/complete";

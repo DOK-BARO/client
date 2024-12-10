@@ -13,18 +13,40 @@ class AuthService {
     this.redirectedUrl = redirectedUrl;
   }
 
-  fetchAuthUrl = async (socialLoginType: SocialLoginType): Promise<string> => {
-    try {
-      const { data } = await axiosInstance.get(
-        `/auth/oauth2/authorize/${socialLoginType}?redirectUrl=${
-          this.redirectedUrl
-        }/${socialLoginType.toLowerCase()}`
-      );
-      return data.url; // 임시 임의 리턴값
-    } catch (error) {
-      throw new Error(`권한 부여 URL 가져오기 실패: ${error}`);
-    }
-  };
+  //   fetchAuthUrl = async (socialLoginType: SocialLoginType): Promise<string> => {
+  //     try {
+  //       const { data } = await axiosInstance.get(
+  //         `/auth/oauth2/authorize/${socialLoginType}?redirectUrl=${
+  //           this.redirectedUrl
+  //         }/${socialLoginType.toLowerCase()}`
+  //       );
+  //       return data.url; // 임시 임의 리턴값
+  //     } catch (error) {
+  //       throw new Error(`권한 부여 URL 가져오기 실패: ${error}`);
+  //     }
+  //   };
+
+  //   // new: 소셜 회원가입 또는 로그인
+  //   socialSignupOrLogin = async (
+  //     socialType: SocialLoginType,
+  //     redirectUrl: string
+  //   ): Promise<AuthResponse> => {
+  //     const provider = socialType.toLocaleLowerCase();
+  //     console.log(provider, "socialSignup");
+  //     try {
+  //       const { data } = await axiosInstance.get(
+  //         `/auth/login/oauth2/${provider}`,
+  //         {
+  //           params: {
+  //             "redirect-url": redirectUrl,
+  //           },
+  //         }
+  //       );
+  //       return data;
+  //     } catch (error) {
+  //       throw new Error(`social auth error: ${error}`);
+  //     }
+  //   };
 
   socialLogin = async (
     socialType: SocialLoginType,
@@ -75,17 +97,36 @@ class AuthService {
   // 이메일 회원가입
   emailSignup = async (userInfo: {
     email: string;
-    password: string;
     nickname: string;
+    password: string;
     profileImage?: string | null;
   }) => {
     try {
       console.log(userInfo);
-      const response = await axiosInstance.post("/auth/email/signup", userInfo);
+      const response = await axiosInstance.post("/accounts/email", userInfo);
       console.log("이메일 회원가입 post 응답", response);
       return response;
     } catch (error) {
       throw new Error(`이메일 회원가입 실패: ${error}`);
+    }
+  };
+  // 이메일 로그인
+  emailLogin = async (loginInfo: { email: string; password: string }) => {
+    try {
+      const formData = new URLSearchParams();
+
+      Object.entries(loginInfo).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+      const response = await axiosInstance.post("/auth/login/email", formData, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      });
+      console.log("이메일 로그인 post 응답", response);
+      return response;
+    } catch (error) {
+      throw new Error(`이메일 로그인 실패: ${error}`);
     }
   };
 
@@ -103,18 +144,19 @@ class AuthService {
     }
   };
 
-	fetchUser = async (): Promise<UserProfileType> => {
-		try {
-			const { data } = await axiosInstance.get("/members/login-user");
-			return data;
-		} catch (error: unknown) {
-			if (axios.isAxiosError(error)) {
-				throw new Error(`로그인 요청: ${error}`);
-			} else {
-				throw new Error(`Unexpected error: ${error}`);
-			}
-		}
-	};
+  // 유저 정보 가져오기
+  fetchUser = async (): Promise<UserProfileType> => {
+    try {
+      const { data } = await axiosInstance.get("/members/login-user");
+      return data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(`로그인 요청: ${error}`);
+      } else {
+        throw new Error(`Unexpected error: ${error}`);
+      }
+    }
+  };
 
   getUserIfAuthenticated = async (): Promise<UserProfileType | null> => {
     const certificationId = !!localApi.getUserCertificationId();
@@ -123,12 +165,12 @@ class AuthService {
       return null;
     }
 
-		return await this.fetchUser();
-	};
+    return await this.fetchUser();
+  };
 
-	logout = () => {
-		localApi.removeCertification();
-	}
+  logout = () => {
+    localApi.removeCertification();
+  };
 
   // 이용약관 조회
   fetchTerms = async (): Promise<TermsOfServiceType[] | null> => {

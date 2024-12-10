@@ -33,10 +33,9 @@ export default function PasswordSet({
     useInput("");
 
   const [user, setUser] = useAtom<RegisterInfoType>(RegisterInfoAtom);
-
   const [subStep, setSubStep] = useState<number>(1);
-  const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
-  const [isShowPasswordCheck, setIsShowPasswordCheck] = useState<boolean>(false);
+  const [isPasswordVisible, setIsPasswordVisibleCheck] =
+    useState<boolean>(false);
 
   useEffect(() => {
     // 사용자가 뒤로가기 눌렀다 다시 돌아왔을 때 초기화되도록(비밀번호만)
@@ -56,6 +55,10 @@ export default function PasswordSet({
 
   const moveToNext = (): void => {
     setSubStep(2);
+  };
+
+  const handleVisibleToggle = () => {
+    setIsPasswordVisibleCheck((prev) => !prev);
   };
 
   const isPasswordMatched = password === passwordCheck && passwordCheck !== "";
@@ -89,12 +92,7 @@ export default function PasswordSet({
         isSuccess={isPasswordValid}
         message={renderPasswordValidationMessage()}
         rightIcon={
-          <Button
-            iconOnly
-            onClick={() => {
-              setIsPasswordVisible(!isPasswordVisible);
-            }}
-          >
+          <Button iconOnly onClick={handleVisibleToggle}>
             {isPasswordVisible ? (
               <Visible alt="비밀번호 표시 해제" stroke={gray60} width={24} />
             ) : (
@@ -121,15 +119,10 @@ export default function PasswordSet({
             className={styles["password-check"]}
             placeholder="비밀번호를 다시 한 번 입력해 주세요."
             size="medium"
-            type={isPasswordVisibleCheck ? "text" : "password"}
+            type={isPasswordVisible ? "text" : "password"}
             rightIcon={
-              <Button
-                iconOnly
-                onClick={() => {
-                  setIsPasswordVisibleCheck(!isPasswordVisibleCheck);
-                }}
-              >
-                {isPasswordVisibleCheck ? (
+              <Button iconOnly onClick={handleVisibleToggle}>
+                {isPasswordVisible ? (
                   <Visible
                     alt="비밀번호 표시 해제"
                     stroke={gray60}

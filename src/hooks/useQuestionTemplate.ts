@@ -3,6 +3,7 @@ import { AnswerType, QuizQuestionType } from "@/types/QuizType";
 import { CheckBoxOption } from "@/types/CheckBoxTypes";
 import { RadioOptionType } from "@/types/RadioTypes";
 import { useState } from "react";
+import { BOOK_QUIZ_OPTION_MAX_LENGTH } from "@/data/constants";
 
 export const useQuestionTemplate = (questionFormType: AnswerType, questionFormId: string) => {
     const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
@@ -42,8 +43,9 @@ export const useQuestionTemplate = (questionFormType: AnswerType, questionFormId
     };
 
 
-    const onClickAddQuizOptionItem = () => {
-        const id: number = Date.now();
+    const handleAddQuizOptionItemBtn = () => {
+			if(options.length < BOOK_QUIZ_OPTION_MAX_LENGTH){
+				const id: number = Date.now();
         const value: string = (options.length + 1).toString();
 
         setOptions((prev) => [...prev, {
@@ -66,14 +68,14 @@ export const useQuestionTemplate = (questionFormType: AnswerType, questionFormId
         });
         
         updateQuizCreationInfo("questions", updatedQuestions);
-
+			}
     };
 
     return {
         options,
         setOptions,
         deleteOption,
-        onClickAddQuizOptionItem,
+        handleAddQuizOptionItemBtn,
         getQuestion,
     };
 

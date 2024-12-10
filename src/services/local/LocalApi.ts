@@ -1,10 +1,13 @@
 class LocalApi {
-  getUserCertificationId ():string|null {
+  getUserCertificationId(): string | null {
     return localStorage.getItem("certificationId");
   }
-  removeCertification ():void {
+  removeCertification(): void {
     localStorage.removeItem("certificationId");
   }
+	removeAll ():void{
+		localStorage.clear();
+	}
 
 }
 

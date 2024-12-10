@@ -4,7 +4,6 @@ import {
   createBrowserRouter,
 } from "react-router-dom";
 import "./styles/main.scss";
-
 import AuthRedirectedPage from "./pages/Redirect/authRedirectedPage.tsx";
 import ComponentTest from "./pages/ComponentTest/index.tsx";
 import BookDetailSection from "./pages/BookDetail/";
@@ -18,12 +17,15 @@ import RegisterComplete from "./pages/Register/composite/registerComplete/Regist
 import BookList from "./pages/Home/components/composite/bookList/bookList.tsx";
 import BookListLayout from "./pages/BookList/layout/bookListLayout/bookListLayout.tsx";
 import MyPage from "./pages/MyPage/index.tsx";
-import WithoutHeaderLayout from "./components/layout/withoutHeaderLayout/withoutHeaderLayout.tsx";
+import NoHeaderLayout from "./components/layout/noHeaderLayout/noHeaderLayout.tsx";
 import SolvingQuizPage from "./pages/SolveQuiz/index.tsx";
 import FindPassword from "./pages/FindPassword/index.tsx";
+import NotFound from "./pages/NotFound/index.tsx";
+import ToastPortal from "./components/layout/toastPortal/toastPortal.tsx";
 
 function App() {
   const queryClient = new QueryClient();
+  // const notify = () => toast.error("Here is your toast.");
 
   const router = createBrowserRouter([
     {
@@ -84,7 +86,7 @@ function App() {
     },
     {
       path: "/quiz/:quizId",
-      element: <WithoutHeaderLayout />,
+      element: <NoHeaderLayout />,
       children: [
         {
           path: "/quiz/:quizId",
@@ -92,10 +94,22 @@ function App() {
         },
       ],
     },
+    {
+      path: "*",
+      element: <NoHeaderLayout />,
+      children: [
+        {
+          path: "*",
+          element: <NotFound />,
+        },
+      ],
+    },
   ]);
   return (
     <QueryClientProvider client={queryClient}>
+      {/* <button onClick={notify}>ddd</button> */}
       <RouterProvider router={router} />
+      <ToastPortal />
     </QueryClientProvider>
   );
 }

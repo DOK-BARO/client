@@ -1,6 +1,5 @@
-import React, { Dispatch, ReactElement, SetStateAction } from "react";
+import React, { ReactElement } from "react";
 import styles from "./_social_auth_button.module.scss";
-import { useAuth } from "@/hooks/useAuth";
 import { AUTH_ACTION, LOCAL_STORAGE_KEY } from "@/data/constants";
 import { SocialLoginType } from "@/types/SocialLoginType";
 import { AuthType } from "@/types/AuthType";
@@ -12,12 +11,13 @@ import { Email } from "@/svg/auth/email.tsx";
 import Button from "@/components/atom/button/button.tsx";
 import { IsEmailLoginPage } from "@/store/authModalAtom";
 import { useAtom } from "jotai";
+import { useRedirectToAuthPage } from "@/hooks/useRedirectToAuthPage";
 
 const SocialAuthButton: React.FC<{
   authType: AuthType;
   socialType: SocialLoginType;
 }> = ({ authType, socialType }) => {
-  const { redirectToAuthPage, loading } = useAuth();
+  const { redirectToAuthPage, loading } = useRedirectToAuthPage();
   const [, setIsEmailLoginPage] = useAtom(IsEmailLoginPage);
   const emailRegisterPage = "/register/email";
   const handleAuth = async () => {

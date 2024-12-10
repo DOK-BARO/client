@@ -32,3 +32,6 @@ export const QuestionFormMode = {
   QUESTION: "question",
   ANSWER: "answer",
 } as const;
+
+
+export const BOOK_QUIZ_OPTION_MAX_LENGTH = 5;

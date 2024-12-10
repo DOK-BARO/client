@@ -7,6 +7,7 @@ import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { useQuestionTemplate } from "@/hooks/useQuestionTemplate";
 import SelectOption from "./selectOption";
 import { ChangeEvent } from "react";
+import { BOOK_QUIZ_OPTION_MAX_LENGTH } from "@/data/constants.ts";
 
 export const MultipleChoiceQuestionTemplate: FC<{ questionFormMode?: string, questionFormId?: string }> = ({ questionFormMode, questionFormId }) => {
   const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
@@ -15,7 +16,7 @@ export const MultipleChoiceQuestionTemplate: FC<{ questionFormMode?: string, que
     options,
     setOptions,
     deleteOption,
-    onClickAddQuizOptionItem,
+    handleAddQuizOptionItemBtn,
     getQuestion,
   } = useQuestionTemplate("MULTIPLE_CHOICE", questionFormId!);
 
@@ -72,8 +73,8 @@ export const MultipleChoiceQuestionTemplate: FC<{ questionFormMode?: string, que
         />
       )}
       {
-        questionFormMode == QuestionFormMode.QUESTION &&
-        <AddOptionButton onAdd={onClickAddQuizOptionItem} />
+        (questionFormMode == QuestionFormMode.QUESTION) && (options.length < BOOK_QUIZ_OPTION_MAX_LENGTH) &&
+        <AddOptionButton onAdd={handleAddQuizOptionItemBtn} />
       }
     </fieldset>
   );

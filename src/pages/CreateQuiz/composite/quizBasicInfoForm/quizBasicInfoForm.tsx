@@ -15,6 +15,7 @@ function QuizBasicInfoForm() {
     IsQuizNextButtonEnabledAtom
   );
 
+	const titleMaxLength = 127;
   const descriptionMaxLength = 150;
   const { value: titleInputValue, onChange: onTitleChange } = useInput(
     quizCreationInfo.title ?? ""
@@ -51,6 +52,7 @@ function QuizBasicInfoForm() {
         value={titleInputValue}
         onChange={handleTitleChange}
         placeholder="런닝스쿨! 자바스크립트 첫걸음"
+				maxLength={titleMaxLength}
         fullWidth
       />
       <div className={styles["quiz-basic-info-description"]}>

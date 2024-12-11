@@ -2,15 +2,15 @@ import { Outlet, useLocation } from "react-router-dom";
 import styles from "./_book_list_layout.module.scss";
 import { useQuery } from "@tanstack/react-query";
 import { bookKeys } from "@/data/queryKeys";
-import LNB from "../lnb/lnb";
+import LNB from "../../composite/lnb/lnb";
 import {
   findCurrentCategoryInfo,
   findParentCategoryInfo,
   findTopParentCategoryInfo,
 } from "@/utils/findCategoryInfo";
-import Breadcrumb from "../../composite/breadcrumb/breadcrumb";
+import Breadcrumb from "../../../../components/composite/breadcrumb/breadcrumb";
 import { useEffect } from "react";
-import BookListFilter from "@/components/composite/bookListFilter/bookListFilter";
+import BookListFilter from "@/pages/BookList/composite/bookListFilter/bookListFilter";
 import Pagination from "@/components/composite/pagination/pagination";
 import { SortFilterType } from "@/types/BookType";
 import { useAtom } from "jotai";

@@ -2,7 +2,6 @@ import styles from "./_login_modal.module.scss";
 import React, { useState } from "react";
 import { SOCIAL_TYPES } from "@/data/constants.ts";
 import SocialAuthButton from "../socialAuthButton/socialAuthButton.tsx";
-import { AuthType } from "@/types/AuthType.ts";
 import HeaderLogo from "@/components/atom/headerLogo/headerLogo.tsx";
 import Modal from "@/components/atom/modal/modal.tsx";
 import Input from "@/components/atom/input/input.tsx";
@@ -42,7 +41,7 @@ const LoginModal = ({ closeModal }: LoginModalProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const isInputFilled = email && password;
 
-  const [isMatched, setIsMatched] = useState<boolean>(false);
+  const [isMatched] = useState<boolean>(false);
 
   const handlePasswordVisible = () => {
     setIsPasswordVisible((prev) => !prev);
@@ -78,11 +77,7 @@ const LoginModal = ({ closeModal }: LoginModalProps) => {
           >
             {!isEmailLoginPage ? (
               SOCIAL_TYPES.map((socialType) => (
-                <SocialAuthButton
-                  key={socialType}
-                  authType={AuthType.LOGIN}
-                  socialType={socialType}
-                />
+                <SocialAuthButton key={socialType} socialType={socialType} />
               ))
             ) : (
               <form className={styles["login-form"]} onSubmit={handleSubmit}>

@@ -7,192 +7,238 @@ import { UserProfileType } from "@/types/UserType.ts";
 import { axiosInstance } from "@/config/axiosConfig.ts";
 
 class AuthService {
-	constructor(
-		private readonly redirectedUrl = import.meta.env.VITE_AUTH_REDIRECTED_URL
-	) {
-		this.redirectedUrl = redirectedUrl;
-	}
+  constructor(
+    private readonly redirectedUrl = import.meta.env.VITE_AUTH_REDIRECTED_URL
+  ) {
+    this.redirectedUrl = redirectedUrl;
+  }
 
-	fetchAuthUrl = async (socialLoginType: SocialLoginType): Promise<string> => {
-		try {
-			const { data } = await axiosInstance.get(
-				`/auth/oauth2/authorize/${socialLoginType}?redirectUrl=${this.redirectedUrl
-				}/${socialLoginType.toLowerCase()}`
-			);
-			return data.url; // 임시 임의 리턴값
-		} catch (error) {
-			throw new Error(`권한 부여 URL 가져오기 실패: ${error}`);
-		}
-	};
+  //   fetchAuthUrl = async (socialLoginType: SocialLoginType): Promise<string> => {
+  //     try {
+  //       const { data } = await axiosInstance.get(
+  //         `/auth/oauth2/authorize/${socialLoginType}?redirectUrl=${
+  //           this.redirectedUrl
+  //         }/${socialLoginType.toLowerCase()}`
+  //       );
+  //       return data.url; // 임시 임의 리턴값
+  //     } catch (error) {
+  //       throw new Error(`권한 부여 URL 가져오기 실패: ${error}`);
+  //     }
+  //   };
 
-	socialLogin = async (
-		socialType: SocialLoginType,
-		token: string
-	): Promise<AuthResponse> => {
-		const postData = {
-			token,
-			redirectUrl: `${this.redirectedUrl}/${socialType.toLocaleLowerCase()}`,
-		};
-		console.log(postData.redirectUrl);
-		try {
-			const { data } = await axiosInstance.post(
-				`/auth/oauth2/login/${socialType}`,
-				postData
-			);
-			return data;
-		} catch (error) {
-			throw new Error(`Unexpected error: ${error}`);
-		}
-	};
+  //   // new: 소셜 회원가입 또는 로그인
+  //   socialSignupOrLogin = async (
+  //     socialType: SocialLoginType,
+  //     redirectUrl: string
+  //   ): Promise<AuthResponse> => {
+  //     const provider = socialType.toLocaleLowerCase();
+  //     console.log(provider, "socialSignup");
+  //     try {
+  //       const { data } = await axiosInstance.get(
+  //         `/auth/login/oauth2/${provider}`,
+  //         {
+  //           params: {
+  //             "redirect-url": redirectUrl,
+  //           },
+  //         }
+  //       );
+  //       return data;
+  //     } catch (error) {
+  //       throw new Error(`social auth error: ${error}`);
+  //     }
+  //   };
 
-	// 소셜 회원가입
-	socialSignup = async (
-		socialType: SocialLoginType,
-		token: string
-	): Promise<AuthResponse> => {
-		try {
-			const postData = {
-				token,
-				redirectUrl: `${this.redirectedUrl}/${socialType.toLocaleLowerCase()}`,
-			};
-			const { data } = await axiosInstance.post(
-				`/auth/oauth2/signup/${socialType}`,
-				postData
-			);
-			return data; // 임시 임의 리턴값
-		} catch (error) {
-			if (axios.isAxiosError(error)) {
-				const axiosError = error as AxiosError;
-				if (axiosError.response?.status === 400) {
-					throw error;
-				}
-			}
-			throw new Error(`Unexpected error: ${error}`);
-		}
-	};
+  socialLogin = async (
+    socialType: SocialLoginType,
+    token: string
+  ): Promise<AuthResponse> => {
+    const postData = {
+      token,
+      redirectUrl: `${this.redirectedUrl}/${socialType.toLocaleLowerCase()}`,
+    };
+    console.log(postData.redirectUrl);
+    try {
+      const { data } = await axiosInstance.post(
+        `/auth/oauth2/login/${socialType}`,
+        postData
+      );
+      return data;
+    } catch (error) {
+      throw new Error(`Unexpected error: ${error}`);
+    }
+  };
 
-	// 이메일 회원가입
-	emailSignup = async (userInfo: {
-		email: string;
-		password: string;
-		nickname: string;
-		profileImage?: string | null;
-	}) => {
-		try {
-			console.log(userInfo);
-			const response = await axiosInstance.post("/auth/email/signup", userInfo);
-			console.log("이메일 회원가입 post 응답", response);
-			return response;
-		} catch (error) {
-			throw new Error(`이메일 회원가입 실패: ${error}`);
-		}
-	};
+  // 소셜 회원가입
+  socialSignup = async (
+    socialType: SocialLoginType,
+    token: string
+  ): Promise<AuthResponse> => {
+    try {
+      const postData = {
+        token,
+        redirectUrl: `${this.redirectedUrl}/${socialType.toLocaleLowerCase()}`,
+      };
+      const { data } = await axiosInstance.post(
+        `/auth/oauth2/signup/${socialType}`,
+        postData
+      );
+      return data; // 임시 임의 리턴값
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+        if (axiosError.response?.status === 400) {
+          throw error;
+        }
+      }
+      throw new Error(`Unexpected error: ${error}`);
+    }
+  };
 
-	// 문서 상에는 'modify login member' 로 명시되어 있음.
-	updateUser = async (userInfo: {
-		nickname: string;
-		email: string;
-		profileImage?: string | null; // TODO: 필수인가?
-	}) => {
-		try {
-			const response = await axiosInstance.put("/members/login-user", userInfo);
-			console.log(response);
-		} catch (error) {
-			throw new Error(`로그인 유저 실패: ${error}`);
-		}
-	};
+  // 이메일 회원가입
+  emailSignup = async (userInfo: {
+    email: string;
+    nickname: string;
+    password: string;
+    profileImage?: string | null;
+  }) => {
+    try {
+      console.log(userInfo);
+      const response = await axiosInstance.post("/accounts/email", userInfo);
+      console.log("이메일 회원가입 post 응답", response);
+      return response;
+    } catch (error) {
+      throw new Error(`이메일 회원가입 실패: ${error}`);
+    }
+  };
+  // 이메일 로그인
+  emailLogin = async (loginInfo: { email: string; password: string }) => {
+    try {
+      const formData = new URLSearchParams();
 
-	fetchUser = async (): Promise<UserProfileType> => {
-		try {
-			const { data } = await axiosInstance.get("/members/login-user");
-			console.log("%o", data);
-			return data;
-		} catch (error: unknown) {
-			if (axios.isAxiosError(error)) {
-				throw new Error(`로그인 요청: ${error}`);
-			} else {
-				throw new Error(`Unexpected error: ${error}`);
-			}
-		}
-	};
+      Object.entries(loginInfo).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+      const response = await axiosInstance.post("/auth/login/email", formData, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      });
+      console.log("이메일 로그인 post 응답", response);
+      return response;
+    } catch (error) {
+      throw new Error(`이메일 로그인 실패: ${error}`);
+    }
+  };
 
-	getUserIfAuthenticated = async (): Promise<UserProfileType | null> => {
-		const certificationId = !!localApi.getUserCertificationId();
+  // 문서 상에는 'modify login member' 로 명시되어 있음.
+  updateUser = async (userInfo: {
+    nickname: string;
+    email: string;
+    profileImage?: string | null; // TODO: 필수인가?
+  }) => {
+    try {
+      const response = await axiosInstance.put("/members/login-user", userInfo);
+      console.log(response);
+    } catch (error) {
+      throw new Error(`로그인 유저 실패: ${error}`);
+    }
+  };
 
-		if (!certificationId) {
-			return null;
-		}
+  // 유저 정보 가져오기
+  fetchUser = async (): Promise<UserProfileType> => {
+    try {
+      const { data } = await axiosInstance.get("/members/login-user");
+      return data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(`로그인 요청: ${error}`);
+      } else {
+        throw new Error(`Unexpected error: ${error}`);
+      }
+    }
+  };
 
-		return await this.fetchUser();
-	};
+  getUserIfAuthenticated = async (): Promise<UserProfileType | null> => {
+    const certificationId = !!localApi.getUserCertificationId();
 
-	// 이용약관 조회
-	fetchTerms = async (): Promise<TermsOfServiceType[] | null> => {
-		try {
-			const { data } = await axiosInstance.get("/terms-of-services");
-			return data;
-		} catch (error) {
-			throw new Error(`이용약관 가져오기 실패: ${error}`);
-		}
-	};
+    if (!certificationId) {
+      return null;
+    }
 
-	// 이용약관 상세 내용 조회
-	fetchTermDetail = async (id: number): Promise<string | undefined> => {
-		try {
-			const { data } = await axiosInstance.get(
-				`/terms-of-services/${id}/detail`
-			);
-			return data.value;
-		} catch (error) {
-			console.error(error);
-			throw new Error(`이용약관 상세 내용 가져오기 실패: ${error}`);
-		}
-	};
+    return await this.fetchUser();
+  };
 
-	// 이용약관 동의 요청
-	sendTermsAgreement = async (items: number[]) => {
-		console.log(items);
-		try {
-			const response = await axiosInstance.post("/terms-of-services/agree", {
-				items,
-			});
-			console.log(response);
-		} catch (error) {
-			throw new Error(`이용약관 동의 실패: ${error}}`);
-		}
-	};
+  logout = () => {
+    localApi.removeCertification();
+  };
 
-	// 이메일로 인증코드 보내기
-	sendEmailCode = async (email: string) => {
-		try {
-			const response = await axiosInstance.post("/email-authentications", {
-				email: email,
-			});
-			if (response.status === 201) {
-				console.log(response);
-			}
-		} catch (error) {
-			throw new Error(`이메일로 인증코드 보내기 실패: ${error}`);
-		}
-	};
+  // 이용약관 조회
+  fetchTerms = async (): Promise<TermsOfServiceType[] | null> => {
+    try {
+      const { data } = await axiosInstance.get("/terms-of-services");
+      return data;
+    } catch (error) {
+      throw new Error(`이용약관 가져오기 실패: ${error}`);
+    }
+  };
 
-	matchEmailCode = async ({ email, code }: { email: string; code: string }) => {
-		try {
-			const { data } = await axiosInstance.post(
-				"/email-authentications/match-code",
-				{
-					email: email,
-					code: code,
-				}
-			);
-			// axios 타입으로 바꾸기
-			return data;
-		} catch (error) {
-			// 인증코드가 일치하지 않을 경우
-			// TODO: 상세한 에러 처리 필요
-			throw new Error(`인증코드 일치 실패: ${error}`);
-		}
-	};
+  // 이용약관 상세 내용 조회
+  fetchTermDetail = async (id: number): Promise<string | undefined> => {
+    try {
+      const { data } = await axiosInstance.get(
+        `/terms-of-services/${id}/detail`
+      );
+      return data.value;
+    } catch (error) {
+      console.error(error);
+      throw new Error(`이용약관 상세 내용 가져오기 실패: ${error}`);
+    }
+  };
+
+  // 이용약관 동의 요청
+  sendTermsAgreement = async (items: number[]) => {
+    console.log(items);
+    try {
+      const response = await axiosInstance.post("/terms-of-services/agree", {
+        items,
+      });
+      console.log(response);
+    } catch (error) {
+      throw new Error(`이용약관 동의 실패: ${error}}`);
+    }
+  };
+
+  // 이메일로 인증코드 보내기
+  sendEmailCode = async (email: string) => {
+    try {
+      const response = await axiosInstance.post("/email-authentications", {
+        email: email,
+      });
+      if (response.status === 201) {
+        console.log(response);
+      }
+    } catch (error) {
+      throw new Error(`이메일로 인증코드 보내기 실패: ${error}`);
+    }
+  };
+
+  matchEmailCode = async ({ email, code }: { email: string; code: string }) => {
+    try {
+      const { data } = await axiosInstance.post(
+        "/email-authentications/match-code",
+        {
+          email: email,
+          code: code,
+        }
+      );
+      // axios 타입으로 바꾸기
+      return data;
+    } catch (error) {
+      // 인증코드가 일치하지 않을 경우
+      // TODO: 상세한 에러 처리 필요
+      throw new Error(`인증코드 일치 실패: ${error}`);
+    }
+  };
 }
 
 export const authService = new AuthService();

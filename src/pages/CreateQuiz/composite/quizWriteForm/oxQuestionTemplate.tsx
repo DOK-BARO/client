@@ -10,87 +10,87 @@ import { ChangeEvent } from "react";
 
 export const OXQuestionTemplate: FC<{ questionFormMode?: string, questionFormId?: string }> = ({ questionFormMode, questionFormId }) => {
 
-  const options: RadioOptionType[] = [{
-    id: 1,
-    value: "O",
-    label: "O",
-  },
-  {
-    id: 2,
-    value: "X",
-    label: "X",
-  }];
+	const options: RadioOptionType[] = [{
+		id: 1,
+		value: "O",
+		label: "O",
+	},
+	{
+		id: 2,
+		value: "X",
+		label: "X",
+	}];
 
-  const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
+	const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
+// TODO: 선택지를 1개이상 추가해주세요 에러남
+	const {
+		getQuestion,
+	} = useQuestionTemplate("OX", questionFormId!);
 
-  const { 
-    focusedOptionIndex,
-    setFocusedOptionIndex,
-    getQuestion,
-    } = useQuestionTemplate("OX",questionFormId!);
+	const setInitialAnswer = (): string => {
+		const question = getQuestion();
+		return question.answers[0];
+	}
 
-  const setInitialAnswer = (): string => {
-    const question = getQuestion();
-    return question.answers[0];
-  }
-  
-  const { selectedValue: selectedRadioGroupValue, handleChange: onRadioGroupChange } = useRadioGroup(setInitialAnswer());
-  const disabled: boolean = questionFormMode === QuestionFormMode.QUESTION;
+	const { selectedValue: selectedRadioGroupValue, handleChange: onRadioGroupChange } = useRadioGroup(setInitialAnswer());
+	const disabled: boolean = questionFormMode === QuestionFormMode.QUESTION;
 
-  useEffect(() => {
-    const question = getQuestion();
-     // ChangeEvent 객체 생성
-    const event: ChangeEvent<HTMLInputElement> = {
-      target: {
-          value: questionFormMode === QuestionFormMode.QUESTION ? "" : question.answers[0],
-      },
-  } as ChangeEvent<HTMLInputElement>;
-  onRadioGroupChange(event);
+	useEffect(() => {
+		const question = getQuestion();
+		// ChangeEvent 객체 생성
+		const event: ChangeEvent<HTMLInputElement> = {
+			target: {
+				value: questionFormMode === QuestionFormMode.QUESTION ? "" : question.answers[0],
+			},
+		} as ChangeEvent<HTMLInputElement>;
+		onRadioGroupChange(event);
 
-  }, [questionFormMode]);
+	}, [questionFormMode]);
 
-  const handleOptionFocus = (id: number) => {
-    setFocusedOptionIndex(id);
-  };
+	const handleRadioGroupChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const value = event.target.value;
+		onRadioGroupChange(event);
 
-  const handleOptionBlur = () => {
-    setFocusedOptionIndex(null);
-  };
+		const updatedQuestions = quizCreationInfo.questions?.map((question) => question.id.toString() === questionFormId ? { ...question, answers: [value] } : question) ?? [];
+		updateQuizCreationInfo("questions", updatedQuestions)
+	}
 
-  const handleRadioGroupChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    onRadioGroupChange(event);
-
-    const updatedQuestions= quizCreationInfo.questions?.map((question) => question.id.toString() === questionFormId ? { ...question, answers: [value] } : question) ?? [];
-    updateQuizCreationInfo("questions",updatedQuestions)
-  }
-
-  return (
-    <fieldset className={styles["question-options"]}>
-      <legend>답안 선택지</legend>
-      {
-        options.map((option) =>
-          <div
-            key={option.id}
-            className={`${styles["option-container"]} 
-            ${focusedOptionIndex === option.id && ( questionFormMode === QuestionFormMode.QUESTION ) ? styles["focused"] : ""} 
-            ${selectedRadioGroupValue === option.label && ( questionFormMode === QuestionFormMode.ANSWER ) ? styles["checked"] : styles["notchecked"]}`}
-            onFocus={() => handleOptionFocus(option.id)}
-            onBlur={handleOptionBlur}
-          >
-            <RadioOption
-              option={option}
-              selectedValue={selectedRadioGroupValue}
-              onChange={handleRadioGroupChange}
-              disabled={disabled}
-              autoFocus={true}
-              radioGroupName={questionFormId?.toString()!}
-              LabelComponent={
-                <div className={`${styles["new-option-label"]}`}>{option.value}</div>
-              }
-            />
-          </div>
-        )}
-    </fieldset>
-  );
+	return (
+		<fieldset className={styles["question-options"]}>
+			<legend>답안 선택지</legend>
+			{
+				options.map((option) => {
+					// TODO: 동작 확인 필요
+					let isChecked;
+					isChecked = selectedRadioGroupValue === option.label;
+					return (
+						<div
+							key={option.id}
+							className={`${styles["option-container"]} 
+            ${selectedRadioGroupValue === option.label && (questionFormMode === QuestionFormMode.ANSWER) ? styles["checked"] : styles["notchecked"]}`}
+						>
+							{/* 	<RadioOption
+								radioGroupName={question.id.toString()}
+								option={radioOption}
+								checked={isChecked}
+								onChange={handleSelectOptions}
+								disabled={optionDisabled}
+								labelValue={option.content}
+								type={typeName}
+							/> */}
+							<RadioOption
+								radioGroupName={questionFormId?.toString()!}
+								option={option}
+								checked={isChecked}
+								onChange={handleRadioGroupChange}
+								disabled={disabled}
+								labelValue={option.value}
+								// TODO: 구현 안함
+								type={"option-default"}
+							/>
+						</div>)
+				}
+				)}
+		</fieldset>
+	);
 };

@@ -15,7 +15,7 @@ export const CheckBoxQuestionTemplate: FC<{
     options,
     setOptions,
     deleteOption,
-    onClickAddQuizOptionItem,
+    handleAddQuizOptionItemBtn,
     getQuestion,
   } = useQuestionTemplate("CHECK_BOX", questionFormId!);
 
@@ -98,7 +98,7 @@ export const CheckBoxQuestionTemplate: FC<{
       />
       ))}
       {questionFormMode == QuestionFormMode.QUESTION && (
-        <AddOptionButton onAdd={onClickAddQuizOptionItem} />
+        <AddOptionButton onAdd={handleAddQuizOptionItemBtn} />
       )}
     </fieldset>
   );

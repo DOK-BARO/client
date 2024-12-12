@@ -13,23 +13,15 @@ import { useAtom } from "jotai";
 const SocialAuthButton: React.FC<{
   socialType: SocialLoginType;
 }> = ({ socialType }) => {
-  // const { redirectToAuthPage, loading } = useRedirectToAuthPage();
   const [, setIsEmailLoginPage] = useAtom(IsEmailLoginPage);
-  // const emailRegisterPage = "/register/email";
 
   const handleAuth = async () => {
-    // const action =
-    //   authType === AuthType.SIGNUP ? AUTH_ACTION.SIGN_UP : AUTH_ACTION.LOGIN;
-    // localStorage.setItem(LOCAL_STORAGE_KEY.AUTH_ACTION, action);
-
     if (socialType === SocialLoginType.EMAIL) {
       // 이메일 회원가입
-      // window.location.href = emailRegisterPage;
       // 이메일로 계속하기 누르면 로그인 창 뜨고 사용자가 선택해서 회원가입할 수 있도록 하기
       setIsEmailLoginPage(true);
     } else {
-      // 소셜 미디어 회원가입
-      // await redirectToAuthPage(socialType);
+      // 소셜 회원가입
       const redirectUrl = "https://local.dev.dokbaro.kro.kr:5173/";
       window.location.href = `${
         import.meta.env.VITE_API_URL

@@ -18,6 +18,7 @@ import { Invisible } from "@/svg/invisible.tsx";
 import { useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
 import { IsEmailLoginPage } from "@/store/authModalAtom.ts";
+import { authService } from "@/services/server/authService.ts";
 interface LoginModalProps {
   closeModal: () => void;
 }
@@ -41,14 +42,19 @@ const LoginModal = ({ closeModal }: LoginModalProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const isInputFilled = email && password;
 
-  const [isMatched] = useState<boolean>(false);
+  const [isMatched, setIsMatched] = useState<boolean>(false);
 
   const handlePasswordVisible = () => {
     setIsPasswordVisible((prev) => !prev);
   };
 
+  // 로그인
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log("로그인");
+    // 로그인 멤버 정보 -> 아이디
+    authService.emailLogin({ email, password });
+    
   };
 
   const handleSignupClick = () => {

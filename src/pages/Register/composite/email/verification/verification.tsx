@@ -30,6 +30,7 @@ export default function Verification({
 
   const [isMatch, setIsMatch] = useState<boolean | undefined>(undefined);
   const [isEmailSent, setIsEmailSent] = useState<boolean>(false);
+  const [isAlreadyRegisteredEmail, setIsAlreadyRegisteredEmail] = useState<boolean>(false);
 
   const handleNext = async () => {
     if (!email || !isEmailValid) {
@@ -42,6 +43,11 @@ export default function Verification({
     // 인증코드 발송
     await authService.sendEmailCode(email);
     setIsEmailSent(true);
+  };
+
+  // 이메일 인증코드 재전송
+  const handleResend = async () => {
+    await authService.resendEmailCode(email);
   };
 
   const handleCodeChange = (
@@ -174,6 +180,15 @@ export default function Verification({
         disabled={!isEmailSent ? !isEmailValid : fullCode.length !== 6}
       >
         {!isEmailSent ? <>다음</> : <>인증하기</>}
+      </Button>
+      <Button
+        color="transparent"
+        size="xsmall"
+        className={styles.resend}
+        onClick={handleResend}
+        disabled={!isEmailSent}
+      >
+        이메일 재전송하기
       </Button>
     </section>
   );

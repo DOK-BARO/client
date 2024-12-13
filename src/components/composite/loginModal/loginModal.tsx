@@ -125,14 +125,6 @@ const LoginModal = ({ closeModal }: LoginModalProps) => {
                       }
                     />
                   }
-                  rightLabel={
-                    <Button
-                      color="transparent"
-                      className={styles["find-password"]}
-                    >
-                      비밀번호 찾기
-                    </Button>
-                  }
                   isError={!isMatched}
                   message={
                     !isMatched ? (

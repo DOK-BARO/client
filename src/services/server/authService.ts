@@ -1,4 +1,3 @@
-import { SocialLoginType } from "../../types/SocialLoginType.ts";
 import localApi from "../local/LocalApi.ts";
 import { TermsOfServiceType } from "@/types/TermsOfServiceType.ts";
 import { UserProfileType } from "@/types/UserType.ts";
@@ -6,52 +5,6 @@ import { axiosInstance } from "@/config/axiosConfig.ts";
 import { handleAxiosError } from "@/utils/errorHandler.ts";
 
 class AuthService {
-  constructor(
-    private readonly redirectedUrl = import.meta.env.VITE_AUTH_REDIRECTED_URL
-  ) {
-    this.redirectedUrl = redirectedUrl;
-  }
-
-  socialLogin = async (
-    socialType: SocialLoginType,
-    token: string
-  ): Promise<void> => {
-    const postData = {
-      token,
-      redirectUrl: `${this.redirectedUrl}/${socialType.toLocaleLowerCase()}`,
-    };
-    console.log(postData.redirectUrl);
-    try {
-      const response = await axiosInstance.post(
-        `/auth/oauth2/login/${socialType}`,
-        postData
-      );
-      console.log(response);
-    } catch (error) {
-      handleAxiosError(error);
-    }
-  };
-
-  // 소셜 회원가입
-  socialSignup = async (
-    socialType: SocialLoginType,
-    token: string
-  ): Promise<void> => {
-    try {
-      const postData = {
-        token,
-        redirectUrl: `${this.redirectedUrl}/${socialType.toLocaleLowerCase()}`,
-      };
-      const response = await axiosInstance.post(
-        `/auth/oauth2/signup/${socialType}`,
-        postData
-      );
-      console.log(response);
-    } catch (error) {
-      handleAxiosError(error);
-    }
-  };
-
   // 이메일 회원가입
   emailSignup = async (userInfo: {
     email: string;

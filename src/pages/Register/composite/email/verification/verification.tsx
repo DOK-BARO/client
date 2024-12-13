@@ -14,7 +14,6 @@ import AuthCodeInput from "@/components/composite/authCodeInput/AuthCodeInput";
 import { authService } from "@/services/server/authService";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";
-import toast from "react-hot-toast";
 
 export default function Verification({
   setStep,
@@ -49,12 +48,10 @@ export default function Verification({
         setIsEmailReadyToSend(false);
       },
     });
-    
-  const { mutate: resendEmailCodeMutate } = useMutation<void, ErrorType>({
+
+  const { mutate: resendEmailCodeMutate } = useMutation({
     mutationFn: () => authService.resendEmailCode(email),
-    onError: (error) => {
-      toast.error(error.message || "알 수 없는 오류가 발생했습니다.");
-    },
+    // onError 시 토스트 알람 처리는 전역에서 설정
   });
 
   // 인증코드 발송

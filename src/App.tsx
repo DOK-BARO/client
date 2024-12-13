@@ -6,7 +6,7 @@ import {
 import "./styles/main.scss";
 import ComponentTest from "./pages/ComponentTest/index.tsx";
 import BookDetailSection from "./pages/BookDetail/";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import CreateQuiz from "./pages/CreateQuiz/index.tsx";
 import Register from "./pages/Register/index.tsx";
 
@@ -21,11 +21,10 @@ import SolvingQuizPage from "./pages/SolveQuiz/index.tsx";
 import FindPassword from "./pages/FindPassword/index.tsx";
 import NotFound from "./pages/NotFound/index.tsx";
 import ToastPortal from "./components/layout/toastPortal/toastPortal.tsx";
+import { queryClient } from "./services/server/queryClient.ts";
 
 function App() {
-  const queryClient = new QueryClient();
-  // const notify = () => toast.error("Here is your toast.");
-
+  // TODO: 분리하기
   const router = createBrowserRouter([
     {
       path: "/",
@@ -106,7 +105,6 @@ function App() {
   ]);
   return (
     <QueryClientProvider client={queryClient}>
-      {/* <button onClick={notify}>ddd</button> */}
       <RouterProvider router={router} />
       <ToastPortal />
     </QueryClientProvider>

@@ -5,7 +5,7 @@ import localApi from "../local/LocalApi.ts";
 import { TermsOfServiceType } from "@/types/TermsOfServiceType.ts";
 import { UserProfileType } from "@/types/UserType.ts";
 import { axiosInstance } from "@/config/axiosConfig.ts";
-import { handleAxiosError } from "@/utils/handleAxiosError.ts";
+import { handleAxiosError } from "@/utils/errorHandler.ts";
 
 class AuthService {
   constructor(
@@ -147,12 +147,12 @@ class AuthService {
   };
 
   // 이용약관 조회
-  fetchTerms = async (): Promise<TermsOfServiceType[] | null> => {
+  fetchTerms = async (): Promise<TermsOfServiceType[] | void> => {
     try {
       const { data } = await axiosInstance.get("/terms-of-services");
       return data;
     } catch (error) {
-      throw new Error(`이용약관 가져오기 실패: ${error}`);
+      handleAxiosError(error);
     }
   };
 
@@ -164,8 +164,7 @@ class AuthService {
       );
       return data.value;
     } catch (error) {
-      console.error(error);
-      throw new Error(`이용약관 상세 내용 가져오기 실패: ${error}`);
+      handleAxiosError(error);
     }
   };
 
@@ -178,7 +177,7 @@ class AuthService {
       });
       console.log(response);
     } catch (error) {
-      throw new Error(`이용약관 동의 실패: ${error}}`);
+      handleAxiosError(error);
     }
   };
 

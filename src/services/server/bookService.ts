@@ -6,12 +6,13 @@ import {
 import { BookDetailType } from "../../types/BookDetailType.ts";
 import { BookCategory } from "../../types/GNBCategoryType.ts";
 import { axiosInstance } from "@/config/axiosConfig.ts";
+import { handleAxiosError } from "@/utils/errorHandler.ts";
 
 // 책 목록, 책 상세정보 가져오기
 class BookService {
   fetchBooks = async (
     params: GetBooksParams = {}
-  ): Promise<{ data: BookType[]; endPageNumber: number }> => {
+  ): Promise<{ data: BookType[]; endPageNumber: number } | void> => {
     const {
       title = undefined,
       authorName = undefined,
@@ -39,11 +40,13 @@ class BookService {
       console.log("책 목록!!", response);
       return response.data;
     } catch (error) {
-      throw new Error(`책 목록 가져오기 실패: ${error}`);
+      handleAxiosError(error);
     }
   };
   // 책 통합검색
-  fetchSearchBooks = async (params?: SearchBooksParams): Promise<BookType[]> => {
+  fetchSearchBooks = async (
+    params?: SearchBooksParams
+  ): Promise<BookType[]> => {
     const { keyword, lastId = null, size = 10 } = params || {};
 
     try {
@@ -69,12 +72,12 @@ class BookService {
     }
   };
 
-  fetchBookCategories = async (): Promise<BookCategory[]> => {
+  fetchBookCategories = async (): Promise<BookCategory[] | void> => {
     try {
       const { data } = await axiosInstance.get("/book-categories");
       return data.details[0].details;
     } catch (error) {
-      throw new Error(`책 카테고리 가져오기 실패: ${error}`);
+      handleAxiosError(error);
     }
   };
 }

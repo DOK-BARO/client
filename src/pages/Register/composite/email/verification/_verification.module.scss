@@ -1,0 +1,32 @@
+@import "../../../../../styles/abstracts/variables";
+@import "../../../../../styles/abstracts/mixins";
+
+.verification {
+  h3 {
+    @include sr-only;
+  }
+  .description {
+    margin: 32px 0 32px 0;
+    font-size: $font-size-large;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .next {
+    margin-top: 24px;
+  }
+  .resend {
+    color: $primary;
+    margin: 0 auto;
+    margin-top: 16px;
+    &:disabled {
+      background: none;
+      border: none;
+    }
+  }
+
+  .message-container {
+    display: flex;
+    align-items: center;
+  }
+}

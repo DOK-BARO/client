@@ -1,0 +1,15 @@
+@import "../../styles/abstracts/variables";
+@import "../../styles/abstracts/mixins";
+
+.container {
+  @include flex(row);
+  margin-top: 80px;
+  gap: 80px;
+}
+.sr-only {
+  @include sr-only;
+}
+
+.modal {
+  width: 560px;
+}

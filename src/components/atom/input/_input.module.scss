@@ -1,0 +1,133 @@
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixins";
+
+.container {
+  @include flex(column);
+  position: relative;
+}
+
+.label-container {
+  display: flex;
+  margin-bottom: 16px;
+  justify-content: space-between;
+  line-height: 1.5;
+
+  .label {
+    color: $gray-90;
+    font-size: 14px;
+    float: left;
+    display: flex;
+    align-items: center;
+    font-weight: $font-weight-medium;
+  }
+}
+
+.message {
+  color: $gray-60;
+  font-size: $font-size-small;
+  font-weight: $font-weight-medium;
+  margin-top: 12px;
+  text-align: left;
+  &--error {
+    @extend .message;
+    color: $system-danger;
+  }
+  &--success {
+    @extend .message;
+    color: $system-success;
+  }
+}
+
+.input {
+  @include input-base;
+
+  // 인풋 사이즈
+  &--large {
+    padding: $input-padding-large;
+    font-size: $input-font-large;
+    height: $input-height-large;
+  }
+
+  &--medium {
+    padding: $input-padding-medium;
+    font-size: $input-font-medium;
+    height: $input-height-medium;
+  }
+
+  &--small {
+    padding: $input-padding-small;
+    font-size: $input-font-small;
+    height: $input-height-small;
+  }
+
+  // 인풋 스타일
+  &--default {
+    border-color: $gray-40;
+  }
+
+  &--black {
+    border-color: $gray-90;
+    // color: $gray-90;
+  }
+
+  &--success {
+    border-color: $system-success;
+    // color: $system-success;
+  }
+
+  &--error {
+    border-color: $system-danger;
+    // color: $system-danger;
+  }
+
+  &--primary {
+    border-color: $primary;
+    // color: $gray-90;
+  }
+
+  &--left-icon-large,
+  &--left-icon-medium {
+    padding-left: 44px;
+  }
+
+  &--left-icon-small {
+    padding-left: 44px;
+  }
+
+  &--right-icon-large,
+  &--left-icon-medium {
+    padding-right: 48px;
+  }
+
+  &--right-icon-small {
+    padding-right: 44px;
+  }
+}
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.icon-left,
+.icon-right {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  display: flex;
+  justify-self: center;
+  align-items: center;
+
+  // pointer-events: none;
+}
+
+.icon-left {
+  left: 16px;
+}
+
+.icon-right {
+  right: 16px;
+}
+.full {
+  width: 100%;
+}

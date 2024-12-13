@@ -1,0 +1,23 @@
+@import "../../../styles/abstracts/variables";
+
+.searchbar {
+  border: 1.5px solid transparent;
+  background-color: $gray-20;
+  border-radius: 6px;
+
+  &-container {
+    flex-grow: 1;
+    width: 100%;
+  }
+
+  &::placeholder {
+    line-height: 1.5;
+    font-size: 15px;
+    font-family: Pretendard, serif;
+  }
+
+  &:focus {
+    border: 1.5px solid $primary;
+    outline: none;
+  }
+}

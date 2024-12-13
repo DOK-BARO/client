@@ -1,0 +1,80 @@
+@import "../../../../styles/abstracts/variables";
+@import "../../../../styles/abstracts/mixins";
+
+.email-notification {
+  font-size: 14px;
+  color: $gray-70;
+  margin-bottom: 16px;
+}
+
+.study-group {
+  width: 100%;
+  padding: 16px;
+  border-radius: $border-radius-medium;
+  background-color: $gray-00;
+  @include flex(row, center);
+  justify-content: space-between;
+  margin-bottom: 16px;
+  cursor: pointer;
+  border: 1.5px solid $gray-40;
+
+  .profile-container {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: $font-size-xlarge;
+    color: $gray-90;
+
+    .profile {
+      border-radius: 50%;
+      background-color: $gray-30;
+      height: 30px;
+      width: 30px;
+    }
+  }
+}
+.selected {
+  border-color: $primary;
+}
+
+.add-study-group-modal {
+  width: 560px;
+
+  .add-study-name {
+    .input-button-container {
+      display: flex;
+      gap: 20px;
+    }
+  }
+}
+
+.email-invite {
+  margin-top: 40px;
+
+  .line {
+    position: relative;
+    height: 1px;
+    width: calc(100% + 60px);
+    margin-left: -30px;
+    background-color: $gray-40;
+  }
+
+  .title {
+    color: $gray-90;
+    font-size: $font-size-large;
+    font-weight: 500;
+    margin-top: 40px;
+    margin-bottom: 24px;
+  }
+
+  .buttons-container {
+    @include flex(row);
+    gap: 12px;
+    margin-top: 24px;
+    justify-content: end;
+
+    .done {
+      padding: 0 16px;
+    }
+  }
+}

@@ -1,0 +1,98 @@
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixins";
+
+.button {
+  @include button-base;
+
+  // 버튼 사이즈
+  &--xsmall {
+    padding: $button-padding-xsmall;
+    font-size: $button-font-xsmall;
+    border-radius: $button-radius-xsmall;
+    height: $button-height-xsmall;
+  }
+
+  &--small {
+    padding: $button-padding-small;
+    font-size: $button-font-small;
+    border-radius: $button-radius-small;
+    height: $button-height-small;
+  }
+
+  &--medium {
+    padding: $button-padding-medium;
+    font-size: $button-font-medium;
+    border-radius: $button-radius-medium;
+    height: $button-height-medium;
+  }
+  &--large {
+    padding: $button-padding-large;
+    font-size: $button-font-large;
+    border-radius: $button-radius-large;
+    height: $button-height-large;
+  }
+
+  // 현재 사용되는 곳 없음
+  // &--xlarge {
+  //   padding: $button-padding-xlarge;
+  //   font-size: $button-font-xlarge;
+  //   border-radius: $button-radius-xlarge;
+  //   height: $button-height-xlarge;
+  // }
+
+  // 버튼 색상(스타일)
+  &--primary {
+    background-color: $primary;
+    color: $gray-00;
+    border: 1px solid $primary;
+  }
+  &--secondary {
+    background-color: $secondary;
+    color: $primary;
+    border: 1.5px solid $secondary;
+  }
+  &--primary-border {
+    background-color: $gray-00;
+    color: $primary;
+    border: 1.5px solid $primary;
+  }
+  &--black {
+    background-color: $gray-90;
+    color: $gray-00;
+    border: 1.5px solid $gray-00;
+  }
+  &--white {
+    background-color: $gray-00;
+    border: 1.5px solid $gray-40;
+    color: $gray-90;
+  }
+  &--transparent {
+    background-color: transparent;
+    color: $gray-90;
+    border: 1.5px solid transparent;
+  }
+  &:disabled {
+    background-color: $gray-20;
+    color: $gray-60;
+    cursor: not-allowed;
+    border: 1.5px solid $gray-20;
+  }
+
+  .icon-container {
+    cursor: inherit;
+    display: flex;
+  }
+}
+
+.full {
+  width: 100%;
+}
+
+.iconOnly {
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+}

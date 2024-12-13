@@ -1,65 +1,107 @@
-import QuizCreationFormLayout from "./layout/quizCreationFormLayout";
-import QuizCreationSteps from "./layout/quizCreationSteps";
-import styles from "../../styles/pages/_createQuiz.module.scss";
-import { useState } from "react";
-import QuizBasicInfoForm from "./composite/quizBasicInfoForm";
-import QuizBookSelectionForm from "./composite/quizBookSelectionForm";
-import QuizWriteForm from "./composite/quizWriteForm";
-import QuizSettingsForm from "./composite/quizSettingsForm";
+import styles from "./_create_quiz.module.scss";
+import { useEffect, useState } from "react";
+import QuizSettingStudyGroupForm from "@/pages/CreateQuiz/composite/quizSettingStudyGroupForm/quizSettingStudyGroupForm.tsx";
+import QuizBookSelectionForm from "./composite/quizBookSectionForm/quizBookSelectionForm.tsx";
+import QuizWriteForm from "./composite/quizWriteForm/quizWriteForm.tsx";
+import QuizSettingsForm from "./composite/quizSettingsForm/quizSettingsForm.tsx";
+import QuizCreationFormLayout from "./layout/quizCreationFormLayout/quizCreationFormLayout.tsx";
+import QuizCreationSteps from "./layout/quizCreationSteps/quizCreationSteps.tsx";
+import MemoizedQuizBasicInfoForm from "@/pages/CreateQuiz/composite/quizBasicInfoForm/quizBasicInfoForm.tsx";
+import {
+  errorModalTitleAtom,
+  openErrorModalAtom,
+  stepsCompletionStatusAtom,
+} from "@/store/quizAtom.ts";
+import { useAtom } from "jotai";
+import Modal from "@/components/atom/modal/modal.tsx";
+import useModal from "@/hooks/useModal.ts";
+import { Step } from "@/types/StepType.ts";
 
-export interface Step {
-  order: number;
-  icon: string;
-  title: string;
-  description: string;
-  formComponent: JSX.Element;
-}
 export default function Index() {
+  const [completionStatus] = useAtom(stepsCompletionStatusAtom);
+
+  // TODO: 외부 파일로 옮기기
   const steps: Step[] = [
     {
       order: 0,
       icon: "👥",
-      title: "기본 정보 입력",
-      description: "퀴즈에 대한 기본 정보를 입력해주세요",
-      formComponent: <QuizBasicInfoForm />,
+      title: "스터디 선택",
+      description: "퀴즈를 풀 스터디를 만들거나 선택해주세요.",
+      formComponent: () => <QuizSettingStudyGroupForm />,
+      isDone: completionStatus.isStudyGroupSelected,
     },
     {
       order: 1,
       icon: "📚",
       title: "도서 선택",
       description: "퀴즈를 내고자 하는 도서를 선택해주세요.",
-      formComponent: <QuizBookSelectionForm />,
+      formComponent: () => <QuizBookSelectionForm />,
+      isDone: completionStatus.isBookSelected,
     },
     {
       order: 2,
       icon: "🏆",
       title: "퀴즈 작성",
-      description: "관련 문제를 작성해주세요.",
-      formComponent: <QuizWriteForm />,
+      subSteps: [
+        {
+          order: 2.1,
+          title: "퀴즈 기본 정보 작성",
+          description: "퀴즈 이름과 설명을 작성해주세요.",
+          formComponent: () => <MemoizedQuizBasicInfoForm />,
+        },
+        {
+          order: 2.2,
+          title: "문제 작성",
+          description: "퀴즈의 질문과 답안을 설정해주세요.",
+          formComponent: () => <QuizWriteForm />,
+        },
+      ],
+      isDone: completionStatus.isQuestionsWritten,
     },
     {
       order: 3,
       icon: "🔗",
-      title: "퀴즈 설정",
-      description: "볼 수 있는 사람과 제한 시간을 설정해주세요.",
-      formComponent: <QuizSettingsForm />,
+      title: "공유 설정",
+      description: "퀴즈를 볼 수 있는 사람과 제한 시간을 설정해 주세요.",
+      formComponent: () => <QuizSettingsForm />,
+      isDone: completionStatus.isSet,
     },
   ];
+
   const [currentStep, setCurrentStep] = useState<number>(0);
+  const [errorModalTitle] = useAtom(errorModalTitleAtom);
+  const { isModalOpen, openModal, closeModal } = useModal();
+  const [, setOpenErrorModal] = useAtom(openErrorModalAtom);
+
+  useEffect(() => {
+    setOpenErrorModal(() => openModal);
+  }, [setOpenErrorModal]);
 
   return (
     <section className={styles["container"]}>
       <h2 className={styles["sr-only"]}>퀴즈 등록</h2>
-      <QuizCreationFormLayout
-        steps={steps}
-        currentStep={currentStep}
-        setCurrentStep={setCurrentStep}
-      />
       <QuizCreationSteps
         steps={steps}
         currentStep={currentStep}
         setCurrentStep={setCurrentStep}
       />
+      <QuizCreationFormLayout
+        steps={steps}
+        currentStep={currentStep}
+        setCurrentStep={setCurrentStep}
+      />
+      {/* TODO: 컴포넌트 분리 */}
+
+      {isModalOpen && (
+        <Modal
+          closeModal={closeModal}
+          popUpTitle={errorModalTitle}
+          closeButtonText="확인"
+          showHeaderCloseButton={false}
+          className={styles["modal"]}
+          footerCloseButton
+        />
+      )}
     </section>
   );
 }

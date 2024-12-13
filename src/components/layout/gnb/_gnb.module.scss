@@ -1,0 +1,89 @@
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixins";
+
+.gnb {
+  background-color: $background;
+  width: 100%;
+  padding-bottom: 2px;
+  position: absolute;
+  top: 58px; // header 크기만큼
+  left: 0;
+
+  transform: translateY(0);
+  opacity: 1;
+  // transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.hidden {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+.gnb-inner-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 1140px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.category-list {
+  @include flex(row);
+
+  // TODO: 이 부분 믹스인으로 만들기
+  margin: 0 auto;
+  width: 100%;
+
+  .category-item-title {
+    padding: 12px 8px;
+    border-radius: 0;
+    color: $gray-70;
+    font-weight: $font-weight-semibold;
+    margin-right: 16px;
+    border-bottom: 2px solid transparent;
+
+    &.hover {
+      color: $gray-90;
+      border-bottom: 2px solid black;
+    }
+  }
+}
+
+.sub-category-list {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  margin: 0 auto;
+  width: 100%;
+
+  .sub-category-item {
+    padding: 7px 4px 7px 8px;
+    border-radius: 0;
+    font-weight: $font-weight-semibold;
+  }
+  .sub-category-item-button-container {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .more {
+    border: none;
+    background: none;
+    display: flex;
+    margin-left: -4px;
+  }
+}
+
+.sub-category-detail-list {
+  display: flex;
+  flex-direction: column;
+
+  .sub-category-detail-item {
+    border-radius: 0;
+    padding: 7px 8px;
+    font-weight: $font-weight-regular;
+  }
+}
+
+a {
+  color: $gray-90;
+}

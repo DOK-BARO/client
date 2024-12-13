@@ -4,8 +4,6 @@ import { UserType } from "@/types/UserType.ts";
 import { axiosInstance } from "@/config/axiosConfig.ts";
 import { handleAxiosError } from "@/utils/errorHandler.ts";
 import { SocialLoginType } from "@/types/SocialLoginType.ts";
-import { useAtom } from "jotai";
-import { CurrentUserAtom } from "@/store/userAtom";
 
 class AuthService {
   // 소셜 회원가입

@@ -1,5 +1,5 @@
 import styles from "./_login_modal.module.scss";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SOCIAL_TYPES } from "@/data/constants.ts";
 import SocialAuthButton from "../socialAuthButton/socialAuthButton.tsx";
 import HeaderLogo from "@/components/atom/headerLogo/headerLogo.tsx";
@@ -19,6 +19,9 @@ import { useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
 import { IsEmailLoginPageAtom } from "@/store/authModalAtom.ts";
 import { authService } from "@/services/server/authService.ts";
+import { useMutation } from "@tanstack/react-query";
+import { ErrorType } from "@/types/ErrorType.ts";
+import toast from "react-hot-toast";
 interface LoginModalProps {
   closeModal: () => void;
 }
@@ -42,18 +45,40 @@ const LoginModal = ({ closeModal }: LoginModalProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const isInputFilled = email && password;
 
-  const [isMatched] = useState<boolean>(false);
+  const [isMatched, setIsMatched] = useState<boolean>(true);
+  const [isReadyToLogin, setIsReadyToLogin] = useState<boolean>(false);
 
   const handlePasswordVisible = () => {
     setIsPasswordVisible((prev) => !prev);
   };
+  const { mutate: emailLogin } = useMutation<
+    void,
+    ErrorType,
+    { email: string; password: string }
+  >({
+    mutationFn: (loginInfo) => authService.emailLogin(loginInfo),
+    onSuccess: () => {
+      toast.success("로그인이 완료되었습니다.");
+    },
+    onError: () => {
+      setIsMatched(false);
+    },
+    onSettled: () => {
+      setIsReadyToLogin(false);
+    },
+  });
+
+  useEffect(() => {
+    if (!isReadyToLogin) {
+      setIsReadyToLogin(true);
+    }
+  }, [email, password]);
 
   // 로그인
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("로그인");
-    // 로그인 멤버 정보 -> 아이디
-    authService.emailLogin({ email, password });
+    const loginInfo = { email, password };
+    emailLogin(loginInfo);
   };
 
   const handleSignupClick = () => {
@@ -125,9 +150,9 @@ const LoginModal = ({ closeModal }: LoginModalProps) => {
                       }
                     />
                   }
-                  isError={!isMatched}
+                  isError
                   message={
-                    !isMatched ? (
+                    !isMatched && !isReadyToLogin ? (
                       <span className={styles["message-container"]}>
                         <XSmall width={20} height={20} stroke={systemDanger} />
                         <p>입력한 정보가 일치하지 않습니다.</p>

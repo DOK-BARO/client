@@ -12,7 +12,7 @@ import Modal from "@/components/atom/modal/modal.tsx";
 import Input from "@/components/atom/input/input.tsx";
 import { useRef } from "react";
 import { imageService } from "@/services/server/imageService";
-import { ImageTargetType } from "@/types/ImageTargetType";
+import { ImageTargetType } from "@/types/UploadImageType";
 
 const options: RadioOptionType[] = [
   { id: 1, value: "option1", label: "Option 1" },

@@ -14,6 +14,7 @@ import AuthCodeInput from "@/components/composite/authCodeInput/AuthCodeInput";
 import { authService } from "@/services/server/authService";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";
+import toast from "react-hot-toast";
 
 export default function Verification({
   setStep,
@@ -44,16 +45,24 @@ export default function Verification({
   >({
     mutationFn: () => authService.sendEmailCode(email),
     onSuccess: () => {
+      toast.success("인증 번호가 전송되었습니다.");
       setIsEmailSent(true);
     },
+
     onSettled: () => {
       setIsEmailReadyToSend(false);
+    },
+    onError: () => {
+      // 전역 설정된 토스트 알림을 띄우지 않기 위함
     },
   });
 
   const { mutate: resendEmailCode } = useMutation({
     mutationFn: () => authService.resendEmailCode(email),
     // onError 시 토스트 알람 처리는 전역에서 설정
+    onSuccess: () => {
+      toast.success("인증 번호가 전송되었습니다.");
+    },
   });
 
   // 인증코드 발송
@@ -138,14 +147,24 @@ export default function Verification({
       }
     }
   };
+  const { mutate: matchEmailCode } = useMutation<
+    { result: boolean } | null,
+    ErrorType,
+    { email: string; code: string }
+  >({
+    mutationFn: (emailAndCode) => authService.matchEmailCode(emailAndCode),
+    onSettled: (data) => {
+      const matchResult = data?.result ?? false;
+      setIsMatch(matchResult);
+    },
+  });
 
-  const handleDone = async () => {
-    const { result } = (await authService.matchEmailCode({
+  const handleDone = () => {
+    const emailAndCode = {
       email,
       code: fullCode,
-    })) || { result: false };
-
-    setIsMatch(result);
+    };
+    matchEmailCode(emailAndCode);
   };
 
   const getMessageContent = () => {
@@ -192,7 +211,7 @@ export default function Verification({
           color={isEmailValid ? "black" : "default"}
           isError={
             isEmailValid === false ||
-            (!isEmailReadyToSend && sendEmailCodeError?.code === 401)
+            (!isEmailReadyToSend && sendEmailCodeError?.code === 400)
               ? true
               : undefined
           }
@@ -230,9 +249,6 @@ export default function Verification({
       >
         이메일 재전송하기
       </Button>
-      {!isEmailReadyToSend && sendEmailCodeError?.code === 401 ? (
-        <div>이미 사용중인 이메일입니다.</div>
-      ) : null}
     </section>
   );
 }

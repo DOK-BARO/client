@@ -9,6 +9,8 @@ import { useAtom } from "jotai";
 import { APP_NAME } from "@/data/constants";
 import { studyService } from "@/services/server/studyService";
 import { useEffect } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { ErrorType } from "@/types/ErrorType";
 
 export default function RegisterComplete() {
   const [user] = useAtom<RegisterInfoType>(RegisterInfoAtom);
@@ -17,10 +19,14 @@ export default function RegisterComplete() {
 
   // 초대코드로 스터디 참여
   const handleInviteCodeSubmit = async () => {
-    console.log(inviteCode);
-    await studyService.joinStudyGroup(inviteCode);
+    joinStudyGroup(inviteCode);
   };
 
+  const { mutate: joinStudyGroup } = useMutation<void, ErrorType, string>({
+    mutationFn: (inviteCode) => studyService.joinStudyGroup(inviteCode),
+  });
+
+  // 초기화
   useEffect(() => {
     localStorage.removeItem("registerStep");
   }, []);

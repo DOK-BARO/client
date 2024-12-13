@@ -13,19 +13,18 @@ export default function BaseLayout() {
   // if (isLoading) {
   //   return <div className={styles["container"]}>"로딩중"</div>;
   // }
-  const [currentUser, setCurrentUser] = useAtom(CurrentUserAtom);
+  const [, setCurrentUser] = useAtom(CurrentUserAtom);
   const [isLoggedIn] = useAtom(IsLoggedInAtom);
   const { pathname } = useLocation();
 
-  const setUser = async () => {
-    console.log("전역에 사용자 정보 저장");
+  // 전역에 사용자 정보 저장
+  const setLoggedInUser = async () => {
     const currentUser = await authService.fetchUser();
     setCurrentUser(currentUser);
   };
 
   useEffect(() => {
-    // 전역에 사용자 정보 저장
-    setUser();
+    setLoggedInUser();
   }, [pathname]);
 
   return (
@@ -34,16 +33,6 @@ export default function BaseLayout() {
 
       <main className={styles["main"]}>
         <div className={styles["inner-container"]}>
-          <button onClick={() => console.log(currentUser)}>
-            현재 로그인한 사용자
-          </button>{" "}
-          <button
-            onClick={async () => {
-              await authService.fetchUser();
-            }}
-          >
-            fetch user
-          </button>
           <Outlet />
         </div>
       </main>

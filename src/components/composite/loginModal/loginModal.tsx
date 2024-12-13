@@ -17,7 +17,7 @@ import { XSmall } from "@/svg/xSmall.tsx";
 import { Invisible } from "@/svg/invisible.tsx";
 import { useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
-import { IsEmailLoginPage } from "@/store/authModalAtom.ts";
+import { IsEmailLoginPageAtom } from "@/store/authModalAtom.ts";
 import { authService } from "@/services/server/authService.ts";
 interface LoginModalProps {
   closeModal: () => void;
@@ -33,7 +33,7 @@ const socialLoginMethodButtonImage = [
 const LoginModal = ({ closeModal }: LoginModalProps) => {
   // TODO: 전역으로 상태 변경할 수 있도록 해야함
   // const [isEmailSelected, setIsEmailSelected] = useState<boolean>(false);
-  const [isEmailLoginPage] = useAtom(IsEmailLoginPage);
+  const [isEmailLoginPage] = useAtom(IsEmailLoginPageAtom);
   const navigate = useNavigate();
 
   const { value: email, onChange: onEmailChange } = useInput("");

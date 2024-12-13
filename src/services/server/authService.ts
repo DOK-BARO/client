@@ -107,9 +107,14 @@ class AuthService {
       console.log("이메일 회원가입 post 응답", response);
       return response;
     } catch (error) {
-      throw new Error(`이메일 회원가입 실패: ${error}`);
+      if (error instanceof Error) {
+        console.error("에러 메시지:", error.message);
+      } else {
+        console.error("알 수 없는 에러:", error);
+      }
     }
   };
+
   // 이메일 로그인
   emailLogin = async (loginInfo: { email: string; password: string }) => {
     try {
@@ -118,6 +123,7 @@ class AuthService {
       Object.entries(loginInfo).forEach(([key, value]) => {
         formData.append(key, value);
       });
+      console.log(loginInfo);
       const response = await axiosInstance.post("/auth/login/email", formData, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -127,6 +133,7 @@ class AuthService {
       return response;
     } catch (error) {
       throw new Error(`이메일 로그인 실패: ${error}`);
+      return false;
     }
   };
 
@@ -218,7 +225,32 @@ class AuthService {
         console.log(response);
       }
     } catch (error) {
-      throw new Error(`이메일로 인증코드 보내기 실패: ${error}`);
+      const err = error as AxiosError;
+      if (err.response) {
+        const data = err.response.data as { message: string };
+        // 400 -> 이미 가입된 이메일
+        // {
+        //   status: 400
+        // }
+        // console.log(data);
+        throw new Error(data.message);
+      }
+    }
+  };
+
+  resendEmailCode = async (email: string) => {
+    try {
+      const response = await axiosInstance.post(
+        "/email-authentications/recreate",
+        {
+          email: email,
+        }
+      );
+      if (response.status === 204) {
+        console.log(response);
+      }
+    } catch (error) {
+      throw new Error(`이메일 인증코드 재전송 실패: ${error}`);
     }
   };
 

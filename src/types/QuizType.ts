@@ -72,6 +72,7 @@ export interface SelectOptionType {
   id: number;
   option: string;
   value: string;
+	answerIndex: number;
 }
 
 export interface QuizQuestionType {

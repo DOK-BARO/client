@@ -22,10 +22,9 @@ const SocialAuthButton: React.FC<{
       setIsEmailLoginPage(true);
     } else {
       // 소셜 회원가입
-      const redirectUrl = "https://local.dev.dokbaro.kro.kr:5173/";
       window.location.href = `${
         import.meta.env.VITE_API_URL
-      }/auth/login/oauth2/${socialType.toLocaleLowerCase()}?redirect-url=${redirectUrl}`;
+      }/auth/login/oauth2/${socialType.toLocaleLowerCase()}?redirect-url=${import.meta.env.VITE_AUTH_REDIRECTED_URL}`;
     }
   };
 

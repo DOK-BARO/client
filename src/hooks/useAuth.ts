@@ -1,7 +1,7 @@
 import { authService } from "@/services/server/authService";
 import { useEffect } from "react";
 // import { useLocation, useNavigate } from "react-router-dom";
-
+// 현재 사용되지 않음
 // import {
 //   AUTH_ACTION,
 //   LOCAL_STORAGE_KEY,

@@ -1,10 +1,24 @@
-import localApi from "../local/LocalApi.ts";
+// import localApi from "../local/LocalApi.ts";
 import { TermsOfServiceType } from "@/types/TermsOfServiceType.ts";
 import { UserProfileType } from "@/types/UserType.ts";
 import { axiosInstance } from "@/config/axiosConfig.ts";
 import { handleAxiosError } from "@/utils/errorHandler.ts";
+import { SocialLoginType } from "@/types/SocialLoginType.ts";
 
 class AuthService {
+  // 소셜 회원가입
+  socialSignupOrLogin = ({
+    socialType,
+    redirectUrl,
+  }: {
+    socialType: SocialLoginType;
+    redirectUrl: string;
+  }): void => {
+    window.location.href = `${
+      import.meta.env.VITE_API_URL
+    }/auth/login/oauth2/${socialType.toLocaleLowerCase()}?redirect-url=${redirectUrl}`;
+  };
+
   // 이메일 회원가입
   emailSignup = async (userInfo: {
     email: string;
@@ -70,19 +84,19 @@ class AuthService {
     }
   };
 
-  getUserIfAuthenticated = async (): Promise<UserProfileType | null> => {
-    const certificationId = !!localApi.getUserCertificationId();
+  // getUserIfAuthenticated = async (): Promise<UserProfileType | null> => {
+  //   const certificationId = !!localApi.getUserCertificationId();
 
-    if (!certificationId) {
-      return null;
-    }
+  //   if (!certificationId) {
+  //     return null;
+  //   }
 
-    return await this.fetchUser();
-  };
+  //   return await this.fetchUser();
+  // };
 
-  logout = () => {
-    localApi.removeCertification();
-  };
+  // logout = () => {
+  //   localApi.removeCertification();
+  // };
 
   // 이용약관 조회
   fetchTerms = async (): Promise<TermsOfServiceType[] | null> => {

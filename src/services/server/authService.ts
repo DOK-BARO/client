@@ -5,6 +5,7 @@ import localApi from "../local/LocalApi.ts";
 import { TermsOfServiceType } from "@/types/TermsOfServiceType.ts";
 import { UserProfileType } from "@/types/UserType.ts";
 import { axiosInstance } from "@/config/axiosConfig.ts";
+import { handleAxiosError } from "@/utils/handleAxiosError.ts";
 
 class AuthService {
   constructor(
@@ -12,41 +13,6 @@ class AuthService {
   ) {
     this.redirectedUrl = redirectedUrl;
   }
-
-  //   fetchAuthUrl = async (socialLoginType: SocialLoginType): Promise<string> => {
-  //     try {
-  //       const { data } = await axiosInstance.get(
-  //         `/auth/oauth2/authorize/${socialLoginType}?redirectUrl=${
-  //           this.redirectedUrl
-  //         }/${socialLoginType.toLowerCase()}`
-  //       );
-  //       return data.url; // 임시 임의 리턴값
-  //     } catch (error) {
-  //       throw new Error(`권한 부여 URL 가져오기 실패: ${error}`);
-  //     }
-  //   };
-
-  //   // new: 소셜 회원가입 또는 로그인
-  //   socialSignupOrLogin = async (
-  //     socialType: SocialLoginType,
-  //     redirectUrl: string
-  //   ): Promise<AuthResponse> => {
-  //     const provider = socialType.toLocaleLowerCase();
-  //     console.log(provider, "socialSignup");
-  //     try {
-  //       const { data } = await axiosInstance.get(
-  //         `/auth/login/oauth2/${provider}`,
-  //         {
-  //           params: {
-  //             "redirect-url": redirectUrl,
-  //           },
-  //         }
-  //       );
-  //       return data;
-  //     } catch (error) {
-  //       throw new Error(`social auth error: ${error}`);
-  //     }
-  //   };
 
   socialLogin = async (
     socialType: SocialLoginType,
@@ -226,16 +192,7 @@ class AuthService {
         console.log(response);
       }
     } catch (error) {
-      const err = error as AxiosError;
-      if (err.response) {
-        const data = err.response.data as { message: string };
-        // 400 -> 이미 가입된 이메일
-        // {
-        //   status: 400
-        // }
-        // console.log(data);
-        throw new Error(data.message);
-      }
+      handleAxiosError(error);
     }
   };
 

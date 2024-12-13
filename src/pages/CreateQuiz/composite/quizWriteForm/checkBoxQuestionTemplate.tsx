@@ -5,6 +5,7 @@ import { QuizQuestionType } from "@/types/QuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { useQuestionTemplate } from "@/hooks/useQuestionTemplate";
 import SelectOption from "./selectOption";
+import { SelectOptionType } from "@/types/QuizType";
 
 export const CheckBoxQuestionTemplate: FC<{
   questionFormMode?: string;
@@ -32,7 +33,12 @@ export const CheckBoxQuestionTemplate: FC<{
   const [checkedOptions, setCheckedOptions] = useState<{ [key: string]: boolean; }>(setInitialAnswer());
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { id, checked, value } = event.target;
+    const { id, checked } = event.target;
+
+		const currentQuestion: QuizQuestionType = quizCreationInfo.questions?.find((question) => (question.id.toString() === questionFormId!))!;
+		const targetSelectOption: SelectOptionType = currentQuestion.selectOptions.find((option)=>(id === option.id.toString()))!;
+		const currentAnswer: string = targetSelectOption.answerIndex.toString();
+
 
     setCheckedOptions((prev) => {
       return {
@@ -46,8 +52,8 @@ export const CheckBoxQuestionTemplate: FC<{
         ? {
           ...question,
           answers: checked
-            ? [...question.answers, value]
-            : question.answers.filter((answer) => answer !== value),
+            ? [...question.answers, currentAnswer]
+            : question.answers.filter((answer) => answer !== currentAnswer),
         }
         : question
     );

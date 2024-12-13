@@ -2,6 +2,7 @@ import axios from "axios";
 
 export const axiosInstance = axios.create({
   withCredentials: true,
+  timeout: 3000,
   baseURL: import.meta.env.VITE_API_URL,
 });
 
@@ -18,7 +19,14 @@ axiosInstance.interceptors.response.use(
 
     logOnDev(`[API] ${method?.toUpperCase()} ${url} | Request ${status}`);
     return response;
+  },
+  (error) => {
+    if (error.code === "ECONNABORTED" || error.message.includes("timeout")) {
+      return Promise.reject(new Error("요청 시간이 초과되었습니다."));
+    }
+    return Promise.reject(error);
   }
+
   // (error) => {
   //   // TODO: useQuery 에러 처리랑 겹치는 부분 어떻게 할지
   //   const status = error?.response?.status;

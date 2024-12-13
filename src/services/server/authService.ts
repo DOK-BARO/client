@@ -107,10 +107,12 @@ class AuthService {
       console.log("이메일 회원가입 post 응답", response);
       return response;
     } catch (error) {
-      if (error instanceof Error) {
-        console.error("에러 메시지:", error.message);
-      } else {
-        console.error("알 수 없는 에러:", error);
+      const err = error as AxiosError;
+
+      if (err.response) {
+        const data = err.response.data as { message: string };
+        console.log(data);
+        throw new Error(data.message);
       }
     }
   };
@@ -133,7 +135,6 @@ class AuthService {
       return response;
     } catch (error) {
       throw new Error(`이메일 로그인 실패: ${error}`);
-      return false;
     }
   };
 
@@ -269,6 +270,27 @@ class AuthService {
       // 인증코드가 일치하지 않을 경우
       // TODO: 상세한 에러 처리 필요
       throw new Error(`인증코드 일치 실패: ${error}`);
+    }
+  };
+
+  // 임시 비밀번호 발급
+  issueTempPassword = async (email: string) => {
+    try {
+      const response = await axiosInstance.post(
+        "/accounts/email/issue-temporary-password",
+        {
+          email: email,
+        }
+      );
+      console.log(response);
+      // TODO: 에러 처리 관련 수정 예정입니다.
+    } catch (error) {
+      const err = error as AxiosError;
+      if (err.response) {
+        const data = err.response.data as { message: string };
+        console.log(data);
+        throw new Error(data.message);
+      }
     }
   };
 }

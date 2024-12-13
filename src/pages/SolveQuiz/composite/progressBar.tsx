@@ -7,11 +7,11 @@ import { Close } from "@/svg/close";
 export default function ProgressBar({
 	currentStep,
 	questions,
-	isAnswerCorrect,
+	isAnswerCorrects,
 }: {
 	questions: SolvingQuizQuestionType[];
 	currentStep: number;
-	isAnswerCorrect: boolean[];
+	isAnswerCorrects: boolean[];
 }) {
 	return (
 		<section className={styles["progress-bar"]}>
@@ -20,13 +20,13 @@ export default function ProgressBar({
 					const questionIndex = index + 1;
 					const isCurrent = currentStep === questionIndex;
 					let isCorrect;
-					let isCheckedAnswer = isAnswerCorrect[index] !== undefined;
+					let isCheckedAnswer = isAnswerCorrects[index] !== undefined;
 					let className = styles["step"];
 					if (isCurrent) {
 						className = styles["current-step"];
 					}
 					if (isCheckedAnswer) {
-						isCorrect = isAnswerCorrect[index];
+						isCorrect = isAnswerCorrects[index];
 						console.log(isCorrect);
 						if (isCorrect) {
 							className = styles["correct-step"];

@@ -8,31 +8,39 @@ import { useEffect } from "react";
 import { useAtom } from "jotai";
 import { selectedOptionsAtom } from "@/store/quizAtom";
 import { OptionStatusType } from "@/components/atom/radioOption/radioOption";
-import { AnswerType } from "@/types/QuizType";
+import { Check } from "@/svg/check";
+import { Close } from "@/svg/close";
+import { gray0 } from "@/styles/abstracts/colors";
 
 export default function SolvingQuizForm({
+	formIndex,
 	question,
 	setSubmitDisabled,
 	correctAnswer,
 	optionDisabled,
+	isAnswerCorrects,
+	didAnswerChecked,
 }: {
+	formIndex: number,
 	question: SolvingQuizQuestionType;
 	optionDisabled: boolean;
 	setSubmitDisabled: React.Dispatch<React.SetStateAction<boolean>>;
 	correctAnswer: string[];
+	isAnswerCorrects: boolean[];
+	didAnswerChecked: boolean;
 }) {
-	const [,setSelectedOptions] = useAtom(selectedOptionsAtom);
+	const [, setSelectedOptions] = useAtom(selectedOptionsAtom);
 	const { selectedValue: selectedRadioOption, handleChange, setSelectedValue } = useRadioGroup('');
 
-	useEffect(()=> {
-		if(selectedRadioOption){
+	useEffect(() => {
+		if (selectedRadioOption) {
 			setSubmitDisabled(false);
 		}
-	},[selectedRadioOption]);
+	}, [selectedRadioOption]);
 
 	useEffect(() => {
 		setSelectedValue('');
-	},[question]);
+	}, [question]);
 
 	const handleSelectOptions = (e: React.ChangeEvent<HTMLInputElement>) => {
 		handleChange(e);
@@ -40,21 +48,45 @@ export default function SolvingQuizForm({
 		setSelectedOptions([option]);
 	}
 
-	const getQuizType = ():string => {
+	const getQuizType = (): string => {
 		//TODO checkbox옵션 확인 필요
-		if(question.type === "MULTIPLE_CHOICE" ){
+		if (question.type === "MULTIPLE_CHOICE") {
 			return "단수 정답";
-		}else if(question.type ==="OX"){
+		} else if (question.type === "OX") {
 			return "OX"
 		}
 		return "";
 	}
 
+	const isCorrect = isAnswerCorrects[formIndex];
+
 	return (
 		<section className={styles["container"]}>
 			<div className={styles["title-area"]}>
 				<Button size="xsmall" color="white">{getQuizType()}</Button>
-				<h2>{question.content.toString()}</h2>
+				<div className={styles["title-wrapper"]}>
+					{didAnswerChecked &&
+						<div className={isCorrect ? styles["tag-correct"] : styles["tag-incorrect"]}>
+							{
+								isCorrect ?
+									<Check
+										stroke={gray0}
+										width={26}
+										height={26}
+
+									/>
+									:
+									<Close
+										stroke={gray0}
+										width={26}
+										height={26}
+										strokeWidth={2.1}
+									/>
+							}
+						</div>
+					}
+					<h2>{question.content.toString()}</h2>
+				</div>
 			</div>
 			<div
 				className={styles["options-area"]}
@@ -74,15 +106,15 @@ export default function SolvingQuizForm({
 						if (isChecked) { 	// 체크된 상태인데 맞았을 때
 							typeName = "option-selected"
 							if (correctAnswer?.length) {
-								const correctAnswerIdx: string[] = correctAnswer.map((answer)=>(parseInt(answer)-1).toString());
+								const correctAnswerIdx: string[] = correctAnswer.map((answer) => (parseInt(answer) - 1).toString());
 								isCorrect = correctAnswerIdx.includes(index.toString());
 								if (isCorrect) {
 									typeName = "option-correct"
 								}
 							}
-						}else{ 	// 체크 안했는데 그게 답일때
+						} else { 	// 체크 안했는데 그게 답일때
 							if (correctAnswer?.length) {
-								const correctAnswerIdx: string[] = correctAnswer.map((answer)=>(parseInt(answer)-1).toString());
+								const correctAnswerIdx: string[] = correctAnswer.map((answer) => (parseInt(answer) - 1).toString());
 								isCorrect = correctAnswerIdx.includes(index.toString());
 								if (isCorrect) {
 									typeName = "option-incorrect";

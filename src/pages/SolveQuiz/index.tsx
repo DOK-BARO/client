@@ -36,7 +36,8 @@ export default function Index() {
 	const [optionDisabled, setOptionDisabled] = useState<boolean>(false);
 	const [didAnswerChecked, setDidAnswerChecked] = useState<boolean>(false);
 	const [toggleAnswerDescription, setToggleAnswerDescription] = useState<boolean>(false);
-	const [isAnswerCorrect, setIsAnswerCorrect] = useState<boolean[]>([]);
+	const [isAnswerCorrects, setIsAnswerCorrects] = useState<boolean[]>([]);
+	const currentFormIndex:number = currentStep - 1;
 
 	//TODO: 퀴즈 풀러가기 버튼 핸들러 구현 지점에서 사용될 hook으로 만들어도 될듯
 	// navigate(`/quiz/${bookDetailContent.id}`);
@@ -72,7 +73,7 @@ export default function Index() {
 		if (checkedResult) {
 			setQuestionCheckedResult(checkedResult)
 			setDidAnswerChecked(true);
-			setIsAnswerCorrect((prev) => ([
+			setIsAnswerCorrects((prev) => ([
 				...prev, checkedResult.correct
 			]));
 		}
@@ -113,16 +114,19 @@ export default function Index() {
 		<section className={styles["container"]}>
 			<ProgressBar
 				questions={quiz.questions}
-				isAnswerCorrect={isAnswerCorrect}
+				isAnswerCorrects={isAnswerCorrects}
 				currentStep={currentStep}
 			/>
 			<div className={styles["inner-container"]}>
 				<div className={styles["question-area"]}>
 					<SolvingQuizForm
+						formIndex={currentFormIndex}
 						optionDisabled={optionDisabled}
 						setSubmitDisabled={setSubmitDisabled}
-						question={quiz.questions[currentStep - 1]}
+						question={quiz.questions[currentFormIndex]}
 						correctAnswer={questionCheckedResult?.correctAnswer ?? []}
+						isAnswerCorrects={isAnswerCorrects}
+						didAnswerChecked={didAnswerChecked}
 					/>
 					<Button
 						size="xsmall"
@@ -168,7 +172,7 @@ export default function Index() {
 					className={styles["footer-btn"]}
 				>채점하기</Button>
 			}
-
+{/* TODO: 없다가 나타나는 애니메이션 처리 필요 */}
 			{
 				didAnswerChecked &&
 				<div className={`${styles["footer-btn-container"]} ${didAnswerChecked ? styles.visible : ''}`}>

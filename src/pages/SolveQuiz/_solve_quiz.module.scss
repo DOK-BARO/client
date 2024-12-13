@@ -28,7 +28,7 @@
 	&-container{
 		opacity: 0;
 	}
-	
+	// TODO: 없다가 나타나는 애니메이션 처리 필요
 	&-container.visible{
 		display: flex;
 		gap: 20px;

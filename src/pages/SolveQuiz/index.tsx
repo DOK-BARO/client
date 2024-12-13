@@ -171,7 +171,7 @@ export default function Index() {
 
 			{
 				didAnswerChecked &&
-				<div className={styles["footer-btn-container"]}>
+				<div className={`${styles["footer-btn-container"]} ${didAnswerChecked ? styles.visible : ''}`}>
 					<Button
 						onClick={handleShowAnswerDescriptionBtn}
 						color="primary-border"

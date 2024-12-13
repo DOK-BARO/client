@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { useAtom } from "jotai";
 import { selectedOptionsAtom } from "@/store/quizAtom";
 import { OptionStatusType } from "@/components/atom/radioOption/radioOption";
+import { AnswerType } from "@/types/QuizType";
 
 export default function SolvingQuizForm({
 	question,
@@ -39,10 +40,20 @@ export default function SolvingQuizForm({
 		setSelectedOptions([option]);
 	}
 
+	const getQuizType = ():string => {
+		//TODO checkbox옵션 확인 필요
+		if(question.type === "MULTIPLE_CHOICE" ){
+			return "단수 정답";
+		}else if(question.type ==="OX"){
+			return "OX"
+		}
+		return "";
+	}
+
 	return (
 		<section className={styles["container"]}>
 			<div className={styles["title-area"]}>
-				<Button size="xsmall" color="white">{question.type}</Button>
+				<Button size="xsmall" color="white">{getQuizType()}</Button>
 				<h2>{question.content.toString()}</h2>
 			</div>
 			<div

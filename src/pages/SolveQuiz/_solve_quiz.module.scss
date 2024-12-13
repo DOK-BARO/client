@@ -22,11 +22,18 @@
 }
 
 .footer-btn{
-	width: 120px;
-
-	&-container{
 	display: flex;
-	gap: 20px;
+	width: 120px;
+	
+	&-container{
+		opacity: 0;
+	}
+	
+	&-container.visible{
+		display: flex;
+		gap: 20px;
+		opacity: 1;
+		transition: all 0.3s;
 	}
 }
 

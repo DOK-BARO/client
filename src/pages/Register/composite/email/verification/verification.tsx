@@ -12,6 +12,9 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { XSmall } from "@/svg/xSmall";
 import AuthCodeInput from "@/components/composite/authCodeInput/AuthCodeInput";
 import { authService } from "@/services/server/authService";
+import { useMutation } from "@tanstack/react-query";
+import { ErrorType } from "@/types/ErrorType";
+import toast from "react-hot-toast";
 
 export default function Verification({
   setStep,
@@ -30,9 +33,32 @@ export default function Verification({
 
   const [isMatch, setIsMatch] = useState<boolean | undefined>(undefined);
   const [isEmailSent, setIsEmailSent] = useState<boolean>(false);
-  const [isAlreadyRegisteredEmail, setIsAlreadyRegisteredEmail] = useState<boolean>(false);
+  const [isEmailReadyToSend, setIsEmailReadyToSend] = useState<boolean>(false);
 
-  const handleNext = async () => {
+  useEffect(() => {
+    setIsEmailReadyToSend(true);
+  }, [email]);
+
+  const { mutate: sendEmailCodeMutate, error: sendEmailCodeError } =
+    useMutation<void, ErrorType>({
+      mutationFn: () => authService.sendEmailCode(email),
+      onSuccess: () => {
+        setIsEmailSent(true);
+      },
+      onSettled: () => {
+        setIsEmailReadyToSend(false);
+      },
+    });
+    
+  const { mutate: resendEmailCodeMutate } = useMutation<void, ErrorType>({
+    mutationFn: () => authService.resendEmailCode(email),
+    onError: (error) => {
+      toast.error(error.message || "알 수 없는 오류가 발생했습니다.");
+    },
+  });
+
+  // 인증코드 발송
+  const handleNext = () => {
     if (!email || !isEmailValid) {
       return;
     }
@@ -41,13 +67,12 @@ export default function Verification({
       email,
     });
     // 인증코드 발송
-    await authService.sendEmailCode(email);
-    setIsEmailSent(true);
+    sendEmailCodeMutate();
   };
 
   // 이메일 인증코드 재전송
-  const handleResend = async () => {
-    await authService.resendEmailCode(email);
+  const handleResend = () => {
+    resendEmailCodeMutate();
   };
 
   const handleCodeChange = (
@@ -123,6 +148,18 @@ export default function Verification({
     setIsMatch(result);
   };
 
+  const getMessageContent = () => {
+    if (isEmailValid === false) {
+      return "옳지 않은 형식의 이메일입니다.";
+    }
+    if (!isEmailReadyToSend && sendEmailCodeError?.code === 400) {
+      return "이미 사용중인 이메일입니다.";
+    }
+    return undefined;
+  };
+
+  const messageContent = getMessageContent();
+
   return (
     <section className={styles["verification"]}>
       <h3>로그인 이메일 입력</h3>
@@ -144,18 +181,21 @@ export default function Verification({
       {!isEmailSent ? (
         <Input
           message={
-            isEmailValid === false ? (
+            messageContent ? (
               <span className={styles["message-container"]}>
                 <XSmall stroke={systemDanger} width={20} height={20} />
-                <p>옳지 않은 형식의 이메일입니다.</p>
+                <p>{messageContent}</p>
               </span>
-            ) : (
-              <></>
-            )
+            ) : undefined
           }
           fullWidth
           color={isEmailValid ? "black" : "default"}
-          isError={isEmailValid === false ? true : undefined}
+          isError={
+            isEmailValid === false ||
+            (!isEmailReadyToSend && sendEmailCodeError?.code === 401)
+              ? true
+              : undefined
+          }
           id="email"
           value={email}
           onChange={onEmailChange}
@@ -190,6 +230,9 @@ export default function Verification({
       >
         이메일 재전송하기
       </Button>
+      {!isEmailReadyToSend && sendEmailCodeError?.code === 401 ? (
+        <div>이미 사용중인 이메일입니다.</div>
+      ) : null}
     </section>
   );
 }

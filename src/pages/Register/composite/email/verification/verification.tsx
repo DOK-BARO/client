@@ -39,21 +39,29 @@ export default function Verification({
     setIsEmailReadyToSend(true);
   }, [email]);
 
-  const { mutate: sendEmailCodeMutate, error: sendEmailCodeError } =
-    useMutation<void, ErrorType>({
-      mutationFn: () => authService.sendEmailCode(email),
-      onSuccess: () => {
-        setIsEmailSent(true);
-      },
-      onSettled: () => {
-        setIsEmailReadyToSend(false);
-      },
-    });
-    
-  const { mutate: resendEmailCodeMutate } = useMutation<void, ErrorType>({
+  const { mutate: sendEmailCode, error: sendEmailCodeError } = useMutation<
+    void,
+    ErrorType
+  >({
+    mutationFn: () => authService.sendEmailCode(email),
+    onSuccess: () => {
+      toast.success("인증 번호가 전송되었습니다.");
+      setIsEmailSent(true);
+    },
+
+    onSettled: () => {
+      setIsEmailReadyToSend(false);
+    },
+    onError: () => {
+      // 전역 설정된 토스트 알림을 띄우지 않기 위함
+    },
+  });
+
+  const { mutate: resendEmailCode } = useMutation({
     mutationFn: () => authService.resendEmailCode(email),
-    onError: (error) => {
-      toast.error(error.message || "알 수 없는 오류가 발생했습니다.");
+    // onError 시 토스트 알람 처리는 전역에서 설정
+    onSuccess: () => {
+      toast.success("인증 번호가 전송되었습니다.");
     },
   });
 
@@ -67,12 +75,12 @@ export default function Verification({
       email,
     });
     // 인증코드 발송
-    sendEmailCodeMutate();
+    sendEmailCode();
   };
 
   // 이메일 인증코드 재전송
   const handleResend = () => {
-    resendEmailCodeMutate();
+    resendEmailCode();
   };
 
   const handleCodeChange = (
@@ -139,13 +147,24 @@ export default function Verification({
       }
     }
   };
+  const { mutate: matchEmailCode } = useMutation<
+    { result: boolean } | null,
+    ErrorType,
+    { email: string; code: string }
+  >({
+    mutationFn: (emailAndCode) => authService.matchEmailCode(emailAndCode),
+    onSettled: (data) => {
+      const matchResult = data?.result ?? false;
+      setIsMatch(matchResult);
+    },
+  });
 
-  const handleDone = async () => {
-    const { result } = await authService.matchEmailCode({
+  const handleDone = () => {
+    const emailAndCode = {
       email,
       code: fullCode,
-    });
-    setIsMatch(result);
+    };
+    matchEmailCode(emailAndCode);
   };
 
   const getMessageContent = () => {
@@ -192,7 +211,7 @@ export default function Verification({
           color={isEmailValid ? "black" : "default"}
           isError={
             isEmailValid === false ||
-            (!isEmailReadyToSend && sendEmailCodeError?.code === 401)
+            (!isEmailReadyToSend && sendEmailCodeError?.code === 400)
               ? true
               : undefined
           }
@@ -230,9 +249,6 @@ export default function Verification({
       >
         이메일 재전송하기
       </Button>
-      {!isEmailReadyToSend && sendEmailCodeError?.code === 401 ? (
-        <div>이미 사용중인 이메일입니다.</div>
-      ) : null}
     </section>
   );
 }

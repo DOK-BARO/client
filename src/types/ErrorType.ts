@@ -1,5 +1,4 @@
-export interface ErrorType {
-  code: number;
-  message?: string;
+export interface ErrorType extends Error {
+  code?: number;
   details?: any;
 }

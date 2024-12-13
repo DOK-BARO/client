@@ -138,10 +138,11 @@ export default function Verification({
   };
 
   const handleDone = async () => {
-    const { result } = await authService.matchEmailCode({
+    const { result } = (await authService.matchEmailCode({
       email,
       code: fullCode,
-    });
+    })) || { result: false };
+
     setIsMatch(result);
   };
 

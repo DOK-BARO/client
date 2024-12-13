@@ -2,7 +2,6 @@ import { authService } from "@/services/server/authService";
 import { ErrorType } from "@/types/ErrorType";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
-import { clearAuthWithPageStatus } from "./clearAuthWithPageStatus";
 
 // 공통 에러 처리 함수
 export const handleAxiosError = (error: unknown) => {
@@ -28,7 +27,6 @@ export const handleQueryError = (error: ErrorType) => {
       toast.error("이 기능을 사용하기 위해서는 적절한 권한이 필요합니다.");
       break;
     case 500:
-      clearAuthWithPageStatus();
       toast.error("서버 오류가 발생했습니다. 관리자에게 문의해주세요.");
       break;
     default:

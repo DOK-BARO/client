@@ -141,19 +141,20 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
       return;
     }
     // - 옵션 하나도 없을 때: 선택지를 1개 이상 추가해 주세요.
-    if (questionForm.selectOptions.length === 0) {
-      setErrorModalTitle("선택지를 1개 이상 추가해 주세요");
-      openModal!();
-      return;
-    }
+    // if (questionForm.selectOptions.length === 0) {
+    //   setErrorModalTitle("선택지를 1개 이상 추가해 주세요");
+    //   openModal!();
+    //   return;
+    // }
 
     // -  중복된 옵션이 있을 때: 중복된 옵션입니다. 다시 입력해 주세요.
-    const duplicated:boolean = hasDuplicate(selectOptions);
-    if(duplicated){
-      setErrorModalTitle("중복된 옵션입니다. 다시 입력해 주세요.");
-      openModal!();
-      return;
-    }
+		//TODO: 체크박스랑 ox 작동 잘못됨
+    // const duplicated:boolean = hasDuplicate(selectOptions);
+    // if(duplicated){
+    //   setErrorModalTitle("중복된 옵션입니다. 다시 입력해 주세요.");
+    //   openModal!();
+    //   return;
+    // }
   }
 
   const fileInputRef = useRef<HTMLInputElement | null>(null); // 파일 입력 참조

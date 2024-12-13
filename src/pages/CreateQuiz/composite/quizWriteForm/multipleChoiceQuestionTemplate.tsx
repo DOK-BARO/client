@@ -2,7 +2,7 @@ import styles from "./_question_form.module.scss";
 import { FC, useEffect } from "react";
 import { QuestionFormMode } from "@/data/constants.ts";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
-import { QuizQuestionType } from "@/types/QuizType";
+import { QuizQuestionType, SelectOptionType } from "@/types/QuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { useQuestionTemplate } from "@/hooks/useQuestionTemplate";
 import SelectOption from "./selectOption";
@@ -34,6 +34,8 @@ export const MultipleChoiceQuestionTemplate: FC<{ questionFormMode?: string, que
       },
   } as ChangeEvent<HTMLInputElement>;
   onRadioGroupChange(event);
+
+	
   }, [questionFormMode]);
 
 
@@ -49,11 +51,19 @@ export const MultipleChoiceQuestionTemplate: FC<{ questionFormMode?: string, que
   };
 
   const handleRadioGroupChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
+    const {id} = event.target;
     onRadioGroupChange(event);
+		
+		const currentQuestion: QuizQuestionType = quizCreationInfo.questions?.find((question) => (question.id.toString() === questionFormId!))!;
+		console.log("cQ :%o",currentQuestion)
+		const targetSelectOption: SelectOptionType = currentQuestion.selectOptions.find((option)=>(id === option.id.toString()))!;
+		console.log("to :%o",targetSelectOption)
 
-    const updatedQuestions: QuizQuestionType[] = quizCreationInfo.questions!.map((question) => question.id.toString() === questionFormId ? { ...question, answers: [value] } : question);
+		const currentAnswer: string = targetSelectOption.answerIndex.toString();
+
+    const updatedQuestions: QuizQuestionType[] = quizCreationInfo.questions!.map((question) => question.id.toString() === questionFormId ? { ...question, answers: [currentAnswer] } : question);
     updateQuizCreationInfo("questions", updatedQuestions);
+		console.log("question:%o",updatedQuestions);
   }
 
   return (

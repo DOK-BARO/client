@@ -16,8 +16,9 @@ import { RegisterInfoAtom } from "@/store/userAtom";
 import { RegisterInfoType } from "@/types/UserType";
 import { useAtom } from "jotai";
 import { authService } from "@/services/server/authService";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { authKeys } from "@/data/queryKeys";
+import { ErrorType } from "@/types/ErrorType";
 
 export default function TermsAgreement({
   setStep,
@@ -28,9 +29,6 @@ export default function TermsAgreement({
 
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  useEffect(() => {
-    console.log(isModalOpen);
-  }, [isModalOpen]);
   const [user, setUser] = useAtom<RegisterInfoType>(RegisterInfoAtom);
   const [termId, setTermId] = useState<number | null>(null);
 
@@ -50,7 +48,17 @@ export default function TermsAgreement({
   const { data: terms, isLoading: isTermsLoading } = useQuery({
     queryKey: authKeys.terms(),
     queryFn: authService.fetchTerms,
+    // 에러는 전역에서 처리
   });
+
+  const { mutate: agreeTerms } = useMutation<void, ErrorType, number[]>({
+    mutationFn: (items) => authService.sendTermsAgreement(items),
+    onSuccess: () => {
+      setStep((prev) => prev + 1);
+    },
+    // 에러는 전역에서 처리
+  });
+
   const [modalTitle, setModalTitle] = useState<string>("");
 
   useEffect(() => {
@@ -126,9 +134,11 @@ export default function TermsAgreement({
   };
 
   // 필수 항목에 동의했을 때
-  const isSubmitAble: boolean = Object.values(agreements).every(
-    (agreement) => agreement.checked || !agreement.isRequired
-  );
+  const isSubmitAble: boolean = terms
+    ? Object.values(agreements).every(
+        (agreement) => agreement.checked || !agreement.isRequired
+      )
+    : false;
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -144,11 +154,11 @@ export default function TermsAgreement({
         ...user,
         termsAgreements: items,
       });
+      setStep((prev) => prev + 1);
     } else {
       // 이용약관 동의
-      await authService.sendTermsAgreement(items);
+      agreeTerms(items);
     }
-    setStep((prev) => prev + 1);
   };
 
   return (

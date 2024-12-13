@@ -6,14 +6,16 @@ import { XSmall } from "@/svg/xSmall";
 import { systemDanger } from "@/styles/abstracts/colors";
 import { Dispatch } from "react";
 import { SetStateAction } from "jotai";
+import { authService } from "@/services/server/authService";
 
 export default function SendTemporaryPassword({
   setStep,
 }: {
   setStep: Dispatch<SetStateAction<number>>;
 }) {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    await authService.issueTempPassword(email);
     setStep((prev) => prev + 1);
   };
   const { value: email, onChange: onEmailChange } = useInput("");

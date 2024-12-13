@@ -17,7 +17,7 @@ import { XSmall } from "@/svg/xSmall.tsx";
 import { Invisible } from "@/svg/invisible.tsx";
 import { useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
-import { IsEmailLoginPage } from "@/store/authModalAtom.ts";
+import { IsEmailLoginPageAtom } from "@/store/authModalAtom.ts";
 import { authService } from "@/services/server/authService.ts";
 interface LoginModalProps {
   closeModal: () => void;
@@ -33,7 +33,7 @@ const socialLoginMethodButtonImage = [
 const LoginModal = ({ closeModal }: LoginModalProps) => {
   // TODO: 전역으로 상태 변경할 수 있도록 해야함
   // const [isEmailSelected, setIsEmailSelected] = useState<boolean>(false);
-  const [isEmailLoginPage] = useAtom(IsEmailLoginPage);
+  const [isEmailLoginPage] = useAtom(IsEmailLoginPageAtom);
   const navigate = useNavigate();
 
   const { value: email, onChange: onEmailChange } = useInput("");
@@ -42,7 +42,7 @@ const LoginModal = ({ closeModal }: LoginModalProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const isInputFilled = email && password;
 
-  const [isMatched, setIsMatched] = useState<boolean>(false);
+  const [isMatched] = useState<boolean>(false);
 
   const handlePasswordVisible = () => {
     setIsPasswordVisible((prev) => !prev);
@@ -54,7 +54,6 @@ const LoginModal = ({ closeModal }: LoginModalProps) => {
     console.log("로그인");
     // 로그인 멤버 정보 -> 아이디
     authService.emailLogin({ email, password });
-    
   };
 
   const handleSignupClick = () => {

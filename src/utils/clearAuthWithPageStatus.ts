@@ -1,6 +1,6 @@
-import localApi from "@/services/local/LocalApi";
+// import localApi from "@/services/local/LocalApi";
 
-export const clearAuthWithPageStatus = () => {
-  window.location.href = "/";
-  localApi.removeAll();
-};
+// export const clearAuthWithPageStatus = () => {
+//   window.location.href = "/";
+//   localApi.removeAll();
+// };

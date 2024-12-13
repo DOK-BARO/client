@@ -1,7 +1,7 @@
 import styles from "./_register_layout.module.scss";
 import ProgressBar from "@/pages/Register/components/progressBar/progressBar.tsx";
-import { useQueryCurrentUser } from "@/hooks/useQueryCurrentUser";
-import { RegisterInfoAtom } from "@/store/userAtom";
+// import { useQueryCurrentUser } from "@/hooks/useQueryCurrentUser";
+import { CurrentUserAtom, RegisterInfoAtom } from "@/store/userAtom";
 import { RegisterInfoType } from "@/types/UserType";
 import { useAtom } from "jotai";
 import { useEffect, useState } from "react";
@@ -17,17 +17,18 @@ const SocialRegisterLayout = () => {
   };
 
   const title = titles[step || ""] || "";
+  const [currentUser] = useAtom(CurrentUserAtom);
 
-  const { isLoading, user } = useQueryCurrentUser();
+  // const { isLoading, user } = useQueryCurrentUser();
   const [registrationInfo, setRegistrationInfo] =
     useAtom<RegisterInfoType>(RegisterInfoAtom);
 
   useEffect(() => {
     // 유저 이메일 설정
-    if (!isLoading && user) {
+    if (currentUser) {
       setRegistrationInfo({
         ...registrationInfo,
-        email: user.email,
+        email: currentUser.email,
       });
     }
   }, []);

@@ -42,7 +42,7 @@ const LoginModal = ({ closeModal }: LoginModalProps) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const isInputFilled = email && password;
 
-  const [isMatched, setIsMatched] = useState<boolean>(false);
+  const [isMatched] = useState<boolean>(false);
 
   const handlePasswordVisible = () => {
     setIsPasswordVisible((prev) => !prev);
@@ -54,7 +54,6 @@ const LoginModal = ({ closeModal }: LoginModalProps) => {
     console.log("로그인");
     // 로그인 멤버 정보 -> 아이디
     authService.emailLogin({ email, password });
-    
   };
 
   const handleSignupClick = () => {

@@ -38,18 +38,20 @@ export default function Verification({
     setIsEmailReadyToSend(true);
   }, [email]);
 
-  const { mutate: sendEmailCodeMutate, error: sendEmailCodeError } =
-    useMutation<void, ErrorType>({
-      mutationFn: () => authService.sendEmailCode(email),
-      onSuccess: () => {
-        setIsEmailSent(true);
-      },
-      onSettled: () => {
-        setIsEmailReadyToSend(false);
-      },
-    });
+  const { mutate: sendEmailCode, error: sendEmailCodeError } = useMutation<
+    void,
+    ErrorType
+  >({
+    mutationFn: () => authService.sendEmailCode(email),
+    onSuccess: () => {
+      setIsEmailSent(true);
+    },
+    onSettled: () => {
+      setIsEmailReadyToSend(false);
+    },
+  });
 
-  const { mutate: resendEmailCodeMutate } = useMutation({
+  const { mutate: resendEmailCode } = useMutation({
     mutationFn: () => authService.resendEmailCode(email),
     // onError 시 토스트 알람 처리는 전역에서 설정
   });
@@ -64,12 +66,12 @@ export default function Verification({
       email,
     });
     // 인증코드 발송
-    sendEmailCodeMutate();
+    sendEmailCode();
   };
 
   // 이메일 인증코드 재전송
   const handleResend = () => {
-    resendEmailCodeMutate();
+    resendEmailCode();
   };
 
   const handleCodeChange = (

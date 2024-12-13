@@ -51,7 +51,7 @@ export default function TermsAgreement({
     // 에러는 전역에서 처리
   });
 
-  const { mutate: agreeTermsMutate } = useMutation<void, ErrorType, number[]>({
+  const { mutate: agreeTerms } = useMutation<void, ErrorType, number[]>({
     mutationFn: (items) => authService.sendTermsAgreement(items),
     onSuccess: () => {
       setStep((prev) => prev + 1);
@@ -157,7 +157,7 @@ export default function TermsAgreement({
       setStep((prev) => prev + 1);
     } else {
       // 이용약관 동의
-      agreeTermsMutate(items);
+      agreeTerms(items);
     }
   };
 

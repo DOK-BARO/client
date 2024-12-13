@@ -11,7 +11,10 @@ export type OptionStatusType = "option-writing"
 	| "option-correct" 
 	| "option-incorrect" 
 	| "option-selected" 
-	| "option-add" ;
+	| "option-add" 
+	| "solving-correct"
+	| "solving-incorrect"
+	;
 interface RadioOptionProps {
 	option: RadioOptionType;
 	type?: OptionStatusType
@@ -48,6 +51,7 @@ const RadioOption: React.FC<RadioOptionProps> = ({
 			${fullWidth ? styles["full"] : ""}
 			${styles[type]}
 			`;
+			console.log(checked, " : ", containerClassName);
 
 
 	const icon = () => {

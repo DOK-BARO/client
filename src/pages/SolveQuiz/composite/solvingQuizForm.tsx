@@ -109,7 +109,7 @@ export default function SolvingQuizForm({
 								const correctAnswerIdx: string[] = correctAnswer.map((answer) => (parseInt(answer) - 1).toString());
 								isCorrect = correctAnswerIdx.includes(index.toString());
 								if (isCorrect) {
-									typeName = "option-correct"
+									typeName = "solving-correct"
 								}
 							}
 						} else { 	// 체크 안했는데 그게 답일때
@@ -117,10 +117,10 @@ export default function SolvingQuizForm({
 								const correctAnswerIdx: string[] = correctAnswer.map((answer) => (parseInt(answer) - 1).toString());
 								isCorrect = correctAnswerIdx.includes(index.toString());
 								if (isCorrect) {
-									typeName = "option-incorrect";
+									typeName = "solving-incorrect";
 								}
 							}
-						}
+					}
 					}
 					return (
 						<div

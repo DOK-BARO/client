@@ -58,7 +58,7 @@ export default function Index() {
 			"playerId": 1,
 			"quizId": 3,
 			"questionId": 4,
-			"correct": true,
+			"correct": false,
 			"correctAnswer": [
 				"2"
 			],

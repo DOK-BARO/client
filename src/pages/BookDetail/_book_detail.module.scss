@@ -2,5 +2,16 @@
 @import "../../styles/abstracts/mixins";
 
 .container {
-  @include flex(column);
+	@include flex(column);
+	gap: 20px;
+	margin-top: 40px;
+}
+
+.book-detail-section {
+	@include flex(column);
+	gap: 40px;
+}
+
+.bread-crumb{
+margin-left: 40px;
 }

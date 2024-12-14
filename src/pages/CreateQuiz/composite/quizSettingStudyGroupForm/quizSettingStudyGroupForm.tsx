@@ -164,9 +164,6 @@ export default function QuizSettingStudyGroupForm() {
     <>
       {studyGroupList.length > 0 && (
         <>
-          <p className={styles["email-notification"]}>
-            스터디원들의 이메일로 퀴즈 생성 알림이 가요.
-          </p>
           {studyGroupList.map((studyGroup) => (
             <article
               key={studyGroup.id}

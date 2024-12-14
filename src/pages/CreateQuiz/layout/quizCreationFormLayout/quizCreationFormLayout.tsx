@@ -111,12 +111,13 @@ export default function QuizCreationFormLayout({
     return;
   };
   const endStep = steps.length - 1;
-  const { updateQuizCreationInfo } = useUpdateQuizCreationInfo();
+  // const { updateQuizCreationInfo } = useUpdateQuizCreationInfo();
 
   const goToNextStep = async () => {
-    if (currentStep === 0) {
-      updateQuizCreationInfo("studyGroup", undefined);
-    } else if (currentStep === 2.2) {
+    // if (currentStep === 0) {
+    //   updateQuizCreationInfo("studyGroup", undefined);
+    // } else
+    if (currentStep === 2.2) {
       console.log("validation check!");
       //TODO: 질문이 하나도 없을 때 버튼 다시 disable 필요
 
@@ -169,7 +170,6 @@ export default function QuizCreationFormLayout({
   };
 
   const step: Step = getCurrentStep();
-  console.log("step: %o", step);
 
   const title = step?.subSteps?.[0].title
     ? step.subSteps?.[0].title

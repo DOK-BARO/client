@@ -7,6 +7,11 @@ export const bookKeys = {
   search: (params?: SearchBooksParams) => ["bookSearch", params] as const,
 };
 
+export const studyGroupKeys = {
+  detail: (id: number | undefined) => ["studyGroupDetail", id] as const,
+  list: () => ["studyGroupList"] as const,
+};
+
 export const authKeys = {
   terms: () => ["terms"] as const,
   termDetail: (id: number | null) => ["termDetail", id] as const,

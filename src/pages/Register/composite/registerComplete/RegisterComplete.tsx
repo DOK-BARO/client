@@ -7,7 +7,7 @@ import { RegisterInfoAtom } from "@/store/userAtom";
 import { RegisterInfoType } from "@/types/UserType";
 import { useAtom } from "jotai";
 import { APP_NAME } from "@/data/constants";
-import { studyService } from "@/services/server/studyService";
+import { studyGroupService } from "@/services/server/studyGroupService";
 import { useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";
@@ -23,7 +23,7 @@ export default function RegisterComplete() {
   };
 
   const { mutate: joinStudyGroup } = useMutation<void, ErrorType, string>({
-    mutationFn: (inviteCode) => studyService.joinStudyGroup(inviteCode),
+    mutationFn: (inviteCode) => studyGroupService.joinStudyGroup(inviteCode),
   });
 
   // 초기화

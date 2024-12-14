@@ -1,3 +1,4 @@
+// 선택하면 불이 안들어와야 하는데 들어옴.. 다음버튼 누를때 들어오게 해야됨
 import styles from "./_quiz_setting_study_group_form.module.scss";
 import { useState, useEffect } from "react";
 import useModal from "@/hooks/useModal.ts";
@@ -10,40 +11,44 @@ import { QuizPlus } from "@/svg/quizPlus";
 import { XMedium } from "@/svg/xMedium";
 import { Link } from "@/svg/link";
 import { Copy } from "@/svg/copy";
-import { StudyGroupType } from "@/types/StudyGroupType";
-// 현재 알람 토클 기능 제외해놓았음.
-// import Toggle from "@/components/atom/toggle/toggle";
+import { StudyGroupPreviewType } from "@/types/StudyGroupType";
+import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
+import { studyGroupService } from "@/services/server/studyGroupService";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { ErrorType } from "@/types/ErrorType";
+import toast from "react-hot-toast";
+import { studyGroupKeys } from "@/data/queryKeys";
 import { useAtom } from "jotai";
 import { IsQuizNextButtonEnabledAtom } from "@/store/quizAtom";
-import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
-import { studyService } from "@/services/server/studyService";
-
-// export interface StudyGroupSelectType extends StudyGroupType {
-//   isSetAlarm: boolean;
-// }
 
 // TODO: 컴포넌트 분리
 // 1.스터디 선택
-// TODO: 스터디 생성 실패 시 alert 띄우기 -> 디자인 없음
 export default function QuizSettingStudyGroupForm() {
   const { isModalOpen, openModal, closeModal } = useModal();
-  const [studyGroupList, setStudyGroupList] = useState<StudyGroupType[]>([]);
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
-  const [selectedStudyGroup, setSelectedStudyGroup] =
-    useState<StudyGroupType | null>(() => {
-      if (
-        quizCreationInfo.studyGroup?.id &&
-        quizCreationInfo.studyGroup?.name
-      ) {
-        return {
-          id: quizCreationInfo.studyGroup.id,
-          name: quizCreationInfo.studyGroup.name,
-        };
-      }
-      return null; // id나 name이 없으면 null
-    });
-  const [newStudyGroup, setNewStudyGroup] = useState<string | null>(null);
+
+  const [studyGroupList, setStudyGroupList] = useState<StudyGroupPreviewType[]>(
+    []
+  );
+
+  const { data: studyGroups, isLoading: isStudyGroupsLoading } = useQuery({
+    queryKey: studyGroupKeys.list(),
+    queryFn: () => studyGroupService.fetchStudyGroups(),
+  });
+  // 초기화
+  useEffect(() => {
+    if (!isStudyGroupsLoading && studyGroups) {
+      setStudyGroupList(studyGroups);
+    }
+  }, [studyGroups]);
+
+  // 새롭게 추가된 스터디 그룹 이름
+  const [newStudyGroup, setNewStudyGroup] = useState<{
+    name: string;
+    id: number;
+  } | null>(null);
+
   const [isNewStudyGroupAdded, setNewStudyGroupAdded] =
     useState<boolean>(false);
   const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
@@ -51,40 +56,65 @@ export default function QuizSettingStudyGroupForm() {
   );
 
   useEffect(() => {
+    // TODO: 다음 버튼 누를 때 초록불 들어오게 하기
     setIsQuizNextButtonEnabled(true);
-    // TODO: 다음 버튼 누를 때 불이 들어와야 하는 건지, 아니면 지금처럼 처음 페이지에 접근했을 때부터 불이 들어와도 되는 건지
-  }, []);
+  }, [quizCreationInfo.studyGroup]);
 
-  useEffect(() => {
-    if (selectedStudyGroup) {
-      // 스터디 그룹 선택 -> 스터디 그룹 ID 저장(전역)
-      updateQuizCreationInfo("studyGroup", selectedStudyGroup.id);
-    }
-  }, [selectedStudyGroup]);
+  // useEffect(() => {
+  //   console.log(selectedStudyGroup, "!!");
+  //   if (selectedStudyGroup) {
+  //     // 스터디 그룹 선택 -> 스터디 그룹 ID 저장(전역)
+  //     updateQuizCreationInfo("studyGroup", selectedStudyGroup);
+  //   }
+  // }, [selectedStudyGroup]);
 
   // 모달 안 인풋
   const {
     value: studyName,
     onChange: onChangeStudyName,
     resetInput: resetStudyNameInput,
-  } = useInput("");
+  } = useInput(undefined);
 
   // const { value: inviteEmail, onChange: onChangeInviteEmail } = useInput("");
-  const [tempId, setTempId] = useState<number>(-1);
 
-  // 새로운 스터디 그룹 추가
-  // API 연결
-  const addStudyGroup = async (newStudyName: string) => {
-    const { id: studyGroupId } = await studyService.createStudyGroup(
-      newStudyName
-    );
-    console.log(studyGroupId);
-    setNewStudyGroup(newStudyName);
-  };
+  const { data: studyGroupDetail, isLoading: isStudyGroupDetailLoading } =
+    useQuery({
+      queryKey: studyGroupKeys.detail(newStudyGroup?.id),
+      queryFn: () =>
+        newStudyGroup?.id
+          ? studyGroupService.fetchStudyGroup(newStudyGroup.id)
+          : null,
+      enabled: !!newStudyGroup?.id, // ID가 있을 때만 쿼리 실행
+    });
+
+  // 새로운 스터디 생성
+  const { mutate: createStudyGroup } = useMutation<
+    { id: number } | null,
+    ErrorType,
+    string
+  >({
+    mutationFn: (newStudyName) =>
+      studyGroupService.createStudyGroup(newStudyName),
+    onSuccess: (data, newStudyName) => {
+      toast.success("스터디가 생성되었습니다.");
+      if (!data) return;
+      console.log("새롭게 생성된 스터디 그룹 아이디", data.id);
+      setNewStudyGroup({
+        name: newStudyName,
+        id: data.id,
+      });
+    },
+  });
+
+  // 스터디 삭제
+  // const {mutate: removeStudyGroup} = useMutation<void, ErrorType>({
+  //   mutationFn: () =>
+  // })
 
   // 입력한 스터디 그룹 삭제
   const removeStudyGroup = () => {
     setNewStudyGroup(null);
+
     // 인풋 value도 초기화
     resetStudyNameInput("");
   };
@@ -100,7 +130,7 @@ export default function QuizSettingStudyGroupForm() {
   // 코드 복사하기
   const copyCode = (code: string) => {
     navigator.clipboard.writeText(code).then(() => {
-      alert("복사되었습니다.");
+      toast.success("복사되었습니다.");
     });
   };
 
@@ -108,26 +138,34 @@ export default function QuizSettingStudyGroupForm() {
   const done = () => {
     // 완료 눌렀을때.
     if (newStudyGroup) {
-      setStudyGroupList([
-        ...studyGroupList,
-        {
-          id: tempId, // 임시
-          name: newStudyGroup,
-          // isSetAlarm: false,
-        },
-      ]);
+      // 스터디 그룹이 추가됨
+      setStudyGroupList([...studyGroupList, newStudyGroup]);
     }
 
-    setTempId(tempId - 1);
     closeModal();
     setNewStudyGroupAdded((prev) => !prev);
   };
 
   // '스터디 만들기' 버튼 클릭
-  const handleAddStudyGroupButton = () => {
+  const handleOpenCreateStudyModal = () => {
     openModal();
     setNewStudyGroup(null);
     resetStudyNameInput("");
+  };
+
+  // 스터디 선택
+  const handleSelectStudyGroup = (studyGroup: StudyGroupPreviewType) => {
+    console.log("선택된 스터디 그룹", studyGroup);
+    updateQuizCreationInfo("studyGroup", studyGroup);
+  };
+
+  // 스터디 생성
+  const handleCreateStudyGroup = (studyName: string | undefined) => {
+    if (!studyName) {
+      toast.error("스터디 이름을 입력해주세요.");
+      return;
+    }
+    createStudyGroup(studyName);
   };
 
   return (
@@ -139,44 +177,14 @@ export default function QuizSettingStudyGroupForm() {
           </p>
           {studyGroupList.map((studyGroup) => (
             <article
+              key={studyGroup.id}
               id={studyGroup.id.toString()}
               className={`${styles["study-group"]} ${
-                selectedStudyGroup?.id === studyGroup.id
+                quizCreationInfo.studyGroup?.id === studyGroup.id
                   ? styles.selected
                   : null
               }`}
-              onClick={() => {
-                setSelectedStudyGroup((prev) => {
-                  const isAlreadySelected = prev?.id === studyGroup.id;
-
-                  // 이미 선택 o -> 선택 x (해제)
-                  if (isAlreadySelected) {
-                    // 전체 리스트
-                    setStudyGroupList((prevList) =>
-                      prevList.map((item) =>
-                        item.id === studyGroup.id
-                          ? { ...item, isSetAlarm: false } // 알람 자동으로 해제
-                          : item
-                      )
-                    );
-                    return null;
-                  }
-
-                  // 이미 선택 x -> 선택 o
-                  // 전체 리스트
-                  // 나머지 알람 삭제
-                  setStudyGroupList((prevList) =>
-                    prevList.map((item) =>
-                      item.id === studyGroup.id
-                        ? { ...item, isSetAlarm: true } // 알람 자동으로 설정
-                        : { ...item, isSetAlarm: false }
-                    )
-                  );
-
-                  // 선택 스터디그룹
-                  return { ...studyGroup, isSetAlarm: true };
-                });
-              }}
+              onClick={() => handleSelectStudyGroup(studyGroup)}
             >
               <div className={styles["profile-container"]}>
                 {studyGroup.profileImageUrl ? (
@@ -186,31 +194,6 @@ export default function QuizSettingStudyGroupForm() {
                 )}
                 {studyGroup.name}
               </div>
-
-              {/* <Toggle
-                isActive={studyGroup.isSetAlarm}
-                onClick={() => {
-                  // 전체 리스트 - 토글
-                  setStudyGroupList((prevList) =>
-                    prevList.map((item) =>
-                      item.id === studyGroup.id
-                        ? { ...item, isSetAlarm: !item.isSetAlarm }
-                        : item
-                    )
-                  );
-
-                  setSelectedStudyGroup((prev) => {
-                    const isAlreadySelected = prev?.id === studyGroup.id;
-
-                    // 선택된 스터디가 아닐 경우 토글 on
-                    if (!isAlreadySelected) {
-                      return { ...studyGroup, isSetAlarm: true };
-                    }
-
-                    return prev;
-                  });
-                }}
-              /> */}
             </article>
           ))}
         </>
@@ -219,7 +202,7 @@ export default function QuizSettingStudyGroupForm() {
         <Button
           size="large"
           className={styles["add-study-group"]}
-          onClick={handleAddStudyGroupButton}
+          onClick={handleOpenCreateStudyModal}
           icon={
             <QuizPlus
               alt="스터디 그룹 추가 버튼"
@@ -256,7 +239,7 @@ export default function QuizSettingStudyGroupForm() {
                   className={styles["study-name"]}
                   color="secondary"
                 >
-                  {newStudyGroup}
+                  {newStudyGroup.name}
                 </Button>
               )}
 
@@ -275,13 +258,14 @@ export default function QuizSettingStudyGroupForm() {
                   <Button
                     className={styles["add"]}
                     color="primary-border"
-                    onClick={() => addStudyGroup(studyName)}
+                    onClick={() => handleCreateStudyGroup(studyName)}
                     size="medium"
                   >
                     스터디 만들기
                   </Button>
                 </div>
               ) : (
+                // TODO: 시멘틱 태그
                 // 스터디 그룹이 입력되어 있는 경우
                 <div className={styles["email-invite"]}>
                   <div className={styles.line} />
@@ -303,7 +287,10 @@ export default function QuizSettingStudyGroupForm() {
                       }
                     }}
                   >
-                    <span id="invite-code">ABC123</span>
+                    <span id="invite-code" aria-label="스터디 그룹 초대 코드">
+                      {!isStudyGroupDetailLoading &&
+                        studyGroupDetail?.inviteCode}
+                    </span>
                   </Button>
                   <div className={styles["buttons-container"]}>
                     <Button

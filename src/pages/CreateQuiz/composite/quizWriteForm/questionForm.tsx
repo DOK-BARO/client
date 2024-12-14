@@ -14,10 +14,10 @@ import { MultipleChoiceQuestionTemplate } from "@/pages/CreateQuiz/composite/qui
 import { CheckBoxQuestionTemplate } from "@/pages/CreateQuiz/composite/quizWriteForm/checkBoxQuestionTemplate";
 import { OXQuestionTemplate } from "@/pages/CreateQuiz/composite/quizWriteForm/oxQuestionTemplate";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
-import { useAtom } from "jotai";
+// import { useAtom } from "jotai";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
-import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
-import { QuizQuestionType, SelectOptionType } from "@/types/QuizType";
+// import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
+import { QuizQuestionType } from "@/types/QuizType";
 import QuestionTemplateTypeUtilButton from "./questionTemplateTypeUtilButton";
 
 
@@ -80,8 +80,8 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
   const [imagePreview, setImagePreview] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const [, setErrorModalTitle] = useAtom(errorModalTitleAtom);
-  const [openModal] = useAtom(openErrorModalAtom);
+  // const [, setErrorModalTitle] = useAtom(errorModalTitleAtom);
+  // const [openModal] = useAtom(openErrorModalAtom);
 
   const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onAnswerTextAreaChange(e);
@@ -126,20 +126,20 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
   };
 
 
-  const hasDuplicate = (arr:SelectOptionType[]) => {
-    const options: string[] = arr.map(({option})=>(option));
-    return new Set(options).size !== options.length;
-  }
+  // const hasDuplicate = (arr:SelectOptionType[]) => {
+  //   const options: string[] = arr.map(({option})=>(option));
+  //   return new Set(options).size !== options.length;
+  // }
   const checkValidation = () => {
-    const questionForm: QuizQuestionType = quizCreationInfo.questions?.find(({id}) => id === questionFormId)!;
-    const selectOptions:SelectOptionType[] = questionForm.selectOptions;
+    // const questionForm: QuizQuestionType = quizCreationInfo.questions?.find(({id}) => id === questionFormId)!;
+    // const selectOptions:SelectOptionType[] = questionForm.selectOptions;
 
-    // - 질문 입력 안 했을 때: 질문을 입력해 주세요.
-    if (questionForm.content.length === 0) {
-      setErrorModalTitle("질문을 입력해 주세요");
-      openModal!();
-      return;
-    }
+    // // - 질문 입력 안 했을 때: 질문을 입력해 주세요.
+    // if (questionForm.content.length === 0) {
+    //   setErrorModalTitle("질문을 입력해 주세요");
+    //   openModal!();
+    //   return;
+    // }
     // - 옵션 하나도 없을 때: 선택지를 1개 이상 추가해 주세요.
     // if (questionForm.selectOptions.length === 0) {
     //   setErrorModalTitle("선택지를 1개 이상 추가해 주세요");

@@ -199,7 +199,7 @@ export default function QuizCreationFormLayout({
           size="medium"
           color="primary"
         >
-          {currentStep === endStep ? "완료" : "다음"}
+          다음
           <RightArrow
             alt="다음 버튼"
             width={20}

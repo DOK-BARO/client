@@ -208,6 +208,7 @@ const LoginModal = ({ closeModal }: LoginModalProps) => {
                   {socialLoginMethodButtonImage.map((socialImage) => (
                     <Button
                       iconOnly
+                      key={socialImage.type}
                       className={styles[`${socialImage.key}-button`]}
                     >
                       {socialImage}

@@ -8,38 +8,36 @@ import { Search } from "@/svg/search";
 import { gray60 } from "@/styles/abstracts/colors";
 import useDebounce from "@/hooks/useDebounce";
 import { BookType } from "@/types/BookType";
-import React from "react";
 import { useAtom } from "jotai";
 import { IsQuizNextButtonEnabledAtom } from "@/store/quizAtom";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { bookService } from "@/services/server/bookService";
+import { BookListItem } from "./bookListItem";
 
 // 2. 도서 선택
-// Issue: 도서 선택 UI 변경 시 딜레이 있음
 export default function QuizBookSelectionForm() {
+  const [isClicked, setIsClicked] = useState<boolean>(false);
+  const inputRef = useRef<HTMLDivElement>(null);
+  const loadingIcon = "/assets/svg/quizBookSelectionForm/loading.gif";
+  const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
+    IsQuizNextButtonEnabledAtom
+  );
   const {
     value: searchValue,
     onChange: onChangeSearchValue,
     resetInput: resetSearchValueInput,
   } = useInput("");
-  const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
-    IsQuizNextButtonEnabledAtom
-  );
+  const debouncedSearchValue = useDebounce(searchValue, 500);
+
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
+
   const [tempSelectedBook, setTempSelectedBook] = useState<BookType | null>(
     quizCreationInfo.book
   );
-
-  // 검색어 지워져도 남아있는 // 사용자가 확실히 도서를 선택했을 때만 바뀜
   const [selectedBook, setSelectedBook] = useState<BookType | null>(
     tempSelectedBook
   );
-
-  const [isClicked, setIsClicked] = useState<boolean>(false);
-  const inputRef = useRef<HTMLDivElement>(null);
-  const loadingIcon = "/assets/svg/quizBookSelectionForm/loading.gif";
-  const debouncedSearchValue = useDebounce(searchValue, 500);
 
   const {
     data: searchedBooks,
@@ -48,7 +46,8 @@ export default function QuizBookSelectionForm() {
     refetch,
   } = useQuery({
     queryKey: bookKeys.search({ keyword: debouncedSearchValue }),
-    queryFn: () => bookService.fetchSearchBooks({ keyword: debouncedSearchValue }),
+    queryFn: () =>
+      bookService.fetchSearchBooks({ keyword: debouncedSearchValue }),
     enabled: debouncedSearchValue !== "",
   });
 
@@ -64,71 +63,52 @@ export default function QuizBookSelectionForm() {
     if (!selectedBook) {
       setIsQuizNextButtonEnabled(false);
     }
-    const onClickOutside = (event: MouseEvent) => {
-      if (
-        inputRef.current &&
-        !inputRef.current.contains(event.target as Node)
-      ) {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (inputRef.current && !inputRef.current.contains(e.target as Node)) {
         setIsClicked(false);
       }
     };
 
-    document.addEventListener("mousedown", onClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", onClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
+  const handleSearchBook = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChangeSearchValue(e);
+    if (tempSelectedBook) {
+      setTempSelectedBook(null);
+    }
+  };
+
   // 도서 선택(클릭)
-  const onBookSelect = (book: BookType) => {
+  const handleBookSelect = (book: BookType) => {
     setSelectedBook(book);
     resetSearchValueInput();
-
     updateQuizCreationInfo("book", book);
 
     // 책이 선택되면 버튼 enabled
     setIsQuizNextButtonEnabled(true);
   };
 
-  const BookListItem = React.memo(
-    ({ book, isSelected }: { book: BookType; isSelected: boolean }) => {
-      return (
-        <li
-          key={book.id}
-          className={styles["booklist-item"]}
-          onClick={() => {
-            if (isSelected) return;
-            onBookSelect(book);
-          }}
-        >
-          <img src={book.imageUrl} alt={book.title} width={66} height={88} />
-          <div className={styles["info-container"]}>
-            <span className={styles["title"]}>{book.title}</span>
-            <span className={styles["author"]}>
-              {book.authors} ({book.publisher})
-            </span>
-          </div>
-        </li>
-      );
-    }
-  );
+  // 인풋창 클릭
+  const handleClickInput = () => {
+    setIsClicked(true);
+  };
+
   return (
     <div
       ref={inputRef}
       className={styles["search-book"]}
-      onClick={() => setIsClicked(true)}
+      onClick={handleClickInput}
     >
       <Input
         leftIcon={<Search width={20} stroke={gray60} />}
         rightIcon={
           isActuallyLoading ? <img src={loadingIcon} width={24} /> : undefined
         }
-        onChange={(e) => {
-          onChangeSearchValue(e);
-          if (tempSelectedBook) {
-            setTempSelectedBook(null);
-          }
-        }}
+        onChange={handleSearchBook}
         value={searchValue}
         id="book-name"
         placeholder="책이나 저자로 검색해보세요."
@@ -144,7 +124,12 @@ export default function QuizBookSelectionForm() {
           aria-label="도서 선택 상자"
         >
           {searchedBooks.map((book) => (
-            <BookListItem key={book.id} book={book} isSelected={false} />
+            <BookListItem
+              key={book.id}
+              book={book}
+              isSelected={false}
+              onSelect={handleBookSelect}
+            />
           ))}
         </ul>
       ) : (
@@ -155,6 +140,7 @@ export default function QuizBookSelectionForm() {
               <BookListItem
                 book={tempSelectedBook ?? selectedBook}
                 isSelected
+                onSelect={handleBookSelect}
               />
             </div>
           )}

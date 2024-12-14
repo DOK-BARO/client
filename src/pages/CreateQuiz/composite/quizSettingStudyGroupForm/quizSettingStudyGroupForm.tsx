@@ -60,22 +60,12 @@ export default function QuizSettingStudyGroupForm() {
     setIsQuizNextButtonEnabled(true);
   }, [quizCreationInfo.studyGroup]);
 
-  // useEffect(() => {
-  //   console.log(selectedStudyGroup, "!!");
-  //   if (selectedStudyGroup) {
-  //     // 스터디 그룹 선택 -> 스터디 그룹 ID 저장(전역)
-  //     updateQuizCreationInfo("studyGroup", selectedStudyGroup);
-  //   }
-  // }, [selectedStudyGroup]);
-
   // 모달 안 인풋
   const {
     value: studyName,
     onChange: onChangeStudyName,
     resetInput: resetStudyNameInput,
   } = useInput(undefined);
-
-  // const { value: inviteEmail, onChange: onChangeInviteEmail } = useInput("");
 
   const { data: studyGroupDetail, isLoading: isStudyGroupDetailLoading } =
     useQuery({
@@ -119,11 +109,6 @@ export default function QuizSettingStudyGroupForm() {
     resetStudyNameInput("");
   };
 
-  // 이메일을 통해 스터디 그룹에 초대하기
-  // const inviteToStudyGroup = () => {
-  //   console.log(inviteEmail);
-  // };
-
   // 링크 복사하기
   const copyLink = () => {};
 
@@ -134,14 +119,19 @@ export default function QuizSettingStudyGroupForm() {
     });
   };
 
+  const handleClickCopyCode = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const buttonText =
+      e.currentTarget.querySelector("#invite-code")?.textContent;
+    if (buttonText) {
+      copyCode(buttonText);
+    }
+  };
+
   // 완료. (모달창 닫기)
   const done = () => {
-    // 완료 눌렀을때.
     if (newStudyGroup) {
-      // 스터디 그룹이 추가됨
       setStudyGroupList([...studyGroupList, newStudyGroup]);
     }
-
     closeModal();
     setNewStudyGroupAdded((prev) => !prev);
   };
@@ -277,15 +267,7 @@ export default function QuizSettingStudyGroupForm() {
                       <Copy width={20} stroke={primary} alt="초대 코드 복사" />
                     }
                     iconPosition="left"
-                    onClick={(e) => {
-                      const buttonText =
-                        e.currentTarget.querySelector(
-                          "#invite-code"
-                        )?.textContent;
-                      if (buttonText) {
-                        copyCode(buttonText);
-                      }
-                    }}
+                    onClick={handleClickCopyCode}
                   >
                     <span id="invite-code" aria-label="스터디 그룹 초대 코드">
                       {!isStudyGroupDetailLoading &&

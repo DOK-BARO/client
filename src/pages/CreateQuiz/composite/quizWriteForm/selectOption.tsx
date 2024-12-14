@@ -62,7 +62,6 @@ const SelectOption: React.FC<SelectOptionProps> = ({
 	};
 
 	const isChecked = (typeof selectedValue === "string") ? (selectedValue === option.value) : selectedValue ? selectedValue[option.id] : false;
-	console.log(isChecked)
 
 	return (
 		<div

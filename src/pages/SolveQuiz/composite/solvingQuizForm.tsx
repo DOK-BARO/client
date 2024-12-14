@@ -95,7 +95,7 @@ export default function SolvingQuizForm({
 					const radioOption: RadioOptionType = {
 						id: index,
 						value: index.toString(),
-						label: option.content
+						label: option.content,
 					}
 					let isChecked: boolean = false;
 					let isCorrect: boolean = false;

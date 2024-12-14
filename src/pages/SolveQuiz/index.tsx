@@ -70,6 +70,23 @@ export default function Index() {
 			]
 		}
 
+		// const checkedResult: QuestionCheckedResult = {
+		// 	"solvingQuizId": 29,
+		// 	"playerId": 1,
+		// 	"quizId": 3,
+		// 	"questionId": 4,
+		// 	"correct": true,
+		// 	"correctAnswer": [
+		// 		"2"
+		// 	],
+		// 	"answerExplanationContent": "인터럽트 발생 시, CPU는 레지스터의 내용을 특정 메모리 영역(주로 스택)에 백업합니다.",
+		// 	"answerExplanationImages": [
+		// 		"https://image.dokbaro.kro.kr/images/dokbaro/dev/bookquiz/answer/bc5a194b-0bd3-4ce8-a014-fa47ee2bdde9.jpeg",
+		// 		"https://image.dokbaro.kro.kr/images/dokbaro/dev/bookquiz/answer/44a9d3ce-cf34-40d0-b5a2-caad691de597.jpeg",
+		// 		"https://image.dokbaro.kro.kr/images/dokbaro/dev/bookquiz/answer/af43bc73-b449-4b86-8e60-bad56a65c78b.jpeg"
+		// 	]
+		// }
+
 		if (checkedResult) {
 			setQuestionCheckedResult(checkedResult)
 			setDidAnswerChecked(true);

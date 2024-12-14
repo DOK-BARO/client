@@ -8,7 +8,7 @@ import { XCircle } from "@/svg/xCircle";
 import { gray30, gray60 } from "@/styles/abstracts/colors.ts";
 import Button from "@/components/atom/button/button.tsx";
 import { RegisterInfoType } from "@/types/UserType";
-import { RegisterInfoAtom } from "@/store/userAtom";
+import { CurrentUserAtom, RegisterInfoAtom } from "@/store/userAtom";
 import { useNavigate, useParams } from "react-router-dom";
 import { authService } from "@/services/server/authService";
 import { imageService } from "@/services/server/imageService";
@@ -26,6 +26,7 @@ export default function ProfileSet() {
   const { method } = useParams();
   const completePage = "/register/complete";
   const navigate = useNavigate();
+  const [, setCurrentUser] = useAtom(CurrentUserAtom);
 
   const defaultImagePath = "/public/assets/image/default-profile.png";
   const [profileImage, setProfileImage] = useState<ProfileImageState>({
@@ -106,7 +107,11 @@ export default function ProfileSet() {
     }
   >({
     mutationFn: (emailUserInfo) => authService.emailSignup(emailUserInfo),
-    onSuccess: () => {
+    onSuccess: async () => {
+      const currentUser = await authService.fetchUser();
+      if (currentUser) {
+        setCurrentUser(currentUser);
+      }
       // 2. 회원가입 성공하면 약관 동의
       sendAgreement(user.termsAgreements);
     },

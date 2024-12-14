@@ -61,7 +61,6 @@ export interface QuizCreationType {
   title: string | null;
   description: string | null;
   book: BookType | null;
-  timeLimitSecond?: string | null;
   viewScope: ViewScope | null;
   editScope: EditScope | null;
   studyGroup: StudyGroupPreviewType | null | undefined; // undefined -> 스터디그룹 선택 안함
@@ -121,4 +120,16 @@ export interface QuestionCheckedResult {
   correctAnswer: string[];
   answerExplanationContent: string;
   answerExplanationImages: string[];
+}
+
+export interface QuizSettingOptionType {
+  label: string;
+  description: string;
+}
+
+export interface QuizSettingType {
+  title: string;
+  name: string;
+  options: QuizSettingOptionType[];
+  icon: string; // path
 }

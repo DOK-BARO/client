@@ -37,7 +37,7 @@ const socialLoginMethodButtonImage = [
 const LoginModal = ({ closeModal }: LoginModalProps) => {
   // TODO: 전역으로 상태 변경할 수 있도록 해야함
   // const [isEmailSelected, setIsEmailSelected] = useState<boolean>(false);
-  const [, setCurrentUser] = useAtom(CurrentUserAtom);
+  // const [, setCurrentUser] = useAtom(CurrentUserAtom);
   const [isEmailLoginPage] = useAtom(IsEmailLoginPageAtom);
   const navigate = useNavigate();
 

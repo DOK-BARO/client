@@ -145,8 +145,10 @@ export default function QuizSettingStudyGroupForm() {
 
   // 스터디 선택
   const handleSelectStudyGroup = (studyGroup: StudyGroupPreviewType) => {
-    console.log("선택된 스터디 그룹", studyGroup);
-    updateQuizCreationInfo("studyGroup", studyGroup);
+    updateQuizCreationInfo(
+      "studyGroup",
+      studyGroup === quizCreationInfo.studyGroup ? null : studyGroup
+    );
   };
 
   // 스터디 생성

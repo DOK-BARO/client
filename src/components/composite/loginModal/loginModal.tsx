@@ -22,7 +22,7 @@ import { authService } from "@/services/server/authService.ts";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType.ts";
 import toast from "react-hot-toast";
-import { CurrentUserAtom } from "@/store/userAtom.ts";
+// import { CurrentUserAtom } from "@/store/userAtom.ts";
 interface LoginModalProps {
   closeModal: () => void;
 }

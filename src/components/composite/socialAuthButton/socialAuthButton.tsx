@@ -9,6 +9,7 @@ import { Email } from "@/svg/auth/email.tsx";
 import Button from "@/components/atom/button/button.tsx";
 import { IsEmailLoginPageAtom } from "@/store/authModalAtom";
 import { useAtom } from "jotai";
+import { authService } from "@/services/server/authService";
 
 const SocialAuthButton: React.FC<{
   socialType: SocialLoginType;
@@ -22,6 +23,7 @@ const SocialAuthButton: React.FC<{
       setIsEmailLoginPage(true);
     } else {
       // 소셜 회원가입
+
       window.location.href = `${
         import.meta.env.VITE_API_URL
       }/auth/login/oauth2/${socialType.toLocaleLowerCase()}?redirect-url=${import.meta.env.VITE_AUTH_REDIRECTED_URL}`;

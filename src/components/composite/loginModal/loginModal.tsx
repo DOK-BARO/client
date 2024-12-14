@@ -22,6 +22,7 @@ import { authService } from "@/services/server/authService.ts";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType.ts";
 import toast from "react-hot-toast";
+import { CurrentUserAtom } from "@/store/userAtom.ts";
 interface LoginModalProps {
   closeModal: () => void;
 }
@@ -36,6 +37,7 @@ const socialLoginMethodButtonImage = [
 const LoginModal = ({ closeModal }: LoginModalProps) => {
   // TODO: 전역으로 상태 변경할 수 있도록 해야함
   // const [isEmailSelected, setIsEmailSelected] = useState<boolean>(false);
+  const [, setCurrentUser] = useAtom(CurrentUserAtom);
   const [isEmailLoginPage] = useAtom(IsEmailLoginPageAtom);
   const navigate = useNavigate();
 
@@ -51,6 +53,7 @@ const LoginModal = ({ closeModal }: LoginModalProps) => {
   const handlePasswordVisible = () => {
     setIsPasswordVisible((prev) => !prev);
   };
+
   const { mutate: emailLogin } = useMutation<
     void,
     ErrorType,

@@ -49,7 +49,6 @@ export default function BookListLayout() {
         size: 10,
       }),
   });
-  console.log(booksData, isBooksLoading);
 
   const books = booksData?.data;
   const endPageNumber = booksData?.endPageNumber;

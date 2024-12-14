@@ -1,10 +1,24 @@
-import localApi from "../local/LocalApi.ts";
+// import localApi from "../local/LocalApi.ts";
 import { TermsOfServiceType } from "@/types/TermsOfServiceType.ts";
-import { UserProfileType } from "@/types/UserType.ts";
+import { UserType } from "@/types/UserType.ts";
 import { axiosInstance } from "@/config/axiosConfig.ts";
 import { handleAxiosError } from "@/utils/errorHandler.ts";
+import { SocialLoginType } from "@/types/SocialLoginType.ts";
 
 class AuthService {
+  // 소셜 회원가입
+  socialSignupOrLogin = ({
+    socialType,
+    redirectUrl,
+  }: {
+    socialType: SocialLoginType;
+    redirectUrl: string;
+  }): void => {
+    window.location.href = `${
+      import.meta.env.VITE_API_URL
+    }/auth/login/oauth2/${socialType.toLocaleLowerCase()}?redirect-url=${redirectUrl}`;
+  };
+
   // 이메일 회원가입
   emailSignup = async (userInfo: {
     email: string;
@@ -27,20 +41,21 @@ class AuthService {
     email: string;
     password: string;
   }): Promise<void> => {
-    try {
-      const formData = new URLSearchParams();
+    const formData = new URLSearchParams();
 
-      Object.entries(loginInfo).forEach(([key, value]) => {
-        formData.append(key, value);
-      });
-      console.log(loginInfo);
+    Object.entries(loginInfo).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+    console.log(loginInfo);
+    try {
       const response = await axiosInstance.post("/auth/login/email", formData, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
       });
-      console.log("이메일 로그인 post 응답", response);
+      console.log(response);
     } catch (error) {
+      console.error("에러", error);
       handleAxiosError(error);
     }
   };
@@ -60,9 +75,10 @@ class AuthService {
   };
 
   // 유저 정보 가져오기
-  fetchUser = async (): Promise<UserProfileType | null> => {
+  fetchUser = async (): Promise<UserType | null> => {
     try {
       const { data } = await axiosInstance.get("/members/login-user");
+      console.log("FETchUser", data);
       return data;
     } catch (error) {
       handleAxiosError(error);
@@ -70,18 +86,26 @@ class AuthService {
     }
   };
 
-  getUserIfAuthenticated = async (): Promise<UserProfileType | null> => {
-    const certificationId = !!localApi.getUserCertificationId();
+  // getUserIfAuthenticated = async (): Promise<UserProfileType | null> => {
+  //   const certificationId = !!localApi.getUserCertificationId();
 
-    if (!certificationId) {
-      return null;
+  //   if (!certificationId) {
+  //     return null;
+  //   }
+
+  //   return await this.fetchUser();
+  // };
+
+  // logout = () => {
+  //   localApi.removeCertification();
+  // };
+  logout = async (): Promise<void> => {
+    try {
+      const response = await axiosInstance.post("/auth/logout");
+      console.log(response);
+    } catch (error) {
+      handleAxiosError(error);
     }
-
-    return await this.fetchUser();
-  };
-
-  logout = () => {
-    localApi.removeCertification();
   };
 
   // 이용약관 조회

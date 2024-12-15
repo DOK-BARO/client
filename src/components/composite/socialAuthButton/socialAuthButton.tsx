@@ -23,7 +23,7 @@ const SocialAuthButton: React.FC<{
       setIsEmailLoginPage(true);
     } else {
       // 소셜 회원가입
-      const redirectUrl = import.meta.env.VITE_AUTH_REDIRECTED_URL;
+      const redirectUrl = import.meta.env.VITE_DEFAULT_URL;
       authService.socialSignupOrLogin({ socialType, redirectUrl });
     }
   };

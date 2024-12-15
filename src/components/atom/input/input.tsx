@@ -3,7 +3,7 @@ import styles from "./_input.module.scss";
 
 interface InputProps {
   id: string;
-  value: string;
+  value: string | undefined;
   className?: string;
   type?: "text" | "number" | "password";
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;

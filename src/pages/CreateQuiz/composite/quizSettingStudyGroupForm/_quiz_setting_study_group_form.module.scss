@@ -67,14 +67,8 @@
     margin-bottom: 24px;
   }
 
-  .buttons-container {
-    @include flex(row);
-    gap: 12px;
+  .done {
     margin-top: 24px;
-    justify-content: end;
-
-    .done {
-      padding: 0 16px;
-    }
+    margin-left: auto;
   }
 }

@@ -18,7 +18,7 @@ export const CheckBoxQuestionTemplate: FC<{
     deleteOption,
     handleAddQuizOptionItemBtn,
     getQuestion,
-  } = useQuestionTemplate("CHECK_BOX", questionFormId!);
+  } = useQuestionTemplate("MULTIPLE_CHOICE_MULTIPLE_ANSWER", questionFormId!);
 
   const setInitialAnswer = (): { [key: string]: boolean } => {
     const question: QuizQuestionType = getQuestion();
@@ -100,7 +100,7 @@ export const CheckBoxQuestionTemplate: FC<{
           questionFormId={questionFormId!.toString()}
           selectedValue={checkedOptions}
           quizMode={questionFormMode!}
-          answerType={"CHECK_BOX"}
+          answerType={"MULTIPLE_CHOICE_MULTIPLE_ANSWER"}
       />
       ))}
       {questionFormMode == QuestionFormMode.QUESTION && (

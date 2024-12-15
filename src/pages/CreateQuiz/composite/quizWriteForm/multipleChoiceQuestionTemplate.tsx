@@ -22,7 +22,7 @@ export const MultipleChoiceQuestionTemplate: FC<{ questionFormMode?: string, que
 
   const setInitialAnswer = (): string => {
     const question = getQuestion();
-    return question.answers[0];
+    return question?.answers[0] ?? "";
   }
   const { selectedValue: selectedRadioGroupValue, handleChange: onRadioGroupChange } = useRadioGroup(setInitialAnswer());
 
@@ -55,15 +55,12 @@ export const MultipleChoiceQuestionTemplate: FC<{ questionFormMode?: string, que
     onRadioGroupChange(event);
 		
 		const currentQuestion: QuizQuestionType = quizCreationInfo.questions?.find((question) => (question.id.toString() === questionFormId!))!;
-		console.log("cQ :%o",currentQuestion)
 		const targetSelectOption: SelectOptionType = currentQuestion.selectOptions.find((option)=>(id === option.id.toString()))!;
-		console.log("to :%o",targetSelectOption)
 
 		const currentAnswer: string = targetSelectOption.answerIndex.toString();
 
     const updatedQuestions: QuizQuestionType[] = quizCreationInfo.questions!.map((question) => question.id.toString() === questionFormId ? { ...question, answers: [currentAnswer] } : question);
     updateQuizCreationInfo("questions", updatedQuestions);
-		console.log("question:%o",updatedQuestions);
   }
 
   return (

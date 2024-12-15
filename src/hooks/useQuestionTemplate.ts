@@ -15,7 +15,7 @@ export const useQuestionTemplate = (
   const getQuestion = (): QuizQuestionType =>
     (quizCreationInfo.questions?.find(
       (question) => question.id.toString() === questionFormId
-    ) as QuizQuestionType) ?? [];
+    ) as QuizQuestionType);
 
   const setInitialOptions = (
     questionFormType: AnswerType

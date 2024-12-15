@@ -67,7 +67,6 @@ export default function QuizSettingsForm() {
     </>
   );
 }
-
 // TODO: 외부로 분리하기
 const getQuizSettings = (isStudyGroupSelected: boolean): QuizSettingType[] => [
   {

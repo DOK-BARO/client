@@ -157,15 +157,6 @@ export default function QuizSettingStudyGroupForm() {
     // );
   };
 
-  // 스터디 생성
-  const handleCreateStudyGroup = (studyName: string) => {
-    if (studyName === "" || !studyName) {
-      toast.error("스터디 이름을 입력해주세요.");
-      return;
-    }
-    createStudyGroup(studyName);
-  };
-
   return (
     <>
       {studyGroupList.length > 0 && (
@@ -253,8 +244,9 @@ export default function QuizSettingStudyGroupForm() {
                   <Button
                     className={styles["add"]}
                     color="primary-border"
-                    onClick={() => handleCreateStudyGroup(studyName)}
+                    onClick={() => createStudyGroup(studyName)}
                     size="medium"
+                    disabled={!studyName}
                   >
                     스터디 만들기
                   </Button>

@@ -49,7 +49,7 @@ export default function QuizCreationFormLayout({
     translation: string
   ): ViewScope | EditScope | undefined => {
     const entry = Object.entries(scopeTranslations).find(
-      ([_, value]) => value === translation
+      ([, value]) => value === translation
     );
     return entry ? (entry[0] as ViewScope) : undefined;
   };
@@ -80,6 +80,7 @@ export default function QuizCreationFormLayout({
     const uploadedImgQuestions = quizCreationInfo.questions!.map(
       async (question) => {
         const { id, ...rest } = question;
+        void id;
         return {
           ...rest,
           answerType:

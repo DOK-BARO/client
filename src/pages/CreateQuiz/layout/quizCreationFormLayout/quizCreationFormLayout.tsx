@@ -7,6 +7,7 @@ import { useAtom } from "jotai";
 import {
   IsQuizNextButtonEnabledAtom,
   QuizCreationInfoAtom,
+  SelectedStudyGroupAtom,
 } from "@/store/quizAtom";
 import {
   QuizCreationType,
@@ -112,10 +113,11 @@ export default function QuizCreationFormLayout({
   };
   const endStep = steps.length - 1;
   const { updateQuizCreationInfo } = useUpdateQuizCreationInfo();
+  const [selectedStudyGroup] = useAtom(SelectedStudyGroupAtom);
 
   const goToNextStep = async () => {
     if (currentStep === 0) {
-      updateQuizCreationInfo("studyGroup", undefined);
+      updateQuizCreationInfo("studyGroup", selectedStudyGroup);
     } else if (currentStep === 2.2) {
       console.log("validation check!");
       //TODO: 질문이 하나도 없을 때 버튼 다시 disable 필요
@@ -169,7 +171,6 @@ export default function QuizCreationFormLayout({
   };
 
   const step: Step = getCurrentStep();
-  console.log("step: %o", step);
 
   const title = step?.subSteps?.[0].title
     ? step.subSteps?.[0].title
@@ -199,7 +200,7 @@ export default function QuizCreationFormLayout({
           size="medium"
           color="primary"
         >
-          {currentStep === endStep ? "완료" : "다음"}
+          다음
           <RightArrow
             alt="다음 버튼"
             width={20}

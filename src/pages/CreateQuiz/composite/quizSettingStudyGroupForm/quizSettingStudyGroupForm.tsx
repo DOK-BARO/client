@@ -9,7 +9,6 @@ import Modal from "@/components/atom/modal/modal.tsx";
 import Input from "@/components/atom/input/input.tsx";
 import { QuizPlus } from "@/svg/quizPlus";
 import { XMedium } from "@/svg/xMedium";
-import { Link } from "@/svg/link";
 import { Copy } from "@/svg/copy";
 import { StudyGroupPreviewType } from "@/types/StudyGroupType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
@@ -19,11 +18,7 @@ import { ErrorType } from "@/types/ErrorType";
 import toast from "react-hot-toast";
 import { studyGroupKeys } from "@/data/queryKeys";
 import { useAtom } from "jotai";
-import {
-  IsQuizNextButtonEnabledAtom,
-  isSetAtom,
-  SelectedStudyGroupAtom,
-} from "@/store/quizAtom";
+import { IsQuizNextButtonEnabledAtom, isSetAtom } from "@/store/quizAtom";
 
 // TODO: 컴포넌트 분리
 // 1.스터디 선택
@@ -112,9 +107,6 @@ export default function QuizSettingStudyGroupForm() {
     // 인풋 value도 초기화
     resetStudyNameInput("");
   };
-
-  // 링크 복사하기
-  const copyLink = () => {};
 
   // 코드 복사하기
   const copyCode = (code: string) => {
@@ -287,32 +279,17 @@ export default function QuizSettingStudyGroupForm() {
                         studyGroupDetail?.inviteCode}
                     </span>
                   </Button>
-                  <div className={styles["buttons-container"]}>
-                    <Button
-                      className={styles["copy-link"]}
-                      color="primary-border"
-                      onClick={copyLink}
-                      size="medium"
-                      icon={
-                        <Link
-                          width={20}
-                          stroke={primary}
-                          alt="초대 링크 복사"
-                        />
-                      }
-                      iconPosition="left"
-                    >
-                      초대 링크 복사
-                    </Button>
-                    <Button
-                      color="primary"
-                      className={styles.done}
-                      onClick={done}
-                      size="medium"
-                    >
-                      완료
-                    </Button>
-                  </div>
+                  {/* <div className={styles["buttons-container"]}> */}
+
+                  <Button
+                    color="primary"
+                    className={styles.done}
+                    onClick={done}
+                    size="medium"
+                  >
+                    완료
+                  </Button>
+                  {/* </div> */}
                 </div>
               )}
             </div>

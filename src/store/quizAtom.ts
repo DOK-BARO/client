@@ -12,7 +12,7 @@ export const QuizCreationInfoAtom = atom<QuizCreationType>({
   book: null,
   viewScope: null,
   editScope: null,
-  studyGroup: null,
+  studyGroup: undefined,
   questions: null,
 });
 
@@ -20,7 +20,7 @@ export const SelectedStudyGroupAtom = atom<StudyGroupPreviewType | null>(null);
 
 // 스터디 선택 단계 완료 여부 Atom
 export const isStudyGroupSelectedAtom = atom(
-  (get) => get(QuizCreationInfoAtom).studyGroup !== null
+  (get) => !!get(QuizCreationInfoAtom).studyGroup
 );
 
 // 도서 선택 단계 완료 여부 Atom

@@ -84,33 +84,6 @@ interface QuizSetting {
 
 const quizSettings: QuizSetting[] = [
   {
-    title: "제한시간 설정",
-    name: "time-limit",
-    options: [
-      {
-        label: "1분",
-        description: "설정한 시간이 되면 퀴즈가 자동으로 끝납니다.",
-      },
-      {
-        label: "3분",
-        description: "설정한 시간이 되면 퀴즈가 자동으로 끝납니다.",
-      },
-      {
-        label: "5분",
-        description: "설정한 시간이 되면 퀴즈가 자동으로 끝납니다.",
-      },
-      {
-        label: "10분",
-        description: "설정한 시간이 되면 퀴즈가 자동으로 끝납니다.",
-      },
-      {
-        label: "없음",
-        description: "설정한 시간이 되면 퀴즈가 자동으로 끝납니다.",
-      },
-    ],
-    icon: "/assets/svg/quizSettingForm/time.svg",
-  },
-  {
     title: "보기 설정",
     name: "view-access",
     options: [

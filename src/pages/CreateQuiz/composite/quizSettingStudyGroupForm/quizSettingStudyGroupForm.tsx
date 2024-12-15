@@ -147,7 +147,7 @@ export default function QuizSettingStudyGroupForm() {
   // 스터디 선택
   const handleSelectStudyGroup = (studyGroup: StudyGroupPreviewType) => {
     if (studyGroup === quizCreationInfo.studyGroup) {
-      updateQuizCreationInfo("studyGroup", null);
+      updateQuizCreationInfo("studyGroup", undefined);
     } else {
       updateQuizCreationInfo("studyGroup", studyGroup);
     }

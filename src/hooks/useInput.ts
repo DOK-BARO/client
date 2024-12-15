@@ -5,7 +5,7 @@ interface ValidationRule {
   message: string;
 }
 interface UseInputReturn {
-  value: string | undefined;
+  value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   validations: { [key: string]: boolean };
   resetInput: (newInitialValue?: string) => void;
@@ -13,10 +13,10 @@ interface UseInputReturn {
 }
 
 const useInput = (
-  initialValue: string | undefined,
+  initialValue: string,
   validationRules: ValidationRule[] = []
 ): UseInputReturn => {
-  const [value, setValue] = useState<string | undefined>(initialValue);
+  const [value, setValue] = useState<string>(initialValue);
 
   const initialValidations = validationRules.reduce(
     (acc, rule) => ({

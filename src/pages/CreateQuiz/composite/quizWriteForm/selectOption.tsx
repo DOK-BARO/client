@@ -19,6 +19,7 @@ interface SelectOptionProps {
 	answerType: AnswerType;
 	checked?: boolean;
 }
+// TODO: quizmode -> questionFormMode
 
 const SelectOption: React.FC<SelectOptionProps> = ({
 	option,

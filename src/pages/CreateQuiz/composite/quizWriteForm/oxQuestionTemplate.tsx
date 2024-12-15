@@ -55,6 +55,7 @@ export const OXQuestionTemplate: FC<{ questionFormMode?: string, questionFormId?
 		updateQuizCreationInfo("questions", updatedQuestions)
 	}
 
+
 	return (
 		<fieldset className={styles["question-options"]}>
 			<legend>답안 선택지</legend>
@@ -63,21 +64,13 @@ export const OXQuestionTemplate: FC<{ questionFormMode?: string, questionFormId?
 					// TODO: 동작 확인 필요
 					let isChecked;
 					isChecked = selectedRadioGroupValue === option.label;
+					
 					return (
 						<div
 							key={option.id}
 							className={`${styles["option-container"]} 
             ${selectedRadioGroupValue === option.label && (questionFormMode === QuestionFormMode.ANSWER) ? styles["checked"] : styles["notchecked"]}`}
 						>
-							{/* 	<RadioOption
-								radioGroupName={question.id.toString()}
-								option={radioOption}
-								checked={isChecked}
-								onChange={handleSelectOptions}
-								disabled={optionDisabled}
-								labelValue={option.content}
-								type={typeName}
-							/> */}
 							<RadioOption
 								radioGroupName={questionFormId?.toString()!}
 								option={option}
@@ -85,8 +78,7 @@ export const OXQuestionTemplate: FC<{ questionFormMode?: string, questionFormId?
 								onChange={handleRadioGroupChange}
 								disabled={disabled}
 								labelValue={option.value}
-								// TODO: 구현 안함
-								type={"option-default"}
+								type={isChecked ? "option-correct" : "option-written"}
 							/>
 						</div>)
 				}

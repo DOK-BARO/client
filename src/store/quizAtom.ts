@@ -16,7 +16,7 @@ export const QuizCreationInfoAtom = atom<QuizCreationType>({
   questions: null,
 });
 
-export const SelectedStudyGroupAtom = atom<StudyGroupPreviewType | null>(null);
+// export const SelectedStudyGroupAtom = atom<StudyGroupPreviewType | null>(null);
 
 // 스터디 선택 단계 완료 여부 Atom
 export const isStudyGroupSelectedAtom = atom(

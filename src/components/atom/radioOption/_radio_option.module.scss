@@ -31,26 +31,6 @@
 	}
 }
 
-// @mixin solving-quiz-radio-button($default-color, $checked-color, $bg-icon) {
-// 	@include basic-radio-button($default-border-color: $default-color);
-
-// 	input[type="radio"]:not(:checked) {
-// 		border: none;
-// 		background-color: $checked-color; // 체크 시 내부 원으로 표시될 색상
-// 		&::after{
-// 			display: inline-block;
-// 		content: '';
-// 		position: absolute;
-// 		top: 3.6px; left: 3.6px;
-// 		width: 20px;
-// 		height: 20px;
-// 		background: $bg-icon  no-repeat;
-// 		}
-// 		transition: all 0.5s;
-// 	}
-// }
-
-
 .option-container {
 	@include flex(row);
 	align-items: center;
@@ -58,7 +38,7 @@
 	border-radius: 8px;
 	background-color: white;
 
-	@include make-quiz-radio-button($default-color: $gray-90, $checked-color: $system-success);
+	@include basic-radio-button($default-border-color: $gray-90);
 
 	&:focus-within {
 		background-color: $background;
@@ -90,11 +70,8 @@
 	}
 
 	&.solving-correct {
-		// @include solving-quiz-radio-button($default-color: $gray-60, $checked-color: $system-success,
-		// $bg-icon: url('/public/assets/svg/solvingQuizFormLayout/correct.svg')
-		// );
 		background-color: #3DBF0F1A;
-		input[type="radio"]:checked {
+		input[type="radio"] {
 			border: none;
 			background-color: $system-success; // 체크 시 내부 원으로 표시될 색상
 			&::after{
@@ -105,29 +82,26 @@
 			height: 20px;
 			background: url('/public/assets/svg/solvingQuizFormLayout/correct.svg') no-repeat;
 			}
-			transition: all 0.5s;
+			// transition: all 0.3s;
 		}
 	}
 
 	&.solving-incorrect {
-		// @include solving-quiz-radio-button($default-color: $gray-60, $checked-color: $system-danger,
-		// $bg-icon: url('/public/assets/svg/solvingQuizFormLayout/incorrect.svg')
-		// );
-
 		background-color: #EB003B1A;
 
-		input[type="radio"]:not(:checked) {
+		input[type="radio"]{
 			border: none;
 			background-color: $system-danger; // 체크 시 내부 원으로 표시될 색상
 			&::after{
 				display: inline-block;
 			content: '';
 			position: absolute;
+			// top: 0; left:0;
 			width: 20px;
 			height: 20px;
 			background: url('/public/assets/svg/solvingQuizFormLayout/incorrect.svg') no-repeat;
 			}
-			transition: all 0.5s;
+			// transition: all 0.3s;
 		}
 	}
 
@@ -137,7 +111,7 @@
 	}
 }
 
-.option-label-textarea {
+.option-label-textarea {	
 	display: flex;
 	border: none;
 	border-radius: 0;

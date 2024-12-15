@@ -103,24 +103,18 @@ export default function SolvingQuizForm({
 					if (selectedRadioOption) {
 						const selectedOptionIdx: number = parseInt(selectedRadioOption);
 						isChecked = selectedOptionIdx === index;
-						if (isChecked) { 	// 체크된 상태인데 맞았을 때
-							typeName = "option-selected"
-							if (correctAnswer?.length) {
-								const correctAnswerIdx: string[] = correctAnswer.map((answer) => (parseInt(answer) - 1).toString());
-								isCorrect = correctAnswerIdx.includes(index.toString());
-								if (isCorrect) {
-									typeName = "solving-correct"
-								}
+						if (isChecked) { // 체크 되었을 때
+							typeName = "option-selected";	
+						}
+						if (correctAnswer?.length) { // 채점되었고 
+							const correctAnswerIdx: string[] = correctAnswer.map((answer) => (parseInt(answer) - 1).toString());
+							isCorrect = correctAnswerIdx.includes(index.toString());
+							if (isCorrect) { // 맞는 선지일때 (내가 선택한거랑 상관없이 초록색 적용)
+								typeName = "solving-correct"
+							}else{
+								typeName = "solving-incorrect";
 							}
-						} else { 	// 체크 안했는데 그게 답일때
-							if (correctAnswer?.length) {
-								const correctAnswerIdx: string[] = correctAnswer.map((answer) => (parseInt(answer) - 1).toString());
-								isCorrect = correctAnswerIdx.includes(index.toString());
-								if (isCorrect) {
-									typeName = "solving-incorrect";
-								}
-							}
-					}
+						}
 					}
 					return (
 						<div

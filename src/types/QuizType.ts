@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { BookType } from "./BookType";
-import { StudyGroupType } from "./StudyGroupType";
+import { StudyGroupPreviewType } from "./StudyGroupType";
 export interface QuizType {
   id: number;
   title: string;
@@ -17,24 +17,24 @@ export interface QuizType {
 
 // 퀴즈 풀기 시 사용되는 타입
 export interface SolvingQuizType {
-	id: number;
-	title: string;
-	timeLimitSecond?: number;
-	questions: SolvingQuizQuestionType[],
+  id: number;
+  title: string;
+  timeLimitSecond?: number;
+  questions: SolvingQuizQuestionType[];
 }
 
 export interface SolvingQuizQuestionType {
-	id: number;
-	content:string;
-	selectOptions: {content:string}[];
-	type: RequestAnswerType;
+  id: number;
+  content: string;
+  selectOptions: { content: string }[];
+  type: AnswerType;
 }
 
 export interface MyQuizType {
-  id: number,
-  bookImageUrl: string,
-  title: string,
-  updatedAt: string
+  id: number;
+  bookImageUrl: string;
+  title: string;
+  updatedAt: string;
 }
 
 export type ViewScope = "EVERYONE" | "STUDY_GROUP" | "CREATOR";
@@ -48,23 +48,17 @@ export const scopeTranslations: Record<ViewScope, string> = {
 export type AnswerType =
   | "OX"
   | "FILL_BLANK"
-  | "MULTIPLE_CHOICE"
-  | "SHORT"
-  | "CHECK_BOX";
-export type RequestAnswerType =
-  | "OX"
-  | "FILL_BLANK"
-  | "MULTIPLE_CHOICE"
+  | "MULTIPLE_CHOICE_SINGLE_ANSWER"
+	| "MULTIPLE_CHOICE_MULTIPLE_ANSWER"
   | "SHORT";
 
 export interface QuizCreationType {
   title: string | null;
   description: string | null;
   book: BookType | null;
-  timeLimitSecond?: string | null;
   viewScope: ViewScope | null;
   editScope: EditScope | null;
-  studyGroup: StudyGroupType | null | undefined; // undefined -> 스터디그룹 선택 안함
+  studyGroup: StudyGroupPreviewType | null | undefined; // undefined -> 스터디그룹 선택 안함
   questions: QuizQuestionType[] | null;
 }
 
@@ -72,7 +66,7 @@ export interface SelectOptionType {
   id: number;
   option: string;
   value: string;
-	answerIndex: number;
+  answerIndex: number;
 }
 
 export interface QuizQuestionType {
@@ -85,7 +79,8 @@ export interface QuizQuestionType {
   answers: string[];
 }
 
-export interface QuizRequestType { // TODO: 이름 아래와 통일 필요
+export interface QuizRequestType {
+  // TODO: 이름 아래와 통일 필요
   title: string;
   description: string;
   bookId: number;
@@ -101,7 +96,7 @@ export type QuizQuestionRequestApiType = {
   selectOptions: string[];
   answerExplanationContent: string;
   answerExplanationImages: string[];
-  answerType: RequestAnswerType;
+  answerType: AnswerType;
   answers: string[];
 };
 
@@ -112,12 +107,24 @@ export interface QuestionFormType {
 }
 
 export interface QuestionCheckedResult {
-	solvingQuizId : number;
-	playerId : number;
-	quizId : number;
-	questionId : number;
-	correct : boolean;
-	correctAnswer : string[];
-	answerExplanationContent : string;
-	answerExplanationImages : string[];
+  solvingQuizId: number;
+  playerId: number;
+  quizId: number;
+  questionId: number;
+  correct: boolean;
+  correctAnswer: string[];
+  answerExplanationContent: string;
+  answerExplanationImages: string[];
+}
+
+export interface QuizSettingOptionType {
+  label: string;
+  description: string;
+}
+
+export interface QuizSettingType {
+  title: string;
+  name: string;
+  options: QuizSettingOptionType[];
+  icon: string; // path
 }

@@ -42,6 +42,9 @@
 	@include flex(row);
 	align-items: center;
 	justify-content: space-between;
+	border-radius: 8px;
+	background-color: white;
+
 
 	@include basic-checkbox-button($default-color: $gray-90, $checked-color: $system-success);
 
@@ -101,7 +104,8 @@
 	align-items: center;
 	gap: 8px;
 	flex: 1;
-	width: 100%;
+	word-break: break-word;
+	white-space: pre-line;
 	padding: 10px 16px;
 }
 
@@ -109,13 +113,12 @@
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	width: 100%;
+	flex: 1;
 	font-size: $font-size-large;
+	line-height: 150%
 }
 
 .delete-option-button {
-	border: none;
-	padding: 0;
-	margin: 0;
-	background: none;
+	width: 20px;
+	height: 20px;
 }

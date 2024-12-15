@@ -5,7 +5,11 @@ import { useDropDownList } from "@/hooks/useDropDownList.ts";
 import { black } from "@/styles/abstracts/colors";
 import { ArrowDown } from "@/svg/arrowDown.tsx";
 
-function HeaderQuizUtilButton() {
+interface HeaderQuizUtilButtonProps {
+  openLoginModal: () => void;
+}
+
+function HeaderQuizUtilButton({ openLoginModal }: HeaderQuizUtilButtonProps) {
   const {
     isOpenDropDownList,
     anchorEl,
@@ -30,7 +34,10 @@ function HeaderQuizUtilButton() {
         {/*<KeyboardArrowDownIcon className={styles["header-quiz-util-icon"]}/>*/}
       </Button>
       {isOpenDropDownList && anchorEl && (
-        <HeaderQuizUtilList closeDropDownList={closeDropDownList} />
+        <HeaderQuizUtilList
+          closeDropDownList={closeDropDownList}
+          openLoginModal={openLoginModal}
+        />
       )}
     </div>
   );

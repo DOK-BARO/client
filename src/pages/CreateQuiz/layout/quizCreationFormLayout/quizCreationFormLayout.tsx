@@ -13,11 +13,13 @@ import {
   QuizQuestionRequestApiType,
   QuizRequestType,
 } from "@/types/QuizType";
-import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { ViewScope, EditScope, scopeTranslations } from "@/types/QuizType";
 import { imageService } from "@/services/server/imageService";
 import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
 import { quizService } from "@/services/server/quizService";
+import { useMutation } from "@tanstack/react-query";
+import { ErrorType } from "@/types/ErrorType";
+import { useNavigate } from "react-router-dom";
 
 export default function QuizCreationFormLayout({
   steps,
@@ -28,6 +30,7 @@ export default function QuizCreationFormLayout({
   currentStep: number;
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
 }) {
+  const navigate = useNavigate();
   const [isQuizNextButtonEnabled, setIsQuizNextButtonEnabled] =
     useAtom<boolean>(IsQuizNextButtonEnabledAtom);
   const [quizCreationInfo] = useAtom<QuizCreationType>(QuizCreationInfoAtom);
@@ -46,11 +49,11 @@ export default function QuizCreationFormLayout({
 
   const getScopeKeyByTranslation = (
     translation: string
-  ): ViewScope | EditScope | undefined => {
+  ): ViewScope | EditScope | null => {
     const entry = Object.entries(scopeTranslations).find(
-      ([_, value]) => value === translation
+      ([, value]) => value === translation
     );
-    return entry ? (entry[0] as ViewScope) : undefined;
+    return entry ? (entry[0] as ViewScope) : null;
   };
 
   const requestUploadExplanationImages = async (
@@ -79,12 +82,9 @@ export default function QuizCreationFormLayout({
     const uploadedImgQuestions = quizCreationInfo.questions!.map(
       async (question) => {
         const { id, ...rest } = question;
+        void id;
         return {
           ...rest,
-          answerType:
-            question.answerType === "CHECK_BOX"
-              ? "MULTIPLE_CHOICE"
-              : question.answerType,
           answerExplanationImages: await requestUploadExplanationImages(
             question.answerExplanationImages
           ),
@@ -95,28 +95,59 @@ export default function QuizCreationFormLayout({
     return await Promise.all(uploadedImgQuestions);
   };
 
+  const { mutate: createQuiz } = useMutation<
+    { id: number } | null,
+    ErrorType,
+    QuizRequestType
+  >({
+    mutationFn: (quiz) => quizService.createQuiz(quiz),
+    onSuccess: () => {
+      // 완료 페이지로 이동
+      navigate("/create-quiz/complete");
+    },
+  });
+
   const requestCreateQuiz = async () => {
+    if (
+      quizCreationInfo.viewScope === null ||
+      quizCreationInfo.editScope === null
+    ) {
+      return;
+    }
+
+    const viewScopeKey = getScopeKeyByTranslation(quizCreationInfo.viewScope);
+    const editScopeKey = getScopeKeyByTranslation(quizCreationInfo.editScope);
+
+    if (
+      quizCreationInfo.title === null ||
+      quizCreationInfo.description === null ||
+      quizCreationInfo.book === null ||
+      viewScopeKey === null ||
+      editScopeKey === null ||
+      quizCreationInfo.questions === null
+    ) {
+      return;
+    }
+
     const quiz: QuizRequestType = {
-      title: quizCreationInfo.title!,
-      description: quizCreationInfo.description!,
-      viewScope: getScopeKeyByTranslation(quizCreationInfo.viewScope!)!,
-      editScope: getScopeKeyByTranslation(quizCreationInfo.editScope!)!,
-      bookId: quizCreationInfo.book!.id,
+      title: quizCreationInfo.title,
+      description: quizCreationInfo.description,
+      viewScope: viewScopeKey,
+      editScope: editScopeKey,
+      bookId: quizCreationInfo.book.id,
       studyGroupIds: quizCreationInfo.studyGroup?.id || undefined,
       questions: await setRequestQuestion(),
     };
 
     console.log("request: %O", quiz);
-    await quizService.createQuiz(quiz);
+    createQuiz(quiz);
     return;
   };
   const endStep = steps.length - 1;
-  const { updateQuizCreationInfo } = useUpdateQuizCreationInfo();
+  // const { updateQuizCreationInfo } = useUpdateQuizCreationInfo();
 
   const goToNextStep = async () => {
-    if (currentStep === 0) {
-      updateQuizCreationInfo("studyGroup", undefined);
-    } else if (currentStep === 2.2) {
+    if (currentStep === 2.2) {
       console.log("validation check!");
       //TODO: 질문이 하나도 없을 때 버튼 다시 disable 필요
 
@@ -169,7 +200,6 @@ export default function QuizCreationFormLayout({
   };
 
   const step: Step = getCurrentStep();
-  console.log("step: %o", step);
 
   const title = step?.subSteps?.[0].title
     ? step.subSteps?.[0].title
@@ -199,7 +229,7 @@ export default function QuizCreationFormLayout({
           size="medium"
           color="primary"
         >
-          {currentStep === endStep ? "완료" : "다음"}
+          다음
           <RightArrow
             alt="다음 버튼"
             width={20}

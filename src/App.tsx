@@ -22,6 +22,7 @@ import FindPassword from "./pages/FindPassword/index.tsx";
 import NotFound from "./pages/NotFound/index.tsx";
 import ToastPortal from "./components/layout/toastPortal/toastPortal.tsx";
 import { queryClient } from "./services/server/queryClient.ts";
+import CreateQuizComplete from "./pages/CreateQuiz/composite/createQuizComplete/createQuizComplete.tsx";
 
 function App() {
   // TODO: 분리하기
@@ -47,6 +48,11 @@ function App() {
         {
           path: "/create-quiz",
           element: <CreateQuiz />,
+        },
+
+        {
+          path: "/create-quiz/complete",
+          element: <CreateQuizComplete />,
         },
         {
           path: "/book/:id",

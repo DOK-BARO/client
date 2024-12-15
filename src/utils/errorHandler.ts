@@ -19,7 +19,7 @@ export const handleQueryError = async (error: ErrorType) => {
     case 401:
       // 토큰 만료 -> 자동 로그아웃
       // authService.logout();
-      toast.error("로그인 시간이 만료되었습니다. 다시 로그인해주세요.");
+      toast.error("로그인이 만료되었습니다. 다시 로그인해주세요.");
       // await authService.logout();
       break;
     case 403:

@@ -23,10 +23,10 @@ const useInput = (
       ...acc,
       [rule.message]: false,
     }),
-    {},
+    {}
   );
   const [validations, setValidations] = useState<{ [key: string]: boolean }>(
-    initialValidations,
+    initialValidations
   );
   const [isValid, setIsValid] = useState<boolean | undefined>(undefined);
 
@@ -39,7 +39,7 @@ const useInput = (
         ...acc,
         [rule.message]: rule.rule(inputValue),
       }),
-      {},
+      {}
     );
     setValidations(newValidations);
 
@@ -52,7 +52,7 @@ const useInput = (
       // setValidations({});
     }
   };
-  const resetInput = (newInitialValue: string = initialValue) => {
+  const resetInput = (newInitialValue: string | undefined = initialValue) => {
     setValue(newInitialValue);
     setIsValid(undefined);
     setValidations({});

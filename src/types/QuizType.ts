@@ -27,7 +27,7 @@ export interface SolvingQuizQuestionType {
   id: number;
   content: string;
   selectOptions: { content: string }[];
-  type: RequestAnswerType;
+  type: AnswerType;
 }
 
 export interface MyQuizType {
@@ -48,13 +48,8 @@ export const scopeTranslations: Record<ViewScope, string> = {
 export type AnswerType =
   | "OX"
   | "FILL_BLANK"
-  | "MULTIPLE_CHOICE"
-  | "SHORT"
-  | "CHECK_BOX";
-export type RequestAnswerType =
-  | "OX"
-  | "FILL_BLANK"
-  | "MULTIPLE_CHOICE"
+  | "MULTIPLE_CHOICE_SINGLE_ANSWER"
+	| "MULTIPLE_CHOICE_MULTIPLE_ANSWER"
   | "SHORT";
 
 export interface QuizCreationType {
@@ -101,7 +96,7 @@ export type QuizQuestionRequestApiType = {
   selectOptions: string[];
   answerExplanationContent: string;
   answerExplanationImages: string[];
-  answerType: RequestAnswerType;
+  answerType: AnswerType;
   answers: string[];
 };
 

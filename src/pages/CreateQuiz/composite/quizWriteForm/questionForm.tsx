@@ -16,7 +16,10 @@ import { OXQuestionTemplate } from "@/pages/CreateQuiz/composite/quizWriteForm/o
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
 // import { useAtom } from "jotai";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
+import deleteIcon from "/assets/svg/quizWriteForm/delete_ellipse.svg";
+
 // import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
+
 import { QuizQuestionType } from "@/types/QuizType";
 import QuestionTemplateTypeUtilButton from "./questionTemplateTypeUtilButton";
 
@@ -31,13 +34,13 @@ const questionTemplates: QuestionTemplateType[] = [
   {
     Icon: UlList,
     text: "객관식",
-    answerType: "MULTIPLE_CHOICE",
+    answerType: "MULTIPLE_CHOICE_SINGLE_ANSWER",
     FormComponent: <MultipleChoiceQuestionTemplate />,
   },
   {
     Icon: OlList,
     text: "복수 정답",
-    answerType: "CHECK_BOX",
+    answerType: "MULTIPLE_CHOICE_MULTIPLE_ANSWER",
     FormComponent: <CheckBoxQuestionTemplate />,
   },
   {
@@ -62,7 +65,6 @@ const questionTemplates: QuestionTemplateType[] = [
 
 export default function QuestionForm({ questionFormId, deleteQuestion, answerType }: QuizWriteFormItemProps) {
   const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
-  const deleteIcon = "/assets/svg/quizWriteForm/delete_ellipse.svg";
 
   const setInitialFormType = (): QuestionTemplateType => {
     return questionTemplates.find(({ answerType: typeFlag }) => typeFlag === answerType) || questionTemplates[0];

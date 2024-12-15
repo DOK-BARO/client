@@ -18,7 +18,7 @@ export const MultipleChoiceQuestionTemplate: FC<{ questionFormMode?: string, que
     deleteOption,
     handleAddQuizOptionItemBtn,
     getQuestion,
-  } = useQuestionTemplate("MULTIPLE_CHOICE", questionFormId!);
+  } = useQuestionTemplate("MULTIPLE_CHOICE_SINGLE_ANSWER", questionFormId!);
 
   const setInitialAnswer = (): string => {
     const question = getQuestion();
@@ -76,7 +76,7 @@ export const MultipleChoiceQuestionTemplate: FC<{ questionFormMode?: string, que
           onChange={handleRadioGroupChange}
           setText={setText}
           selectedValue={selectedRadioGroupValue}
-          answerType={"MULTIPLE_CHOICE"}
+          answerType={"MULTIPLE_CHOICE_SINGLE_ANSWER"}
         />
       )}
       {

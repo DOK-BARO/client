@@ -28,7 +28,7 @@ export const useQuestionTemplate = (
         label: option.option,
       })) ?? [];
 
-    return questionFormType === "CHECK_BOX"
+    return questionFormType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER"
       ? (initialOptions as CheckBoxOption[])
       : (initialOptions as RadioOptionType[]);
   };

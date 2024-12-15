@@ -85,10 +85,6 @@ export default function QuizCreationFormLayout({
         void id;
         return {
           ...rest,
-          answerType:
-            question.answerType === "CHECK_BOX"
-              ? "MULTIPLE_CHOICE"
-              : question.answerType,
           answerExplanationImages: await requestUploadExplanationImages(
             question.answerExplanationImages
           ),

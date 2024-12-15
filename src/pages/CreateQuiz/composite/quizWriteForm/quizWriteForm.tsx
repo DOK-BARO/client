@@ -16,7 +16,7 @@ import { AnswerType } from "@/types/QuizType";
 //TODO: 아이콘 정리 필요
 export default function QuizWriteForm() {
   const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
-  const defaultAnswerType:AnswerType = "MULTIPLE_CHOICE"
+  const defaultAnswerType:AnswerType = "MULTIPLE_CHOICE_SINGLE_ANSWER"
 
   const deleteQuestion = (targetId: number) => {
     setQuestionForms((prevQuizList) =>

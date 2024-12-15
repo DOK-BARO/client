@@ -18,7 +18,16 @@ export const QuizSettingContainer = ({
   const [description, setDescription] = useState<string>("");
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
 
-  const handleSelect = (e: React.MouseEvent<HTMLButtonElement>, name: string) => {
+  useEffect(() => {
+    if (quizSetting.options.length === 1) {
+      onOptionSelect(quizSetting.name, quizSetting.options[0].label);
+    }
+  }, []);
+
+  const handleSelect = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    name: string
+  ) => {
     const value = e.currentTarget.value;
     onOptionSelect(name, value);
     setIsSelectOpen((prev) => !prev);
@@ -54,7 +63,7 @@ export const QuizSettingContainer = ({
       >
         {selectedOptionLabel ?? "선택"}
       </Button>
-      {isSelectOpen ? (
+      {quizSetting.options.length > 1 && isSelectOpen ? (
         <ul className={styles["option-list"]}>
           {options.map((option: QuizSettingOptionType) => (
             <li key={option.label}>

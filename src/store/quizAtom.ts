@@ -1,4 +1,5 @@
 import { QuizCreationType } from "@/types/QuizType";
+import { StudyGroupPreviewType } from "@/types/StudyGroupType";
 import { atom } from "jotai";
 
 // 퀴즈 생성 단계 다음 버튼의 enabled 여부를 저장
@@ -9,12 +10,13 @@ export const QuizCreationInfoAtom = atom<QuizCreationType>({
   title: null,
   description: null,
   book: null,
-  timeLimitSecond: null,
   viewScope: null,
   editScope: null,
   studyGroup: null,
   questions: null,
 });
+
+export const SelectedStudyGroupAtom = atom<StudyGroupPreviewType | null>(null);
 
 // 스터디 선택 단계 완료 여부 Atom
 export const isStudyGroupSelectedAtom = atom(
@@ -32,16 +34,23 @@ export const isQuestionsWrittenAtom = atom(
   (get) =>
     get(QuizCreationInfoAtom).title !== null &&
     get(QuizCreationInfoAtom).description !== null &&
-    get(QuizCreationInfoAtom).questions !== null && 
+    get(QuizCreationInfoAtom).questions !== null &&
     get(QuizCreationInfoAtom).questions!.length > 0
 );
 
 // 공유 설정 단계 완료 여부 Atom
 export const isSetAtom = atom(
   (get) =>
-    get(QuizCreationInfoAtom).timeLimitSecond !== null &&
     get(QuizCreationInfoAtom).viewScope !== null &&
-    get(QuizCreationInfoAtom).editScope !== null
+    get(QuizCreationInfoAtom).editScope !== null,
+  (get, set, update: boolean) => {
+    const quizCreationInfo = get(QuizCreationInfoAtom);
+    set(QuizCreationInfoAtom, {
+      ...quizCreationInfo,
+      viewScope: update ? quizCreationInfo.viewScope : null,
+      editScope: update ? quizCreationInfo.editScope : null,
+    });
+  }
 );
 
 // 각 단계의 완료 상태를 확인

@@ -19,7 +19,11 @@ import { ErrorType } from "@/types/ErrorType";
 import toast from "react-hot-toast";
 import { studyGroupKeys } from "@/data/queryKeys";
 import { useAtom } from "jotai";
-import { IsQuizNextButtonEnabledAtom } from "@/store/quizAtom";
+import {
+  IsQuizNextButtonEnabledAtom,
+  isSetAtom,
+  SelectedStudyGroupAtom,
+} from "@/store/quizAtom";
 
 // TODO: 컴포넌트 분리
 // 1.스터디 선택
@@ -143,12 +147,22 @@ export default function QuizSettingStudyGroupForm() {
     resetStudyNameInput("");
   };
 
+  // const [selectedStudyGroup, setSelectedStudyGroup] = useAtom(
+  //   SelectedStudyGroupAtom
+  // );
+  const [, setIsSet] = useAtom(isSetAtom);
+
   // 스터디 선택
   const handleSelectStudyGroup = (studyGroup: StudyGroupPreviewType) => {
-    updateQuizCreationInfo(
-      "studyGroup",
-      studyGroup === quizCreationInfo.studyGroup ? null : studyGroup
-    );
+    if (studyGroup === quizCreationInfo.studyGroup) {
+      updateQuizCreationInfo("studyGroup", null);
+    } else {
+      updateQuizCreationInfo("studyGroup", studyGroup);
+    }
+    setIsSet(false);
+    // setSelectedStudyGroup(
+    //   studyGroup === selectedStudyGroup ? null : studyGroup
+    // );
   };
 
   // 스터디 생성

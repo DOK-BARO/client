@@ -25,7 +25,7 @@ export default function Index() {
     {
       order: 0,
       icon: "👥",
-      title: "스터디 그룹 생성/선택",
+      title: "스터디 그룹 선택",
       description: "퀴즈를 풀 스터디 그룹을 만들거나 선택해주세요.",
       formComponent: () => <QuizSettingStudyGroupForm />,
       isDone: completionStatus.isStudyGroupSelected,

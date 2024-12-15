@@ -16,6 +16,11 @@ export default function QuizSettingsForm() {
     IsQuizNextButtonEnabledAtom
   );
 
+  // 다음 버튼 초기화
+  useEffect(() => {
+    setIsQuizNextButtonEnabled(false);
+  }, []);
+
   const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>(
     () => ({
       "view-access": quizCreationInfo.viewScope,
@@ -52,7 +57,7 @@ export default function QuizSettingsForm() {
     );
 
     setIsQuizNextButtonEnabled(isAllSelected);
-  }, [selectedOptions, setIsQuizNextButtonEnabled]);
+  }, [Object.values(selectedOptions)]);
 
   return (
     <>
@@ -117,16 +122,6 @@ const getQuizSettings = (isStudyGroupSelected: boolean): QuizSettingType[] => [
           },
         ],
 
-    // [
-    //   {
-    //     label: "나만",
-    //     description: "나만 이 퀴즈를 편집할 수 있습니다.",
-    //   },
-    //   {
-    //     label: "스터디원만",
-    //     description: "스터디원이 이 퀴즈를 편집할 수 있습니다.",
-    //   },
-    // ],
     icon: "/assets/svg/quizSettingForm/edit.svg",
   },
 ];

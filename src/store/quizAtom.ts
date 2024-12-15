@@ -1,5 +1,4 @@
 import { QuizCreationType } from "@/types/QuizType";
-import { StudyGroupPreviewType } from "@/types/StudyGroupType";
 import { atom } from "jotai";
 
 // 퀴즈 생성 단계 다음 버튼의 enabled 여부를 저장

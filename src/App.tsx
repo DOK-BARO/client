@@ -47,12 +47,11 @@ function App() {
         {
           path: "/create-quiz",
           element: <CreateQuiz />,
-          children: [
-            {
-              path: "complete",
-              element: <div>complete</div>,
-            },
-          ],
+        },
+
+        {
+          path: "/create-quiz/complete",
+          element: <div>퀴즈 생성 완료 페이지</div>,
         },
         {
           path: "/book/:id",
@@ -62,19 +61,15 @@ function App() {
           path: "/find-password",
           element: <FindPassword />,
         },
+
         {
-          path: "/register",
+          path: "/register/:method",
           element: <Register />,
-          children: [
-            {
-              path: ":method",
-              element: <Register />,
-            },
-            {
-              path: "complete",
-              element: <RegisterComplete />,
-            },
-          ],
+        },
+
+        {
+          path: "/register/complete",
+          element: <RegisterComplete />,
         },
         {
           path: "/my",

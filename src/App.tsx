@@ -47,6 +47,12 @@ function App() {
         {
           path: "/create-quiz",
           element: <CreateQuiz />,
+          children: [
+            {
+              path: "complete",
+              element: <div>complete</div>,
+            },
+          ],
         },
         {
           path: "/book/:id",
@@ -56,15 +62,19 @@ function App() {
           path: "/find-password",
           element: <FindPassword />,
         },
-
         {
-          path: "/register/:method",
+          path: "/register",
           element: <Register />,
-        },
-
-        {
-          path: "/register/complete",
-          element: <RegisterComplete />,
+          children: [
+            {
+              path: ":method",
+              element: <Register />,
+            },
+            {
+              path: "complete",
+              element: <RegisterComplete />,
+            },
+          ],
         },
         {
           path: "/my",

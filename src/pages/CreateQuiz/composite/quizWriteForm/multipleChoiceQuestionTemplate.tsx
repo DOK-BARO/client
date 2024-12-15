@@ -22,7 +22,7 @@ export const MultipleChoiceQuestionTemplate: FC<{ questionFormMode?: string, que
 
   const setInitialAnswer = (): string => {
     const question = getQuestion();
-    return question.answers[0];
+    return question?.answers[0] ?? "";
   }
   const { selectedValue: selectedRadioGroupValue, handleChange: onRadioGroupChange } = useRadioGroup(setInitialAnswer());
 

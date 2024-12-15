@@ -26,7 +26,7 @@ export default function QuizWriteForm() {
     const updatedQuestions =
       quizCreationInfo.questions?.filter(
         (question) => question.id !== targetId
-      ) ?? [];
+      );
     updateQuizCreationInfo("questions", updatedQuestions);
   };
 

@@ -64,7 +64,7 @@ export default function QuizSettingStudyGroupForm() {
     value: studyName,
     onChange: onChangeStudyName,
     resetInput: resetStudyNameInput,
-  } = useInput(undefined);
+  } = useInput("");
 
   const { data: studyGroupDetail, isLoading: isStudyGroupDetailLoading } =
     useQuery({
@@ -158,8 +158,8 @@ export default function QuizSettingStudyGroupForm() {
   };
 
   // 스터디 생성
-  const handleCreateStudyGroup = (studyName: string | undefined) => {
-    if (!studyName) {
+  const handleCreateStudyGroup = (studyName: string) => {
+    if (studyName === "" || !studyName) {
       toast.error("스터디 이름을 입력해주세요.");
       return;
     }

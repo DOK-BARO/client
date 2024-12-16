@@ -8,17 +8,22 @@
   z-index: 100;
 
   &-container {
+    background-color: inherit;
+    position: relative;
     @include flex(row, center);
     height: 58px;
     width: 1140px;
     padding: 0 40px;
     margin: 0 auto;
+    z-index: inherit;
   }
 
   &-inner-container {
+    position: relative;
+    background-color: inherit;
     @include flex(row, center);
     flex-grow: 1;
     justify-content: space-between;
-    z-index: 100;
+    z-index: inherit;
   }
 }

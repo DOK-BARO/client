@@ -17,8 +17,8 @@ export default function HeaderLayout({ isLoggedIn }: Props) {
           <SearchBar />
           <HeaderUtilArea isLoggedIn={isLoggedIn} />
         </div>
-        <GNB />
       </div>
+      <GNB />
     </header>
   );
 }

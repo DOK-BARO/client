@@ -8,11 +8,10 @@
   position: absolute;
   top: 58px; // header 크기만큼
   left: 0;
-
   transform: translateY(0);
-  opacity: 1;
+  // opacity: 1;
   z-index: 90;
-  // transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  transition: transform 0.2s ease-in-out;
 }
 
 .hidden {

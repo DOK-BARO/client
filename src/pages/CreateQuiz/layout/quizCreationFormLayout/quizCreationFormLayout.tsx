@@ -5,6 +5,7 @@ import RightArrow from "@/svg/rightArrow.tsx";
 import { gray0, gray60 } from "@/styles/abstracts/colors.ts";
 import { useAtom } from "jotai";
 import {
+  CreatedQuizIdAtom,
   IsQuizNextButtonEnabledAtom,
   QuizCreationInfoAtom,
 } from "@/store/quizAtom";
@@ -96,13 +97,18 @@ export default function QuizCreationFormLayout({
     return await Promise.all(uploadedImgQuestions);
   };
 
+  const [, setCreatedQuizId] = useAtom(CreatedQuizIdAtom);
   const { mutate: createQuiz } = useMutation<
     { id: number } | null,
     ErrorType,
     QuizRequestType
   >({
     mutationFn: (quiz) => quizService.createQuiz(quiz),
-    onSuccess: () => {
+    onSuccess: (data) => {
+      if (!data) {
+        return;
+      }
+      setCreatedQuizId(data.id);
       // 완료 페이지로 이동
       navigate("/create-quiz/complete");
     },

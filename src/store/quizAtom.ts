@@ -14,7 +14,6 @@ export const QuizCreationInfoAtom = atom<QuizCreationType>({
   studyGroup: undefined,
   questions: null,
 });
-
 // export const SelectedStudyGroupAtom = atom<StudyGroupPreviewType | null>(null);
 
 // 스터디 선택 단계 완료 여부 Atom
@@ -59,9 +58,11 @@ export const stepsCompletionStatusAtom = atom((get) => ({
   isQuestionsWritten: get(isQuestionsWrittenAtom),
   isSet: get(isSetAtom),
 }));
-
+// TODO: 대문자로 수정
 export const errorModalTitleAtom = atom<string>("");
 export const openErrorModalAtom = atom<() => void>();
 
 export const selectedOptionsAtom = atom<string[]>([]);
 export const solvingQuizIdAtom = atom<number>(0);
+
+export const CreatedQuizIdAtom = atom<number>();

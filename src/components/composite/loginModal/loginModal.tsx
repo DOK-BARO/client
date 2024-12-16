@@ -17,7 +17,7 @@ import { XSmall } from "@/svg/xSmall.tsx";
 import { Invisible } from "@/svg/invisible.tsx";
 import { useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
-import { IsEmailLoginPageAtom } from "@/store/authModalAtom.ts";
+import { isEmailLoginPageAtom } from "@/store/authModalAtom.ts";
 import { authService } from "@/services/server/authService.ts";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType.ts";
@@ -38,7 +38,7 @@ const LoginModal = ({ closeModal }: LoginModalProps) => {
   // TODO: 전역으로 상태 변경할 수 있도록 해야함
   // const [isEmailSelected, setIsEmailSelected] = useState<boolean>(false);
   // const [, setCurrentUser] = useAtom(CurrentUserAtom);
-  const [isEmailLoginPage] = useAtom(IsEmailLoginPageAtom);
+  const [isEmailLoginPage] = useAtom(isEmailLoginPageAtom);
   const navigate = useNavigate();
 
   const { value: email, onChange: onEmailChange } = useInput("");

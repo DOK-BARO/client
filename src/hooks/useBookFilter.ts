@@ -1,11 +1,11 @@
-import { BookFilterAtom } from "@/store/bookAtom";
+import { bookFilterAtom } from "@/store/bookAtom";
 import { SortFilterType } from "@/types/BookType";
 import { useAtom } from "jotai";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
 const useBookFilter = () => {
-  const [, setFilterCriteria] = useAtom(BookFilterAtom);
+  const [, setFilterCriteria] = useAtom(bookFilterAtom);
   const { search } = useLocation();
 
   // URL의 쿼리 파라미터와 동기화

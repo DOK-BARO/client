@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { IsQuizNextButtonEnabledAtom } from "@/store/quizAtom";
+import { isQuizNextButtonEnabledAtom } from "@/store/quizAtom";
 import { useAtom } from "jotai";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { QuizCreationType, QuizSettingType } from "@/types/QuizType";
@@ -13,7 +13,7 @@ export default function QuizSettingsForm() {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
   const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
-    IsQuizNextButtonEnabledAtom
+    isQuizNextButtonEnabledAtom
   );
 
   // 다음 버튼 초기화

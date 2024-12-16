@@ -7,14 +7,14 @@ import { Naver } from "@/svg/auth/naver.tsx";
 import { Github } from "@/svg/auth/github.tsx";
 import { Email } from "@/svg/auth/email.tsx";
 import Button from "@/components/atom/button/button.tsx";
-import { IsEmailLoginPageAtom } from "@/store/authModalAtom";
+import { isEmailLoginPageAtom } from "@/store/authModalAtom";
 import { useAtom } from "jotai";
 import { authService } from "@/services/server/authService";
 
 const SocialAuthButton: React.FC<{
   socialType: SocialLoginType;
 }> = ({ socialType }) => {
-  const [, setIsEmailLoginPage] = useAtom(IsEmailLoginPageAtom);
+  const [, setIsEmailLoginPage] = useAtom(isEmailLoginPageAtom);
 
   const handleAuth = async () => {
     if (socialType === SocialLoginType.EMAIL) {

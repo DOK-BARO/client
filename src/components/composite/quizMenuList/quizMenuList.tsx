@@ -4,7 +4,7 @@ import { CheckSquare } from "@/svg/checkSquare";
 import { gray70 } from "@/styles/abstracts/colors.ts";
 import { useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
-import { IsLoggedInAtom } from "@/store/userAtom";
+import { isLoggedInAtom } from "@/store/userAtom";
 
 interface HeaderQuizUtilListProps {
   closeDropDownList: () => void;
@@ -16,7 +16,7 @@ export default function HeaderQuizUtilList({
   openLoginModal,
 }: HeaderQuizUtilListProps) {
   const navigate = useNavigate();
-  const [isLoggedIn] = useAtom(IsLoggedInAtom);
+  const [isLoggedIn] = useAtom(isLoggedInAtom);
 
   const onClickMakeQuiz = () => {
     closeDropDownList();

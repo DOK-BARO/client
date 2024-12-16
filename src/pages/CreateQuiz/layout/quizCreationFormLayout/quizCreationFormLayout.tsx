@@ -5,9 +5,9 @@ import RightArrow from "@/svg/rightArrow.tsx";
 import { gray0, gray60 } from "@/styles/abstracts/colors.ts";
 import { useAtom } from "jotai";
 import {
-  CreatedQuizIdAtom,
-  IsQuizNextButtonEnabledAtom,
-  QuizCreationInfoAtom,
+  createdQuizIdAtom,
+  isQuizNextButtonEnabledAtom,
+  quizCreationInfoAtom,
 } from "@/store/quizAtom";
 import {
   QuizCreationType,
@@ -33,9 +33,9 @@ export default function QuizCreationFormLayout({
 }) {
   const navigate = useNavigate();
   const [isQuizNextButtonEnabled] = useAtom<boolean>(
-    IsQuizNextButtonEnabledAtom
+    isQuizNextButtonEnabledAtom
   );
-  const [quizCreationInfo] = useAtom<QuizCreationType>(QuizCreationInfoAtom);
+  const [quizCreationInfo] = useAtom<QuizCreationType>(quizCreationInfoAtom);
   const [, setErrorModalTitle] = useAtom(errorModalTitleAtom);
   const [openModal] = useAtom(openErrorModalAtom);
 
@@ -97,7 +97,7 @@ export default function QuizCreationFormLayout({
     return await Promise.all(uploadedImgQuestions);
   };
 
-  const [, setCreatedQuizId] = useAtom(CreatedQuizIdAtom);
+  const [, setCreatedQuizId] = useAtom(createdQuizIdAtom);
   const { mutate: createQuiz } = useMutation<
     { id: number } | null,
     ErrorType,

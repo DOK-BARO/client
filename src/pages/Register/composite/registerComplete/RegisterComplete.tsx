@@ -3,7 +3,7 @@ import registerCompleteImage from "/assets/image/register-complete.png";
 import Input from "@/components/atom/input/input";
 import Button from "@/components/atom/button/button";
 import useInput from "@/hooks/useInput";
-import { RegisterInfoAtom } from "@/store/userAtom";
+import { registerInfoAtom } from "@/store/userAtom";
 import { RegisterInfoType } from "@/types/UserType";
 import { useAtom } from "jotai";
 import { APP_NAME } from "@/data/constants";
@@ -13,7 +13,7 @@ import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";
 
 export default function RegisterComplete() {
-  const [user] = useAtom<RegisterInfoType>(RegisterInfoAtom);
+  const [user] = useAtom<RegisterInfoType>(registerInfoAtom);
 
   const { value: inviteCode, onChange: handleInviteCodeChange } = useInput("");
 

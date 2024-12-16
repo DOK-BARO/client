@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { userKeys } from "@/data/queryKeys.ts";
 import { useAtom } from "jotai";
-import { CurrentUserAtom } from "@/store/userAtom";
+import { currentUserAtom } from "@/store/userAtom";
 import { ErrorType } from "@/types/ErrorType";
 import { authService } from "@/services/server/authService";
 import toast from "react-hot-toast";
@@ -43,7 +43,7 @@ type Props = {
 };
 
 export default function HeaderMenuList({ closeDropDownList }: Props) {
-  const [currentUser, setCurrentUser] = useAtom(CurrentUserAtom);
+  const [currentUser, setCurrentUser] = useAtom(currentUserAtom);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 

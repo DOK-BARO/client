@@ -2,7 +2,7 @@ import { RegisterInfoType, UserType } from "@/types/UserType";
 import { atom } from "jotai";
 
 // 사용자 회원가입 로직에서 사용되는 전역변수
-export const RegisterInfoAtom = atom<RegisterInfoType>({
+export const registerInfoAtom = atom<RegisterInfoType>({
   id: 0,
   email: "",
   password: "",
@@ -12,10 +12,10 @@ export const RegisterInfoAtom = atom<RegisterInfoType>({
 });
 
 // 현재 로그인한 사용자
-export const CurrentUserAtom = atom<UserType | null>(null);
+export const currentUserAtom = atom<UserType | null>(null);
 
 // 로그인 여부
-export const IsLoggedInAtom = atom((get) => {
-  const currentUser = get(CurrentUserAtom);
+export const isLoggedInAtom = atom((get) => {
+  const currentUser = get(currentUserAtom);
   return currentUser !== null;
 });

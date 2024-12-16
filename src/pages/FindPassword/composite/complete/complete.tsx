@@ -1,13 +1,13 @@
 import Button from "@/components/atom/button/button";
 import styles from "./_complete.module.scss";
 import { useAtom } from "jotai";
-import { IsEmailLoginPageAtom } from "@/store/authModalAtom";
+import { isEmailLoginPageAtom } from "@/store/authModalAtom";
 import useModal from "@/hooks/useModal";
 import LoginModal from "@/components/composite/loginModal/loginModal";
 
 export default function Complete() {
   const emailAddress = "dokbaro@gmail.com";
-  const [, setIsEmailLoginPage] = useAtom(IsEmailLoginPageAtom);
+  const [, setIsEmailLoginPage] = useAtom(isEmailLoginPageAtom);
   const { isModalOpen, openModal, closeModal } = useModal();
 
   const handleLoginClick = () => {

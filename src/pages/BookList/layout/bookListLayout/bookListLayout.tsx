@@ -14,7 +14,7 @@ import BookListFilter from "@/pages/BookList/composite/bookListFilter/bookListFi
 import Pagination from "@/components/composite/pagination/pagination";
 import { SortFilterType } from "@/types/BookType";
 import { useAtom } from "jotai";
-import { PaginationAtom } from "@/store/paginationAtom";
+import { paginationAtom } from "@/store/paginationAtom";
 import { bookService } from "@/services/server/bookService";
 
 export default function BookListLayout() {
@@ -26,7 +26,7 @@ export default function BookListLayout() {
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
 
-  const [paginationState, setPaginationState] = useAtom(PaginationAtom);
+  const [paginationState, setPaginationState] = useAtom(paginationAtom);
   const totalPagesLength = paginationState.totalPagesLength;
 
   const category = queryParams.get("category");

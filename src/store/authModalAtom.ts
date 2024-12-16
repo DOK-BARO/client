@@ -1,3 +1,3 @@
 import { atom } from "jotai";
 
-export const IsEmailLoginPageAtom = atom<boolean>(false);
+export const isEmailLoginPageAtom = atom<boolean>(false);

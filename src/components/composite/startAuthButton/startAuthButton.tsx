@@ -1,6 +1,6 @@
 import styles from "./_start_auth_button.module.scss";
 import Button from "@/components/atom/button/button.tsx";
-import { IsEmailLoginPageAtom } from "@/store/authModalAtom.ts";
+import { isEmailLoginPageAtom } from "@/store/authModalAtom.ts";
 import { useAtom } from "jotai";
 
 interface StartAuthButtonProps {
@@ -12,7 +12,7 @@ export default function StartAuthButton({
   isLoggedIn,
   openLoginModal,
 }: StartAuthButtonProps) {
-  const [, setIsEmailLoginPage] = useAtom(IsEmailLoginPageAtom);
+  const [, setIsEmailLoginPage] = useAtom(isEmailLoginPageAtom);
 
   if (isLoggedIn) {
     return null;

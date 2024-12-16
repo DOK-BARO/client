@@ -8,7 +8,7 @@ import { XCircle } from "@/svg/xCircle";
 import { gray30, gray60 } from "@/styles/abstracts/colors.ts";
 import Button from "@/components/atom/button/button.tsx";
 import { RegisterInfoType } from "@/types/UserType";
-import { CurrentUserAtom, RegisterInfoAtom } from "@/store/userAtom";
+import { currentUserAtom, registerInfoAtom } from "@/store/userAtom";
 import { useNavigate, useParams } from "react-router-dom";
 import { authService } from "@/services/server/authService";
 import { imageService } from "@/services/server/imageService";
@@ -26,14 +26,14 @@ export default function ProfileSet() {
   const { method } = useParams();
   const completePage = "/register/complete";
   const navigate = useNavigate();
-  const [, setCurrentUser] = useAtom(CurrentUserAtom);
+  const [, setCurrentUser] = useAtom(currentUserAtom);
 
   const defaultImagePath = "/public/assets/image/default-profile.png";
   const [profileImage, setProfileImage] = useState<ProfileImageState>({
     url: defaultImagePath,
     file: null,
   });
-  const [user, setUser] = useAtom<RegisterInfoType>(RegisterInfoAtom);
+  const [user, setUser] = useAtom<RegisterInfoType>(registerInfoAtom);
   const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 
   const {

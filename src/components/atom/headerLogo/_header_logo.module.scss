@@ -1,11 +1,13 @@
+@import "../../../styles/abstracts/variables";
+
 .logo {
   &-container {
+    background-color: $background;
     width: 158px;
     flex-shrink: 0;
+
     h1 {
-      font-family: Pretendard, serif;
       margin-left: 4px;
-      line-height: 1.5em;
       font-size: 1.25em;
       font-weight: bold;
     }

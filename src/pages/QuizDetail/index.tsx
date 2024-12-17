@@ -8,10 +8,6 @@ import QuizShortInfo from "./composite/quizShortInfo/quizShortInfo";
 import ReviewsDetail from "./composite/reviewsDetail/reviewsDetail";
 import { ReviewsTotalScoreType } from "@/types/ReviewType";
 import { reviewService } from "@/services/server/reviewService";
-import {
-  levelMapping,
-  LevelType,
-} from "./components/difficultyLevelItem/difficultyLevelItem";
 import QuizLinkItem from "./composite/quizLinkItem/quizLinkItem";
 
 export default function Index() {

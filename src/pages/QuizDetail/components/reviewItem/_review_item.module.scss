@@ -48,17 +48,21 @@
     }
   }
   .comment {
-    margin-top: 16px;
+    margin: 16px 0;
     line-height: inherit;
   }
 
-  .report {
-    text-decoration: underline;
-    font-size: 14px;
-    font-weight: $font-weight-medium;
-    line-height: inherit;
-    padding: 0;
-    margin-left: auto;
-    margin-top: 16px;
+  .report-container {
+    height: 21px;
+    display: flex;
+    align-items: center;
+    .report {
+      text-decoration: underline;
+      font-size: 14px;
+      font-weight: $font-weight-medium;
+      line-height: inherit;
+      padding: 0;
+      margin-left: auto;
+    }
   }
 }

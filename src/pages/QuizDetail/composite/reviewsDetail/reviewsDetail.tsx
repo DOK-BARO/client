@@ -14,7 +14,6 @@ export default function ReviewsDetail({
   reviewCount,
   roundedAverageRating,
 }: Props) {
-  console.log(reviewsTotalScore);
   return (
     <section className={styles.container}>
       <h2 className={styles.title}>퀴즈 후기</h2>

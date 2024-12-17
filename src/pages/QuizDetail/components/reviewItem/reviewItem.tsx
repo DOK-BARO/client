@@ -8,6 +8,7 @@ import Button from "@/components/atom/button/button";
 
 interface Props {
   review: ReviewType;
+  isMyReview: boolean;
 }
 type LevelType = "1" | "2" | "3";
 const levelMapping: Record<LevelType, string> = {
@@ -23,7 +24,7 @@ const ratingMapping: Record<RatingType, string> = {
   "4": "추천해요 😄",
   "5": "매우 추천해요 😍",
 };
-export default function ReviewItem({ review }: Props) {
+export default function ReviewItem({ review, isMyReview }: Props) {
   const roundedRating: number = Math.floor(review.starRating);
 
   return (
@@ -39,21 +40,27 @@ export default function ReviewItem({ review }: Props) {
           <span className={styles.divider} />
           <p>{levelMapping[review.difficultyLevel.toString() as LevelType]}</p>
         </span>
-        <span className={styles["edit-container"]}>
-          <Button
-            icon={<img src={edit} alt="수정하기" width={16} height={16} />}
-            iconOnly
-          />
-          <Button
-            icon={<img src={trash} alt="삭제하기" width={16} height={16} />}
-            iconOnly
-          />
-        </span>
+        {isMyReview ? (
+          <span className={styles["edit-container"]}>
+            <Button
+              icon={<img src={edit} alt="수정하기" width={16} height={16} />}
+              iconOnly
+            />
+            <Button
+              icon={<img src={trash} alt="삭제하기" width={16} height={16} />}
+              iconOnly
+            />
+          </span>
+        ) : null}
       </div>
       <p className={styles.comment}>{review.comment}</p>
-      <Button color="transparent" size="xsmall" className={styles.report}>
-        신고하기
-      </Button>
+      <div className={styles["report-container"]}>
+        {isMyReview ? null : (
+          <Button color="transparent" size="xsmall" className={styles.report}>
+            신고하기
+          </Button>
+        )}
+      </div>
     </li>
   );
 }

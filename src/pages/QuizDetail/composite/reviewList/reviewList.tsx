@@ -11,6 +11,7 @@ import { useAtom } from "jotai";
 import { reviewFilterAtom } from "@/store/reviewAtom";
 import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 import useFilter from "@/hooks/useBookFilter";
+import { currentUserAtom } from "@/store/userAtom";
 
 interface Props {
   quizId: number;
@@ -19,6 +20,7 @@ export default function ReviewList({ quizId }: Props) {
   const { navigateWithParams } = useNavigateWithParams();
   const [, setFilterCriteria] = useAtom(reviewFilterAtom);
   useFilter<ReviewsFilterType>(setFilterCriteria);
+  const [currentUser] = useAtom(currentUserAtom);
 
   const handleOptionClick = (filter: ReviewsFilterType) => {
     navigateWithParams({
@@ -86,9 +88,17 @@ export default function ReviewList({ quizId }: Props) {
         quizId,
       }),
   });
-
+  if (!currentUser) {
+    return;
+  }
   console.log(reviewsData?.data);
   const reviews = reviewsData?.data;
+
+  const myReviews =
+    reviews?.filter((review) => review.writerId === currentUser.id) ?? [];
+
+  const otherReviews =
+    reviews?.filter((review) => review.writerId !== currentUser.id) ?? [];
 
   return (
     <section className={styles.container}>
@@ -102,8 +112,12 @@ export default function ReviewList({ quizId }: Props) {
         />
       </div>
       <ul className={styles["review-list"]}>
-        {reviews?.map((review) => (
-          <ReviewItem key={review.id} review={review} />
+        {myReviews?.concat(otherReviews)?.map((review) => (
+          <ReviewItem
+            key={review.id}
+            review={review}
+            isMyReview={review.writerId === currentUser.id}
+          />
         ))}
       </ul>
     </section>

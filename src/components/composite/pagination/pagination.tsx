@@ -84,9 +84,7 @@ export default function Pagination() {
             onClick={handlePageClick}
           />
         </>
-      ) : (
-        <>로딩중</>
-      )}
+      ) : null}
     </article>
   );
 }

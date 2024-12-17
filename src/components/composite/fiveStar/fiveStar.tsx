@@ -5,18 +5,20 @@ import { StarFilled } from "@/svg/starFilled";
 import { StarEmpty } from "@/svg/starEmpty";
 
 interface Props {
-  size: number;
+  size: "medium" | "small";
   rating: number;
   isButton?: boolean;
 }
 
 export default function FiveStar({
-  size = 30,
+  size = "medium",
   rating,
   isButton = false,
 }: Props) {
+  const iconSize = size === "medium" ? 30 : 20;
+
   return (
-    <span className={styles.container}>
+    <span className={`${styles.container} ${styles[size]}`}>
       {[...Array(5)].map((_, index) => {
         const starValue = index + 1;
         return (
@@ -26,9 +28,17 @@ export default function FiveStar({
             className={`${!isButton ? styles["non-button"] : ""}`}
           >
             {starValue <= rating ? (
-              <StarFilled width={size} height={size} fill={systemWarning} />
+              <StarFilled
+                width={iconSize}
+                height={iconSize}
+                fill={systemWarning}
+              />
             ) : (
-              <StarEmpty width={size} height={size} stroke={systemWarning} />
+              <StarEmpty
+                width={iconSize}
+                height={iconSize}
+                stroke={systemWarning}
+              />
             )}
           </Button>
         );

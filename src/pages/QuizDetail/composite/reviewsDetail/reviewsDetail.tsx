@@ -27,7 +27,7 @@ export default function ReviewsDetail({ quizId }: Props) {
         <div>
           <div className={styles["rating-difficulty-container"]}>
             <span className={styles["rating-container"]}>
-              <FiveStar size={30} rating={data.averageStarRating} />
+              <FiveStar size="medium" rating={data.averageStarRating} />
               <span className={styles["rating-text-container"]}>
                 <em>{Math.floor(data.averageStarRating)}</em>/5
               </span>

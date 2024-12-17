@@ -29,7 +29,7 @@ export default function ReviewItem({ review }: Props) {
   return (
     <li className={styles.container}>
       <div className={styles["review-info"]}>
-        <FiveStar rating={review.starRating} size={20} />
+        <FiveStar rating={review.starRating} size="small" />
         <p className={styles.writer}>{review.writerNickname}</p>
         <p className={styles.createdAt}>{formatDate(review.createdAt)}</p>
       </div>
@@ -40,8 +40,14 @@ export default function ReviewItem({ review }: Props) {
           <p>{levelMapping[review.difficultyLevel.toString() as LevelType]}</p>
         </span>
         <span className={styles["edit-container"]}>
-          <img src={edit} alt="수정하기" width={16} height={16} />
-          <img src={trash} alt="삭제하기" width={16} height={16} />
+          <Button
+            icon={<img src={edit} alt="수정하기" width={16} height={16} />}
+            iconOnly
+          />
+          <Button
+            icon={<img src={trash} alt="삭제하기" width={16} height={16} />}
+            iconOnly
+          />
         </span>
       </div>
       <p className={styles.comment}>{review.comment}</p>

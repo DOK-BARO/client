@@ -3,7 +3,13 @@
 
 .container {
   @include flex(row);
-  gap: 9.57px;
+
+  &.medium {
+    gap: 9.57px;
+  }
+  &.small {
+    gap: 3.5px;
+  }
 
   .non-button {
     cursor: default;

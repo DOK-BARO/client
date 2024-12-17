@@ -21,7 +21,6 @@ export default function ReviewList({ quizId }: Props) {
   useFilter<ReviewsFilterType>(setFilterCriteria);
 
   const handleOptionClick = (filter: ReviewsFilterType) => {
-    // setFilterCriteria(value as ReviewsSortFilterType);
     navigateWithParams({
       filter,
       parentComponentType: "QUIZ",
@@ -90,11 +89,13 @@ export default function ReviewList({ quizId }: Props) {
     <section className={styles.container}>
       {/* TODO: h3? */}
       <h2 className={styles["sr-only"]}>퀴즈 리뷰 리스트</h2>
-      <ListFilter
-        handleOptionClick={handleOptionClick}
-        sortFilter={filterCriteria}
-        filterOptions={filterOptions}
-      />
+      <div className={styles["list-filter-container"]}>
+        <ListFilter
+          handleOptionClick={handleOptionClick}
+          sortFilter={filterCriteria}
+          filterOptions={filterOptions}
+        />
+      </div>
       <ul className={styles["review-list"]}>
         {reviews?.map((review) => (
           <ReviewItem key={review.id} review={review} />

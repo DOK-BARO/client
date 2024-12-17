@@ -21,7 +21,7 @@ export default function MyMadeQuiz() {
   return (
     <QuizListLayout
       title="내가 만든 퀴즈"
-      quizzes={myQuizzes!}
+      quizzes={myQuizzes?.data}
       titleWhenNoData="아직 내가 만든 퀴즈가 없어요. 😞"
       buttonNameWhenNoData="퀴즈 만들러 가기"
       onClickBtnWhenNoData={handleClickWhenNoData}

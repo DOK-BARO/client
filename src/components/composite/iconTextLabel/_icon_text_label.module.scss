@@ -1,0 +1,7 @@
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixins";
+
+.container {
+  @include flex(row);
+  gap: 8px;
+}

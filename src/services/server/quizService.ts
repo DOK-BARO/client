@@ -1,9 +1,8 @@
-import { QuizRequestType } from "@/types/QuizType";
+import { QuizExplanationType, QuizRequestType } from "@/types/QuizType";
 import { QuizType, SolvingQuizType } from "@/types/QuizType";
 import { MyQuizType } from "@/types/QuizType";
 import { axiosInstance } from "@/config/axiosConfig";
 import { QuestionCheckedResult } from "@/types/QuizType";
-import axios, { AxiosError } from "axios";
 import { handleAxiosError } from "@/utils/errorHandler";
 
 class QuizService {
@@ -48,29 +47,47 @@ class QuizService {
     }
   };
 
-  fetchMyMadeQuizzes = async (): Promise<MyQuizType[]> => {
+  fetchMyMadeQuizzes = async (): Promise<{ data: MyQuizType[] } | null> => {
     try {
-      const { data } = await axiosInstance.get("/book-quizzes/my");
+      const { data } = await axiosInstance.get("/book-quizzes/my", {
+        params: {
+          page: 1,
+          size: 10,
+          sort: "CREATED_AT",
+          direction: "ASC",
+        },
+      });
       console.log("quizzes: %o", data);
       return data;
     } catch (error) {
-      throw new Error(`내가 만든 퀴즈 가져오기 실패: ${error}`);
+      handleAxiosError(error);
+      return null;
     }
   };
-  fetchQuiz = async (quizId: string): Promise<SolvingQuizType> => {
+
+  fetchQuiz = async (quizId: string): Promise<SolvingQuizType | null> => {
     try {
       const { data } = await axiosInstance.get(
         `/book-quizzes/${quizId}/questions`
       );
       return data;
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError;
-        if (axiosError.response?.status === 404) {
-          throw error;
-        }
-      }
-      throw new Error(`풀이할 퀴즈 가져오기 실패: ${error}`);
+      handleAxiosError(error);
+      return null;
+    }
+  };
+
+  fetchQuizExplanation = async (
+    id: string
+  ): Promise<QuizExplanationType | null> => {
+    try {
+      const { data } = await axiosInstance.get(
+        `/book-quizzes/${id}/explanation`
+      );
+      return data;
+    } catch (error) {
+      handleAxiosError(error);
+      return null;
     }
   };
 

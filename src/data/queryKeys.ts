@@ -23,5 +23,11 @@ export const userKeys = {
 
 export const quizKeys = {
   myQuiz: () => ["myQuiz"] as const,
-  detail: (id: string) => ["quizDetail", id] as const,
+  detail: (id: string | undefined) => ["quizDetail", id] as const,
+  explanation: (id: string | undefined) => ["quizExplanation", id] as const,
+};
+
+export const reviewKeys = {
+  totalScore: (id: number | undefined) => ["reviewTotalScore", id] as const,
+  list: () => ["reviewList"] as const,
 };

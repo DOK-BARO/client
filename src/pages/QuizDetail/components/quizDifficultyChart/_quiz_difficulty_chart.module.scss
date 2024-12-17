@@ -1,0 +1,13 @@
+@import "../../../../styles/abstracts/variables";
+@import "../../../../styles/abstracts/mixins";
+
+.container {
+  background-color: $gray-00;
+  border-radius: 10px;
+  padding: 10px 20px;
+  width: fit-content;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

@@ -1,0 +1,13 @@
+@import "../../styles/abstracts/variables";
+@import "../../styles/abstracts/mixins";
+
+.container {
+  @include flex(column);
+
+  .quiz-detail-container {
+    margin-top: 20px;
+    > *:not(:last-child) {
+      margin-bottom: 64px;
+    }
+  }
+}

@@ -3,21 +3,28 @@ import styles from "./_quiz_short_info.module.scss";
 import IconTextLabel from "../../../../components/composite/iconTextLabel/iconTextLabel";
 import { StarFilled } from "@/svg/starFilled";
 import { systemWarning } from "@/styles/abstracts/colors";
-import barChart from "/assets/svg/quizDetail/bar-chart.svg";
+import { BarChart } from "@/svg/barChart";
+import {
+  levelMapping,
+  LevelType,
+} from "../../components/difficultyLevelItem/difficultyLevelItem";
 
 interface Props {
   quizExplanation: QuizExplanationType;
   reviewCount: number;
   roundedAverageRating: number;
-  averageDifficultyLabel: string;
+  averageDifficulty: number;
 }
 
 export default function QuizShortInfo({
   quizExplanation,
   reviewCount,
   roundedAverageRating,
-  averageDifficultyLabel,
+  averageDifficulty,
 }: Props) {
+  const averageDifficultyLabel =
+    levelMapping[averageDifficulty.toString() as LevelType];
+
   return (
     <section className={styles.container}>
       <h2 className={styles.title}>{quizExplanation.title}</h2>
@@ -33,7 +40,7 @@ export default function QuizShortInfo({
         />
         <span className={styles.divider} />
         <IconTextLabel
-          icon={<img src={barChart} width={24} height={24} />}
+          icon={<BarChart alt="어려움 레벨" level={averageDifficulty} />}
           labelText={averageDifficultyLabel}
         />
         <span className={styles.divider} />

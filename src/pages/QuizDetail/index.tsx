@@ -54,8 +54,6 @@ export default function Index() {
       ([, data]) => data.selectCount
     )
   );
-  const averageDifficultyLabel =
-    levelMapping[averageDifficulty.toString() as LevelType];
 
   return (
     <section className={styles.container}>
@@ -67,7 +65,7 @@ export default function Index() {
             quizExplanation={explanation}
             reviewCount={reviewCount}
             roundedAverageRating={roundedAverageRating}
-            averageDifficultyLabel={averageDifficultyLabel}
+            averageDifficulty={averageDifficulty}
           />
           <ReviewsDetail
             reviewsTotalScore={reviewsTotalScore}

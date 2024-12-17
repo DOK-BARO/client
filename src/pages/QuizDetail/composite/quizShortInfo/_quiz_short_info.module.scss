@@ -20,6 +20,12 @@
 
     height: 30px;
 
+    .rating-text {
+      b {
+        color: $gray-60;
+      }
+    }
+
     .divider {
       height: 20px;
       width: 1px;

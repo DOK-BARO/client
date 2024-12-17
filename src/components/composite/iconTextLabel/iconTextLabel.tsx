@@ -1,9 +1,9 @@
-import { ReactElement } from "react";
+import { ReactElement, ReactNode } from "react";
 import styles from "./_icon_text_label.module.scss";
 
 interface Props {
   icon: ReactElement<SVGElement>;
-  labelText: string;
+  labelText: ReactNode;
 }
 export default function IconTextLabel({ icon, labelText }: Props) {
   return (

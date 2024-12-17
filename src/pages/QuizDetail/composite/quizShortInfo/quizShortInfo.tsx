@@ -24,7 +24,12 @@ export default function QuizShortInfo({
       <span className={styles["iconTextLabel-container"]}>
         <IconTextLabel
           icon={<StarFilled width={20} height={20} fill={systemWarning} />}
-          labelText={`${roundedAverageRating}/5 (${reviewCount}개의 후기)`}
+          labelText={
+            <p className={styles["rating-text"]}>
+              {roundedAverageRating}
+              <b>/5 ({reviewCount}개의 후기)</b>
+            </p>
+          }
         />
         <span className={styles.divider} />
         <IconTextLabel

@@ -5,17 +5,19 @@ import { StarFilled } from "@/svg/starFilled";
 import { systemWarning } from "@/styles/abstracts/colors";
 import barChart from "/assets/svg/quizDetail/bar-chart.svg";
 
+interface Props {
+  quizExplanation: QuizExplanationType;
+  reviewCount: number;
+  roundedAverageRating: number;
+  averageDifficultyLabel: string;
+}
+
 export default function QuizShortInfo({
   quizExplanation,
   reviewCount,
   roundedAverageRating,
   averageDifficultyLabel,
-}: {
-  quizExplanation: QuizExplanationType;
-  reviewCount: number;
-  roundedAverageRating: number;
-  averageDifficultyLabel: string;
-}) {
+}: Props) {
   return (
     <section className={styles.container}>
       <h2 className={styles.title}>{quizExplanation.title}</h2>

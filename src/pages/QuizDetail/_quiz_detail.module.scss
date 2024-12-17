@@ -3,9 +3,16 @@
 
 .container {
   @include flex(column);
+  margin-top: 40px;
+
+  .row-container {
+    @include flex(row);
+    gap: 35px;
+    margin-top: 20px;
+  }
 
   .quiz-detail-container {
-    margin-top: 20px;
+    width: 100%;
     > *:not(:last-child) {
       margin-bottom: 64px;
     }

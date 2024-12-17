@@ -12,6 +12,7 @@ import {
   levelMapping,
   LevelType,
 } from "./components/difficultyLevelItem/difficultyLevelItem";
+import QuizLinkItem from "./composite/quizLinkItem/quizLinkItem";
 
 export default function Index() {
   const { id } = useParams();
@@ -59,18 +60,21 @@ export default function Index() {
   return (
     <section className={styles.container}>
       <Breadcrumb list={list} />
-      <div className={styles["quiz-detail-container"]}>
-        <QuizShortInfo
-          quizExplanation={explanation}
-          reviewCount={reviewCount}
-          roundedAverageRating={roundedAverageRating}
-          averageDifficultyLabel={averageDifficultyLabel}
-        />
-        <ReviewsDetail
-          reviewsTotalScore={reviewsTotalScore}
-          reviewCount={reviewCount}
-          roundedAverageRating={roundedAverageRating}
-        />
+      <div className={styles["row-container"]}>
+        <QuizLinkItem quizExplanation={explanation} />
+        <div className={styles["quiz-detail-container"]}>
+          <QuizShortInfo
+            quizExplanation={explanation}
+            reviewCount={reviewCount}
+            roundedAverageRating={roundedAverageRating}
+            averageDifficultyLabel={averageDifficultyLabel}
+          />
+          <ReviewsDetail
+            reviewsTotalScore={reviewsTotalScore}
+            reviewCount={reviewCount}
+            roundedAverageRating={roundedAverageRating}
+          />
+        </div>
       </div>
     </section>
   );

@@ -4,7 +4,7 @@
 .gnb {
   background-color: $background;
   width: 100%;
-  padding-bottom: 2px;
+  padding-bottom: 4px;
   position: absolute;
   top: 58px; // header 크기만큼
   left: 0;
@@ -40,11 +40,12 @@
     color: $gray-70;
     font-weight: $font-weight-semibold;
     margin-right: 16px;
-    border-bottom: 2px solid transparent;
+    border: 0;
+    border-bottom: 4px solid transparent;
 
     &.hover {
       color: $gray-90;
-      border-bottom: 2px solid black;
+      border-bottom: 4px solid black;
     }
   }
 }

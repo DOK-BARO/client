@@ -18,7 +18,7 @@ export const quizCreationInfoAtom = atom<QuizCreationType>({
 
 // 스터디 선택 단계 완료 여부 Atom
 export const isStudyGroupSelectedAtom = atom(
-  (get) => !!get(quizCreationInfoAtom).studyGroup
+  (get) => get(quizCreationInfoAtom).studyGroup !== null
 );
 
 // 도서 선택 단계 완료 여부 Atom

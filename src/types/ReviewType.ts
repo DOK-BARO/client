@@ -1,3 +1,10 @@
+export interface ReviewsFetchParams {
+  quizId: number;
+  page?: number;
+  size?: number;
+  sort?: ReviewsSortFilterType;
+  direction?: "ASC" | "DESC";
+}
 // 퀴즈 리뷰 요약
 export interface ReviewType {
   id: number;
@@ -19,6 +26,12 @@ export interface ReviewCreationType {
 export interface DifficultyLevelType {
   selectCount: number;
   selectRate: number;
+}
+
+// 최신순, 별점 높은 순, 별점 낮은 순
+export interface ReviewsFilterType {
+  sort: "CREATED_AT" | "STAR_RATING";
+  direction: "ASC" | "DESC";
 }
 
 export type DifficultyType = Record<"1" | "2" | "3", DifficultyLevelType>;

@@ -15,7 +15,6 @@ export default function FiveStar({
   rating,
   isButton = false,
 }: Props) {
-  const roundedRating: number = Math.floor(rating);
   return (
     <span className={styles.container}>
       {[...Array(5)].map((_, index) => {
@@ -26,7 +25,7 @@ export default function FiveStar({
             key={starValue}
             className={`${!isButton ? styles["non-button"] : ""}`}
           >
-            {starValue <= roundedRating ? (
+            {starValue <= rating ? (
               <StarFilled width={size} height={size} fill={systemWarning} />
             ) : (
               <StarEmpty width={size} height={size} stroke={systemWarning} />

@@ -17,5 +17,5 @@ export const currentUserAtom = atom<UserType | null>(null);
 // 로그인 여부
 export const isLoggedInAtom = atom((get) => {
   const currentUser = get(currentUserAtom);
-  return currentUser !== null;
+  return !!currentUser;
 });

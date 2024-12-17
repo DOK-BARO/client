@@ -19,8 +19,13 @@ export default function Breadcrumb({
     list.shift();
   }
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    navigateWithParams(e, "BOOKS", "category", ["page"]);
+  const handleClick = (id: string) => {
+    // navigateWithParams(id, "BOOKS", ["category"], ["page"]);
+    navigateWithParams({
+      category: id,
+      parentComponentType: "BOOKS",
+      excludeParams: ["page"],
+    });
   };
 
   return (
@@ -38,7 +43,7 @@ export default function Breadcrumb({
                 index === list.length - 1 ? styles["last-item"] : null
               }`}
               value={item?.id.toString()}
-              onClick={handleClick}
+              onClick={() => handleClick(item?.id.toString())}
             >
               {item?.name || null}
             </Button>

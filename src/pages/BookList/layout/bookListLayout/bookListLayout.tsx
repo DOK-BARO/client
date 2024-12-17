@@ -10,14 +10,22 @@ import {
 } from "@/utils/findCategoryInfo";
 import Breadcrumb from "../../../../components/composite/breadcrumb/breadcrumb";
 import { useEffect } from "react";
-import BookListFilter from "@/pages/BookList/composite/bookListFilter/bookListFilter";
 import Pagination from "@/components/composite/pagination/pagination";
-import { SortFilterType } from "@/types/BookType";
 import { useAtom } from "jotai";
 import { paginationAtom } from "@/store/paginationAtom";
 import { bookService } from "@/services/server/bookService";
+import ListFilter, {
+  FilterOptionType,
+} from "@/components/composite/listFilter/listFilter";
+import { bookFilterAtom } from "@/store/bookAtom";
+import useNavigateWithParams from "@/hooks/useNavigateWithParams";
+import { BooksFilterType } from "@/types/BookType";
+import useFilter from "@/hooks/useBookFilter";
 
 export default function BookListLayout() {
+  const [, setFilterCriteria] = useAtom(bookFilterAtom);
+  useFilter<BooksFilterType>(setFilterCriteria);
+
   // 책 카테고리 목록 가져오기
   const { data: categories, isLoading: isCategoriesLoading } = useQuery({
     queryKey: bookKeys.categories(),
@@ -31,20 +39,25 @@ export default function BookListLayout() {
 
   const category = queryParams.get("category");
   const sort = queryParams.get("sort");
+  const direction = queryParams.get("direction");
   const page = queryParams.get("page");
 
   // 책 목록 가져오기
   const { data: booksData, isLoading: isBooksLoading } = useQuery({
     queryKey: bookKeys.list({
       category: category ? Number(category) : undefined,
-      sort: sort ? (sort as SortFilterType) : undefined,
+      sort: sort ? (sort as BooksFilterType["sort"]) : undefined,
+      direction: direction ? (sort as BooksFilterType["direction"]) : undefined,
       page: page ? Number(page) : undefined,
       size: 10,
     }),
     queryFn: () =>
       bookService.fetchBooks({
         category: category ? Number(category) : undefined,
-        sort: sort ? (sort as SortFilterType) : undefined,
+        sort: sort ? (sort as BooksFilterType["sort"]) : undefined,
+        direction: direction
+          ? (direction as BooksFilterType["direction"])
+          : undefined,
         page: page ? Number(page) : undefined,
         size: 10,
       }),
@@ -71,6 +84,29 @@ export default function BookListLayout() {
     ? findCurrentCategoryInfo(categories, Number(category))
     : null;
 
+  const { navigateWithParams } = useNavigateWithParams();
+  const [filterCriteria] = useAtom(bookFilterAtom);
+
+  const handleOptionClick = (filter: BooksFilterType) => {
+    navigateWithParams({ filter: filter, parentComponentType: "BOOKS" });
+  };
+  const filterOptions: FilterOptionType<BooksFilterType>[] = [
+    {
+      filter: {
+        sort: "TITLE",
+        direction: "ASC",
+      },
+      label: "가다나순",
+    },
+    {
+      filter: {
+        sort: "QUIZ_COUNT",
+        direction: "ASC",
+      },
+      label: "퀴즈순",
+    },
+  ];
+
   return (
     <section className={styles.container}>
       {isCategoriesLoading || !categories ? (
@@ -89,7 +125,11 @@ export default function BookListLayout() {
           ) : (
             <span />
           )}
-          <BookListFilter />
+          <ListFilter
+            handleOptionClick={handleOptionClick}
+            sortFilter={filterCriteria}
+            filterOptions={filterOptions}
+          />
         </div>
         {isBooksLoading || !booksData ? (
           <div>책 목록 로딩중</div>

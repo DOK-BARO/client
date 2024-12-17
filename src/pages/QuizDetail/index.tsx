@@ -5,7 +5,7 @@ import { quizService } from "@/services/server/quizService";
 import { useQuery } from "@tanstack/react-query";
 import Breadcrumb from "@/components/composite/breadcrumb/breadcrumb";
 import QuizExplanation from "./composite/quizExplanation/quizExplanation";
-import Reviews from "./composite/reviews/quizReviews";
+import ReviewsDetail from "./composite/reviewsDetail/reviewsDetail";
 
 export default function Index() {
   const { id } = useParams();
@@ -38,7 +38,7 @@ export default function Index() {
       {/* <QuizListLayout title={data.title} /> */}
       <div className={styles["quiz-detail-container"]}>
         <QuizExplanation quizExplanation={data} />
-        <Reviews quizId={Number(id)} />
+        <ReviewsDetail quizId={Number(id)} />
       </div>
     </section>
   );

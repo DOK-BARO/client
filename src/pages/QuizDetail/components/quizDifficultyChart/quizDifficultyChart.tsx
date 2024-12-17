@@ -7,7 +7,6 @@ interface Props {
 }
 
 export default function DifficultyChart({ difficulty }: Props) {
-  console.log(difficulty);
   return (
     <div className={styles.container}>
       {Object.entries(difficulty)

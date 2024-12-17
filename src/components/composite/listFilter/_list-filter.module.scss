@@ -1,7 +1,7 @@
-@import "../../../../styles/abstracts/variables";
-@import "../../../../styles/abstracts/mixins";
+@import "../../../styles/abstracts/mixins";
+@import "../../../styles/abstracts/variables";
 
-.book-list-filter {
+.container {
   ul {
     display: flex;
 

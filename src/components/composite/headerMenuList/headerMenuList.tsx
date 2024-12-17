@@ -63,10 +63,10 @@ export default function HeaderMenuList({ closeDropDownList }: Props) {
     logout();
   };
 
-  const nickName =
-    (currentUser?.nickname.length ?? 0) > 5
-      ? `${currentUser?.nickname.slice(0, 6) + "..."}`
-      : currentUser?.nickname;
+  // const nickName =
+  //   (currentUser?.nickname.length ?? 0) > 5
+  //     ? `${currentUser?.nickname.slice(0, 6) + "..."}`
+  //     : currentUser?.nickname;
 
   return (
     <ul className={styles["header-menu-list"]}>
@@ -77,7 +77,9 @@ export default function HeaderMenuList({ closeDropDownList }: Props) {
             navigate("/my");
           }}
         >
-          <span className={styles["user-name"]}>{nickName} 님</span>
+          <span className={styles["user-name"]}>
+            {currentUser?.nickname} 님
+          </span>
           <span className={styles["user-email"]}>{currentUser?.email}</span>
         </button>
       </li>

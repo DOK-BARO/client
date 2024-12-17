@@ -11,6 +11,7 @@
   .rating-difficulty-container {
     @include flex(column, center);
     margin-top: 8px;
+    margin-bottom: 20px;
     padding: 16px 0;
     gap: 16px;
     .rating-container {

@@ -27,8 +27,14 @@ export default function LNB({
     ? findTopParentCategoryInfo(categories, categoryId)
     : null;
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    navigateWithParams(e, "BOOKS", "category", ["page"]);
+  const handleClick = (id: string) => {
+    console.log(id);
+    // navigateWithParams(e, "BOOKS", "category", ["page"]);
+    navigateWithParams({
+      category: id,
+      parentComponentType: "BOOKS",
+      excludeParams: ["page"],
+    });
   };
 
   return (
@@ -56,7 +62,7 @@ export default function LNB({
                 color="transparent"
                 className={styles["parent-category-name"]}
                 value={parentCategoryInfo?.id.toString()}
-                onClick={handleClick}
+                onClick={() => handleClick(parentCategoryInfo?.id.toString())}
               >
                 {parentCategoryInfo?.name}
               </Button>
@@ -74,7 +80,7 @@ export default function LNB({
                     // fullWidth
                     value={category.id.toString()}
                     className={styles["category-item-button"]}
-                    onClick={handleClick}
+                    onClick={() => handleClick(category.id.toString())}
                   >
                     {category.name}
                   </Button>
@@ -94,7 +100,7 @@ export default function LNB({
                         categoryId === categoryDetail.id ? styles.selected : ""
                       }`}
                       value={categoryDetail.id.toString()}
-                      onClick={handleClick}
+                      onClick={() => handleClick(categoryDetail.id.toString())}
                     >
                       {categoryDetail.name}
                     </Button>

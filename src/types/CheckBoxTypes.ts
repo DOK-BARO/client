@@ -5,7 +5,7 @@ export interface CheckBoxOption {
   id: number;
   value: string;
   label: string;
-	answerIndex: number;
+	answerIndex?: number;
 }
 
 export interface CheckBoxProps {

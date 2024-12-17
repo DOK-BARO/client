@@ -73,9 +73,7 @@ export default function BookListLayout() {
 
   return (
     <section className={styles.container}>
-      {isCategoriesLoading || !categories ? (
-        <div>카테고리 로딩중</div>
-      ) : (
+      {isCategoriesLoading || !categories ? null : (
         <LNB categoryId={Number(category)} categories={categories} />
       )}
 
@@ -91,12 +89,8 @@ export default function BookListLayout() {
           )}
           <BookListFilter />
         </div>
-        {isBooksLoading || !booksData ? (
-          <div>책 목록 로딩중</div>
-        ) : (
-          <Outlet context={{ books }} />
-        )}
-        {totalPagesLength ? <Pagination /> : <>로딩중</>}
+        {isBooksLoading || !booksData ? null : <Outlet context={{ books }} />}
+        {totalPagesLength ? <Pagination /> : null}
       </div>
     </section>
   );

@@ -18,6 +18,7 @@ import BookListLayout from "./pages/BookList/layout/bookListLayout/bookListLayou
 import MyPage from "./pages/MyPage/index.tsx";
 import NoHeaderLayout from "./components/layout/noHeaderLayout/noHeaderLayout.tsx";
 import SolvingQuizPage from "./pages/SolveQuiz/index.tsx";
+import QuizDetail from "./pages/QuizDetail/index.tsx";
 import FindPassword from "./pages/FindPassword/index.tsx";
 import NotFound from "./pages/NotFound/index.tsx";
 import ToastPortal from "./components/layout/toastPortal/toastPortal.tsx";
@@ -44,6 +45,10 @@ function App() {
               element: <BookList />,
             },
           ],
+        },
+        {
+          path: "/quiz/:id",
+          element: <QuizDetail />,
         },
         {
           path: "/create-quiz",
@@ -89,15 +94,16 @@ function App() {
     //   element: <AuthRedirectedPage />,
     // },
     {
-      path: "/quiz/:quizId",
+      path: "/quiz/play/:quizId",
       element: <NoHeaderLayout />,
       children: [
         {
-          path: "/quiz/:quizId",
+          path: "/quiz/play/:quizId",
           element: <SolvingQuizPage />,
         },
       ],
     },
+
     {
       path: "*",
       element: <NoHeaderLayout />,

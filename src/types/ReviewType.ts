@@ -2,8 +2,8 @@ export interface ReviewsFetchParams {
   quizId: number;
   page?: number;
   size?: number;
-  sort?: ReviewsSortFilterType;
-  direction?: "ASC" | "DESC";
+  sort?: ReviewsFilterType["sort"];
+  direction?: ReviewsFilterType["direction"];
 }
 // 퀴즈 리뷰 요약
 export interface ReviewType {

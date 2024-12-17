@@ -27,8 +27,7 @@ export default function LNB({
     ? findTopParentCategoryInfo(categories, categoryId)
     : null;
 
-  const handleClick = (id: string) => {
-    console.log(id);
+  const handleClick = (id: string | undefined) => {
     // navigateWithParams(e, "BOOKS", "category", ["page"]);
     navigateWithParams({
       category: id,

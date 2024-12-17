@@ -5,7 +5,7 @@ import { quizService } from "@/services/server/quizService";
 //import { useNavigate } from "react-router-dom";
 
 export default function SolvedQuiz() {
-  const { isLoading, data: myQuizzes } = useQuery({
+  const { isLoading, data: myQuizzesData } = useQuery({
     queryKey: quizKeys.myQuiz(),
     queryFn: async () => await quizService.fetchMyMadeQuizzes(),
   });
@@ -13,15 +13,15 @@ export default function SolvedQuiz() {
   const onClickBtnWhenNoData = (_: React.MouseEvent<HTMLButtonElement>) => {
     //navigate("/create-quiz");
   };
-
-  if (isLoading) {
+  const myQuizzes = myQuizzesData?.data;
+  if (isLoading || !myQuizzes) {
     return <>로딩</>;
   }
 
   return (
     <QuizListLayout
       title="내가 푼 퀴즈"
-      quizzes={myQuizzes!}
+      quizzes={myQuizzes}
       titleWhenNoData="아직 내가 푼 퀴즈가 없어요. 😞"
       buttonNameWhenNoData="퀴즈 풀러 가기"
       onClickBtnWhenNoData={onClickBtnWhenNoData}

@@ -19,8 +19,9 @@ export default function Breadcrumb({
     list.shift();
   }
 
-  const handleClick = (id: string) => {
+  const handleClick = (id: string | undefined) => {
     // navigateWithParams(id, "BOOKS", ["category"], ["page"]);
+
     navigateWithParams({
       category: id,
       parentComponentType: "BOOKS",

@@ -54,8 +54,13 @@ export default function ReviewList({ quizId }: Props) {
 
   const [filterCriteria] = useAtom(reviewFilterAtom);
   const page = 1;
-  const { sort, direction } = filterCriteria;
-  console.log(sort, direction);
+  const {
+    sort,
+    direction,
+  }: {
+    sort: "CREATED_AT" | "STAR_RATING" | undefined;
+    direction: "ASC" | "DESC" | undefined;
+  } = filterCriteria;
 
   const { data: reviewsData } = useQuery<{
     endPageNumber: number;
@@ -66,7 +71,6 @@ export default function ReviewList({ quizId }: Props) {
       direction: direction
         ? (direction as ReviewsFilterType["direction"])
         : undefined,
-
       page: page ? Number(page) : undefined,
       size: 10,
       quizId,

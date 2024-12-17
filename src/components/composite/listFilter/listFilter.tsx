@@ -12,11 +12,9 @@ export interface FilterOptionType<T> {
   label: string;
 }
 
-export default function ListFilter<T>({
-  sortFilter,
-  filterOptions,
-  handleOptionClick,
-}: Props<T>) {
+export default function ListFilter<
+  T extends { sort: string; direction: string }
+>({ sortFilter, filterOptions, handleOptionClick }: Props<T>) {
   return (
     <div className={styles.container}>
       <ul>

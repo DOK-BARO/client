@@ -22,11 +22,18 @@
 }
 
 .footer-btn{
-	width: 120px;
-
-	&-container{
 	display: flex;
-	gap: 20px;
+	width: 120px;
+	
+	&-container{
+		opacity: 0;
+	}
+	// TODO: 없다가 나타나는 애니메이션 처리 필요
+	&-container.visible{
+		display: flex;
+		gap: 20px;
+		opacity: 1;
+		transition: all 0.3s;
 	}
 }
 

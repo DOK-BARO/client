@@ -5,18 +5,21 @@ import Textarea from "../textarea/textarea";
 import correctIcon from "/assets/svg/common/correct.svg";
 import inCorrectIcon from "/assets/svg/common/incorrect.svg";
 
-interface CheckBoxProps {
-	id: string;
-	checked: boolean;
-	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	type?:
-	"checkbox-writing"
+export type CheckboxStatusType = "checkbox-writing"
 	| "checkbox-written"
 	| "checkbox-default"
 	| "checkbox-correct"
 	| "checkbox-incorrect"
 	| "checkbox-selected"
-	| "checkbox-add";
+	| "checkbox-add"
+	| "solving-correct"
+	| "solving-incorrect"
+	;
+interface CheckBoxProps {
+	id: string;
+	checked: boolean;
+	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	type?: CheckboxStatusType;
 	disabled?: boolean;
 	className?: string;
 	value: string;

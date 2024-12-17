@@ -36,6 +36,8 @@ export default function Index() {
 	const [optionDisabled, setOptionDisabled] = useState<boolean>(false);
 	const [didAnswerChecked, setDidAnswerChecked] = useState<boolean>(false);
 	const [toggleAnswerDescription, setToggleAnswerDescription] = useState<boolean>(false);
+	const [isAnswerCorrects, setIsAnswerCorrects] = useState<boolean[]>([]);
+	const currentFormIndex:number = currentStep - 1;
 
 	//TODO: 퀴즈 풀러가기 버튼 핸들러 구현 지점에서 사용될 hook으로 만들어도 될듯
 	// navigate(`/quiz/${bookDetailContent.id}`);
@@ -50,27 +52,13 @@ export default function Index() {
 		const questionId: number = quiz?.questions[currentStep - 1].id ?? 0;
 		const solvingQuizIdToString: string = solvingQuizId.toString();
 		const checkedResult: QuestionCheckedResult = await quizService.submitQuestion(solvingQuizIdToString, questionId, selectedOptions);
-
-		// const checkedResult: QuestionCheckedResult = {
-		// 	"solvingQuizId": 29,
-		// 	"playerId": 1,
-		// 	"quizId": 3,
-		// 	"questionId": 4,
-		// 	"correct": true,
-		// 	"correctAnswer": [
-		// 		"2"
-		// 	],
-		// 	"answerExplanationContent": "인터럽트 발생 시, CPU는 레지스터의 내용을 특정 메모리 영역(주로 스택)에 백업합니다.",
-		// 	"answerExplanationImages": [
-		// 		"https://image.dokbaro.kro.kr/images/dokbaro/dev/bookquiz/answer/bc5a194b-0bd3-4ce8-a014-fa47ee2bdde9.jpeg",
-		// 		"https://image.dokbaro.kro.kr/images/dokbaro/dev/bookquiz/answer/44a9d3ce-cf34-40d0-b5a2-caad691de597.jpeg",
-		// 		"https://image.dokbaro.kro.kr/images/dokbaro/dev/bookquiz/answer/af43bc73-b449-4b86-8e60-bad56a65c78b.jpeg"
-		// 	]
-		// }
-
+		
 		if (checkedResult) {
 			setQuestionCheckedResult(checkedResult)
 			setDidAnswerChecked(true);
+			setIsAnswerCorrects((prev) => ([
+				...prev, checkedResult.correct
+			]));
 		}
 	}
 
@@ -82,13 +70,16 @@ export default function Index() {
 		const endStep = quiz!.questions.length;
 
 		if (endStep === currentStep) {
+			//TODO: 점수보기 페이지로 이동
 			return;
 		} else {
 			// 초기화 작업
-			setOptionDisabled(false);
 			setSubmitDisabled(true);
 			setSelectedOptions([]);
+			setQuestionCheckedResult(undefined);
+			setOptionDisabled(false);
 			setDidAnswerChecked(false);
+			setToggleAnswerDescription(false);
 
 			setCurrentStep((prev) => (prev + 1));
 		}
@@ -107,15 +98,19 @@ export default function Index() {
 		<section className={styles["container"]}>
 			<ProgressBar
 				questions={quiz.questions}
+				isAnswerCorrects={isAnswerCorrects}
 				currentStep={currentStep}
 			/>
 			<div className={styles["inner-container"]}>
 				<div className={styles["question-area"]}>
 					<SolvingQuizForm
+						formIndex={currentFormIndex}
 						optionDisabled={optionDisabled}
 						setSubmitDisabled={setSubmitDisabled}
-						question={quiz.questions[currentStep - 1]}
+						question={quiz.questions[currentFormIndex]}
 						correctAnswer={questionCheckedResult?.correctAnswer ?? []}
+						isAnswerCorrects={isAnswerCorrects}
+						didAnswerChecked={didAnswerChecked}
 					/>
 					<Button
 						size="xsmall"
@@ -161,10 +156,10 @@ export default function Index() {
 					className={styles["footer-btn"]}
 				>채점하기</Button>
 			}
-
+{/* TODO: 없다가 나타나는 애니메이션 처리 필요 */}
 			{
 				didAnswerChecked &&
-				<div className={styles["footer-btn-container"]}>
+				<div className={`${styles["footer-btn-container"]} ${didAnswerChecked ? styles.visible : ''}`}>
 					<Button
 						onClick={handleShowAnswerDescriptionBtn}
 						color="primary-border"

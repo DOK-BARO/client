@@ -1,41 +1,36 @@
 import styles from "./_reviews_detail.module.scss";
-import { useQuery } from "@tanstack/react-query";
 import FiveStar from "../../../../components/composite/fiveStar/fiveStar";
 import QuizDifficultyChart from "../../components/quizDifficultyChart/quizDifficultyChart";
-import { reviewKeys } from "@/data/queryKeys";
-import { reviewService } from "@/services/server/reviewService";
 import { ReviewsTotalScoreType } from "@/types/ReviewType";
 import ReviewList from "../reviewList/reviewList";
 
 interface Props {
-  quizId: number;
+  reviewsTotalScore: ReviewsTotalScoreType;
+  reviewCount: number;
+  roundedAverageRating: number;
 }
-export default function ReviewsDetail({ quizId }: Props) {
-  const { data, isLoading } = useQuery<ReviewsTotalScoreType | null>({
-    queryKey: reviewKeys.totalScore(quizId),
-    queryFn: () => reviewService.fetchReviewsTotalScore(quizId),
-  });
-
-  const reviewCount = Object.values(data?.difficulty || {}).reduce(
-    (total, item) => total + item.selectCount,
-    0
-  );
+export default function ReviewsDetail({
+  reviewsTotalScore,
+  reviewCount,
+  roundedAverageRating,
+}: Props) {
+  console.log(reviewsTotalScore);
   return (
     <section className={styles.container}>
       <h2 className={styles.title}>퀴즈 후기</h2>
-      {data && !isLoading ? (
+      {reviewsTotalScore ? (
         <div>
           <div className={styles["rating-difficulty-container"]}>
             <span className={styles["rating-container"]}>
-              <FiveStar size="medium" rating={data.averageStarRating} />
+              <FiveStar size="medium" rating={roundedAverageRating} />
               <span className={styles["rating-text-container"]}>
-                <em>{Math.floor(data.averageStarRating)}</em>/5
+                <em>{roundedAverageRating}</em>/5
               </span>
               <p className={styles["review-count"]}>({reviewCount})</p>
             </span>
-            <QuizDifficultyChart difficulty={data.difficulty} />
+            <QuizDifficultyChart difficulty={reviewsTotalScore.difficulty} />
           </div>
-          <ReviewList quizId={quizId} />
+          <ReviewList quizId={reviewsTotalScore.quizId} />
         </div>
       ) : null}
     </section>

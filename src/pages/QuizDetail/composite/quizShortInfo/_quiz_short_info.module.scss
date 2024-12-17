@@ -10,16 +10,27 @@
     color: $gray-90;
     line-height: inherit;
     font-weight: $font-weight-bold;
+    margin-bottom: 8px;
   }
 
   .iconTextLabel-container {
-    @include flex(row, true);
+    @include flex(row);
+    align-items: center;
     gap: 20px;
+
+    height: 30px;
 
     .divider {
       height: 20px;
       width: 1px;
       background-color: $gray-40;
+    }
+
+    .creator-profile-image {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      overflow: hidden;
     }
   }
 

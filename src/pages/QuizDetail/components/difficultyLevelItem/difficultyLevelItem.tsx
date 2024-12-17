@@ -5,8 +5,8 @@ interface Props {
   level: string;
   data: DifficultyLevelType;
 }
-type LevelType = "1" | "2" | "3";
-const levelMapping: Record<LevelType, string> = {
+export type LevelType = "1" | "2" | "3";
+export const levelMapping: Record<LevelType, string> = {
   "1": "쉬움",
   "2": "보통",
   "3": "어려움",

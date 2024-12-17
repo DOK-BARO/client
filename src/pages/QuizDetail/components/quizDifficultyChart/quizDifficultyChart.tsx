@@ -12,7 +12,7 @@ export default function DifficultyChart({ difficulty }: Props) {
       {Object.entries(difficulty)
         .reverse()
         .map(([level, data]) => (
-          <DifficultyLevelItem level={level} data={data} />
+          <DifficultyLevelItem key={level} level={level} data={data} />
         ))}
     </div>
   );

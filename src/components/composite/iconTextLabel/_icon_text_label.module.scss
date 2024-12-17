@@ -2,6 +2,6 @@
 @import "../../../styles/abstracts/mixins";
 
 .container {
-  @include flex(row);
+  @include flex(row, center);
   gap: 8px;
 }

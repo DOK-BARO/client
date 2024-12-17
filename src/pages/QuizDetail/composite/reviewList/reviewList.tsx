@@ -57,7 +57,7 @@ export default function ReviewList({ quizId }: Props) {
   const { sort, direction } = filterCriteria;
   console.log(sort, direction);
 
-  const { data, isLoading } = useQuery<{
+  const { data: reviewsData } = useQuery<{
     endPageNumber: number;
     data: ReviewType[];
   } | null>({
@@ -82,8 +82,9 @@ export default function ReviewList({ quizId }: Props) {
         quizId,
       }),
   });
-  console.log(data?.data);
-  const reviews = data?.data;
+
+  console.log(reviewsData?.data);
+  const reviews = reviewsData?.data;
 
   return (
     <section className={styles.container}>

@@ -12,7 +12,7 @@ import CheckBox from "@/pages/Register/components/checkBox/checkBox";
 import { APP_NAME } from "@/data/constants.ts";
 import useModal from "@/hooks/useModal";
 import TermsModal from "@/components/atom/TermsModal/termsModal";
-import { RegisterInfoAtom } from "@/store/userAtom";
+import { registerInfoAtom } from "@/store/userAtom";
 import { RegisterInfoType } from "@/types/UserType";
 import { useAtom } from "jotai";
 import { authService } from "@/services/server/authService";
@@ -29,7 +29,7 @@ export default function TermsAgreement({
 
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const [user, setUser] = useAtom<RegisterInfoType>(RegisterInfoAtom);
+  const [user, setUser] = useAtom<RegisterInfoType>(registerInfoAtom);
   const [termId, setTermId] = useState<number | null>(null);
 
   const [agreements, setAgreements] = useState<

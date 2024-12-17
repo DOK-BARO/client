@@ -6,12 +6,12 @@ import useInput from "@/hooks/useInput.ts";
 import { FormEvent } from "react";
 // import { useQueryCurrentUser } from "@/hooks/useQueryCurrentUser.ts";
 import { useNavigate } from "react-router-dom";
-import { IsLoggedInAtom } from "@/store/userAtom";
+import { isLoggedInAtom } from "@/store/userAtom";
 import { useAtom } from "jotai";
 
 export default function SearchBar() {
   // const { isLoggedIn } = useQueryCurrentUser();
-  const [isLoggedIn] = useAtom(IsLoggedInAtom);
+  const [isLoggedIn] = useAtom(isLoggedInAtom);
 
   const { value: searchWord, onChange: onChangeSearchWord } = useInput("");
   const navigate = useNavigate();

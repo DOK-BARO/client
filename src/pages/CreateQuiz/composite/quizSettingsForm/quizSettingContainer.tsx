@@ -43,10 +43,6 @@ export const QuizSettingContainer = ({
     );
   }, [selectedOptionLabel]);
 
-  useEffect(() => {
-    console.log(quizSetting.options);
-  }, [selectedOptionLabel]);
-
   return (
     <div className={styles["quiz-setting-container"]}>
       <div className={styles.title}>

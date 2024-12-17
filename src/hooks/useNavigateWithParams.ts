@@ -1,4 +1,4 @@
-import { PaginationAtom } from "@/store/paginationAtom";
+import { paginationAtom } from "@/store/paginationAtom";
 import { BookParamKeyType } from "@/types/BookType";
 import { ParentComponentType } from "@/types/PaginationType";
 import { useAtom } from "jotai";
@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const useNavigateWithParams = () => {
   const navigate = useNavigate();
-  const [, setPaginationState] = useAtom(PaginationAtom);
+  const [, setPaginationState] = useAtom(paginationAtom);
 
   const navigateWithParams = (
     e: React.MouseEvent<HTMLButtonElement>, // 값

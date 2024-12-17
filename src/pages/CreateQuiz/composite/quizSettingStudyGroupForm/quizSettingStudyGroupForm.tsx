@@ -18,7 +18,7 @@ import { ErrorType } from "@/types/ErrorType";
 import toast from "react-hot-toast";
 import { studyGroupKeys } from "@/data/queryKeys";
 import { useAtom } from "jotai";
-import { IsQuizNextButtonEnabledAtom, isSetAtom } from "@/store/quizAtom";
+import { isQuizNextButtonEnabledAtom, isSetAtom } from "@/store/quizAtom";
 
 // TODO: 컴포넌트 분리
 // 1.스터디 선택
@@ -51,7 +51,7 @@ export default function QuizSettingStudyGroupForm() {
   const [isNewStudyGroupAdded, setNewStudyGroupAdded] =
     useState<boolean>(false);
   const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
-    IsQuizNextButtonEnabledAtom
+    isQuizNextButtonEnabledAtom
   );
 
   useEffect(() => {

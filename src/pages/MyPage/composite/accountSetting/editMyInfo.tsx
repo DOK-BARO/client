@@ -5,11 +5,11 @@ import { useRef } from "react";
 import { useState } from "react";
 import editProfile from "/assets/svg/accountSetting/editProfile.svg";
 import { useAtom } from "jotai";
-import { CurrentUserAtom } from "@/store/userAtom";
+import { currentUserAtom } from "@/store/userAtom";
 
 export default function EditMyInfo() {
   // const { user } = useQueryCurrentUser();
-  const [currentUser] = useAtom(CurrentUserAtom);
+  const [currentUser] = useAtom(currentUserAtom);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [previewImg, setImagePreview] = useState<string[]>([]);
 

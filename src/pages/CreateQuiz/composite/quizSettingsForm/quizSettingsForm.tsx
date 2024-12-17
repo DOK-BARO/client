@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { IsQuizNextButtonEnabledAtom } from "@/store/quizAtom";
+import { isQuizNextButtonEnabledAtom } from "@/store/quizAtom";
 import { useAtom } from "jotai";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { QuizCreationType, QuizSettingType } from "@/types/QuizType";
@@ -13,8 +13,13 @@ export default function QuizSettingsForm() {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
   const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
-    IsQuizNextButtonEnabledAtom
+    isQuizNextButtonEnabledAtom
   );
+
+  // 다음 버튼 초기화
+  useEffect(() => {
+    setIsQuizNextButtonEnabled(false);
+  }, []);
 
   const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>(
     () => ({
@@ -52,7 +57,7 @@ export default function QuizSettingsForm() {
     );
 
     setIsQuizNextButtonEnabled(isAllSelected);
-  }, [selectedOptions, setIsQuizNextButtonEnabled]);
+  }, [Object.values(selectedOptions)]);
 
   return (
     <>
@@ -117,16 +122,6 @@ const getQuizSettings = (isStudyGroupSelected: boolean): QuizSettingType[] => [
           },
         ],
 
-    // [
-    //   {
-    //     label: "나만",
-    //     description: "나만 이 퀴즈를 편집할 수 있습니다.",
-    //   },
-    //   {
-    //     label: "스터디원만",
-    //     description: "스터디원이 이 퀴즈를 편집할 수 있습니다.",
-    //   },
-    // ],
     icon: "/assets/svg/quizSettingForm/edit.svg",
   },
 ];

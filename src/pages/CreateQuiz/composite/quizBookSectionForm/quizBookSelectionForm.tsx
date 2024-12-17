@@ -9,7 +9,7 @@ import { gray60 } from "@/styles/abstracts/colors";
 import useDebounce from "@/hooks/useDebounce";
 import { BookType } from "@/types/BookType";
 import { useAtom } from "jotai";
-import { IsQuizNextButtonEnabledAtom } from "@/store/quizAtom";
+import { isQuizNextButtonEnabledAtom } from "@/store/quizAtom";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { bookService } from "@/services/server/bookService";
 import { BookListItem } from "./bookListItem";
@@ -20,7 +20,7 @@ export default function QuizBookSelectionForm() {
   const inputRef = useRef<HTMLDivElement>(null);
   const loadingIcon = "/assets/svg/quizBookSelectionForm/loading.gif";
   const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
-    IsQuizNextButtonEnabledAtom
+    isQuizNextButtonEnabledAtom
   );
   const {
     value: searchValue,

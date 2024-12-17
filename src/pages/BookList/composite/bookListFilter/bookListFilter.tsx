@@ -2,12 +2,12 @@ import styles from "./_book-list-filter.module.scss";
 import Button from "@/components/atom/button/button";
 import useBookFilter from "@/hooks/useBookFilter";
 import { useAtom } from "jotai";
-import { BookFilterAtom } from "@/store/bookAtom";
+import { bookFilterAtom } from "@/store/bookAtom";
 import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 
 export default function BookListFilter() {
   useBookFilter();
-  const [filterCriteria] = useAtom(BookFilterAtom);
+  const [filterCriteria] = useAtom(bookFilterAtom);
 
   const sortFilter = filterCriteria.sort;
   const { navigateWithParams } = useNavigateWithParams();

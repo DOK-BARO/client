@@ -7,7 +7,7 @@ import useInput from "@/hooks/useInput.ts";
 import Input from "@/components/atom/input/input.tsx";
 import Button from "@/components/atom/button/button.tsx";
 import { RegisterInfoType } from "@/types/UserType";
-import { RegisterInfoAtom } from "@/store/userAtom";
+import { registerInfoAtom } from "@/store/userAtom";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { XSmall } from "@/svg/xSmall";
 import AuthCodeInput from "@/components/composite/authCodeInput/AuthCodeInput";
@@ -21,7 +21,7 @@ export default function Verification({
 }: {
   setStep: Dispatch<SetStateAction<number>>;
 }) {
-  const [user, setUser] = useAtom<RegisterInfoType>(RegisterInfoAtom);
+  const [user, setUser] = useAtom<RegisterInfoType>(registerInfoAtom);
   const {
     value: email,
     onChange: onEmailChange,

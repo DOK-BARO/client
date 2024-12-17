@@ -8,11 +8,11 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { setQueryParam } from "@/utils/setQueryParam";
 import { useAtom } from "jotai";
-import { PaginationAtom } from "@/store/paginationAtom";
+import { paginationAtom } from "@/store/paginationAtom";
 
 export default function Pagination() {
   const navigate = useNavigate();
-  const [paginationState, setPaginationState] = useAtom(PaginationAtom);
+  const [paginationState, setPaginationState] = useAtom(paginationAtom);
 
   const { handlePageClick } = usePagination({
     paginationState: paginationState,

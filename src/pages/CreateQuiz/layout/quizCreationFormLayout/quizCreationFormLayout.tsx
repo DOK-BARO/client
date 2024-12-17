@@ -5,8 +5,9 @@ import RightArrow from "@/svg/rightArrow.tsx";
 import { gray0, gray60 } from "@/styles/abstracts/colors.ts";
 import { useAtom } from "jotai";
 import {
-  IsQuizNextButtonEnabledAtom,
-  QuizCreationInfoAtom,
+  createdQuizIdAtom,
+  isQuizNextButtonEnabledAtom,
+  quizCreationInfoAtom,
 } from "@/store/quizAtom";
 import {
   QuizCreationType,
@@ -31,9 +32,10 @@ export default function QuizCreationFormLayout({
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const navigate = useNavigate();
-  const [isQuizNextButtonEnabled, setIsQuizNextButtonEnabled] =
-    useAtom<boolean>(IsQuizNextButtonEnabledAtom);
-  const [quizCreationInfo] = useAtom<QuizCreationType>(QuizCreationInfoAtom);
+  const [isQuizNextButtonEnabled] = useAtom<boolean>(
+    isQuizNextButtonEnabledAtom
+  );
+  const [quizCreationInfo] = useAtom<QuizCreationType>(quizCreationInfoAtom);
   const [, setErrorModalTitle] = useAtom(errorModalTitleAtom);
   const [openModal] = useAtom(openErrorModalAtom);
 
@@ -95,13 +97,18 @@ export default function QuizCreationFormLayout({
     return await Promise.all(uploadedImgQuestions);
   };
 
+  const [, setCreatedQuizId] = useAtom(createdQuizIdAtom);
   const { mutate: createQuiz } = useMutation<
     { id: number } | null,
     ErrorType,
     QuizRequestType
   >({
     mutationFn: (quiz) => quizService.createQuiz(quiz),
-    onSuccess: () => {
+    onSuccess: (data) => {
+      if (!data) {
+        return;
+      }
+      setCreatedQuizId(data.id);
       // 완료 페이지로 이동
       navigate("/create-quiz/complete");
     },
@@ -144,11 +151,9 @@ export default function QuizCreationFormLayout({
     return;
   };
   const endStep = steps.length - 1;
-  // const { updateQuizCreationInfo } = useUpdateQuizCreationInfo();
 
   const goToNextStep = async () => {
     if (currentStep === 2.2) {
-      console.log("validation check!");
       //TODO: 질문이 하나도 없을 때 버튼 다시 disable 필요
 
       // - 정답 선택 안 했을 때: 답안이 선택되었는지 확인하세요.
@@ -194,9 +199,6 @@ export default function QuizCreationFormLayout({
         return;
       }
     }
-
-    // 새로운 단계(페이지) 넘어갈때 button 상태 다시 disabled로 변경.
-    setIsQuizNextButtonEnabled(false);
   };
 
   const step: Step = getCurrentStep();

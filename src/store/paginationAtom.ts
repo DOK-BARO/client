@@ -18,4 +18,4 @@ const initialPaginationState: PaginationType = {
   isMiddlePagesUpdated: false,
 };
 
-export const PaginationAtom = atom<PaginationType>(initialPaginationState);
+export const paginationAtom = atom<PaginationType>(initialPaginationState);

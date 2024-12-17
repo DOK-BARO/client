@@ -6,10 +6,12 @@ import { primary } from "@/styles/abstracts/colors";
 import { Copy } from "@/svg/copy";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useAtom } from "jotai";
+import { createdQuizIdAtom } from "@/store/quizAtom";
 
 export default function CreateQuizComplete() {
-  const quizId = 7;
-  const quizPath = `quiz/${quizId}`;
+  const [createdQuizId] = useAtom(createdQuizIdAtom);
+  const quizPath = `quiz/${createdQuizId}`;
   const quizLink = `${import.meta.env.VITE_DEFAULT_URL}/${quizPath}`;
 
   const navigate = useNavigate();

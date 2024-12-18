@@ -23,7 +23,7 @@ import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType.ts";
 import toast from "react-hot-toast";
 // import { CurrentUserAtom } from "@/store/userAtom.ts";
-interface LoginModalProps {
+interface Props {
   closeModal: () => void;
 }
 
@@ -34,7 +34,7 @@ const socialLoginMethodButtonImage = [
   <Naver width={32} height={32} alt="네이버" key="naver" />,
 ];
 
-const LoginModal = ({ closeModal }: LoginModalProps) => {
+const LoginModal = ({ closeModal }: Props) => {
   // TODO: 전역으로 상태 변경할 수 있도록 해야함
   // const [isEmailSelected, setIsEmailSelected] = useState<boolean>(false);
   // const [, setCurrentUser] = useAtom(CurrentUserAtom);

@@ -14,6 +14,7 @@ import AddStudyGroupModal from "../../components/addStudyGroupModal/addStudyGrou
 import useModal from "@/hooks/useModal";
 
 export default function MyStudy() {
+  const { isModalOpen, openModal, closeModal } = useModal();
   //   const { isLoading, data: myQuizzesData } = useQuery({
   //     queryKey: quizKeys.myQuiz(),
   //     queryFn: async () => await quizService.fetchMyMadeQuizzes(),
@@ -42,7 +43,6 @@ export default function MyStudy() {
   //   const handleOptionClick = (filter: BooksFilterType) => {
   //     // navigateWithParams({ filter: filter, parentComponentType: "BOOKS" });
   //   };
-  const { closeModal } = useModal();
 
   return (
     <section className={styles.container}>
@@ -53,6 +53,7 @@ export default function MyStudy() {
           color="secondary"
           icon={<Plus stroke={primary} width={16} height={16} />}
           iconPosition="left"
+          onClick={openModal}
         >
           스터디 그룹 추가
         </Button>
@@ -63,7 +64,7 @@ export default function MyStudy() {
         filterOptions={filterOptions}
       /> */}
       <StudyGroupItem />
-      <AddStudyGroupModal />
+      {isModalOpen ? <AddStudyGroupModal closeModal={closeModal} /> : null}
     </section>
   );
 }

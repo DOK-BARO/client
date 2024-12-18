@@ -194,7 +194,7 @@ export default function QuizSettingStudyGroupForm() {
             <Button
               className={styles["add"]}
               color="primary-border"
-              onClick={() => createStudyGroup({name: studyName})}
+              onClick={() => createStudyGroup({ name: studyName })}
               size="medium"
               disabled={!studyName}
             >
@@ -279,13 +279,17 @@ export default function QuizSettingStudyGroupForm() {
         <Modal
           title="스터디 그룹 추가하기"
           contents={getContents()}
-          bottomButtons={[
-            {
-              text: "완료",
-              color: "primary",
-              handleClick: done,
-            },
-          ]}
+          bottomButtons={
+            newStudyGroup
+              ? [
+                  {
+                    text: "완료",
+                    color: "primary",
+                    handleClick: done,
+                  },
+                ]
+              : undefined
+          }
           closeModal={closeModal}
         />
       )}

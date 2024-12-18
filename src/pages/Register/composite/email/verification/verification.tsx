@@ -10,11 +10,12 @@ import { RegisterInfoType } from "@/types/UserType";
 import { registerInfoAtom } from "@/store/userAtom";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { XSmall } from "@/svg/xSmall";
-import AuthCodeInput from "@/components/composite/authCodeInput/AuthCodeInput";
 import { authService } from "@/services/server/authService";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";
 import toast from "react-hot-toast";
+import CodeInput from "@/components/composite/codeInput/codeInput";
+import useCodeInput from "@/hooks/useCodeInput";
 
 export default function Verification({
   setStep,
@@ -28,8 +29,8 @@ export default function Verification({
     isValid: isEmailValid,
   } = useInput(user.email, emailValidation);
 
-  const [code, setCode] = useState<string[]>(Array(6).fill(""));
-  const fullCode: string = code.join("");
+  const { handleCodeChange, handleKeyDown, codeList, combinedCode } =
+    useCodeInput();
 
   const [isMatch, setIsMatch] = useState<boolean | undefined>(undefined);
   const [isEmailSent, setIsEmailSent] = useState<boolean>(false);
@@ -38,6 +39,9 @@ export default function Verification({
   useEffect(() => {
     setIsEmailReadyToSend(true);
   }, [email]);
+  useEffect(() => {
+    setIsMatch(undefined);
+  }, [codeList]);
 
   const { mutate: sendEmailCode, error: sendEmailCodeError } = useMutation<
     void,
@@ -83,47 +87,6 @@ export default function Verification({
     resendEmailCode();
   };
 
-  const handleCodeChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    index: number
-  ) => {
-    setIsMatch(undefined);
-    let { value } = e.target;
-    if (value.length > 1) return;
-
-    value = value.toUpperCase();
-
-    const newCode = [...code];
-
-    if (value) {
-      newCode[index] = value;
-      setCode(newCode);
-
-      // 다음 인풋으로 포커스
-      if (index < 5) {
-        setTimeout(() => {
-          const nextInput = document.getElementById(`code-input-${index + 1}`);
-          if (nextInput) {
-            (nextInput as HTMLInputElement).focus();
-          }
-        }, 0);
-      }
-    } else {
-      newCode[index] = "";
-      setCode(newCode);
-
-      // 이전 인풋으로 포커스
-      if (index > 0) {
-        setTimeout(() => {
-          const prevInput = document.getElementById(`code-input-${index - 1}`);
-          if (prevInput) {
-            (prevInput as HTMLInputElement).focus();
-          }
-        }, 0);
-      }
-    }
-  };
-
   useEffect(() => {
     if (!isMatch) {
       return;
@@ -132,21 +95,6 @@ export default function Verification({
     setStep((prev) => prev + 1);
   }, [isMatch]);
 
-  const handleKeyDown = (
-    e: React.KeyboardEvent<HTMLInputElement>,
-    index: number
-  ) => {
-    if (e.key === "Backspace" && code[index] === "") {
-      if (index > 0) {
-        setTimeout(() => {
-          const prevInput = document.getElementById(`code-input-${index - 1}`);
-          if (prevInput) {
-            (prevInput as HTMLInputElement).focus();
-          }
-        }, 0);
-      }
-    }
-  };
   const { mutate: matchEmailCode } = useMutation<
     { result: boolean } | null,
     ErrorType,
@@ -162,7 +110,7 @@ export default function Verification({
   const handleDone = () => {
     const emailAndCode = {
       email,
-      code: fullCode,
+      code: combinedCode,
     };
     matchEmailCode(emailAndCode);
   };
@@ -222,12 +170,13 @@ export default function Verification({
           size="medium"
         />
       ) : (
-        <AuthCodeInput
-          code={code}
-          borderColor={fullCode.length !== 6 ? "default" : "black"}
+        <CodeInput
+          codeList={codeList}
+          borderColor={combinedCode.length !== 6 ? "default" : "black"}
           handleCodeChange={handleCodeChange}
           handleKeyDown={handleKeyDown}
           isMatch={isMatch ?? true}
+          errorMessage="인증 코드가 일치하지 않습니다."
         />
       )}
       <Button
@@ -236,7 +185,7 @@ export default function Verification({
         size="medium"
         onClick={!isEmailSent ? handleNext : handleDone}
         fullWidth
-        disabled={!isEmailSent ? !isEmailValid : fullCode.length !== 6}
+        disabled={!isEmailSent ? !isEmailValid : combinedCode.length !== 6}
       >
         {!isEmailSent ? <>다음</> : <>인증하기</>}
       </Button>

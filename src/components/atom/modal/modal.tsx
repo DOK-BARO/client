@@ -9,7 +9,7 @@ interface ModalContentProps {
   content: JSX.Element;
 }
 
-interface BottomButtonProps {
+export interface BottomButtonProps {
   color: ButtonColorProps;
   text: string;
   handleClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
@@ -56,7 +56,7 @@ const Modal: React.FC<ModalProps> = ({
         </header>
         <main className={styles["modal-main"]}>
           {contents?.map((content, index) => (
-            <>
+            <React.Fragment key={content.title}>
               <div className={styles["content-container"]}>
                 {content.title !== "" ? (
                   <h5 className={styles["content-title"]}>{content.title}</h5>
@@ -66,7 +66,7 @@ const Modal: React.FC<ModalProps> = ({
                 </div>
               </div>
               {index < contents.length - 1 && <div className={styles.line} />}
-            </>
+            </React.Fragment>
           ))}
         </main>
 

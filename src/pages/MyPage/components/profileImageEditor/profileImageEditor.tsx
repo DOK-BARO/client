@@ -1,13 +1,13 @@
-import React, { Dispatch, useRef, useState } from "react";
+import React, { useRef } from "react";
 import styles from "./_profile_image_editor.module.scss";
 import editProfile from "/assets/svg/accountSetting/editProfile.svg";
-import { SetStateAction } from "jotai";
+import { ProfileImageState } from "@/pages/Register/composite/profileSet/profileSet";
 
 interface Props {
   width: number;
   initialImage?: string | undefined;
-  profileImage: string[];
-  setProfileImage: Dispatch<SetStateAction<string[]>>;
+  profileImage: ProfileImageState;
+  setProfileImage: React.Dispatch<React.SetStateAction<ProfileImageState>>;
 }
 
 export default function ProfileImageEditor({
@@ -20,30 +20,21 @@ export default function ProfileImageEditor({
   // const [previewImg, setImagePreview] = useState<string[]>([]);
   const defaultImagePath = "/public/assets/image/default-profile.png";
 
-  //TODO: questionForm과 동일코드 . hook으로 분리 예정
-  const readFilesAsDataURL = async (files: File[]): Promise<string[]> => {
-    const readerPromises: Promise<string>[] = files.map((file) => {
-      return new Promise<string>((resolve) => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result as string);
-        reader.readAsDataURL(file);
-      });
-    });
-    return Promise.all(readerPromises);
-  };
-
-  const handleImgChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const files = event.target.files;
-    if (files) {
-      const newImagesFile: File[] = Array.from(files);
-      const newImages = await readFilesAsDataURL(newImagesFile);
-      setProfileImage((prev) => [...prev, ...newImages]);
+  const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("on file change");
+    const file = event.target.files?.[0];
+    console.log(file);
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setProfileImage({
+          url: reader.result as string,
+          file: file,
+        });
+      };
+      reader.readAsDataURL(file);
     }
-  };
-  const handleButtonClick = (_: React.MouseEvent<HTMLButtonElement>) => {
-    fileInputRef.current?.click();
+    event.target.value = "";
   };
 
   return (
@@ -53,10 +44,11 @@ export default function ProfileImageEditor({
         type="file"
         accept="image/*"
         ref={fileInputRef}
-        onChange={handleImgChange}
+        onChange={onFileChange}
+        id="file-upload"
       />
       <button
-        onClick={handleButtonClick}
+        onClick={() => document.getElementById("file-upload")?.click()}
         className={`${styles["edit-img-btn"]} ${styles[`width-${width}`]}`}
       >
         <img
@@ -65,7 +57,8 @@ export default function ProfileImageEditor({
         />
         <img
           className={`${styles["edit-img-bg"]} ${styles[`width-${width}`]}`}
-          src={profileImage[0]}
+          src={profileImage.url}
+          alt="프로필 이미지"
         />
         <div
           className={`${styles["edit-img-icon-bg"]} ${

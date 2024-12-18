@@ -238,7 +238,6 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
             selectedOption={questionFormType}
             setSelectedOption={setQuestionFormType}
           />
-          <div className={styles["title-area"]}>
             <Textarea
               maxLength={titleMaxLength}
               className={styles["title"]}
@@ -249,7 +248,6 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
               textAreaRef={questionTextAreaRef}
 							fullWidth
             />
-          </div>
         </div>
         {React.cloneElement(questionFormType.FormComponent, { questionFormId: questionFormId.toString(), questionFormMode: questionFormMode })}
       </div>

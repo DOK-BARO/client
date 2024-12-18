@@ -14,7 +14,7 @@ import { gray0 } from "@/styles/abstracts/colors";
 import CheckBox from "@/components/atom/checkbox/checkbox";
 import { CheckboxStatusType } from "@/components/atom/checkbox/checkbox";
 import { CheckBoxOption } from "@/types/CheckBoxTypes";
-
+//TODO: 중복함수 리팩토링 필요
 export default function SolvingQuizForm({
 	formIndex,
 	question,
@@ -37,7 +37,8 @@ export default function SolvingQuizForm({
 	const [checkedOptions, setCheckedOptions] = useState<{ [key: string]: boolean; }>({});
 
 	useEffect(() => {
-		if (question.type === "MULTIPLE_CHOICE_SINGLE_ANSWER") {
+		console.log(selectedRadioOption);
+		if (question.type === "MULTIPLE_CHOICE_SINGLE_ANSWER" || question.type === "OX") {
 			if (selectedRadioOption) {
 				setSubmitDisabled(false);
 			}
@@ -61,6 +62,12 @@ export default function SolvingQuizForm({
 		setSelectedOptions([option]);
 	}
 
+	const handleOXChanges = (e: React.ChangeEvent<HTMLInputElement>) => {
+		handleChange(e);
+		const value = e.target.value;
+		setSelectedOptions([value]);
+	}
+
 	const handleCheckBoxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { id, checked } = event.target;
 
@@ -78,8 +85,6 @@ export default function SolvingQuizForm({
 				return prev.filter((prevId) => prevId !== answerIdx);
 			}
 		});
-		console.log("%o", checkedOptions);
-
 	}
 
 	const getQuizType = (): string => {
@@ -94,6 +99,160 @@ export default function SolvingQuizForm({
 	}
 
 	const isCorrect = isAnswerCorrects[formIndex];
+
+	const renderMultiChoiceForm = (): JSX.Element => {
+		return <>
+			{
+				question.selectOptions.map((option, index) => {
+					const radioOption: RadioOptionType = {
+						id: index,
+						value: index.toString(),
+						label: option.content,
+					}
+					let isChecked: boolean = false;
+					let isCorrect: boolean = false;
+					let typeName: OptionStatusType = "option-default";
+					if (selectedRadioOption) {
+						const selectedOptionIdx: number = parseInt(selectedRadioOption);
+						isChecked = selectedOptionIdx === index;
+						if (isChecked) { // 체크 되었을 때
+							typeName = "option-selected";
+						}
+						if (correctAnswer?.length) { // 채점되었고 
+							const correctAnswerIdx: string[] = correctAnswer.map((answer) => (parseInt(answer) - 1).toString());
+							isCorrect = correctAnswerIdx.includes(index.toString());
+
+							if (isCorrect) { // 맞는 선지일때 (내가 선택한거랑 상관없이 초록색 적용)
+								typeName = "solving-correct"
+							} else {
+								if (isChecked) { // 내가 체크했는데 틀린 선지
+									typeName = "solving-incorrect"
+								} else { // 체크하지 않았고 답도 아닌 선지
+									typeName = "option-default"
+								}
+
+							}
+						}
+					}
+					return <RadioOption
+						radioGroupName={question.id.toString()}
+						option={radioOption}
+						checked={isChecked}
+						onChange={handleSelectOptions}
+						disabled={optionDisabled}
+						labelValue={option.content}
+						type={typeName}
+					/>;
+
+				})
+			}
+		</>
+
+	}
+
+	const renderCheckBoxForm = (): JSX.Element => {
+		return <>
+			{
+				question.selectOptions.map((option, index) => {
+					const checkBoxOption: CheckBoxOption = {
+						id: index,
+						value: index.toString(),
+						label: option.content,
+					}
+					let isChecked: boolean = false;
+					let isCorrect: boolean = false;
+					let typeName: CheckboxStatusType = "checkbox-default";
+					if (JSON.stringify(checkedOptions) !== '{}') {
+						isChecked = checkedOptions[checkBoxOption.id]
+						console.log("ccheckedId: ", checkBoxOption.id);
+						if (isChecked) { // 체크 되었을 때
+							typeName = "checkbox-selected";
+						}
+						if (correctAnswer?.length) { // 채점되었고 
+							const correctAnswerIdx: string[] = correctAnswer.map((answer) => (parseInt(answer) - 1).toString());
+							isCorrect = correctAnswerIdx.includes(index.toString());
+
+							if (isCorrect) { // 맞는 선지일때 (내가 선택한거랑 상관없이 초록색 적용)
+								typeName = "solving-correct"
+							} else {
+								if (isChecked) { // 내가 체크했는데 틀린 선지
+									typeName = "solving-incorrect"
+								} else { // 체크하지 않았고 답도 아닌 선지
+									typeName = "checkbox-default"
+								}
+							}
+						}
+					}
+
+					return <CheckBox
+						id={checkBoxOption.id.toString()}
+						checked={checkedOptions[checkBoxOption.id]}
+						onChange={handleCheckBoxChange}
+						disabled={optionDisabled}
+						value={option.content}
+						type={typeName}
+					/>;
+				})
+			}
+		</>
+
+	}
+
+	const renderOXForm = (): JSX.Element => {
+		//TODO: 디자인 답변오면 구현 필요
+		const options: RadioOptionType[] = [{
+			id: 1,
+			value: "O",
+			label: "맞아요",
+		},
+		{
+			id: 2,
+			value: "X",
+			label: "아니에요",
+		}];
+		return <>
+			{options.map((option) => {
+				let isChecked: boolean = false;
+				let isCorrect: boolean = false;
+				let typeName: OptionStatusType = "option-default";
+				if (selectedRadioOption) {
+					isChecked = selectedRadioOption === option.value;
+					if (isChecked) { // 체크 되었을 때
+						typeName = "option-selected";
+					}
+					if (correctAnswer?.length) { // 채점되었고 
+						isCorrect = correctAnswer.includes(option.value);
+						if (isCorrect) { // 맞는 선지일때 (내가 선택한거랑 상관없이 초록색 적용)
+							typeName = "solving-correct"
+						} else {
+							if (isChecked) { // 내가 체크했는데 틀린 선지
+								typeName = "solving-incorrect"
+							} else { // 체크하지 않았고 답도 아닌 선지
+								typeName = "option-default"
+							}
+
+						}
+					}
+
+				}
+				return (
+					<RadioOption
+						radioGroupName={question.id.toString()}
+						option={option}
+						checked={isChecked}
+						onChange={handleOXChanges}
+						disabled={optionDisabled}
+						labelValue={option.label}
+						type={typeName}
+					/>
+
+				);
+
+			})
+			}
+
+		</>
+	}
 
 	return (
 		<section className={styles["container"]}>
@@ -126,93 +285,17 @@ export default function SolvingQuizForm({
 			<div
 				className={styles["options-area"]}
 			>
-				{question.selectOptions.map((option, index) => {
-
-					const selectOption = (): JSX.Element => {
-						if (question.type === "MULTIPLE_CHOICE_SINGLE_ANSWER") {
-							const radioOption: RadioOptionType = {
-								id: index,
-								value: index.toString(),
-								label: option.content,
-							}
-							let isChecked: boolean = false;
-							let isCorrect: boolean = false;
-							let typeName: OptionStatusType = "option-default";
-							if (selectedRadioOption) {
-								const selectedOptionIdx: number = parseInt(selectedRadioOption);
-								isChecked = selectedOptionIdx === index;
-								if (isChecked) { // 체크 되었을 때
-									typeName = "option-selected";
-								}
-								if (correctAnswer?.length) { // 채점되었고 
-									const correctAnswerIdx: string[] = correctAnswer.map((answer) => (parseInt(answer) - 1).toString());
-									isCorrect = correctAnswerIdx.includes(index.toString());
-									if (isCorrect) { // 맞는 선지일때 (내가 선택한거랑 상관없이 초록색 적용)
-										typeName = "solving-correct"
-									} else {
-										typeName = "solving-incorrect"
-									}
-								}
-							}
-							return <RadioOption
-								radioGroupName={question.id.toString()}
-								option={radioOption}
-								checked={isChecked}
-								onChange={handleSelectOptions}
-								disabled={optionDisabled}
-								labelValue={option.content}
-								type={typeName}
-							/>;
-						}
-						else {
-							//TODO: OX퀴즈
-							// else if(question.type === "MULTIPLE_CHOICE_MULTIPLE_ANSWER"){
-							const checkBoxOption: CheckBoxOption = {
-								id: index,
-								value: index.toString(),
-								label: option.content,
-							}
-							let isChecked: boolean = false;
-							let isCorrect: boolean = false;
-							// TODO: 체크박스 확인 필요
-							let typeName: CheckboxStatusType = "checkbox-default";
-							if (JSON.stringify(checkedOptions) !== '{}') {
-								isChecked = checkedOptions[checkBoxOption.id]
-								console.log("ccheckedId: ", checkBoxOption.id);
-								if (isChecked) { // 체크 되었을 때
-									typeName = "checkbox-selected";
-								}
-								if (correctAnswer?.length) { // 채점되었고 
-									const correctAnswerIdx: string[] = correctAnswer.map((answer) => (parseInt(answer) - 1).toString());
-									isCorrect = correctAnswerIdx.includes(index.toString());
-									if (isCorrect) { // 맞는 선지일때 (내가 선택한거랑 상관없이 초록색 적용)
-										typeName = "solving-correct"
-									} else {
-										typeName = "solving-incorrect"
-									}
-								}
-							}
-
-							return <CheckBox
-								id={checkBoxOption.id.toString()}
-								checked={checkedOptions[checkBoxOption.id]}
-								onChange={handleCheckBoxChange}
-								disabled={optionDisabled}
-								value={option.content}
-								type={typeName}
-							/>;
-						}
-
-					}
-					return (
-						<div
-							key={index}
-							className={styles["option"]}>
-							{selectOption()}
-						</div>
-					)
-
-				})}
+				{question.type === "OX" &&
+					renderOXForm()
+				}
+				{
+					question.type === "MULTIPLE_CHOICE_SINGLE_ANSWER" &&
+					renderMultiChoiceForm()
+				}
+				{
+					question.type === "MULTIPLE_CHOICE_MULTIPLE_ANSWER" &&
+					renderCheckBoxForm()
+				}
 			</div>
 
 		</section>

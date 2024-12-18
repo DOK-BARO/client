@@ -51,8 +51,6 @@ const RadioOption: React.FC<RadioOptionProps> = ({
 			${fullWidth ? styles["full"] : ""}
 			${styles[type]}
 			`;
-			console.log(checked, " : ", containerClassName);
-
 
 	const icon = () => {
 		if (type) {

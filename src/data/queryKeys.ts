@@ -1,9 +1,10 @@
-import { GetBooksParams, SearchBooksParams } from "@/types/BookType";
+import { BooksFetchParams, SearchBooksParams } from "@/types/BookType";
+import { ReviewsFetchParams } from "@/types/ReviewType";
 
 export const bookKeys = {
   detail: (id: string) => ["bookDetailContent", id] as const,
   categories: () => ["bookCategories"] as const,
-  list: (param?: GetBooksParams) => ["bookList", param] as const,
+  list: (param?: BooksFetchParams) => ["bookList", param] as const,
   search: (params?: SearchBooksParams) => ["bookSearch", params] as const,
 };
 
@@ -23,5 +24,11 @@ export const userKeys = {
 
 export const quizKeys = {
   myQuiz: () => ["myQuiz"] as const,
-  detail: (id: string) => ["quizDetail", id] as const,
+  detail: (id: string | undefined) => ["quizDetail", id] as const,
+  explanation: (id: string | undefined) => ["quizExplanation", id] as const,
+};
+
+export const reviewKeys = {
+  totalScore: (id: number | undefined) => ["reviewTotalScore", id] as const,
+  list: (param?: ReviewsFetchParams) => ["reviewList", param] as const,
 };

@@ -15,6 +15,25 @@ export interface QuizType {
   };
 }
 
+
+
+export interface QuizExplanationType {
+  id: number;
+  title: string;
+  description: string;
+  createdAt: string;
+  creator: {
+    id: number;
+    nickname: string;
+    profileImageUrl: string;
+  };
+  book: {
+    id: number;
+    title: string;
+    imageUrl: string;
+  };
+}
+
 // 퀴즈 풀기 시 사용되는 타입
 export interface SolvingQuizType {
   id: number;
@@ -49,7 +68,7 @@ export type AnswerType =
   | "OX"
   | "FILL_BLANK"
   | "MULTIPLE_CHOICE_SINGLE_ANSWER"
-	| "MULTIPLE_CHOICE_MULTIPLE_ANSWER"
+  | "MULTIPLE_CHOICE_MULTIPLE_ANSWER"
   | "SHORT";
 
 export interface QuizCreationType {

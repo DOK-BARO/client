@@ -1,6 +1,6 @@
 import {
   BookType,
-  GetBooksParams,
+  BooksFetchParams,
   SearchBooksParams,
 } from "../../types/BookType.ts";
 import { BookDetailType } from "../../types/BookDetailType.ts";
@@ -11,7 +11,7 @@ import { handleAxiosError } from "@/utils/errorHandler.ts";
 // 책 목록, 책 상세정보 가져오기
 class BookService {
   fetchBooks = async (
-    params: GetBooksParams = {}
+    params: BooksFetchParams = {}
   ): Promise<{ data: BookType[]; endPageNumber: number } | void> => {
     const {
       title = undefined,

@@ -1,5 +1,5 @@
 export type PagePositionType = "START" | "END" | "BETWEEN";
-export type ParentComponentType = "BOOKS" | "MYPAGE";
+export type ParentComponentType = "BOOKS" | "MYPAGE" | "QUIZ";
 
 export interface PaginationType {
   parentComponentType: ParentComponentType; // 페이지 타입: ex) 책 목록, 마이페이지

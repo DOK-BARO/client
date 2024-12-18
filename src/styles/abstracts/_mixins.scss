@@ -133,7 +133,7 @@
   display: flex;
   align-items: center;
   background-color: $modal-backdrop-color;
-  z-index: 1; //위치지정 요소
+  z-index: 999; //위치지정 요소
   position: fixed;
   justify-content: center;
   top: 0;

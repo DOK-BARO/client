@@ -1,14 +1,14 @@
 import { AUTH_TYPES, SOCIAL_TYPES } from "@/data/constants.ts";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
 import { RadioOptionType } from "@/types/RadioTypes";
-import useModal from "@/hooks/useModal.ts";
+// import useModal from "@/hooks/useModal.ts";
 import { useState } from "react";
 import { Invisible } from "@/svg/invisible.tsx";
 import RadioOption from "@/components/atom/radioOption/radioOption";
 import { gray60 } from "@/styles/abstracts/colors.ts";
 import SocialAuthButton from "@/components/composite/socialAuthButton/socialAuthButton.tsx";
 import Button from "@/components/atom/button/button.tsx";
-import Modal from "@/components/atom/modal/modal.tsx";
+// import Modal from "@/components/atom/modal/modal.tsx";
 import Input from "@/components/atom/input/input.tsx";
 import { useRef } from "react";
 import { imageService } from "@/services/server/imageService";
@@ -22,7 +22,7 @@ const options: RadioOptionType[] = [
 
 export default function Index() {
   const { selectedValue, handleChange } = useRadioGroup("");
-  const { openModal, isModalOpen, closeModal } = useModal();
+  // const { openModal, isModalOpen, closeModal } = useModal();
   const fileInputRef = useRef<HTMLInputElement | null>(null); // 파일 입력 참조
 
   const [inputValue, setInputValue] = useState<string>("");
@@ -109,21 +109,21 @@ export default function Index() {
           button
         </Button>
       </div>
-      <Button
+      {/* <Button
         onClick={() => {
           console.log("open modal");
           openModal();
         }}
       >
         모달 열기
-      </Button>
-      {isModalOpen && (
+      </Button> */}
+      {/* {isModalOpen && (
         <Modal
           popUpTitle={"테스트 모달 제목"}
           contentTitle={"테스트 모달 콘텐츠 제목"}
           closeModal={closeModal}
         />
-      )}
+      )} */}
       <Input
         size="small"
         id="component-test"

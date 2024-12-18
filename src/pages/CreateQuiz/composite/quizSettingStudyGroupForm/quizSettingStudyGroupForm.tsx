@@ -1,4 +1,3 @@
-// 선택하면 불이 안들어와야 하는데 들어옴.. 다음버튼 누를때 들어오게 해야됨
 import styles from "./_quiz_setting_study_group_form.module.scss";
 import { useState, useEffect } from "react";
 import useModal from "@/hooks/useModal.ts";
@@ -10,7 +9,10 @@ import Input from "@/components/atom/input/input.tsx";
 import { QuizPlus } from "@/svg/quizPlus";
 import { XMedium } from "@/svg/xMedium";
 import { Copy } from "@/svg/copy";
-import { StudyGroupPreviewType } from "@/types/StudyGroupType";
+import {
+  StudyGroupCreationType,
+  StudyGroupPreviewType,
+} from "@/types/StudyGroupType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { studyGroupService } from "@/services/server/studyGroupService";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -80,16 +82,15 @@ export default function QuizSettingStudyGroupForm() {
   const { mutate: createStudyGroup } = useMutation<
     { id: number } | null,
     ErrorType,
-    string
+    StudyGroupCreationType
   >({
-    mutationFn: (newStudyName) =>
-      studyGroupService.createStudyGroup(newStudyName),
-    onSuccess: (data, newStudyName) => {
+    mutationFn: (newStudy) => studyGroupService.createStudyGroup(newStudy),
+    onSuccess: (data, newStudy) => {
       toast.success("스터디가 생성되었습니다.");
       if (!data) return;
       console.log("새롭게 생성된 스터디 그룹 아이디", data.id);
       setNewStudyGroup({
-        name: newStudyName,
+        name: newStudy.name,
         id: data.id,
       });
     },
@@ -156,6 +157,78 @@ export default function QuizSettingStudyGroupForm() {
     //   studyGroup === selectedStudyGroup ? null : studyGroup
     // );
   };
+  const getContents = () => {
+    const contents = [
+      {
+        title: "새로운 스터디 그룹 이름",
+        content: newStudyGroup ? (
+          <Button
+            onClick={() => {}}
+            iconPosition="right"
+            icon={
+              <XMedium
+                width={20}
+                height={20}
+                stroke={primary}
+                alt="스터디 그룹 이름 삭제"
+              />
+            }
+            onIconClick={removeStudyGroup}
+            className={styles["study-name"]}
+            color="secondary"
+          >
+            {newStudyGroup.name}
+          </Button>
+        ) : (
+          // </div>
+          <div className={styles["input-button-container"]}>
+            <Input
+              fullWidth
+              placeholder="이름을 입력해주세요."
+              id="study-name"
+              value={studyName}
+              onChange={onChangeStudyName}
+              className={styles.input}
+              size="medium"
+            />
+            <Button
+              className={styles["add"]}
+              color="primary-border"
+              onClick={() => createStudyGroup({name: studyName})}
+              size="medium"
+              disabled={!studyName}
+            >
+              스터디 만들기
+            </Button>
+          </div>
+        ),
+      },
+
+      newStudyGroup
+        ? {
+            title: "스터디 그룹 초대코드",
+            content: (
+              <div className={styles["email-invite"]}>
+                <Button
+                  fullWidth
+                  color="secondary"
+                  icon={
+                    <Copy width={20} stroke={primary} alt="초대 코드 복사" />
+                  }
+                  iconPosition="left"
+                  onClick={handleClickCopyCode}
+                >
+                  <span id="invite-code" aria-label="스터디 그룹 초대 코드">
+                    {!isStudyGroupDetailLoading && studyGroupDetail?.inviteCode}
+                  </span>
+                </Button>
+              </div>
+            ),
+          }
+        : null,
+    ];
+    return contents.filter((content) => content !== null);
+  };
 
   return (
     <>
@@ -204,88 +277,15 @@ export default function QuizSettingStudyGroupForm() {
       ) : null}
       {isModalOpen && (
         <Modal
-          className={styles["add-study-group-modal"]}
-          popUpTitle="스터디 그룹 추가하기"
-          contentTitle="새로운 스터디 그룹 이름"
-          content={
-            <div className={styles["add-study-name"]}>
-              {newStudyGroup && (
-                <Button
-                  onClick={() => {}}
-                  iconPosition="right"
-                  icon={
-                    <XMedium
-                      width={20}
-                      height={20}
-                      stroke={primary}
-                      alt="스터디 그룹 이름 삭제"
-                    />
-                  }
-                  onIconClick={removeStudyGroup}
-                  className={styles["study-name"]}
-                  color="secondary"
-                >
-                  {newStudyGroup.name}
-                </Button>
-              )}
-
-              {!newStudyGroup ? (
-                // 스터디 그룹이 입력되어 있지 않은 경우 (초기 상태)
-                <div className={styles["input-button-container"]}>
-                  <Input
-                    fullWidth
-                    placeholder="이름을 입력해주세요."
-                    id="study-name"
-                    value={studyName}
-                    onChange={onChangeStudyName}
-                    className={styles.input}
-                    size="medium"
-                  />
-                  <Button
-                    className={styles["add"]}
-                    color="primary-border"
-                    onClick={() => createStudyGroup(studyName)}
-                    size="medium"
-                    disabled={!studyName}
-                  >
-                    스터디 만들기
-                  </Button>
-                </div>
-              ) : (
-                // TODO: 시멘틱 태그
-                // 스터디 그룹이 입력되어 있는 경우
-                <div className={styles["email-invite"]}>
-                  <div className={styles.line} />
-                  <div className={styles.title}>스터디 그룹 초대코드</div>
-                  <Button
-                    fullWidth
-                    color="secondary"
-                    icon={
-                      <Copy width={20} stroke={primary} alt="초대 코드 복사" />
-                    }
-                    iconPosition="left"
-                    onClick={handleClickCopyCode}
-                  >
-                    <span id="invite-code" aria-label="스터디 그룹 초대 코드">
-                      {!isStudyGroupDetailLoading &&
-                        studyGroupDetail?.inviteCode}
-                    </span>
-                  </Button>
-                  {/* <div className={styles["buttons-container"]}> */}
-
-                  <Button
-                    color="primary"
-                    className={styles.done}
-                    onClick={done}
-                    size="medium"
-                  >
-                    완료
-                  </Button>
-                  {/* </div> */}
-                </div>
-              )}
-            </div>
-          }
+          title="스터디 그룹 추가하기"
+          contents={getContents()}
+          bottomButtons={[
+            {
+              text: "완료",
+              color: "primary",
+              handleClick: done,
+            },
+          ]}
           closeModal={closeModal}
         />
       )}

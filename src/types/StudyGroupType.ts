@@ -25,3 +25,10 @@ export interface StudiesFilterType {
   sort: StudiesSortType;
   direction: DirectionType;
 }
+
+// TODO: 변수명 -Prop, -Type?
+export interface StudyGroupCreationType {
+  name: string;
+  introduction?: string;
+  profileImageUrl?: string;
+}

@@ -1,17 +1,24 @@
-import React, { useRef, useState } from "react";
+import React, { Dispatch, useRef, useState } from "react";
 import styles from "./_profile_image_editor.module.scss";
 import editProfile from "/assets/svg/accountSetting/editProfile.svg";
-import { useAtom } from "jotai";
-import { currentUserAtom } from "@/store/userAtom";
+import { SetStateAction } from "jotai";
 
 interface Props {
   width: number;
+  initialImage?: string | undefined;
+  profileImage: string[];
+  setProfileImage: Dispatch<SetStateAction<string[]>>;
 }
 
-export default function ProfileImageEditor({ width }: Props) {
-  const [currentUser] = useAtom(currentUserAtom);
+export default function ProfileImageEditor({
+  width,
+  initialImage,
+  profileImage,
+  setProfileImage,
+}: Props) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [previewImg, setImagePreview] = useState<string[]>([]);
+  // const [previewImg, setImagePreview] = useState<string[]>([]);
+  const defaultImagePath = "/public/assets/image/default-profile.png";
 
   //TODO: questionForm과 동일코드 . hook으로 분리 예정
   const readFilesAsDataURL = async (files: File[]): Promise<string[]> => {
@@ -32,7 +39,7 @@ export default function ProfileImageEditor({ width }: Props) {
     if (files) {
       const newImagesFile: File[] = Array.from(files);
       const newImages = await readFilesAsDataURL(newImagesFile);
-      setImagePreview((prev) => [...prev, ...newImages]);
+      setProfileImage((prev) => [...prev, ...newImages]);
     }
   };
   const handleButtonClick = (_: React.MouseEvent<HTMLButtonElement>) => {
@@ -53,12 +60,12 @@ export default function ProfileImageEditor({ width }: Props) {
         className={`${styles["edit-img-btn"]} ${styles[`width-${width}`]}`}
       >
         <img
-          src={currentUser?.profileImage ?? undefined}
+          src={initialImage ?? defaultImagePath}
           className={styles["edit-profile-img"]}
         />
         <img
           className={`${styles["edit-img-bg"]} ${styles[`width-${width}`]}`}
-          src={previewImg[0]}
+          src={profileImage[0]}
         />
         <div
           className={`${styles["edit-img-icon-bg"]} ${

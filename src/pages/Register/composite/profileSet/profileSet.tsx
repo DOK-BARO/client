@@ -2,7 +2,6 @@ import styles from "./_profile_set.module.scss";
 import { FormEvent, useEffect, useState } from "react";
 import { useAtom } from "jotai";
 import useInput from "@/hooks/useInput.ts";
-import ProfileUpload from "@/pages/Register/components/profileUpload/profileUpload.tsx";
 import Input from "@/components/atom/input/input.tsx";
 import { XCircle } from "@/svg/xCircle";
 import { gray30, gray60 } from "@/styles/abstracts/colors.ts";
@@ -15,6 +14,7 @@ import { imageService } from "@/services/server/imageService";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";
 import { UploadImageArgType } from "@/types/UploadImageType";
+import ProfileUploader from "../../components/profileUploader/profileUploader";
 
 export interface ProfileImageState {
   url: string;
@@ -152,7 +152,7 @@ export default function ProfileSet() {
         프로필을 설정해 주세요.
       </p>
       <form onSubmit={handleSubmit}>
-        <ProfileUpload
+        <ProfileUploader
           email={user.email}
           profileImage={profileImage}
           setProfileImage={setProfileImage}

@@ -1,5 +1,8 @@
 import { axiosInstance } from "@/config/axiosConfig";
-import { StudyGroupDetailType } from "@/types/StudyGroupType";
+import {
+  StudyGroupCreationType,
+  StudyGroupDetailType,
+} from "@/types/StudyGroupType";
 import { handleAxiosError } from "@/utils/errorHandler";
 
 class StudyGroupService {
@@ -29,12 +32,11 @@ class StudyGroupService {
 
   // 스터디 그룹 생성
   createStudyGroup = async (
-    studyName: string
+    studyGroup: StudyGroupCreationType
   ): Promise<{ id: number } | null> => {
-    console.log(studyName);
     try {
       const { data } = await axiosInstance.post("/study-groups", {
-        name: studyName,
+        studyGroup,
       });
       return data;
     } catch (error) {

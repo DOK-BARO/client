@@ -9,7 +9,10 @@ import Input from "@/components/atom/input/input.tsx";
 import { QuizPlus } from "@/svg/quizPlus";
 import { XMedium } from "@/svg/xMedium";
 import { Copy } from "@/svg/copy";
-import { StudyGroupPreviewType } from "@/types/StudyGroupType";
+import {
+  StudyGroupCreationType,
+  StudyGroupPreviewType,
+} from "@/types/StudyGroupType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { studyGroupService } from "@/services/server/studyGroupService";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -79,16 +82,15 @@ export default function QuizSettingStudyGroupForm() {
   const { mutate: createStudyGroup } = useMutation<
     { id: number } | null,
     ErrorType,
-    string
+    StudyGroupCreationType
   >({
-    mutationFn: (newStudyName) =>
-      studyGroupService.createStudyGroup(newStudyName),
-    onSuccess: (data, newStudyName) => {
+    mutationFn: (newStudy) => studyGroupService.createStudyGroup(newStudy),
+    onSuccess: (data, newStudy) => {
       toast.success("스터디가 생성되었습니다.");
       if (!data) return;
       console.log("새롭게 생성된 스터디 그룹 아이디", data.id);
       setNewStudyGroup({
-        name: newStudyName,
+        name: newStudy.name,
         id: data.id,
       });
     },
@@ -192,7 +194,7 @@ export default function QuizSettingStudyGroupForm() {
             <Button
               className={styles["add"]}
               color="primary-border"
-              onClick={() => createStudyGroup(studyName)}
+              onClick={() => createStudyGroup({name: studyName})}
               size="medium"
               disabled={!studyName}
             >

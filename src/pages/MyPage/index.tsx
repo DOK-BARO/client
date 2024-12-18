@@ -24,7 +24,7 @@ export default function Index() {
     },
     {
       order: 2,
-      title: "내 스터디",
+      title: "내 스터디 그룹",
       formComponent: () => <MyStudy />,
     },
     {

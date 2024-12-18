@@ -102,124 +102,141 @@ const LoginModal = ({ closeModal }: LoginModalProps) => {
 
   return (
     <Modal
-      className={styles["auth-modal"]}
-      content={
-        <>
-          <header className={styles.header}>
-            <HeaderLogo />
-            <span className={styles.description}>
-              개발자를 위한 똑바로 된 독서 방법
-            </span>
-          </header>
-          <main
-            className={styles[`main${!isEmailLoginPage ? "" : "-email-login"}`]}
-          >
-            {!isEmailLoginPage ? (
-              SOCIAL_TYPES.map((socialType) => (
-                <SocialAuthButton key={socialType} socialType={socialType} />
-              ))
-            ) : (
-              <form className={styles["login-form"]} onSubmit={handleSubmit}>
-                <Input
-                  fullWidth
-                  id="email"
-                  value={email}
-                  placeholder="이메일을 입력해주세요"
-                  label="이메일"
-                  onChange={onEmailChange}
-                />
-                <Input
-                  fullWidth
-                  id="password"
-                  type={isPasswordVisible ? "text" : "password"}
-                  value={password}
-                  placeholder="비밀번호를 입력해주세요"
-                  label="비밀번호"
-                  onChange={onPasswordChange}
-                  rightIcon={
-                    <Button
-                      onClick={handlePasswordVisible}
-                      iconOnly
-                      icon={
-                        isPasswordVisible ? (
-                          <Visible
-                            alt="비밀번호 표시 해제"
-                            stroke={gray60}
-                            width={24}
-                            height={24}
-                          />
-                        ) : (
-                          <Invisible
-                            alt="비밀번호 표시"
-                            stroke={gray60}
-                            width={24}
-                            height={24}
-                          />
-                        )
+      width={390}
+      contents={[
+        {
+          title: "",
+          content: (
+            <>
+              <header className={styles.header}>
+                <HeaderLogo />
+                <span className={styles.description}>
+                  개발자를 위한 똑바로 된 독서 방법
+                </span>
+              </header>
+              <main
+                className={
+                  styles[`main${!isEmailLoginPage ? "" : "-email-login"}`]
+                }
+              >
+                {!isEmailLoginPage ? (
+                  SOCIAL_TYPES.map((socialType) => (
+                    <SocialAuthButton
+                      key={socialType}
+                      socialType={socialType}
+                    />
+                  ))
+                ) : (
+                  <form
+                    className={styles["login-form"]}
+                    onSubmit={handleSubmit}
+                  >
+                    <Input
+                      fullWidth
+                      id="email"
+                      value={email}
+                      placeholder="이메일을 입력해주세요"
+                      label="이메일"
+                      onChange={onEmailChange}
+                    />
+                    <Input
+                      fullWidth
+                      id="password"
+                      type={isPasswordVisible ? "text" : "password"}
+                      value={password}
+                      placeholder="비밀번호를 입력해주세요"
+                      label="비밀번호"
+                      onChange={onPasswordChange}
+                      rightIcon={
+                        <Button
+                          onClick={handlePasswordVisible}
+                          iconOnly
+                          icon={
+                            isPasswordVisible ? (
+                              <Visible
+                                alt="비밀번호 표시 해제"
+                                stroke={gray60}
+                                width={24}
+                                height={24}
+                              />
+                            ) : (
+                              <Invisible
+                                alt="비밀번호 표시"
+                                stroke={gray60}
+                                width={24}
+                                height={24}
+                              />
+                            )
+                          }
+                        />
+                      }
+                      isError
+                      message={
+                        !isMatched && !isReadyToLogin ? (
+                          <span className={styles["message-container"]}>
+                            <XSmall
+                              width={20}
+                              height={20}
+                              stroke={systemDanger}
+                            />
+                            <p>입력한 정보가 일치하지 않습니다.</p>
+                          </span>
+                        ) : undefined
                       }
                     />
-                  }
-                  isError
-                  message={
-                    !isMatched && !isReadyToLogin ? (
-                      <span className={styles["message-container"]}>
-                        <XSmall width={20} height={20} stroke={systemDanger} />
-                        <p>입력한 정보가 일치하지 않습니다.</p>
-                      </span>
-                    ) : undefined
-                  }
-                />
-                <Button
-                  color="primary"
-                  size="small"
-                  fullWidth
-                  disabled={!isInputFilled}
-                  type="submit"
-                >
-                  로그인
-                </Button>
-                <span className={styles["register-actions-container"]}>
-                  <Button
-                    size="xsmall"
-                    color="transparent"
-                    onClick={handleSignupClick}
-                  >
-                    회원가입
-                  </Button>
-                  <div className={styles["vertical-line"]} />
-                  <Button
-                    size="xsmall"
-                    color="transparent"
-                    onClick={handleFindPasswordClick}
-                  >
-                    비밀번호 찾기
-                  </Button>
-                </span>
-
-                <span className={styles["divider-container"]}>
-                  <div className={styles.line} />
-                  <p className={styles.text}>또는</p>
-                  <div className={styles.line} />
-                </span>
-                <section
-                  aria-label="소셜로 로그인하기"
-                  className={styles["social-login-buttons"]}
-                >
-                  {socialLoginMethodButtonImage.map((socialImage) => (
                     <Button
-                      iconOnly
-                      key={socialImage.type}
-                      className={styles[`${socialImage.key}-button`]}
+                      color="primary"
+                      size="small"
+                      fullWidth
+                      disabled={!isInputFilled}
+                      type="submit"
                     >
-                      {socialImage}
+                      로그인
                     </Button>
-                  ))}
-                </section>
-              </form>
-            )}
-          </main>
-        </>
-      }
+                    <span className={styles["register-actions-container"]}>
+                      <Button
+                        size="xsmall"
+                        color="transparent"
+                        onClick={handleSignupClick}
+                      >
+                        회원가입
+                      </Button>
+                      <div className={styles["vertical-line"]} />
+                      <Button
+                        size="xsmall"
+                        color="transparent"
+                        onClick={handleFindPasswordClick}
+                      >
+                        비밀번호 찾기
+                      </Button>
+                    </span>
+
+                    <span className={styles["divider-container"]}>
+                      <div className={styles.line} />
+                      <p className={styles.text}>또는</p>
+                      <div className={styles.line} />
+                    </span>
+                    <section
+                      aria-label="소셜로 로그인하기"
+                      className={styles["social-login-buttons"]}
+                    >
+                      {socialLoginMethodButtonImage.map((socialImage) => (
+                        <Button
+                          iconOnly
+                          key={socialImage.type}
+                          className={styles[`${socialImage.key}-button`]}
+                        >
+                          {socialImage}
+                        </Button>
+                      ))}
+                    </section>
+                  </form>
+                )}
+              </main>
+            </>
+          ),
+        },
+      ]}
       closeModal={closeModal}
     />
   );

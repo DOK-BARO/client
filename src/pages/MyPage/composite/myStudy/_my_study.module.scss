@@ -1,0 +1,17 @@
+@import "../../../../styles/abstracts/mixins";
+@import "../../../../styles/abstracts/variables";
+
+// TODO: 마이페이지 내 스타일 파일 공통으로 쓰기
+.container {
+  line-height: 1.5;
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    .title {
+      font-size: 18px;
+      font-weight: $font-weight-semibold;
+    }
+  }
+}

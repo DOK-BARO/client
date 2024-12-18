@@ -95,11 +95,12 @@ export default function Index() {
       {isModalOpen && (
         <Modal
           closeModal={closeModal}
-          popUpTitle={errorModalTitle}
-          closeButtonText="확인"
+          title={errorModalTitle}
+          bottomButtons={[
+            { text: "확인", color: "primary", handleClick: closeModal },
+          ]}
           showHeaderCloseButton={false}
-          className={styles["modal"]}
-          footerCloseButton
+          contents={[]}
         />
       )}
     </section>

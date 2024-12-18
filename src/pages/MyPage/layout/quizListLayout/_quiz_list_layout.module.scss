@@ -23,12 +23,11 @@
     // TODO: width192 고정, 화면이 줄여지면 아래줄로 내려가게 구현 필요
     border-radius: 5px;
 
-
     .info {
       @include flex(column);
       gap: 14px;
 
-      .sub-info{
+      .sub-info {
         @include flex(column);
         gap: 4px;
       }
@@ -54,8 +53,6 @@
         font-weight: $font-weight-semibold;
         padding-bottom: 19px;
       }
-
-
     }
 
     .util {
@@ -63,12 +60,12 @@
       justify-content: start;
       gap: 7px;
 
-      .delete{
-      text-decoration: underline;
-      height: 18px;
-      color:$gray-60;
-      font-weight: $font-weight-regular;
-      font-size: 12px;
+      .delete {
+        text-decoration: underline;
+        height: 18px;
+        color: $gray-60;
+        font-weight: $font-weight-regular;
+        font-size: 12px;
       }
     }
 
@@ -76,7 +73,6 @@
       border: 1px solid $gray-40;
       border-radius: 5px;
     }
-
   }
 
   .no-data {
@@ -100,7 +96,6 @@
   }
 }
 
-
 .list-header {
   @include flex(row);
   justify-content: space-between;
@@ -109,7 +104,6 @@
     font-size: 18px;
     line-height: 1.5;
     font-weight: $font-weight-semibold;
-
   }
 
   .button-area {

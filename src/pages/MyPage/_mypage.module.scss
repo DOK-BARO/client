@@ -8,7 +8,7 @@
 .container {
   @include flex(column);
   gap: 40px;
-  padding: 40px;
+  margin-top: 40px;
 
   .section {
     &-header {
@@ -24,8 +24,6 @@
     &-content {
       @include flex(row);
       gap: 40px;
-
-
     }
   }
 }

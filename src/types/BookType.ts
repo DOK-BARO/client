@@ -16,8 +16,8 @@ interface BookCategories {
 }
 
 export interface BooksFilterType {
-  sort: "PUBLISHED_AT" | "TITLE" | "QUIZ_COUNT";
-  direction: "ASC" | "DESC";
+  sort: BooksSortType;
+  direction: DirectionType;
 }
 export type BooksSortType = "PUBLISHED_AT" | "TITLE" | "QUIZ_COUNT";
 export type DirectionType = "ASC" | "DESC";

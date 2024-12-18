@@ -1,8 +1,8 @@
 import { Step } from "@/types/StepType";
 import styles from "./_my_page_layout.module.scss";
 
-
-export default function MyPageLayout({ steps,
+export default function MyPageLayout({
+  steps,
   currentStep,
   setCurrentStep,
 }: {
@@ -10,7 +10,6 @@ export default function MyPageLayout({ steps,
   currentStep: number;
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
 }) {
-
   const getCurrentStep = (): Step => {
     const step = steps[currentStep];
     if (step) return step;
@@ -26,8 +25,8 @@ export default function MyPageLayout({ steps,
   const FormComponent = step?.formComponent
     ? step.formComponent
     : step?.subSteps?.[0]?.formComponent
-      ? step.subSteps[0].formComponent
-      : null;
+    ? step.subSteps[0].formComponent
+    : null;
 
   return (
     <section className={styles["container"]}>

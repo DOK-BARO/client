@@ -39,9 +39,9 @@ export default function EditMyInfo() {
     fileInputRef.current?.click();
   };
   return (
-    <section>
+    <>
       <section className={styles["setting-img"]}>
-        <h2 className={styles["title"]}>프로필 사진 바꾸기</h2>
+        <h3 className={styles["title"]}>프로필 사진 바꾸기</h3>
         <input
           className={styles["sr-only"]}
           type="file"
@@ -71,6 +71,6 @@ export default function EditMyInfo() {
           <Button color="primary">이메일 바꾸기</Button>
         </div>
       </section>
-    </section>
+    </>
   );
 }

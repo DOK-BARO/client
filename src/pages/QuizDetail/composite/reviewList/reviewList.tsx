@@ -54,6 +54,7 @@ export default function ReviewList({ quizId }: Props) {
     },
   ];
 
+  // TODO: 페이지네이션
   const [filterCriteria] = useAtom(reviewFilterAtom);
   const page = 1;
   const {

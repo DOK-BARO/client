@@ -14,4 +14,11 @@
       font-weight: $font-weight-semibold;
     }
   }
+
+  .study-list {
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 16px;
+  }
 }

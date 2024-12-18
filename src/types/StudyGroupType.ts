@@ -7,6 +7,12 @@ export interface StudyGroupDetailType {
   inviteCode: string;
 }
 
+export interface StudyGroupType {
+  id: number;
+  name: string;
+  profileImageUrl: string | null;
+}
+
 export type StudyGroupPreviewType = Pick<
   StudyGroupDetailType,
   "id" | "name" | "profileImageUrl"

@@ -1,3 +1,4 @@
+import styles from "./_add_study_group_modal.module.scss";
 import Modal, { BottomButtonProps } from "@/components/atom/modal/modal";
 import Input from "@/components/atom/input/input";
 import ProfileImageEditor from "../profileImageEditor/profileImageEditor";
@@ -8,7 +9,6 @@ import { ErrorType } from "@/types/ErrorType";
 import { studyGroupService } from "@/services/server/studyGroupService";
 import toast from "react-hot-toast";
 import { StudyGroupCreationType } from "@/types/StudyGroupType";
-import styles from "./_add_study_group_modal.module.scss";
 import CodeInput from "@/components/composite/codeInput/codeInput";
 import useCodeInput from "@/hooks/useCodeInput";
 import { UploadImageArgType } from "@/types/UploadImageType";
@@ -19,15 +19,20 @@ import { studyGroupKeys } from "@/data/queryKeys";
 import { Copy } from "@/svg/copy";
 import { primary } from "@/styles/abstracts/colors";
 import Textarea from "@/components/atom/textarea/textarea";
-import useTextarea from "@/hooks/useTextarea";
+import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
 interface Props {
   closeModal: () => void;
 }
 
 export default function AddStudyGroupModal({ closeModal }: Props) {
   const { value: name, onChange: onNameChange } = useInput("");
-  const { value: introduction, onChange: onIntroductionChange } =
-    useTextarea("");
+
+  const {
+    value: introduction,
+    onChange: onIntroductionChange,
+    textareaRef,
+  } = useAutoResizeTextarea("", "48px");
+
   // TODO: 이미지 업로드하기
   const defaultImagePath = "/public/assets/image/default-profile.png";
 
@@ -138,7 +143,6 @@ export default function AddStudyGroupModal({ closeModal }: Props) {
       copyCode(buttonText);
     }
   };
-  // type ButtonBottomType =
   const getBottomButtons = (): BottomButtonProps[] => {
     const bottomButtons = [
       !isStudyCreated
@@ -165,7 +169,7 @@ export default function AddStudyGroupModal({ closeModal }: Props) {
       },
     ];
 
-    // 타입 가드를 통해 null 제거
+    // null 제거
     return bottomButtons.filter(
       (button): button is BottomButtonProps => button !== null
     );
@@ -216,6 +220,8 @@ export default function AddStudyGroupModal({ closeModal }: Props) {
                       maxLength={50}
                       className={styles["introduction"]}
                       size="medium"
+                      maxLengthShow
+                      textAreaRef={textareaRef}
                     />
                   ),
                 },

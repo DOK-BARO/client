@@ -90,6 +90,11 @@ const Input: React.FC<InputProps> = ({
           {message}
         </div>
       )}
+      {maxLength ? (
+        <span className={styles["char-count"]}>
+          <b>{value?.length}</b>/{maxLength}
+        </span>
+      ) : null}
     </div>
   );
 };

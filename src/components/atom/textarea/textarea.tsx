@@ -84,7 +84,7 @@ const Textarea: React.FC<TextareaProps> = ({
             >
               {value.length}
             </em>
-            / {maxLength}
+            /{maxLength}
           </span>
         </div>
       ) : (

@@ -1,5 +1,4 @@
 import styles from "./_my_study.module.scss";
-import { useNavigate } from "react-router-dom";
 import Button from "@/components/atom/button/button";
 import { Plus } from "@/svg/plus";
 import { primary } from "@/styles/abstracts/colors";
@@ -12,12 +11,12 @@ import { studyGroupKeys } from "@/data/queryKeys";
 
 export default function MyStudy() {
   const { isModalOpen, openModal, closeModal } = useModal();
-  const { isLoading, data: myStudiesData } = useQuery({
+  const { data: myStudiesData } = useQuery({
     queryKey: studyGroupKeys.list(),
     queryFn: studyGroupService.fetchStudyGroups,
   });
   //   const myStudies = myStudiesData.data;
-  const navigate = useNavigate();
+  //   const navigate = useNavigate();
   console.log(myStudiesData);
   //   const handleClickWhenNoData = (_: React.MouseEvent<HTMLButtonElement>) => {
   //     navigate("/create-quiz");

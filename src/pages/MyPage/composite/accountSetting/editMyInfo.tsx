@@ -2,22 +2,26 @@
 import Button from "@/components/atom/button/button";
 import styles from "./account_setting.module.scss";
 import ProfileImageEditor from "../../components/profileImageEditor/profileImageEditor";
-import { currentUserAtom } from "@/store/userAtom";
-import { useAtom } from "jotai";
 import { useState } from "react";
+import { ProfileImageState } from "@/pages/Register/composite/profileSet/profileSet";
 export default function EditMyInfo() {
-  const [currentUser] = useAtom(currentUserAtom);
-  const [profileImage, setProfileImage] = useState<string[]>([]);
+  const defaultImagePath = "/public/assets/image/default-profile.png";
 
+  const defaultProfileState: ProfileImageState = {
+    url: defaultImagePath,
+    file: null,
+  };
+  const [profileImage, setProfileImage] =
+    useState<ProfileImageState>(defaultProfileState);
   return (
     <>
       <section className={styles["setting-img"]}>
         <h3 className={styles["title"]}>프로필 사진 설정</h3>
         <ProfileImageEditor
           width={200}
-          initialImage={currentUser?.profileImage}
           profileImage={profileImage}
           setProfileImage={setProfileImage}
+          initialImageState={defaultProfileState}
         />
       </section>
       <section className={styles["setting-email"]}>

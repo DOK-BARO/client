@@ -131,3 +131,14 @@
 .full {
   width: 100%;
 }
+
+.char-count {
+  color: $gray-60;
+  font-size: $font-size-small;
+  margin-left: auto;
+  margin-top: 12px;
+
+  b {
+    color: $gray-90;
+  }
+}

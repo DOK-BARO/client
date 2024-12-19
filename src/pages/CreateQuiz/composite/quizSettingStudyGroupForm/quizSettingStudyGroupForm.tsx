@@ -4,15 +4,12 @@ import useModal from "@/hooks/useModal.ts";
 import useInput from "@/hooks/useInput.ts";
 import Button from "@/components/atom/button/button.tsx";
 import { primary } from "@/styles/abstracts/colors.ts";
-import Modal from "@/components/atom/modal/modal.tsx";
+import Modal, { ModalContentProps } from "@/components/atom/modal/modal.tsx";
 import Input from "@/components/atom/input/input.tsx";
 import { QuizPlus } from "@/svg/quizPlus";
 import { XMedium } from "@/svg/xMedium";
 import { Copy } from "@/svg/copy";
-import {
-  StudyGroupCreationType,
-  StudyGroupPreviewType,
-} from "@/types/StudyGroupType";
+import { StudyGroupCreationType, StudyGroupType } from "@/types/StudyGroupType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { studyGroupService } from "@/services/server/studyGroupService";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -29,9 +26,7 @@ export default function QuizSettingStudyGroupForm() {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
 
-  const [studyGroupList, setStudyGroupList] = useState<StudyGroupPreviewType[]>(
-    []
-  );
+  const [studyGroupList, setStudyGroupList] = useState<StudyGroupType[]>([]);
 
   const { data: studyGroups, isLoading: isStudyGroupsLoading } = useQuery({
     queryKey: studyGroupKeys.list(),
@@ -146,7 +141,7 @@ export default function QuizSettingStudyGroupForm() {
   const [, setIsSet] = useAtom(isSetAtom);
 
   // 스터디 선택
-  const handleSelectStudyGroup = (studyGroup: StudyGroupPreviewType) => {
+  const handleSelectStudyGroup = (studyGroup: StudyGroupType) => {
     if (studyGroup === quizCreationInfo.studyGroup) {
       updateQuizCreationInfo("studyGroup", undefined);
     } else {
@@ -157,7 +152,7 @@ export default function QuizSettingStudyGroupForm() {
     //   studyGroup === selectedStudyGroup ? null : studyGroup
     // );
   };
-  const getContents = () => {
+  const getContents = (): ModalContentProps[] => {
     const contents = [
       {
         title: "새로운 스터디 그룹 이름",
@@ -194,7 +189,7 @@ export default function QuizSettingStudyGroupForm() {
             <Button
               className={styles["add"]}
               color="primary-border"
-              onClick={() => createStudyGroup({name: studyName})}
+              onClick={() => createStudyGroup({ name: studyName })}
               size="medium"
               disabled={!studyName}
             >
@@ -227,7 +222,9 @@ export default function QuizSettingStudyGroupForm() {
           }
         : null,
     ];
-    return contents.filter((content) => content !== null);
+    return contents.filter(
+      (content): content is ModalContentProps => content !== null
+    );
   };
 
   return (
@@ -279,13 +276,17 @@ export default function QuizSettingStudyGroupForm() {
         <Modal
           title="스터디 그룹 추가하기"
           contents={getContents()}
-          bottomButtons={[
-            {
-              text: "완료",
-              color: "primary",
-              handleClick: done,
-            },
-          ]}
+          bottomButtons={
+            newStudyGroup
+              ? [
+                  {
+                    text: "완료",
+                    color: "primary",
+                    handleClick: done,
+                  },
+                ]
+              : undefined
+          }
           closeModal={closeModal}
         />
       )}

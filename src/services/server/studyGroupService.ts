@@ -37,9 +37,7 @@ class StudyGroupService {
     studyGroup: StudyGroupCreationType
   ): Promise<{ id: number } | null> => {
     try {
-      const { data } = await axiosInstance.post("/study-groups", {
-        studyGroup,
-      });
+      const { data } = await axiosInstance.post("/study-groups", studyGroup);
       return data;
     } catch (error) {
       handleAxiosError(error);

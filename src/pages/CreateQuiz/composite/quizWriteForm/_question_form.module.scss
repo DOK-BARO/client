@@ -36,12 +36,7 @@
     width: 100%;
     gap: 12px;
 
-    .title-area {
-      width: 100%;
-    }
-
     textArea.title {
-      display: flex;
       border: none;
       color: $gray-90;
       font-size: $font-size-large;

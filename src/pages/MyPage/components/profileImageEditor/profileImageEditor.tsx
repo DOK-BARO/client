@@ -17,8 +17,6 @@ export default function ProfileImageEditor({
   setProfileImage,
 }: Props) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  // const [previewImg, setImagePreview] = useState<string[]>([]);
-  const defaultImagePath = "/public/assets/image/default-profile.png";
 
   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     console.log("on file change");
@@ -51,26 +49,25 @@ export default function ProfileImageEditor({
         onClick={() => document.getElementById("file-upload")?.click()}
         className={`${styles["edit-img-btn"]} ${styles[`width-${width}`]}`}
       >
+        {/* 프로필 이미지 */}
         <img
-          src={initialImage ?? defaultImagePath}
-          className={styles["edit-profile-img"]}
-        />
-        <img
-          className={`${styles["edit-img-bg"]} ${styles[`width-${width}`]}`}
-          src={profileImage.url}
+          className={`${styles["profile-img"]} ${styles[`width-${width}`]}`}
+          src={initialImage ?? profileImage.url}
           alt="프로필 이미지"
         />
-        <div
-          className={`${styles["edit-img-icon-bg"]} ${
-            styles[`width-${width}`]
-          }`}
-        >
-          <img
-            src={editProfile}
-            className={styles["edit-img-icon"]}
-            width={width === 200 ? 40 : 30}
-            height={width === 200 ? 40 : 30}
-          />
+        {/* 편집 아이콘 */}
+        <div className={styles["edit-img-bg"]}>
+          <div
+            className={`${styles["edit-img-icon-bg"]} ${
+              styles[`width-${width}`]
+            }`}
+          >
+            <img
+              src={editProfile}
+              width={width === 200 ? 40 : 30}
+              height={width === 200 ? 40 : 30}
+            />
+          </div>
         </div>
       </button>
     </>

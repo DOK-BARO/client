@@ -19,6 +19,7 @@ interface SelectOptionProps {
 	answerType: AnswerType;
 	checked?: boolean;
 }
+// TODO: quizmode -> questionFormMode
 
 const SelectOption: React.FC<SelectOptionProps> = ({
 	option,
@@ -62,14 +63,13 @@ const SelectOption: React.FC<SelectOptionProps> = ({
 	};
 
 	const isChecked = (typeof selectedValue === "string") ? (selectedValue === option.value) : selectedValue ? selectedValue[option.id] : false;
-	console.log(isChecked)
 
 	return (
 		<div
 			key={option.id}
 			className={styles["option-container"]}
 		>
-			{answerType === "MULTIPLE_CHOICE" ? (
+			{answerType === "MULTIPLE_CHOICE_SINGLE_ANSWER" ? (
 				<RadioOption
 					radioGroupName={questionFormId}
 					option={option as RadioOptionType}

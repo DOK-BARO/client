@@ -7,18 +7,21 @@ import useInput from "@/hooks/useInput.ts";
 import Input from "@/components/atom/input/input.tsx";
 import Button from "@/components/atom/button/button.tsx";
 import { RegisterInfoType } from "@/types/UserType";
-import { RegisterInfoAtom } from "@/store/userAtom";
+import { registerInfoAtom } from "@/store/userAtom";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { XSmall } from "@/svg/xSmall";
 import AuthCodeInput from "@/components/composite/authCodeInput/AuthCodeInput";
 import { authService } from "@/services/server/authService";
+import { useMutation } from "@tanstack/react-query";
+import { ErrorType } from "@/types/ErrorType";
+import toast from "react-hot-toast";
 
 export default function Verification({
   setStep,
 }: {
   setStep: Dispatch<SetStateAction<number>>;
 }) {
-  const [user, setUser] = useAtom<RegisterInfoType>(RegisterInfoAtom);
+  const [user, setUser] = useAtom<RegisterInfoType>(registerInfoAtom);
   const {
     value: email,
     onChange: onEmailChange,
@@ -30,9 +33,40 @@ export default function Verification({
 
   const [isMatch, setIsMatch] = useState<boolean | undefined>(undefined);
   const [isEmailSent, setIsEmailSent] = useState<boolean>(false);
-  const [isAlreadyRegisteredEmail, setIsAlreadyRegisteredEmail] = useState<boolean>(false);
+  const [isEmailReadyToSend, setIsEmailReadyToSend] = useState<boolean>(false);
 
-  const handleNext = async () => {
+  useEffect(() => {
+    setIsEmailReadyToSend(true);
+  }, [email]);
+
+  const { mutate: sendEmailCode, error: sendEmailCodeError } = useMutation<
+    void,
+    ErrorType
+  >({
+    mutationFn: () => authService.sendEmailCode(email),
+    onSuccess: () => {
+      toast.success("인증 번호가 전송되었습니다.");
+      setIsEmailSent(true);
+    },
+
+    onSettled: () => {
+      setIsEmailReadyToSend(false);
+    },
+    onError: () => {
+      // 전역 설정된 토스트 알림을 띄우지 않기 위함
+    },
+  });
+
+  const { mutate: resendEmailCode } = useMutation({
+    mutationFn: () => authService.resendEmailCode(email),
+    // onError 시 토스트 알람 처리는 전역에서 설정
+    onSuccess: () => {
+      toast.success("인증 번호가 전송되었습니다.");
+    },
+  });
+
+  // 인증코드 발송
+  const handleNext = () => {
     if (!email || !isEmailValid) {
       return;
     }
@@ -41,13 +75,12 @@ export default function Verification({
       email,
     });
     // 인증코드 발송
-    await authService.sendEmailCode(email);
-    setIsEmailSent(true);
+    sendEmailCode();
   };
 
   // 이메일 인증코드 재전송
-  const handleResend = async () => {
-    await authService.resendEmailCode(email);
+  const handleResend = () => {
+    resendEmailCode();
   };
 
   const handleCodeChange = (
@@ -114,14 +147,37 @@ export default function Verification({
       }
     }
   };
+  const { mutate: matchEmailCode } = useMutation<
+    { result: boolean } | null,
+    ErrorType,
+    { email: string; code: string }
+  >({
+    mutationFn: (emailAndCode) => authService.matchEmailCode(emailAndCode),
+    onSettled: (data) => {
+      const matchResult = data?.result ?? false;
+      setIsMatch(matchResult);
+    },
+  });
 
-  const handleDone = async () => {
-    const { result } = await authService.matchEmailCode({
+  const handleDone = () => {
+    const emailAndCode = {
       email,
       code: fullCode,
-    });
-    setIsMatch(result);
+    };
+    matchEmailCode(emailAndCode);
   };
+
+  const getMessageContent = () => {
+    if (isEmailValid === false) {
+      return "옳지 않은 형식의 이메일입니다.";
+    }
+    if (!isEmailReadyToSend && sendEmailCodeError?.code === 400) {
+      return "이미 사용중인 이메일입니다.";
+    }
+    return undefined;
+  };
+
+  const messageContent = getMessageContent();
 
   return (
     <section className={styles["verification"]}>
@@ -144,18 +200,21 @@ export default function Verification({
       {!isEmailSent ? (
         <Input
           message={
-            isEmailValid === false ? (
+            messageContent ? (
               <span className={styles["message-container"]}>
                 <XSmall stroke={systemDanger} width={20} height={20} />
-                <p>옳지 않은 형식의 이메일입니다.</p>
+                <p>{messageContent}</p>
               </span>
-            ) : (
-              <></>
-            )
+            ) : undefined
           }
           fullWidth
           color={isEmailValid ? "black" : "default"}
-          isError={isEmailValid === false ? true : undefined}
+          isError={
+            isEmailValid === false ||
+            (!isEmailReadyToSend && sendEmailCodeError?.code === 400)
+              ? true
+              : undefined
+          }
           id="email"
           value={email}
           onChange={onEmailChange}

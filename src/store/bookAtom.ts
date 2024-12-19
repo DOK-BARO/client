@@ -1,6 +1,7 @@
-import { SortFilterType } from "@/types/BookType";
+import { BooksFilterType } from "@/types/BookType";
 import { atom } from "jotai";
 
-export const BookFilterAtom = atom<{ sort: SortFilterType }>({
+export const bookFilterAtom = atom<BooksFilterType>({
   sort: "QUIZ_COUNT",
+  direction: "ASC",
 });

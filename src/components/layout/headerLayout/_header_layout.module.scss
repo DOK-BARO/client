@@ -2,26 +2,28 @@
 @import "../../../styles/abstracts/mixins";
 
 .header {
-  width: 100vw;
+  width: 100%;
   background-color: $background;
   position: fixed;
+  z-index: 100;
 
   &-container {
-    display: flex;
+    background-color: inherit;
+    position: relative;
+    @include flex(row, center);
     height: 58px;
     width: 1140px;
     padding: 0 40px;
     margin: 0 auto;
-    align-items: center;
+    z-index: inherit;
   }
 
   &-inner-container {
-    display: flex;
-    margin: 0 auto;
-    width: 100%;
-    // max-width: calc(100% - 48px);
-    flex-direction: row;
-    align-items: center;
+    position: relative;
+    background-color: inherit;
+    @include flex(row, center);
+    flex-grow: 1;
     justify-content: space-between;
+    z-index: inherit;
   }
 }

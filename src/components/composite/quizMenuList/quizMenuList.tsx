@@ -3,20 +3,27 @@ import { Pencil } from "@/svg/pencil.tsx";
 import { CheckSquare } from "@/svg/checkSquare";
 import { gray70 } from "@/styles/abstracts/colors.ts";
 import { useNavigate } from "react-router-dom";
-import { useQueryCurrentUser } from "@/hooks/useQueryCurrentUser.ts";
-type Props = {
-  closeDropDownList: () => void;
-};
+import { useAtom } from "jotai";
+import { isLoggedInAtom } from "@/store/userAtom";
 
-export default function HeaderQuizUtilList({ closeDropDownList }: Props) {
+interface HeaderQuizUtilListProps {
+  closeDropDownList: () => void;
+  openLoginModal: () => void;
+}
+
+export default function HeaderQuizUtilList({
+  closeDropDownList,
+  openLoginModal,
+}: HeaderQuizUtilListProps) {
   const navigate = useNavigate();
-  const { isLoggedIn }= useQueryCurrentUser();
+  const [isLoggedIn] = useAtom(isLoggedInAtom);
 
   const onClickMakeQuiz = () => {
     closeDropDownList();
-    if(!isLoggedIn) {
-      navigate("/",  { state: { openModal: true } }); //TODO: 랜딩페이지로 이동
-    }else{
+    if (!isLoggedIn) {
+      navigate("/"); //TODO: 랜딩페이지로 이동
+      openLoginModal();
+    } else {
       navigate("/create-quiz");
     }
   };
@@ -26,6 +33,7 @@ export default function HeaderQuizUtilList({ closeDropDownList }: Props) {
   };
 
   return (
+    // TODO: 버튼으로 만들기
     <ul className={styles["header-quiz-util-list"]}>
       <li
         onClick={onClickMakeQuiz}

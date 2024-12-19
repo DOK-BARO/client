@@ -7,13 +7,14 @@ import { Naver } from "@/svg/auth/naver.tsx";
 import { Github } from "@/svg/auth/github.tsx";
 import { Email } from "@/svg/auth/email.tsx";
 import Button from "@/components/atom/button/button.tsx";
-import { IsEmailLoginPage } from "@/store/authModalAtom";
+import { isEmailLoginPageAtom } from "@/store/authModalAtom";
 import { useAtom } from "jotai";
+import { authService } from "@/services/server/authService";
 
 const SocialAuthButton: React.FC<{
   socialType: SocialLoginType;
 }> = ({ socialType }) => {
-  const [, setIsEmailLoginPage] = useAtom(IsEmailLoginPage);
+  const [, setIsEmailLoginPage] = useAtom(isEmailLoginPageAtom);
 
   const handleAuth = async () => {
     if (socialType === SocialLoginType.EMAIL) {
@@ -22,10 +23,8 @@ const SocialAuthButton: React.FC<{
       setIsEmailLoginPage(true);
     } else {
       // 소셜 회원가입
-      const redirectUrl = "https://local.dev.dokbaro.kro.kr:5173/";
-      window.location.href = `${
-        import.meta.env.VITE_API_URL
-      }/auth/login/oauth2/${socialType.toLocaleLowerCase()}?redirect-url=${redirectUrl}`;
+      const redirectUrl = import.meta.env.VITE_DEFAULT_URL;
+      authService.socialSignupOrLogin({ socialType, redirectUrl });
     }
   };
 

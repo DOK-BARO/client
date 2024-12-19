@@ -2,35 +2,37 @@
 @import "../../../styles/abstracts/mixins";
 // @import "../../../components/atom/input/input.module"; // 의심
 
-.container{
-	.full{
-		width: 100%;
-	}
-	&.full{
-		width: 100%;
+.container {
+	display: flex;
+
+	.full,
+	&.full {
+		flex: 1;
 	}
 }
-.textarea {
-  @include textarea-base;
 
-  &--error {
-    box-shadow: 0 0 0 2px $system-danger;
-  }
+.textarea {
+	@include textarea-base;
+
+	&--error {
+		box-shadow: 0 0 0 2px $system-danger;
+	}
 }
 
 .message-container {
-  margin-top: 12px;
+	margin-top: 12px;
 }
 
 .char-count {
-  color: $gray-60;
-  font-size: $font-size-small;
-  float: right;
+	color: $gray-60;
+	font-size: $font-size-small;
+	float: right;
 
-  em {
-    color: $gray-70;
-  }
-  &-max-length {
-    color: $gray-90;
-  }
+	em {
+		color: $gray-70;
+	}
+
+	&-max-length {
+		color: $gray-90;
+	}
 }

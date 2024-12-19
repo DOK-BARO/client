@@ -2,7 +2,7 @@
 @import "../../../styles/abstracts/variables";
 
 /* progress bar 시작 */
-.progress-bar{
+.progress-bar {
 	display: flex;
 	justify-content: space-between;
 	width: 100%;
@@ -14,11 +14,11 @@
 	width: 100%;
 }
 
-.step-container:last-child > .step-bar {
+.step-container:last-child>.step-bar {
 	display: none;
 }
 
-@mixin base-step{
+@mixin base-step {
 	@include flex(row, center);
 
 	width: 30px;
@@ -27,19 +27,29 @@
 	border-radius: 50%;
 }
 
-.current-step{
+.current-step {
 	@include base-step;
 	background-color: $secondary;
 	color: $primary;
 }
 
-.step{
+.step {
 	@include base-step;
 	background-color: $gray-00;
 	color: $gray-60;
 }
 
-.step-bar{
+.correct-step {
+	@include base-step;
+	background-color: $system-success;
+}
+
+.incorrect-step {
+	@include base-step;
+	background-color: $system-danger;
+}
+
+.step-bar {
 	position: absolute;
 	top: 15px;
 	left: 30px;
@@ -47,4 +57,5 @@
 	height: 2px;
 	background-color: $gray-20;
 }
+
 /* progress bar 끝 */

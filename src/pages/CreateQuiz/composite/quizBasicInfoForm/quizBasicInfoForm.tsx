@@ -5,18 +5,19 @@ import Textarea from "@/components/atom/textarea/textarea.tsx";
 import styles from "./_quiz_basic_info_form.module.scss";
 import useInput from "@/hooks/useInput.ts";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
-import { IsQuizNextButtonEnabledAtom } from "@/store/quizAtom";
+import { isQuizNextButtonEnabledAtom } from "@/store/quizAtom";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 
 function QuizBasicInfoForm() {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
   const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
-    IsQuizNextButtonEnabledAtom
+    isQuizNextButtonEnabledAtom
   );
 
-	const titleMaxLength = 127;
+  const titleMaxLength = 127;
   const descriptionMaxLength = 150;
+  const titlePlaceHolder: string = quizCreationInfo.book?.title ?? "퀴즈 제목";
   const { value: titleInputValue, onChange: onTitleChange } = useInput(
     quizCreationInfo.title ?? ""
   );
@@ -24,7 +25,7 @@ function QuizBasicInfoForm() {
     value: descriptionTextareaValue,
     onChange: onDescriptionChange,
     textareaRef,
-  } = useAutoResizeTextarea(quizCreationInfo.description ?? "","56px");
+  } = useAutoResizeTextarea(quizCreationInfo.description ?? "", "56px");
 
   useEffect(() => {
     const disable =
@@ -51,8 +52,8 @@ function QuizBasicInfoForm() {
         id="quiz-basic-info-title"
         value={titleInputValue}
         onChange={handleTitleChange}
-        placeholder="런닝스쿨! 자바스크립트 첫걸음"
-				maxLength={titleMaxLength}
+        placeholder={titlePlaceHolder}
+        maxLength={titleMaxLength}
         fullWidth
       />
       <div className={styles["quiz-basic-info-description"]}>
@@ -65,7 +66,7 @@ function QuizBasicInfoForm() {
           textAreaRef={textareaRef}
           className={styles["quiz-basic-info-description-text-area"]}
           maxLengthShow
-					fullWidth
+          fullWidth
         />
       </div>
     </div>

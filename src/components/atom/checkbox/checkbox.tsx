@@ -2,19 +2,24 @@ import styles from "./_checkbox.module.scss";
 import { Close } from "@/svg/close.tsx";
 import { gray90 } from "@/styles/abstracts/colors";
 import Textarea from "../textarea/textarea";
+import correctIcon from "/assets/svg/common/correct.svg";
+import inCorrectIcon from "/assets/svg/common/incorrect.svg";
 
-interface CheckBoxProps {
-	id: string;
-	checked: boolean;
-	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-	type?:
-	"checkbox-writing"
+export type CheckboxStatusType = "checkbox-writing"
 	| "checkbox-written"
 	| "checkbox-default"
 	| "checkbox-correct"
 	| "checkbox-incorrect"
 	| "checkbox-selected"
-	| "checkbox-add";
+	| "checkbox-add"
+	| "solving-correct"
+	| "solving-incorrect"
+	;
+interface CheckBoxProps {
+	id: string;
+	checked: boolean;
+	onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+	type?: CheckboxStatusType;
 	disabled?: boolean;
 	className?: string;
 	value: string;
@@ -37,8 +42,6 @@ export default function CheckBox({
 	disabled,
 }: CheckBoxProps) {
 	const optionMaxLength = 500;
-	const correctIconUrl = "/public/assets/svg/common/correct.svg";
-	const inCorrectIconUrl = "/public/assets/svg/common/incorrect.svg";
 
 	const containerClassName = `
 	${styles["option-container"]}
@@ -49,9 +52,9 @@ export default function CheckBox({
 	const icon = () => {
 		if (type) {
 			if (type === "checkbox-correct") {
-				return <img src={correctIconUrl} alt="정답인 선지입니다" />;
+				return <img src={correctIcon} alt="정답인 선지입니다" />;
 			} else if (type === "checkbox-incorrect") {
-				return <img src={inCorrectIconUrl} alt="오답인 선지입니다" />;
+				return <img src={inCorrectIcon} alt="오답인 선지입니다" />;
 
 			} else {
 				return null;;

@@ -1,0 +1,17 @@
+@import "../../../styles/abstracts/mixins";
+@import "../../../styles/abstracts/variables";
+
+.container {
+  @include flex(row);
+
+  &.medium {
+    gap: 9.57px;
+  }
+  &.small {
+    gap: 3.5px;
+  }
+
+  .non-button {
+    cursor: default;
+  }
+}

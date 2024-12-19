@@ -4,19 +4,43 @@ import styles from "./_send_temporary_password.module.scss";
 import useInput from "@/hooks/useInput";
 import { XSmall } from "@/svg/xSmall";
 import { systemDanger } from "@/styles/abstracts/colors";
-import { Dispatch } from "react";
+import { Dispatch, useEffect, useState } from "react";
 import { SetStateAction } from "jotai";
+import { authService } from "@/services/server/authService";
+import { useMutation } from "@tanstack/react-query";
+import { ErrorType } from "@/types/ErrorType";
 
 export default function SendTemporaryPassword({
   setStep,
 }: {
   setStep: Dispatch<SetStateAction<number>>;
 }) {
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setStep((prev) => prev + 1);
-  };
   const { value: email, onChange: onEmailChange } = useInput("");
+  const [isEmailReadyToSend, setIsEmailReadyToSend] = useState<boolean>(false);
+
+  const { mutate: issueTempPassword } = useMutation<void, ErrorType, string>({
+    mutationFn: () => authService.issueTempPassword(email),
+    onSuccess: () => {
+      setStep((prev) => prev + 1);
+    },
+    onError: () => {
+      // 전역 에러 토스트 안나게 하기 위함
+      // console.error(error)
+      setIsEmailReadyToSend(false);
+    },
+  });
+
+  useEffect(() => {
+    if (!isEmailReadyToSend) {
+      setIsEmailReadyToSend(true);
+    }
+  }, [email]);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    issueTempPassword(email);
+  };
+
   return (
     <section className={styles["send-temporary-password"]}>
       <h3>임시 비밀번호 발송</h3>
@@ -33,10 +57,12 @@ export default function SendTemporaryPassword({
           placeholder="이메일을 입력해주세요"
           isError
           message={
-            <span className={styles["message-container"]}>
-              <XSmall stroke={systemDanger} width={20} height={20} />
-              <p>회원 정보가 없습니다.</p>
-            </span>
+            !isEmailReadyToSend ? (
+              <span className={styles["message-container"]}>
+                <XSmall stroke={systemDanger} width={20} height={20} />
+                <p>회원 정보가 없습니다.</p>
+              </span>
+            ) : undefined
           }
         />
         <Button

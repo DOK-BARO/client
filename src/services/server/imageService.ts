@@ -1,5 +1,5 @@
 import { axiosInstance } from "@/config/axiosConfig";
-import { ImageTargetType } from "@/types/ImageTargetType";
+import { ImageTargetType } from "@/types/UploadImageType";
 
 // 이미지 업로드
 class ImageService {
@@ -21,7 +21,7 @@ class ImageService {
       console.log("data: %o", data);
       return data.url;
     } catch (error: unknown) {
-			throw new Error(`파일(이미지) 업로드 실패: ${error}`);
+      throw new Error(`파일(이미지) 업로드 실패: ${error}`);
     }
   };
 }

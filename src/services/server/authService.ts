@@ -1,97 +1,22 @@
-import axios, { AxiosError } from "axios";
-import { AuthResponse } from "../../types/AuthResponse.ts";
-import { SocialLoginType } from "../../types/SocialLoginType.ts";
-import localApi from "../local/LocalApi.ts";
+// import localApi from "../local/LocalApi.ts";
 import { TermsOfServiceType } from "@/types/TermsOfServiceType.ts";
-import { UserProfileType } from "@/types/UserType.ts";
+import { UserType } from "@/types/UserType.ts";
 import { axiosInstance } from "@/config/axiosConfig.ts";
+import { handleAxiosError } from "@/utils/errorHandler.ts";
+import { SocialLoginType } from "@/types/SocialLoginType.ts";
 
 class AuthService {
-  constructor(
-    private readonly redirectedUrl = import.meta.env.VITE_AUTH_REDIRECTED_URL
-  ) {
-    this.redirectedUrl = redirectedUrl;
-  }
-
-  //   fetchAuthUrl = async (socialLoginType: SocialLoginType): Promise<string> => {
-  //     try {
-  //       const { data } = await axiosInstance.get(
-  //         `/auth/oauth2/authorize/${socialLoginType}?redirectUrl=${
-  //           this.redirectedUrl
-  //         }/${socialLoginType.toLowerCase()}`
-  //       );
-  //       return data.url; // 임시 임의 리턴값
-  //     } catch (error) {
-  //       throw new Error(`권한 부여 URL 가져오기 실패: ${error}`);
-  //     }
-  //   };
-
-  //   // new: 소셜 회원가입 또는 로그인
-  //   socialSignupOrLogin = async (
-  //     socialType: SocialLoginType,
-  //     redirectUrl: string
-  //   ): Promise<AuthResponse> => {
-  //     const provider = socialType.toLocaleLowerCase();
-  //     console.log(provider, "socialSignup");
-  //     try {
-  //       const { data } = await axiosInstance.get(
-  //         `/auth/login/oauth2/${provider}`,
-  //         {
-  //           params: {
-  //             "redirect-url": redirectUrl,
-  //           },
-  //         }
-  //       );
-  //       return data;
-  //     } catch (error) {
-  //       throw new Error(`social auth error: ${error}`);
-  //     }
-  //   };
-
-  socialLogin = async (
-    socialType: SocialLoginType,
-    token: string
-  ): Promise<AuthResponse> => {
-    const postData = {
-      token,
-      redirectUrl: `${this.redirectedUrl}/${socialType.toLocaleLowerCase()}`,
-    };
-    console.log(postData.redirectUrl);
-    try {
-      const { data } = await axiosInstance.post(
-        `/auth/oauth2/login/${socialType}`,
-        postData
-      );
-      return data;
-    } catch (error) {
-      throw new Error(`Unexpected error: ${error}`);
-    }
-  };
-
   // 소셜 회원가입
-  socialSignup = async (
-    socialType: SocialLoginType,
-    token: string
-  ): Promise<AuthResponse> => {
-    try {
-      const postData = {
-        token,
-        redirectUrl: `${this.redirectedUrl}/${socialType.toLocaleLowerCase()}`,
-      };
-      const { data } = await axiosInstance.post(
-        `/auth/oauth2/signup/${socialType}`,
-        postData
-      );
-      return data; // 임시 임의 리턴값
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError;
-        if (axiosError.response?.status === 400) {
-          throw error;
-        }
-      }
-      throw new Error(`Unexpected error: ${error}`);
-    }
+  socialSignupOrLogin = ({
+    socialType,
+    redirectUrl,
+  }: {
+    socialType: SocialLoginType;
+    redirectUrl: string;
+  }): void => {
+    window.location.href = `${
+      import.meta.env.VITE_API_URL
+    }/auth/login/oauth2/${socialType.toLocaleLowerCase()}?redirect-url=${redirectUrl}`;
   };
 
   // 이메일 회원가입
@@ -100,40 +25,38 @@ class AuthService {
     nickname: string;
     password: string;
     profileImage?: string | null;
-  }) => {
+  }): Promise<void> => {
     try {
       console.log(userInfo);
       const response = await axiosInstance.post("/accounts/email", userInfo);
       console.log("이메일 회원가입 post 응답", response);
-      return response;
+      // TODO: return 타입 확인하기
     } catch (error) {
-      if (error instanceof Error) {
-        console.error("에러 메시지:", error.message);
-      } else {
-        console.error("알 수 없는 에러:", error);
-      }
+      handleAxiosError(error);
     }
   };
 
   // 이메일 로그인
-  emailLogin = async (loginInfo: { email: string; password: string }) => {
-    try {
-      const formData = new URLSearchParams();
+  emailLogin = async (loginInfo: {
+    email: string;
+    password: string;
+  }): Promise<void> => {
+    const formData = new URLSearchParams();
 
-      Object.entries(loginInfo).forEach(([key, value]) => {
-        formData.append(key, value);
-      });
-      console.log(loginInfo);
+    Object.entries(loginInfo).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+    console.log(loginInfo);
+    try {
       const response = await axiosInstance.post("/auth/login/email", formData, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
       });
-      console.log("이메일 로그인 post 응답", response);
-      return response;
+      console.log(response);
     } catch (error) {
-      throw new Error(`이메일 로그인 실패: ${error}`);
-      return false;
+      console.error("에러", error);
+      handleAxiosError(error);
     }
   };
 
@@ -141,42 +64,48 @@ class AuthService {
   updateUser = async (userInfo: {
     nickname: string;
     email: string;
-    profileImage?: string | null; // TODO: 필수인가?
-  }) => {
+    profileImage?: string | null;
+  }): Promise<void> => {
     try {
       const response = await axiosInstance.put("/members/login-user", userInfo);
       console.log(response);
     } catch (error) {
-      throw new Error(`로그인 유저 실패: ${error}`);
+      handleAxiosError(error);
     }
   };
 
   // 유저 정보 가져오기
-  fetchUser = async (): Promise<UserProfileType> => {
+  fetchUser = async (): Promise<UserType | null> => {
     try {
       const { data } = await axiosInstance.get("/members/login-user");
+      console.log("FETchUser", data);
       return data;
-    } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        throw new Error(`로그인 요청: ${error}`);
-      } else {
-        throw new Error(`Unexpected error: ${error}`);
-      }
-    }
-  };
-
-  getUserIfAuthenticated = async (): Promise<UserProfileType | null> => {
-    const certificationId = !!localApi.getUserCertificationId();
-
-    if (!certificationId) {
+    } catch (error) {
+      handleAxiosError(error);
       return null;
     }
-
-    return await this.fetchUser();
   };
 
-  logout = () => {
-    localApi.removeCertification();
+  // getUserIfAuthenticated = async (): Promise<UserProfileType | null> => {
+  //   const certificationId = !!localApi.getUserCertificationId();
+
+  //   if (!certificationId) {
+  //     return null;
+  //   }
+
+  //   return await this.fetchUser();
+  // };
+
+  // logout = () => {
+  //   localApi.removeCertification();
+  // };
+  logout = async (): Promise<void> => {
+    try {
+      const response = await axiosInstance.post("/auth/logout");
+      console.log(response);
+    } catch (error) {
+      handleAxiosError(error);
+    }
   };
 
   // 이용약관 조회
@@ -185,25 +114,26 @@ class AuthService {
       const { data } = await axiosInstance.get("/terms-of-services");
       return data;
     } catch (error) {
-      throw new Error(`이용약관 가져오기 실패: ${error}`);
+      handleAxiosError(error);
+      return null;
     }
   };
 
   // 이용약관 상세 내용 조회
-  fetchTermDetail = async (id: number): Promise<string | undefined> => {
+  fetchTermDetail = async (id: number): Promise<string | null> => {
     try {
       const { data } = await axiosInstance.get(
         `/terms-of-services/${id}/detail`
       );
       return data.value;
     } catch (error) {
-      console.error(error);
-      throw new Error(`이용약관 상세 내용 가져오기 실패: ${error}`);
+      handleAxiosError(error);
+      return null;
     }
   };
 
   // 이용약관 동의 요청
-  sendTermsAgreement = async (items: number[]) => {
+  sendTermsAgreement = async (items: number[]): Promise<void> => {
     console.log(items);
     try {
       const response = await axiosInstance.post("/terms-of-services/agree", {
@@ -211,34 +141,24 @@ class AuthService {
       });
       console.log(response);
     } catch (error) {
-      throw new Error(`이용약관 동의 실패: ${error}}`);
+      handleAxiosError(error);
     }
   };
 
   // 이메일로 인증코드 보내기
-  sendEmailCode = async (email: string) => {
+  sendEmailCode = async (email: string): Promise<void> => {
     try {
       const response = await axiosInstance.post("/email-authentications", {
         email: email,
       });
-      if (response.status === 201) {
-        console.log(response);
-      }
+      // 201
+      console.log(response);
     } catch (error) {
-      const err = error as AxiosError;
-      if (err.response) {
-        const data = err.response.data as { message: string };
-        // 400 -> 이미 가입된 이메일
-        // {
-        //   status: 400
-        // }
-        // console.log(data);
-        throw new Error(data.message);
-      }
+      handleAxiosError(error);
     }
   };
 
-  resendEmailCode = async (email: string) => {
+  resendEmailCode = async (email: string): Promise<void> => {
     try {
       const response = await axiosInstance.post(
         "/email-authentications/recreate",
@@ -246,15 +166,20 @@ class AuthService {
           email: email,
         }
       );
-      if (response.status === 204) {
-        console.log(response);
-      }
+      // 204
+      console.log(response);
     } catch (error) {
-      throw new Error(`이메일 인증코드 재전송 실패: ${error}`);
+      handleAxiosError(error);
     }
   };
 
-  matchEmailCode = async ({ email, code }: { email: string; code: string }) => {
+  matchEmailCode = async ({
+    email,
+    code,
+  }: {
+    email: string;
+    code: string;
+  }): Promise<{ result: boolean } | null> => {
     try {
       const { data } = await axiosInstance.post(
         "/email-authentications/match-code",
@@ -263,12 +188,27 @@ class AuthService {
           code: code,
         }
       );
-      // axios 타입으로 바꾸기
       return data;
     } catch (error) {
       // 인증코드가 일치하지 않을 경우
       // TODO: 상세한 에러 처리 필요
-      throw new Error(`인증코드 일치 실패: ${error}`);
+      handleAxiosError(error);
+      return null;
+    }
+  };
+
+  // 임시 비밀번호 발급
+  issueTempPassword = async (email: string): Promise<void> => {
+    try {
+      const response = await axiosInstance.post(
+        "/accounts/email/issue-temporary-password",
+        {
+          email: email,
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      handleAxiosError(error);
     }
   };
 }

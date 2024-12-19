@@ -1,0 +1,33 @@
+@import "../../../../styles/abstracts/mixins";
+@import "../../../../styles/abstracts/variables";
+
+.container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  .profile-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 4px;
+    background-color: $gray-30;
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.5;
+    flex: 1;
+    gap: 4px;
+
+    .name {
+      line-height: inherit;
+      font-weight: $font-weight-semibold;
+      font-size: $font-size-large;
+    }
+
+    .more-info {
+      margin-top: 20px;
+    }
+  }
+}

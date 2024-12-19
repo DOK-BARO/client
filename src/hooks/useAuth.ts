@@ -1,8 +1,7 @@
 import { authService } from "@/services/server/authService";
-import { UserType } from "@/types/UserType";
 import { useEffect } from "react";
 // import { useLocation, useNavigate } from "react-router-dom";
-
+// 현재 사용되지 않음
 // import {
 //   AUTH_ACTION,
 //   LOCAL_STORAGE_KEY,
@@ -22,7 +21,8 @@ export const useAuth = () => {
 
   // 로컬 스토리지에 토큰(certificationId) 저장
   const setUserInLocalStorage = async () => {
-    const user: UserType = await authService.fetchUser();
+    const user = await authService.fetchUser();
+    if (!user) return;
     localStorage.setItem("certificationId", user.certificationId);
   };
 

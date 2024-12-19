@@ -57,7 +57,7 @@
   line-height: 1.5em;
   font-family: inherit;
   overflow: hidden;
-	padding: 0px; // 기본 스타일 제거
+  padding: 0px; // 기본 스타일 제거
   &:focus {
     outline: none;
   }
@@ -133,7 +133,7 @@
   display: flex;
   align-items: center;
   background-color: $modal-backdrop-color;
-  z-index: 1; //위치지정 요소
+  z-index: 999; //위치지정 요소
   position: fixed;
   justify-content: center;
   top: 0;

@@ -15,7 +15,7 @@ export const useQuestionTemplate = (
   const getQuestion = (): QuizQuestionType =>
     (quizCreationInfo.questions?.find(
       (question) => question.id.toString() === questionFormId
-    ) as QuizQuestionType) ?? [];
+    ) as QuizQuestionType);
 
   const setInitialOptions = (
     questionFormType: AnswerType
@@ -28,7 +28,7 @@ export const useQuestionTemplate = (
         label: option.option,
       })) ?? [];
 
-    return questionFormType === "CHECK_BOX"
+    return questionFormType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER"
       ? (initialOptions as CheckBoxOption[])
       : (initialOptions as RadioOptionType[]);
   };
@@ -57,6 +57,7 @@ export const useQuestionTemplate = (
     if (options.length < BOOK_QUIZ_OPTION_MAX_LENGTH) {
       const id: number = Date.now();
       const value: string = (options.length + 1).toString();
+			const answerIndex: number = (options.length + 1);
 
       setOptions((prev) => [
         ...prev,
@@ -64,6 +65,7 @@ export const useQuestionTemplate = (
           id: id,
           value: value,
           label: "",
+					answerIndex: answerIndex,
         },
       ]);
 
@@ -73,7 +75,7 @@ export const useQuestionTemplate = (
             ...question,
             selectOptions: [
               ...question.selectOptions,
-              { id: id, option: "", value: value },
+              { id: id, option: "", value: value, answerIndex: answerIndex},
             ],
           };
         }

@@ -3,6 +3,8 @@ import styles from "./_radio_option.module.scss";
 import { RadioOptionType } from "@/types/RadioTypes";
 import { Close } from "@/svg/close.tsx";
 import { gray90 } from "@/styles/abstracts/colors";
+import correctIcon from "/assets/svg/common/correct.svg";
+import incorrectIcon from "/assets/svg/common/incorrect.svg";
 import Textarea from "@/components/atom/textarea/textarea.tsx";
 
 export type OptionStatusType = "option-writing" 
@@ -11,7 +13,10 @@ export type OptionStatusType = "option-writing"
 	| "option-correct" 
 	| "option-incorrect" 
 	| "option-selected" 
-	| "option-add" ;
+	| "option-add" 
+	| "solving-correct"
+	| "solving-incorrect"
+	;
 interface RadioOptionProps {
 	option: RadioOptionType;
 	type?: OptionStatusType
@@ -40,22 +45,21 @@ const RadioOption: React.FC<RadioOptionProps> = ({
 	fullWidth = false,
 }) => {
 	const optionMaxLength = 500;
-	const correctIconUrl = "/public/assets/svg/common/correct.svg";
-	const inCorrectIconUrl = "/public/assets/svg/common/incorrect.svg";
 
 	const containerClassName = `
 			${styles["option-container"]}
 			${fullWidth ? styles["full"] : ""}
 			${styles[type]}
 			`;
+			console.log(checked, " : ", containerClassName);
 
 
 	const icon = () => {
 		if (type) {
 			if (type === "option-correct") {
-				return <img src={correctIconUrl} alt="정답인 선지입니다" />;
+				return <img src={correctIcon} alt="정답인 선지입니다" />;
 			} else if (type === "option-incorrect") {
-				return <img src={inCorrectIconUrl} alt="오답인 선지입니다" />;
+				return <img src={incorrectIcon} alt="오답인 선지입니다" />;
 
 			} else {
 				return null;;

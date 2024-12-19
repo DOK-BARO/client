@@ -12,7 +12,7 @@ import {
 } from "@/styles/abstracts/colors.ts";
 import Button from "@/components/atom/button/button.tsx";
 import { RegisterInfoType } from "@/types/UserType";
-import { RegisterInfoAtom } from "@/store/userAtom";
+import { registerInfoAtom } from "@/store/userAtom";
 import { Check } from "@/svg/check";
 import { Invisible } from "@/svg/invisible";
 import { Visible } from "@/svg/visible";
@@ -32,7 +32,7 @@ export default function PasswordSet({
   const { value: passwordCheck, onChange: onPasswordCheckChange } =
     useInput("");
 
-  const [user, setUser] = useAtom<RegisterInfoType>(RegisterInfoAtom);
+  const [user, setUser] = useAtom<RegisterInfoType>(registerInfoAtom);
   const [subStep, setSubStep] = useState<number>(1);
   const [isPasswordVisible, setIsPasswordVisibleCheck] =
     useState<boolean>(false);

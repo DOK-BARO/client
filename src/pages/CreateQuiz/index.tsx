@@ -25,8 +25,8 @@ export default function Index() {
     {
       order: 0,
       icon: "👥",
-      title: "스터디 선택",
-      description: "퀴즈를 풀 스터디를 만들거나 선택해주세요.",
+      title: "스터디 그룹 선택",
+      description: "퀴즈를 풀 스터디 그룹을 만들거나 선택해주세요.",
       formComponent: () => <QuizSettingStudyGroupForm />,
       isDone: completionStatus.isStudyGroupSelected,
     },
@@ -45,7 +45,7 @@ export default function Index() {
       subSteps: [
         {
           order: 2.1,
-          title: "퀴즈 기본 정보 작성",
+          title: "퀴즈 기본 정보",
           description: "퀴즈 이름과 설명을 작성해주세요.",
           formComponent: () => <MemoizedQuizBasicInfoForm />,
         },
@@ -61,8 +61,8 @@ export default function Index() {
     {
       order: 3,
       icon: "🔗",
-      title: "공유 설정",
-      description: "퀴즈를 볼 수 있는 사람과 제한 시간을 설정해 주세요.",
+      title: "퀴즈 공유 설정",
+      description: "퀴즈를 볼 수 있는 사람과 편집 권한을 설정해 주세요.",
       formComponent: () => <QuizSettingsForm />,
       isDone: completionStatus.isSet,
     },
@@ -95,11 +95,12 @@ export default function Index() {
       {isModalOpen && (
         <Modal
           closeModal={closeModal}
-          popUpTitle={errorModalTitle}
-          closeButtonText="확인"
+          title={errorModalTitle}
+          bottomButtons={[
+            { text: "확인", color: "primary", handleClick: closeModal },
+          ]}
           showHeaderCloseButton={false}
-          className={styles["modal"]}
-          footerCloseButton
+          contents={[]}
         />
       )}
     </section>

@@ -2,12 +2,13 @@
 @import "../../../styles/abstracts/mixins";
 
 .container {
-  display: flex;
+	display: flex;
+	flex-direction: column;
 
-  .full,
-  &.full {
-    flex: 1;
-  }
+	.full,
+	&.full {
+		width: 100%;
+	}
 }
 
 .textarea {

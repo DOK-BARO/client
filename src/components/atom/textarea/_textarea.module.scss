@@ -3,10 +3,11 @@
 
 .container {
   display: flex;
+  flex-direction: column;
 
   .full,
   &.full {
-    flex: 1;
+    width: 100%;
   }
 }
 

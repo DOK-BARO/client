@@ -4,15 +4,16 @@ import { gray80 } from "@/styles/abstracts/colors";
 import Button, { ButtonColorProps } from "../button/button";
 import { XMedium } from "@/svg/xMedium";
 
-interface ModalContentProps {
+export interface ModalContentProps {
   title: string;
   content: JSX.Element;
 }
 
-interface BottomButtonProps {
+export interface BottomButtonProps {
   color: ButtonColorProps;
   text: string;
-  handleClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleClick: () => void;
+  disabled?: boolean;
 }
 
 interface ModalProps {
@@ -56,7 +57,7 @@ const Modal: React.FC<ModalProps> = ({
         </header>
         <main className={styles["modal-main"]}>
           {contents?.map((content, index) => (
-            <>
+            <React.Fragment key={content.title}>
               <div className={styles["content-container"]}>
                 {content.title !== "" ? (
                   <h5 className={styles["content-title"]}>{content.title}</h5>
@@ -66,7 +67,7 @@ const Modal: React.FC<ModalProps> = ({
                 </div>
               </div>
               {index < contents.length - 1 && <div className={styles.line} />}
-            </>
+            </React.Fragment>
           ))}
         </main>
 
@@ -78,6 +79,7 @@ const Modal: React.FC<ModalProps> = ({
                   color={button.color}
                   onClick={button.handleClick}
                   size="medium"
+                  disabled={button.disabled}
                 >
                   {button.text}
                 </Button>

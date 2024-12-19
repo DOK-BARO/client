@@ -4,7 +4,7 @@ import { gray80 } from "@/styles/abstracts/colors";
 import Button, { ButtonColorProps } from "../button/button";
 import { XMedium } from "@/svg/xMedium";
 
-interface ModalContentProps {
+export interface ModalContentProps {
   title: string;
   content: JSX.Element;
 }
@@ -12,7 +12,7 @@ interface ModalContentProps {
 export interface BottomButtonProps {
   color: ButtonColorProps;
   text: string;
-  handleClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleClick: () => void;
 }
 
 interface ModalProps {

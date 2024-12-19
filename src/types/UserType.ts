@@ -2,7 +2,7 @@ export interface UserBaseType {
   id: number;
   email: string;
   nickname: string;
-  profileImage?: string | undefined;
+  profileImage?: string | undefined | null;
 }
 export type UserRoleType = "USER" | "ADMIN";
 

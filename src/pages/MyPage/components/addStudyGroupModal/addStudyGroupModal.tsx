@@ -41,7 +41,7 @@ export default function AddStudyGroupModal({ closeModal }: Props) {
     useCodeInput();
   // 코드로 스터디 그룹 참여
   const [isJoinByCode, setIsJoinByCode] = useState<boolean>(false);
-  const [joinedStudyGroupName, setJoinedStudyGroupName] = useState<string>();
+  const [joinedStudyGroupName] = useState<string>();
 
   // 새롭게 생성된 스터디그룹 아이디
   const [newStudyGroupId, setNewStudyGroupId] = useState<number>();
@@ -138,33 +138,38 @@ export default function AddStudyGroupModal({ closeModal }: Props) {
       copyCode(buttonText);
     }
   };
-  const bottomButtons: BottomButtonProps[] = [
-    // 첫 번째 버튼: '코드로 참여하기' 또는 '스터디 새로 만들기'
-    !isStudyCreated
-      ? {
-          text: !isJoinByCode ? "코드로 참여하기" : "스터디 새로 만들기",
-          color: "primary-border" as ButtonColorProps,
-          handleClick: () => setIsJoinByCode((prev) => !prev),
-        }
-      : null,
-    // 두 번째 버튼: '완료'
-    {
-      text: !isInvitedByCode ? "완료" : "그룹 페이지 가기",
-      color: "primary" as ButtonColorProps,
-      handleClick: () => {
-        if (isJoinByCode) {
-          handleJoinStudyGroupByCode(); // 코드로 참여하는 경우
-        } else if (!isStudyCreated) {
-          handleCreateStudyGroup(); // 스터디 생성
-        } else if (isInvitedByCode) {
-          // 그룹 페이지 가기 (이동)
-          console.log("그룹 페이지 가기");
-        } else {
-          closeModal(); // 모달 닫기
-        }
+  // type ButtonBottomType =
+  const getBottomButtons = (): BottomButtonProps[] => {
+    const bottomButtons = [
+      !isStudyCreated
+        ? {
+            text: !isJoinByCode ? "코드로 참여하기" : "스터디 새로 만들기",
+            color: "primary-border" as ButtonColorProps,
+            handleClick: () => setIsJoinByCode((prev) => !prev),
+          }
+        : null,
+      {
+        text: !isInvitedByCode ? "완료" : "그룹 페이지 가기",
+        color: "primary" as ButtonColorProps,
+        handleClick: () => {
+          if (isJoinByCode) {
+            handleJoinStudyGroupByCode();
+          } else if (!isStudyCreated) {
+            handleCreateStudyGroup();
+          } else if (isInvitedByCode) {
+            console.log("그룹 페이지 가기");
+          } else {
+            closeModal();
+          }
+        },
       },
-    },
-  ].filter((button) => button !== null); // null 값을 제거
+    ];
+
+    // 타입 가드를 통해 null 제거
+    return bottomButtons.filter(
+      (button): button is BottomButtonProps => button !== null
+    );
+  };
 
   return (
     <Modal
@@ -265,7 +270,7 @@ export default function AddStudyGroupModal({ closeModal }: Props) {
                   },
             ]
       }
-      bottomButtons={bottomButtons}
+      bottomButtons={getBottomButtons()}
     />
   );
 }

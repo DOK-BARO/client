@@ -28,10 +28,12 @@ export default function AddStudyGroupModal({ closeModal }: Props) {
   // TODO: 이미지 업로드하기
   const defaultImagePath = "/public/assets/image/default-profile.png";
 
-  const [profileImage, setProfileImage] = useState<ProfileImageState>({
+  const defaultProfileState: ProfileImageState = {
     url: defaultImagePath,
     file: null,
-  });
+  };
+  const [profileImage, setProfileImage] =
+    useState<ProfileImageState>(defaultProfileState);
   const { handleCodeChange, handleKeyDown, codeList, combinedCode } =
     useCodeInput();
   // 코드로 스터디 그룹 참여
@@ -178,6 +180,8 @@ export default function AddStudyGroupModal({ closeModal }: Props) {
                       width={150}
                       profileImage={profileImage}
                       setProfileImage={setProfileImage}
+                      initialImageState={defaultProfileState}
+                      isDeletable
                     />
                   ),
                 },

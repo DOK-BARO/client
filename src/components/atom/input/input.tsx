@@ -21,6 +21,7 @@ interface InputProps {
   maxLength?: number;
   color?: "default" | "black" | "primary";
   fullWidth?: boolean;
+  maxLengthShow?: boolean;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -43,6 +44,7 @@ const Input: React.FC<InputProps> = ({
   maxLength,
   color,
   fullWidth = false,
+  maxLengthShow = false,
 }) => {
   const className = `${styles.input} ${styles[`input--${size}`]} ${
     isError ? styles["input--error"] : ""
@@ -90,7 +92,7 @@ const Input: React.FC<InputProps> = ({
           {message}
         </div>
       )}
-      {maxLength ? (
+      {maxLength && maxLengthShow ? (
         <span className={styles["char-count"]}>
           <b>{value?.length}</b>/{maxLength}
         </span>

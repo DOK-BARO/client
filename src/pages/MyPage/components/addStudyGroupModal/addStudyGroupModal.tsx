@@ -153,6 +153,11 @@ export default function AddStudyGroupModal({ closeModal }: Props) {
           }
         : null,
       {
+        disabled: !isInvitedByCode
+          ? !isJoinByCode
+            ? !name
+            : codeList.some((code) => code === "")
+          : true,
         text: !isInvitedByCode ? "완료" : "그룹 페이지 가기",
         color: "primary" as ButtonColorProps,
         handleClick: () => {
@@ -206,6 +211,7 @@ export default function AddStudyGroupModal({ closeModal }: Props) {
                       value={name}
                       onChange={onNameChange}
                       maxLength={20}
+                      maxLengthShow
                     />
                   ),
                 },

@@ -1,38 +1,52 @@
 @import "../../../styles/abstracts/variables";
 @import "../../../styles/abstracts/mixins";
-// @import "../../../components/atom/input/input.module"; // 의심
 
 .container {
-	display: flex;
+  display: flex;
 
-	.full,
-	&.full {
-		flex: 1;
-	}
+  .full,
+  &.full {
+    flex: 1;
+  }
 }
 
 .textarea {
-	@include textarea-base;
+  @include textarea-base;
+  @include input-base;
+  line-height: 1.5;
 
-	&--error {
-		box-shadow: 0 0 0 2px $system-danger;
-	}
+  &--error {
+    box-shadow: 0 0 0 2px $system-danger;
+  }
+
+  &--large {
+    font-size: $input-font-large;
+    padding: $textarea-padding-large;
+  }
+  &--medium {
+    font-size: $input-font-medium;
+    padding: $textarea-padding-medium;
+  }
+  &--small {
+    font-size: $input-font-small;
+    padding: $textarea-padding-small;
+  }
 }
 
 .message-container {
-	margin-top: 12px;
+  margin-top: 12px;
 }
 
 .char-count {
-	color: $gray-60;
-	font-size: $font-size-small;
-	float: right;
+  color: $gray-60;
+  font-size: $font-size-small;
+  float: right;
 
-	em {
-		color: $gray-70;
-	}
+  em {
+    color: $gray-70;
+  }
 
-	&-max-length {
-		color: $gray-90;
-	}
+  &-max-length {
+    color: $gray-90;
+  }
 }

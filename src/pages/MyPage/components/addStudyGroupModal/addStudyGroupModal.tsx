@@ -18,13 +18,16 @@ import Button, { ButtonColorProps } from "@/components/atom/button/button";
 import { studyGroupKeys } from "@/data/queryKeys";
 import { Copy } from "@/svg/copy";
 import { primary } from "@/styles/abstracts/colors";
+import Textarea from "@/components/atom/textarea/textarea";
+import useTextarea from "@/hooks/useTextarea";
 interface Props {
   closeModal: () => void;
 }
 
 export default function AddStudyGroupModal({ closeModal }: Props) {
   const { value: name, onChange: onNameChange } = useInput("");
-  const { value: introduction, onChange: onIntroductionChange } = useInput("");
+  const { value: introduction, onChange: onIntroductionChange } =
+    useTextarea("");
   // TODO: 이미지 업로드하기
   const defaultImagePath = "/public/assets/image/default-profile.png";
 
@@ -193,17 +196,21 @@ export default function AddStudyGroupModal({ closeModal }: Props) {
                       placeholder="스터디 그룹 이름을 입력해주세요."
                       value={name}
                       onChange={onNameChange}
+                      maxLength={20}
                     />
                   ),
                 },
                 {
                   title: "스터디 그룹 소개",
                   content: (
-                    <Input
+                    <Textarea
                       id="study-group-introduction"
                       placeholder="짧은 소개를 써주세요."
                       value={introduction}
                       onChange={onIntroductionChange}
+                      maxLength={50}
+                      className={styles["introduction"]}
+                      size="medium"
                     />
                   ),
                 },

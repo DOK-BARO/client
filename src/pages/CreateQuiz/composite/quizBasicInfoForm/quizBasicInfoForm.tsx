@@ -64,9 +64,10 @@ function QuizBasicInfoForm() {
           placeholder="퀴즈 설명"
           maxLength={descriptionMaxLength}
           textAreaRef={textareaRef}
-          className={styles["quiz-basic-info-description-text-area"]}
+          // className={styles["quiz-basic-info-description-text-area"]}
           maxLengthShow
           fullWidth
+          size="large"
         />
       </div>
     </div>

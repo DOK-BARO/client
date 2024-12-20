@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { BookType } from "./BookType";
-import { StudyGroupPreviewType } from "./StudyGroupType";
+import { StudyGroupType } from "./StudyGroupType";
 export interface QuizType {
   id: number;
   title: string;
@@ -14,8 +14,6 @@ export interface QuizType {
     profileUrl: string;
   };
 }
-
-
 
 export interface QuizExplanationType {
   id: number;
@@ -77,7 +75,7 @@ export interface QuizCreationType {
   book: BookType | null;
   viewScope: ViewScope | null;
   editScope: EditScope | null;
-  studyGroup: StudyGroupPreviewType | null | undefined; // undefined -> 스터디그룹 선택 안함
+  studyGroup: StudyGroupType | null | undefined; // undefined -> 스터디그룹 선택 안함
   questions: QuizQuestionType[] | null;
 }
 

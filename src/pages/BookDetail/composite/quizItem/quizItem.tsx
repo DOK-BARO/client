@@ -1,28 +1,16 @@
 import { Star } from "@mui/icons-material";
 import styles from "./_quiz_item.module.scss";
-import { DokPick } from "@/svg/dokPick";
 import { QuizLevelBarChart } from "@/svg/quizLevelBarChart";
 import Button from "@/components/atom/button/button";
-
-// 임시 Props 정의
+// import DifficultyLevelItem from "@/pages/QuizDetail/components/difficultyLevelItem/difficultyLevelItem";
 interface Props {
   quizLevel: string;
-  isDokPick: boolean;
 }
 
-export default function QuizItem({ quizLevel, isDokPick }: Props) {
-  const containerClassName = isDokPick ? "dokpick" : "basic";
-
+export default function QuizItem({ quizLevel }: Props) {
   return (
     <div className={styles["container"]}>
-      {isDokPick && (
-        <div className={styles["dokpick-tag"]}>
-          <DokPick width={24} height={24} />
-          <span>DOK Pick</span>
-        </div>
-      )}
-
-      <div className={styles[containerClassName]}>
+			<div className={styles["content"]}>
         <div className={styles["header"]}>
           <div className={styles["review"]}>
             <Star className={styles["review-icon"]} />
@@ -31,17 +19,15 @@ export default function QuizItem({ quizLevel, isDokPick }: Props) {
           </div>
 
           <div className={styles["quiz-level"]}>
-            {/*TODO : 레벨에 따라 아이콘 변경*/}
             <QuizLevelBarChart width={32} height={24} />
             <span>{quizLevel}</span>
           </div>
         </div>
-
-        <div className={styles["body"]}>
           <div className={styles["quiz-title"]}>퀴즈 01</div>
-          <div className={styles["quiz-tag"]}>10 문제</div>
-        </div>
-
+					<Button 
+					className={styles['quiz-tag']}
+					size="xsmall" color="secondary">10 문제</Button>
+				</div>
         <div className={styles["footer"]}>
           <div className={styles["study-group-info"]}>
             <img
@@ -51,11 +37,13 @@ export default function QuizItem({ quizLevel, isDokPick }: Props) {
             />
             <span>스터디원</span>
           </div>
-          <Button className={styles["take-quiz-button"]} onClick={() => {}}>
+          <Button 
+					size="small"
+					color="primary"
+					className={styles["take-quiz-button"]} onClick={() => {}}>
             풀기
           </Button>
         </div>
-      </div>
     </div>
   );
 }

@@ -89,6 +89,7 @@ const RadioOption: React.FC<RadioOptionProps> = ({
 							className={styles["option-label-textarea"]}
 							maxLength={optionMaxLength}
 							textAreaRef={textAreaRef}
+							type="option-label"
 							autoFocus
 							fullWidth
 						/>
@@ -112,6 +113,9 @@ const RadioOption: React.FC<RadioOptionProps> = ({
 				{
 					icon() &&
 					<div>{icon()}</div>
+				}
+				{	type === "option-written" &&
+					<div className={styles["empty-icon"]}></div>
 				}
 			</label>
 		</div>

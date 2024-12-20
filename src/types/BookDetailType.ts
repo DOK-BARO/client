@@ -11,7 +11,7 @@ export interface BookDetailType {
   authors: string[];
 }
 
-interface BookCategories {
+export interface BookCategories {
   id: string;
   name: string;
 }

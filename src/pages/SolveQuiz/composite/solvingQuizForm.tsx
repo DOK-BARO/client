@@ -199,7 +199,6 @@ export default function SolvingQuizForm({
 	}
 
 	const renderOXForm = (): JSX.Element => {
-		//TODO: 디자인 답변오면 구현 필요
 		const options: RadioOptionType[] = [{
 			id: 1,
 			value: "O",

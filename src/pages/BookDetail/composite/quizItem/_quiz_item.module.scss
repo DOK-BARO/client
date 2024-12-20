@@ -34,17 +34,23 @@ gap:24px;
 }
 
 .quiz-level {
-  font-size: $font-size-medium;
-  color: $gray-70;
+	display: flex;
+	gap: 8px;
+	justify-content: center;
+	align-items: center;
+
   span {
-    padding: 6px;
+    padding: 1px;
+		font-size: $font-size-medium;
+		color: $gray-70;
   }
 }
 
 .quiz-title {
-  font-size: $font-size-large;
+  font-size: $font-size-xlarge;
+	line-height: 150%;
   color: $gray-90;
-  font-weight: bold;
+  font-weight: $font-weight-bold;
 }
 
 .quiz-tag {
@@ -72,7 +78,9 @@ gap:24px;
 }
 
 .study-group-img {
-  border-radius: 100%;
+  border-radius: 50%;
+	width: 36px;
+	height: 36px;
 }
 
 .take-quiz-button {

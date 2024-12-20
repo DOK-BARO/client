@@ -1,11 +1,13 @@
 import { BooksFetchParams, SearchBooksParams } from "@/types/BookType";
 import { ReviewsFetchParams } from "@/types/ReviewType";
+import { FetchQuizzesParams } from "@/types/BookType";
 
 export const bookKeys = {
   detail: (id: string) => ["bookDetailContent", id] as const,
   categories: () => ["bookCategories"] as const,
   list: (param?: BooksFetchParams) => ["bookList", param] as const,
   search: (params?: SearchBooksParams) => ["bookSearch", params] as const,
+	quizList: (params: FetchQuizzesParams) => ["bookQuizList",params] as const,
 };
 
 export const studyGroupKeys = {

@@ -1,6 +1,9 @@
 import { BookDetailType } from "@/types/BookDetailType.ts";
 import styles from "./_book_detail_section.module.scss";
 import Button from "@/components/atom/button/button";
+import { useNavigate } from "react-router-dom";
+import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
+import { BookType } from "@/types/BookType";
 
 interface BookDetailContentProps {
   bookDetailContent: BookDetailType;
@@ -9,11 +12,24 @@ interface BookDetailContentProps {
 export default function BookDetailContent({
   bookDetailContent,
 }: BookDetailContentProps) {
+	const { updateQuizCreationInfo } = useUpdateQuizCreationInfo();
 
-	// const handleNavigateSolvingQuizPage = async(_:React.MouseEvent<HTMLButtonElement>) => {
-	// 	//TODO: 퀴즈 리스트 화면으로 가기??
-	// }
-
+	const navigate = useNavigate();
+	const goToMakeQuiz = () => {
+		//TODO: 리팩토링
+		const book :BookType = {
+			id: bookDetailContent.id,
+			isbn: bookDetailContent.isbn,
+			title: bookDetailContent.title,
+			publisher: bookDetailContent.publisher,
+			publishedAt: bookDetailContent.publishedAt,
+			imageUrl: bookDetailContent.imageUrl,
+			categories: bookDetailContent.categories,
+			authors: bookDetailContent.authors,
+		}
+		updateQuizCreationInfo("book", book);
+		navigate('/create-quiz');
+	}
   return (
     <section className={"container"}>
       <div className={styles["book-detail-section-container"]}>
@@ -61,7 +77,7 @@ export default function BookDetailContent({
           <div className={styles["button-container"]}>
             <Button
               className={styles["make-quiz-button"]}
-              onClick={() => {}}
+              onClick={goToMakeQuiz}
               size="medium"
 							color="primary"
             >퀴즈 만들기</Button>

@@ -82,6 +82,7 @@ export default function CheckBox({
 						className={styles["option-label-textarea"]}
 						maxLength={optionMaxLength}
 						textAreaRef={textAreaRef}
+						type={"option-label"}
 						autoFocus
 						fullWidth
 					/>
@@ -103,6 +104,9 @@ export default function CheckBox({
 				{
 					icon() &&
 					<div>{icon()}</div>
+				}
+					{	type === "checkbox-written" &&
+					<div className={styles["empty-icon"]}></div>
 				}
 			</label>
 		</div>

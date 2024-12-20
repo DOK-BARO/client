@@ -18,6 +18,7 @@ interface TextareaProps {
   autoFocus?: boolean;
   fullWidth?: boolean;
   size?: "large" | "medium" | "small";
+	type?: "option-label";
 }
 
 const Textarea: React.FC<TextareaProps> = ({
@@ -37,8 +38,10 @@ const Textarea: React.FC<TextareaProps> = ({
   autoFocus,
   fullWidth = false,
   size = "medium",
+	type = "",
 }) => {
-  const className = `${styles.textarea} ${styles[`textarea--${size}`]} ${
+	console.log(type);
+  const className = `${styles.textarea} ${styles[type]} ${styles[`textarea--${size}`]} ${
     isError ? styles["textarea--error"] : ""
   } ${customClassName}  ${fullWidth ? styles["full"] : ""}`;
 

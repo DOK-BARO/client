@@ -15,7 +15,7 @@ export default function BaseLayout() {
   // }
   const [, setCurrentUser] = useAtom(currentUserAtom);
   const [isLoggedIn] = useAtom(isLoggedInAtom);
-  const { pathname } = useLocation();
+  // const { pathname } = useLocation();
 
   // 전역에 사용자 정보 저장
   const setLoggedInUser = async () => {
@@ -25,7 +25,7 @@ export default function BaseLayout() {
 
   useEffect(() => {
     setLoggedInUser();
-  }, [pathname]);
+  }, []);
 
   return (
     <div className={styles["container"]}>

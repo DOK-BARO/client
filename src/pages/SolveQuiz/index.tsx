@@ -170,7 +170,7 @@ export default function Index() {
 						color="primary"
 						icon={<ArrowRight stroke={gray0} width={20} height={20} />}
 						className={styles["footer-btn"]}
-					>다음문제</Button>
+					>{currentStep === quiz!.questions.length ? "점수 보기" : "다음문제"}</Button>
 				</div>
 			}
 			{/* TODO: 책 상세 페이지에 들어갈 로직 (이 코드는 테스트용) */}

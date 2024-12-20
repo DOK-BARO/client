@@ -162,7 +162,7 @@ export default function Index() {
 						color="primary"
 						icon={<ArrowRight stroke={gray0} width={20} height={20} />}
 						className={styles["footer-btn"]}
-					>다음문제</Button>
+					>{currentStep === quiz!.questions.length ? "점수 보기" : "다음문제"}</Button>
 				</div>
 			}
 		</section>

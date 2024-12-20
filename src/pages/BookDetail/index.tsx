@@ -30,7 +30,7 @@ export default function Index() {
 			</div>
 			<div className={styles["book-detail-section"]}>
 				<BookDetailContent bookDetailContent={data} />
-				<QuizListSection />
+				<QuizListSection bookId={id ?? "0"}/>
 			</div>
 		</section>
 	);

@@ -42,3 +42,31 @@ export interface SearchBooksParams {
   lastId?: number;
   size?: number;
 }
+
+export interface FetchQuizzesParams {
+	page: string;
+	size: string;
+	bookId: string;
+	sort: string;
+	direction: string;
+}
+
+export interface BookQuizzesType {
+	endPageNumber: number;
+data: BookQuizzesDataType[];
+}
+
+export interface BookQuizzesDataType {
+	id: number;
+	title: string;
+	averageStarRating: number;
+	averageDifficultyLevel: number;
+	questionCount: number;
+	creator: QuizCreatorType;
+}
+
+export interface QuizCreatorType {
+	id: number;
+	nickname: string;
+	profileUrl: string;
+}

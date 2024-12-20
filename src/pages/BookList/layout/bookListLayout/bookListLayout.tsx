@@ -101,7 +101,7 @@ export default function BookListLayout() {
     {
       filter: {
         sort: "QUIZ_COUNT",
-        direction: "ASC",
+        direction: "DESC",
       },
       label: "퀴즈순",
     },

@@ -2,7 +2,7 @@ import { Star } from "@mui/icons-material";
 import styles from "./_quiz_item.module.scss";
 import { QuizLevelBarChart } from "@/svg/quizLevelBarChart";
 import Button from "@/components/atom/button/button";
-import DifficultyLevelItem from "@/pages/QuizDetail/components/difficultyLevelItem/difficultyLevelItem";
+// import DifficultyLevelItem from "@/pages/QuizDetail/components/difficultyLevelItem/difficultyLevelItem";
 interface Props {
   quizLevel: string;
 }

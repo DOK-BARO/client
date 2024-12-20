@@ -10,9 +10,9 @@ export default function BookDetailContent({
   bookDetailContent,
 }: BookDetailContentProps) {
 
-	const handleNavigateSolvingQuizPage = async(_:React.MouseEvent<HTMLButtonElement>) => {
-		//TODO: 퀴즈 리스트 화면으로 가기??
-	}
+	// const handleNavigateSolvingQuizPage = async(_:React.MouseEvent<HTMLButtonElement>) => {
+	// 	//TODO: 퀴즈 리스트 화면으로 가기??
+	// }
 
   return (
     <section className={"container"}>

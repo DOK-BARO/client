@@ -23,7 +23,7 @@ export default function Index() {
 	const warning = "/assets/svg/solvingQuizFormLayout/warning.svg";
 	const navigate = useNavigate();
 
-	const [solvingQuizId, setSolvingQuizIdAtom] = useAtom(solvingQuizIdAtom);
+	const [solvingQuizId] = useAtom(solvingQuizIdAtom);
 	const { data: quiz, isLoading: isQuizLoading, error } = useQuery({
 		queryKey: quizKeys.detail(quizId),
 		queryFn: () => quizService.fetchQuiz(quizId),
@@ -38,15 +38,7 @@ export default function Index() {
 	const [toggleAnswerDescription, setToggleAnswerDescription] = useState<boolean>(false);
 	const [isAnswerCorrects, setIsAnswerCorrects] = useState<boolean[]>([]);
 	const currentFormIndex:number = currentStep - 1;
-
-	//TODO: 퀴즈 풀러가기 버튼 핸들러 구현 지점에서 사용될 hook으로 만들어도 될듯
-	// navigate(`/quiz/${bookDetailContent.id}`);
-	const handleTestBtn = async () => {
-		// 퀴즈 풀기 시작시 넣어야 하는 로직
-		const { id } = await quizService.startSolvingQuiz(quizId.toString());
-		setSolvingQuizIdAtom(id);
-	}
-
+	
 	const handleQuestionSubmit = async (_: React.MouseEvent<HTMLButtonElement>) => {
 		setOptionDisabled(true);
 		const questionId: number = quiz?.questions[currentStep - 1].id ?? 0;
@@ -173,10 +165,6 @@ export default function Index() {
 					>{currentStep === quiz!.questions.length ? "점수 보기" : "다음문제"}</Button>
 				</div>
 			}
-			{/* TODO: 책 상세 페이지에 들어갈 로직 (이 코드는 테스트용) */}
-			<button
-				onClick={() => handleTestBtn()}
-			>퀴즈 풀기 시작 시 눌러야할 버튼</button>
 		</section>
 	);
 }

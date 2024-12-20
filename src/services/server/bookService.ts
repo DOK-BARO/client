@@ -2,6 +2,8 @@ import {
   BookType,
   BooksFetchParams,
   SearchBooksParams,
+	FetchQuizzesParams,
+	BookQuizzesType
 } from "../../types/BookType.ts";
 import { BookDetailType } from "../../types/BookDetailType.ts";
 import { BookCategory } from "../../types/GNBCategoryType.ts";
@@ -80,5 +82,21 @@ class BookService {
       handleAxiosError(error);
     }
   };
+
+	fetchBookQuizzes = async (params:FetchQuizzesParams):Promise<BookQuizzesType> => {
+		try{
+			const {
+				page,
+				size,
+				sort,
+				direction,
+				bookId,
+			} = params;
+			const { data } = await axiosInstance.get(`/book-quizzes?page=${page}&size=${size}&sort=${sort}&direction=${direction}&bookId=${bookId}`);
+			return data;
+		}catch(error){
+			throw new Error(`책 상세 퀴즈 리스트 조회 실패: ${error}`);
+		}
+	}
 }
 export const bookService = new BookService();

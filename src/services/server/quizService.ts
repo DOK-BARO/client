@@ -4,15 +4,12 @@ import { MyQuizType } from "@/types/QuizType";
 import { axiosInstance } from "@/config/axiosConfig";
 import { QuestionCheckedResult } from "@/types/QuizType";
 import { handleAxiosError } from "@/utils/errorHandler";
+import { FetchQuizzesParams } from "@/types/ParamsType";
 
 class QuizService {
-  fetchQuizzes = async (params: {
-    page?: number;
-    size?: number;
-    bookId: string;
-    sort?: "CREATED_AT" | "STAR_RATING";
-    direction?: "ASC" | "DESC";
-  }): Promise<{ data: QuizType[]; endPageNumber: number } | null> => {
+  fetchQuizzes = async (
+    params: FetchQuizzesParams
+  ): Promise<{ data: QuizType[]; endPageNumber: number } | null> => {
     try {
       const {
         page = 0,

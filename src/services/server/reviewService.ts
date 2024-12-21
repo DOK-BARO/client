@@ -1,15 +1,12 @@
 import { axiosInstance } from "@/config/axiosConfig";
-import {
-  ReviewsFetchParams,
-  ReviewsTotalScoreType,
-  ReviewType,
-} from "@/types/ReviewType";
+import { FetchReviewsParams } from "@/types/ParamsType";
+import { ReviewsTotalScoreType, ReviewType } from "@/types/ReviewType";
 import { handleAxiosError } from "@/utils/errorHandler";
 
 class ReviewService {
   // 퀴즈 요약 목록 조회
   fetchReviews = async (
-    params: ReviewsFetchParams
+    params: FetchReviewsParams
   ): Promise<{ endPageNumber: number; data: ReviewType[] } | null> => {
     const { page = 1, size = 10, quizId, sort, direction } = params;
     console.log(params);

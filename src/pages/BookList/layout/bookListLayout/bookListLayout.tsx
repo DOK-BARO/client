@@ -22,17 +22,38 @@ import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 import useFilter from "@/hooks/useBookFilter";
 import { BooksFilterType } from "@/types/FilterType";
 
+// TODO: 분리
+const filterOptions: FilterOptionType<BooksFilterType>[] = [
+  {
+    filter: {
+      sort: "TITLE",
+      direction: "ASC",
+    },
+    label: "가다나순",
+  },
+  {
+    filter: {
+      sort: "QUIZ_COUNT",
+      direction: "DESC",
+    },
+    label: "퀴즈순",
+  },
+];
+
 export default function BookListLayout() {
-  const [, setFilterCriteria] = useAtom(bookFilterAtom);
+  const { search } = useLocation();
+  const queryParams = new URLSearchParams(search);
+
+  // -FilterAtom에 저장된 필터 상태를 지정하는 함수 setFilterCriteria를 useFilter에 전달
+  const [filterCriteria, setFilterCriteria] = useAtom(bookFilterAtom);
   useFilter<BooksFilterType>(setFilterCriteria);
+  const { navigateWithParams } = useNavigateWithParams();
 
   // 책 카테고리 목록 가져오기
   const { data: categories, isLoading: isCategoriesLoading } = useQuery({
     queryKey: bookKeys.categories(),
     queryFn: bookService.fetchBookCategories,
   });
-  const { search } = useLocation();
-  const queryParams = new URLSearchParams(search);
 
   const [paginationState, setPaginationState] = useAtom(paginationAtom);
   const totalPagesLength = paginationState.totalPagesLength;
@@ -84,28 +105,9 @@ export default function BookListLayout() {
     ? findCurrentCategoryInfo(categories, Number(category))
     : null;
 
-  const { navigateWithParams } = useNavigateWithParams();
-  const [filterCriteria] = useAtom(bookFilterAtom);
-
   const handleOptionClick = (filter: BooksFilterType) => {
     navigateWithParams({ filter: filter, parentComponentType: "BOOKS" });
   };
-  const filterOptions: FilterOptionType<BooksFilterType>[] = [
-    {
-      filter: {
-        sort: "TITLE",
-        direction: "ASC",
-      },
-      label: "가다나순",
-    },
-    {
-      filter: {
-        sort: "QUIZ_COUNT",
-        direction: "DESC",
-      },
-      label: "퀴즈순",
-    },
-  ];
 
   return (
     <section className={styles.container}>

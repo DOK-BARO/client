@@ -20,9 +20,10 @@ import ListFilter, {
 import { bookFilterAtom } from "@/store/bookAtom";
 import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 import useFilter from "@/hooks/useBookFilter";
-import { BooksFilterType } from "@/types/FilterType";
+import { BooksFilterType, BooksSortType } from "@/types/FilterType";
+import { parseQueryParams } from "@/utils/parseQueryParams";
 
-// TODO: 분리
+// TODO: 외부 파일로 분리하기
 const filterOptions: FilterOptionType<BooksFilterType>[] = [
   {
     filter: {
@@ -43,6 +44,7 @@ const filterOptions: FilterOptionType<BooksFilterType>[] = [
 export default function BookListLayout() {
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
+  const [paginationState, setPaginationState] = useAtom(paginationAtom);
 
   // -FilterAtom에 저장된 필터 상태를 지정하는 함수 setFilterCriteria를 useFilter에 전달
   const [filterCriteria, setFilterCriteria] = useAtom(bookFilterAtom);
@@ -55,33 +57,28 @@ export default function BookListLayout() {
     queryFn: bookService.fetchBookCategories,
   });
 
-  const [paginationState, setPaginationState] = useAtom(paginationAtom);
-  const totalPagesLength = paginationState.totalPagesLength;
-
-  const category = queryParams.get("category");
-  const sort = queryParams.get("sort");
-  const direction = queryParams.get("direction");
-  const page = queryParams.get("page");
+  // URL로부터 queryParams 값 가져옴
+  const category = queryParams.get("category") || undefined; // 기본값: 없음 (모든 책 목록)
+  const sort = queryParams.get("sort") || "TITLE"; // 기본값: 가나다
+  const direction = queryParams.get("direction") || "ASC"; // 기본값: ASC
+  const page = queryParams.get("page") || undefined; // parseQueryParams함수 안에서 기본값 1로 설정
+  const size = 10; // 한번에 불러올 최대 길이: 책 목록에서는 10 고정값.
 
   // 책 목록 가져오기
   const { data: booksData, isLoading: isBooksLoading } = useQuery({
-    queryKey: bookKeys.list({
-      category: category ? Number(category) : undefined,
-      sort: sort ? (sort as BooksFilterType["sort"]) : undefined,
-      direction: direction ? (sort as BooksFilterType["direction"]) : undefined,
-      page: page ? Number(page) : undefined,
-      size: 10,
-    }),
+    queryKey: bookKeys.list(
+      parseQueryParams<BooksSortType>({
+        category,
+        sort,
+        direction,
+        page,
+        size,
+      })
+    ),
     queryFn: () =>
-      bookService.fetchBooks({
-        category: category ? Number(category) : undefined,
-        sort: sort ? (sort as BooksFilterType["sort"]) : undefined,
-        direction: direction
-          ? (direction as BooksFilterType["direction"])
-          : undefined,
-        page: page ? Number(page) : undefined,
-        size: 10,
-      }),
+      bookService.fetchBooks(
+        parseQueryParams({ category, sort, direction, page, size })
+      ),
   });
 
   const books = booksData?.data;
@@ -91,9 +88,14 @@ export default function BookListLayout() {
   useEffect(() => {
     setPaginationState({
       ...paginationState,
-      totalPagesLength: booksData?.endPageNumber,
+      totalPagesLength: endPageNumber,
     });
   }, [endPageNumber]);
+
+  // filterOptions 클릭 시
+  const handleOptionClick = (filter: BooksFilterType) => {
+    navigateWithParams({ filter: filter, parentComponentType: "BOOKS" });
+  };
 
   const topParentCategoryInfo = categories
     ? findTopParentCategoryInfo(categories, Number(category))
@@ -104,10 +106,6 @@ export default function BookListLayout() {
   const currentCategoryInfo = categories
     ? findCurrentCategoryInfo(categories, Number(category))
     : null;
-
-  const handleOptionClick = (filter: BooksFilterType) => {
-    navigateWithParams({ filter: filter, parentComponentType: "BOOKS" });
-  };
 
   return (
     <section className={styles.container}>
@@ -132,7 +130,7 @@ export default function BookListLayout() {
           />
         </div>
         {isBooksLoading || !booksData ? null : <Outlet context={{ books }} />}
-        {totalPagesLength ? <Pagination /> : null}
+        {paginationState.totalPagesLength ? <Pagination /> : null}
       </div>
     </section>
   );

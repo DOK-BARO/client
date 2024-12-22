@@ -1,13 +1,12 @@
 import { FilterType } from "@/types/FilterType";
 
-// T: ReviewsSortType | BooksSortType | StudyGroupsSortType
-// type SortType = ReviewsSortType | BooksSortType | StudyGroupsSortType;
 type ParseQueryParamsArgs = {
   category?: string;
   page?: string;
   size?: number;
   direction?: string;
   sort?: string;
+  quizId?: number;
 };
 
 export const parseQueryParams = <SortType>({
@@ -16,10 +15,7 @@ export const parseQueryParams = <SortType>({
   size,
   direction,
   sort,
-}: ParseQueryParamsArgs) => ({
-  category: category ? Number(category) : undefined,
-  page: page ? Number(page) : 1,
-  size: size ?? undefined,
-  direction: (direction as FilterType<SortType>["direction"]) ?? undefined,
-  sort: (sort as FilterType<SortType>["sort"]) ?? undefined,
-});
+  quizId,
+}: ParseQueryParamsArgs) => {
+  const params: { [key: string]: unknown } = {};
+ㅊ

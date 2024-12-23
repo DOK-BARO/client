@@ -8,7 +8,7 @@ import useModal from "@/hooks/useModal";
 import { useQuery } from "@tanstack/react-query";
 import { studyGroupService } from "@/services/server/studyGroupService";
 import { studyGroupKeys } from "@/data/queryKeys";
-import { StudyGroupsFilterType } from "@/types/FilterType";
+import { StudyGroupsFilterType, StudyGroupsSortType } from "@/types/FilterType";
 import { useLocation } from "react-router-dom";
 import { paginationAtom } from "@/store/paginationAtom";
 import { useAtom } from "jotai";
@@ -20,7 +20,24 @@ import ListFilter, {
 } from "@/components/composite/listFilter/listFilter";
 import { useEffect } from "react";
 import Pagination from "@/components/composite/pagination/pagination";
-
+import { parseQueryParams } from "@/utils/parseQueryParams";
+import { FetchStudyGroupsParams } from "@/types/ParamsType";
+const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
+  {
+    filter: {
+      sort: "CREATED_AT",
+      direction: "ASC",
+    },
+    label: "최신순",
+  },
+  {
+    filter: {
+      sort: "TITLE",
+      direction: "ASC",
+    },
+    label: "가나다순",
+  },
+];
 export default function MyStudy() {
   const { isModalOpen, openModal, closeModal } = useModal();
 
@@ -32,26 +49,24 @@ export default function MyStudy() {
   const [paginationState, setPaginationState] = useAtom(paginationAtom);
   const totalPagesLength = paginationState.totalPagesLength;
 
-  const sort = queryParams.get("sort");
-  const direction = queryParams.get("direction");
-  const page = queryParams.get("page");
+  const sort = queryParams.get("sort") || "CREATED_AT"; // 기본값: 가나다
+  const direction = queryParams.get("direction") || "ASC"; // 기본값: ASC
+  const page = queryParams.get("page") || undefined; // parseQueryParams함수 안에서 기본값 1로 설정
+  const size = 4; // 한번에 불러올 최대 길이: 책 목록에서는 10 고정값.
 
   const { data: myStudiesData } = useQuery({
-    queryKey: studyGroupKeys.list({
-      page: page ? Number(page) : undefined,
-      size: 10,
-      direction: direction
-        ? (direction as StudyGroupsFilterType["direction"])
-        : undefined,
-      sort: sort ? (sort as StudyGroupsFilterType["sort"]) : undefined,
-    }),
+    queryKey: studyGroupKeys.list(
+      parseQueryParams<StudyGroupsSortType, FetchStudyGroupsParams>({
+        sort,
+        direction,
+        page,
+        size,
+      })
+    ),
     queryFn: () =>
-      studyGroupService.fetchStudyGroups({
-        page: page ? Number(page) : undefined,
-        size: 10,
-        direction: direction as StudyGroupsFilterType["direction"],
-        sort: sort as StudyGroupsFilterType["sort"],
-      }),
+      studyGroupService.fetchStudyGroups(
+        parseQueryParams({ sort, direction, page, size })
+      ),
   });
 
   const myStudies = myStudiesData?.data;
@@ -73,22 +88,6 @@ export default function MyStudy() {
   const handleOptionClick = (filter: StudyGroupsFilterType) => {
     navigateWithParams({ filter: filter, parentComponentType: "MY" });
   };
-  const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
-    {
-      filter: {
-        sort: "CREATED_AT",
-        direction: "ASC",
-      },
-      label: "최신순",
-    },
-    {
-      filter: {
-        sort: "TITLE",
-        direction: "ASC",
-      },
-      label: "가나다순",
-    },
-  ];
 
   return (
     <section className={styles.container}>

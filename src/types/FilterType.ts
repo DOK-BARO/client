@@ -2,23 +2,17 @@
 type DirectionType = "ASC" | "DESC";
 
 // 책 정렬 기준
-type BooksSortType = "PUBLISHED_AT" | "TITLE" | "QUIZ_COUNT";
+export type BooksSortType = "PUBLISHED_AT" | "TITLE" | "QUIZ_COUNT";
 // 리뷰 정렬 기준 (최신순, 별점 높은 순, 별점 낮은 순)
-type ReviewsSortType = "CREATED_AT" | "STAR_RATING";
+export type ReviewsSortType = "CREATED_AT" | "STAR_RATING";
 // 스터디그룹 정렬 기준
-type StudyGroupsSortType = "CREATED_AT" | "TITLE";
-
-export interface BooksFilterType {
-  sort: BooksSortType;
+export type StudyGroupsSortType = "CREATED_AT" | "STAR_RATING";
+export interface FilterType<TSortType> {
+  sort: TSortType;
   direction: DirectionType;
 }
 
-export interface ReviewsFilterType {
-  sort: ReviewsSortType;
-  direction: DirectionType;
-}
-
-export interface StudyGroupsFilterType {
-  sort: StudyGroupsSortType;
-  direction: DirectionType;
-}
+export interface BooksFilterType extends FilterType<BooksSortType> {}
+export interface ReviewsFilterType extends FilterType<ReviewsSortType> {}
+export interface StudyGroupsFilterType
+  extends FilterType<StudyGroupsSortType> {}

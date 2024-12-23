@@ -26,7 +26,7 @@ class StudyGroupService {
   fetchStudyGroups = async (
     params: FetchStudyGroupsParams
   ): Promise<{ data: any[]; endPageNumber: number } | null> => {
-    const { page = 1, size = 10, sort, direction } = params;
+    const { page, size, sort, direction } = params;
     try {
       const { data } = await axiosInstance.get("/study-groups/my", {
         params: {

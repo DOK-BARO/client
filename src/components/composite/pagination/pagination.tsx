@@ -10,7 +10,7 @@ import { setQueryParam } from "@/utils/setQueryParam";
 import { useAtom } from "jotai";
 import { paginationAtom } from "@/store/paginationAtom";
 
-export default function Pagination() {
+export default function Pagination({path}:{path:string}) {
   const navigate = useNavigate();
   const [paginationState, setPaginationState] = useAtom(paginationAtom);
 
@@ -26,7 +26,7 @@ export default function Pagination() {
   useEffect(() => {
     const queryParams = setQueryParam("page", currentPage.toString());
     navigate({
-      pathname: "/books",
+      pathname: path,
       search: `?${queryParams.toString()}`,
     });
   }, [currentPage]);

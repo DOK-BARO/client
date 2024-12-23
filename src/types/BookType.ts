@@ -22,6 +22,12 @@ export interface BooksFilterType {
 export type BooksSortType = "PUBLISHED_AT" | "TITLE" | "QUIZ_COUNT";
 export type DirectionType = "ASC" | "DESC";
 
+export interface BookQuizzesFilterType {
+  sort: BookQuizzesSortType;
+  direction: DirectionType;
+}
+export type BookQuizzesSortType = "CREATED_AT" | "STAR_RATING"
+
 // TODO: Params 타입은 따로 파일 분리하거나, 타입 지정하지 않고 그냥 service 로직 안에서 선언하기
 // TODO: BooksFetchParams로 타입명 변경하기
 export interface BooksFetchParams {

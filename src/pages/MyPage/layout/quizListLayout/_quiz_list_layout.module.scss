@@ -74,26 +74,6 @@
       border-radius: 5px;
     }
   }
-
-  .no-data {
-    display: inline-flex;
-    flex-direction: column;
-    gap: 18px;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
-    padding: 40px 0;
-    border-radius: 8px;
-
-    p {
-      font-weight: $font-weight-medium;
-      font-size: 22px;
-    }
-
-    button {
-      width: 200px;
-    }
-  }
 }
 
 .list-header {

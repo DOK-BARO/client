@@ -6,6 +6,9 @@ import BookDetailContent from "./composite/bookDetailSection/bookDetailSection.t
 import QuizListSection from "./composite/quizListSection/quizListSection.tsx";
 import { bookService } from "@/services/server/bookService.ts";
 import Breadcrumb from "@/components/composite/breadcrumb/breadcrumb.tsx";
+import { useNavigate } from "react-router-dom";
+import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
+import { BookType } from "@/types/BookType";
 
 export default function Index() {
 	const { id } = useParams();
@@ -14,6 +17,25 @@ export default function Index() {
 		queryKey: bookKeys.detail(id!),
 		queryFn: () => bookService.fetchBook(id!),
 	});
+
+	const { updateQuizCreationInfo } = useUpdateQuizCreationInfo();
+
+	const navigate = useNavigate();
+	const handleGoToMakeQuiz = () => {
+		//TODO: 리팩토링
+		const book: BookType = {
+			id: data!.id,
+			isbn: data!.isbn,
+			title: data!.title,
+			publisher: data!.publisher,
+			publishedAt: data!.publishedAt,
+			imageUrl: data!.imageUrl,
+			categories: data!.categories,
+			authors: data!.authors,
+		}
+		updateQuizCreationInfo("book", book);
+		navigate('/create-quiz');
+	}
 
 	if (isLoading) {
 		return <div>loading</div>;
@@ -26,11 +48,11 @@ export default function Index() {
 	return (
 		<section className={styles.container}>
 			<div className={styles["bread-crumb"]}>
-			<Breadcrumb list={data.categories.map((e, index) => ({ id: index, name: e.name }))} />
+				<Breadcrumb list={data.categories.map((e, index) => ({ id: index, name: e.name }))} />
 			</div>
 			<div className={styles["book-detail-section"]}>
-				<BookDetailContent bookDetailContent={data} />
-				<QuizListSection bookId={id ?? "0"}/>
+				<BookDetailContent bookDetailContent={data} handleGoToMakeQuiz={handleGoToMakeQuiz} />
+				<QuizListSection bookId={id ?? "0"} handleGoToMakeQuiz={handleGoToMakeQuiz} />
 			</div>
 		</section>
 	);

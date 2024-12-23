@@ -130,7 +130,7 @@ export default function BookListLayout() {
           />
         </div>
         {isBooksLoading || !booksData ? null : <Outlet context={{ books }} />}
-        {totalPagesLength ? <Pagination /> : null}
+        {totalPagesLength ? <Pagination path={"/books"} /> : null}
       </div>
     </section>
   );

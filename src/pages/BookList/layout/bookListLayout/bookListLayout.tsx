@@ -22,6 +22,7 @@ import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 import useFilter from "@/hooks/useBookFilter";
 import { BooksFilterType, BooksSortType } from "@/types/FilterType";
 import { parseQueryParams } from "@/utils/parseQueryParams";
+import { FetchBooksParams } from "@/types/ParamsType";
 
 // TODO: 외부 파일로 분리하기
 const filterOptions: FilterOptionType<BooksFilterType>[] = [
@@ -67,7 +68,7 @@ export default function BookListLayout() {
   // 책 목록 가져오기
   const { data: booksData, isLoading: isBooksLoading } = useQuery({
     queryKey: bookKeys.list(
-      parseQueryParams<BooksSortType>({
+      parseQueryParams<BooksSortType, FetchBooksParams>({
         category,
         sort,
         direction,

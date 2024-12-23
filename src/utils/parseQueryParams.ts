@@ -9,41 +9,37 @@ type ParseQueryParamsArgs = {
   quizId?: number;
 };
 
-export const parseQueryParams = <SortType>({
+export const parseQueryParams = <SortType, ReturnParams>({
   category,
   page,
   size,
   direction,
   sort,
   quizId,
-}: ParseQueryParamsArgs) => {
-  const params: { [key: string]: unknown } = {};
+}: ParseQueryParamsArgs): ReturnParams => {
+  const params: Record<string, unknown> = {};
+
+  params["page"] = page ? Number(page) : 1; // 기본값 1 페이지
 
   if (category) {
-    params.category = Number(category); // category가 있을 경우에만 추가
-  }
-
-  if (page) {
-    params.page = Number(page);
-  } else {
-    params.page = 1; // 기본값 1
+    params["category"] = Number(category);
   }
 
   if (size) {
-    params.size = size;
+    params["size"] = size;
   }
 
   if (quizId !== undefined) {
-    params.quizId = quizId;
+    params["quizId"] = quizId;
   }
 
   if (direction) {
-    params.direction = direction as FilterType<SortType>["direction"];
+    params["direction"] = direction as FilterType<SortType>["direction"];
   }
 
   if (sort) {
-    params.sort = sort as FilterType<SortType>["sort"];
+    params["sort"] = sort as FilterType<SortType>["sort"];
   }
 
-  return params;
+  return params as unknown as ReturnParams;
 };

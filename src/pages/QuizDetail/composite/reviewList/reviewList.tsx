@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import styles from "./_review_list.module.scss";
 import { reviewKeys } from "@/data/queryKeys";
-import { ReviewType } from "@/types/ReviewType";
 import { reviewService } from "@/services/server/reviewService";
 import ReviewItem from "../../components/reviewItem/reviewItem";
 import ListFilter, {
@@ -15,6 +14,7 @@ import { currentUserAtom } from "@/store/userAtom";
 import { ReviewsFilterType, ReviewsSortType } from "@/types/FilterType";
 import { parseQueryParams } from "@/utils/parseQueryParams";
 import { useLocation } from "react-router-dom";
+import { FetchReviewsParams } from "@/types/ParamsType";
 
 // TODO: 분리하기
 const filterOptions: FilterOptionType<ReviewsFilterType>[] = [
@@ -70,7 +70,7 @@ export default function ReviewList({ quizId }: Props) {
 
   const { data: reviewsData } = useQuery({
     queryKey: reviewKeys.list(
-      parseQueryParams<ReviewsSortType>({
+      parseQueryParams<ReviewsSortType, FetchReviewsParams>({
         sort,
         direction,
         page,

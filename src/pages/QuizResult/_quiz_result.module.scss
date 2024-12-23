@@ -1,0 +1,29 @@
+@import "../../styles/abstracts/mixins";
+@import "../../styles/abstracts/variables";
+
+.container {
+	@include flex(column, center);
+	gap: 40px;
+	margin-top: 40px;
+}
+
+.title {
+	font-size: 32px;
+	font-weight: $font-weight-bold;
+	line-height: 150%;
+
+	span {
+		color: $primary;
+	}
+}
+
+.confetti {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%)
+}
+
+.sr-only {
+	@include sr-only;
+}

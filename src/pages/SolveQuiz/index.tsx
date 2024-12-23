@@ -41,7 +41,7 @@ export default function Index() {
 	
 	const handleQuestionSubmit = async (_: React.MouseEvent<HTMLButtonElement>) => {
 		setOptionDisabled(true);
-		const questionId: number = quiz?.questions[currentStep - 1].id ?? 0;
+		const questionId: number = quiz!.questions[currentStep - 1].id ;
 		const solvingQuizIdToString: string = solvingQuizId.toString();
 		const checkedResult: QuestionCheckedResult = await quizService.submitQuestion(solvingQuizIdToString, questionId, selectedOptions);
 		
@@ -62,7 +62,14 @@ export default function Index() {
 		const endStep = quiz!.questions.length;
 
 		if (endStep === currentStep) {
-			//TODO: 점수보기 페이지로 이동
+			navigate('/quiz/play/result',
+				{
+					replace: false,
+					state: {
+						solvingQuizId: solvingQuizId
+					},
+				}
+			);
 			return;
 		} else {
 			// 초기화 작업

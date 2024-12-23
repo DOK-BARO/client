@@ -24,6 +24,7 @@ import NotFound from "./pages/NotFound/index.tsx";
 import ToastPortal from "./components/layout/toastPortal/toastPortal.tsx";
 import { queryClient } from "./services/server/queryClient.ts";
 import CreateQuizComplete from "./pages/CreateQuiz/composite/createQuizComplete/createQuizComplete.tsx";
+import QuizResult from "./pages/QuizResult/index.tsx";
 
 function App() {
   // TODO: 분리하기
@@ -103,7 +104,16 @@ function App() {
         },
       ],
     },
-
+		{
+      path: "/quiz/play/result",
+      element: <NoHeaderLayout />,
+      children: [
+				{
+					path: "/quiz/play/result",
+					element: <QuizResult />
+				},
+      ],
+    },
     {
       path: "*",
       element: <NoHeaderLayout />,

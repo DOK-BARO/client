@@ -145,3 +145,11 @@ export interface QuizSettingType {
   options: QuizSettingOptionType[];
   icon: string; // path
 }
+
+export interface SolvingQuizGradeReuslt {
+	solvingQuizId: number;
+	quizId: number;
+	playerId: number;
+	questionCount: number;
+	correctCount: number;
+}

@@ -1,11 +1,10 @@
-import { BooksFilterType, DirectionType } from "@/types/BookType";
 import { useLocation } from "react-router-dom";
 import { SetStateAction, useEffect } from "react";
-import { ReviewsFilterType } from "@/types/ReviewType";
+import { BooksFilterType, ReviewsFilterType } from "@/types/FilterType";
 
 type FilterCriteria = {
   sort: BooksFilterType["sort"] | ReviewsFilterType["sort"];
-  direction: DirectionType;
+  direction: BooksFilterType["direction"] | ReviewsFilterType["direction"];
 };
 const useFilter = <T extends FilterCriteria>(
   setFilterCriteria: (value: SetStateAction<T>) => void

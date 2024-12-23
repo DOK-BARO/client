@@ -32,18 +32,18 @@ export default function QuizListSection({ bookId, handleGoToMakeQuiz }: {
 
 	const [paginationState, setPaginationState] = useAtom(paginationAtom);
 
-	const sort = queryParams.get("sort");
-	const direction = queryParams.get("direction");
-	const page = queryParams.get("page");
-	const pageSize = "6";
+  const sort = queryParams.get("sort");
+  const direction = queryParams.get("direction");
+  const page = queryParams.get("page");
+  const pageSize = "6";
 
-	const params: FetchQuizzesParams = {
-		page: page ?? "1",
-		bookId: bookId,
-		sort: sort ?? "CREATED_AT",
-		direction: direction ?? "DESC",
-		size: pageSize,
-	}
+  const params: FetchQuizzesParams = {
+    page: page ?? "1",
+    bookId: bookId,
+    sort: sort ?? "CREATED_AT",
+    direction: direction ?? "DESC",
+    size: pageSize,
+  };
 
 	const { data: quizzes, isLoading } = useQuery({
 		queryKey: bookKeys.quizList(params),

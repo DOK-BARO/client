@@ -19,8 +19,8 @@ import ListFilter, {
 } from "@/components/composite/listFilter/listFilter";
 import { bookFilterAtom } from "@/store/bookAtom";
 import useNavigateWithParams from "@/hooks/useNavigateWithParams";
-import { BooksFilterType } from "@/types/BookType";
 import useFilter from "@/hooks/useBookFilter";
+import { BooksFilterType } from "@/types/FilterType";
 
 export default function BookListLayout() {
   const [, setFilterCriteria] = useAtom(bookFilterAtom);

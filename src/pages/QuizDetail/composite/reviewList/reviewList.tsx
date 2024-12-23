@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import styles from "./_review_list.module.scss";
 import { reviewKeys } from "@/data/queryKeys";
-import { ReviewsFilterType, ReviewType } from "@/types/ReviewType";
+import { ReviewType } from "@/types/ReviewType";
 import { reviewService } from "@/services/server/reviewService";
 import ReviewItem from "../../components/reviewItem/reviewItem";
 import ListFilter, {
@@ -12,6 +12,7 @@ import { reviewFilterAtom } from "@/store/reviewAtom";
 import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 import useFilter from "@/hooks/useBookFilter";
 import { currentUserAtom } from "@/store/userAtom";
+import { ReviewsFilterType } from "@/types/FilterType";
 
 interface Props {
   quizId: number;
@@ -61,8 +62,8 @@ export default function ReviewList({ quizId }: Props) {
     sort,
     direction,
   }: {
-    sort: "CREATED_AT" | "STAR_RATING" | undefined;
-    direction: "ASC" | "DESC" | undefined;
+    sort: ReviewsFilterType["sort"] | undefined;
+    direction: ReviewsFilterType["direction"] | undefined;
   } = filterCriteria;
 
   const { data: reviewsData } = useQuery<{

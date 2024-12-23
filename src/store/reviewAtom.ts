@@ -1,4 +1,4 @@
-import { ReviewsFilterType } from "@/types/ReviewType";
+import { ReviewsFilterType } from "@/types/FilterType";
 import { atom } from "jotai";
 
 export const reviewFilterAtom = atom<ReviewsFilterType>({

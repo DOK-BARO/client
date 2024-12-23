@@ -58,21 +58,21 @@ export interface FetchQuizzesParams {
 }
 
 export interface BookQuizzesType {
-	endPageNumber: number;
-data: BookQuizzesDataType[];
+  endPageNumber: number;
+  data: BookQuizzesDataType[];
 }
 
 export interface BookQuizzesDataType {
-	id: number;
-	title: string;
-	averageStarRating: number;
-	averageDifficultyLevel: number;
-	questionCount: number;
-	creator: QuizCreatorType;
+  id: number;
+  title: string;
+  averageStarRating: number;
+  averageDifficultyLevel: number;
+  questionCount: number;
+  creator: QuizCreatorType;
 }
 
 export interface QuizCreatorType {
-	id: number;
-	nickname: string;
-	profileUrl: string;
+  id: number;
+  nickname: string;
+  profileUrl: string;
 }

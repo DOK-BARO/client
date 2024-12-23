@@ -1,7 +1,7 @@
 import { paginationAtom } from "@/store/paginationAtom";
-import { BookParamKeyType, BooksFilterType } from "@/types/BookType";
+import { BooksFilterType, ReviewsFilterType } from "@/types/FilterType";
 import { ParentComponentType } from "@/types/PaginationType";
-import { ReviewsFilterType } from "@/types/ReviewType";
+import { FetchBooksKeyType } from "@/types/ParamsType";
 import { useAtom } from "jotai";
 import { useNavigate } from "react-router-dom";
 
@@ -10,8 +10,8 @@ const useNavigateWithParams = () => {
   const [, setPaginationState] = useAtom(paginationAtom);
   // value: BooksFilterType | "string", // 값 filter/page
   // parentComponentType: ParentComponentType, // 페이지 타입
-  // includeParamName: BookParamKeyType[], // 포함할 파라미터
-  // excludeParams: BookParamKeyType[] // 삭제할 파라미터
+  // includeParamName: FetchBooksKeyType[], // 포함할 파라미터
+  // excludeParams: FetchBooksKeyType[] // 삭제할 파라미터
   const navigateWithParams = ({
     filter,
     page,
@@ -24,8 +24,8 @@ const useNavigateWithParams = () => {
     page?: number;
     category?: string;
     parentComponentType: ParentComponentType;
-    includeParamName?: BookParamKeyType[];
-    excludeParams?: BookParamKeyType[];
+    includeParamName?: FetchBooksKeyType[];
+    excludeParams?: FetchBooksKeyType[];
     itemId?: number;
   }) => {
     const queryParams = new URLSearchParams(window.location.search);

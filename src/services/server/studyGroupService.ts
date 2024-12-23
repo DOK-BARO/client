@@ -25,7 +25,7 @@ class StudyGroupService {
   // 내가 속한 스터디 그룹 조회
   fetchStudyGroups = async (
     params: FetchStudyGroupsParams
-  ): Promise<{ data: any[]; endPageNumber: number } | null> => {
+  ): Promise<{ data: StudyGroupType[]; endPageNumber: number } | null> => {
     const { page, size, sort, direction } = params;
     try {
       const { data } = await axiosInstance.get("/study-groups/my", {

@@ -5,18 +5,18 @@ import { FetchBooksKeyType } from "@/types/ParamsType";
 import { useAtom } from "jotai";
 import { useNavigate } from "react-router-dom";
 
+// 지정된 필터, 페이지, 카테고리 등의 파라미터를 URL에 반영하고
+// 필요 시 제외 파라미터를 처리하는 등
+// 페이지 이동과 상태 업데이트를 동시에 수행
 const useNavigateWithParams = () => {
   const navigate = useNavigate();
   const [, setPaginationState] = useAtom(paginationAtom);
-  // value: BooksFilterType | "string", // 값 filter/page
-  // parentComponentType: ParentComponentType, // 페이지 타입
-  // includeParamName: FetchBooksKeyType[], // 포함할 파라미터
-  // excludeParams: FetchBooksKeyType[] // 삭제할 파라미터
+
   const navigateWithParams = ({
     filter,
     page,
     category,
-    parentComponentType,
+    parentComponentType, // 현재 어떤 페이지에 있는지
     excludeParams = [],
     itemId = undefined,
   }: {

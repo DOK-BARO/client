@@ -17,7 +17,7 @@ export const parseQueryParams = <SortType>({
   sort,
   quizId,
 }: ParseQueryParamsArgs) => {
-  const params: { [key: string]: any } = {};
+  const params: { [key: string]: unknown } = {};
 
   if (category) {
     params.category = Number(category); // category가 있을 경우에만 추가

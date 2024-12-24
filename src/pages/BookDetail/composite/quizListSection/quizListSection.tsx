@@ -6,12 +6,12 @@ import { bookService } from "@/services/server/bookService.ts";
 import { useLocation } from "react-router-dom";
 import { FetchQuizzesParams } from "@/types/BookType.ts";
 import Pagination from "@/components/composite/pagination/pagination.tsx";
-import useNavigateWithParams from "@/hooks/useNavigateWithParams.ts";
 import { BookQuizzesFilterType } from "@/types/BookType.ts";
 import { FilterOptionType } from "@/components/composite/listFilter/listFilter.tsx";
 import { bookQuizzesFilterAtom } from "@/store/bookAtom.ts";
 import { useAtom } from "jotai";
-import useFilter from "@/hooks/useBookFilter.ts";
+import useFilter from "@/hooks/useFilter.ts";
+import useNavigateWithParams from "@/hooks/useNavigateWithParams.ts";
 import ListFilter from "@/components/composite/listFilter/listFilter.tsx";
 import { NoDataSection } from "@/components/composite/noDataSection/noDataSection.tsx";
 import { paginationAtom } from "@/store/paginationAtom.ts";
@@ -23,7 +23,7 @@ export default function QuizListSection({ bookId, handleGoToMakeQuiz }: {
 }) {
 	const { search } = useLocation();
 	const queryParams = new URLSearchParams(search);
-	const { navigateWithParams } = useNavigateWithParams();
+
 	const [filterCriteria, setFilterCriteria] = useAtom(bookQuizzesFilterAtom);
 	useFilter<BookQuizzesFilterType>(setFilterCriteria);
 	const titleWhenNoData = "아직 만들어진 퀴즈가 없어요 😔"
@@ -31,12 +31,13 @@ export default function QuizListSection({ bookId, handleGoToMakeQuiz }: {
 	const onClickBtnWhenNoData = handleGoToMakeQuiz;
 
 	const [paginationState, setPaginationState] = useAtom(paginationAtom);
+	const totalPagesLength = paginationState.totalPagesLength;
 
   const sort = queryParams.get("sort");
   const direction = queryParams.get("direction");
   const page = queryParams.get("page");
   const pageSize = "6";
-
+	
   const params: FetchQuizzesParams = {
     page: page ?? "1",
     bookId: bookId,
@@ -50,9 +51,22 @@ export default function QuizListSection({ bookId, handleGoToMakeQuiz }: {
 		queryFn: () => bookService.fetchBookQuizzes(params),
 	});
 
+	const endPageNumber = quizzes?.endPageNumber;
+	useEffect(() => {
+		if(endPageNumber){
+			setPaginationState({
+				...paginationState,
+				totalPagesLength: endPageNumber,
+			});
+		}
+	}, [endPageNumber]);
+
+	const { navigateWithParams } = useNavigateWithParams("BOOK/${bookId}");
+
 	const handleOptionClick = (filter: BookQuizzesFilterType) => {
 		navigateWithParams({
-			filter: filter, parentComponentType: "BOOK",
+			filter: filter,
+			parentComponentType: "BOOK/${bookId}",
 			itemId: parseInt(bookId),
 		});
 	}
@@ -73,14 +87,7 @@ export default function QuizListSection({ bookId, handleGoToMakeQuiz }: {
 		},
 	];
 
-	const endPageNumber = quizzes?.endPageNumber;
-	// 마지막 페이지 번호 저장
-	useEffect(() => {
-		setPaginationState({
-			...paginationState,
-			totalPagesLength: endPageNumber,
-		});
-	}, [endPageNumber]);
+
 
 	if (isLoading) {
 		return (<div>
@@ -109,9 +116,11 @@ export default function QuizListSection({ bookId, handleGoToMakeQuiz }: {
 					onClick={onClickBtnWhenNoData}
 				/>}
 			<div className={styles["list-container"]}>
-				{quizzes && quizzes?.data.map((quiz) => <QuizItem quiz={quiz} />)}
+				{quizzes && quizzes?.data.map((quiz) => <QuizItem 
+				key={quiz.id} quiz={quiz} />)}
 			</div>
-			<Pagination path={`/book/${bookId}`} />
+			{totalPagesLength && totalPagesLength>0 && (<Pagination 
+			parentComponent={`BOOK/${bookId}`} />)}
 		</section>
 	);
 }

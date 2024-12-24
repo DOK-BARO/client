@@ -32,6 +32,7 @@
 .difficulty-container {
 	@include flex(column, center);
 	gap: 16px;
+	@include fadeIn;
 }
 
 .button-area {
@@ -44,16 +45,20 @@
 		background-color: $primary;
 		color: $secondary;
 		border: 1.5px solid $primary;
+		transition: all .4s ease-in-out;
 	}
 }
 
 .sr-only {
 	@include sr-only;
 }
-.review-text-container{
-@include flex(column, center);
-gap:16px;
+
+.review-text-container {
+	@include flex(column, center);
+	gap: 16px;
+	@include fadeIn;
 }
-.review-textarea{
-width: 500px;
+
+.review-textarea {
+	width: 500px;
 }

@@ -31,22 +31,23 @@ export default function FiveStar({
 		}
 	}
 
-	const renderReviewTypeDescription = ():string => {
-		if(rating === 1){
+	const renderReviewTypeDescription = (): string | undefined => {
+		if (rating === 1) {
 			return "추천하지 않아요 😵";
-		}else if(rating === 2){
+		} else if (rating === 2) {
 			return "개선이 필요해요 ☹️";
-		}else if(rating === 3){
+		} else if (rating === 3) {
 			return "그저 그래요 🙂";
-		}else if(rating === 4){
+		} else if (rating === 4) {
 			return "추천해요 😄";
-		}else if(rating === 5){
+		} else if (rating === 5) {
 			return "매우 추천해요 😍";
-		}else {
-			return "";
+		} else {
+			return undefined;
 		}
-
 	}
+	const reviewDescription:string|undefined = renderReviewTypeDescription();
+	const starSelected:boolean = type === "review"  && !!reviewDescription;
 
 	const handleStarClick = (_: React.MouseEvent<HTMLButtonElement>, starValue: number) => {
 		setStarRating ? setStarRating(starValue ?? 0) : () => { };
@@ -54,6 +55,7 @@ export default function FiveStar({
 
 	return (
 		<span className={`${styles.container} ${styles[size]}`}>
+			<span className={`${styles["stars"]} ${styles[starSelected ? "slideIn" : ""]}`}>
 			{[...Array(5)].map((_, index) => {
 				const starValue = index + 1;
 				return (
@@ -61,7 +63,7 @@ export default function FiveStar({
 						iconOnly
 						key={starValue}
 						onClick={(e) => handleStarClick(e, starValue)}
-						className={`${!isButton ? styles["non-button"] : ""}`}
+						className={`${!isButton ? styles["non-button"] : styles["star-button"]}`}
 					>
 						{starValue <= rating ? (
 							<StarFilled
@@ -81,11 +83,12 @@ export default function FiveStar({
 					</Button>
 				);
 			})}
-			<div className={styles["review-type-description"]}>
-				{type === "review" && 
-					renderReviewTypeDescription()
-				}
-			</div>
+			</span>
+			{starSelected &&
+				<div className={styles["review-type-description"]}>
+					{reviewDescription}
+				</div>
+			}
 		</span>
 	);
 }

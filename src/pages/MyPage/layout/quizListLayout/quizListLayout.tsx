@@ -2,6 +2,7 @@ import { MyQuizType } from "@/types/QuizType";
 import Button from "@/components/atom/button/button";
 import styles from "./_quiz_list_layout.module.scss";
 import { Link } from "react-router-dom";
+import { NoDataSection } from "@/components/composite/noDataSection/noDataSection";
 
 export default function QuizListLayout({
   title,
@@ -20,7 +21,7 @@ export default function QuizListLayout({
     <section className={styles["list-section"]}>
       <ListHeader title={title} />
       {!quizzes?.length && (
-        <NoData
+        <NoDataSection
           title={titleWhenNoData}
           buttonName={buttonNameWhenNoData}
           onClick={onClickBtnWhenNoData}
@@ -71,25 +72,6 @@ export default function QuizListLayout({
     </section>
   );
 }
-
-const NoData = ({
-  title,
-  buttonName,
-  onClick,
-}: {
-  title: string;
-  buttonName: string;
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
-}) => {
-  return (
-    <div className={styles["no-data"]}>
-      <p>{title}</p>
-      <Button onClick={onClick} color="primary">
-        {buttonName}
-      </Button>
-    </div>
-  );
-};
 
 const ListHeader = ({ title }: { title: string }) => {
   return (

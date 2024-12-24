@@ -28,10 +28,12 @@ export default function Index() {
 
 	const [rating, setStarRating] = useState<number>(0);
 	const [difficultyLevel, setDifficultyLevel] = useState<DifficultyType>();
-	const showDifficultySection = rating !== 0;
-	const showReviewTextArea = difficultyLevel;
 	const { value, onChange, textareaRef } = useAutoResizeTextarea("", "51px");
 	const reviewMaxLength = 200;
+
+	const showDifficultySection = rating !== 0;
+	const showReviewTextArea = difficultyLevel;
+	const showSubmitButton:boolean = !!value?.length;
 
 	const handleClickSubmit = (_: React.MouseEvent<HTMLButtonElement>) => {
 		const review: CreateReviewParams = {
@@ -60,9 +62,9 @@ export default function Index() {
 	const handleDifficultyClick = (e: React.MouseEvent<HTMLButtonElement>) => {
 		const { id } = e.currentTarget;
 		const currentDifficulty: DifficultyType = difficultys.find(({ difficultyValue }) => (difficultyValue.toString() === id))!;
-		// TODO: !제거 시 에러확인 필요
 		setDifficultyLevel(currentDifficulty);
 	}
+	
 	return (
 		<section className={styles["container"]}>
 			<h2 className={styles["sr-only"]}>퀴즈 후기 남기기</h2>
@@ -122,11 +124,14 @@ export default function Index() {
 					/>
 				</section>
 			}
-			<Button
-				size="medium"
-				color="primary"
-				onClick={handleClickSubmit}
-			>완료</Button>
+			{
+				showSubmitButton &&
+				<Button
+					size="medium"
+					color="primary"
+					onClick={handleClickSubmit}
+				>완료</Button>
+				}
 
 		</section>
 	);

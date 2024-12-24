@@ -120,7 +120,10 @@ export default function BookListLayout() {
         </h2>
         <div className={styles["breadcrumb-filter-container"]}>
           {currentCategoryInfo ? (
-            <Breadcrumb list={[parentCategoryInfo, currentCategoryInfo]} />
+            <Breadcrumb
+              parentComponent="BOOKS"
+              list={[parentCategoryInfo, currentCategoryInfo]}
+            />
           ) : (
             <span />
           )}

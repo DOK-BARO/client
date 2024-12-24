@@ -11,8 +11,8 @@ export type StudyGroupType = Pick<
   StudyGroupDetailType,
   "id" | "name" | "profileImageUrl"
 > & {
-  studyMemberCount: number;
-  leader: {
+  studyMemberCount?: number;
+  leader?: {
     id: number;
     nickname: string;
   };

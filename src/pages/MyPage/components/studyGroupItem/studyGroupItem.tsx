@@ -28,7 +28,7 @@ export default function StudyGroupItem({ studyGroup }: Prop) {
         </span>
         <span className={styles["icon-text-label"]}>
           <img src={leader} width={16} height={16} />
-          <p>{studyGroup.leader.nickname}</p>
+          <p>{studyGroup.leader?.nickname}</p>
         </span>
         <Button
           fullWidth

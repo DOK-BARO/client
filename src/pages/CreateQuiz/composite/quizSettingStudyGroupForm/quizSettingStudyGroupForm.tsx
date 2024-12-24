@@ -28,10 +28,22 @@ export default function QuizSettingStudyGroupForm() {
 
   const [studyGroupList, setStudyGroupList] = useState<StudyGroupType[]>([]);
 
-  const { data: studyGroups, isLoading: isStudyGroupsLoading } = useQuery({
-    queryKey: studyGroupKeys.list(),
-    queryFn: () => studyGroupService.fetchStudyGroups(),
+  const { data: studyGroupsData, isLoading: isStudyGroupsLoading } = useQuery({
+    queryKey: studyGroupKeys.list({
+      page: 1,
+      size: 10,
+      sort: "CREATED_AT",
+      direction: "ASC",
+    }),
+    queryFn: () =>
+      studyGroupService.fetchStudyGroups({
+        page: 1,
+        size: 10,
+        sort: "CREATED_AT",
+        direction: "ASC",
+      }),
   });
+  const studyGroups = studyGroupsData?.data;
   // 초기화
   useEffect(() => {
     if (!isStudyGroupsLoading && studyGroups) {
@@ -40,10 +52,9 @@ export default function QuizSettingStudyGroupForm() {
   }, [studyGroups]);
 
   // 새롭게 추가된 스터디 그룹 이름
-  const [newStudyGroup, setNewStudyGroup] = useState<{
-    name: string;
-    id: number;
-  } | null>(null);
+  const [newStudyGroup, setNewStudyGroup] = useState<StudyGroupType | null>(
+    null
+  );
 
   const [isNewStudyGroupAdded, setNewStudyGroupAdded] =
     useState<boolean>(false);
@@ -87,6 +98,7 @@ export default function QuizSettingStudyGroupForm() {
       setNewStudyGroup({
         name: newStudy.name,
         id: data.id,
+        profileImageUrl: undefined,
       });
     },
   });

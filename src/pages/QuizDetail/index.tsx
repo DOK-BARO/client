@@ -53,7 +53,7 @@ export default function Index() {
 
   return (
     <section className={styles.container}>
-      <Breadcrumb list={list} />
+      <Breadcrumb parentComponent="QUIZ" list={list} />
       <div className={styles["row-container"]}>
         <QuizLinkItem quizExplanation={explanation} />
         <div className={styles["quiz-detail-container"]}>

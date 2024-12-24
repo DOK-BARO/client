@@ -11,49 +11,61 @@ import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { BookType } from "@/types/BookType";
 
 export default function Index() {
-	const { id } = useParams();
+  const { id } = useParams();
 
-	const { data, isLoading } = useQuery({
-		queryKey: bookKeys.detail(id!),
-		queryFn: () => bookService.fetchBook(id!),
-	});
+  const { data, isLoading } = useQuery({
+    queryKey: bookKeys.detail(id!),
+    queryFn: () => bookService.fetchBook(id!),
+  });
 
-	const { updateQuizCreationInfo } = useUpdateQuizCreationInfo();
+  const { updateQuizCreationInfo } = useUpdateQuizCreationInfo();
 
-	const navigate = useNavigate();
-	const handleGoToMakeQuiz = () => {
-		//TODO: 리팩토링
-		const book: BookType = {
-			id: data!.id,
-			isbn: data!.isbn,
-			title: data!.title,
-			publisher: data!.publisher,
-			publishedAt: data!.publishedAt,
-			imageUrl: data!.imageUrl,
-			categories: data!.categories,
-			authors: data!.authors,
-		}
-		updateQuizCreationInfo("book", book);
-		navigate('/create-quiz');
-	}
+  const navigate = useNavigate();
+  const handleGoToMakeQuiz = () => {
+    //TODO: 리팩토링
+    const book: BookType = {
+      id: data!.id,
+      isbn: data!.isbn,
+      title: data!.title,
+      publisher: data!.publisher,
+      publishedAt: data!.publishedAt,
+      imageUrl: data!.imageUrl,
+      categories: data!.categories,
+      authors: data!.authors,
+    };
+    updateQuizCreationInfo("book", book);
+    navigate("/create-quiz");
+  };
 
-	if (isLoading) {
-		return <div>loading</div>;
-	}
+  if (isLoading) {
+    return <div>loading</div>;
+  }
 
-	if (!data) {
-		return <div>book detail page error!!</div>;
-	}
+  if (!data) {
+    return <div>book detail page error!!</div>;
+  }
 
-	return (
-		<section className={styles.container}>
-			<div className={styles["bread-crumb"]}>
-				<Breadcrumb list={data.categories.map((e, index) => ({ id: index, name: e.name }))} />
-			</div>
-			<div className={styles["book-detail-section"]}>
-				<BookDetailContent bookDetailContent={data} handleGoToMakeQuiz={handleGoToMakeQuiz} />
-				<QuizListSection bookId={id ?? "0"} handleGoToMakeQuiz={handleGoToMakeQuiz} />
-			</div>
-		</section>
-	);
+  return (
+    <section className={styles.container}>
+      <div className={styles["bread-crumb"]}>
+        <Breadcrumb
+          parentComponent="BOOKS"
+          list={data.categories.map((e, index) => ({
+            id: index,
+            name: e.name,
+          }))}
+        />
+      </div>
+      <div className={styles["book-detail-section"]}>
+        <BookDetailContent
+          bookDetailContent={data}
+          handleGoToMakeQuiz={handleGoToMakeQuiz}
+        />
+        <QuizListSection
+          bookId={id ?? "0"}
+          handleGoToMakeQuiz={handleGoToMakeQuiz}
+        />
+      </div>
+    </section>
+  );
 }

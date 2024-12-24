@@ -19,7 +19,7 @@ import ListFilter, {
 } from "@/components/composite/listFilter/listFilter";
 import { bookFilterAtom } from "@/store/bookAtom";
 import useNavigateWithParams from "@/hooks/useNavigateWithParams";
-import useFilter from "@/hooks/useBookFilter";
+import useFilter from "@/hooks/useFilter";
 import { BooksFilterType, BooksSortType } from "@/types/FilterType";
 import { parseQueryParams } from "@/utils/parseQueryParams";
 import { FetchBooksParams } from "@/types/ParamsType";
@@ -50,7 +50,7 @@ export default function BookListLayout() {
   // -FilterAtom에 저장된 필터 상태를 지정하는 함수 setFilterCriteria를 useFilter에 전달
   const [filterCriteria, setFilterCriteria] = useAtom(bookFilterAtom);
   useFilter<BooksFilterType>(setFilterCriteria);
-  const { navigateWithParams } = useNavigateWithParams();
+  const { navigateWithParams } = useNavigateWithParams("BOOKS");
 
   // 책 카테고리 목록 가져오기
   const { data: categories, isLoading: isCategoriesLoading } = useQuery({

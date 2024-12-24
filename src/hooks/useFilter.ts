@@ -24,7 +24,6 @@ const useFilter = <T extends FilterCriteria>(
 
   // URL의 쿼리 파라미터와 동기화
   useEffect(() => {
-    console.log("URL의 쿼리 파라미터와 동기화");
     const queryParams = new URLSearchParams(search);
     const sort = queryParams.get("sort");
     const direction = queryParams.get("direction");

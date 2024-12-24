@@ -3,14 +3,26 @@ import { BooksFilterType, ReviewsFilterType } from "@/types/FilterType";
 import { ParentComponentType } from "@/types/PaginationType";
 import { FetchBooksKeyType } from "@/types/ParamsType";
 import { useAtom } from "jotai";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 // 지정된 필터, 페이지, 카테고리 등의 파라미터를 URL에 반영하고
 // 필요 시 제외 파라미터를 처리하는 등
 // 페이지 이동과 상태 업데이트를 동시에 수행
-const useNavigateWithParams = () => {
+
+const useNavigateWithParams = (parentComponent: ParentComponentType) => {
   const navigate = useNavigate();
   const [, setPaginationState] = useAtom(paginationAtom);
+  useEffect(() => {
+    // Pagination 상태 초기화
+    setPaginationState((prev) => ({
+      ...prev,
+      currentPage: 1,
+      pagePosition: "START",
+      middlePages: [],
+      isMiddlePagesUpdated: false,
+    }));
+  }, [parentComponent]);
 
   const navigateWithParams = ({
     filter,

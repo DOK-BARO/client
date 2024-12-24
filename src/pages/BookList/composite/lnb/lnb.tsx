@@ -17,7 +17,7 @@ export default function LNB({
   categoryId?: number;
 }) {
   const navigate = useNavigate();
-  const { navigateWithParams } = useNavigateWithParams();
+  const { navigateWithParams } = useNavigateWithParams("BOOKS");
 
   if (!categories) {
     return <div>book categories page error!!</div>;

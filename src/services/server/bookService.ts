@@ -38,7 +38,6 @@ class BookService {
           direction,
         },
       });
-      console.log("책 목록!!", response);
       return response.data;
     } catch (error) {
       handleAxiosError(error);

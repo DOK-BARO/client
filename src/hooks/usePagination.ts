@@ -66,14 +66,15 @@ const usePagination = ({
   };
 
   const handlePageClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const value = e.currentTarget.value;
+    const { value } = e.currentTarget;
 
     if (value === "before") {
       if (currentPage === 1) {
         return;
       }
       if (
-        currentPage > middlePages[0]
+        currentPage > middlePages[0] ||
+        currentPage === 2
         // 범위 안에 있다면
       ) {
         setPageState(currentPage - 1, "BETWEEN");
@@ -85,7 +86,8 @@ const usePagination = ({
         return;
       }
       if (
-        currentPage < middlePages[middlePages.length - 1]
+        currentPage < middlePages[middlePages.length - 1] ||
+        currentPage === totalPagesLength - 1
         // 범위 안에 있다면
       ) {
         setPageState(currentPage + 1, "BETWEEN");

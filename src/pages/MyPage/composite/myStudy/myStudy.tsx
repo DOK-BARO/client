@@ -13,7 +13,7 @@ import { useLocation } from "react-router-dom";
 import { paginationAtom } from "@/store/paginationAtom";
 import { useAtom } from "jotai";
 import { studyGroupFilterAtom } from "@/store/studyGroupAtom";
-import useFilter from "@/hooks/useBookFilter";
+import useFilter from "@/hooks/useFilter";
 import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 import ListFilter, {
   FilterOptionType,
@@ -81,7 +81,7 @@ export default function MyStudy() {
     });
   }, [endPageNumber]);
 
-  const { navigateWithParams } = useNavigateWithParams();
+  const { navigateWithParams } = useNavigateWithParams("MY");
   const [filterCriteria] = useAtom(studyGroupFilterAtom);
 
   const handleOptionClick = (filter: StudyGroupsFilterType) => {

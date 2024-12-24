@@ -9,7 +9,7 @@ import ListFilter, {
 import { useAtom } from "jotai";
 import { reviewFilterAtom } from "@/store/reviewAtom";
 import useNavigateWithParams from "@/hooks/useNavigateWithParams";
-import useFilter from "@/hooks/useBookFilter";
+import useFilter from "@/hooks/useFilter";
 import { currentUserAtom } from "@/store/userAtom";
 import { ReviewsFilterType, ReviewsSortType } from "@/types/FilterType";
 import { parseQueryParams } from "@/utils/parseQueryParams";
@@ -45,7 +45,7 @@ interface Props {
 }
 
 export default function ReviewList({ quizId }: Props) {
-  const { navigateWithParams } = useNavigateWithParams();
+  const { navigateWithParams } = useNavigateWithParams("QUIZ");
   const [, setFilterCriteria] = useAtom(reviewFilterAtom);
   useFilter<ReviewsFilterType>(setFilterCriteria);
   const [currentUser] = useAtom(currentUserAtom);
@@ -115,6 +115,7 @@ export default function ReviewList({ quizId }: Props) {
           />
         ))}
       </ul>
+      {/* TODO: 무한 스크롤 */}
     </section>
   );
 }

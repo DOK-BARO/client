@@ -8,6 +8,7 @@ export const StarFilled: React.FC<SVGProps> = ({ alt, ...props }) => {
       viewBox="0 0 31 30"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+			strokeWidth={props.strokeWidth}
     >
       <title id="svgTitle">{alt}</title>
 

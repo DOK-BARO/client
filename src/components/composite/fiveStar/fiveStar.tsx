@@ -5,44 +5,87 @@ import { StarFilled } from "@/svg/starFilled";
 import { StarEmpty } from "@/svg/starEmpty";
 
 interface Props {
-  size: "medium" | "small";
-  rating: number;
-  isButton?: boolean;
+	size: "large" | "medium" | "small";
+	rating: number;
+	isButton?: boolean;
+	strokeWidth?: number;
+	setStarRating?: React.Dispatch<React.SetStateAction<number>>;
+	type?: "review" | "normal";
 }
 
 export default function FiveStar({
-  size = "medium",
-  rating,
-  isButton = false,
+	size = "medium",
+	rating,
+	isButton = false,
+	strokeWidth,
+	setStarRating,
+	type = "normal",
 }: Props) {
-  const iconSize = size === "medium" ? 30 : 20;
+	const iconSize = () => {
+		if (size === "small") {
+			return 20;
+		} else if (size === "medium") {
+			return 30;
+		} else {
+			return 40;
+		}
+	}
 
-  return (
-    <span className={`${styles.container} ${styles[size]}`}>
-      {[...Array(5)].map((_, index) => {
-        const starValue = index + 1;
-        return (
-          <Button
-            iconOnly
-            key={starValue}
-            className={`${!isButton ? styles["non-button"] : ""}`}
-          >
-            {starValue <= rating ? (
-              <StarFilled
-                width={iconSize}
-                height={iconSize}
-                fill={systemWarning}
-              />
-            ) : (
-              <StarEmpty
-                width={iconSize}
-                height={iconSize}
-                stroke={systemWarning}
-              />
-            )}
-          </Button>
-        );
-      })}
-    </span>
-  );
+	const renderReviewTypeDescription = ():string => {
+		if(rating === 1){
+			return "추천하지 않아요 😵";
+		}else if(rating === 2){
+			return "개선이 필요해요 ☹️";
+		}else if(rating === 3){
+			return "그저 그래요 🙂";
+		}else if(rating === 4){
+			return "추천해요 😄";
+		}else if(rating === 5){
+			return "매우 추천해요 😍";
+		}else {
+			return "";
+		}
+
+	}
+
+	const handleStarClick = (_: React.MouseEvent<HTMLButtonElement>, starValue: number) => {
+		setStarRating ? setStarRating(starValue ?? 0) : () => { };
+	}
+
+	return (
+		<span className={`${styles.container} ${styles[size]}`}>
+			{[...Array(5)].map((_, index) => {
+				const starValue = index + 1;
+				return (
+					<Button
+						iconOnly
+						key={starValue}
+						onClick={(e) => handleStarClick(e, starValue)}
+						className={`${!isButton ? styles["non-button"] : ""}`}
+					>
+						{starValue <= rating ? (
+							<StarFilled
+								width={iconSize()}
+								height={iconSize()}
+								fill={systemWarning}
+								strokeWidth={strokeWidth}
+							/>
+						) : (
+							<StarEmpty
+								width={iconSize()}
+								height={iconSize()}
+								stroke={systemWarning}
+								strokeWidth={strokeWidth}
+							/>
+						)}
+					</Button>
+				);
+			})}
+			<div className={styles["review-type-description"]}>
+				{type === "review" && 
+					renderReviewTypeDescription()
+				}
+			</div>
+		</span>
+	);
 }

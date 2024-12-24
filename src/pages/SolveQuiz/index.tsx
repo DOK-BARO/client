@@ -14,6 +14,7 @@ import { useAtom } from "jotai";
 import { selectedOptionsAtom, solvingQuizIdAtom } from "@/store/quizAtom";
 import { QuestionCheckedResult } from "@/types/QuizType";
 import toast from "react-hot-toast";
+import { NavigateReviewParams } from "@/types/ParamsType";
 
 export default function Index() {
 	const { quizId } = useParams<{ quizId: string }>();
@@ -29,6 +30,7 @@ export default function Index() {
 		queryFn: () => quizService.fetchQuiz(quizId),
 		retry: false,
 	});
+
 	const [currentStep, setCurrentStep] = useState<number>(1);
 	const [submitDisabled, setSubmitDisabled] = useState<boolean>(true);
 	const [selectedOptions, setSelectedOptions] = useAtom(selectedOptionsAtom);
@@ -62,12 +64,14 @@ export default function Index() {
 		const endStep = quiz!.questions.length;
 
 		if (endStep === currentStep) {
-			navigate('/quiz/play/result',
+			const params: NavigateReviewParams = {
+				solvingQuizId: solvingQuizId.toString(),
+				quizTitle: quiz?.title ?? ""
+			}
+			navigate('/quiz/result',
 				{
 					replace: false,
-					state: {
-						solvingQuizId: solvingQuizId
-					},
+					state: params
 				}
 			);
 			return;

@@ -5,33 +5,28 @@ import confetti from "@/animation/confetti.json";
 import { useQuery } from "@tanstack/react-query";
 import { quizService } from "@/services/server/quizService";
 import { quizKeys } from "@/data/queryKeys";
-import { useLocation, useNavigate } from "react-router-dom";
-import { NavigateReviewParams } from "@/types/ParamsType";
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export default function Index() {
-	const { state } = useLocation();
+	const { quizId,solvingQuizId, quizTitle } = useParams<{ quizId: string,solvingQuizId:string, quizTitle: string }>();
+	if (!quizId || !solvingQuizId || !quizTitle) {
+		return;
+	}
 	const navigate = useNavigate();
-	const {solvingQuizId, quizTitle} = state as NavigateReviewParams;
-	const {data, isLoading} = useQuery({
+
+	const { data, isLoading } = useQuery({
 		queryKey: quizKeys.result(solvingQuizId),
 		queryFn: () => quizService.fetchGradeResult(solvingQuizId),
 	});
 
 	const handleGoToNext = () => {
-// TODO: 스터디참여인 경우 스터디내에 순위확인
-		const params: NavigateReviewParams = {
-			solvingQuizId: data!.quizId.toString(),
-			quizTitle: quizTitle,
-		}
-		navigate('/quiz/review',
-			{
-				replace: false,
-				state: params,
-			}
-		);
+		// TODO: 스터디참여인 경우 스터디내에 순위확인
+
+		navigate(`/quiz/review/${quizId}/${solvingQuizId}/${quizTitle}`, { replace: false, });
 	}
 
-	if(isLoading){
+	if (isLoading) {
 
 		return (
 			<div>로딩</div>

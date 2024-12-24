@@ -6,16 +6,18 @@ import Button from "@/components/atom/button/button";
 import { DifficultyType } from "@/types/Difficultytype";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
 import Textarea from "@/components/atom/textarea/textarea";
-import { useLocation, useNavigate } from "react-router-dom";
-import { NavigateReviewParams } from "@/types/ParamsType";
+import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";
 import { CreateReviewParams } from "@/types/ParamsType";
 import { reviewService } from "@/services/server/reviewService";
+import { useParams } from "react-router-dom";
 export default function Index() {
 	const navigate = useNavigate();
-	const { state } = useLocation();
-	const { solvingQuizId, quizTitle } = state as NavigateReviewParams;
+	const { quizId, solvingQuizId, quizTitle } = useParams<{ quizId: string, solvingQuizId:string, quizTitle: string }>();
+	if (!quizId || !solvingQuizId || !quizTitle) {
+		return;
+	}
 	const { mutate: createQuizReview } = useMutation<
 		void,
 		ErrorType,
@@ -24,7 +26,7 @@ export default function Index() {
 		mutationFn: (newQuizReview) => reviewService.createQuizReview(newQuizReview),
 		onSuccess: () => {
 			toast.success("후기 작성이 완료되었습니다");
-			navigate(`/quiz/${solvingQuizId}`);
+			navigate(`/quiz/${quizId}`);
 		}
 	});
 
@@ -41,7 +43,7 @@ export default function Index() {
 			starRating: rating,
 			difficultyLevel: difficultyLevel?.difficultyValue!,
 			comment: value,
-			quizId: parseInt(solvingQuizId),
+			quizId: parseInt(quizId),
 		}
 		createQuizReview(review);
 	}

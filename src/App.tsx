@@ -95,26 +95,20 @@ function App() {
     //   path: "/oauth2/redirected/:provider",
     //   element: <AuthRedirectedPage />,
     // },
-    {
-      path: "/quiz/play/:quizId",
-      element: <NoHeaderLayout />,
-      children: [
-        {
-          path: "/quiz/play/:quizId",
-          element: <SolvingQuizPage />,
-        },
-      ],
-    },
 		{
       path: "/quiz",
       element: <NoHeaderLayout />,
       children: [
 				{
-					path: "/quiz/result",
+          path: "/quiz/play/:quizId",
+          element: <SolvingQuizPage />,
+        },
+				{
+					path: "/quiz/result/:quizId/:solvingQuizId/:quizTitle",
 					element: <QuizResult />
 				},
 				{
-					path: "/quiz/review",
+					path: "/quiz/review/:quizId/:solvingQuizId/:quizTitle",
 					element: <QuizReview />
 				}
       ],

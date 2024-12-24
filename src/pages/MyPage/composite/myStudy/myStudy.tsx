@@ -57,7 +57,7 @@ export default function MyStudy() {
 
   const { data: myStudyGroupsData } = useQuery({
     queryKey: studyGroupKeys.list(
-      parseQueryParams<StudyGroupsSortType, FetchStudyGroupsParams>({
+    parseQueryParams<StudyGroupsSortType, FetchStudyGroupsParams>({
         sort,
         direction,
         page,

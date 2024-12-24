@@ -13,7 +13,7 @@ export default function BaseLayout() {
   // if (isLoading) {
   //   return <div className={styles["container"]}>"로딩중"</div>;
   // }
-  const [, setCurrentUser] = useAtom(currentUserAtom);
+  const [currentUser, setCurrentUser] = useAtom(currentUserAtom);
   const [isLoggedIn] = useAtom(isLoggedInAtom);
   // const { pathname } = useLocation();
 
@@ -29,7 +29,7 @@ export default function BaseLayout() {
 
   return (
     <div className={styles["container"]}>
-      <HeaderLayout isLoggedIn={isLoggedIn} />
+      <HeaderLayout isLoggedIn={isLoggedIn} currentUser={currentUser} />
 
       <main className={styles["main"]}>
         <div className={styles["inner-container"]}>

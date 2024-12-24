@@ -3,18 +3,15 @@
   &-container {
     position: relative;
   }
+}
+.profile {
+  width: 40px;
+  height: 40px;
+  background-color: yellow;
+  border-radius: 50%;
+  overflow: hidden;
 
-  &-button {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    background-color: transparent;
-    border: none;
-    padding: 0;
-
-    h3 {
-      margin-left: 8px;
-    }
+  h3 {
+    margin-left: 8px;
   }
-
 }

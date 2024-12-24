@@ -9,8 +9,13 @@ import { useEffect } from "react";
 import { setQueryParam } from "@/utils/setQueryParam";
 import { useAtom } from "jotai";
 import { paginationAtom } from "@/store/paginationAtom";
+import { ParentComponentType } from "@/types/PaginationType";
 
-export default function Pagination({path}:{path:string}) {
+interface Props {
+  parentComponent: ParentComponentType;
+}
+
+export default function Pagination({ parentComponent }: Props) {
   const navigate = useNavigate();
   const [paginationState, setPaginationState] = useAtom(paginationAtom);
 
@@ -18,6 +23,7 @@ export default function Pagination({path}:{path:string}) {
     paginationState: paginationState,
     setPaginationState: setPaginationState,
   });
+
   const currentPage = paginationState.currentPage;
   const totalPagesLength = paginationState.totalPagesLength ?? 0;
   const middlePages = paginationState.middlePages;
@@ -26,11 +32,12 @@ export default function Pagination({path}:{path:string}) {
   useEffect(() => {
     const queryParams = setQueryParam("page", currentPage.toString());
     navigate({
-      pathname: path,
+      pathname: `/${parentComponent.toLowerCase()}`,
       search: `?${queryParams.toString()}`,
     });
   }, [currentPage]);
 
+  // 페이지 번호 버튼
   const renderButton = (page: number, isEllipsis: boolean = false) => {
     if (isEllipsis) {
       return (
@@ -55,36 +62,30 @@ export default function Pagination({path}:{path:string}) {
     );
   };
 
-  return (
+  return isMiddlePageUpdated ? (
     <article className={styles.pagination}>
-      {isMiddlePageUpdated ? (
-        <>
-          <Button
-            iconOnly
-            icon={<ArrowLeft width={16} height={16} stroke={gray60} />}
-            className={styles["page-button"]}
-            value={"before"}
-            onClick={handlePageClick}
-          />
-
-          <span className={styles["page-container"]}>
-            {renderButton(1)}
-            {middlePages[0] > 2 && renderButton(-1, true)}
-            {middlePages.map((page) => renderButton(page))}
-            {middlePages[middlePages.length - 1] < totalPagesLength - 1 &&
-              renderButton(totalPagesLength + 1, true)}
-            {renderButton(totalPagesLength)}
-          </span>
-
-          <Button
-            iconOnly
-            icon={<ArrowRight width={16} height={16} stroke={gray60} />}
-            className={styles["page-button"]}
-            value={"next"}
-            onClick={handlePageClick}
-          />
-        </>
-      ) : null}
+      <Button
+        iconOnly
+        icon={<ArrowLeft width={16} height={16} stroke={gray60} />}
+        className={styles["page-button"]}
+        value={"before"}
+        onClick={handlePageClick}
+      />
+      <span className={styles["page-container"]}>
+        {renderButton(1)}
+        {middlePages[0] > 2 && renderButton(-1, true)}
+        {middlePages.map((page) => renderButton(page))}
+        {middlePages[middlePages.length - 1] < totalPagesLength - 1 &&
+          renderButton(totalPagesLength + 1, true)}
+        {renderButton(totalPagesLength)}
+      </span>
+      <Button
+        iconOnly
+        icon={<ArrowRight width={16} height={16} stroke={gray60} />}
+        className={styles["page-button"]}
+        value={"next"}
+        onClick={handlePageClick}
+      />
     </article>
-  );
+  ) : null;
 }

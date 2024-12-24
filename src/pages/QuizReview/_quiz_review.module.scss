@@ -1,0 +1,59 @@
+@import "../../styles/abstracts/mixins";
+@import "../../styles/abstracts/variables";
+
+.container {
+	@include flex(column, center);
+	gap: 40px;
+	margin-inline: 40px;
+}
+
+.title {
+	font-size: 32px;
+	font-weight: $font-weight-bold;
+	line-height: 150%;
+}
+
+.review-star-container {
+	@include flex(column, center)
+}
+
+.request-text {
+	font-size: 20px;
+	line-height: 150%;
+}
+
+.request-sub-text {
+	font-size: $font-size-medium;
+	color: $gray-70;
+	margin-bottom: 16px;
+}
+
+
+.difficulty-container {
+	@include flex(column, center);
+	gap: 16px;
+}
+
+.button-area {
+	display: flex;
+	gap: 16px;
+}
+
+.difficulty-button {
+	&:hover {
+		background-color: $primary;
+		color: $secondary;
+		border: 1.5px solid $primary;
+	}
+}
+
+.sr-only {
+	@include sr-only;
+}
+.review-text-container{
+@include flex(column, center);
+gap:16px;
+}
+.review-textarea{
+width: 500px;
+}

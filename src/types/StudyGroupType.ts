@@ -7,16 +7,16 @@ export interface StudyGroupDetailType {
   inviteCode: string;
 }
 
-// export interface StudyGroupType {
-//   id: number;
-//   name: string;
-//   profileImageUrl: string | null;
-// }
-
 export type StudyGroupType = Pick<
   StudyGroupDetailType,
   "id" | "name" | "profileImageUrl"
->;
+> & {
+  studyMemberCount: number;
+  leader: {
+    id: number;
+    nickname: string;
+  };
+};
 
 export interface StudyMemberType {
   id: number;

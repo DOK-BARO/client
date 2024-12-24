@@ -5,6 +5,7 @@ import { axiosInstance } from "@/config/axiosConfig";
 import { QuestionCheckedResult } from "@/types/QuizType";
 import { handleAxiosError } from "@/utils/errorHandler";
 import { FetchQuizzesParams } from "@/types/ParamsType";
+import { SolvingQuizGradeReuslt } from "@/types/QuizType";
 
 class QuizService {
   fetchQuizzes = async (
@@ -118,6 +119,16 @@ class QuizService {
       throw new Error(`북 퀴즈 문제 풀기 제출 실패: ${error}`);
     }
   };
+
+fetchGradeResult = async (solvingQuizId: string): Promise<SolvingQuizGradeReuslt> => {
+	try{
+		const { data } = await axiosInstance.get(`/solving-quiz/${solvingQuizId}/grade-result`);
+		return data;
+	} catch (error) {
+		throw new Error(`푼 퀴즈 결과 보기 조회 실패: ${error}`);
+	}
+};
+
 }
 
 export const quizService = new QuizService();

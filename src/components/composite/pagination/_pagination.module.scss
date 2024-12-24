@@ -2,9 +2,7 @@
 @import "../../../styles/abstracts/mixins";
 
 .pagination {
-  display: flex;
-	justify-content: center;
-  align-items: center;
+  @include flex(row, center);
   margin: 0 auto;
   margin-top: 16px;
 

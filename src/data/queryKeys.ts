@@ -2,6 +2,7 @@ import {
   FetchBooksParams,
   FetchQuizzesParams,
   FetchReviewsParams,
+  FetchStudyGroupsParams,
   SearchBooksParams,
 } from "@/types/ParamsType";
 
@@ -15,7 +16,8 @@ export const bookKeys = {
 
 export const studyGroupKeys = {
   detail: (id: number | undefined) => ["studyGroupDetail", id] as const,
-  list: () => ["studyGroupList"] as const,
+  list: (params?: FetchStudyGroupsParams) =>
+    ["studyGroupList", params] as const,
 };
 
 export const authKeys = {
@@ -31,6 +33,7 @@ export const quizKeys = {
   myQuiz: () => ["myQuiz"] as const,
   detail: (id: string | undefined) => ["quizDetail", id] as const,
   explanation: (id: string | undefined) => ["quizExplanation", id] as const,
+	result: (solvingQuizId: string) => ["quizResult",solvingQuizId]
 };
 
 export const reviewKeys = {

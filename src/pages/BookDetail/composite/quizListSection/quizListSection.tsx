@@ -33,18 +33,18 @@ export default function QuizListSection({ bookId, handleGoToMakeQuiz }: {
 	const [paginationState, setPaginationState] = useAtom(paginationAtom);
 	const totalPagesLength = paginationState.totalPagesLength;
 
-  const sort = queryParams.get("sort");
-  const direction = queryParams.get("direction");
-  const page = queryParams.get("page");
-  const pageSize = "6";
-	
-  const params: FetchQuizzesParams = {
-    page: page ?? "1",
-    bookId: bookId,
-    sort: sort ?? "CREATED_AT",
-    direction: direction ?? "DESC",
-    size: pageSize,
-  };
+	const sort = queryParams.get("sort");
+	const direction = queryParams.get("direction");
+	const page = queryParams.get("page");
+	const pageSize = "6";
+
+	const params: FetchQuizzesParams = {
+		page: page ?? "1",
+		bookId: bookId,
+		sort: sort ?? "CREATED_AT",
+		direction: direction ?? "DESC",
+		size: pageSize,
+	};
 
 	const { data: quizzes, isLoading } = useQuery({
 		queryKey: bookKeys.quizList(params),
@@ -53,7 +53,7 @@ export default function QuizListSection({ bookId, handleGoToMakeQuiz }: {
 
 	const endPageNumber = quizzes?.endPageNumber;
 	useEffect(() => {
-		if(endPageNumber){
+		if (endPageNumber) {
 			setPaginationState({
 				...paginationState,
 				totalPagesLength: endPageNumber,
@@ -116,11 +116,14 @@ export default function QuizListSection({ bookId, handleGoToMakeQuiz }: {
 					onClick={onClickBtnWhenNoData}
 				/>}
 			<div className={styles["list-container"]}>
-				{quizzes && quizzes?.data.map((quiz) => <QuizItem 
-				key={quiz.id} quiz={quiz} />)}
+				{quizzes && quizzes?.data.map((quiz) =>
+					<a href={`/quiz/${quiz.id}`}>
+						<QuizItem
+							key={quiz.id} quiz={quiz} />
+					</a>)}
 			</div>
-			{totalPagesLength && totalPagesLength>0 && (<Pagination 
-			parentComponent={`BOOK/${bookId}`} />)}
+			{totalPagesLength && totalPagesLength > 0 && (<Pagination
+				parentComponent={`BOOK/${bookId}`} />)}
 		</section>
 	);
 }

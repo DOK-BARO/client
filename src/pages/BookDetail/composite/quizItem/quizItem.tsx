@@ -33,7 +33,7 @@ export default function QuizItem({ quiz }: { quiz: BookQuizzesDataType }) {
 					<div className={styles["review"]}>
 						<Star className={styles["review-icon"]} />
 						<span>{quiz.averageStarRating}</span>
-						<span>/5 (?개의 후기)</span>
+						<span>{`/5 (${quiz.reviewCount}개의 후기)`}</span>
 					</div>
 
 					<div className={styles["quiz-level"]}>

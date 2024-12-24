@@ -1,6 +1,7 @@
 import styles from "./_quiz_review.module.scss";
 import FiveStar from "@/components/composite/fiveStar/fiveStar";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import Button from "@/components/atom/button/button";
 import { DifficultyType } from "@/types/Difficultytype";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
@@ -22,6 +23,7 @@ export default function Index() {
 	>({
 		mutationFn: (newQuizReview) => reviewService.createQuizReview(newQuizReview),
 		onSuccess: () => {
+			toast.success("후기 작성이 완료되었습니다");
 			navigate(`/quiz/${solvingQuizId}`);
 		}
 	});
@@ -33,7 +35,6 @@ export default function Index() {
 
 	const showDifficultySection = rating !== 0;
 	const showReviewTextArea = difficultyLevel;
-	const showSubmitButton:boolean = !!value?.length;
 
 	const handleClickSubmit = (_: React.MouseEvent<HTMLButtonElement>) => {
 		const review: CreateReviewParams = {
@@ -64,7 +65,7 @@ export default function Index() {
 		const currentDifficulty: DifficultyType = difficultys.find(({ difficultyValue }) => (difficultyValue.toString() === id))!;
 		setDifficultyLevel(currentDifficulty);
 	}
-	
+
 	return (
 		<section className={styles["container"]}>
 			<h2 className={styles["sr-only"]}>퀴즈 후기 남기기</h2>
@@ -122,17 +123,13 @@ export default function Index() {
 						size="small"
 						maxLengthShow
 					/>
+					<Button
+						size="medium"
+						color="primary"
+						onClick={handleClickSubmit}
+					>완료</Button>
 				</section>
 			}
-			{
-				showSubmitButton &&
-				<Button
-					size="medium"
-					color="primary"
-					onClick={handleClickSubmit}
-				>완료</Button>
-				}
-
 		</section>
 	);
 

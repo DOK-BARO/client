@@ -185,6 +185,7 @@ export default function SolvingQuizForm({
 					}
 
 					return <CheckBox
+						key={checkBoxOption.id}
 						id={checkBoxOption.id.toString()}
 						checked={checkedOptions[checkBoxOption.id]}
 						onChange={handleCheckBoxChange}

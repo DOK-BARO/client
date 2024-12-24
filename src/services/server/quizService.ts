@@ -122,7 +122,7 @@ class QuizService {
 
 fetchGradeResult = async (solvingQuizId: string): Promise<SolvingQuizGradeReuslt> => {
 	try{
-		const {data} = await axiosInstance.get(`/solving-quiz/${solvingQuizId}/grade-result`);
+		const { data } = await axiosInstance.get(`/solving-quiz/${solvingQuizId}/grade-result`);
 		return data;
 	} catch (error) {
 		throw new Error(`푼 퀴즈 결과 보기 조회 실패: ${error}`);

@@ -5,11 +5,13 @@ import confetti from "@/animation/confetti.json";
 import { useQuery } from "@tanstack/react-query";
 import { quizService } from "@/services/server/quizService";
 import { quizKeys } from "@/data/queryKeys";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { NavigateReviewParams } from "@/types/ParamsType";
 
 export default function Index() {
 	const { state } = useLocation();
-	const {solvingQuizId} = state;
+	const navigate = useNavigate();
+	const {solvingQuizId, quizTitle} = state as NavigateReviewParams;
 	const {data, isLoading} = useQuery({
 		queryKey: quizKeys.result(solvingQuizId),
 		queryFn: () => quizService.fetchGradeResult(solvingQuizId),
@@ -17,7 +19,16 @@ export default function Index() {
 
 	const handleGoToNext = () => {
 // TODO: 스터디참여인 경우 스터디내에 순위확인
-		//TODO: go to review
+		const params: NavigateReviewParams = {
+			solvingQuizId: data!.quizId.toString(),
+			quizTitle: quizTitle,
+		}
+		navigate('/quiz/review',
+			{
+				replace: false,
+				state: params,
+			}
+		);
 	}
 
 	if(isLoading){

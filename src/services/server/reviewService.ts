@@ -2,6 +2,7 @@ import { axiosInstance } from "@/config/axiosConfig";
 import { FetchReviewsParams } from "@/types/ParamsType";
 import { ReviewsTotalScoreType, ReviewType } from "@/types/ReviewType";
 import { handleAxiosError } from "@/utils/errorHandler";
+import { CreateReviewParams } from "@/types/ParamsType";
 
 class ReviewService {
   // 퀴즈 요약 목록 조회
@@ -43,5 +44,14 @@ class ReviewService {
       return null;
     }
   };
+
+	createQuizReview = async (params:CreateReviewParams) => {
+		try{
+			const { data } = await axiosInstance.post(`/quiz-reviews`,params);
+			return data;
+		}catch(error){
+			throw new Error(`퀴즈 리뷰 생성 실패: ${error}`)
+		}
+	}
 }
 export const reviewService = new ReviewService();

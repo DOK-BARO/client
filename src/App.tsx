@@ -84,25 +84,25 @@ function App() {
 					element: <MyPage />,
 				},
 
-				{
-					// 공용 컴포넌트 미리보기를 위한 페이지
-					path: "/component-test",
-					element: <ComponentTest />,
-				},
-			],
-		},
-		// {
-		//   path: "/oauth2/redirected/:provider",
-		//   element: <AuthRedirectedPage />,
-		// },
+        {
+          // 공용 컴포넌트 미리보기를 위한 페이지
+          path: "/component-test",
+          element: <ComponentTest />,
+        },
+      ],
+    },
+    // {
+    //   path: "/oauth2/redirected/:provider",
+    //   element: <AuthRedirectedPage />,
+    // },
 		{
-			path: "/quiz",
-			element: <NoHeaderLayout />,
-			children: [
+      path: "/quiz",
+      element: <NoHeaderLayout />,
+      children: [
 				{
-					path: "/quiz/play/:quizId",
-					element: <SolvingQuizPage />,
-				},
+          path: "/quiz/play/:quizId",
+          element: <SolvingQuizPage />,
+        },
 				{
 					path: "/quiz/result/:quizId/:solvingQuizId/:quizTitle",
 					element: <QuizResult />

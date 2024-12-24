@@ -14,7 +14,6 @@ import { useAtom } from "jotai";
 import { selectedOptionsAtom, solvingQuizIdAtom } from "@/store/quizAtom";
 import { QuestionCheckedResult } from "@/types/QuizType";
 import toast from "react-hot-toast";
-import { NavigateReviewParams } from "@/types/ParamsType";
 
 export default function Index() {
 	const { quizId } = useParams<{ quizId: string }>();
@@ -39,14 +38,14 @@ export default function Index() {
 	const [didAnswerChecked, setDidAnswerChecked] = useState<boolean>(false);
 	const [toggleAnswerDescription, setToggleAnswerDescription] = useState<boolean>(false);
 	const [isAnswerCorrects, setIsAnswerCorrects] = useState<boolean[]>([]);
-	const currentFormIndex:number = currentStep - 1;
-	
+	const currentFormIndex: number = currentStep - 1;
+
 	const handleQuestionSubmit = async (_: React.MouseEvent<HTMLButtonElement>) => {
 		setOptionDisabled(true);
-		const questionId: number = quiz!.questions[currentStep - 1].id ;
+		const questionId: number = quiz!.questions[currentStep - 1].id;
 		const solvingQuizIdToString: string = solvingQuizId.toString();
 		const checkedResult: QuestionCheckedResult = await quizService.submitQuestion(solvingQuizIdToString, questionId, selectedOptions);
-		
+
 		if (checkedResult) {
 			setQuestionCheckedResult(checkedResult)
 			setDidAnswerChecked(true);
@@ -64,16 +63,11 @@ export default function Index() {
 		const endStep = quiz!.questions.length;
 
 		if (endStep === currentStep) {
-			const params: NavigateReviewParams = {
-				solvingQuizId: solvingQuizId.toString(),
-				quizTitle: quiz?.title ?? ""
-			}
-			navigate('/quiz/result',
-				{
-					replace: false,
-					state: params
-				}
-			);
+			const id: string = quizId.toString();
+			const solvingId: string = solvingQuizId.toString();
+			const quizTitle: string = quiz?.title ?? "";
+			navigate(`/quiz/result/${id}/${solvingId}/${quizTitle}`,{replace: false,});
+
 			return;
 		} else {
 			// 초기화 작업
@@ -89,9 +83,9 @@ export default function Index() {
 	}
 
 	if (isQuizLoading) {
-		return <>로딩</>	
+		return <>로딩</>
 	}
-	if(error || !quiz){
+	if (error || !quiz) {
 		toast.error("퀴즈를 불러오는데 실패했습니다.\n없는 퀴즈일 수 있습니다.");
 		navigate('/');
 		return;
@@ -159,7 +153,7 @@ export default function Index() {
 					className={styles["footer-btn"]}
 				>채점하기</Button>
 			}
-{/* TODO: 없다가 나타나는 애니메이션 처리 필요 */}
+			{/* TODO: 없다가 나타나는 애니메이션 처리 필요 */}
 			{
 				didAnswerChecked &&
 				<div className={`${styles["footer-btn-container"]} ${didAnswerChecked ? styles.visible : ''}`}>

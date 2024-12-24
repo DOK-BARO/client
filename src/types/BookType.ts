@@ -67,6 +67,7 @@ export interface BookQuizzesDataType {
   title: string;
   averageStarRating: number;
   averageDifficultyLevel: number;
+	reviewCount: number;
   questionCount: number;
   creator: QuizCreatorType;
 }

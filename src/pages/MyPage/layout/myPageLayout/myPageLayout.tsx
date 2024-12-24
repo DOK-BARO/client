@@ -30,10 +30,10 @@ export default function MyPageLayout({
 
   return (
     <section className={styles["container"]}>
-      <h2>마이페이지</h2>
-      <article>
+      <h2 className={styles.title}>마이페이지</h2>
+      <section className={styles.content}>
         {FormComponent && <FormComponent setCurrentStep={setCurrentStep} />}
-      </article>
+      </section>
     </section>
   );
 }

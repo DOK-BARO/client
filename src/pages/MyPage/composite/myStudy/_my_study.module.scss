@@ -15,11 +15,22 @@
     }
   }
 
+  .filter-container {
+    display: flex;
+    justify-content: end;
+  }
+
   .study-list {
     margin-top: 16px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     row-gap: 16px;
     column-gap: 100px;
+
+    &-empty-item {
+      height: 166px;
+      background-color: transparent;
+      border: none;
+    }
   }
 }

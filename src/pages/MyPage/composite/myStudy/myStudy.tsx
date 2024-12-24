@@ -38,6 +38,7 @@ const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
     label: "가나다순",
   },
 ];
+
 export default function MyStudy() {
   const { isModalOpen, openModal, closeModal } = useModal();
 
@@ -54,7 +55,7 @@ export default function MyStudy() {
   const page = queryParams.get("page") || undefined; // parseQueryParams함수 안에서 기본값 1로 설정
   const size = 4; // 한번에 불러올 최대 길이: 책 목록에서는 10 고정값.
 
-  const { data: myStudiesData } = useQuery({
+  const { data: myStudyGroupsData } = useQuery({
     queryKey: studyGroupKeys.list(
       parseQueryParams<StudyGroupsSortType, FetchStudyGroupsParams>({
         sort,
@@ -69,8 +70,8 @@ export default function MyStudy() {
       ),
   });
 
-  const myStudies = myStudiesData?.data;
-  const endPageNumber = myStudiesData?.endPageNumber;
+  const myStudyGroups = myStudyGroupsData?.data;
+  const endPageNumber = myStudyGroupsData?.endPageNumber;
 
   // 마지막 페이지 번호 저장
   useEffect(() => {
@@ -80,14 +81,17 @@ export default function MyStudy() {
     });
   }, [endPageNumber]);
 
-  console.log(myStudiesData);
-
   const { navigateWithParams } = useNavigateWithParams();
   const [filterCriteria] = useAtom(studyGroupFilterAtom);
 
   const handleOptionClick = (filter: StudyGroupsFilterType) => {
     navigateWithParams({ filter: filter, parentComponentType: "MY" });
   };
+
+  // const myStudyGroupList =
+  //   myStudyGroups.length < 4
+  //     ? [...myStudyGroups, ...Array(4 - myStudyGroups.length).fill(null)]
+  //     : myStudyGroups;
 
   return (
     <section className={styles.container}>
@@ -103,16 +107,29 @@ export default function MyStudy() {
           스터디 그룹 추가
         </Button>
       </div>
-      <ListFilter
-        handleOptionClick={handleOptionClick}
-        sortFilter={filterCriteria}
-        filterOptions={filterOptions}
-      />
-      {myStudies ? (
+      <div className={styles["filter-container"]}>
+        <ListFilter
+          handleOptionClick={handleOptionClick}
+          sortFilter={filterCriteria}
+          filterOptions={filterOptions}
+        />
+      </div>
+      {myStudyGroups ? (
         <ol className={styles["study-list"]}>
-          {myStudies?.map((study) => (
-            <StudyGroupItem key={study.id} study={study} />
-          ))}
+          {/* 스터디 그룹 아이템과 부족한 공간 채우기 */}
+          {[
+            ...myStudyGroups,
+            ...Array(size - (myStudyGroups.length % size || size)).fill(null),
+          ].map((studyGroup, index) =>
+            studyGroup ? (
+              <StudyGroupItem key={studyGroup.id} studyGroup={studyGroup} />
+            ) : (
+              <li
+                key={`empty-${index}`}
+                className={styles["study-list-empty-item"]}
+              />
+            )
+          )}
         </ol>
       ) : null}
       {isModalOpen ? <AddStudyGroupModal closeModal={closeModal} /> : null}

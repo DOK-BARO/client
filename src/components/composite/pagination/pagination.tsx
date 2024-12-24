@@ -60,36 +60,30 @@ export default function Pagination({
     );
   };
 
-  return (
+  return isMiddlePageUpdated ? (
     <article className={styles.pagination}>
-      {isMiddlePageUpdated ? (
-        <>
-          <Button
-            iconOnly
-            icon={<ArrowLeft width={16} height={16} stroke={gray60} />}
-            className={styles["page-button"]}
-            value={"before"}
-            onClick={handlePageClick}
-          />
-
-          <span className={styles["page-container"]}>
-            {renderButton(1)}
-            {middlePages[0] > 2 && renderButton(-1, true)}
-            {middlePages.map((page) => renderButton(page))}
-            {middlePages[middlePages.length - 1] < totalPagesLength - 1 &&
-              renderButton(totalPagesLength + 1, true)}
-            {renderButton(totalPagesLength)}
-          </span>
-
-          <Button
-            iconOnly
-            icon={<ArrowRight width={16} height={16} stroke={gray60} />}
-            className={styles["page-button"]}
-            value={"next"}
-            onClick={handlePageClick}
-          />
-        </>
-      ) : null}
+      <Button
+        iconOnly
+        icon={<ArrowLeft width={16} height={16} stroke={gray60} />}
+        className={styles["page-button"]}
+        value={"before"}
+        onClick={handlePageClick}
+      />
+      <span className={styles["page-container"]}>
+        {renderButton(1)}
+        {middlePages[0] > 2 && renderButton(-1, true)}
+        {middlePages.map((page) => renderButton(page))}
+        {middlePages[middlePages.length - 1] < totalPagesLength - 1 &&
+          renderButton(totalPagesLength + 1, true)}
+        {renderButton(totalPagesLength)}
+      </span>
+      <Button
+        iconOnly
+        icon={<ArrowRight width={16} height={16} stroke={gray60} />}
+        className={styles["page-button"]}
+        value={"next"}
+        onClick={handlePageClick}
+      />
     </article>
-  );
+  ) : null;
 }

@@ -40,7 +40,6 @@ const Textarea: React.FC<TextareaProps> = ({
   size = "medium",
 	type = "",
 }) => {
-	console.log(type);
   const className = `${styles.textarea} ${styles[type]} ${styles[`textarea--${size}`]} ${
     isError ? styles["textarea--error"] : ""
   } ${customClassName}  ${fullWidth ? styles["full"] : ""}`;

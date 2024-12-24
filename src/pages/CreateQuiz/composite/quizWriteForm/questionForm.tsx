@@ -14,15 +14,13 @@ import { MultipleChoiceQuestionTemplate } from "@/pages/CreateQuiz/composite/qui
 import { CheckBoxQuestionTemplate } from "@/pages/CreateQuiz/composite/quizWriteForm/checkBoxQuestionTemplate";
 import { OXQuestionTemplate } from "@/pages/CreateQuiz/composite/quizWriteForm/oxQuestionTemplate";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
-// import { useAtom } from "jotai";
+import { useAtom } from "jotai";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import deleteIcon from "/assets/svg/quizWriteForm/delete_ellipse.svg";
-
-// import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
-
+import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
 import { QuizQuestionType } from "@/types/QuizType";
 import QuestionTemplateTypeUtilButton from "./questionTemplateTypeUtilButton";
-
+import { SelectOptionType } from "@/types/QuizType";
 
 interface QuizWriteFormItemProps {
   questionFormId: number;
@@ -82,8 +80,8 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
   const [imagePreview, setImagePreview] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // const [, setErrorModalTitle] = useAtom(errorModalTitleAtom);
-  // const [openModal] = useAtom(openErrorModalAtom);
+  const [, setErrorModalTitle] = useAtom(errorModalTitleAtom);
+  const [openModal] = useAtom(openErrorModalAtom);
 
   const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onAnswerTextAreaChange(e);
@@ -127,36 +125,34 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
     updateQuizCreationInfo("questions", updatedQuestions);
   };
 
-
-  // const hasDuplicate = (arr:SelectOptionType[]) => {
-  //   const options: string[] = arr.map(({option})=>(option));
-  //   return new Set(options).size !== options.length;
-  // }
+  const hasDuplicate = (arr:SelectOptionType[]) => {
+    const options: string[] = arr.map(({option})=>(option));
+    return new Set(options).size !== options.length;
+  }
   const checkValidation = () => {
-    // const questionForm: QuizQuestionType = quizCreationInfo.questions?.find(({id}) => id === questionFormId)!;
-    // const selectOptions:SelectOptionType[] = questionForm.selectOptions;
+    const questionForm: QuizQuestionType = quizCreationInfo.questions?.find(({id}) => id === questionFormId)!;
+    const selectOptions:SelectOptionType[] = questionForm.selectOptions;
 
-    // // - 질문 입력 안 했을 때: 질문을 입력해 주세요.
-    // if (questionForm.content.length === 0) {
-    //   setErrorModalTitle("질문을 입력해 주세요");
-    //   openModal!();
-    //   return;
-    // }
+    // - 질문 입력 안 했을 때: 질문을 입력해 주세요.
+    if (questionForm.content.length === 0) {
+      setErrorModalTitle("질문을 입력해 주세요");
+      openModal!();
+      return;
+    }
     // - 옵션 하나도 없을 때: 선택지를 1개 이상 추가해 주세요.
-    // if (questionForm.selectOptions.length === 0) {
-    //   setErrorModalTitle("선택지를 1개 이상 추가해 주세요");
-    //   openModal!();
-    //   return;
-    // }
+    if (questionForm.answerType !== "OX" && questionForm.selectOptions.length === 0) {
+      setErrorModalTitle("선택지를 1개 이상 추가해 주세요");
+      openModal!();
+      return;
+    }
 
     // -  중복된 옵션이 있을 때: 중복된 옵션입니다. 다시 입력해 주세요.
-		//TODO: 체크박스랑 ox 작동 잘못됨
-    // const duplicated:boolean = hasDuplicate(selectOptions);
-    // if(duplicated){
-    //   setErrorModalTitle("중복된 옵션입니다. 다시 입력해 주세요.");
-    //   openModal!();
-    //   return;
-    // }
+    const duplicated:boolean = hasDuplicate(selectOptions);
+    if(duplicated){
+      setErrorModalTitle("중복된 옵션입니다. 다시 입력해 주세요.");
+      openModal!();
+      return;
+    }
   }
 
   const fileInputRef = useRef<HTMLInputElement | null>(null); // 파일 입력 참조

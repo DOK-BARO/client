@@ -21,6 +21,7 @@ import { quizService } from "@/services/server/quizService";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function QuizCreationFormLayout({
   steps,
@@ -32,12 +33,21 @@ export default function QuizCreationFormLayout({
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const navigate = useNavigate();
-  const [isQuizNextButtonEnabled] = useAtom<boolean>(
+  const [isQuizNextButtonEnabled,setIsQuizNextButtonEnabled] = useAtom<boolean>(
     isQuizNextButtonEnabledAtom
   );
   const [quizCreationInfo] = useAtom<QuizCreationType>(quizCreationInfoAtom);
   const [, setErrorModalTitle] = useAtom(errorModalTitleAtom);
   const [openModal] = useAtom(openErrorModalAtom);
+
+	useEffect(()=>{
+		console.log(quizCreationInfo.questions?.length);
+		if(!quizCreationInfo?.questions?.length){
+			setIsQuizNextButtonEnabled(false);
+		}else{
+			setIsQuizNextButtonEnabled(true);
+		}
+	},[quizCreationInfo.questions?.length,currentStep]);
 
   const getCurrentStep = (): Step => {
     const step = steps[currentStep];
@@ -146,7 +156,6 @@ export default function QuizCreationFormLayout({
       questions: await setRequestQuestion(),
     };
 
-    console.log("request: %O", quiz);
     createQuiz(quiz);
     return;
   };
@@ -154,15 +163,19 @@ export default function QuizCreationFormLayout({
 
   const goToNextStep = async () => {
     if (currentStep === 2.2) {
-      //TODO: 질문이 하나도 없을 때 버튼 다시 disable 필요
-
-      // - 정답 선택 안 했을 때: 답안이 선택되었는지 확인하세요.
       for (const question of quizCreationInfo.questions ?? []) {
         if (!question.answers?.length) {
           setErrorModalTitle("답안이 선택되었는지 확인하세요.");
           openModal!();
           return;
         }
+				if(question.answerType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER"){
+					if(question.answers.length <= 1 ){
+						setErrorModalTitle("복수정답은 답안을 2개이상 선택해야 합니다");
+          openModal!();
+          return;
+					}
+				}
       }
     } else if (currentStep == endStep) {
       await requestCreateQuiz();

@@ -11,11 +11,11 @@ import { useAtom } from "jotai";
 import { paginationAtom } from "@/store/paginationAtom";
 import { ParentComponentType } from "@/types/PaginationType";
 
-export default function Pagination({
-  parentComponent,
-}: {
+interface Props {
   parentComponent: ParentComponentType;
-}) {
+}
+
+export default function Pagination({ parentComponent }: Props) {
   const navigate = useNavigate();
   const [paginationState, setPaginationState] = useAtom(paginationAtom);
 
@@ -23,6 +23,7 @@ export default function Pagination({
     paginationState: paginationState,
     setPaginationState: setPaginationState,
   });
+
   const currentPage = paginationState.currentPage;
   const totalPagesLength = paginationState.totalPagesLength ?? 0;
   const middlePages = paginationState.middlePages;
@@ -36,6 +37,7 @@ export default function Pagination({
     });
   }, [currentPage]);
 
+  // 페이지 번호 버튼
   const renderButton = (page: number, isEllipsis: boolean = false) => {
     if (isEllipsis) {
       return (

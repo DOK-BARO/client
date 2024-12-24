@@ -11,7 +11,7 @@ import { createdQuizIdAtom } from "@/store/quizAtom";
 
 export default function CreateQuizComplete() {
   const [createdQuizId] = useAtom(createdQuizIdAtom);
-  const quizPath = `quiz/${createdQuizId}`;
+  const quizPath = `quiz/play/${createdQuizId}`;
   const quizLink = `${import.meta.env.VITE_DEFAULT_URL}/${quizPath}`;
 
   const navigate = useNavigate();

@@ -1,4 +1,5 @@
 import { axiosInstance } from "@/config/axiosConfig";
+import { FetchStudyGroupsParams } from "@/types/ParamsType";
 import {
   StudyGroupCreationType,
   StudyGroupDetailType,
@@ -22,9 +23,19 @@ class StudyGroupService {
   };
 
   // 내가 속한 스터디 그룹 조회
-  fetchStudyGroups = async (): Promise<StudyGroupType[] | null> => {
+  fetchStudyGroups = async (
+    params: FetchStudyGroupsParams
+  ): Promise<{ data: StudyGroupType[]; endPageNumber: number } | null> => {
+    const { page, size, sort, direction } = params;
     try {
-      const { data } = await axiosInstance.get("/study-groups/my");
+      const { data } = await axiosInstance.get("/study-groups/my", {
+        params: {
+          page,
+          size,
+          sort,
+          direction,
+        },
+      });
       return data;
     } catch (error) {
       handleAxiosError(error);

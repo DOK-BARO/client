@@ -9,8 +9,13 @@ import { useEffect } from "react";
 import { setQueryParam } from "@/utils/setQueryParam";
 import { useAtom } from "jotai";
 import { paginationAtom } from "@/store/paginationAtom";
+import { ParentComponentType } from "@/types/PaginationType";
 
-export default function Pagination() {
+export default function Pagination({
+  parentComponent,
+}: {
+  parentComponent: ParentComponentType;
+}) {
   const navigate = useNavigate();
   const [paginationState, setPaginationState] = useAtom(paginationAtom);
 
@@ -26,7 +31,7 @@ export default function Pagination() {
   useEffect(() => {
     const queryParams = setQueryParam("page", currentPage.toString());
     navigate({
-      pathname: "/books",
+      pathname: `/${parentComponent.toLowerCase()}`,
       search: `?${queryParams.toString()}`,
     });
   }, [currentPage]);

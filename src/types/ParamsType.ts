@@ -1,4 +1,8 @@
-import { BooksFilterType, ReviewsFilterType } from "./FilterType";
+import {
+  BooksFilterType,
+  ReviewsFilterType,
+  StudyGroupsFilterType,
+} from "./FilterType";
 
 // BOOK
 export interface FetchBooksParams {
@@ -36,4 +40,12 @@ export interface FetchQuizzesParams {
   bookId: string;
   sort: string;
   direction: string;
+}
+
+// STUDY GROUP
+export interface FetchStudyGroupsParams {
+  page?: number;
+  size?: number;
+  sort?: StudyGroupsFilterType["sort"];
+  direction?: StudyGroupsFilterType["direction"];
 }

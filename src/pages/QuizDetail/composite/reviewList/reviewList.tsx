@@ -45,7 +45,7 @@ interface Props {
 }
 
 export default function ReviewList({ quizId }: Props) {
-  const { navigateWithParams } = useNavigateWithParams("QUIZ");
+  const { navigateWithParams } = useNavigateWithParams("quiz");
   const [, setFilterCriteria] = useAtom(reviewFilterAtom);
   useFilter<ReviewsFilterType>(setFilterCriteria);
   const [currentUser] = useAtom(currentUserAtom);
@@ -55,7 +55,7 @@ export default function ReviewList({ quizId }: Props) {
   const handleOptionClick = (filter: ReviewsFilterType) => {
     navigateWithParams({
       filter,
-      parentComponentType: "QUIZ",
+      parentPage: "quiz",
       itemId: quizId,
     });
   };

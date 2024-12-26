@@ -7,17 +7,17 @@ import usePagination from "@/hooks/usePagination";
 import { useNavigate } from "react-router-dom";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { setQueryParam } from "@/utils/setQueryParam";
-import { PaginationType, ParentComponentType } from "@/types/PaginationType";
+import { PaginationType, ParentPage } from "@/types/PaginationType";
 
 // TODO: 직관적으로 (변수명 등)
 interface Props {
-  parentComponent?: ParentComponentType; // 쿼리스트링
+  parentPage?: ParentPage; // 쿼리스트링
   paginationState: PaginationType; // 상태
   setPaginationState: Dispatch<SetStateAction<PaginationType>>; // 상태
 }
 
 export default function Pagination({
-  parentComponent,
+  parentPage,
   paginationState,
   setPaginationState,
 }: Props) {
@@ -34,12 +34,12 @@ export default function Pagination({
   const isMiddlePageUpdated = paginationState.isMiddlePagesUpdated;
 
   useEffect(() => {
-    if (!parentComponent) {
+    if (!parentPage) {
       return;
     }
     const queryParams = setQueryParam("page", currentPage.toString());
     navigate({
-      pathname: `/${parentComponent.toLowerCase()}`,
+      pathname: `/${parentPage}`,
       search: `?${queryParams.toString()}`,
     });
   }, [currentPage]);

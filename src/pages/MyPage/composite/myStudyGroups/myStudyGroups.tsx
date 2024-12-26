@@ -83,7 +83,7 @@ export default function MyStudyGroups() {
   const handleOptionClick = (filter: StudyGroupsFilterType) => {
     // navigateWithParams({
     //   filter: filter,
-    //   parentComponentType: "MY/STUDY-GROUPS",
+    //   parentPage: "MY/STUDY-GROUPS",
     // });
     setFilterCriteria(filter);
     console.log(filter);

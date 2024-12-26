@@ -12,7 +12,7 @@ const getPageFromURL = () => {
 
 // 초기 페이지네이션 상태
 const initialPaginationState: PaginationType = {
-  parentComponentType: "BOOKS",
+  parentPage: "books",
   currentPage: getPageFromURL(),
   pagePosition: "START",
   totalPagesLength: undefined,

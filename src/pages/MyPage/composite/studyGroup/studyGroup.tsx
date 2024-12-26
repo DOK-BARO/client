@@ -118,7 +118,6 @@ export default function StudyGroup() {
           <Pagination
             paginationState={paginationState}
             setPaginationState={setPaginationState}
-            parentComponent={`MY/STUDY-GROUPS/${id}`}
           />
         ) : null}
       </section>

@@ -1,11 +1,7 @@
 export type PagePositionType = "START" | "END" | "BETWEEN";
-export type ParentComponentType =
-  | "BOOKS"
-  | `MY/${string}`
-  | "QUIZ"
-  | `BOOK/${string}`;
+export type ParentPage = "books" | "quiz" | `book/${number}`;
 export interface PaginationType {
-  parentComponentType?: ParentComponentType; // 페이지 타입: ex) 책 목록, 마이페이지
+  parentPage?: ParentPage; // 페이지 타입: ex) 책 목록, 마이페이지
   currentPage: number;
   pagePosition: PagePositionType;
   totalPagesLength: number | undefined;

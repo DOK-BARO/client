@@ -1,6 +1,6 @@
 import { paginationAtom } from "@/store/paginationAtom";
 import { BooksFilterType, ReviewsFilterType } from "@/types/FilterType";
-import { ParentComponentType } from "@/types/PaginationType";
+import { ParentPage } from "@/types/PaginationType";
 import { FetchBooksKeyType } from "@/types/ParamsType";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
@@ -10,8 +10,7 @@ import { useNavigate } from "react-router-dom";
 // 필요 시 제외 파라미터를 처리하는 등
 // 페이지 이동과 상태 업데이트를 동시에 수행
 
-// TODO: parentComponent -> parentPage 등..으로 변수명 변경하기
-const useNavigateWithParams = (parentComponent: ParentComponentType) => {
+const useNavigateWithParams = (parentPage: ParentPage) => {
   const navigate = useNavigate();
   const [, setPaginationState] = useAtom(paginationAtom);
   useEffect(() => {
@@ -23,20 +22,20 @@ const useNavigateWithParams = (parentComponent: ParentComponentType) => {
       middlePages: [],
       isMiddlePagesUpdated: false,
     }));
-  }, [parentComponent]);
+  }, [parentPage]);
 
   const navigateWithParams = ({
     filter,
     page,
     category,
-    parentComponentType, // 현재 어떤 페이지에 있는지
+    parentPage, // 현재 어떤 페이지에 있는지
     excludeParams = [],
     itemId = undefined,
   }: {
     filter?: BooksFilterType | ReviewsFilterType;
     page?: number;
     category?: string;
-    parentComponentType: ParentComponentType;
+    parentPage: ParentPage;
     includeParamName?: FetchBooksKeyType[];
     excludeParams?: FetchBooksKeyType[];
     itemId?: number;
@@ -76,8 +75,8 @@ const useNavigateWithParams = (parentComponent: ParentComponentType) => {
     }
 
     const pathname = !itemId
-      ? `/${parentComponentType.toLowerCase()}`
-      : `/${parentComponentType.toLowerCase()}/${itemId}`;
+      ? `/${parentPage.toLowerCase()}`
+      : `/${parentPage.toLowerCase()}/${itemId}`;
 
     navigate({
       pathname,

@@ -24,7 +24,7 @@ export default function GNB() {
     queryKey: bookKeys.categories(),
     queryFn: bookService.fetchBookCategories,
   });
-  const { navigateWithParams } = useNavigateWithParams("BOOKS");
+  const { navigateWithParams } = useNavigateWithParams("books");
 
   if (isLoading) {
     return <div>loading</div>;
@@ -36,7 +36,7 @@ export default function GNB() {
   const handleClick = (id: string) => {
     // navigateWithParams(e, "BOOKS", "category", ["page"]);
     navigateWithParams({
-      parentComponentType: "BOOKS",
+      parentPage: "books",
       category: id,
       excludeParams: ["page"],
     });

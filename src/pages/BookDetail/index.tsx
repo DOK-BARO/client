@@ -49,7 +49,7 @@ export default function Index() {
     <section className={styles.container}>
       <div className={styles["bread-crumb"]}>
         <Breadcrumb
-          parentComponent="BOOKS"
+          parentPage="books"
           list={data.categories.map((e, index) => ({
             id: index,
             name: e.name,

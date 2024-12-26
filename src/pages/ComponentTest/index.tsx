@@ -1,26 +1,20 @@
 import { AUTH_TYPES, SOCIAL_TYPES } from "@/data/constants.ts";
-import CheckIcon from "@mui/icons-material/Check";
-import CloseIcon from "@mui/icons-material/Close";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
-import { RadioOption } from "@/types/RadioTypes.ts";
-import useModal from "@/hooks/useModal.ts";
-import { getUser } from "@/services/server/authService.ts";
+import { RadioOptionType } from "@/types/RadioTypes";
+// import useModal from "@/hooks/useModal.ts";
 import { useState } from "react";
 import { Invisible } from "@/svg/invisible.tsx";
-import {
-  gray60,
-  systemDanger,
-  systemSuccess,
-} from "@/styles/abstracts/colors.ts";
-import RadioButton from "@/components/atom/radioButton/radioButton.tsx";
+import RadioOption from "@/components/atom/radioOption/radioOption";
+import { gray60 } from "@/styles/abstracts/colors.ts";
 import SocialAuthButton from "@/components/composite/socialAuthButton/socialAuthButton.tsx";
 import Button from "@/components/atom/button/button.tsx";
-import Modal from "@/components/atom/modal/modal.tsx";
+// import Modal from "@/components/atom/modal/modal.tsx";
 import Input from "@/components/atom/input/input.tsx";
 import { useRef } from "react";
-import { uploadImage } from "@/services/server/imageService";
+import { imageService } from "@/services/server/imageService";
+import { ImageTargetType } from "@/types/UploadImageType";
 
-const options: RadioOption[] = [
+const options: RadioOptionType[] = [
   { id: 1, value: "option1", label: "Option 1" },
   { id: 2, value: "option2", label: "Option 2" },
   { id: 3, value: "option3", label: "Option 3" },
@@ -28,33 +22,11 @@ const options: RadioOption[] = [
 
 export default function Index() {
   const { selectedValue, handleChange } = useRadioGroup("");
-  const { openModal, isModalOpen, closeModal } = useModal();
+  // const { openModal, isModalOpen, closeModal } = useModal();
   const fileInputRef = useRef<HTMLInputElement | null>(null); // 파일 입력 참조
 
   const [inputValue, setInputValue] = useState<string>("");
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
-
-  const getClassNameAndIcon = (optionValue: string, correctOption?: string) => {
-    // TODO: currentOption : 채점 전엔 null, 답안이 오면 해당 답안으로 set
-    const isCorrect = correctOption === optionValue; // 정답인 항목
-    const isSelected = selectedValue === optionValue; // 선택된 항목
-
-    // 선택된 항목의 경우 정답 or 오답에 따른 분기 스타일링
-    if (isSelected) {
-      return {
-        className: isCorrect
-          ? "radio-button-item-corrected"
-          : "radio-button-item-wrong",
-        icon: isCorrect ? (
-          <CheckIcon style={{ color: systemSuccess }} />
-        ) : (
-          <CloseIcon style={{ color: systemDanger }} />
-        ),
-      };
-    }
-    // 선택되지 않은 항목이라면 따로 스타일링 x
-    return { className: "radio-button-item", icon: null };
-  };
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     fileInputRef.current?.click();
@@ -68,13 +40,16 @@ export default function Index() {
 
   const handleUploadImg = async () => {
     const img: File = selectedImages[0];
-    const uploadImgArg: { image: File, imageTarget: "MEMBER_PROFILE" | "STUDY_GROUP_PROFILE" } = {
+    const uploadImgArg: {
+      image: File;
+      imageTarget: ImageTargetType;
+    } = {
       image: img,
-      imageTarget: "STUDY_GROUP_PROFILE"
+      imageTarget: "STUDY_GROUP_PROFILE",
     };
 
-    await uploadImage(uploadImgArg);
-  }
+    await imageService.uploadImage(uploadImgArg);
+  };
   return (
     <>
       {/* <GNB /> */}
@@ -88,25 +63,18 @@ export default function Index() {
         />
         <button onClick={handleUploadImg}>이미지 업로드 버튼</button>
       </div>
-      <button onClick={getUser}>유저 데이터 가져오는 버튼</button>
-      {options.map((option: RadioOption) => {
-        const { className, icon } = getClassNameAndIcon(
-          option.value,
-          "option2"
-        );
-
+      {/* <button onClick={authService.getUser}>유저 데이터 가져오는 버튼</button> */}
+      {options.map((option: RadioOptionType) => {
         return (
-          <RadioButton
+          <RadioOption
             key={option.id}
             radioGroupName={"radio-group"}
             option={option}
-            selectedValue={selectedValue}
+            checked={selectedValue === option.value}
             onChange={handleChange}
-            isDisabled={false} // TODO 답안이 오면 true
-            icon={icon}
-            className={className}
-            autoFocus={false}
-            LabelComponent={<div>{option.label}</div>}
+            disabled={false}
+            labelValue={option.label}
+            type="option-incorrect"
           />
         );
       })}
@@ -117,7 +85,6 @@ export default function Index() {
             {AUTH_TYPES.map((authType) => (
               <SocialAuthButton
                 key={`${socialType}-${authType}`}
-                authType={authType}
                 socialType={socialType}
               />
             ))}
@@ -142,21 +109,21 @@ export default function Index() {
           button
         </Button>
       </div>
-      <Button
+      {/* <Button
         onClick={() => {
           console.log("open modal");
           openModal();
         }}
       >
         모달 열기
-      </Button>
-      {isModalOpen && (
+      </Button> */}
+      {/* {isModalOpen && (
         <Modal
           popUpTitle={"테스트 모달 제목"}
           contentTitle={"테스트 모달 콘텐츠 제목"}
           closeModal={closeModal}
         />
-      )}
+      )} */}
       <Input
         size="small"
         id="component-test"

@@ -5,12 +5,13 @@
   @include flex(column);
   flex: 1;
 
-  h2 {
+  .title {
     font-size: 32px; //TODO: 변경필요
+    line-height: 1.5;
     font-weight: $font-weight-bold;
   }
 
-  article {
+  .content {
     @include flex(column);
     gap: 16px;
     padding: 20px 0 40px;

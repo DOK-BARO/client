@@ -1,18 +1,41 @@
-import { getBook } from "@/services/server/bookService.ts";
 import { useParams } from "react-router-dom";
 import styles from "./_book_detail.module.scss";
 import { useQuery } from "@tanstack/react-query";
 import { bookKeys } from "@/data/queryKeys.ts";
-import BookDetailSection from "./composite/bookDetailSection/bookDetailSection.tsx";
+import BookDetailContent from "./composite/bookDetailSection/bookDetailSection.tsx";
 import QuizListSection from "./composite/quizListSection/quizListSection.tsx";
+import { bookService } from "@/services/server/bookService.ts";
+import Breadcrumb from "@/components/composite/breadcrumb/breadcrumb.tsx";
+import { useNavigate } from "react-router-dom";
+import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
+import { BookType } from "@/types/BookType";
 
 export default function Index() {
   const { id } = useParams();
 
   const { data, isLoading } = useQuery({
     queryKey: bookKeys.detail(id!),
-    queryFn: () => getBook(id!),
+    queryFn: () => bookService.fetchBook(id!),
   });
+
+  const { updateQuizCreationInfo } = useUpdateQuizCreationInfo();
+
+  const navigate = useNavigate();
+  const handleGoToMakeQuiz = () => {
+    //TODO: 리팩토링
+    const book: BookType = {
+      id: data!.id,
+      isbn: data!.isbn,
+      title: data!.title,
+      publisher: data!.publisher,
+      publishedAt: data!.publishedAt,
+      imageUrl: data!.imageUrl,
+      categories: data!.categories,
+      authors: data!.authors,
+    };
+    updateQuizCreationInfo("book", book);
+    navigate("/create-quiz");
+  };
 
   if (isLoading) {
     return <div>loading</div>;
@@ -24,8 +47,25 @@ export default function Index() {
 
   return (
     <section className={styles.container}>
-      <BookDetailSection bookDetailContent={data!} />
-      <QuizListSection />
+      <div className={styles["bread-crumb"]}>
+        <Breadcrumb
+          parentComponent="BOOKS"
+          list={data.categories.map((e, index) => ({
+            id: index,
+            name: e.name,
+          }))}
+        />
+      </div>
+      <div className={styles["book-detail-section"]}>
+        <BookDetailContent
+          bookDetailContent={data}
+          handleGoToMakeQuiz={handleGoToMakeQuiz}
+        />
+        <QuizListSection
+          bookId={id ?? "0"}
+          handleGoToMakeQuiz={handleGoToMakeQuiz}
+        />
+      </div>
     </section>
   );
 }

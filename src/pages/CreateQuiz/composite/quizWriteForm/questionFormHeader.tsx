@@ -23,7 +23,7 @@ export default function QuestionFormHeader({
   function QuestionFormUtilButtons() {
     return (
       <span className={styles["util-button-area"]}>
-        <button className={styles["move-quiz"]} onClick={() => {}}>
+        <button className={styles["move-quiz"]}>
           <Move width={24} height={24} stroke={gray60} />
         </button>
         <button

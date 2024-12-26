@@ -6,11 +6,15 @@ import { Info } from "@/svg/info.tsx";
 import { SVGProps } from "@/types/SVGProps.ts";
 import { ICON_SIZE } from "@/data/constants.ts";
 import { gray70 } from "@/styles/abstracts/colors.ts";
-import localApi from "@/services/local/LocalApi.ts";
 import { useNavigate } from "react-router-dom";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { userKeys } from "@/data/queryKeys.ts";
-import { useQueryCurrentUser } from "@/hooks/useQueryCurrentUser.ts";
+import { useAtom } from "jotai";
+import { currentUserAtom } from "@/store/userAtom";
+import { ErrorType } from "@/types/ErrorType";
+import { authService } from "@/services/server/authService";
+import toast from "react-hot-toast";
+// import { useQueryCurrentUser } from "@/hooks/useQueryCurrentUser.ts";
 
 type HeaderMenuListItem = {
   Icon: React.FC<SVGProps>;
@@ -39,31 +43,44 @@ type Props = {
 };
 
 export default function HeaderMenuList({ closeDropDownList }: Props) {
-  const { user, isLoading } = useQueryCurrentUser();
+  const [currentUser, setCurrentUser] = useAtom(currentUserAtom);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  const onClickLogout = () => {
+  const { mutate: logout } = useMutation<void, ErrorType>({
+    mutationFn: () => authService.logout(),
+    onSuccess: () => {
+      queryClient.setQueryData(userKeys.user(), null);
+      toast.success("로그아웃 되었습니다.");
+      navigate("/");
+      setCurrentUser(null);
+    },
+  });
+
+  const handleLogout = () => {
     closeDropDownList();
-    localApi.removeCertification();
-    queryClient.setQueryData(userKeys.user(), null);
-    navigate("/");
+    // 로그아웃 로직 추가
+    logout();
   };
 
-  if (isLoading) {
-    return <></>;
-  }
-
-  const nickName = (user?.nickName.length ?? 0) > 5 ? `${user?.nickName.slice(0,6) +"..."}` : user?.nickName;
+  // const nickName =
+  //   (currentUser?.nickname.length ?? 0) > 5
+  //     ? `${currentUser?.nickname.slice(0, 6) + "..."}`
+  //     : currentUser?.nickname;
 
   return (
     <ul className={styles["header-menu-list"]}>
       <li className={styles["user-info-container"]}>
-        <button className={styles["user-info"]} onClick={()=> {
-          navigate("/my");
-        }}>
-        <span className={styles["user-name"]}>{nickName} 님</span>
-        <span className={styles["user-email"]}>{user?.email}</span>
+        <button
+          className={styles["user-info"]}
+          onClick={() => {
+            navigate("/my");
+          }}
+        >
+          <span className={styles["user-name"]}>
+            {currentUser?.nickname} 님
+          </span>
+          <span className={styles["user-email"]}>{currentUser?.email}</span>
         </button>
       </li>
       <div className={styles["header-menu-list-item-container"]}>
@@ -75,7 +92,7 @@ export default function HeaderMenuList({ closeDropDownList }: Props) {
           />
         ))}
       </div>
-      <li className={styles["logout"]} onClick={onClickLogout}>
+      <li className={styles["logout"]} onClick={handleLogout}>
         로그아웃
       </li>
     </ul>

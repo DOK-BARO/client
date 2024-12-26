@@ -1,0 +1,19 @@
+@import "../../../../styles/abstracts/mixins";
+@import "../../../../styles/abstracts/variables";
+
+.container {
+  .list-filter-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+  }
+  .review-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+.sr-only {
+  @include sr-only;
+}

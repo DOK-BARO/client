@@ -7,10 +7,12 @@
 
   .inner-container {
     padding: 0 24px;
+    > * {
+      line-height: 1.5;
+    }
   }
 
   .title {
-    // margin-top: 80px;
     font-size: 32px;
     font-weight: 600;
   }

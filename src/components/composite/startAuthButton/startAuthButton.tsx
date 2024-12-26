@@ -1,30 +1,38 @@
 import styles from "./_start_auth_button.module.scss";
-import useModal from "@/hooks/useModal.ts";
-import LoginModal from "../loginModal/loginModal.tsx";
 import Button from "@/components/atom/button/button.tsx";
+import { isEmailLoginPageAtom } from "@/store/authModalAtom.ts";
+import { useAtom } from "jotai";
 
-type Props = {
+interface StartAuthButtonProps {
   isLoggedIn: boolean;
-};
+  openLoginModal: () => void;
+}
 
-export default function StartAuthButton({ isLoggedIn }: Props) {
-  const { isModalOpen, openModal, closeModal } = useModal();
+export default function StartAuthButton({
+  isLoggedIn,
+  openLoginModal,
+}: StartAuthButtonProps) {
+  const [, setIsEmailLoginPage] = useAtom(isEmailLoginPageAtom);
 
   if (isLoggedIn) {
     return null;
   }
+
+  const handleClick = () => {
+    setIsEmailLoginPage(false); // 초기화 후 모달 오픈
+    openLoginModal();
+  };
 
   return (
     <div>
       <Button
         color="black"
         className={styles["start-button"]}
-        onClick={openModal}
+        onClick={handleClick}
         size="small"
       >
         시작하기
       </Button>
-      {isModalOpen && <LoginModal closeModal={closeModal} />}
     </div>
   );
 }

@@ -1,26 +1,36 @@
-import React, { FormEvent, useEffect, useState } from "react";
+import React, {
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import styles from "./_terms_agreement.module.scss";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Button from "@/components/atom/button/button";
 import CheckBox from "@/pages/Register/components/checkBox/checkBox";
 import { APP_NAME } from "@/data/constants.ts";
 import useModal from "@/hooks/useModal";
 import TermsModal from "@/components/atom/TermsModal/termsModal";
-import { useGetTermDetail } from "@/hooks/useGetTermDetail";
-import { useGetTerms } from "@/hooks/useGetTerms";
-import { sendTermsAgreement } from "@/services/server/authService";
-import { RegisterInfoAtom } from "@/store/userAtom";
+import { registerInfoAtom } from "@/store/userAtom";
 import { RegisterInfoType } from "@/types/UserType";
 import { useAtom } from "jotai";
+import { authService } from "@/services/server/authService";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { authKeys } from "@/data/queryKeys";
+import { ErrorType } from "@/types/ErrorType";
 
-export default function TermsAgreement() {
+export default function TermsAgreement({
+  setStep,
+}: {
+  setStep: Dispatch<SetStateAction<number>>;
+}) {
   const { method } = useParams();
-  const navigate = useNavigate();
-  const nextPage = `/register/${method}/2`;
 
   const { isModalOpen, openModal, closeModal } = useModal();
-  const [registrationInfo, setRegistrationInfo] =
-    useAtom<RegisterInfoType>(RegisterInfoAtom);
+
+  const [user, setUser] = useAtom<RegisterInfoType>(registerInfoAtom);
+  const [termId, setTermId] = useState<number | null>(null);
 
   const [agreements, setAgreements] = useState<
     Record<string, { checked: boolean; isRequired: boolean }>
@@ -29,14 +39,26 @@ export default function TermsAgreement() {
   });
 
   // 이용약관 '보기' 클릭 시 상세 불러오기
-  const {
-    getTermDetail,
-    termDetail,
-    isLoading: isTermDetailLoading,
-  } = useGetTermDetail();
+  const { data: termDetail, isLoading: isTermDetailLoading } = useQuery({
+    queryKey: authKeys.termDetail(termId),
+    queryFn: () => (termId ? authService.fetchTermDetail(termId) : null),
+  });
 
   // 이용약관들을 불러오기
-  const { terms, isLoading: isTermsLoading } = useGetTerms();
+  const { data: terms, isLoading: isTermsLoading } = useQuery({
+    queryKey: authKeys.terms(),
+    queryFn: authService.fetchTerms,
+    // 에러는 전역에서 처리
+  });
+
+  const { mutate: agreeTerms } = useMutation<void, ErrorType, number[]>({
+    mutationFn: (items) => authService.sendTermsAgreement(items),
+    onSuccess: () => {
+      setStep((prev) => prev + 1);
+    },
+    // 에러는 전역에서 처리
+  });
+
   const [modalTitle, setModalTitle] = useState<string>("");
 
   useEffect(() => {
@@ -100,7 +122,8 @@ export default function TermsAgreement() {
   ) => {
     const { value } = e.target as HTMLButtonElement;
     const index = Number(value);
-    getTermDetail(index);
+    setTermId(index);
+
     if (terms) {
       const selectedTerm = terms.find((term) => term.id === index)?.title;
       if (selectedTerm) {
@@ -111,9 +134,11 @@ export default function TermsAgreement() {
   };
 
   // 필수 항목에 동의했을 때
-  const isSubmitAble: boolean = Object.values(agreements).every(
-    (agreement) => agreement.checked || !agreement.isRequired
-  );
+  const isSubmitAble: boolean = terms
+    ? Object.values(agreements).every(
+        (agreement) => agreement.checked || !agreement.isRequired
+      )
+    : false;
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -125,15 +150,15 @@ export default function TermsAgreement() {
 
     if (method === "email") {
       // 이용약관 동의 상태 전역에 저장
-      setRegistrationInfo({
-        ...registrationInfo,
+      setUser({
+        ...user,
         termsAgreements: items,
       });
+      setStep((prev) => prev + 1);
     } else {
       // 이용약관 동의
-      await sendTermsAgreement(items);
+      agreeTerms(items);
     }
-    navigate(nextPage);
   };
 
   return (
@@ -143,7 +168,7 @@ export default function TermsAgreement() {
         {APP_NAME}의 서비스 이용약관에
         <br />
         동의해 주세요.
-      </p>
+      </p>{" "}
       <form onSubmit={handleSubmit}>
         {/* 모두 동의 */}
         <div className={styles["terms-agreement-all"]}>

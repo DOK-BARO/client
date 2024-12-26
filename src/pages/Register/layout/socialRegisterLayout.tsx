@@ -1,14 +1,15 @@
 import styles from "./_register_layout.module.scss";
-import { Outlet, useParams } from "react-router-dom";
 import ProgressBar from "@/pages/Register/components/progressBar/progressBar.tsx";
-import { useQueryCurrentUser } from "@/hooks/useQueryCurrentUser";
-import { RegisterInfoAtom } from "@/store/userAtom";
+// import { useQueryCurrentUser } from "@/hooks/useQueryCurrentUser";
+import { currentUserAtom, registerInfoAtom } from "@/store/userAtom";
 import { RegisterInfoType } from "@/types/UserType";
 import { useAtom } from "jotai";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import TermsAgreement from "../composite/termsAgreement/termsAgreement";
+import ProfileSet from "../composite/profileSet/profileSet";
 
 const SocialRegisterLayout = () => {
-  const { step } = useParams<{ step: string }>();
+  const [step, setStep] = useState<number>(1);
 
   const titles: Record<string, string> = {
     "1": "반가워요!",
@@ -16,20 +17,32 @@ const SocialRegisterLayout = () => {
   };
 
   const title = titles[step || ""] || "";
+  const [currentUser] = useAtom(currentUserAtom);
 
-  const { isLoading, user } = useQueryCurrentUser();
+  // const { isLoading, user } = useQueryCurrentUser();
   const [registrationInfo, setRegistrationInfo] =
-    useAtom<RegisterInfoType>(RegisterInfoAtom);
+    useAtom<RegisterInfoType>(registerInfoAtom);
 
   useEffect(() => {
     // 유저 이메일 설정
-    if (!isLoading && user) {
+    if (currentUser) {
       setRegistrationInfo({
         ...registrationInfo,
-        email: user.email,
+        email: currentUser.email,
       });
     }
   }, []);
+
+  const renderStepComponent = () => {
+    switch (step) {
+      case 1:
+        return <TermsAgreement setStep={setStep} />;
+      case 2:
+        return <ProfileSet />;
+      default:
+        return <div>404</div>;
+    }
+  };
 
   return (
     <section className={styles["register-baseLayout"]}>
@@ -39,7 +52,8 @@ const SocialRegisterLayout = () => {
           <p className={styles["title"]}>{title}</p>
           <ProgressBar ratio={Number(step) / Object.keys(titles).length} />
         </header>
-        <Outlet context={"social"} />
+        {renderStepComponent()}
+        {/* <Outlet context={"social"} /> */}
       </div>
     </section>
   );

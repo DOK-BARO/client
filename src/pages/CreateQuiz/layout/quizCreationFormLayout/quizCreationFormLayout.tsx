@@ -5,15 +5,23 @@ import RightArrow from "@/svg/rightArrow.tsx";
 import { gray0, gray60 } from "@/styles/abstracts/colors.ts";
 import { useAtom } from "jotai";
 import {
-  IsQuizNextButtonEnabledAtom,
-  QuizCreationInfoAtom,
+  createdQuizIdAtom,
+  isQuizNextButtonEnabledAtom,
+  quizCreationInfoAtom,
 } from "@/store/quizAtom";
-import { QuizCreationType, QuizQuestionRequestApiType, QuizRequestType } from "@/types/QuizType";
-import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
-import { createQuiz } from "@/services/server/quizService";
+import {
+  QuizCreationType,
+  QuizQuestionRequestApiType,
+  QuizRequestType,
+} from "@/types/QuizType";
 import { ViewScope, EditScope, scopeTranslations } from "@/types/QuizType";
-import { uploadImage } from "@/services/server/imageService";
+import { imageService } from "@/services/server/imageService";
 import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
+import { quizService } from "@/services/server/quizService";
+import { useMutation } from "@tanstack/react-query";
+import { ErrorType } from "@/types/ErrorType";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function QuizCreationFormLayout({
   steps,
@@ -24,11 +32,22 @@ export default function QuizCreationFormLayout({
   currentStep: number;
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
 }) {
-  const [isQuizNextButtonEnabled, setIsQuizNextButtonEnabled] =
-    useAtom<boolean>(IsQuizNextButtonEnabledAtom);
-  const [quizCreationInfo] = useAtom<QuizCreationType>(QuizCreationInfoAtom);
+  const navigate = useNavigate();
+  const [isQuizNextButtonEnabled,setIsQuizNextButtonEnabled] = useAtom<boolean>(
+    isQuizNextButtonEnabledAtom
+  );
+  const [quizCreationInfo] = useAtom<QuizCreationType>(quizCreationInfoAtom);
   const [, setErrorModalTitle] = useAtom(errorModalTitleAtom);
   const [openModal] = useAtom(openErrorModalAtom);
+
+	useEffect(()=>{
+		console.log(quizCreationInfo.questions?.length);
+		if(!quizCreationInfo?.questions?.length){
+			setIsQuizNextButtonEnabled(false);
+		}else{
+			setIsQuizNextButtonEnabled(true);
+		}
+	},[quizCreationInfo.questions?.length,currentStep]);
 
   const getCurrentStep = (): Step => {
     const step = steps[currentStep];
@@ -40,79 +59,124 @@ export default function QuizCreationFormLayout({
     )!;
   };
 
-  const getScopeKeyByTranslation = (translation: string): ViewScope | EditScope | undefined => {
-    const entry = Object.entries(scopeTranslations).find(([_, value]) => value === translation);
-    return entry ? entry[0] as ViewScope : undefined;
-  }
+  const getScopeKeyByTranslation = (
+    translation: string
+  ): ViewScope | EditScope | null => {
+    const entry = Object.entries(scopeTranslations).find(
+      ([, value]) => value === translation
+    );
+    return entry ? (entry[0] as ViewScope) : null;
+  };
 
-  const requestUploadExplanationImages = async (uploadTargetImgs: File[]): Promise<string[]> => {
+  const requestUploadExplanationImages = async (
+    uploadTargetImgs: File[]
+  ): Promise<string[]> => {
     const promiseImgList = uploadTargetImgs.map(async (img) => {
       const paramObj: {
-        image: File,
-        imageTarget: "MEMBER_PROFILE" | "STUDY_GROUP_PROFILE" | "BOOK_QUIZ_ANSWER"
+        image: File;
+        imageTarget:
+          | "MEMBER_PROFILE"
+          | "STUDY_GROUP_PROFILE"
+          | "BOOK_QUIZ_ANSWER";
       } = {
         image: img,
-        imageTarget: "BOOK_QUIZ_ANSWER"
-      }
-      return await uploadImage(paramObj);
+        imageTarget: "BOOK_QUIZ_ANSWER",
+      };
+      return await imageService.uploadImage(paramObj);
     });
     const uploadedImgUrl: string[] = await Promise.all(promiseImgList);
     return uploadedImgUrl;
-  }
+  };
 
-  const setRequestQuestion = async (): Promise<QuizQuestionRequestApiType[]> => {
-
-    const uploadedImgQuestions = quizCreationInfo.questions!.map(async (question) => {
-      const { id, ...rest } = question;
-      return {
-        ...rest,
-        answerType:
-          question.answerType === "CHECK_BOX"
-            ? "MULTIPLE_CHOICE"
-            : question.answerType,
-        answerExplanationImages: await requestUploadExplanationImages(question.answerExplanationImages),
-        selectOptions: question.selectOptions.map((option) => option.option),
-      };
-    })
+  const setRequestQuestion = async (): Promise<
+    QuizQuestionRequestApiType[]
+  > => {
+    const uploadedImgQuestions = quizCreationInfo.questions!.map(
+      async (question) => {
+        const { id, ...rest } = question;
+        void id;
+        return {
+          ...rest,
+          answerExplanationImages: await requestUploadExplanationImages(
+            question.answerExplanationImages
+          ),
+          selectOptions: question.selectOptions.map((option) => option.option),
+        };
+      }
+    );
     return await Promise.all(uploadedImgQuestions);
-  }
+  };
 
+  const [, setCreatedQuizId] = useAtom(createdQuizIdAtom);
+  const { mutate: createQuiz } = useMutation<
+    { id: number } | null,
+    ErrorType,
+    QuizRequestType
+  >({
+    mutationFn: (quiz) => quizService.createQuiz(quiz),
+    onSuccess: (data) => {
+      if (!data) {
+        return;
+      }
+      setCreatedQuizId(data.id);
+      // 완료 페이지로 이동
+      navigate("/create-quiz/complete");
+    },
+  });
 
   const requestCreateQuiz = async () => {
+    if (
+      quizCreationInfo.viewScope === null ||
+      quizCreationInfo.editScope === null
+    ) {
+      return;
+    }
+
+    const viewScopeKey = getScopeKeyByTranslation(quizCreationInfo.viewScope);
+    const editScopeKey = getScopeKeyByTranslation(quizCreationInfo.editScope);
+
+    if (
+      quizCreationInfo.title === null ||
+      quizCreationInfo.description === null ||
+      quizCreationInfo.book === null ||
+      viewScopeKey === null ||
+      editScopeKey === null ||
+      quizCreationInfo.questions === null
+    ) {
+      return;
+    }
+
     const quiz: QuizRequestType = {
-      title: quizCreationInfo.title!,
-      description: quizCreationInfo.description!,
-      viewScope: getScopeKeyByTranslation(quizCreationInfo.viewScope!)!,
-      editScope: getScopeKeyByTranslation(quizCreationInfo.editScope!)!,
-      bookId: quizCreationInfo.book!.id,
+      title: quizCreationInfo.title,
+      description: quizCreationInfo.description,
+      viewScope: viewScopeKey,
+      editScope: editScopeKey,
+      bookId: quizCreationInfo.book.id,
       studyGroupIds: quizCreationInfo.studyGroup?.id || undefined,
       questions: await setRequestQuestion(),
     };
 
-    console.log("request: %O", quiz);
-    await createQuiz(quiz);
+    createQuiz(quiz);
     return;
   };
   const endStep = steps.length - 1;
-  const { updateQuizCreationInfo } = useUpdateQuizCreationInfo();
-
 
   const goToNextStep = async () => {
-    if (currentStep === 0) {
-      updateQuizCreationInfo("studyGroup", undefined);
-    } else if (currentStep === 2.2) {
-      console.log("validation check!");
-      //TODO: 질문이 하나도 없을 때 버튼 다시 disable 필요
-      
-      // - 정답 선택 안 했을 때: 답안이 선택되었는지 확인하세요. 
+    if (currentStep === 2.2) {
       for (const question of quizCreationInfo.questions ?? []) {
         if (!question.answers?.length) {
           setErrorModalTitle("답안이 선택되었는지 확인하세요.");
           openModal!();
           return;
         }
+				if(question.answerType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER"){
+					if(question.answers.length <= 1 ){
+						setErrorModalTitle("복수정답은 답안을 2개이상 선택해야 합니다");
+          openModal!();
+          return;
+					}
+				}
       }
-
     } else if (currentStep == endStep) {
       await requestCreateQuiz();
       return;
@@ -148,13 +212,9 @@ export default function QuizCreationFormLayout({
         return;
       }
     }
-
-    // 새로운 단계(페이지) 넘어갈때 button 상태 다시 disabled로 변경.
-    setIsQuizNextButtonEnabled(false);
   };
 
   const step: Step = getCurrentStep();
-  console.log("step: %o", step);
 
   const title = step?.subSteps?.[0].title
     ? step.subSteps?.[0].title
@@ -162,14 +222,14 @@ export default function QuizCreationFormLayout({
   const description = step?.description
     ? step.description
     : step?.subSteps?.[0].description
-      ? step.subSteps?.[0].description
-      : "";
+    ? step.subSteps?.[0].description
+    : "";
 
   const FormComponent = step?.formComponent
     ? step.formComponent
     : step?.subSteps?.[0]?.formComponent
-      ? step.subSteps[0].formComponent
-      : null;
+    ? step.subSteps[0].formComponent
+    : null;
 
   return (
     <section className={styles["container"]}>
@@ -184,7 +244,7 @@ export default function QuizCreationFormLayout({
           size="medium"
           color="primary"
         >
-          {currentStep === endStep ? "완료" : "다음"}
+          다음
           <RightArrow
             alt="다음 버튼"
             width={20}

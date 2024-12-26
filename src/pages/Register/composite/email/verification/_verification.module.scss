@@ -15,6 +15,15 @@
   .next {
     margin-top: 24px;
   }
+  .resend {
+    color: $primary;
+    margin: 0 auto;
+    margin-top: 16px;
+    &:disabled {
+      background: none;
+      border: none;
+    }
+  }
 
   .message-container {
     display: flex;

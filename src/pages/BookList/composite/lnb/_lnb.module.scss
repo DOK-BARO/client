@@ -1,0 +1,46 @@
+@import "../../../../styles/abstracts/variables";
+@import "../../../../styles/abstracts/mixins";
+
+.lnb {
+  width: 164px;
+  &-inner-container {
+    .current-category {
+      font-size: $font-size-large;
+      font-weight: $font-weight-semibold;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      height: 32px;
+      padding: 0 10px;
+      margin-bottom: 8px;
+
+      button.parent-category-name {
+        padding: 0;
+        border: none;
+      }
+    }
+    .category-list {
+      width: 164px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      .category-item {
+        &-button {
+          border: none;
+          justify-content: start;
+        }
+      }
+      .category-detail-item {
+        &-button {
+          // font-size: 14px;
+          border-radius: 0;
+          color: $gray-70;
+          font-weight: $font-weight-medium;
+        }
+      }
+    }
+  }
+  .selected {
+    color: $gray-90 !important;
+  }
+}

@@ -3,12 +3,17 @@ import { useDropDownList } from "@/hooks/useDropDownList.ts";
 import Button from "@/components/atom/button/button.tsx";
 import HeaderMenuList from "../headerMenuList/headerMenuList.tsx";
 import { Person } from "@/svg/person.tsx";
+import { UserType } from "@/types/UserType.ts";
 
 type Props = {
   isLoggedIn: boolean;
+  currentUser: UserType;
 };
 
-export default function HeaderMyInfoUtilButton({ isLoggedIn }: Props) {
+export default function HeaderMyInfoUtilButton({
+  isLoggedIn,
+  currentUser,
+}: Props) {
   const {
     isOpenDropDownList,
     anchorEl,
@@ -20,15 +25,24 @@ export default function HeaderMyInfoUtilButton({ isLoggedIn }: Props) {
   if (!isLoggedIn) {
     return null;
   }
-
   return (
-    <div className={styles["header-my-info-util-container"]} ref={dropDownListRef}>
+    <div
+      className={styles["header-my-info-util-container"]}
+      ref={dropDownListRef}
+    >
       <Button
-        className={styles["header-my-info-util-button"]}
+        color="transparent"
         onClick={openDropDownList}
-      >
-        <Person width={40} height={40} />
-      </Button>
+        iconOnly
+        className={styles.profile}
+        icon={
+          currentUser.profileImage ? (
+            <img src={currentUser.profileImage} width={40} height={40} />
+          ) : (
+            <Person width={40} height={40} />
+          )
+        }
+      />
       {isOpenDropDownList && anchorEl && (
         <HeaderMenuList closeDropDownList={closeDropDownList} />
       )}

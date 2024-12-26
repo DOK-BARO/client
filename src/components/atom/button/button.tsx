@@ -1,5 +1,12 @@
 import React, { ReactNode } from "react";
 import styles from "./_button.module.scss";
+export type ButtonColorProps =
+  | "primary"
+  | "secondary"
+  | "primary-border"
+  | "black"
+  | "white"
+  | "transparent";
 interface ButtonProps {
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   children?: ReactNode;
@@ -7,13 +14,7 @@ interface ButtonProps {
   type?: "button" | "submit" | "reset";
   size?: "xsmall" | "small" | "medium" | "large" | "xlarge";
   mode?: "default" | "error";
-  color?:
-    | "primary"
-    | "secondary"
-    | "primary-border"
-    | "black"
-    | "white"
-    | "transparent";
+  color?: ButtonColorProps;
   disabled?: boolean;
   className?: string;
   value?: string;
@@ -49,6 +50,7 @@ const Button: React.FC<ButtonProps> = ({
       id={id}
       type={type}
       value={value}
+      // aria-label={}
       onClick={(e) => onClick(e)}
       className={className}
       disabled={disabled}

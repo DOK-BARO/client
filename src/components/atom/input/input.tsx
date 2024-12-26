@@ -3,7 +3,7 @@ import styles from "./_input.module.scss";
 
 interface InputProps {
   id: string;
-  value: string;
+  value: string | undefined;
   className?: string;
   type?: "text" | "number" | "password";
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -14,12 +14,14 @@ interface InputProps {
   isSuccess?: boolean;
   message?: string | JSX.Element;
   disabled?: boolean;
-  label?: string;
+  label?: string; // left
+  rightLabel?: JSX.Element; // right
   leftIcon?: JSX.Element;
   rightIcon?: JSX.Element;
   maxLength?: number;
   color?: "default" | "black" | "primary";
   fullWidth?: boolean;
+  maxLengthShow?: boolean;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -35,12 +37,14 @@ const Input: React.FC<InputProps> = ({
   isSuccess = false,
   message = "",
   disabled = false,
-  label,
+  label, // left
+  rightLabel, // right
   leftIcon,
   rightIcon,
   maxLength,
   color,
   fullWidth = false,
+  maxLengthShow = false,
 }) => {
   const className = `${styles.input} ${styles[`input--${size}`]} ${
     isError ? styles["input--error"] : ""
@@ -52,11 +56,16 @@ const Input: React.FC<InputProps> = ({
 
   return (
     <div className={`${styles.container} ${fullWidth ? styles.full : ""}`}>
-      {label && (
-        <label className={styles["label"]} htmlFor={id}>
-          {label}
-        </label>
-      )}
+      {label || rightLabel ? (
+        <div className={styles["label-container"]}>
+          {label ? (
+            <label className={styles["label"]} htmlFor={id}>
+              {label}
+            </label>
+          ) : null}
+          {rightLabel ? rightLabel : null}
+        </div>
+      ) : null}
       <div className={styles["input-wrapper"]}>
         {leftIcon && <span className={styles["icon-left"]}>{leftIcon}</span>}
         <input
@@ -83,6 +92,11 @@ const Input: React.FC<InputProps> = ({
           {message}
         </div>
       )}
+      {maxLength && maxLengthShow ? (
+        <span className={styles["char-count"]}>
+          <b>{value?.length}</b>/{maxLength}
+        </span>
+      ) : null}
     </div>
   );
 };

@@ -1,0 +1,50 @@
+@import "../../../../styles/abstracts/mixins";
+@import "../../../../styles/abstracts/variables";
+
+.container {
+  padding: 20px;
+  background-color: $gray-00;
+  border-radius: 8px;
+  line-height: 1.5;
+  height: fit-content;
+
+  .book-image {
+    border: 1px solid $gray-40;
+    border-radius: 4px;
+    width: 230px;
+    height: 304px;
+  }
+  .last-modified-at-container {
+    margin-top: 9px;
+    display: flex;
+    align-items: center;
+    color: $gray-60;
+    gap: 18px;
+    font-size: $font-size-medium;
+
+    .label {
+      border-radius: 6px;
+      background-color: $gray-20;
+      width: 89px;
+      height: 32px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  .creator-info-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: $font-size-medium;
+    margin: 16px 0;
+
+    .profile-image {
+      border-radius: 50%;
+      width: 22.2px;
+      height: 22.2px;
+      padding: 1.2px;
+      box-sizing: content-box;
+    }
+  }
+}

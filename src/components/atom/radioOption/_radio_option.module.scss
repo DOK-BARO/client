@@ -1,0 +1,158 @@
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixins";
+
+//TODO: option mixin 정의 필요
+@mixin basic-radio-button($default-border-color) {
+	input[type="radio"] {
+		margin:0;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+		width: 20px;
+		height: 20px;
+		flex-shrink: 0;
+		border-radius: 24px;
+		outline: none;
+		cursor: pointer;
+		border: 2px solid $default-border-color; // 체크되지 않았을 때의 테두리 색상
+		position: relative;
+	}
+
+}
+
+@mixin make-quiz-radio-button($default-color, $checked-color) {
+	@include basic-radio-button($default-border-color: $default-color);
+
+	input[type="radio"]:checked {
+		border: 3px solid $gray-20; // 테두리와 원 사이의 색상
+		background-color: $checked-color; // 체크 시 내부 원으로 표시될 색상
+		box-shadow: 0 0 0 2px $checked-color; // 테두리
+
+		transition: all 0.5s;
+	}
+}
+
+.option-container {
+	@include flex(row);
+	align-items: center;
+	justify-content: space-between;
+	border-radius: 8px;
+	background-color: white;
+
+	&:focus-within {
+		background-color: $background;
+	}
+
+	&.option-writing, &.option-written {
+		@include make-quiz-radio-button($default-color: $gray-60, $checked-color: $system-success);
+	}
+
+	&.option-correct {
+		@include make-quiz-radio-button($default-color: $gray-60, $checked-color: $system-success);
+		background-color: #3DBF0F1A;
+	}
+
+	&.option-default {
+		@include make-quiz-radio-button($default-color: $gray-90, $checked-color: $system-success);
+	}
+
+	&.option-selected {
+		@include make-quiz-radio-button($default-color: $gray-90, $checked-color: $primary);
+		background-color: $secondary;
+
+		transition: all 1s ease;
+	}
+
+	&.option-incorrect {
+		@include make-quiz-radio-button($default-color: $gray-60, $checked-color: $system-danger);
+		background-color: #EB003B1A;
+	}
+
+	&.solving-correct {
+		background-color: #3DBF0F1A;
+		input[type="radio"] {
+			border: none;
+			background-color: $system-success; // 체크 시 내부 원으로 표시될 색상
+			position: relative;
+			&::after{
+			display: inline-block;
+			content: '';
+			position: absolute;
+			top:-5px;
+			left:-4px;
+			width: 20px;
+			height: 20px;
+			background: url('/public/assets/svg/solvingQuizFormLayout/correct.svg') no-repeat;
+			}
+		}
+	}
+
+	&.solving-incorrect {
+		background-color: #EB003B1A;
+		input[type="radio"]{
+			border: none;
+			background-color: $system-danger; // 체크 시 내부 원으로 표시될 색상
+			position: relative;
+			&::after{
+			display: inline-block;
+			content: '';
+			position: absolute;
+			top:-5px;
+			left:-4px;
+			width: 20px;
+			height: 20px;
+			background: url('/public/assets/svg/solvingQuizFormLayout/incorrect.svg') no-repeat;
+			}
+		}
+	}
+
+	&.full {
+	flex:1;
+	}
+}
+
+.option-label-textarea {	
+	display: flex;
+	border: none;
+	border-radius: 0;
+	font-size: $font-size-large;
+
+	&:focus {
+		background-color: $background;
+		outline: none;
+		border: none;
+	}
+
+	&::placeholder {
+		font-family: "Pretendard", sans-serif !important;
+	}
+}
+
+.option-label {
+	@include flex(row);
+	align-items: center;
+	gap: 8px;
+	flex: 1;
+	word-break: break-word;
+	white-space: pre-line;
+	padding: 10px 16px;
+}
+
+.option-label-value {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	flex: 1;
+	font-size: $font-size-large;
+	line-height: 150%
+}
+
+.delete-option-button {
+	width: 20px;
+	height: 20px;
+}
+
+.empty-icon{
+width: 20px;
+height: 20px;
+}

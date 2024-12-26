@@ -1,31 +1,43 @@
 @import "../../../styles/abstracts/variables";
 @import "../../../styles/abstracts/mixins";
-@import "../../../components/atom/input/input.module"; // 의심
 
-// .container {
-//   @include flex(column);
-// }
-// .label {
-//   color: $gray-90;
-//   font-size: $font-size-small;
-//   margin-bottom: 12px;
-// }
-// .message {
-//   color: $gray-70;
-//   font-size: $font-size-small;
-//   margin-top: 12px;
+.container {
+  display: flex;
+  flex-direction: column;
 
-//   &--error {
-//     @extend .message;
-//     color: $danger-50;
-//   }
-// }
+  .full,
+  &.full {
+    width: 100%;
+  }
+}
+
 .textarea {
   @include textarea-base;
+  @include input-base;
+  line-height: 1.5;
 
   &--error {
     box-shadow: 0 0 0 2px $system-danger;
   }
+
+  &--large {
+    font-size: $input-font-large;
+    padding: $textarea-padding-large;
+  }
+  &--medium {
+    font-size: $input-font-medium;
+    padding: $textarea-padding-medium;
+  }
+  &--small {
+    font-size: $input-font-small;
+    padding: $textarea-padding-small;
+  }
+}
+
+.option-label{
+	font-size: 17px;
+	padding: 0;
+	border:none;
 }
 
 .message-container {
@@ -38,8 +50,9 @@
   float: right;
 
   em {
-    color: $gray-70;
+    color: $gray-90;
   }
+
   &-max-length {
     color: $gray-90;
   }

@@ -1,154 +1,188 @@
 @import "_variables.scss";
 
 @mixin flex($direction: row, $center: false) {
-  display: flex;
-  flex-direction: $direction;
-  @if $center {
-    justify-content: center;
-    align-items: center;
-  }
+	display: flex;
+	flex-direction: $direction;
+
+	@if $center {
+		justify-content: center;
+		align-items: center;
+	}
 }
 
 @mixin sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
 }
+
 // 버튼 기본 스타일
 @mixin button-base {
-  @include flex(row, center);
-  padding: $button-padding-medium;
-  border-radius: $border-radius-small;
-  font-size: $font-size-medium;
-  font-family: inherit;
-  font-weight: $font-weight-medium;
-  border: none;
-  gap: 8px;
-  flex-shrink: 0;
-  white-space: nowrap;
+	@include flex(row, center);
+	padding: $button-padding-medium;
+	border-radius: $border-radius-small;
+	font-size: $font-size-medium;
+	font-family: inherit;
+	font-weight: $font-weight-medium;
+	border: none;
+	gap: 8px;
+	flex-shrink: 0;
+	white-space: nowrap;
 }
 
 @mixin input-base {
-  padding: $input-padding-medium;
-  border-radius: $border-radius-medium;
-  font-size: $font-size-medium;
-  border: 1.5px solid $gray-40;
-  font-family: inherit;
-  color: $gray-90;
-  width: 100%;
+	padding: $input-padding-medium;
+	border-radius: $border-radius-medium;
+	font-size: $font-size-medium;
+	border: 1.5px solid $gray-40;
+	font-family: inherit;
+	color: $gray-90;
+	width: 100%;
 
-  &::placeholder {
-    color: $gray-60;
-    font-family: inherit;
-    line-height: inherit;
-  }
+	&::placeholder {
+		color: $gray-60;
+		font-family: inherit;
+		line-height: inherit;
+	}
 
-  &:focus {
-    outline: none;
-  }
+	&:focus {
+		outline: none;
+	}
 }
 
 @mixin textarea-base {
-  line-height: 1.5em;
-  font-family: inherit;
-  min-height: 48px;
-  overflow: hidden;
+	line-height: 1.5;
+	overflow: hidden;
 
-  &:focus {
-    outline: none;
-  }
+	& {
+		resize: none;
+	}
 
-  & {
-    resize: none;
-  }
-
-  &::placeholder {
-    color: $gray-60;
-  }
+	&::placeholder {
+		line-height: 1.5;
+	}
 }
 
 @mixin scroll-bar {
-  &::-webkit-scrollbar {
-    width: 40px;
-    &-track {
-      width: 8px;
-      background: none;
-    }
-    &-thumb {
-      width: 8px;
-      border-radius: 9999px;
-      background-clip: padding-box;
-      border: 16px solid transparent;
-      background-color: $gray-40;
-      cursor: pointer;
-    }
-  }
+	&::-webkit-scrollbar {
+		width: 40px;
+
+		&-track {
+			width: 8px;
+			background: none;
+		}
+
+		&-thumb {
+			width: 8px;
+			border-radius: 9999px;
+			background-clip: padding-box;
+			border: 16px solid transparent;
+			background-color: $gray-40;
+			cursor: pointer;
+		}
+	}
 }
 
 @mixin inner-content-scroll-bar {
-  &::-webkit-scrollbar {
-    width: 17px;
-    background-color: transparent;
+	&::-webkit-scrollbar {
+		width: 17px;
+		background-color: transparent;
 
-    &-thumb {
-      height: 60px;
-      border-radius: 9999px;
-      background-clip: padding-box;
-      border: 6px solid transparent;
-      cursor: pointer;
-      background-color: $gray-40;
-    }
-  }
+		&-thumb {
+			height: 60px;
+			border-radius: 9999px;
+			background-clip: padding-box;
+			border: 6px solid transparent;
+			cursor: pointer;
+			background-color: $gray-40;
+		}
+	}
 }
 
 // break point
 @mixin respond-to($breakpoint) {
-  @if $breakpoint == sm {
-    @media (max-width: $breakpoint-sm) {
-      @content;
-    }
-  } @else if $breakpoint == md {
-    @media (max-width: $breakpoint-md) {
-      @content;
-    }
-  } @else if $breakpoint == lg {
-    @media (max-width: $breakpoint-lg) {
-      @content;
-    }
-  } @else if $breakpoint == lx {
-    @media (max-width: $breakpoint-lx) {
-      @content;
-    }
-  } @else {
-    @content;
-  }
+	@if $breakpoint ==sm {
+		@media (max-width: $breakpoint-sm) {
+			@content;
+		}
+	}
+
+	@else if $breakpoint ==md {
+		@media (max-width: $breakpoint-md) {
+			@content;
+		}
+	}
+
+	@else if $breakpoint ==lg {
+		@media (max-width: $breakpoint-lg) {
+			@content;
+		}
+	}
+
+	@else if $breakpoint ==lx {
+		@media (max-width: $breakpoint-lx) {
+			@content;
+		}
+	}
+
+	@else {
+		@content;
+	}
+}
+
+@mixin fadeIn {
+	animation: fadeIn 1s ease-in-out;
+
+	@keyframes fadeIn {
+		0% {
+			opacity: 0;
+		}
+
+		100% {
+			opacity: 1;
+		}
+	}
+}
+
+@mixin slideIn {
+	animation: slideIn 1s ease-in-out;
+
+	@keyframes slideIn {
+		0% {
+			transform: translateX(30%);
+		}
+
+		100% {
+			transform: translateX(0);
+		}
+	}
 }
 
 // 모달 등
 @mixin modal-backdrop {
-  display: flex;
-  align-items: center;
-  background-color: $modal-backdrop-color;
-  z-index: 1; //위치지정 요소
-  position: fixed;
-  justify-content: center;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+	display: flex;
+	align-items: center;
+	background-color: $modal-backdrop-color;
+	z-index: 999; //위치지정 요소
+	position: fixed;
+	justify-content: center;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
 }
 
 @mixin modal-view {
-  display: flex;
-  align-items: start;
-  background-color: $gray-00;
-  flex-direction: column;
-  border-radius: $border-radius-large; // 12px
-  padding: 30px;
-  position: relative;
+	display: flex;
+	align-items: start;
+	background-color: $gray-00;
+	flex-direction: column;
+	border-radius: $border-radius-large; // 12px
+	padding: 30px;
+	position: relative;
 }

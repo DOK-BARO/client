@@ -1,10 +1,10 @@
 import { useAtom } from "jotai";
-import { QuizCreationInfoAtom } from "@/store/quizAtom";
+import { quizCreationInfoAtom } from "@/store/quizAtom";
 import { QuizCreationType } from "@/types/QuizType";
 
 const useUpdateQuizCreationInfo = () => {
   const [quizCreationInfo, setQuizCreationInfo] =
-    useAtom<QuizCreationType>(QuizCreationInfoAtom);
+    useAtom<QuizCreationType>(quizCreationInfoAtom);
 
   const updateQuizCreationInfo = <T extends keyof QuizCreationType, V>(
     field: T,

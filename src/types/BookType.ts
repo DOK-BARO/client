@@ -15,20 +15,65 @@ interface BookCategories {
   name: string;
 }
 
+export interface BooksFilterType {
+  sort: BooksSortType;
+  direction: DirectionType;
+}
+export type BooksSortType = "PUBLISHED_AT" | "TITLE" | "QUIZ_COUNT";
+export type DirectionType = "ASC" | "DESC";
+
+export interface BookQuizzesFilterType {
+  sort: BookQuizzesSortType;
+  direction: DirectionType;
+}
+export type BookQuizzesSortType = "CREATED_AT" | "STAR_RATING"
+
 // TODO: Params 타입은 따로 파일 분리하거나, 타입 지정하지 않고 그냥 service 로직 안에서 선언하기
-// TODO: BookListFetchParams로 타입명 변경하기
-export interface GetBookListParams {
+// TODO: BooksFetchParams로 타입명 변경하기
+export interface BooksFetchParams {
   title?: string;
   authorName?: string;
   description?: string;
   category?: number;
   page?: number;
   size?: number;
-  sort?: "PUBLISHED_AT" | "TITLE" | "QUIZ_COUNT";
-  direction?: "ASC" | "DESC";
+  sort?: BooksSortType;
+  direction?: DirectionType;
 }
-export interface SearchBookListParams {
+
+export type BookParamKeyType = keyof BooksFetchParams;
+
+export interface SearchBooksParams {
   keyword?: string;
   lastId?: number;
   size?: number;
+}
+
+export interface FetchQuizzesParams {
+	page: string;
+	size: string;
+	bookId: string;
+	sort: string;
+	direction: string;
+}
+
+export interface BookQuizzesType {
+  endPageNumber: number;
+  data: BookQuizzesDataType[];
+}
+
+export interface BookQuizzesDataType {
+  id: number;
+  title: string;
+  averageStarRating: number;
+  averageDifficultyLevel: number;
+	reviewCount: number;
+  questionCount: number;
+  creator: QuizCreatorType;
+}
+
+export interface QuizCreatorType {
+  id: number;
+  nickname: string;
+  profileUrl: string;
 }

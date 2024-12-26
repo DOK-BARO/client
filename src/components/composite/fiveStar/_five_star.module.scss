@@ -1,0 +1,31 @@
+@import "../../../styles/abstracts/mixins";
+@import "../../../styles/abstracts/variables";
+
+.container {
+	@include flex(row, center);
+
+	&.medium {
+		gap: 9.57px;
+	}
+
+	&.small {
+		gap: 3.5px;
+	}
+
+	.stars {
+		@include flex(row, center);
+
+		&.slideIn {
+		@include slideIn;
+		}
+	}
+
+	.review-type-description {
+		margin-left: 46px;
+		@include fadeIn;
+	}
+
+	.non-button {
+		cursor: default;
+	}
+}

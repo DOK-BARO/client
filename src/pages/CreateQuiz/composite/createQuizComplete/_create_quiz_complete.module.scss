@@ -1,0 +1,27 @@
+@import "../../../../styles/abstracts/variables";
+@import "../../../../styles/abstracts/mixins";
+
+.create-quiz-complete {
+  @include flex(column, center);
+  margin-top: 40px;
+  line-height: 1.5;
+  .title {
+    font-size: 32px;
+    font-weight: $font-weight-bold;
+    line-height: inherit;
+  }
+  .description {
+    font-size: $font-size-large;
+    font-weight: $font-weight-regular;
+    margin-top: 8px;
+    line-height: inherit;
+  }
+  .image {
+    margin-top: 20px;
+  }
+  .button-container {
+    @include flex(row);
+    margin-top: 30px;
+    gap: 16px;
+  }
+}

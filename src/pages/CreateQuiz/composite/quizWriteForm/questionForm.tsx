@@ -16,10 +16,11 @@ import { OXQuestionTemplate } from "@/pages/CreateQuiz/composite/quizWriteForm/o
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
 import { useAtom } from "jotai";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
+import deleteIcon from "/assets/svg/quizWriteForm/delete_ellipse.svg";
 import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
-import { QuizQuestionType, SelectOptionType } from "@/types/QuizType";
+import { QuizQuestionType } from "@/types/QuizType";
 import QuestionTemplateTypeUtilButton from "./questionTemplateTypeUtilButton";
-
+import { SelectOptionType } from "@/types/QuizType";
 
 interface QuizWriteFormItemProps {
   questionFormId: number;
@@ -31,13 +32,13 @@ const questionTemplates: QuestionTemplateType[] = [
   {
     Icon: UlList,
     text: "객관식",
-    answerType: "MULTIPLE_CHOICE",
+    answerType: "MULTIPLE_CHOICE_SINGLE_ANSWER",
     FormComponent: <MultipleChoiceQuestionTemplate />,
   },
   {
     Icon: OlList,
     text: "복수 정답",
-    answerType: "CHECK_BOX",
+    answerType: "MULTIPLE_CHOICE_MULTIPLE_ANSWER",
     FormComponent: <CheckBoxQuestionTemplate />,
   },
   {
@@ -62,7 +63,6 @@ const questionTemplates: QuestionTemplateType[] = [
 
 export default function QuestionForm({ questionFormId, deleteQuestion, answerType }: QuizWriteFormItemProps) {
   const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
-  const deleteIcon = "/assets/svg/quizWriteForm/delete_ellipse.svg";
 
   const setInitialFormType = (): QuestionTemplateType => {
     return questionTemplates.find(({ answerType: typeFlag }) => typeFlag === answerType) || questionTemplates[0];
@@ -90,7 +90,6 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
   }
 
   const onQuizModeSelect = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log("sdfd: ",e.currentTarget.value)
     setQuestionFormMode(e.currentTarget.value);
   };
 
@@ -126,7 +125,6 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
     updateQuizCreationInfo("questions", updatedQuestions);
   };
 
-
   const hasDuplicate = (arr:SelectOptionType[]) => {
     const options: string[] = arr.map(({option})=>(option));
     return new Set(options).size !== options.length;
@@ -142,7 +140,7 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
       return;
     }
     // - 옵션 하나도 없을 때: 선택지를 1개 이상 추가해 주세요.
-    if (questionForm.selectOptions.length === 0) {
+    if (questionForm.answerType !== "OX" && questionForm.selectOptions.length === 0) {
       setErrorModalTitle("선택지를 1개 이상 추가해 주세요");
       openModal!();
       return;
@@ -236,7 +234,6 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
             selectedOption={questionFormType}
             setSelectedOption={setQuestionFormType}
           />
-          <div className={styles["title-area"]}>
             <Textarea
               maxLength={titleMaxLength}
               className={styles["title"]}
@@ -245,8 +242,8 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
               id="option"
               placeholder="질문을 입력해주세요."
               textAreaRef={questionTextAreaRef}
+							fullWidth
             />
-          </div>
         </div>
         {React.cloneElement(questionFormType.FormComponent, { questionFormId: questionFormId.toString(), questionFormMode: questionFormMode })}
       </div>
@@ -279,9 +276,11 @@ export default function QuestionForm({ questionFormId, deleteQuestion, answerTyp
             placeholder={"답안에 대한 설명을 입력해주세요"}
             textAreaRef={descriptionTextAreaRef}
             maxLengthShow
+						fullWidth
           />
 
           {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+					{/* TODO: refactor 퀴즈 풀기 해설과 같은 컴포넌트 */}
           {imagePreview.length > 0 && (
             <section className={styles["image-area"]}>
               {imagePreview.map((image, index) => (

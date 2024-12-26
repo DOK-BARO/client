@@ -2,11 +2,12 @@ import styles from "./_question_form.module.scss";
 import { FC, useEffect } from "react";
 import { QuestionFormMode } from "@/data/constants.ts";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
-import { QuizQuestionType } from "@/types/QuizType";
+import { QuizQuestionType, SelectOptionType } from "@/types/QuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { useQuestionTemplate } from "@/hooks/useQuestionTemplate";
 import SelectOption from "./selectOption";
 import { ChangeEvent } from "react";
+import { BOOK_QUIZ_OPTION_MAX_LENGTH } from "@/data/constants.ts";
 
 export const MultipleChoiceQuestionTemplate: FC<{ questionFormMode?: string, questionFormId?: string }> = ({ questionFormMode, questionFormId }) => {
   const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
@@ -14,22 +15,16 @@ export const MultipleChoiceQuestionTemplate: FC<{ questionFormMode?: string, que
   const {
     options,
     setOptions,
-    focusedOptionIndex,
-    setFocusedOptionIndex,
     deleteOption,
-    onClickAddQuizOptionItem,
+    handleAddQuizOptionItemBtn,
     getQuestion,
-  } = useQuestionTemplate("MULTIPLE_CHOICE", questionFormId!);
+  } = useQuestionTemplate("MULTIPLE_CHOICE_SINGLE_ANSWER", questionFormId!);
 
   const setInitialAnswer = (): string => {
     const question = getQuestion();
-    return question.answers[0];
+    return question?.answers[0] ?? "";
   }
   const { selectedValue: selectedRadioGroupValue, handleChange: onRadioGroupChange } = useRadioGroup(setInitialAnswer());
-
-  const handleOptionFocus = (id: number) => {
-    setFocusedOptionIndex(id);
-  };
 
   useEffect(() => {
     const question = getQuestion();
@@ -39,11 +34,10 @@ export const MultipleChoiceQuestionTemplate: FC<{ questionFormMode?: string, que
       },
   } as ChangeEvent<HTMLInputElement>;
   onRadioGroupChange(event);
+
+	
   }, [questionFormMode]);
 
-  const handleOptionBlur = () => {
-    setFocusedOptionIndex(null);
-  };
 
   const setText = (optionId: number, label: string) => {
 
@@ -57,10 +51,15 @@ export const MultipleChoiceQuestionTemplate: FC<{ questionFormMode?: string, que
   };
 
   const handleRadioGroupChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
+    const {id} = event.target;
     onRadioGroupChange(event);
+		
+		const currentQuestion: QuizQuestionType = quizCreationInfo.questions?.find((question) => (question.id.toString() === questionFormId!))!;
+		const targetSelectOption: SelectOptionType = currentQuestion.selectOptions.find((option)=>(id === option.id.toString()))!;
 
-    const updatedQuestions: QuizQuestionType[] = quizCreationInfo.questions!.map((question) => question.id.toString() === questionFormId ? { ...question, answers: [value] } : question);
+		const currentAnswer: string = targetSelectOption.answerIndex.toString();
+
+    const updatedQuestions: QuizQuestionType[] = quizCreationInfo.questions!.map((question) => question.id.toString() === questionFormId ? { ...question, answers: [currentAnswer] } : question);
     updateQuizCreationInfo("questions", updatedQuestions);
   }
 
@@ -73,19 +72,16 @@ export const MultipleChoiceQuestionTemplate: FC<{ questionFormMode?: string, que
           questionFormId={questionFormId!}
           option={item}
           deleteOption={deleteOption}
-          focusedOptionIndex={focusedOptionIndex}
-          handleOptionFocus={handleOptionFocus}
-          handleOptionBlur={handleOptionBlur}
           quizMode={questionFormMode!}
           onChange={handleRadioGroupChange}
           setText={setText}
           selectedValue={selectedRadioGroupValue}
-          answerType={"MULTIPLE_CHOICE"}
+          answerType={"MULTIPLE_CHOICE_SINGLE_ANSWER"}
         />
       )}
       {
-        questionFormMode == QuestionFormMode.QUESTION &&
-        <AddOptionButton onAdd={onClickAddQuizOptionItem} />
+        (questionFormMode == QuestionFormMode.QUESTION) && (options.length < BOOK_QUIZ_OPTION_MAX_LENGTH) &&
+        <AddOptionButton onAdd={handleAddQuizOptionItemBtn} />
       }
     </fieldset>
   );

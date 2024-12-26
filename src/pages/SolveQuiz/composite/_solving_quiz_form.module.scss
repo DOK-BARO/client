@@ -1,0 +1,51 @@
+@import "../../../styles/abstracts/mixins";
+@import "../../../styles/abstracts/variables";
+
+.container{
+@include flex(column);
+width: 100%;
+padding: 16px 0;
+gap: 24px;
+}
+
+.title-area{
+	button{
+	margin-left: 16px;
+	}
+
+	h2{
+	font-size: 24px; // TODO: fontsize정의 필요
+	font-weight: $font-weight-semibold;
+		padding: 10px 16px;
+	}
+}
+
+.title-wrapper{
+display: flex;
+align-items: center;
+padding: 10px 16px;
+}
+
+.options-area{
+	@include flex(column);
+	gap: 8px;
+}
+// TODO: progressbar와 겹침
+@mixin base-step {
+	@include flex(row, center);
+
+	width: 20px;
+	height: 20px;
+	font-size: $font-size-medium;
+	border-radius: 50%;
+}
+
+.tag-correct {
+	@include base-step;
+	background-color: $system-success;
+}
+
+.tag-incorrect {
+	@include base-step;
+	background-color: $system-danger;
+}

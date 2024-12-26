@@ -1,0 +1,22 @@
+@import "../../../styles/abstracts/mixins";
+@import "../../../styles/abstracts/variables";
+
+.no-data {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+	justify-content: center;
+	align-items: center;
+	background-color: white;
+	padding: 40px 0;
+	border-radius: 8px;
+
+	p {
+		font-weight: $font-weight-medium;
+		font-size: 22px;
+	}
+
+	button {
+		width: 200px;
+	}
+}

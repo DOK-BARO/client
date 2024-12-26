@@ -15,6 +15,10 @@ interface TextareaProps {
   maxLengthShow?: boolean;
   rows?: number;
   textAreaRef?: React.RefObject<HTMLTextAreaElement>;
+  autoFocus?: boolean;
+  fullWidth?: boolean;
+  size?: "large" | "medium" | "small";
+	type?: "option-label";
 }
 
 const Textarea: React.FC<TextareaProps> = ({
@@ -31,13 +35,19 @@ const Textarea: React.FC<TextareaProps> = ({
   maxLengthShow,
   rows,
   textAreaRef,
+  autoFocus,
+  fullWidth = false,
+  size = "medium",
+	type = "",
 }) => {
-  const className = `${styles.textarea}  ${
+  const className = `${styles.textarea} ${styles[type]} ${styles[`textarea--${size}`]} ${
     isError ? styles["textarea--error"] : ""
-  } ${customClassName}`;
+  } ${customClassName}  ${fullWidth ? styles["full"] : ""}`;
 
   return (
-    <div className={styles["container"]}>
+    <div
+      className={`${styles["container"]} ${fullWidth ? styles["full"] : ""}`}
+    >
       {label ? (
         <label className={styles["label"]} htmlFor={id}>
           {label}
@@ -55,8 +65,11 @@ const Textarea: React.FC<TextareaProps> = ({
         rows={rows}
         maxLength={maxLength}
         ref={textAreaRef}
+        autoFocus={autoFocus}
       />
-      {message || maxLength && maxLengthShow || maxLength && maxLength <= value.length ? (
+      {message ||
+      (maxLength && maxLengthShow) ||
+      (maxLength && maxLength <= value.length) ? (
         <div className={styles["message-container"]}>
           {
             <span className={styles[`message${isError ? "--error" : ""}`]}>
@@ -64,7 +77,16 @@ const Textarea: React.FC<TextareaProps> = ({
             </span>
           }
           <span className={styles["char-count"]}>
-            <em className={maxLength && value.length >= maxLength ? styles["char-count-max-length"] : ""}>{value.length}</em>/ {maxLength}
+            <em
+              className={
+                maxLength && value.length >= maxLength
+                  ? styles["char-count-max-length"]
+                  : ""
+              }
+            >
+              {value.length}
+            </em>
+            /{maxLength}
           </span>
         </div>
       ) : (

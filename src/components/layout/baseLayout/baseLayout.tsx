@@ -1,18 +1,36 @@
 import { Outlet } from "react-router-dom";
 import styles from "./_base_layout.module.scss";
 import HeaderLayout from "../headerLayout/headerLayout.tsx";
-import { useQueryCurrentUser } from "@/hooks/useQueryCurrentUser.ts";
+import { useAtom } from "jotai";
+import { currentUserAtom, isLoggedInAtom } from "@/store/userAtom.ts";
+import { authService } from "@/services/server/authService.ts";
+import { useEffect } from "react";
+// import { useQueryCurrentUser } from "@/hooks/useQueryCurrentUser.ts";
 
 export default function BaseLayout() {
-  const { isLoggedIn, isLoading } = useQueryCurrentUser();
+  // const { isLoggedIn, isLoading } = useQueryCurrentUser();
 
-  if (isLoading) {
-    return <div className={styles["container"]}>"로딩중"</div>;
-  }
+  // if (isLoading) {
+  //   return <div className={styles["container"]}>"로딩중"</div>;
+  // }
+  const [currentUser, setCurrentUser] = useAtom(currentUserAtom);
+  const [isLoggedIn] = useAtom(isLoggedInAtom);
+  // const { pathname } = useLocation();
+
+  // 전역에 사용자 정보 저장
+  const setLoggedInUser = async () => {
+    const currentUser = await authService.fetchUser();
+    setCurrentUser(currentUser);
+  };
+
+  useEffect(() => {
+    setLoggedInUser();
+  }, []);
 
   return (
     <div className={styles["container"]}>
-      <HeaderLayout isLoggedIn={isLoggedIn} />
+      <HeaderLayout isLoggedIn={isLoggedIn} currentUser={currentUser} />
+
       <main className={styles["main"]}>
         <div className={styles["inner-container"]}>
           <Outlet />

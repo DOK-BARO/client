@@ -44,7 +44,7 @@
   &--primary {
     background-color: $primary;
     color: $gray-00;
-    border: 1px solid $primary;
+    border: 1.5px solid $primary;
   }
   &--secondary {
     background-color: $secondary;
@@ -55,6 +55,11 @@
     background-color: $gray-00;
     color: $primary;
     border: 1.5px solid $primary;
+    &:disabled {
+      background-color: $gray-00 !important;
+      color: $gray-60 !important;
+      border-color: $gray-40 !important;
+    }
   }
   &--black {
     background-color: $gray-90;
@@ -79,7 +84,7 @@
   }
 
   .icon-container {
-    cursor: pointer;
+    cursor: inherit;
     display: flex;
   }
 }

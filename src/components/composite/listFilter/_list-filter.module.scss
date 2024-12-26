@@ -1,0 +1,16 @@
+@import "../../../styles/abstracts/mixins";
+@import "../../../styles/abstracts/variables";
+
+.container {
+  ul {
+    display: inline-flex;
+    button {
+      border: none;
+      border-radius: 0;
+      color: $gray-60;
+    }
+    .active {
+      color: $gray-90;
+    }
+  }
+}

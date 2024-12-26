@@ -1,4 +1,4 @@
-import styles from "./_my_study.module.scss";
+import styles from "./_my_study_groups.module.scss";
 import Button from "@/components/atom/button/button";
 import { Plus } from "@/svg/plus";
 import { primary } from "@/styles/abstracts/colors";
@@ -39,7 +39,7 @@ const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
   },
 ];
 
-export default function MyStudy() {
+export default function MyStudyGroups() {
   const { isModalOpen, openModal, closeModal } = useModal();
 
   const { search } = useLocation();

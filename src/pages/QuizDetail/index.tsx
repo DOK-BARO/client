@@ -12,10 +12,12 @@ import QuizLinkItem from "./composite/quizLinkItem/quizLinkItem";
 
 export default function Index() {
   const { id } = useParams();
-
+	if(!id){
+		return;
+	}
   const { data: explanation, isLoading } = useQuery({
     queryKey: quizKeys.explanation(id),
-    queryFn: () => (id ? quizService.fetchQuizExplanation(id) : null),
+    queryFn: async () => await (quizService.fetchQuizExplanation(id)),
   });
   const { data: reviewsTotalScore } = useQuery<ReviewsTotalScoreType | null>({
     queryKey: reviewKeys.totalScore(Number(id)),

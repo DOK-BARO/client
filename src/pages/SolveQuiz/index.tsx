@@ -11,19 +11,18 @@ import Button from "@/components/atom/button/button";
 import { ArrowRight } from "@/svg/arrowRight";
 import { gray0 } from "@/styles/abstracts/colors";
 import { useAtom } from "jotai";
-import { selectedOptionsAtom, solvingQuizIdAtom } from "@/store/quizAtom";
+import { selectedOptionsAtom, } from "@/store/quizAtom";
 import { QuestionCheckedResult } from "@/types/QuizType";
 import toast from "react-hot-toast";
 
 export default function Index() {
-	const { quizId } = useParams<{ quizId: string }>();
-	if (!quizId) {
+	const { quizId, solvingQuizId } = useParams<{ quizId: string, solvingQuizId:string }>();
+	if (!quizId || !solvingQuizId) {
 		return;
 	}
 	const warning = "/assets/svg/solvingQuizFormLayout/warning.svg";
 	const navigate = useNavigate();
 
-	const [solvingQuizId] = useAtom(solvingQuizIdAtom);
 	const { data: quiz, isLoading: isQuizLoading, error } = useQuery({
 		queryKey: quizKeys.detail(quizId),
 		queryFn: () => quizService.fetchQuiz(quizId),

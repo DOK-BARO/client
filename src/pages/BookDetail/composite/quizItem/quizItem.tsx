@@ -5,16 +5,15 @@ import Button from "@/components/atom/button/button";
 import { BookQuizzesDataType } from "@/types/BookType";
 import { useNavigate } from "react-router-dom";
 import { quizService } from "@/services/server/quizService";
-import { useAtom } from "jotai";
-import { solvingQuizIdAtom } from "@/store/quizAtom";
+
 export default function QuizItem({ quiz }: { quiz: BookQuizzesDataType }) {
 	const navigate = useNavigate();
-	const [, setSolvingQuizIdAtom] = useAtom(solvingQuizIdAtom);
 
-	const goToPlayQuiz = async () => {
-		const { id } = await quizService.startSolvingQuiz(quiz.id.toString());
-		setSolvingQuizIdAtom(id);
-		navigate(`/quiz/play/${quiz.id}`);
+	const goToPlayQuiz = async (e: React.MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+		quizService.startSolvingQuiz(quiz.id.toString()).then(({id})=>{
+			navigate(`/quiz/play/${quiz.id}/${id}`);
+		})
 	}
 
 	const renderQuizDifficultyLevel = (): string => {

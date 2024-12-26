@@ -77,7 +77,7 @@ export default function Pagination({ parentComponent }: Props) {
         {middlePages.map((page) => renderButton(page))}
         {middlePages[middlePages.length - 1] < totalPagesLength - 1 &&
           renderButton(totalPagesLength + 1, true)}
-        {renderButton(totalPagesLength)}
+        {1 !== totalPagesLength ? renderButton(totalPagesLength) : null}
       </span>
       <Button
         iconOnly

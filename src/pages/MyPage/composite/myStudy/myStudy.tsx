@@ -57,7 +57,7 @@ export default function MyStudy() {
 
   const { data: myStudyGroupsData } = useQuery({
     queryKey: studyGroupKeys.list(
-    parseQueryParams<StudyGroupsSortType, FetchStudyGroupsParams>({
+      parseQueryParams<StudyGroupsSortType, FetchStudyGroupsParams>({
         sort,
         direction,
         page,
@@ -81,11 +81,14 @@ export default function MyStudy() {
     });
   }, [endPageNumber]);
 
-  const { navigateWithParams } = useNavigateWithParams("MY");
+  const { navigateWithParams } = useNavigateWithParams("MY/STUDY-GROUPS");
   const [filterCriteria] = useAtom(studyGroupFilterAtom);
 
   const handleOptionClick = (filter: StudyGroupsFilterType) => {
-    navigateWithParams({ filter: filter, parentComponentType: "MY" });
+    navigateWithParams({
+      filter: filter,
+      parentComponentType: "MY/STUDY-GROUPS",
+    });
   };
 
   // const myStudyGroupList =
@@ -133,7 +136,9 @@ export default function MyStudy() {
         </ol>
       ) : null}
       {isModalOpen ? <AddStudyGroupModal closeModal={closeModal} /> : null}
-      {totalPagesLength ? <Pagination parentComponent="MY" /> : null}
+      {totalPagesLength ? (
+        <Pagination parentComponent="MY/STUDY-GROUPS" />
+      ) : null}
     </section>
   );
 }

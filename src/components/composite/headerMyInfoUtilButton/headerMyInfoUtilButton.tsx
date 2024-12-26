@@ -7,7 +7,7 @@ import { UserType } from "@/types/UserType.ts";
 
 type Props = {
   isLoggedIn: boolean;
-  currentUser: UserType;
+  currentUser: UserType | null;
 };
 
 export default function HeaderMyInfoUtilButton({
@@ -36,8 +36,8 @@ export default function HeaderMyInfoUtilButton({
         iconOnly
         className={styles.profile}
         icon={
-          currentUser.profileImage ? (
-            <img src={currentUser.profileImage} width={40} height={40} />
+          currentUser ? (
+            <img src={currentUser.profileImage ?? ""} width={40} height={40} />
           ) : (
             <Person width={40} height={40} />
           )

@@ -128,6 +128,7 @@ export default function QuizListSection({
       </div>
       {totalPagesLength && totalPagesLength > 0 && (
         <Pagination
+          type="queryString"
           parentPage={`book/${Number(bookId)}`}
           paginationState={paginationState}
           setPaginationState={setPaginationState}

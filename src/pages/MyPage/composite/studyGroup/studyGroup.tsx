@@ -55,33 +55,33 @@ export default function StudyGroup() {
   const page = paginationState.currentPage; // parseQueryParams함수 안에서 기본값 1로 설정
   const size = 10; // 한번에 불러올 최대 길이: 책 목록에서는 10 고정값.
 
-  const { data: unsolvedQuizData, isLoading: isUnsolvedQuizDataLoading } =
-    useQuery({
-      queryKey: studyGroupKeys.myUnsolvedQuizList(
-        id,
-        parseQueryParams<StudyGroupsSortType, FetchStudyGroupsParams>({
-          sort,
-          direction,
-          page,
-          size,
-        })
-      ),
-      queryFn: () =>
-        id
-          ? studyGroupService.fetchStudyGroupMyUnsolvedQuizzes(
-              id,
-              parseQueryParams<StudyGroupsSortType, FetchStudyGroupsParams>({
-                sort,
-                direction,
-                page,
-                size,
-              })
-            )
-          : null,
-      enabled: !!id,
-    });
+  const { data: unsolvedQuizData } = useQuery({
+    queryKey: studyGroupKeys.myUnsolvedQuizList(
+      id,
+      parseQueryParams<StudyGroupsSortType, FetchStudyGroupsParams>({
+        sort,
+        direction,
+        page,
+        size,
+      })
+    ),
+    queryFn: () =>
+      id
+        ? studyGroupService.fetchStudyGroupMyUnsolvedQuizzes(
+            id,
+            parseQueryParams<StudyGroupsSortType, FetchStudyGroupsParams>({
+              sort,
+              direction,
+              page,
+              size,
+            })
+          )
+        : null,
+    enabled: !!id,
+  });
   const unsolvedQuiz = unsolvedQuizData?.data;
   const endPageNumber = unsolvedQuizData?.endPageNumber;
+  console.log(unsolvedQuiz);
 
   // 마지막 페이지 번호 저장
   useEffect(() => {
@@ -91,9 +91,9 @@ export default function StudyGroup() {
     });
   }, [endPageNumber]);
 
-  // const [filterCriteria] = useAtom(studyGroupFilterAtom);
-
-  const handleOptionClick = (filter: StudyGroupsFilterType) => {};
+  const handleOptionClick = (filter: StudyGroupsFilterType) => {
+    setFilterCriteria(filter);
+  };
 
   return (
     <section className={styles.container}>

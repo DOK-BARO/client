@@ -8,7 +8,7 @@ import { UserType } from "@/types/UserType";
 
 interface Props {
   isLoggedIn: boolean;
-  currentUser: UserType;
+  currentUser: UserType | null;
 }
 
 export default function HeaderUtilArea({ isLoggedIn, currentUser }: Props) {

@@ -7,7 +7,7 @@ import { UserType } from "@/types/UserType";
 
 type Props = {
   isLoggedIn: boolean;
-  currentUser: UserType;
+  currentUser: UserType | null;
 };
 
 export default function HeaderLayout({ isLoggedIn, currentUser }: Props) {

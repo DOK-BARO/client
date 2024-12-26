@@ -91,11 +91,6 @@ export default function MyStudyGroups() {
     });
   };
 
-  // const myStudyGroupList =
-  //   myStudyGroups.length < 4
-  //     ? [...myStudyGroups, ...Array(4 - myStudyGroups.length).fill(null)]
-  //     : myStudyGroups;
-
   return (
     <section className={styles.container}>
       <div className={styles.header}>

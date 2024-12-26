@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 // 필요 시 제외 파라미터를 처리하는 등
 // 페이지 이동과 상태 업데이트를 동시에 수행
 
+// TODO: parentComponent -> parentPage 등..으로 변수명 변경하기
 const useNavigateWithParams = (parentComponent: ParentComponentType) => {
   const navigate = useNavigate();
   const [, setPaginationState] = useAtom(paginationAtom);

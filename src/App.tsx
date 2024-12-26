@@ -26,63 +26,104 @@ import { queryClient } from "./services/server/queryClient.ts";
 import CreateQuizComplete from "./pages/CreateQuiz/composite/createQuizComplete/createQuizComplete.tsx";
 import QuizResult from "./pages/QuizResult/index.tsx";
 import QuizReview from "./pages/QuizReview/index.tsx";
+import MyMadeQuiz from "./pages/MyPage/composite/myMadeQuiz/myMadeQuiz.tsx";
+import SolvedQuiz from "./pages/MyPage/composite/solvedQuiz/solvedQuiz.tsx";
+import MyStudy from "./pages/MyPage/composite/myStudy/myStudy.tsx";
+import { Settings } from "@mui/icons-material";
+import EditMyInfo from "./pages/MyPage/composite/accountSetting/editMyInfo.tsx";
 
 function App() {
-	// TODO: 분리하기
-	const router = createBrowserRouter([
-		{
-			path: "/",
-			element: <BaseLayout />,
-			children: [
-				{
-					path: "/",
-					element: <BookListLayout />,
-					children: [
-						{
-							path: "/",
-							element: <Navigate to="/books" replace />, // "/"로 들어왔을 때 "/books"로 리다이렉트
-						},
-						{
-							path: "/books",
-							element: <BookList />,
-						},
-					],
-				},
-				{
-					path: "/quiz/:id",
-					element: <QuizDetail />,
-				},
-				{
-					path: "/create-quiz",
-					element: <CreateQuiz />,
-				},
+  // TODO: 분리하기
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <BaseLayout />,
+      children: [
+        {
+          path: "/",
+          element: <BookListLayout />,
+          children: [
+            {
+              path: "/",
+              element: <Navigate to="/books" replace />, // "/"로 들어왔을 때 "/books"로 리다이렉트
+            },
+            {
+              path: "/books",
+              element: <BookList />,
+            },
+          ],
+        },
+        {
+          path: "/quiz/:id",
+          element: <QuizDetail />,
+        },
+        {
+          path: "/create-quiz",
+          element: <CreateQuiz />,
+        },
 
-				{
-					path: "/create-quiz/complete",
-					element: <CreateQuizComplete />,
-				},
-				{
-					path: "/book/:id",
-					element: <BookDetailSection />,
-				},
-				{
-					path: "/find-password",
-					element: <FindPassword />,
-				},
+        {
+          path: "/create-quiz/complete",
+          element: <CreateQuizComplete />,
+        },
+        {
+          path: "/book/:id",
+          element: <BookDetailSection />,
+        },
+        {
+          path: "/find-password",
+          element: <FindPassword />,
+        },
 
-				{
-					path: "/register/:method",
-					element: <Register />,
-				},
+        {
+          path: "/register/:method",
+          element: <Register />,
+        },
 
-				{
-					path: "/register/complete",
-					element: <RegisterComplete />,
-				},
-				{
-					path: "/my",
-					element: <MyPage />,
-				},
+        {
+          path: "/register/complete",
+          element: <RegisterComplete />,
+        },
+        {
+          path: "/my",
+          element: <MyPage />,
+          children: [
+            {
+              path: "made-quiz",
+              element: <MyMadeQuiz />,
+            },
+            {
+              path: "solved-quiz",
+              element: <SolvedQuiz />,
+            },
+            {
+              path: "study-groups",
+              element: <MyStudy />,
+            },
+            {
+              path: "settings",
+              element: <EditMyInfo />,
+              children: [
+                {
+                  index: true,
+                  element: <Navigate to="edit-profile" replace />,
+                },
+                {
+                  path: "edit-profile",
+                  element: <EditMyInfo />,
+                },
+                {
+                  path: "change-password",
+                  element: <></>,
+                },
+                {
+                  path: "delete-account",
+                  element: <></>,
+                },
+              ],
+            },
+          ],
+        },
 
         {
           // 공용 컴포넌트 미리보기를 위한 페이지
@@ -95,7 +136,7 @@ function App() {
     //   path: "/oauth2/redirected/:provider",
     //   element: <AuthRedirectedPage />,
     // },
-		{
+    {
       path: "/quiz",
       element: <NoHeaderLayout />,
       children: [
@@ -103,33 +144,33 @@ function App() {
           path: "/quiz/play/:quizId/:solvingQuizId",
           element: <SolvingQuizPage />,
         },
-				{
-					path: "/quiz/result/:quizId/:solvingQuizId/:quizTitle",
-					element: <QuizResult />
-				},
-				{
-					path: "/quiz/review/:quizId/:solvingQuizId/:quizTitle",
-					element: <QuizReview />
-				}
-			],
-		},
-		{
-			path: "*",
-			element: <NoHeaderLayout />,
-			children: [
-				{
-					path: "*",
-					element: <NotFound />,
-				},
-			],
-		},
-	]);
-	return (
-		<QueryClientProvider client={queryClient}>
-			<RouterProvider router={router} />
-			<ToastPortal />
-		</QueryClientProvider>
-	);
+        {
+          path: "/quiz/result/:quizId/:solvingQuizId/:quizTitle",
+          element: <QuizResult />,
+        },
+        {
+          path: "/quiz/review/:quizId/:solvingQuizId/:quizTitle",
+          element: <QuizReview />,
+        },
+      ],
+    },
+    {
+      path: "*",
+      element: <NoHeaderLayout />,
+      children: [
+        {
+          path: "*",
+          element: <NotFound />,
+        },
+      ],
+    },
+  ]);
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+      <ToastPortal />
+    </QueryClientProvider>
+  );
 }
 
 export default App;

@@ -8,7 +8,8 @@
   }
   .filter-container {
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
+    align-items: center;
   }
   .quiz-list {
     margin-top: 16px;

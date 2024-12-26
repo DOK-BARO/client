@@ -100,8 +100,8 @@ export default function StudyGroup() {
   console.log(unsolvedQuiz, isUnsolvedQuizDataLoading);
   return (
     <section className={styles.container}>
-      <h3 className={styles.title}>풀어야 할 퀴즈</h3>
       <div className={styles["filter-container"]}>
+        <h3 className={styles.title}>풀어야 할 퀴즈</h3>
         <ListFilter
           handleOptionClick={handleOptionClick}
           sortFilter={filterCriteria}

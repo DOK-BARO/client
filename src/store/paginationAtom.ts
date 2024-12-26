@@ -1,4 +1,5 @@
 // TODO: bookAtom 으로 옮길지 고려
+import { StudyGroupsFilterType } from "@/types/FilterType";
 import { PaginationType } from "@/types/PaginationType";
 import { atom } from "jotai";
 
@@ -21,3 +22,33 @@ const initialPaginationState: PaginationType = {
 };
 
 export const paginationAtom = atom<PaginationType>(initialPaginationState);
+
+// 마이페이지 > 내 스터디 퀴즈 > 풀어야 할 퀴즈
+export const myPageUnsolvedQuizPaginationAtom = atom<PaginationType>({
+  currentPage: 1,
+  pagePosition: "START",
+  totalPagesLength: undefined,
+  middlePages: [],
+  middlePagesLength: 6,
+  isMiddlePagesUpdated: false,
+});
+
+export const myPageUnsolvedQuizFilterAtom = atom<StudyGroupsFilterType>({
+  sort: "CREATED_AT",
+  direction: "ASC",
+});
+
+// 마이페이지 > 내 스터디 그룹
+export const myPageStudyGroupPaginationAtom = atom<PaginationType>({
+  currentPage: 1,
+  pagePosition: "START",
+  totalPagesLength: undefined,
+  middlePages: [],
+  middlePagesLength: 6,
+  isMiddlePagesUpdated: false,
+});
+
+export const myPageStudyGroupFilterAtom = atom<StudyGroupsFilterType>({
+  sort: "CREATED_AT",
+  direction: "ASC",
+});

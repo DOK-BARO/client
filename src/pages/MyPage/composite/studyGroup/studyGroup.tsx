@@ -1,4 +1,4 @@
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styles from "./_study_group.module.scss";
 import { useQuery } from "@tanstack/react-query";
 import { studyGroupKeys } from "@/data/queryKeys";
@@ -11,11 +11,12 @@ import ListFilter, {
   FilterOptionType,
 } from "@/components/composite/listFilter/listFilter";
 import { useEffect } from "react";
-import { studyGroupFilterAtom } from "@/store/studyGroupAtom";
 import { useAtom } from "jotai";
 import useFilter from "@/hooks/useFilter";
-import { paginationAtom } from "@/store/paginationAtom";
-import useNavigateWithParams from "@/hooks/useNavigateWithParams";
+import {
+  myPageUnsolvedQuizFilterAtom,
+  myPageUnsolvedQuizPaginationAtom,
+} from "@/store/paginationAtom";
 import Pagination from "@/components/composite/pagination/pagination";
 
 const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
@@ -35,20 +36,25 @@ const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
   },
 ];
 
+// TODO: 페이지 이동하지 않게
 export default function StudyGroup() {
   const { studyGroupId } = useParams();
   const id = studyGroupId ? Number(studyGroupId) : undefined;
-  const { search } = useLocation();
-  const queryParams = new URLSearchParams(search);
-  const [, setFilterCriteria] = useAtom(studyGroupFilterAtom);
+  const [filterCriteria, setFilterCriteria] = useAtom(
+    myPageUnsolvedQuizFilterAtom
+  );
   useFilter<StudyGroupsFilterType>(setFilterCriteria);
 
-  const [paginationState, setPaginationState] = useAtom(paginationAtom);
-  const totalPagesLength = paginationState.totalPagesLength;
+  const [paginationState, setPaginationState] = useAtom(
+    myPageUnsolvedQuizPaginationAtom
+  );
 
-  const sort = queryParams.get("sort") || "CREATED_AT"; // 기본값: 최신순
-  const direction = queryParams.get("direction") || "ASC"; // 기본값: ASC
-  const page = queryParams.get("page") || undefined; // parseQueryParams함수 안에서 기본값 1로 설정
+  const totalPagesLength = paginationState.totalPagesLength;
+  // const [filterState, setFilterState] = useAtom(myPageUnsolvedQuizFilterAtom);
+
+  const sort = filterCriteria.sort; // 기본값: 최신순
+  const direction = filterCriteria.direction; // 기본값: ASC
+  const page = paginationState.currentPage; // parseQueryParams함수 안에서 기본값 1로 설정
   const size = 10; // 한번에 불러올 최대 길이: 책 목록에서는 10 고정값.
 
   const { data: unsolvedQuizData, isLoading: isUnsolvedQuizDataLoading } =
@@ -87,35 +93,55 @@ export default function StudyGroup() {
     });
   }, [endPageNumber]);
 
-  const { navigateWithParams } = useNavigateWithParams(`MY/STUDY-GROUPS/${id}`);
-  const [filterCriteria] = useAtom(studyGroupFilterAtom);
+  // const [filterCriteria] = useAtom(studyGroupFilterAtom);
 
-  const handleOptionClick = (filter: StudyGroupsFilterType) => {
-    navigateWithParams({
-      filter: filter,
-      parentComponentType: `MY/STUDY-GROUPS/${id}`,
-    });
-  };
+  const handleOptionClick = (filter: StudyGroupsFilterType) => {};
 
-  console.log(unsolvedQuiz, isUnsolvedQuizDataLoading);
   return (
     <section className={styles.container}>
-      <div className={styles["filter-container"]}>
-        <h3 className={styles.title}>풀어야 할 퀴즈</h3>
-        <ListFilter
-          handleOptionClick={handleOptionClick}
-          sortFilter={filterCriteria}
-          filterOptions={filterOptions}
-        />
-      </div>
-      <ol className={styles["quiz-list"]}>
-        <QuizItem key={1} />
-        <QuizItem key={2} />
-        <QuizItem key={3} />
-      </ol>
-      {totalPagesLength ? (
-        <Pagination parentComponent={`MY/STUDY-GROUPS/${id}`} />
-      ) : null}
+      {/* 풀어야 할 퀴즈 */}
+      <section>
+        <div className={styles["filter-container"]}>
+          <h3 className={styles.title}>풀어야 할 퀴즈</h3>
+          <ListFilter
+            handleOptionClick={handleOptionClick}
+            sortFilter={filterCriteria}
+            filterOptions={filterOptions}
+          />
+        </div>
+        <ol className={styles["quiz-list"]}>
+          <QuizItem key={1} />
+          <QuizItem key={2} />
+          <QuizItem key={3} />
+        </ol>
+        {totalPagesLength ? (
+          <Pagination
+            paginationState={paginationState}
+            setPaginationState={setPaginationState}
+            parentComponent={`MY/STUDY-GROUPS/${id}`}
+          />
+        ) : null}
+      </section>
+
+      {/* 제출한 퀴즈 */}
+      {/* <section className={styles.section}>
+        <div className={styles["filter-container"]}>
+          <h3 className={styles.title}>제출한 퀴즈</h3>
+          <ListFilter
+            handleOptionClick={handleOptionClick}
+            sortFilter={filterState}
+            filterOptions={filterOptions}
+          />
+        </div>
+        <ol className={styles["quiz-list"]}>
+          <QuizItem key={1} />
+          <QuizItem key={2} />
+          <QuizItem key={3} />
+        </ol>
+        {totalPagesLength ? (
+          <Pagination parentComponent={`MY/STUDY-GROUPS/${id}`} />
+        ) : null}
+      </section> */}
     </section>
   );
 }

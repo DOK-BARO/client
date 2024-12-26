@@ -135,7 +135,11 @@ export default function BookListLayout() {
         </div>
         {isBooksLoading || !booksData ? null : <Outlet context={{ books }} />}
         {paginationState.totalPagesLength ? (
-          <Pagination parentComponent={"BOOKS"} />
+          <Pagination
+            parentComponent={"BOOKS"}
+            paginationState={paginationState}
+            setPaginationState={setPaginationState}
+          />
         ) : null}
       </div>
     </section>

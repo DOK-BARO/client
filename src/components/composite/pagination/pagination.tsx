@@ -5,23 +5,27 @@ import { gray60 } from "@/styles/abstracts/colors";
 import { ArrowRight } from "@/svg/arrowRight";
 import usePagination from "@/hooks/usePagination";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { setQueryParam } from "@/utils/setQueryParam";
-import { useAtom } from "jotai";
-import { paginationAtom } from "@/store/paginationAtom";
-import { ParentComponentType } from "@/types/PaginationType";
+import { PaginationType, ParentComponentType } from "@/types/PaginationType";
 
+// TODO: 직관적으로 (변수명 등)
 interface Props {
-  parentComponent: ParentComponentType;
+  parentComponent?: ParentComponentType; // 쿼리스트링
+  paginationState: PaginationType; // 상태
+  setPaginationState: Dispatch<SetStateAction<PaginationType>>; // 상태
 }
 
-export default function Pagination({ parentComponent }: Props) {
+export default function Pagination({
+  parentComponent,
+  paginationState,
+  setPaginationState,
+}: Props) {
   const navigate = useNavigate();
-  const [paginationState, setPaginationState] = useAtom(paginationAtom);
 
   const { handlePageClick } = usePagination({
-    paginationState: paginationState,
-    setPaginationState: setPaginationState,
+    paginationState,
+    setPaginationState,
   });
 
   const currentPage = paginationState.currentPage;
@@ -30,6 +34,9 @@ export default function Pagination({ parentComponent }: Props) {
   const isMiddlePageUpdated = paginationState.isMiddlePagesUpdated;
 
   useEffect(() => {
+    if (!parentComponent) {
+      return;
+    }
     const queryParams = setQueryParam("page", currentPage.toString());
     navigate({
       pathname: `/${parentComponent.toLowerCase()}`,

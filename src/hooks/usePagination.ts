@@ -65,6 +65,11 @@ const usePagination = ({
     }));
   };
 
+  useEffect(() => {
+    console.log(paginationState);
+    console.log(middlePages);
+  }, [paginationState]);
+
   const handlePageClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { value } = e.currentTarget;
 

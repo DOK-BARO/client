@@ -2,91 +2,42 @@
 @import "../../../../styles/abstracts/variables";
 
 section {
-  .title {
-    font-size: 18px; //TODO 변경 필요
-    font-weight: $font-weight-semibold;
-  }
+	.title {
+		font-size: 18px; //TODO 변경 필요
+		font-weight: $font-weight-semibold;
+	}
 
-  .setting-img {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+	.setting-email {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		padding: 16px 0 40px;
+	}
 
-    //   .edit-img-btn {
-    //     position: relative;
-    //     padding: 0;
-    //     border: none;
-    //     border-radius: 10px;
-    //     width: 200px;
-    //     height: 200px;
-    //   }
+	.current-email {
+		display: flex;
+		width: 100%;
+		justify-content: space-between;
+		align-items: center;
+	}
 
-    //   .edit-profile-img {
-    //     position: absolute;
-    //     top:0px;
-    //     left: 0px;
-    //     width: 100%;
-    //     object-fit: cover;
-    //     border-radius: 10px;
-    //   }
-
-    //   .edit-img-bg {
-    //     top:0px;
-    //     left: 0px;
-    //     width: 200px;
-    //     height: 200px;
-    //     border-radius: 10px;
-    //     position: absolute;
-    //     background-color: #00000080;
-    //   }
-
-    //   .edit-img-icon-bg {
-    //     position: absolute;
-    //     width: 100px;
-    //     height: 100px;
-    //     border-radius: 50%;
-    //     background-color: #ffffff80;
-    //     top: 50px;
-    //     left: 50px;
-    //   }
-
-    //   .edit-img-icon {
-    //     position: absolute;
-    //     width: 40px;
-    //     height: 40px;
-    //     top: 80px;
-    //     left: 80px;
-    //   }
-  }
-
-  .setting-email {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding: 16px 0 40px;
-  }
-
-  .current-email {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .change-email {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
+	.change-email {
+		display: flex;
+		width: 100%;
+		justify-content: space-between;
+		align-items: center;
 		gap: 32px;
-  }
+	}
 
-  .disabled {
-    color: $gray-60;
-  }
+	.disabled {
+		color: $gray-60;
+	}
 
-    button {
-      padding: 11px 32px;
-    }
-  }
+	button {
+		padding: 11px 32px;
+	}
+}
+
+.sr-only {
+	@include sr-only;
 }

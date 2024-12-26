@@ -140,8 +140,8 @@ function App() {
       path: "/quiz",
       element: <NoHeaderLayout />,
       children: [
-        {
-          path: "/quiz/play/:quizId",
+				{
+          path: "/quiz/play/:quizId/:solvingQuizId",
           element: <SolvingQuizPage />,
         },
         {

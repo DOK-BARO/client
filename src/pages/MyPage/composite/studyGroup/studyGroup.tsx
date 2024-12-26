@@ -116,6 +116,7 @@ export default function StudyGroup() {
         </ol>
         {totalPagesLength ? (
           <Pagination
+            type="state"
             paginationState={paginationState}
             setPaginationState={setPaginationState}
           />

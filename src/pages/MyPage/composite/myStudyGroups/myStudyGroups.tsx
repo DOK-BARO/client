@@ -81,10 +81,6 @@ export default function MyStudyGroups() {
   }, [endPageNumber]);
 
   const handleOptionClick = (filter: StudyGroupsFilterType) => {
-    // navigateWithParams({
-    //   filter: filter,
-    //   parentPage: "MY/STUDY-GROUPS",
-    // });
     setFilterCriteria(filter);
     console.log(filter);
   };
@@ -131,6 +127,7 @@ export default function MyStudyGroups() {
       {isModalOpen ? <AddStudyGroupModal closeModal={closeModal} /> : null}
       {totalPagesLength ? (
         <Pagination
+          type="state"
           paginationState={paginationState}
           setPaginationState={setPaginationState}
         />

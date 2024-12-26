@@ -10,18 +10,24 @@ import { setQueryParam } from "@/utils/setQueryParam";
 import { PaginationType, ParentPage } from "@/types/PaginationType";
 
 // TODO: 직관적으로 (변수명 등)
-interface Props {
-  parentPage?: ParentPage; // 쿼리스트링
-  paginationState: PaginationType; // 상태
-  setPaginationState: Dispatch<SetStateAction<PaginationType>>; // 상태
+interface QueryStringPaginationProps {
+  type: "queryString";
+  parentPage: ParentPage;
+  paginationState: PaginationType;
+  setPaginationState: Dispatch<SetStateAction<PaginationType>>;
 }
 
-export default function Pagination({
-  parentPage,
-  paginationState,
-  setPaginationState,
-}: Props) {
+interface StatePaginationProps {
+  type: "state";
+  paginationState: PaginationType;
+  setPaginationState: Dispatch<SetStateAction<PaginationType>>;
+}
+
+type Props = QueryStringPaginationProps | StatePaginationProps;
+
+export default function Pagination(props: Props) {
   const navigate = useNavigate();
+  const { paginationState, setPaginationState } = props;
 
   const { handlePageClick } = usePagination({
     paginationState,
@@ -34,15 +40,15 @@ export default function Pagination({
   const isMiddlePageUpdated = paginationState.isMiddlePagesUpdated;
 
   useEffect(() => {
-    if (!parentPage) {
-      return;
+    // 쿼리 스트링 방식만 해당
+    if (props.type === "queryString") {
+      const queryParams = setQueryParam("page", currentPage.toString());
+      navigate({
+        pathname: `/${props.parentPage}`,
+        search: `?${queryParams.toString()}`,
+      });
     }
-    const queryParams = setQueryParam("page", currentPage.toString());
-    navigate({
-      pathname: `/${parentPage}`,
-      search: `?${queryParams.toString()}`,
-    });
-  }, [currentPage]);
+  }, [currentPage, props.type === "queryString" && props.parentPage]);
 
   // 페이지 번호 버튼
   const renderButton = (page: number, isEllipsis: boolean = false) => {

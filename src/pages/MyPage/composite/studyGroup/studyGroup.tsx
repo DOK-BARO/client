@@ -13,11 +13,9 @@ import ListFilter, {
 import { useEffect } from "react";
 import { useAtom } from "jotai";
 import useFilter from "@/hooks/useFilter";
-import {
-  myPageUnsolvedQuizFilterAtom,
-  myPageUnsolvedQuizPaginationAtom,
-} from "@/store/paginationAtom";
+import { myPageUnsolvedQuizPaginationAtom } from "@/store/paginationAtom";
 import Pagination from "@/components/composite/pagination/pagination";
+import { myPageUnsolvedQuizFilterAtom } from "@/store/filterAtom";
 
 const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
   {

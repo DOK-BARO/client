@@ -17,7 +17,7 @@ import threeDot from "/public/assets/svg/myPage/three-dot.svg";
 import useModal from "@/hooks/useModal";
 import trashCan from "/public/assets/svg/myPage/trash-can-bigger.svg";
 import SmallModal from "@/components/atom/smallModal/smallModal";
-import { QueryKey, useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";
 import { studyGroupService } from "@/services/server/studyGroupService";
 import toast from "react-hot-toast";

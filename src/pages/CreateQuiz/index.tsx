@@ -17,7 +17,6 @@ import { useAtom, useSetAtom } from "jotai";
 import Modal from "@/components/atom/modal/modal.tsx";
 import useModal from "@/hooks/useModal.ts";
 import { Step } from "@/types/StepType.ts";
-import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo.ts";
 
 export default function Index() {
   const [completionStatus] = useAtom(stepsCompletionStatusAtom);

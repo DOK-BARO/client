@@ -18,6 +18,10 @@ export const studyGroupKeys = {
   detail: (id: number | undefined) => ["studyGroupDetail", id] as const,
   list: (params?: FetchStudyGroupsParams) =>
     ["studyGroupList", params] as const,
+  myUnsolvedQuizList: (
+    id: number | undefined,
+    params: FetchStudyGroupsParams
+  ) => ["studyGroupMyUnsolvedQuizList", id, params] as const,
 };
 
 export const authKeys = {
@@ -33,7 +37,7 @@ export const quizKeys = {
   myQuiz: () => ["myQuiz"] as const,
   detail: (id: string | undefined) => ["quizDetail", id] as const,
   explanation: (id: string | undefined) => ["quizExplanation", id] as const,
-	result: (solvingQuizId: string) => ["quizResult",solvingQuizId]
+  result: (solvingQuizId: string) => ["quizResult", solvingQuizId],
 };
 
 export const reviewKeys = {

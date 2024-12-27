@@ -8,10 +8,9 @@ const getPageFromURL = () => {
   const page = queryParams.get("page");
   return page ? Number(page) : 1; // 기본값 1 페이지
 };
-
 // 초기 페이지네이션 상태
 const initialPaginationState: PaginationType = {
-  parentComponentType: "BOOKS",
+  parentPage: "books",
   currentPage: getPageFromURL(),
   pagePosition: "START",
   totalPagesLength: undefined,
@@ -19,5 +18,25 @@ const initialPaginationState: PaginationType = {
   middlePagesLength: 6,
   isMiddlePagesUpdated: false,
 };
-
+// 현재 쿼리스트링 페이지네이션 부분에서는 모두 같은 paginationAtom을 사용하고 있습니다.
 export const paginationAtom = atom<PaginationType>(initialPaginationState);
+
+// 마이페이지 > 내 스터디 그룹
+export const myPageStudyGroupPaginationAtom = atom<PaginationType>({
+  currentPage: 1,
+  pagePosition: "START",
+  totalPagesLength: undefined,
+  middlePages: [],
+  middlePagesLength: 6,
+  isMiddlePagesUpdated: false,
+});
+
+// 마이페이지 > 내 스터디 퀴즈 > 풀어야 할 퀴즈
+export const myPageUnsolvedQuizPaginationAtom = atom<PaginationType>({
+  currentPage: 1,
+  pagePosition: "START",
+  totalPagesLength: undefined,
+  middlePages: [],
+  middlePagesLength: 6,
+  isMiddlePagesUpdated: false,
+});

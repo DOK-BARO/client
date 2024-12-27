@@ -31,3 +31,27 @@ export interface StudyGroupCreationType {
   introduction?: string;
   profileImageUrl?: string;
 }
+
+export interface StudyGroupMyUnSolvedQuizType {
+  book: {
+    id: number;
+    title: string;
+    imageUrl: string;
+  };
+  quiz: {
+    id: number;
+    title: string;
+    description: string;
+    creator: {
+      id: number;
+      nickname: string;
+      profileImageUrl: string;
+    };
+    createdAt: string;
+    contributors: {
+      id: number;
+      nickname: string;
+      profileImage: string;
+    }[];
+  };
+}

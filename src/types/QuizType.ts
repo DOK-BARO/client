@@ -104,7 +104,7 @@ export interface QuizRequestType {
   timeLimitSecond?: number;
   viewScope: ViewScope;
   editScope: EditScope;
-  studyGroupIds?: number | null;
+  studyGroupId?: number | null;
   questions: QuizQuestionRequestApiType[];
 }
 
@@ -147,9 +147,9 @@ export interface QuizSettingType {
 }
 
 export interface SolvingQuizGradeReuslt {
-	solvingQuizId: number;
-	quizId: number;
-	playerId: number;
-	questionCount: number;
-	correctCount: number;
+  solvingQuizId: number;
+  quizId: number;
+  playerId: number;
+  questionCount: number;
+  correctCount: number;
 }

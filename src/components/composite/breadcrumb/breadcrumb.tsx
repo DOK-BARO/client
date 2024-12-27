@@ -3,14 +3,14 @@ import styles from "./_breadcrumb.module.scss";
 import { ArrowRight } from "@/svg/arrowRight";
 import { gray90 } from "@/styles/abstracts/colors";
 import useNavigateWithParams from "@/hooks/useNavigateWithParams";
-import { ParentComponentType } from "@/types/PaginationType";
+import { ParentPage } from "@/types/PaginationType";
 
 interface Props {
   list: ({ id: number; name: string } | null)[];
-  parentComponent: ParentComponentType;
+  parentPage: ParentPage;
 }
-export default function Breadcrumb({ list, parentComponent }: Props) {
-  const { navigateWithParams } = useNavigateWithParams(parentComponent);
+export default function Breadcrumb({ list, parentPage }: Props) {
+  const { navigateWithParams } = useNavigateWithParams(parentPage);
 
   const isAllNull = list.every((item) => item === null);
   if (isAllNull) {
@@ -25,7 +25,7 @@ export default function Breadcrumb({ list, parentComponent }: Props) {
 
     navigateWithParams({
       category: id,
-      parentComponentType: "BOOKS",
+      parentPage: "books",
       excludeParams: ["page"],
     });
   };

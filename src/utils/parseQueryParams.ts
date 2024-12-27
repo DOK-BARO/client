@@ -2,7 +2,7 @@ import { FilterType } from "@/types/FilterType";
 
 type ParseQueryParamsArgs = {
   category?: string;
-  page?: string;
+  page?: string | number; // 쿼리스트링 | 상태
   size?: number;
   direction?: string;
   sort?: string;

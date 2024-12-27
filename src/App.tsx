@@ -28,9 +28,9 @@ import QuizResult from "./pages/QuizResult/index.tsx";
 import QuizReview from "./pages/QuizReview/index.tsx";
 import MyMadeQuiz from "./pages/MyPage/composite/myMadeQuiz/myMadeQuiz.tsx";
 import SolvedQuiz from "./pages/MyPage/composite/solvedQuiz/solvedQuiz.tsx";
-import MyStudy from "./pages/MyPage/composite/myStudy/myStudy.tsx";
-import { Settings } from "@mui/icons-material";
 import EditMyInfo from "./pages/MyPage/composite/accountSetting/editMyInfo.tsx";
+import MyStudyGroups from "./pages/MyPage/composite/myStudyGroups/myStudyGroups.tsx";
+import StudyGroup from "./pages/MyPage/composite/studyGroup/studyGroup.tsx";
 
 function App() {
   // TODO: 분리하기
@@ -98,7 +98,11 @@ function App() {
             },
             {
               path: "study-groups",
-              element: <MyStudy />,
+              element: <MyStudyGroups />,
+            },
+            {
+              path: "study-groups/:studyGroupId",
+              element: <StudyGroup />,
             },
             {
               path: "settings",

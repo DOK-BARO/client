@@ -76,6 +76,11 @@
     color: $gray-90;
     border: 1.5px solid transparent;
   }
+  &--red {
+    background-color: $system-danger;
+    color: $gray-00;
+    border: 1.5px solid $system-danger;
+  }
   &:disabled {
     background-color: $gray-20;
     color: $gray-60;

@@ -129,5 +129,14 @@ class StudyGroupService {
       return null;
     }
   };
+
+  deleteStudyGroup = async (id: number) => {
+    try {
+      const response = await axiosInstance.delete(`/study-groups/${id}`);
+      console.log(response);
+    } catch (error) {
+      handleAxiosError(error);
+    }
+  };
 }
 export const studyGroupService = new StudyGroupService();

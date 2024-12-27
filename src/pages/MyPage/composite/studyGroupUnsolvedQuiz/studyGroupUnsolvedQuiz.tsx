@@ -95,7 +95,6 @@ export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Prop) {
   };
 
   const isQuizzesExist = unsolvedQuizzes && unsolvedQuizzes.length > 0;
-
   return (
     <section>
       <div className={styles["filter-container"]}>

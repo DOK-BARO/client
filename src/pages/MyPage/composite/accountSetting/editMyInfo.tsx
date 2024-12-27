@@ -18,13 +18,12 @@ import { UploadImageArgType } from "@/types/UploadImageType";
 
 export default function EditMyInfo() {
 	const [currentUser] = useAtom(currentUserAtom);
-
 	const defaultImagePath = "/public/assets/image/default-profile.png";
-
 	const defaultProfileState: ProfileImageState = {
 		url: currentUser?.profileImage ?? defaultImagePath,
 		file: null,
 	};
+
 	const [profileImage, setProfileImage] = useState<ProfileImageState>(defaultProfileState);
 	const { value, onChange, isValid: isEmailValid, } = useInput('', emailValidation);
 	const { value: code, onChange: onCodeChange } = useInput('');
@@ -33,7 +32,7 @@ export default function EditMyInfo() {
 	const [isChangeEmailMode, setIsChangeEmailMode] = useState<boolean>(false);
 	const [isChangeNicknameMode, setIsChangeNicknameMode] = useState<boolean>(false);
 	const { value: nicknameValue, onChange: onNicknameChange } = useInput('');
-	const isNicknameValidate = nicknameValue.length <= 8;
+	const showNicknameDanger = nicknameValue.length >= 8;
 
 	const { uploadImage } = useUploadImageToStorage((imageUrl: string) => {
 		updateUser({ user: { profileImage: imageUrl }, toastMessage: "프로필 이미지가 변경되었습니다." })
@@ -46,7 +45,6 @@ export default function EditMyInfo() {
 		setIsChangeNicknameMode(!isChangeNicknameMode);
 	}
 
-	// TODO : UI 보정
 	useEffect(() => {
 		if (profileImage.file) {
 			const arg: UploadImageArgType = {
@@ -69,42 +67,39 @@ export default function EditMyInfo() {
 				/>
 			</section>
 
-			<section className={styles["setting-nickname"]}>
+			<section className={styles["setting-container"]}>
 				<h2 className={styles["title"]}>닉네임 설정</h2>
-				<div className={styles["change-form"]}>
-					{!isChangeNicknameMode &&
-						<>
-							<span>{currentUser?.nickname}</span>
-							<Button
-								className={styles["button"]}
-								onClick={handleClickChangeNickname}
-								color="primary"
-							>
-								닉네임 바꾸기
-							</Button>
-						</>
-					}
+				{!isChangeNicknameMode &&
+					<div className={styles["change-form"]}>
+						<span>{currentUser?.nickname}</span>
+						<Button
+							className={styles["button"]}
+							onClick={handleClickChangeNickname}
+							color="primary"
+						>
+							닉네임 바꾸기
+						</Button>
+					</div>
+				}
 
-					{
-						isChangeNicknameMode &&
-						<form>
-							<fieldset className={styles["form"]}>
-								<legend className={styles["sr-only"]}>닉네임 변경</legend>
-								<div className={styles["input-area"]}>
-									<Input
-										id="nickname-change"
-										value={nicknameValue}
-										onChange={onNicknameChange}
-										placeholder="새로운 닉네임을 입력해주세요"
-										isError={!isNicknameValidate}
-										maxLength={8}
-										fullWidth
-									/>
-
-									<div className={styles["message-container"]}>
-										<img src={isNicknameValidate ? "" : incorrect} />
-										<span className={isNicknameValidate ? "" : styles["not-match"]}>{isNicknameValidate ? "" : "8자 이내"}</span>
-									</div>
+				{
+					isChangeNicknameMode &&
+					<form>
+						<fieldset className={styles["form"]}>
+							<legend className={styles["sr-only"]}>닉네임 변경</legend>
+							<div className={styles["input-area"]}>
+								<Input
+									id="nickname-change"
+									value={nicknameValue}
+									onChange={onNicknameChange}
+									placeholder="새로운 닉네임을 입력해주세요"
+									isError={showNicknameDanger}
+									maxLength={8}
+									fullWidth
+								/>
+								<div className={styles["message-container"]}>
+									<img src={showNicknameDanger ? incorrect : ""} />
+									<span className={showNicknameDanger ? styles["not-match"] : ""}>{showNicknameDanger ? "8자 이내" : ""}</span>
 								</div>
 
 								<Button
@@ -113,17 +108,18 @@ export default function EditMyInfo() {
 									className={styles["button"]}
 									size="medium"
 								>저장</Button>
-							</fieldset>
-						</form>
-					}
-				</div>
+							</div>
+
+						</fieldset>
+					</form>
+				}
 
 			</section>
 
-			<section className={styles["setting-email"]}>
+			<section className={styles["setting-container"]}>
 				<h2 className={styles["title"]}>가입 이메일 설정</h2>
 				<div className={styles["change-form"]}>
-					<span>{currentUser?.email}</span>
+					<span className={isChangeEmailMode ? styles["current-email"] : styles[""]}>{currentUser?.email}</span>
 					<Button
 						className={styles["button"]}
 						disabled={isChangeEmailMode}

@@ -6,7 +6,7 @@ export type BooksSortType = "PUBLISHED_AT" | "TITLE" | "QUIZ_COUNT";
 // 리뷰 정렬 기준 (최신순, 별점 높은 순, 별점 낮은 순)
 export type ReviewsSortType = "CREATED_AT" | "STAR_RATING";
 // 스터디그룹 정렬 기준
-export type StudyGroupsSortType = "CREATED_AT" | "TITLE";
+export type StudyGroupsSortType = "CREATED_AT" | "JOINED_AT" | "NAME";
 export interface FilterType<TSortType> {
   sort: TSortType;
   direction: DirectionType;

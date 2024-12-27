@@ -31,7 +31,7 @@ const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
   },
   {
     filter: {
-      sort: "TITLE",
+      sort: "NAME",
       direction: "ASC",
     },
     label: "가나다순",

@@ -1,11 +1,11 @@
 import { QuizCreationType } from "@/types/QuizType";
 import { atom } from "jotai";
 
-// 퀴즈 생성 단계 다음 버튼의 enabled 여부를 저장
-export const isQuizNextButtonEnabledAtom = atom<boolean>(false);
-
+{
+  /* 초기값 정의 */
+}
 // 퀴즈 만들기 상태관리를 위한 전역변수
-export const quizCreationInfoAtom = atom<QuizCreationType>({
+const initialQuizCreationInfo: QuizCreationType = {
   title: null,
   description: null,
   book: null,
@@ -13,8 +13,25 @@ export const quizCreationInfoAtom = atom<QuizCreationType>({
   editScope: null,
   studyGroup: undefined,
   questions: null,
-});
-// export const selectedStudyGroupAtom = atom<StudyGroupPreviewType | null>(null);
+};
+const initialSelectedOptions: string[] = [];
+const initialQuizId: number | undefined = undefined;
+const initialErrorModalTitle = "";
+const initialIsQuizNextButtonEnabled = false; // 퀴즈 생성 단계 다음 버튼의 enabled 여부를 저장
+
+{
+  /* Atom 정의 */
+}
+export const quizCreationInfoAtom = atom<QuizCreationType>(
+  initialQuizCreationInfo
+);
+export const isQuizNextButtonEnabledAtom = atom<boolean>(
+  initialIsQuizNextButtonEnabled
+);
+export const errorModalTitleAtom = atom<string>(initialErrorModalTitle);
+export const openErrorModalAtom = atom<() => void>();
+export const selectedOptionsAtom = atom<string[]>(initialSelectedOptions);
+export const createdQuizIdAtom = atom<number | undefined>(initialQuizId);
 
 // 스터디 선택 단계 완료 여부 Atom
 export const isStudyGroupSelectedAtom = atom(
@@ -58,10 +75,12 @@ export const stepsCompletionStatusAtom = atom((get) => ({
   isQuestionsWritten: get(isQuestionsWrittenAtom),
   isSet: get(isSetAtom),
 }));
-// TODO: 대문자로 수정
-export const errorModalTitleAtom = atom<string>("");
-export const openErrorModalAtom = atom<() => void>();
 
-export const selectedOptionsAtom = atom<string[]>([]);
-
-export const createdQuizIdAtom = atom<number>();
+// 초기화
+export const resetQuizCreationStateAtom = atom(null, (_, set) => {
+  set(isQuizNextButtonEnabledAtom, initialIsQuizNextButtonEnabled);
+  set(quizCreationInfoAtom, initialQuizCreationInfo);
+  set(errorModalTitleAtom, initialErrorModalTitle);
+  set(selectedOptionsAtom, initialSelectedOptions);
+  set(createdQuizIdAtom, initialQuizId);
+});

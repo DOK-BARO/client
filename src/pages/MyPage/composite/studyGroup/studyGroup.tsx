@@ -2,11 +2,23 @@ import { useParams } from "react-router-dom";
 import styles from "./_study_group.module.scss";
 import StudyGroupUnsolvedQuiz from "../studyGroupUnsolvedQuiz/studyGroupUnsolvedQuiz";
 import StudyGroupSolvedQuiz from "../studyGroupSolvedQuiz/studyGroupSolvedQuiz";
+import { useEffect } from "react";
+import { myPageTitleAtom, studyGroupNameAtom } from "@/store/myPageAtom";
+import { useAtom } from "jotai";
 
-// TODO: 페이지 이동하지 않게
 export default function StudyGroup() {
   const { studyGroupId } = useParams();
   const id = studyGroupId ? Number(studyGroupId) : undefined;
+
+  const [, setMyPageTitle] = useAtom(myPageTitleAtom);
+  const [studyGroupName] = useAtom(studyGroupNameAtom);
+
+  useEffect(() => {
+    if (studyGroupName) {
+      setMyPageTitle(studyGroupName);
+    }
+    return () => setMyPageTitle("마이페이지");
+  }, [studyGroupName]);
 
   return (
     <section className={styles.container}>

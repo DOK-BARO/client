@@ -4,17 +4,20 @@ import Button from "@/components/atom/button/button";
 import member from "/public/assets/svg/myPage/member.svg";
 import leader from "/public/assets/svg/myPage/leader.svg";
 import { useNavigate } from "react-router-dom";
-
+import { useAtom } from "jotai";
+import { studyGroupNameAtom } from "@/store/myPageAtom";
 interface Prop {
   studyGroup: StudyGroupType;
 }
 
 export default function StudyGroupItem({ studyGroup }: Prop) {
   const navigate = useNavigate();
+  const [, setStudyGroupName] = useAtom(studyGroupNameAtom);
 
   // 스터디 그룹 정보
   const handleStudyInfoClick = () => {
     navigate(`/my/study-groups/${studyGroup.id}`);
+    setStudyGroupName(studyGroup.name);
   };
 
   return (

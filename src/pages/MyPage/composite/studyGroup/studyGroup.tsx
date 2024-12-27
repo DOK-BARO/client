@@ -3,7 +3,7 @@ import styles from "./_study_group.module.scss";
 import StudyGroupUnsolvedQuiz from "../studyGroupUnsolvedQuiz/studyGroupUnsolvedQuiz";
 import StudyGroupSolvedQuiz from "../studyGroupSolvedQuiz/studyGroupSolvedQuiz";
 import { useEffect } from "react";
-import { myPageTitleAtom, studyGroupNameAtom } from "@/store/myPageAtom";
+import { myPageTitleAtom, studyGroupAtom } from "@/store/myPageAtom";
 import { useAtom } from "jotai";
 
 export default function StudyGroup() {
@@ -11,14 +11,14 @@ export default function StudyGroup() {
   const id = studyGroupId ? Number(studyGroupId) : undefined;
 
   const [, setMyPageTitle] = useAtom(myPageTitleAtom);
-  const [studyGroupName] = useAtom(studyGroupNameAtom);
+  const [studyGroup] = useAtom(studyGroupAtom);
 
   useEffect(() => {
-    if (studyGroupName) {
-      setMyPageTitle(studyGroupName);
+    if (studyGroup) {
+      setMyPageTitle(studyGroup.name);
     }
     return () => setMyPageTitle("마이페이지");
-  }, [studyGroupName]);
+  }, [studyGroup]);
 
   return (
     <section className={styles.container}>

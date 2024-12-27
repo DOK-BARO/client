@@ -2,22 +2,26 @@ import { StudyGroupType } from "@/types/StudyGroupType";
 import styles from "./_study_group_item.module.scss";
 import Button from "@/components/atom/button/button";
 import member from "/public/assets/svg/myPage/member.svg";
-import leader from "/public/assets/svg/myPage/leader.svg";
 import { useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
-import { studyGroupNameAtom } from "@/store/myPageAtom";
+import { studyGroupAtom } from "@/store/myPageAtom";
+import { Leader } from "@/svg/leader";
+import { gray50 } from "@/styles/abstracts/colors";
 interface Prop {
   studyGroup: StudyGroupType;
 }
 
 export default function StudyGroupItem({ studyGroup }: Prop) {
   const navigate = useNavigate();
-  const [, setStudyGroupName] = useAtom(studyGroupNameAtom);
+  const [, setStudyGroup] = useAtom(studyGroupAtom);
 
   // 스터디 그룹 정보
   const handleStudyInfoClick = () => {
     navigate(`/my/study-groups/${studyGroup.id}`);
-    setStudyGroupName(studyGroup.name);
+    setStudyGroup({
+      id: studyGroup.id,
+      name: studyGroup.name,
+    });
   };
 
   return (
@@ -34,11 +38,11 @@ export default function StudyGroupItem({ studyGroup }: Prop) {
       <div className={styles.info}>
         <p className={styles.name}>{studyGroup.name || "\u00A0"}</p>
         <span className={styles["icon-text-label"]}>
-          <img src={member} width={16} height={16} />
+          <img src={member} width={16} height={16} alt="스터디 멤버" />
           <p>{studyGroup.studyMemberCount}명</p>
         </span>
         <span className={styles["icon-text-label"]}>
-          <img src={leader} width={16} height={16} />
+          <Leader width={16} height={16} fill={gray50} alt="스터디장" />
           <p>{studyGroup.leader?.nickname}</p>
         </span>
         <Button

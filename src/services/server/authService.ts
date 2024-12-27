@@ -62,8 +62,8 @@ class AuthService {
 
   // 문서 상에는 'modify login member' 로 명시되어 있음.
   updateUser = async (userInfo: {
-    nickname: string;
-    email: string;
+    nickname?: string;
+    email?: string;
     profileImage?: string | null;
   }): Promise<void> => {
     try {

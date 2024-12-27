@@ -1,43 +1,88 @@
 @import "../../../../styles/abstracts/mixins";
 @import "../../../../styles/abstracts/variables";
 
-section {
-	.title {
-		font-size: 18px; //TODO 변경 필요
-		font-weight: $font-weight-semibold;
-	}
+.title {
+	font-size: 18px; //TODO 변경 필요
+	font-weight: $font-weight-semibold;
+}
 
-	.setting-email {
-		display: flex;
-		flex-direction: column;
-		gap: 16px;
-		padding: 16px 0 40px;
-	}
+.change-email {
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 24px;
+	gap: 32px;
+}
+.setting-img{
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	padding: 20px 0 40px;
+}
 
-	.current-email {
-		display: flex;
-		width: 100%;
-		justify-content: space-between;
-		align-items: center;
-	}
+.setting-email {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	padding: 16px 0 40px;
+}
 
-	.change-email {
-		display: flex;
-		width: 100%;
-		justify-content: space-between;
-		align-items: center;
-		gap: 32px;
-	}
+.current-email {
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+	align-items: center;
+}
 
-	.disabled {
-		color: $gray-60;
-	}
+.form {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
 
-	button {
-		padding: 11px 32px;
-	}
+.input-area {
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+	align-items: start;
+	gap: 32px;
+}
+
+.disabled {
+	color: $gray-60;
 }
 
 .sr-only {
 	@include sr-only;
+}
+
+.input {
+	display: flex;
+	width: 100%;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.button {
+	width: 132px;
+	font-weight: $font-weight-semibold;
+}
+
+.message-container {
+	display: flex;
+	align-items: center;
+
+	span {
+		font-size: $font-size-small;
+
+	}
+
+	.match {
+		color: $system-success;
+	}
+
+	.not-match {
+		color: $system-danger;
+	}
 }

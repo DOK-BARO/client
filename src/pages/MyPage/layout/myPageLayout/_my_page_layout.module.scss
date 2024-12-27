@@ -13,7 +13,5 @@
 
   .content {
     @include flex(column);
-    gap: 16px;
-    padding: 20px 0 40px;
   }
 }

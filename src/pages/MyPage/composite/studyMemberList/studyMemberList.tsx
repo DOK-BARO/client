@@ -1,40 +1,22 @@
-// import Button from "@/components/atom/button/button";
-import ListFilter from "@/components/composite/listFilter/listFilter";
+// import ListFilter from "@/components/composite/listFilter/listFilter";
 import styles from "../studyGroupSetting/_study_group_setting.module.scss";
-import { StudyGroupsFilterType } from "@/types/FilterType";
-import { useEffect } from "react";
+// import { StudyGroupsFilterType } from "@/types/FilterType";
 import { useQuery } from "@tanstack/react-query";
 import MemberItem from "../../components/memberItem/memberItem";
 import LeaderItem from "../../components/leaderItem/leaderItem";
+import { studyGroupKeys } from "@/data/queryKeys";
+import { studyGroupService } from "@/services/server/studyGroupService";
 
-export default function StudyMemberList() {
-  //   const { data: unsolvedQuizData } = useQuery({
-  //     queryKey: studyGroupKeys.myUnsolvedQuizList(
-  //       studyGroupId,
-  //       parseQueryParams<StudyGroupsSortType, FetchStudyGroupsParams>({
-  //         sort,
-  //         direction,
-  //         page,
-  //         size,
-  //       })
-  //     ),
-  //     queryFn: () =>
-  //       studyGroupId
-  //         ? studyGroupService.fetchStudyGroupMyUnsolvedQuizzes(
-  //             studyGroupId,
-  //             parseQueryParams<StudyGroupsSortType, FetchStudyGroupsParams>({
-  //               sort,
-  //               direction,
-  //               page,
-  //               size,
-  //             })
-  //           )
-  //         : null,
-  //     enabled: !!studyGroupId,
-  //   });
-  //   const unsolvedQuizzes = unsolvedQuizData?.data;
-  //   const endPageNumber = unsolvedQuizData?.endPageNumber;
-  //   console.log(unsolvedQuizzes);
+export interface Prop {
+  studyGroupId: number | undefined;
+}
+export default function StudyMemberList({ studyGroupId }: Prop) {
+  const { data: studyGroupDetail } = useQuery({
+    queryKey: studyGroupKeys.detail(studyGroupId),
+    queryFn: () =>
+      studyGroupId ? studyGroupService.fetchStudyGroup(studyGroupId) : null,
+    enabled: !!studyGroupId,
+  });
   //   // 마지막 페이지 번호 저장
   //   useEffect(() => {
   //     setPaginationState({
@@ -42,8 +24,10 @@ export default function StudyMemberList() {
   //       totalPagesLength: endPageNumber,
   //     });
   //   }, [endPageNumber]);
+
+  console.log(studyGroupDetail);
   //   const handleOptionClick = (filter: StudyGroupsFilterType) => {
-  //     setFilterCriteria(filter);
+  //     // setFilterCriteria(filter);
   //   };
   return (
     <section className={styles.container}>
@@ -57,8 +41,13 @@ export default function StudyMemberList() {
       </div>
       <div>{/* 스터디장 */}</div>
       <ol className={styles["member-list"]}>
-        <LeaderItem />
-        <MemberItem />
+        {studyGroupDetail?.studyMembers?.map((member) =>
+          member.role === "LEADER" ? (
+            <LeaderItem member={member} />
+          ) : (
+            <MemberItem member={member} />
+          )
+        )}
       </ol>
     </section>
   );

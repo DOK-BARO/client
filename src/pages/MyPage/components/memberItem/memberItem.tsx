@@ -2,18 +2,23 @@ import Button from "@/components/atom/button/button";
 import styles from "./_member_item.module.scss";
 import trashCan from "/public/assets/svg/myPage/trash-can.svg";
 import memberCircle from "/public/assets/svg/myPage/member-circle.svg";
+import { StudyMemberType } from "@/types/StudyGroupType";
 
-export default function MemberItem() {
+interface Prop {
+  member: StudyMemberType;
+}
+
+export default function MemberItem({ member }: Prop) {
   return (
-    <div className={styles.container}>
+    <div className={styles.container} key={member.id}>
       <span className={styles["profile-container"]}>
         <img
-          src={memberCircle}
+          src={member.profileImageUrl ?? memberCircle}
           width={20}
           height={20}
           className={styles["profile-image"]}
         />
-        <p className={styles.name}>최바로</p>
+        <p className={styles.name}>{member.nickname}</p>
       </span>
 
       <div className={styles["button-container"]}>

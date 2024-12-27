@@ -3,13 +3,17 @@ import styles from "./_leader_item.module.scss";
 import exit from "/public/assets/svg/myPage/exit.svg";
 import { Leader } from "@/svg/leader";
 import { primary } from "@/styles/abstracts/colors";
+import { StudyMemberType } from "@/types/StudyGroupType";
 
-export default function LeaderItem() {
+interface Prop {
+  member: StudyMemberType;
+}
+export default function LeaderItem({ member }: Prop) {
   return (
-    <div className={styles.container} >
+    <div className={styles.container}>
       <span className={styles["profile-container"]}>
         <Leader width={20} height={20} fill={primary} alt="스터디장" />
-        <p className={styles.name}>최바로</p>
+        <p className={styles.name}>{member.nickname}</p>
       </span>
 
       <div className={styles["button-container"]}>

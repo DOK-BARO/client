@@ -65,6 +65,7 @@ export default function StudyGroupSetting() {
           <Button
             iconOnly
             icon={<img src={threeDot} width={16} height={16} />}
+            onClick={() => {}}
           />
         </div>
         <div className={styles["edit-profile-container"]}>
@@ -109,7 +110,7 @@ export default function StudyGroupSetting() {
       </section>
 
       {/* 스터디원 관리 */}
-      <StudyMemberList />
+      <StudyMemberList studyGroupId={studyGroup?.id} />
     </section>
   );
 }

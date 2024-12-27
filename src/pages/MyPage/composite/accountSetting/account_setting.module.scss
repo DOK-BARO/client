@@ -6,7 +6,7 @@
 	font-weight: $font-weight-semibold;
 }
 
-.change-email {
+.change-form {
 	display: flex;
 	width: 100%;
 	justify-content: space-between;
@@ -14,7 +14,8 @@
 	font-size: 24px;
 	gap: 32px;
 }
-.setting-img{
+
+.setting-img {
 	display: flex;
 	flex-direction: column;
 	gap: 16px;

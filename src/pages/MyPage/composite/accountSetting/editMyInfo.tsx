@@ -29,27 +29,33 @@ export default function EditMyInfo() {
 	const { value, onChange, isValid: isEmailValid, } = useInput('', emailValidation);
 	const { value: code, onChange: onCodeChange } = useInput('');
 	const { messageContent, isError, isEmailSent, firstSendEmail, resendEmail, isMatch, isAlreadyUsed } = useValidate({ value: value, isEmailValid: isEmailValid, code: code });
-	const {updateUser} = useUpdateUser();
+	const { updateUser } = useUpdateUser();
 	const [isChangeEmailMode, setIsChangeEmailMode] = useState<boolean>(false);
+	const [isChangeNicknameMode, setIsChangeNicknameMode] = useState<boolean>(false);
+	const { value: nicknameValue, onChange: onNicknameChange } = useInput('');
+	const isNicknameValidate = nicknameValue.length <= 8;
 
-	const {uploadImage} = useUploadImageToStorage((imageUrl:string)=>{
-		updateUser({user:{profileImage:imageUrl},toastMessage:"프로필 이미지가 변경되었습니다."})
+	const { uploadImage } = useUploadImageToStorage((imageUrl: string) => {
+		updateUser({ user: { profileImage: imageUrl }, toastMessage: "프로필 이미지가 변경되었습니다." })
 	});
 
 	const handleClickChangeEmail = (_: React.MouseEvent<HTMLButtonElement>) => {
 		setIsChangeEmailMode(!isChangeEmailMode);
 	}
+	const handleClickChangeNickname = () => {
+		setIsChangeNicknameMode(!isChangeNicknameMode);
+	}
 
-
-	useEffect(()=>{
-		if(profileImage.file){
-			const arg:UploadImageArgType= {
+	// TODO : UI 보정
+	useEffect(() => {
+		if (profileImage.file) {
+			const arg: UploadImageArgType = {
 				image: profileImage.file,
 				imageTarget: "MEMBER_PROFILE",
 			}
 			uploadImage(arg);
 		}
-	},[profileImage.file]);
+	}, [profileImage.file]);
 
 	return (
 		<>
@@ -62,9 +68,61 @@ export default function EditMyInfo() {
 					initialImageState={defaultProfileState}
 				/>
 			</section>
+
+			<section className={styles["setting-nickname"]}>
+				<h2 className={styles["title"]}>닉네임 설정</h2>
+				<div className={styles["change-form"]}>
+					{!isChangeNicknameMode &&
+						<>
+							<span>{currentUser?.nickname}</span>
+							<Button
+								className={styles["button"]}
+								onClick={handleClickChangeNickname}
+								color="primary"
+							>
+								닉네임 바꾸기
+							</Button>
+						</>
+					}
+
+					{
+						isChangeNicknameMode &&
+						<form>
+							<fieldset className={styles["form"]}>
+								<legend className={styles["sr-only"]}>닉네임 변경</legend>
+								<div className={styles["input-area"]}>
+									<Input
+										id="nickname-change"
+										value={nicknameValue}
+										onChange={onNicknameChange}
+										placeholder="새로운 닉네임을 입력해주세요"
+										isError={!isNicknameValidate}
+										maxLength={8}
+										fullWidth
+									/>
+
+									<div className={styles["message-container"]}>
+										<img src={isNicknameValidate ? "" : incorrect} />
+										<span className={isNicknameValidate ? "" : styles["not-match"]}>{isNicknameValidate ? "" : "8자 이내"}</span>
+									</div>
+								</div>
+
+								<Button
+									color="primary"
+									onClick={() => updateUser({ user: { nickname: nicknameValue }, toastMessage: "닉네임 변경이 완료되었습니다.", needToReload: true })}
+									className={styles["button"]}
+									size="medium"
+								>저장</Button>
+							</fieldset>
+						</form>
+					}
+				</div>
+
+			</section>
+
 			<section className={styles["setting-email"]}>
 				<h2 className={styles["title"]}>가입 이메일 설정</h2>
-				<div className={styles["change-email"]}>
+				<div className={styles["change-form"]}>
 					<span>{currentUser?.email}</span>
 					<Button
 						className={styles["button"]}
@@ -119,7 +177,7 @@ export default function EditMyInfo() {
 										color={"primary"}
 										size="medium"
 										className={styles["button"]}
-										onClick={() => updateUser({user:{email:value},toastMessage:"이메일 변경이 완료되었습니다.",needToReload:true})}
+										onClick={() => updateUser({ user: { email: value }, toastMessage: "이메일 변경이 완료되었습니다.", needToReload: true })}
 									>
 										확인
 									</Button>

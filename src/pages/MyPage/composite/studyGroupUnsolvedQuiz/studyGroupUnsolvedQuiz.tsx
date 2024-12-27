@@ -15,6 +15,7 @@ import ListFilter, {
 } from "@/components/composite/listFilter/listFilter";
 import QuizItem from "../../components/quizItem/quizItem";
 import Pagination from "@/components/composite/pagination/pagination";
+import { NoDataSection } from "@/components/composite/noDataSection/noDataSection";
 
 const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
   {
@@ -93,26 +94,39 @@ export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Prop) {
     setFilterCriteria(filter);
   };
 
+  const isQuizzesExist = unsolvedQuizzes && unsolvedQuizzes.length > 0;
+
   return (
     <section>
       <div className={styles["filter-container"]}>
         <h3 className={styles.title}>풀어야 할 퀴즈</h3>
-        <ListFilter
-          handleOptionClick={handleOptionClick}
-          sortFilter={filterCriteria}
-          filterOptions={filterOptions}
-        />
-      </div>
-      <ol className={styles["quiz-list"]}>
-        {unsolvedQuizzes?.map((quizData) => (
-          <QuizItem
-            key={quizData.quiz.id}
-            isSolved={false}
-            quizData={quizData}
+        {isQuizzesExist ? (
+          <ListFilter
+            handleOptionClick={handleOptionClick}
+            sortFilter={filterCriteria}
+            filterOptions={filterOptions}
           />
-        ))}
-      </ol>
-      {totalPagesLength ? (
+        ) : null}
+      </div>
+      {isQuizzesExist ? (
+        <ol className={styles["quiz-list"]}>
+          {unsolvedQuizzes.map((quizData) => (
+            <QuizItem
+              key={quizData.quiz.id}
+              isSolved={false}
+              quizData={quizData}
+            />
+          ))}
+        </ol>
+      ) : (
+        <NoDataSection
+          title="아직 풀어야 할 퀴즈가 없어요 😔"
+          buttonName="퀴즈 만들기"
+          // TODO:
+          onClick={() => {}}
+        />
+      )}
+      {totalPagesLength && isQuizzesExist ? (
         <Pagination
           type="state"
           paginationState={paginationState}

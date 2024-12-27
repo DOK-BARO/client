@@ -15,6 +15,7 @@ import ListFilter, {
 } from "@/components/composite/listFilter/listFilter";
 import QuizItem from "../../components/quizItem/quizItem";
 import Pagination from "@/components/composite/pagination/pagination";
+import { NoDataSection } from "@/components/composite/noDataSection/noDataSection";
 
 const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
   {
@@ -79,7 +80,7 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Prop) {
   });
   const solvedQuizzes = solvedQuizData?.data;
   const endPageNumber = solvedQuizData?.endPageNumber;
-  console.log(solvedQuizzes);
+  const isQuizzesExist = solvedQuizzes && solvedQuizzes.length > 0;
 
   // 마지막 페이지 번호 저장
   useEffect(() => {
@@ -97,18 +98,29 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Prop) {
     <section className={styles.section}>
       <div className={styles["filter-container"]}>
         <h3 className={styles.title}>제출한 퀴즈</h3>
-        <ListFilter
-          handleOptionClick={handleOptionClick}
-          sortFilter={filterCriteria}
-          filterOptions={filterOptions}
-        />
+        {isQuizzesExist ? (
+          <ListFilter
+            handleOptionClick={handleOptionClick}
+            sortFilter={filterCriteria}
+            filterOptions={filterOptions}
+          />
+        ) : null}
       </div>
-      <ol className={styles["quiz-list"]}>
-        {solvedQuizzes?.map((quizData) => (
-          <QuizItem key={quizData.id} isSolved quizData={quizData} />
-        ))}
-      </ol>
-      {totalPagesLength ? (
+      {isQuizzesExist ? (
+        <ol className={styles["quiz-list"]}>
+          {solvedQuizzes?.map((quizData) => (
+            <QuizItem key={quizData.id} isSolved quizData={quizData} />
+          ))}
+        </ol>
+      ) : (
+        <NoDataSection
+          title="아직 제출한 퀴즈가 없어요 😔"
+          buttonName="퀴즈 풀기"
+          // TODO:
+          onClick={() => {}}
+        />
+      )}
+      {totalPagesLength && isQuizzesExist ? (
         <Pagination
           type="state"
           paginationState={paginationState}

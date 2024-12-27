@@ -1,7 +1,7 @@
 import Button from "@/components/atom/button/button";
 import styles from "./account_setting.module.scss";
 import ProfileImageEditor from "../../components/profileImageEditor/profileImageEditor";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Input
 	from "@/components/atom/input/input";
 import useInput from "@/hooks/useInput";
@@ -12,24 +12,44 @@ import useValidate from "@/hooks/useValidate";
 import { emailValidation } from "@/validation/emailValidation";
 import correct from "/public/assets/svg/common/correct.svg";
 import incorrect from "/public/assets/svg/common/incorrect.svg";
+import useUpdateUser from "@/hooks/useUpdateUser";
+import useUploadImageToStorage from "@/hooks/useUploadImage";
+import { UploadImageArgType } from "@/types/UploadImageType";
 
 export default function EditMyInfo() {
+	const [currentUser] = useAtom(currentUserAtom);
+
 	const defaultImagePath = "/public/assets/image/default-profile.png";
 
 	const defaultProfileState: ProfileImageState = {
-		url: defaultImagePath,
+		url: currentUser?.profileImage ?? defaultImagePath,
 		file: null,
 	};
-	const [currentUser] = useAtom(currentUserAtom);
 	const [profileImage, setProfileImage] = useState<ProfileImageState>(defaultProfileState);
 	const { value, onChange, isValid: isEmailValid, } = useInput('', emailValidation);
 	const { value: code, onChange: onCodeChange } = useInput('');
-	const { messageContent, isError, isEmailSent, firstSendEmail, resendEmail, isMatch, isAlreadyUsed, updateUser } = useValidate({ value: value, isEmailValid: isEmailValid, code: code });
+	const { messageContent, isError, isEmailSent, firstSendEmail, resendEmail, isMatch, isAlreadyUsed } = useValidate({ value: value, isEmailValid: isEmailValid, code: code });
+	const {updateUser} = useUpdateUser();
 	const [isChangeEmailMode, setIsChangeEmailMode] = useState<boolean>(false);
+
+	const {uploadImage} = useUploadImageToStorage((imageUrl:string)=>{
+		updateUser({user:{profileImage:imageUrl},toastMessage:"프로필 이미지가 변경되었습니다."})
+	});
 
 	const handleClickChangeEmail = (_: React.MouseEvent<HTMLButtonElement>) => {
 		setIsChangeEmailMode(!isChangeEmailMode);
 	}
+
+
+	useEffect(()=>{
+		if(profileImage.file){
+			const arg:UploadImageArgType= {
+				image: profileImage.file,
+				imageTarget: "MEMBER_PROFILE",
+			}
+			uploadImage(arg);
+		}
+	},[profileImage.file]);
 
 	return (
 		<>
@@ -99,7 +119,7 @@ export default function EditMyInfo() {
 										color={"primary"}
 										size="medium"
 										className={styles["button"]}
-										onClick={() => updateUser()}
+										onClick={() => updateUser({user:{email:value},toastMessage:"이메일 변경이 완료되었습니다.",needToReload:true})}
 									>
 										확인
 									</Button>

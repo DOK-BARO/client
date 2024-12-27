@@ -62,17 +62,6 @@ function useValidate({ value, isEmailValid, code }: { value: string, isEmailVali
 		},
 	});
 
-	const { mutate: updateUser } = useMutation<
-		void,
-		ErrorType
-	>({
-		mutationFn: () => authService.updateUser({ email: value }),
-		onSuccess: () => {
-			toast.success("이메일 변경이 완료되었습니다.");
-			location.reload();
-		}
-	});
-
 	const matchingEmailCode = () => {
 		const emailAndCode = {
 			email: value,
@@ -113,7 +102,7 @@ function useValidate({ value, isEmailValid, code }: { value: string, isEmailVali
 	};
 
 
-	return { messageContent, isError, isEmailSent, firstSendEmail, resendEmail, isMatch, matchingEmailCode, isAlreadyUsed, updateUser };
+	return { messageContent, isError, isEmailSent, firstSendEmail, resendEmail, isMatch, matchingEmailCode, isAlreadyUsed };
 }
 
 export default useValidate;

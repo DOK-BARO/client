@@ -1,7 +1,6 @@
 import {
   isStudyGroupSettingPageAtom,
   myPageTitleAtom,
-  studyGroupAtom,
 } from "@/store/myPageAtom";
 import { useAtom } from "jotai";
 import { useEffect, useRef, useState } from "react";
@@ -18,19 +17,33 @@ import threeDot from "/public/assets/svg/myPage/three-dot.svg";
 import useModal from "@/hooks/useModal";
 import trashCan from "/public/assets/svg/myPage/trash-can-bigger.svg";
 import SmallModal from "@/components/atom/smallModal/smallModal";
-import { useMutation } from "@tanstack/react-query";
+import { QueryKey, useMutation, useQuery } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";
 import { studyGroupService } from "@/services/server/studyGroupService";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Modal from "@/components/atom/modal/modal";
+import { studyGroupKeys } from "@/data/queryKeys";
+import { StudyGroupPostType } from "@/types/StudyGroupType";
+import { queryClient } from "@/services/server/queryClient";
 
 // 스터디 그룹 관리
 export default function StudyGroupSetting() {
   // TODO: 타이틀 세팅하는 로직 훅으로 분리하기
   const navigate = useNavigate();
+  const { studyGroupId } = useParams();
+  const studyGroupIdNumber = studyGroupId ? Number(studyGroupId) : undefined;
+
+  const { data: studyGroupDetail } = useQuery({
+    queryKey: studyGroupKeys.detail(studyGroupIdNumber),
+    queryFn: () =>
+      studyGroupIdNumber
+        ? studyGroupService.fetchStudyGroup(studyGroupIdNumber)
+        : null,
+    enabled: !!studyGroupIdNumber,
+  });
+
   const [, setMyPageTitle] = useAtom(myPageTitleAtom);
-  const [studyGroup] = useAtom(studyGroupAtom);
   const [, setIsStudyGroupSettingPage] = useAtom(isStudyGroupSettingPageAtom);
   const defaultImagePath = "/public/assets/image/default-profile.png";
   const [isInputChanged, setIsInputChanged] = useState<boolean>(false);
@@ -50,12 +63,28 @@ export default function StudyGroupSetting() {
   const modalRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLDivElement>(null);
 
-  const { value: name, onChange: onNameChange } = useInput("");
-  const { value: introduction, onChange: onIntroductionChange } =
-    useTextarea("");
+  const { value: name, onChange: onNameChange } = useInput(
+    studyGroupDetail?.name ?? ""
+  );
+  const { value: introduction, onChange: onIntroductionChange } = useTextarea(
+    studyGroupDetail?.introduction ?? ""
+  );
 
   useEffect(() => {
-    if (name || introduction) {
+    if (studyGroupDetail) {
+      initialName.current = studyGroupDetail.name ?? "";
+      initialIntroduction.current = studyGroupDetail.introduction ?? "";
+    }
+  }, [studyGroupDetail]);
+
+  const initialName = useRef(studyGroupDetail?.name ?? "");
+  const initialIntroduction = useRef(studyGroupDetail?.introduction ?? "");
+
+  useEffect(() => {
+    if (
+      name !== initialName.current ||
+      introduction !== initialIntroduction.current
+    ) {
       setIsInputChanged(true);
     } else {
       setIsInputChanged(false);
@@ -70,15 +99,15 @@ export default function StudyGroupSetting() {
     useState<ProfileImageState>(defaultProfileState);
 
   useEffect(() => {
-    if (studyGroup) {
-      setMyPageTitle(studyGroup.name);
+    if (studyGroupDetail) {
+      setMyPageTitle(studyGroupDetail.name);
       setIsStudyGroupSettingPage(true);
     }
     return () => {
       setMyPageTitle("마이페이지");
       setIsStudyGroupSettingPage(false);
     };
-  }, [studyGroup]);
+  }, [studyGroupDetail]);
 
   // 작은 모달 토글
   const handleToggle = () => {
@@ -107,11 +136,10 @@ export default function StudyGroupSetting() {
   }, []);
 
   const handleDeleteStudyGroup = () => {
-    console.log("스터디 삭제");
-    if (!studyGroup) {
+    if (!studyGroupDetail) {
       return;
     }
-    deleteStudyGroup(studyGroup.id);
+    deleteStudyGroup(studyGroupDetail.id);
   };
 
   const { mutate: deleteStudyGroup } = useMutation<void, ErrorType, number>({
@@ -122,6 +150,43 @@ export default function StudyGroupSetting() {
     },
   });
 
+  const { mutate: updateStudyGroup } = useMutation<
+    void,
+    ErrorType,
+    { id: number; studyGroup: StudyGroupPostType }
+  >({
+    mutationFn: ({ id, studyGroup }) =>
+      studyGroupService.updateStudyGroup({
+        id,
+        studyGroup,
+      }),
+    onSuccess: () => {
+      // 쿼리 데이터 무효화: 보통 데이터가 업데이트된 후, 화면에 표시된 데이터를 최신 상태로 유지하기 위해 사용됨
+      queryClient.invalidateQueries({
+        queryKey: studyGroupKeys.detail(studyGroupIdNumber),
+        exact: true,
+      });
+      toast.success("스터디 정보가 수정되었습니다.");
+      setIsInputChanged(false);
+    },
+  });
+
+  const handleUpdateStudyGroup = () => {
+    if (studyGroupIdNumber === undefined || !studyGroupDetail?.name) {
+      return;
+    }
+
+    updateStudyGroup({
+      id: studyGroupIdNumber,
+      studyGroup: {
+        name,
+        introduction,
+        // TODO: 프로필 이미지 변경 적용하기
+        profileImageUrl: studyGroupDetail?.profileImageUrl,
+      },
+    });
+  };
+
   return (
     <section className={styles.container}>
       {isDeleteConfirmModal ? (
@@ -130,7 +195,7 @@ export default function StudyGroupSetting() {
           closeModal={closeConfirmModal}
           contents={[
             {
-              title: `${studyGroup?.name} 스터디 그룹을 삭제하시겠어요?`,
+              title: `${studyGroupDetail?.name} 스터디 그룹을 삭제하시겠어요?`,
               content: (
                 <p>
                   스터디에서 만든 퀴즈, 푼 퀴즈 등의 데이터는 모두 삭제되며,
@@ -201,20 +266,24 @@ export default function StudyGroupSetting() {
               onChange={onIntroductionChange}
               placeholder="스터디 그룹 소개를 입력해주세요."
               fullWidth
-              maxLength={20}
+              maxLength={50}
               maxLengthShow
             />
           </div>
         </div>
         {isInputChanged ? (
-          <Button className={styles.save} color="primary">
+          <Button
+            className={styles.save}
+            color="primary"
+            onClick={handleUpdateStudyGroup}
+          >
             변경사항 저장
           </Button>
         ) : null}
       </section>
 
       {/* 스터디원 관리 */}
-      <StudyMemberList studyGroupId={studyGroup?.id} />
+      <StudyMemberList studyGroupId={studyGroupDetail?.id} />
     </section>
   );
 }

@@ -26,7 +26,7 @@ export interface StudyMemberType {
 }
 
 // TODO: 변수명 -Prop, -Type?
-export interface StudyGroupCreationType {
+export interface StudyGroupPostType {
   name: string;
   introduction?: string;
   profileImageUrl?: string;

@@ -1,7 +1,7 @@
 import { axiosInstance } from "@/config/axiosConfig";
 import { FetchStudyGroupsParams } from "@/types/ParamsType";
 import {
-  StudyGroupCreationType,
+  StudyGroupPostType,
   StudyGroupDetailType,
   StudyGroupMySolvedQuizType,
   StudyGroupMyUnSolvedQuizType,
@@ -47,7 +47,7 @@ class StudyGroupService {
 
   // 스터디 그룹 생성
   createStudyGroup = async (
-    studyGroup: StudyGroupCreationType
+    studyGroup: StudyGroupPostType
   ): Promise<{ id: number } | null> => {
     try {
       const { data } = await axiosInstance.post("/study-groups", studyGroup);
@@ -134,6 +134,24 @@ class StudyGroupService {
     try {
       const response = await axiosInstance.delete(`/study-groups/${id}`);
       console.log(response);
+    } catch (error) {
+      handleAxiosError(error);
+    }
+  };
+
+  updateStudyGroup = async ({
+    id,
+    studyGroup,
+  }: {
+    id: number;
+    studyGroup: StudyGroupPostType;
+  }) => {
+    try {
+      const response = await axiosInstance.put(
+        `/study-groups/${id}`,
+        studyGroup
+      );
+      console.log("response", response);
     } catch (error) {
       handleAxiosError(error);
     }

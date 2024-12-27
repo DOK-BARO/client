@@ -8,7 +8,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";
 import { studyGroupService } from "@/services/server/studyGroupService";
 import toast from "react-hot-toast";
-import { StudyGroupCreationType } from "@/types/StudyGroupType";
+import { StudyGroupPostType } from "@/types/StudyGroupType";
 import CodeInput from "@/components/composite/codeInput/codeInput";
 import useCodeInput from "@/hooks/useCodeInput";
 import { UploadImageArgType } from "@/types/UploadImageType";
@@ -53,7 +53,7 @@ export default function AddStudyGroupModal({ closeModal }: Props) {
   const { mutate: createStudyGroup } = useMutation<
     { id: number } | null,
     ErrorType,
-    StudyGroupCreationType
+    StudyGroupPostType
   >({
     mutationFn: (newStudy) => studyGroupService.createStudyGroup(newStudy),
     onSuccess: (data) => {

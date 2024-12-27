@@ -16,8 +16,6 @@ export default function StudyMemberList({ studyGroupId }: Prop) {
     enabled: !!studyGroupId,
   });
 
-  console.log(studyGroupDetail);
-
   return (
     <section className={styles.container}>
       <div className={styles["header-container"]}>

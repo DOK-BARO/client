@@ -79,9 +79,9 @@ export default function StudyGroup() {
         : null,
     enabled: !!id,
   });
-  const unsolvedQuiz = unsolvedQuizData?.data;
+  const unsolvedQuizzes = unsolvedQuizData?.data;
   const endPageNumber = unsolvedQuizData?.endPageNumber;
-  console.log(unsolvedQuiz);
+  console.log(unsolvedQuizzes);
 
   // 마지막 페이지 번호 저장
   useEffect(() => {
@@ -108,9 +108,9 @@ export default function StudyGroup() {
           />
         </div>
         <ol className={styles["quiz-list"]}>
-          <QuizItem key={1} />
-          <QuizItem key={2} />
-          <QuizItem key={3} />
+          {unsolvedQuizzes?.map((quizData) => (
+            <QuizItem quizData={quizData} />
+          ))}
         </ol>
         {totalPagesLength ? (
           <Pagination

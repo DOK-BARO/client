@@ -40,3 +40,13 @@ export const myPageUnsolvedQuizPaginationAtom = atom<PaginationType>({
   middlePagesLength: 6,
   isMiddlePagesUpdated: false,
 });
+
+// 마이페이지 > 내 스터디 퀴즈 > 제출한 퀴즈
+export const myPageSolvedQuizPaginationAtom = atom<PaginationType>({
+  currentPage: 1,
+  pagePosition: "START",
+  totalPagesLength: undefined,
+  middlePages: [],
+  middlePagesLength: 6,
+  isMiddlePagesUpdated: false,
+});

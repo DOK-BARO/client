@@ -3,6 +3,7 @@ import { FetchStudyGroupsParams } from "@/types/ParamsType";
 import {
   StudyGroupCreationType,
   StudyGroupDetailType,
+  StudyGroupMySolvedQuizType,
   StudyGroupMyUnSolvedQuizType,
   StudyGroupType,
 } from "@/types/StudyGroupType";
@@ -77,11 +78,41 @@ class StudyGroupService {
     endPageNumber: number;
     data: StudyGroupMyUnSolvedQuizType[];
   } | null> => {
-  const { page, size, sort, direction } = params;
+    const { page, size, sort, direction } = params;
 
     try {
       const response = await axiosInstance.get(
         `/book-quizzes/study-groups/${studyGroupId}/unsolved`,
+        {
+          params: {
+            page,
+            size,
+            sort,
+            direction,
+          },
+        }
+      );
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      handleAxiosError(error);
+      return null;
+    }
+  };
+
+  // 스터디 그룹 퀴즈 중 내가 푼 문제 조회 (제출 한 퀴즈)
+  fetchStudyGroupMySolvedQuizzes = async (
+    studyGroupId: number,
+    params: FetchStudyGroupsParams
+  ): Promise<{
+    endPageNumber: number;
+    data: StudyGroupMySolvedQuizType[];
+  } | null> => {
+    const { page, size, sort, direction } = params;
+
+    try {
+      const response = await axiosInstance.get(
+        `/solving-quiz/study-groups/${studyGroupId}/my`,
         {
           params: {
             page,

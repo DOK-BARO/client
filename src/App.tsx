@@ -96,6 +96,7 @@ function App() {
               path: "solved-quiz",
               element: <SolvedQuiz />,
             },
+            // TODO: study-group 으로 변경하기
             {
               path: "study-groups",
               element: <MyStudyGroups />,
@@ -144,7 +145,7 @@ function App() {
       path: "/quiz",
       element: <NoHeaderLayout />,
       children: [
-				{
+        {
           path: "/quiz/play/:quizId/:solvingQuizId",
           element: <SolvingQuizPage />,
         },

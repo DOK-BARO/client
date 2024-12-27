@@ -32,6 +32,12 @@ export interface StudyGroupCreationType {
   profileImageUrl?: string;
 }
 
+interface UserType {
+  id: number;
+  nickname: string;
+  profileImageUrl: string;
+}
+
 export interface StudyGroupMyUnSolvedQuizType {
   book: {
     id: number;
@@ -42,16 +48,14 @@ export interface StudyGroupMyUnSolvedQuizType {
     id: number;
     title: string;
     description: string;
-    creator: {
-      id: number;
-      nickname: string;
-      profileImageUrl: string;
-    };
+    creator: UserType;
     createdAt: string;
-    contributors: {
-      id: number;
-      nickname: string;
-      profileImage: string;
-    }[];
+    contributors: UserType[];
   };
+}
+
+export interface StudyGroupMySolvedQuizType
+  extends StudyGroupMyUnSolvedQuizType {
+  id: number;
+  solvedAt: string;
 }

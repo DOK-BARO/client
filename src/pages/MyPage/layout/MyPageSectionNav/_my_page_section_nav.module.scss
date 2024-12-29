@@ -18,10 +18,8 @@
     }
   }
 
-
   .sub-steps-container {
     visibility: hidden;
-    
   }
   .sub-steps-container.is-visible {
     visibility: visible;
@@ -29,8 +27,7 @@
 
   .have-sub-step:hover {
     .sub-steps-container {
-      visibility:visible;
-      
+      visibility: visible;
     }
   }
 

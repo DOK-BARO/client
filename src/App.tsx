@@ -31,6 +31,7 @@ import SolvedQuiz from "./pages/MyPage/composite/solvedQuiz/solvedQuiz.tsx";
 import EditMyInfo from "./pages/MyPage/composite/accountSetting/editMyInfo.tsx";
 import MyStudyGroups from "./pages/MyPage/composite/myStudyGroups/myStudyGroups.tsx";
 import StudyGroup from "./pages/MyPage/composite/studyGroup/studyGroup.tsx";
+import StudyGroupSetting from "./pages/MyPage/composite/studyGroupSetting/studyGroupSetting.tsx";
 
 function App() {
   // TODO: 분리하기
@@ -96,6 +97,7 @@ function App() {
               path: "solved-quiz",
               element: <SolvedQuiz />,
             },
+            // TODO: study-group 으로 변경하기
             {
               path: "study-groups",
               element: <MyStudyGroups />,
@@ -103,6 +105,10 @@ function App() {
             {
               path: "study-groups/:studyGroupId",
               element: <StudyGroup />,
+            },
+            {
+              path: "study-groups/:studyGroupId/setting",
+              element: <StudyGroupSetting />,
             },
             {
               path: "settings",
@@ -144,7 +150,7 @@ function App() {
       path: "/quiz",
       element: <NoHeaderLayout />,
       children: [
-				{
+        {
           path: "/quiz/play/:quizId/:solvingQuizId",
           element: <SolvingQuizPage />,
         },

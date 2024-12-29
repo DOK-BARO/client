@@ -6,7 +6,8 @@ export type ButtonColorProps =
   | "primary-border"
   | "black"
   | "white"
-  | "transparent";
+  | "transparent"
+  | "red";
 interface ButtonProps {
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   children?: ReactNode;

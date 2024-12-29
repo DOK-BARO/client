@@ -1,11 +1,9 @@
 import styles from "./_header_quiz_util_list.module.scss";
-import { Pencil } from "@/svg/pencil.tsx";
-import { CheckSquare } from "@/svg/checkSquare";
-import { gray70 } from "@/styles/abstracts/colors.ts";
 import { useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
 import { isLoggedInAtom } from "@/store/userAtom";
-
+import pencil from "/public/assets/svg/header/pencil.svg";
+import checkSquare from "/public/assets/svg/header/check-square.svg";
 interface HeaderQuizUtilListProps {
   closeDropDownList: () => void;
   openLoginModal: () => void;
@@ -39,25 +37,14 @@ export default function HeaderQuizUtilList({
         onClick={onClickMakeQuiz}
         className={styles["header-quiz-util-list-item"]}
       >
-        <Pencil
-          className={styles["header-quiz-util-icon"]}
-          width={24}
-          height={24}
-          stroke={gray70}
-        />
+        <img src={pencil} width={24} height={24} alt="" />
         <span>퀴즈 만들기</span>
       </li>
       <li
         onClick={onClickDoingQuiz}
         className={styles["header-quiz-util-list-item"]}
       >
-        <CheckSquare
-          className={styles["header-quiz-util-icon"]}
-          width={24}
-          height={24}
-          stroke={gray70}
-          alt=""
-        />
+        <img src={checkSquare} width={24} height={24} />
         <span>퀴즈 풀기</span>
       </li>
     </ul>

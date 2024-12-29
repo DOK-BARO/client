@@ -1,13 +1,13 @@
 /* Colors */
 export const gray0 = "#ffffff";
-export const gray20 = "#ECECEC";
-export const gray10 = "#f8f8f8";
-export const gray30 = "#d8d8d8";
-export const gray40 = "#c6c6c6";
-export const gray50 = "#8e8e8e";
-export const gray60 = "#717171";
+export const gray10 = "#f5f5f5";
+export const gray20 = "#ececec";
+export const gray30 = "#d9d9d9";
+export const gray40 = "#d8d8d8";
+export const gray50 = "#bdbdbd";
+export const gray60 = "#8e8e8e"; // 8e8e8e
 export const gray70 = "#555555";
-export const gray80 = "#2D2D2D";
+export const gray80 = "#2d2d2d";
 export const gray90 = "#1d1d1d";
 
 export const black = "#000000";

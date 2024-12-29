@@ -10,9 +10,10 @@ import MemoizedQuizBasicInfoForm from "@/pages/CreateQuiz/composite/quizBasicInf
 import {
   errorModalTitleAtom,
   openErrorModalAtom,
+  resetQuizCreationStateAtom,
   stepsCompletionStatusAtom,
 } from "@/store/quizAtom.ts";
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import Modal from "@/components/atom/modal/modal.tsx";
 import useModal from "@/hooks/useModal.ts";
 import { Step } from "@/types/StepType.ts";
@@ -72,6 +73,13 @@ export default function Index() {
   const [errorModalTitle] = useAtom(errorModalTitleAtom);
   const { isModalOpen, openModal, closeModal } = useModal();
   const [, setOpenErrorModal] = useAtom(openErrorModalAtom);
+  const resetQuizState = useSetAtom(resetQuizCreationStateAtom);
+
+  useEffect(() => {
+    // 퀴즈 상태 초기화
+    setCurrentStep(0);
+    resetQuizState();
+  }, []);
 
   useEffect(() => {
     setOpenErrorModal(() => openModal);

@@ -26,10 +26,16 @@ export interface StudyMemberType {
 }
 
 // TODO: 변수명 -Prop, -Type?
-export interface StudyGroupCreationType {
+export interface StudyGroupPostType {
   name: string;
   introduction?: string;
   profileImageUrl?: string;
+}
+
+interface UserType {
+  id: number;
+  nickname: string;
+  profileImageUrl: string;
 }
 
 export interface StudyGroupMyUnSolvedQuizType {
@@ -42,16 +48,14 @@ export interface StudyGroupMyUnSolvedQuizType {
     id: number;
     title: string;
     description: string;
-    creator: {
-      id: number;
-      nickname: string;
-      profileImageUrl: string;
-    };
+    creator: UserType;
     createdAt: string;
-    contributors: {
-      id: number;
-      nickname: string;
-      profileImage: string;
-    }[];
+    contributors: UserType[];
   };
+}
+
+export interface StudyGroupMySolvedQuizType
+  extends StudyGroupMyUnSolvedQuizType {
+  id: number;
+  solvedAt: string;
 }

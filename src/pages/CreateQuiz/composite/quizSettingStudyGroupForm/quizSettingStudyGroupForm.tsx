@@ -9,7 +9,7 @@ import Input from "@/components/atom/input/input.tsx";
 import { QuizPlus } from "@/svg/quizPlus";
 import { XMedium } from "@/svg/xMedium";
 import { Copy } from "@/svg/copy";
-import { StudyGroupCreationType, StudyGroupType } from "@/types/StudyGroupType";
+import { StudyGroupPostType, StudyGroupType } from "@/types/StudyGroupType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { studyGroupService } from "@/services/server/studyGroupService";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -88,7 +88,7 @@ export default function QuizSettingStudyGroupForm() {
   const { mutate: createStudyGroup } = useMutation<
     { id: number } | null,
     ErrorType,
-    StudyGroupCreationType
+    StudyGroupPostType
   >({
     mutationFn: (newStudy) => studyGroupService.createStudyGroup(newStudy),
     onSuccess: (data, newStudy) => {

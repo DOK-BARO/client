@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Button from "@/components/atom/Button/Button";
-import QuestionForm from "@/pages/CreateQuiz/composite/QuizWriteForm/questionForm";
+import QuestionForm from "@/pages/CreateQuiz/composite/QuizWriteForm/QuestionForm";
 import {
   DragDropContext,
   Draggable,

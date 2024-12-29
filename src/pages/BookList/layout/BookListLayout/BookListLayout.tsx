@@ -2,7 +2,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import styles from "./_book_list_layout.module.scss";
 import { useQuery } from "@tanstack/react-query";
 import { bookKeys } from "@/data/queryKeys";
-import LNB from "../../composite/Lnb/lnb";
+import LNB from "../../composite/Lnb/Lnb";
 import {
   findCurrentCategoryInfo,
   findParentCategoryInfo,

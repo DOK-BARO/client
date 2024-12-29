@@ -4,14 +4,15 @@ import { QuestionFormMode } from "@/data/constants.ts";
 import { QuizQuestionType } from "@/types/QuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { useQuestionTemplate } from "@/hooks/useQuestionTemplate";
-import SelectOption from "./selectOption";
+import SelectOption from "./SelectOption";
 import { SelectOptionType } from "@/types/QuizType";
 
 export const CheckBoxQuestionTemplate: FC<{
   questionFormMode?: string;
   questionFormId?: string;
 }> = ({ questionFormMode, questionFormId }) => {
-  const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
+  const { quizCreationInfo, updateQuizCreationInfo } =
+    useUpdateQuizCreationInfo();
   const {
     options,
     setOptions,
@@ -30,15 +31,21 @@ export const CheckBoxQuestionTemplate: FC<{
 
     return initCheckedOptions;
   };
-  const [checkedOptions, setCheckedOptions] = useState<{ [key: string]: boolean; }>(setInitialAnswer());
+  const [checkedOptions, setCheckedOptions] = useState<{
+    [key: string]: boolean;
+  }>(setInitialAnswer());
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, checked } = event.target;
 
-		const currentQuestion: QuizQuestionType = quizCreationInfo.questions?.find((question) => (question.id.toString() === questionFormId!))!;
-		const targetSelectOption: SelectOptionType = currentQuestion.selectOptions.find((option)=>(id === option.id.toString()))!;
-		const currentAnswer: string = targetSelectOption.answerIndex.toString();
-
+    const currentQuestion: QuizQuestionType = quizCreationInfo.questions?.find(
+      (question) => question.id.toString() === questionFormId!
+    )!;
+    const targetSelectOption: SelectOptionType =
+      currentQuestion.selectOptions.find(
+        (option) => id === option.id.toString()
+      )!;
+    const currentAnswer: string = targetSelectOption.answerIndex.toString();
 
     setCheckedOptions((prev) => {
       return {
@@ -50,11 +57,11 @@ export const CheckBoxQuestionTemplate: FC<{
     const updatedQuestions = quizCreationInfo.questions!.map((question) =>
       question.id.toString() === questionFormId
         ? {
-          ...question,
-          answers: checked
-            ? [...question.answers, currentAnswer]
-            : question.answers.filter((answer) => answer !== currentAnswer),
-        }
+            ...question,
+            answers: checked
+              ? [...question.answers, currentAnswer]
+              : question.answers.filter((answer) => answer !== currentAnswer),
+          }
         : question
     );
     updateQuizCreationInfo("questions", updatedQuestions);
@@ -67,14 +74,19 @@ export const CheckBoxQuestionTemplate: FC<{
     setCheckedOptions(initCheckedOptions);
   }, [questionFormMode]);
 
-  const initializeCheckedOptions = (question: QuizQuestionType): { [key: string]: boolean } => {
+  const initializeCheckedOptions = (
+    question: QuizQuestionType
+  ): { [key: string]: boolean } => {
     const checkedOptions: { [key: string]: boolean } = {};
     question.selectOptions.forEach(({ id, value }) => {
-      checkedOptions[id] = questionFormMode === QuestionFormMode.QUESTION ? false : question.answers.includes(value);
+      checkedOptions[id] =
+        questionFormMode === QuestionFormMode.QUESTION
+          ? false
+          : question.answers.includes(value);
     });
 
     return checkedOptions;
-  }
+  };
 
   const setText = (optionId: number, label: string) => {
     const updatedOptions = options.map((option) => {
@@ -90,18 +102,18 @@ export const CheckBoxQuestionTemplate: FC<{
     <fieldset className={styles["question-options"]}>
       <legend>답안 선택지</legend>
       {options.map((option) => (
-      <SelectOption 
+        <SelectOption
           key={option.id}
           option={option}
           checked={checkedOptions[option.id]}
-          deleteOption={deleteOption}        
+          deleteOption={deleteOption}
           onChange={handleCheckboxChange}
           setText={setText}
           questionFormId={questionFormId!.toString()}
           selectedValue={checkedOptions}
           quizMode={questionFormMode!}
           answerType={"MULTIPLE_CHOICE_MULTIPLE_ANSWER"}
-      />
+        />
       ))}
       {questionFormMode == QuestionFormMode.QUESTION && (
         <AddOptionButton onAdd={handleAddQuizOptionItemBtn} />

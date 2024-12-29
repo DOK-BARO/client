@@ -2,25 +2,25 @@ import React, { useState, useRef, useEffect } from "react";
 import styles from "./_question_form.module.scss";
 import Textarea from "@/components/atom/Textarea/Textarea";
 import { ImageAdd } from "@/svg/QuizWriteForm/ImageAdd";
-import QuestionFormHeader from "./questionFormHeader";
+import QuestionFormHeader from "./QuestionFormHeader";
 import { QuestionFormMode } from "@/data/constants.ts";
 import { QuestionTemplateType as QuestionTemplateType } from "@/types/QuestionTemplateType";
 import { UlList } from "@/svg/QuizWriteForm/UlList";
 import { OlList } from "@/svg/QuizWriteForm/OlList";
-import { OxQuiz } from "@/svg/QuizWriteForm/OxQuiz";
 import { BlankQuiz } from "@/svg/QuizWriteForm/BlankQuiz";
 import { AlignJustify } from "@/svg/QuizWriteForm/AlignJustify";
-import { MultipleChoiceQuestionTemplate } from "@/pages/CreateQuiz/composite/QuizWriteForm/multipleChoiceQuestionTemplate";
-import { CheckBoxQuestionTemplate } from "@/pages/CreateQuiz/composite/QuizWriteForm/checkBoxQuestionTemplate";
-import { OXQuestionTemplate } from "@/pages/CreateQuiz/composite/QuizWriteForm/oxQuestionTemplate";
+import { MultipleChoiceQuestionTemplate } from "@/pages/CreateQuiz/composite/QuizWriteForm/MultipleChoiceQuestionTemplate";
+import { CheckBoxQuestionTemplate } from "@/pages/CreateQuiz/composite/QuizWriteForm/CheckBoxQuestionTemplate";
+import { OXQuestionTemplate } from "@/pages/CreateQuiz/composite/QuizWriteForm/OXQuestionTemplate";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
 import { useAtom } from "jotai";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import deleteIcon from "/assets/svg/quizWriteForm/delete_ellipse.svg";
 import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
 import { QuizQuestionType } from "@/types/QuizType";
-import QuestionTemplateTypeUtilButton from "./questionTemplateTypeUtilButton";
+import QuestionTemplateTypeUtilButton from "./QuestionTemplateTypeUtilButton";
 import { SelectOptionType } from "@/types/QuizType";
+import { OxQuiz } from "@/svg/QuizWriteForm/OXQuiz";
 
 interface QuizWriteFormItemProps {
   questionFormId: number;
@@ -173,9 +173,15 @@ export default function QuestionForm({
     return new Set(options).size !== options.length;
   };
   const checkValidation = () => {
-    const questionForm: QuizQuestionType = quizCreationInfo.questions?.find(
+    const questionForm = quizCreationInfo.questions?.find(
       ({ id }) => id === questionFormId
-    )!;
+    );
+
+    if (!questionForm) {
+      setErrorModalTitle("질문을 찾을 수 없습니다.");
+      openModal!();
+      return;
+    }
     const selectOptions: SelectOptionType[] = questionForm.selectOptions;
 
     // - 질문 입력 안 했을 때: 질문을 입력해 주세요.

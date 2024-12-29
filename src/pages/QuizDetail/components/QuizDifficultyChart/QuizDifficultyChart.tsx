@@ -1,6 +1,6 @@
 import { DifficultyType } from "@/types/ReviewType";
 import styles from "./_quiz_difficulty_chart.module.scss";
-import DifficultyLevelItem from "../DifficultyLevelItem/difficultyLevelItem";
+import DifficultyLevelItem from "../DifficultyLevelItem/DifficultyLevelItem";
 
 interface Props {
   difficulty: DifficultyType;

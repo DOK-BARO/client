@@ -1,9 +1,9 @@
-import styles from "../studyGroupSetting/_study_group_setting.module.scss";
 import { useQuery } from "@tanstack/react-query";
-import MemberItem from "../../components/MemberItem/memberItem";
-import LeaderItem from "../../components/LeaderItem/leaderItem";
+import MemberItem from "../../components/MemberItem/MemberItem";
+import LeaderItem from "../../components/LeaderItem/LeaderItem";
 import { studyGroupKeys } from "@/data/queryKeys";
 import { studyGroupService } from "@/services/server/studyGroupService";
+import styles from "../StudyGroupSetting/_study_group_setting.module.scss";
 
 export interface Prop {
   studyGroupId: number | undefined;

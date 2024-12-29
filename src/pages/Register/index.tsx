@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
-import EmailRegisterLayout from "./layout/emailRegisterLayout";
-import SocialRegisterLayout from "./layout/socialRegisterLayout";
+import EmailRegisterLayout from "./layout/EmailRegisterLayout";
+import SocialRegisterLayout from "./layout/SocialRegisterLayout";
 
 export default function Index() {
   const { method } = useParams();

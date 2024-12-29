@@ -5,14 +5,14 @@ import {
 import { useAtom } from "jotai";
 import { useEffect, useRef, useState } from "react";
 import styles from "./_study_group_setting.module.scss";
-import ProfileImageEditor from "../../components/ProfileImageEditor/profileImageEditor";
-import { ProfileImageState } from "@/pages/Register/composite/ProfileSet/profileSet";
+import ProfileImageEditor from "../../components/ProfileImageEditor/ProfileImageEditor";
+import { ProfileImageState } from "@/pages/Register/composite/ProfileSet/ProfileSet";
 import Input from "@/components/atom/Input/Input";
 import Textarea from "@/components/atom/Textarea/Textarea";
 import useInput from "@/hooks/useInput";
 import useTextarea from "@/hooks/useTextarea";
 import Button from "@/components/atom/Button/Button";
-import StudyMemberList from "../StudyMemberList/studyMemberList";
+import StudyMemberList from "../StudyMemberList/StudyMemberList";
 import threeDot from "/public/assets/svg/myPage/three-dot.svg";
 import useModal from "@/hooks/useModal";
 import trashCan from "/public/assets/svg/myPage/trash-can-bigger.svg";

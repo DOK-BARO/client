@@ -1,7 +1,7 @@
 import { useState } from "react";
-import styles from "../../Register/layout/_register_layout.module.scss";
-import SendTemporaryPassword from "../composite/SendTemporaryPassword/sendTemporaryPassword";
-import Complete from "../composite/Complete/complete";
+import styles from "./_find_password_layout.module.scss";
+import SendTemporaryPassword from "@/pages/FindPassword/composite/SendTemporaryPassword/SendTemporaryPassword";
+import Complete from "@/pages/FindPassword/composite/Complete/Complete";
 
 export default function FindPasswordLayout() {
   const [step, setStep] = useState<number>(1);

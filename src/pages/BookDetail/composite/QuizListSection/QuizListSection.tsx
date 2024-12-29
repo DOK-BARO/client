@@ -1,5 +1,5 @@
 import styles from "./_quiz_list_section.module.scss";
-import QuizItem from "../QuizItem/quizItem.tsx";
+import QuizItem from "../QuizItem/QuizItem.tsx";
 import { useQuery } from "@tanstack/react-query";
 import { bookKeys } from "@/data/queryKeys.ts";
 import { bookService } from "@/services/server/bookService.ts";

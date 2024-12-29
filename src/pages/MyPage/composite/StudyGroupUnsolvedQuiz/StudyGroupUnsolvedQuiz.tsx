@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import styles from "../studyGroup/_study_group.module.scss";
+import styles from "../StudyGroup/_study_group.module.scss";
 import { StudyGroupsFilterType, StudyGroupsSortType } from "@/types/FilterType";
 import { parseQueryParams } from "@/utils/parseQueryParams";
 import { FetchStudyGroupsParams } from "@/types/ParamsType";
@@ -13,7 +13,7 @@ import { studyGroupService } from "@/services/server/studyGroupService";
 import ListFilter, {
   FilterOptionType,
 } from "@/components/composite/ListFilter/ListFilter";
-import QuizItem from "../../components/QuizItem/quizItem";
+import QuizItem from "../../components/QuizItem/QuizItem";
 import Pagination from "@/components/composite/Pagination/Pagination";
 import { NoDataSection } from "@/components/composite/NoDataSection/NoDataSection";
 

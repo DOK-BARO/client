@@ -1,8 +1,8 @@
 import styles from "./_reviews_detail.module.scss";
-import FiveStar from "../../../../components/composite/FiveStar/FiveStar";
-import QuizDifficultyChart from "../../components/QuizDifficultyChart/quizDifficultyChart";
+import FiveStar from "@/components/composite/FiveStar/FiveStar";
+import QuizDifficultyChart from "@/pages/QuizDetail/components/QuizDifficultyChart/QuizDifficultyChart";
 import { ReviewsTotalScoreType } from "@/types/ReviewType";
-import ReviewList from "../ReviewList/reviewList";
+import ReviewList from "../ReviewList/ReviewList";
 
 interface Props {
   reviewsTotalScore: ReviewsTotalScoreType;

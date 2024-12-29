@@ -4,7 +4,7 @@ import ProfileImageEditor from "../../components/ProfileImageEditor/ProfileImage
 import { useEffect, useState } from "react";
 import Input from "@/components/atom/Input/Input";
 import useInput from "@/hooks/useInput";
-import { ProfileImageState } from "@/pages/Register/composite/ProfileSet/profileSet";
+import { ProfileImageState } from "@/pages/Register/composite/ProfileSet/ProfileSet";
 import { currentUserAtom } from "@/store/userAtom";
 import { useAtom } from "jotai";
 import useValidate from "@/hooks/useValidate";

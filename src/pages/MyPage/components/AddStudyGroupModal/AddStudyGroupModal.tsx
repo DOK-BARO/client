@@ -13,7 +13,7 @@ import CodeInput from "@/components/composite/CodeInput/CodeInput";
 import useCodeInput from "@/hooks/useCodeInput";
 import { UploadImageArgType } from "@/types/UploadImageType";
 import { imageService } from "@/services/server/imageService";
-import { ProfileImageState } from "@/pages/Register/composite/ProfileSet/profileSet";
+import { ProfileImageState } from "@/pages/Register/composite/ProfileSet/ProfileSet";
 import Button, { ButtonColorProps } from "@/components/atom/Button/Button";
 import { studyGroupKeys } from "@/data/queryKeys";
 import { Copy } from "@/svg/Copy";

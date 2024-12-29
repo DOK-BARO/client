@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import styles from "./_study_group.module.scss";
-import StudyGroupUnsolvedQuiz from "../StudyGroupUnsolvedQuiz/studyGroupUnsolvedQuiz";
+import StudyGroupUnsolvedQuiz from "../StudyGroupUnsolvedQuiz/StudyGroupUnsolvedQuiz";
 import StudyGroupSolvedQuiz from "../StudyGroupSolvedQuiz/studyGroupSolvedQuiz";
 import { useEffect } from "react";
 import { myPageTitleAtom, studyGroupAtom } from "@/store/myPageAtom";

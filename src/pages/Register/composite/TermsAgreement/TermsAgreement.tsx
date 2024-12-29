@@ -8,7 +8,7 @@ import React, {
 import styles from "./_terms_agreement.module.scss";
 import { useParams } from "react-router-dom";
 import Button from "@/components/atom/Button/Button";
-import CheckBox from "@/pages/Register/components/CheckBox/checkBox";
+import CheckBox from "@/pages/Register/components/CheckBox/CheckBox";
 import { APP_NAME } from "@/data/constants.ts";
 import useModal from "@/hooks/useModal";
 import TermsModal from "@/components/atom/TermsModal/TermsModal";

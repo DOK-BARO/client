@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import styles from "./_review_list.module.scss";
 import { reviewKeys } from "@/data/queryKeys";
 import { reviewService } from "@/services/server/reviewService";
-import ReviewItem from "../../components/ReviewItem/reviewItem";
+import ReviewItem from "../../components/ReviewItem/ReviewItem";
 import ListFilter, {
   FilterOptionType,
 } from "@/components/composite/ListFilter/ListFilter";

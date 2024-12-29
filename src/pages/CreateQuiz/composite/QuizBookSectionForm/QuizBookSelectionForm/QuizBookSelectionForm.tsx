@@ -12,7 +12,7 @@ import { useAtom } from "jotai";
 import { isQuizNextButtonEnabledAtom } from "@/store/quizAtom";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { bookService } from "@/services/server/bookService";
-import { BookListItem } from "./bookListItem";
+import { BookListItem } from "../BookListItem/BookListItem";
 
 // 2. 도서 선택
 export default function QuizBookSelectionForm() {

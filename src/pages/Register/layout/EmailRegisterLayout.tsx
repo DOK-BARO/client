@@ -1,10 +1,10 @@
 import styles from "./_register_layout.module.scss";
-import ProgressBar from "@/pages/Register/components/ProgressBar/progressBar";
+import ProgressBar from "@/pages/Register/components/ProgressBar/ProgressBar";
 import { useEffect, useState } from "react";
-import TermsAgreement from "../composite/TermsAgreement/termsAgreement";
-import Verification from "../composite/email/Verification/verification";
-import PasswordSet from "../composite/email/PasswordSet/passwordSet";
-import ProfileSet from "../composite/ProfileSet/profileSet";
+import TermsAgreement from "../composite/TermsAgreement/TermsAgreement";
+import Verification from "../composite/email/Verification/Verification";
+import PasswordSet from "../composite/email/PasswordSet/PasswordSet";
+import ProfileSet from "../composite/ProfileSet/ProfileSet";
 
 const EmailRegisterLayout = () => {
   const [step, setStep] = useState<number>(1);

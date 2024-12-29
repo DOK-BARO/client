@@ -3,7 +3,7 @@ import { isQuizNextButtonEnabledAtom } from "@/store/quizAtom";
 import { useAtom } from "jotai";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { QuizCreationType, QuizSettingType } from "@/types/QuizType";
-import { QuizSettingContainer } from "./quizSettingContainer";
+import { QuizSettingContainer } from "./QuizSettingContainer/QuizSettingContainer";
 
 interface SelectedOptions {
   [key: string]: string | null;

@@ -3,7 +3,7 @@ import styles from "./_profile_uploader.module.scss";
 import { InfoFilled } from "@/svg/InfoFilled";
 import { gray40, gray60 } from "@/styles/abstracts/colors.ts";
 import Button from "@/components/atom/Button/Button";
-import { ProfileImageState } from "../../composite/ProfileSet/profileSet";
+import { ProfileImageState } from "../../composite/ProfileSet/ProfileSet";
 
 export default function ProfileUpload({
   email,

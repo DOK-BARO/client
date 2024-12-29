@@ -7,7 +7,7 @@ import { StarFilled } from "@/svg/StarFilled";
 import {
   levelMapping,
   LevelType,
-} from "../../components/DifficultyLevelItem/difficultyLevelItem";
+} from "../../components/DifficultyLevelItem/DifficultyLevelItem";
 
 interface Props {
   quizExplanation: QuizExplanationType;

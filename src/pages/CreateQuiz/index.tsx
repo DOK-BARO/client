@@ -1,12 +1,11 @@
 import styles from "./_create_quiz.module.scss";
 import { useEffect, useState } from "react";
-import QuizSettingStudyGroupForm from "@/pages/CreateQuiz/composite/QuizSettingStudyGroupForm/quizSettingStudyGroupForm.tsx";
-import QuizBookSelectionForm from "./composite/QuizBookSectionForm/quizBookSelectionForm.tsx";
-import QuizWriteForm from "./composite/QuizWriteForm/quizWriteForm.tsx";
-import QuizSettingsForm from "./composite/QuizSettingsForm/quizSettingsForm.tsx";
-import QuizCreationFormLayout from "./layout/QuizCreationFormLayout/quizCreationFormLayout.tsx";
-import QuizCreationSteps from "./layout/QuizCreationSteps/quizCreationSteps.tsx";
-import MemoizedQuizBasicInfoForm from "@/pages/CreateQuiz/composite/QuizBasicInfoForm/quizBasicInfoForm.tsx";
+import QuizSettingStudyGroupForm from "@/pages/CreateQuiz/composite/QuizSettingStudyGroupForm/QuizSettingStudyGroupForm";
+import QuizWriteForm from "./composite/QuizWriteForm/QuizWriteForm";
+import QuizSettingsForm from "./composite/QuizSettingsForm/QuizSettingsForm";
+import QuizCreationFormLayout from "./layout/QuizCreationFormLayout/QuizCreationFormLayout";
+import QuizCreationSteps from "./layout/QuizCreationSteps/QuizCreationSteps";
+import MemoizedQuizBasicInfoForm from "@/pages/CreateQuiz/composite/QuizBasicInfoForm/QuizBasicInfoForm";
 import {
   errorModalTitleAtom,
   openErrorModalAtom,
@@ -17,6 +16,7 @@ import { useAtom, useSetAtom } from "jotai";
 import Modal from "@/components/atom/Modal/Modal.tsx";
 import useModal from "@/hooks/useModal.ts";
 import { Step } from "@/types/StepType.ts";
+import QuizBookSelectionForm from "./composite/QuizBookSectionForm/QuizBookSelectionForm/QuizBookSelectionForm.tsx";
 
 export default function Index() {
   const [completionStatus] = useAtom(stepsCompletionStatusAtom);

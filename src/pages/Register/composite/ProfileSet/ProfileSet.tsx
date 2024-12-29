@@ -14,7 +14,7 @@ import { imageService } from "@/services/server/imageService";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";
 import { UploadImageArgType } from "@/types/UploadImageType";
-import ProfileUploader from "../../components/ProfileUploader/profileUploader";
+import ProfileUploader from "../../components/ProfileUploader/ProfileUploader";
 
 export interface ProfileImageState {
   url: string;

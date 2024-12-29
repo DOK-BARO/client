@@ -13,10 +13,10 @@ import {
 import Button from "@/components/atom/Button/Button";
 import { RegisterInfoType } from "@/types/UserType";
 import { registerInfoAtom } from "@/store/userAtom";
-import { Check } from "@/svg/check";
-import { Invisible } from "@/svg/invisible";
-import { Visible } from "@/svg/visible";
-import { XSmall } from "@/svg/xSmall";
+import { Check } from "@/svg/Check";
+import { Invisible } from "@/svg/Invisible";
+import { Visible } from "@/svg/Visible";
+import { XSmall } from "@/svg/XSmall";
 
 export default function PasswordSet({
   setStep,

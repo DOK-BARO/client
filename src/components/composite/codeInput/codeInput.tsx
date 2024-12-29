@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./_code_input.module.scss";
 import Input from "@/components/atom/Input/Input";
-import { XSmall } from "@/svg/xSmall";
+import { XSmall } from "@/svg/XSmall";
 import { systemDanger } from "@/styles/abstracts/colors";
 
 interface Props {

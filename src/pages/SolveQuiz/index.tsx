@@ -8,7 +8,7 @@ import { quizKeys } from "@/data/queryKeys";
 import { quizService } from "@/services/server/quizService";
 import { useState } from "react";
 import Button from "@/components/atom/Button/Button";
-import { ArrowRight } from "@/svg/arrowRight";
+import { ArrowRight } from "@/svg/ArrowRight";
 import { gray0 } from "@/styles/abstracts/colors";
 import { useAtom } from "jotai";
 import { selectedOptionsAtom, } from "@/store/quizAtom";

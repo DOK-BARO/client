@@ -1,5 +1,5 @@
 import styles from "./_checkbox.module.scss";
-import { Close } from "@/svg/close.tsx";
+import { Close } from "@/svg/Close";
 import { gray90 } from "@/styles/abstracts/colors";
 import Textarea from "../Textarea/Textarea";
 import correctIcon from "/assets/svg/common/correct.svg";

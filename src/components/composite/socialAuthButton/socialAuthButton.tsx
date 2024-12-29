@@ -1,11 +1,11 @@
 import React, { ReactElement } from "react";
 import styles from "./_social_auth_button.module.scss";
 import { SocialLoginType } from "@/types/SocialLoginType";
-import { Kakao } from "@/svg/auth/kakao.tsx";
-import { Google } from "@/svg/auth/google.tsx";
-import { Naver } from "@/svg/auth/naver.tsx";
-import { Github } from "@/svg/auth/github.tsx";
-import { Email } from "@/svg/auth/email.tsx";
+import { Kakao } from "@/svg/auth/Kakao";
+import { Google } from "@/svg/auth/Google";
+import { Naver } from "@/svg/auth/Naver";
+import { Github } from "@/svg/auth/Github";
+import { Email } from "@/svg/auth/Email";
 import Button from "@/components/atom/Button/Button";
 import { isEmailLoginPageAtom } from "@/store/authModalAtom";
 import { useAtom } from "jotai";

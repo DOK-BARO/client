@@ -3,7 +3,7 @@ import styles from "./_create_quiz_complete.module.scss";
 // TODO: Depth 레이아웃 또는 페이지 레벨로 이동 고려 (Register complete도 함께 고려)
 import createQuizCompleteImage from "/assets/image/create-quiz-complete.png";
 import { primary } from "@/styles/abstracts/colors";
-import { Copy } from "@/svg/copy";
+import { Copy } from "@/svg/Copy";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useAtom } from "jotai";

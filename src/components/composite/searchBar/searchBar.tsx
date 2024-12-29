@@ -1,4 +1,4 @@
-import { Search } from "@/svg/search.tsx";
+import { Search } from "@/svg/Search";
 import { gray50 } from "@/styles/abstracts/colors.ts";
 import styles from "./_search_bar.module.scss";
 import Input from "@/components/atom/Input/Input";

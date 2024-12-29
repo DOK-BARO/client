@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./_radio_option.module.scss";
 import { RadioOptionType } from "@/types/RadioTypes";
-import { Close } from "@/svg/close.tsx";
+import { Close } from "@/svg/Close";
 import { gray90 } from "@/styles/abstracts/colors";
 import correctIcon from "/assets/svg/common/correct.svg";
 import incorrectIcon from "/assets/svg/common/incorrect.svg";

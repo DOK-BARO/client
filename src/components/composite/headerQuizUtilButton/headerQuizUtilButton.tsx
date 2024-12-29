@@ -3,7 +3,7 @@ import styles from "./_header_quiz_util_button.module.scss";
 import HeaderQuizUtilList from "@/components/composite/QuizMenuList/QuizMenuList";
 import { useDropDownList } from "@/hooks/useDropDownList.ts";
 import { black } from "@/styles/abstracts/colors";
-import { ArrowDown } from "@/svg/arrowDown.tsx";
+import { ArrowDown } from "@/svg/ArrowDown";
 
 interface HeaderQuizUtilButtonProps {
   openLoginModal: () => void;

@@ -11,7 +11,7 @@ import { primary } from "@/styles/abstracts/colors.ts";
 import { QuizQuestionType } from "@/types/QuizType";
 import { QuestionFormType } from "@/types/QuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
-import { QuizPlus } from "@/svg/quizPlus";
+import { QuizPlus } from "@/svg/QuizPlus";
 import { AnswerType } from "@/types/QuizType";
 //TODO: 아이콘 정리 필요
 export default function QuizWriteForm() {

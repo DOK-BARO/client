@@ -1,7 +1,7 @@
 import styles from "./_checkbox.module.scss";
 import React, { ReactNode } from "react";
 import { gray0, gray40, primary } from "@/styles/abstracts/colors.ts";
-import { Check } from "@/svg/check";
+import { Check } from "@/svg/Check";
 
 interface CheckBoxProps {
   id: string;

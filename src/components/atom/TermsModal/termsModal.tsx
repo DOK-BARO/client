@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./_termsModal.module.scss";
 import { gray80 } from "@/styles/abstracts/colors";
-import { Close } from "@/svg/close";
+import { Close } from "@/svg/Close";
 import Button from "../Button/Button";
 import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";

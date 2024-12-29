@@ -1,8 +1,8 @@
 import styles from "./_question_form.module.scss";
 import Button from "@/components/atom/Button/Button";
-import { Move } from "@/svg/quizWriteForm/move.tsx";
+import { Move } from "@/svg/quizWriteForm/Move";
 import { gray60, gray90 } from "@/styles/abstracts/colors.ts";
-import { Trash } from "@/svg/quizWriteForm/trash.tsx";
+import { Trash } from "@/svg/quizWriteForm/Trash";
 import React from "react";
 
 interface QuizWriteFormItemHeaderProps {

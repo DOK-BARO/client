@@ -9,7 +9,7 @@ import Button from "@/components/atom/Button/Button";
 import { RegisterInfoType } from "@/types/UserType";
 import { registerInfoAtom } from "@/store/userAtom";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { XSmall } from "@/svg/xSmall";
+import { XSmall } from "@/svg/XSmall";
 import { authService } from "@/services/server/authService";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";

@@ -1,8 +1,8 @@
 import { SolvingQuizQuestionType } from "@/types/QuizType";
 import styles from "./_progress_bar.module.scss";
-import { Check } from "@/svg/check";
+import { Check } from "@/svg/Check";
 import { gray0 } from "@/styles/abstracts/colors";
-import { Close } from "@/svg/close";
+import { Close } from "@/svg/Close";
 
 export default function ProgressBar({
 	currentStep,

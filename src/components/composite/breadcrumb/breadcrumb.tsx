@@ -1,6 +1,6 @@
 import Button from "@/components/atom/Button/Button";
 import styles from "./_breadcrumb.module.scss";
-import { ArrowRight } from "@/svg/arrowRight";
+import { ArrowRight } from "@/svg/ArrowRight";
 import { gray90 } from "@/styles/abstracts/colors";
 import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 import { ParentPage } from "@/types/PaginationType";

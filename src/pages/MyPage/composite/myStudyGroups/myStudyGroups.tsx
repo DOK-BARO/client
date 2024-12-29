@@ -1,6 +1,6 @@
 import styles from "./_my_study_groups.module.scss";
 import Button from "@/components/atom/Button/Button";
-import { Plus } from "@/svg/plus";
+import { Plus } from "@/svg/Plus";
 import { primary } from "@/styles/abstracts/colors";
 import StudyGroupItem from "../../components/studyGroupItem/studyGroupItem";
 import AddStudyGroupModal from "../../components/addStudyGroupModal/addStudyGroupModal";

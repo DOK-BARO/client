@@ -1,7 +1,7 @@
 import Button from "@/components/atom/Button/Button";
 import styles from "./_leader_item.module.scss";
 import exit from "/public/assets/svg/myPage/exit.svg";
-import { Leader } from "@/svg/leader";
+import { Leader } from "@/svg/Leader";
 import { primary } from "@/styles/abstracts/colors";
 import { StudyMemberType } from "@/types/StudyGroupType";
 

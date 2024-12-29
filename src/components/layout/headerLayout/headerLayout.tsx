@@ -2,7 +2,7 @@ import HeaderLogo from "@/components/atom/HeaderLogo/HeaderLogo";
 import SearchBar from "@/components/composite/SearchBar/SearchBar";
 import HeaderUtilArea from "@/components/composite/HeaderUtilArea/HeaderUtilArea";
 import styles from "./_header_layout.module.scss";
-import GNB from "@/components/layout/gnb/gnb";
+import GNB from "../Gnb/Gnb";
 import { UserType } from "@/types/UserType";
 
 type Props = {

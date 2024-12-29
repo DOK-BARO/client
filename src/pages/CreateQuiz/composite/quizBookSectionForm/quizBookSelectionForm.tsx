@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import useInput from "@/hooks/useInput.ts";
 import { bookKeys } from "@/data/queryKeys.ts";
 import Input from "@/components/atom/Input/Input";
-import { Search } from "@/svg/search";
+import { Search } from "@/svg/Search";
 import { gray60 } from "@/styles/abstracts/colors";
 import useDebounce from "@/hooks/useDebounce";
 import { BookType } from "@/types/BookType";

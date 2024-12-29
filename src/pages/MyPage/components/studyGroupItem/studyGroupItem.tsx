@@ -5,7 +5,7 @@ import member from "/public/assets/svg/myPage/member.svg";
 import { useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
 import { studyGroupAtom } from "@/store/myPageAtom";
-import { Leader } from "@/svg/leader";
+import { Leader } from "@/svg/Leader";
 import { gray50 } from "@/styles/abstracts/colors";
 interface Prop {
   studyGroup: StudyGroupType;

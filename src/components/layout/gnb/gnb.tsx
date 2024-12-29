@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./_gnb.module.scss";
-import { Plus } from "@/svg/plus";
-import { Minus } from "@/svg/minus";
+import { Plus } from "@/svg/Plus";
+import { Minus } from "@/svg/Minus";
 import { gray50 } from "@/styles/abstracts/colors";
 import { useQuery } from "@tanstack/react-query";
 import { bookKeys } from "@/data/queryKeys";

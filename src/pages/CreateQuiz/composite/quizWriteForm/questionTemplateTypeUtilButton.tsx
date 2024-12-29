@@ -1,6 +1,6 @@
 import styles from "./_question_form.module.scss";
 import { useDropDownList } from "@/hooks/useDropDownList.ts";
-import { ArrowDown } from "@/svg/arrowDown.tsx";
+import { ArrowDown } from "@/svg/ArrowDown";
 import QuestionTemplateUtilList from "@/pages/CreateQuiz/composite/quizWriteForm/questionTemplateUtilList";
 
 import Button from "@/components/atom/Button/Button";

@@ -3,7 +3,7 @@ import useRadioGroup from "@/hooks/useRadioGroup.ts";
 import { RadioOptionType } from "@/types/RadioTypes";
 // import useModal from "@/hooks/useModal.ts";
 import { useState } from "react";
-import { Invisible } from "@/svg/invisible.tsx";
+import { Invisible } from "@/svg/Invisible";
 import RadioOption from "@/components/atom/RadioOption/RadioOption";
 import { gray60 } from "@/styles/abstracts/colors.ts";
 import SocialAuthButton from "@/components/composite/SocialAuthButton/SocialAuthButton";

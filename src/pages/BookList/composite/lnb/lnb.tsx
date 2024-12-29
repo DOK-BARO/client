@@ -4,7 +4,7 @@ import Button from "@/components/atom/Button/Button";
 import { useNavigate } from "react-router-dom";
 import { BookCategory } from "@/types/GNBCategoryType";
 import { findTopParentCategoryInfo } from "@/utils/findCategoryInfo";
-import { ArrowLeft } from "@/svg/arrowLeft";
+import { ArrowLeft } from "@/svg/ArrowLeft";
 import { gray90 } from "@/styles/abstracts/colors";
 import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 

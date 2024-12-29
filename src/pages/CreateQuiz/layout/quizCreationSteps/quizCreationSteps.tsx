@@ -1,7 +1,8 @@
 import styles from "./_quiz_creation_steps.module.scss";
 import { Step } from "@/types/StepType";
 import Button from "@/components/atom/Button/Button";
-import { CheckEllipse } from "@/svg/checkEllipse.tsx";
+import { CheckEllipse } from "@/svg/checkEllipse";
+
 import {
   gray0,
   gray20,

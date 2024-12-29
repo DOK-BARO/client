@@ -3,7 +3,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { useAtom } from "jotai";
 import useInput from "@/hooks/useInput.ts";
 import Input from "@/components/atom/Input/Input";
-import { XCircle } from "@/svg/xCircle";
+import { XCircle } from "@/svg/XCircle";
 import { gray30, gray60 } from "@/styles/abstracts/colors.ts";
 import Button from "@/components/atom/Button/Button";
 import { RegisterInfoType } from "@/types/UserType";

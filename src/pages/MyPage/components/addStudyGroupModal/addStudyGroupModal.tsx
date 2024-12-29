@@ -16,7 +16,7 @@ import { imageService } from "@/services/server/imageService";
 import { ProfileImageState } from "@/pages/Register/composite/profileSet/profileSet";
 import Button, { ButtonColorProps } from "@/components/atom/Button/Button";
 import { studyGroupKeys } from "@/data/queryKeys";
-import { Copy } from "@/svg/copy";
+import { Copy } from "@/svg/Copy";
 import { primary } from "@/styles/abstracts/colors";
 import Textarea from "@/components/atom/Textarea/Textarea";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";

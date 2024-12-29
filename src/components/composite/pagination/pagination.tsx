@@ -1,8 +1,8 @@
 import Button from "@/components/atom/Button/Button";
 import styles from "./_pagination.module.scss";
-import { ArrowLeft } from "@/svg/arrowLeft";
+import { ArrowLeft } from "@/svg/ArrowLeft";
 import { gray60 } from "@/styles/abstracts/colors";
-import { ArrowRight } from "@/svg/arrowRight";
+import { ArrowRight } from "@/svg/ArrowRight";
 import usePagination from "@/hooks/usePagination";
 import { useNavigate } from "react-router-dom";
 import { Dispatch, SetStateAction, useEffect } from "react";

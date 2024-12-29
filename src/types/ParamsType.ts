@@ -61,3 +61,11 @@ export interface FetchStudyGroupsParams {
   sort?: StudyGroupsFilterType["sort"];
   direction?: StudyGroupsFilterType["direction"];
 }
+
+// Auth
+
+export interface UpdateUserParams {
+	nickname?: string;
+	email?: string;
+	profileImage?: string|null;
+}

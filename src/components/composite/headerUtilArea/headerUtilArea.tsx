@@ -1,9 +1,9 @@
 import styles from "./_header_util_area.module.scss";
-import HeaderMyInfoUtilButton from "../headerMyInfoUtilButton/headerMyInfoUtilButton";
-import HeaderQuizUtilButton from "../headerQuizUtilButton/headerQuizUtilButton";
-import StartAuthButton from "../startAuthButton/startAuthButton";
+import HeaderMyInfoUtilButton from "../HeaderMyInfoUtilButton/HeaderMyInfoUtilButton";
+import HeaderQuizUtilButton from "../HeaderQuizUtilButton/HeaderQuizUtilButton";
+import StartAuthButton from "../StartAuthButton/startAuthButton";
 import useModal from "@/hooks/useModal";
-import LoginModal from "../loginModal/loginModal";
+import LoginModal from "../LoginModal/LoginModal";
 import { UserType } from "@/types/UserType";
 
 interface Props {

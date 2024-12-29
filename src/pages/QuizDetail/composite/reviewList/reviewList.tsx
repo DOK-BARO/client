@@ -5,7 +5,7 @@ import { reviewService } from "@/services/server/reviewService";
 import ReviewItem from "../../components/reviewItem/reviewItem";
 import ListFilter, {
   FilterOptionType,
-} from "@/components/composite/listFilter/listFilter";
+} from "@/components/composite/ListFilter/ListFilter";
 import { useAtom } from "jotai";
 import { reviewFilterAtom } from "@/store/reviewAtom";
 import useNavigateWithParams from "@/hooks/useNavigateWithParams";

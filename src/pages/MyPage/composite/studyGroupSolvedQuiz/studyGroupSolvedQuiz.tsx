@@ -12,10 +12,10 @@ import { studyGroupKeys } from "@/data/queryKeys";
 import { studyGroupService } from "@/services/server/studyGroupService";
 import ListFilter, {
   FilterOptionType,
-} from "@/components/composite/listFilter/listFilter";
+} from "@/components/composite/ListFilter/ListFilter";
 import QuizItem from "../../components/quizItem/quizItem";
-import Pagination from "@/components/composite/pagination/pagination";
-import { NoDataSection } from "@/components/composite/noDataSection/noDataSection";
+import Pagination from "@/components/composite/Pagination/Pagination";
+import { NoDataSection } from "@/components/composite/NoDataSection/NoDataSection";
 
 const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
   {

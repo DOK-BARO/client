@@ -1,6 +1,6 @@
 import { QuizExplanationType } from "@/types/QuizType";
 import styles from "./_quiz_short_info.module.scss";
-import IconTextLabel from "../../../../components/composite/iconTextLabel/iconTextLabel";
+import IconTextLabel from "../../../../components/composite/IconTextLabel/IconTextLabel";
 import { StarFilled } from "@/svg/starFilled";
 import { systemWarning } from "@/styles/abstracts/colors";
 import { BarChart } from "@/svg/barChart";

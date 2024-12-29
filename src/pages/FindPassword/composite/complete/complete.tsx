@@ -3,7 +3,7 @@ import styles from "./_complete.module.scss";
 import { useAtom } from "jotai";
 import { isEmailLoginPageAtom } from "@/store/authModalAtom";
 import useModal from "@/hooks/useModal";
-import LoginModal from "@/components/composite/loginModal/loginModal";
+import LoginModal from "@/components/composite/LoginModal/LoginModal";
 
 export default function Complete() {
   const emailAddress = "dokbaro@gmail.com";

@@ -3,7 +3,7 @@ import styles from "./_quiz_detail.module.scss";
 import { quizKeys, reviewKeys } from "@/data/queryKeys";
 import { quizService } from "@/services/server/quizService";
 import { useQuery } from "@tanstack/react-query";
-import Breadcrumb from "@/components/composite/breadcrumb/breadcrumb";
+import Breadcrumb from "@/components/composite/Breadcrumb/Breadcrumb";
 import QuizShortInfo from "./composite/quizShortInfo/quizShortInfo";
 import ReviewsDetail from "./composite/reviewsDetail/reviewsDetail";
 import { ReviewsTotalScoreType } from "@/types/ReviewType";

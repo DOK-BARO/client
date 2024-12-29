@@ -1,6 +1,6 @@
 import { ReviewType } from "@/types/ReviewType";
 import styles from "./_review_item.module.scss";
-import FiveStar from "@/components/composite/fiveStar/fiveStar";
+import FiveStar from "@/components/composite/FiveStar/FiveStar";
 import { formatDate } from "@/utils/formatDate";
 import edit from "/assets/svg/quizDetail/edit.svg";
 import trash from "/assets/svg/quizDetail/delete.svg";

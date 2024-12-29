@@ -15,9 +15,9 @@ import { studyGroupFilterAtom } from "@/store/studyGroupAtom";
 import useFilter from "@/hooks/useFilter";
 import ListFilter, {
   FilterOptionType,
-} from "@/components/composite/listFilter/listFilter";
+} from "@/components/composite/ListFilter/ListFilter";
 import { useEffect } from "react";
-import Pagination from "@/components/composite/pagination/pagination";
+import Pagination from "@/components/composite/Pagination/Pagination";
 import { parseQueryParams } from "@/utils/parseQueryParams";
 import { FetchStudyGroupsParams } from "@/types/ParamsType";
 

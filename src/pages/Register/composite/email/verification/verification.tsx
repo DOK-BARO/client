@@ -14,7 +14,7 @@ import { authService } from "@/services/server/authService";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";
 import toast from "react-hot-toast";
-import CodeInput from "@/components/composite/codeInput/codeInput";
+import CodeInput from "@/components/composite/CodeInput/CodeInput";
 import useCodeInput from "@/hooks/useCodeInput";
 
 export default function Verification({

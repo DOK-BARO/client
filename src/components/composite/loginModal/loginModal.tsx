@@ -1,7 +1,7 @@
 import styles from "./_login_modal.module.scss";
 import React, { useEffect, useState } from "react";
 import { SOCIAL_TYPES } from "@/data/constants.ts";
-import SocialAuthButton from "../socialAuthButton/socialAuthButton.tsx";
+import SocialAuthButton from "../SocialAuthButton/SocialAuthButton.tsx";
 import HeaderLogo from "@/components/atom/HeaderLogo/HeaderLogo.tsx";
 import Modal from "@/components/atom/Modal/Modal.tsx";
 import Input from "@/components/atom/Input/Input.tsx";

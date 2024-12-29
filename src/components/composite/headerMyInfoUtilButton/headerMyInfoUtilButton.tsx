@@ -1,7 +1,7 @@
 import styles from "./_header_menu_button.module.scss";
 import { useDropDownList } from "@/hooks/useDropDownList.ts";
 import Button from "@/components/atom/Button/Button.tsx";
-import HeaderMenuList from "../headerMenuList/headerMenuList.tsx";
+import HeaderMenuList from "../HeaderMenuList/HeaderMenuList.tsx";
 import { Person } from "@/svg/person.tsx";
 import { UserType } from "@/types/UserType.ts";
 

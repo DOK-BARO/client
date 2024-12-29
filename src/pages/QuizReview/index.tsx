@@ -1,5 +1,5 @@
 import styles from "./_quiz_review.module.scss";
-import FiveStar from "@/components/composite/fiveStar/fiveStar";
+import FiveStar from "@/components/composite/FiveStar/FiveStar";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import Button from "@/components/atom/Button/Button";

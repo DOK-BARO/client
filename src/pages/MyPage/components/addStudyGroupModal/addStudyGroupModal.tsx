@@ -9,7 +9,7 @@ import { ErrorType } from "@/types/ErrorType";
 import { studyGroupService } from "@/services/server/studyGroupService";
 import toast from "react-hot-toast";
 import { StudyGroupPostType } from "@/types/StudyGroupType";
-import CodeInput from "@/components/composite/codeInput/codeInput";
+import CodeInput from "@/components/composite/CodeInput/CodeInput";
 import useCodeInput from "@/hooks/useCodeInput";
 import { UploadImageArgType } from "@/types/UploadImageType";
 import { imageService } from "@/services/server/imageService";

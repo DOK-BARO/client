@@ -2,7 +2,7 @@ import { MyQuizType } from "@/types/QuizType";
 import Button from "@/components/atom/Button/Button";
 import styles from "./_quiz_list_layout.module.scss";
 import { Link } from "react-router-dom";
-import { NoDataSection } from "@/components/composite/noDataSection/noDataSection";
+import { NoDataSection } from "@/components/composite/NoDataSection/NoDataSection";
 
 export default function QuizListLayout({
   title,

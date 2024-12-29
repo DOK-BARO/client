@@ -1,6 +1,6 @@
 import BookList from "@/pages/Home/components/composite/bookList/bookList.tsx";
 import useModal from "@/hooks/useModal.ts";
-import LoginModal from "@/components/composite/loginModal/loginModal.tsx";
+import LoginModal from "@/components/composite/LoginModal/LoginModal";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import styles from "./_home.module.scss";

@@ -8,15 +8,15 @@ import {
   findParentCategoryInfo,
   findTopParentCategoryInfo,
 } from "@/utils/findCategoryInfo";
-import Breadcrumb from "../../../../components/composite/breadcrumb/breadcrumb";
+import Breadcrumb from "../../../../components/composite/Breadcrumb/Breadcrumb";
 import { useEffect } from "react";
-import Pagination from "@/components/composite/pagination/pagination";
+import Pagination from "@/components/composite/Pagination/Pagination";
 import { useAtom } from "jotai";
 import { paginationAtom } from "@/store/paginationAtom";
 import { bookService } from "@/services/server/bookService";
 import ListFilter, {
   FilterOptionType,
-} from "@/components/composite/listFilter/listFilter";
+} from "@/components/composite/ListFilter/ListFilter";
 import { bookFilterAtom } from "@/store/bookAtom";
 import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 import useFilter from "@/hooks/useFilter";

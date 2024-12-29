@@ -1,5 +1,5 @@
 import styles from "./_reviews_detail.module.scss";
-import FiveStar from "../../../../components/composite/fiveStar/fiveStar";
+import FiveStar from "../../../../components/composite/FiveStar/FiveStar";
 import QuizDifficultyChart from "../../components/quizDifficultyChart/quizDifficultyChart";
 import { ReviewsTotalScoreType } from "@/types/ReviewType";
 import ReviewList from "../reviewList/reviewList";

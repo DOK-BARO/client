@@ -5,7 +5,7 @@ import { bookKeys } from "@/data/queryKeys.ts";
 import BookDetailContent from "./composite/bookDetailSection/bookDetailSection.tsx";
 import QuizListSection from "./composite/quizListSection/quizListSection.tsx";
 import { bookService } from "@/services/server/bookService.ts";
-import Breadcrumb from "@/components/composite/breadcrumb/breadcrumb.tsx";
+import Breadcrumb from "@/components/composite/Breadcrumb/Breadcrumb.tsx";
 import { useNavigate } from "react-router-dom";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { BookType } from "@/types/BookType";

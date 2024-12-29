@@ -11,7 +11,7 @@ import Button from "@/components/atom/Button/Button";
 import CheckBox from "@/pages/Register/components/checkBox/checkBox";
 import { APP_NAME } from "@/data/constants.ts";
 import useModal from "@/hooks/useModal";
-import TermsModal from "@/components/atom/TermsModal/termsModal";
+import TermsModal from "@/components/atom/TermsModal/TermsModal";
 import { registerInfoAtom } from "@/store/userAtom";
 import { RegisterInfoType } from "@/types/UserType";
 import { useAtom } from "jotai";

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./_question_form.module.scss";
-import Textarea from "@/components/atom/textarea/textarea.tsx";
+import Textarea from "@/components/atom/Textarea/Textarea";
 import { ImageAdd } from "@/svg/quizWriteForm/imageAdd.tsx";
 import QuestionFormHeader from "./questionFormHeader";
 import { QuestionFormMode } from "@/data/constants.ts";

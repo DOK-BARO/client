@@ -1,5 +1,5 @@
 import Button from "@/components/atom/Button/Button";
-import Input from "@/components/atom/input/input";
+import Input from "@/components/atom/Input/Input";
 import styles from "./_send_temporary_password.module.scss";
 import useInput from "@/hooks/useInput";
 import { XSmall } from "@/svg/xSmall";

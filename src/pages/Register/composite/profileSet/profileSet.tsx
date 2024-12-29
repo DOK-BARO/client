@@ -2,7 +2,7 @@ import styles from "./_profile_set.module.scss";
 import { FormEvent, useEffect, useState } from "react";
 import { useAtom } from "jotai";
 import useInput from "@/hooks/useInput.ts";
-import Input from "@/components/atom/input/input.tsx";
+import Input from "@/components/atom/Input/Input";
 import { XCircle } from "@/svg/xCircle";
 import { gray30, gray60 } from "@/styles/abstracts/colors.ts";
 import Button from "@/components/atom/Button/Button";

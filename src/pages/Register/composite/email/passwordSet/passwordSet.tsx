@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import styles from "./_password_set.module.scss";
 import useInput from "@/hooks/useInput.ts";
 import { passwordValidation } from "@/validation/passwordValidation.ts";
-import Input from "@/components/atom/input/input.tsx";
+import Input from "@/components/atom/Input/Input";
 import {
   gray40,
   gray60,

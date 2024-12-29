@@ -1,7 +1,7 @@
 import { Search } from "@/svg/search.tsx";
 import { gray50 } from "@/styles/abstracts/colors.ts";
 import styles from "./_search_bar.module.scss";
-import Input from "@/components/atom/input/input";
+import Input from "@/components/atom/Input/Input";
 import useInput from "@/hooks/useInput.ts";
 import { FormEvent } from "react";
 // import { useQueryCurrentUser } from "@/hooks/useQueryCurrentUser.ts";

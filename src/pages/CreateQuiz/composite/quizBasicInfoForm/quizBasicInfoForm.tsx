@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useAtom } from "jotai";
-import Input from "@/components/atom/input/input.tsx";
-import Textarea from "@/components/atom/textarea/textarea.tsx";
+import Input from "@/components/atom/Input/Input";
+import Textarea from "@/components/atom/Textarea/Textarea";
 import styles from "./_quiz_basic_info_form.module.scss";
 import useInput from "@/hooks/useInput.ts";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";

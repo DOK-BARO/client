@@ -1,6 +1,6 @@
 import styles from "./_add_study_group_modal.module.scss";
-import Modal, { BottomButtonProps } from "@/components/atom/modal/modal";
-import Input from "@/components/atom/input/input";
+import Modal, { BottomButtonProps } from "@/components/atom/Modal/Modal";
+import Input from "@/components/atom/Input/Input";
 import ProfileImageEditor from "../profileImageEditor/profileImageEditor";
 import useInput from "@/hooks/useInput";
 import { useEffect, useState } from "react";
@@ -18,7 +18,7 @@ import Button, { ButtonColorProps } from "@/components/atom/Button/Button";
 import { studyGroupKeys } from "@/data/queryKeys";
 import { Copy } from "@/svg/copy";
 import { primary } from "@/styles/abstracts/colors";
-import Textarea from "@/components/atom/textarea/textarea";
+import Textarea from "@/components/atom/Textarea/Textarea";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
 interface Props {
   closeModal: () => void;

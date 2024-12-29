@@ -1,13 +1,13 @@
 import { SolvingQuizQuestionType } from "@/types/QuizType";
 import Button from "@/components/atom/Button/Button";
 import { RadioOptionType } from "@/types/RadioTypes";
-import RadioOption from "@/components/atom/radioOption/radioOption";
+import RadioOption from "@/components/atom/RadioOption/RadioOption";
 import useRadioGroup from "@/hooks/useRadioGroup";
 import styles from "./_solving_quiz_form.module.scss"
 import { useEffect, useState } from "react";
 import { useAtom } from "jotai";
 import { selectedOptionsAtom } from "@/store/quizAtom";
-import { OptionStatusType } from "@/components/atom/radioOption/radioOption";
+import { OptionStatusType } from "@/components/atom/RadioOption/RadioOption";
 import { Check } from "@/svg/check";
 import { Close } from "@/svg/close";
 import { gray0 } from "@/styles/abstracts/colors";

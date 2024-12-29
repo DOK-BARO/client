@@ -1,6 +1,6 @@
 import styles from "./_register_complete.module.scss";
 import registerCompleteImage from "/assets/image/register-complete.png";
-import Input from "@/components/atom/input/input";
+import Input from "@/components/atom/Input/Input";
 import Button from "@/components/atom/Button/Button";
 import useInput from "@/hooks/useInput";
 import { registerInfoAtom } from "@/store/userAtom";

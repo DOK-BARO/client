@@ -5,7 +5,7 @@ import { Close } from "@/svg/close.tsx";
 import { gray90 } from "@/styles/abstracts/colors";
 import correctIcon from "/assets/svg/common/correct.svg";
 import incorrectIcon from "/assets/svg/common/incorrect.svg";
-import Textarea from "@/components/atom/textarea/textarea.tsx";
+import Textarea from "@/components/atom/Textarea/Textarea";
 
 export type OptionStatusType = "option-writing" 
 	| "option-written" 

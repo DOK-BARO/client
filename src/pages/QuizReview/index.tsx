@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import Button from "@/components/atom/Button/Button";
 import { DifficultyType } from "@/types/Difficultytype";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
-import Textarea from "@/components/atom/textarea/textarea";
+import Textarea from "@/components/atom/Textarea/Textarea";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";

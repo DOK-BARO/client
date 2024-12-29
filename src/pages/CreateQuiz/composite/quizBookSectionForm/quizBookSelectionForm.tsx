@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 import useInput from "@/hooks/useInput.ts";
 import { bookKeys } from "@/data/queryKeys.ts";
-import Input from "@/components/atom/input/input.tsx";
+import Input from "@/components/atom/Input/Input";
 import { Search } from "@/svg/search";
 import { gray60 } from "@/styles/abstracts/colors";
 import useDebounce from "@/hooks/useDebounce";

@@ -14,7 +14,7 @@ import {
   stepsCompletionStatusAtom,
 } from "@/store/quizAtom.ts";
 import { useAtom, useSetAtom } from "jotai";
-import Modal from "@/components/atom/modal/modal.tsx";
+import Modal from "@/components/atom/Modal/Modal.tsx";
 import useModal from "@/hooks/useModal.ts";
 import { Step } from "@/types/StepType.ts";
 

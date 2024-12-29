@@ -1,4 +1,4 @@
-import HeaderLogo from "@/components/atom/headerLogo/headerLogo";
+import HeaderLogo from "@/components/atom/HeaderLogo/HeaderLogo";
 import SearchBar from "@/components/composite/searchBar/searchBar";
 import HeaderUtilArea from "@/components/composite/headerUtilArea/headerUtilArea";
 import styles from "./_header_layout.module.scss";

@@ -3,7 +3,7 @@ import styles from "./account_setting.module.scss";
 import ProfileImageEditor from "../../components/profileImageEditor/profileImageEditor";
 import { useEffect, useState } from "react";
 import Input
-	from "@/components/atom/input/input";
+	from "@/components/atom/Input/Input";
 import useInput from "@/hooks/useInput";
 import { ProfileImageState } from "@/pages/Register/composite/profileSet/profileSet";
 import { currentUserAtom } from "@/store/userAtom";

@@ -6,7 +6,7 @@ import { QuestionFormMode } from "@/data/constants";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { AnswerType, QuizQuestionType } from "@/types/QuizType";
 import { RadioOptionType } from "@/types/RadioTypes";
-import RadioOption from "@/components/atom/radioOption/radioOption";
+import RadioOption from "@/components/atom/RadioOption/RadioOption";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
 interface SelectOptionProps {
 	option: RadioOptionType | CheckBoxOption;

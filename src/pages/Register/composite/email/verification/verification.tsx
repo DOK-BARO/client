@@ -4,7 +4,7 @@ import { systemDanger } from "@/styles/abstracts/colors";
 import { emailValidation } from "@/validation/emailValidation";
 import { useAtom } from "jotai";
 import useInput from "@/hooks/useInput.ts";
-import Input from "@/components/atom/input/input.tsx";
+import Input from "@/components/atom/Input/Input";
 import Button from "@/components/atom/Button/Button";
 import { RegisterInfoType } from "@/types/UserType";
 import { registerInfoAtom } from "@/store/userAtom";

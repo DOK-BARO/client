@@ -1,5 +1,5 @@
 import { QuestionFormMode } from "@/data/constants.ts";
-import RadioOption from "@/components/atom/radioOption/radioOption";
+import RadioOption from "@/components/atom/RadioOption/RadioOption";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
 import { RadioOptionType } from "@/types/RadioTypes.ts";
 import { FC, useEffect } from "react";

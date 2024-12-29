@@ -12,16 +12,18 @@ export default function MyPageSectionNav({ sectionNavList }: Prop) {
   const navigate = useNavigate();
 
   const [activeLink, setActiveLink] = useState<string | null>(null);
+  const [isSubNavItemClicked, setIsSubNavItemClicked] =
+    useState<boolean>(false);
 
-  const handleSectionChange = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleSectionChange = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    isSubNavItem: boolean = false
+  ) => {
     const { value } = e.currentTarget;
     setActiveLink(value);
     navigate(value);
+    setIsSubNavItemClicked(isSubNavItem);
   };
-
-  useEffect(() => {
-	
-  })
 
   return (
     <aside className={styles["container"]}>
@@ -44,13 +46,17 @@ export default function MyPageSectionNav({ sectionNavList }: Prop) {
               >
                 {sectionNavItem.title}
               </Button>
-              <ul className={styles["sub-steps-container"]}>
+              <ul
+                className={`${styles["sub-steps"]} ${
+                  isSubNavItemClicked ? styles["is-visible"] : ""
+                }}`}
+              >
                 {sectionNavItem.subTitles &&
                   sectionNavItem.subTitles.map((subNavItem, index: number) => (
                     <li key={index}>
                       <Button
                         value={subNavItem.link}
-                        onClick={handleSectionChange}
+                        onClick={(e) => handleSectionChange(e, true)}
                         className={styles["sub-steps"]}
                         color={
                           activeLink === subNavItem.link

@@ -1,7 +1,7 @@
 import React from "react";
 import { CheckBoxOption } from "@/types/CheckBoxTypes";
 import styles from "./_question_form.module.scss";
-import CheckBox from "@/components/atom/checkbox/checkbox";
+import CheckBox from "@/components/atom/Checkbox/Checkbox";
 import { QuestionFormMode } from "@/data/constants";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { AnswerType, QuizQuestionType } from "@/types/QuizType";

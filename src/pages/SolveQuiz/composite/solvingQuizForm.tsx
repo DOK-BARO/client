@@ -11,8 +11,8 @@ import { OptionStatusType } from "@/components/atom/radioOption/radioOption";
 import { Check } from "@/svg/check";
 import { Close } from "@/svg/close";
 import { gray0 } from "@/styles/abstracts/colors";
-import CheckBox from "@/components/atom/checkbox/checkbox";
-import { CheckboxStatusType } from "@/components/atom/checkbox/checkbox";
+import CheckBox from "@/components/atom/Checkbox/Checkbox";
+import { CheckboxStatusType } from "@/components/atom/Checkbox/Checkbox";
 import { CheckBoxOption } from "@/types/CheckBoxTypes";
 //TODO: 중복함수 리팩토링 필요
 export default function SolvingQuizForm({

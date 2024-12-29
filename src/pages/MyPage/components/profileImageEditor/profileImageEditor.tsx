@@ -83,6 +83,7 @@ export default function ProfileImageEditor({
           fullWidth
           className={styles.delete}
           onClick={handleFileDelete}
+          size="small"
         >
           사진 삭제하기
         </Button>

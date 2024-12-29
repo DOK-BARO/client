@@ -1,0 +1,30 @@
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixins";
+
+.small-modal {
+  border-radius: 8px;
+  background-color: $gray-00;
+  border: 1px solid $gray-40;
+  position: absolute;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
+  flex: 1;
+  white-space: nowrap;
+  padding: 8px;
+
+  .icon-label-container {
+    @include flex(row, center);
+    gap: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+
+    .label {
+      font-size: $font-size-large;
+      font-weight: $font-weight-regular;
+    }
+
+    &:hover {
+      background-color: $gray-10;
+      border-radius: 6px;
+    }
+  }
+}

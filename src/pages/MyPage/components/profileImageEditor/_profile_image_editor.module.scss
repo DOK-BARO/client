@@ -2,68 +2,81 @@
 @import "../../../../styles/abstracts/variables";
 
 .sr-only {
-  @include sr-only;
+	@include sr-only;
 }
 
 .container {
-  width: fit-content;
+	width: fit-content;
 
-  .edit-img-btn {
-    padding: 0;
-    position: relative;
-    border: none;
-    border-radius: 10px;
-    overflow: hidden;
-    @include flex(row, center);
-    &.width-200 {
-      width: 200px;
-      height: 200px;
-    }
-    &.width-150 {
-      width: 150px;
-      height: 150px;
-    }
-  }
+	.edit-img-btn {
+		padding: 0;
+		position: relative;
+		border: none;
+		border-radius: 10px;
+		overflow: hidden;
+		@include flex(row, center);
 
-  .profile-img {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    z-index: 0;
+		&.width-200 {
+			width: 200px;
+			height: 200px;
+		}
 
-    &.width-200 {
-      width: 200px;
-      height: 200px;
-    }
-    &.width-150 {
-      width: 150px;
-      height: 150px;
-    }
-  }
+		&.width-150 {
+			width: 150px;
+			height: 150px;
+		}
+	}
 
-  .edit-img-bg {
-    background-color: #00000080;
-    width: 100%;
-    height: 100%;
-    z-index: 10;
+	.profile-img {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		z-index: 0;
 
-    @include flex(row, center);
-    .edit-img-icon-bg {
-      position: relative;
-      @include flex(row, center);
-      border-radius: 50%;
-      background-color: #ffffff80;
-      &.width-200 {
-        width: 88px;
-        height: 88px;
-      }
-      &.width-150 {
-        width: 66px;
-        height: 66px;
-      }
-    }
-  }
-  .delete {
-    margin-top: 4px;
-  }
+		&.width-200 {
+			width: 200px;
+			height: 200px;
+		}
+
+		&.width-150 {
+			width: 150px;
+			height: 150px;
+		}
+	}
+
+	.edit-img-bg {
+		display: none;
+	}
+
+	.edit-img-btn:hover .edit-img-bg {
+		display: block;
+		background-color: #00000080;
+		width: 100%;
+		height: 100%;
+		z-index: 10;
+
+		@include flex(row, center);
+
+		.edit-img-icon-bg {
+			position: relative;
+			@include flex(row, center);
+			border-radius: 50%;
+			background-color: #ffffff80;
+
+			&.width-200 {
+				width: 88px;
+				height: 88px;
+			}
+
+			&.width-150 {
+				width: 66px;
+				height: 66px;
+			}
+		}
+
+	}
+
+	.delete {
+		margin-top: 4px;
+	}
 }

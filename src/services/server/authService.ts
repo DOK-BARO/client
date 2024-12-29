@@ -4,6 +4,7 @@ import { UserType } from "@/types/UserType.ts";
 import { axiosInstance } from "@/config/axiosConfig.ts";
 import { handleAxiosError } from "@/utils/errorHandler.ts";
 import { SocialLoginType } from "@/types/SocialLoginType.ts";
+import { UpdateUserParams } from "@/types/ParamsType";
 
 class AuthService {
   // 소셜 회원가입
@@ -61,11 +62,7 @@ class AuthService {
   };
 
   // 문서 상에는 'modify login member' 로 명시되어 있음.
-  updateUser = async (userInfo: {
-    nickname: string;
-    email: string;
-    profileImage?: string | null;
-  }): Promise<void> => {
+  updateUser = async (userInfo: UpdateUserParams): Promise<void> => {
     try {
       const response = await axiosInstance.put("/members/login-user", userInfo);
       console.log(response);

@@ -22,6 +22,7 @@ export const handleQueryError = async (error: ErrorType) => {
       // authService.logout();
       toast.error("로그인이 만료되었습니다. 다시 로그인해주세요.");
       await authService.logout();
+      window.location.href = "/";
       break;
     case 403:
       // 로그인 사용자의 경우: 로그인한 계정으로 접근 불가 페이지

@@ -1,8 +1,9 @@
 import { axiosInstance } from "@/config/axiosConfig";
 import { FetchStudyGroupsParams } from "@/types/ParamsType";
 import {
-  StudyGroupCreationType,
+  StudyGroupPostType,
   StudyGroupDetailType,
+  StudyGroupMySolvedQuizType,
   StudyGroupMyUnSolvedQuizType,
   StudyGroupType,
 } from "@/types/StudyGroupType";
@@ -46,7 +47,7 @@ class StudyGroupService {
 
   // 스터디 그룹 생성
   createStudyGroup = async (
-    studyGroup: StudyGroupCreationType
+    studyGroup: StudyGroupPostType
   ): Promise<{ id: number } | null> => {
     try {
       const { data } = await axiosInstance.post("/study-groups", studyGroup);
@@ -77,7 +78,7 @@ class StudyGroupService {
     endPageNumber: number;
     data: StudyGroupMyUnSolvedQuizType[];
   } | null> => {
-  const { page, size, sort, direction } = params;
+    const { page, size, sort, direction } = params;
 
     try {
       const response = await axiosInstance.get(
@@ -96,6 +97,63 @@ class StudyGroupService {
     } catch (error) {
       handleAxiosError(error);
       return null;
+    }
+  };
+
+  // 스터디 그룹 퀴즈 중 내가 푼 문제 조회 (제출 한 퀴즈)
+  fetchStudyGroupMySolvedQuizzes = async (
+    studyGroupId: number,
+    params: FetchStudyGroupsParams
+  ): Promise<{
+    endPageNumber: number;
+    data: StudyGroupMySolvedQuizType[];
+  } | null> => {
+    const { page, size, sort, direction } = params;
+
+    try {
+      const response = await axiosInstance.get(
+        `/solving-quiz/study-groups/${studyGroupId}/my`,
+        {
+          params: {
+            page,
+            size,
+            sort,
+            direction,
+          },
+        }
+      );
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      handleAxiosError(error);
+      return null;
+    }
+  };
+
+  deleteStudyGroup = async (id: number) => {
+    try {
+      const response = await axiosInstance.delete(`/study-groups/${id}`);
+      console.log(response);
+    } catch (error) {
+      handleAxiosError(error);
+    }
+  };
+
+  updateStudyGroup = async ({
+    id,
+    studyGroup,
+  }: {
+    id: number;
+    studyGroup: StudyGroupPostType;
+  }) => {
+    try {
+      const response = await axiosInstance.put(
+        `/study-groups/${id}`,
+        studyGroup
+      );
+      console.log("response", response);
+    } catch (error) {
+      handleAxiosError(error);
     }
   };
 }

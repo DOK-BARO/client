@@ -49,15 +49,16 @@
   }
 }
 
-.content-title {
-  font-size: $font-size-large;
-  font-weight: 500;
-  margin-bottom: 24px;
-}
-
 .content {
-  font-size: $font-size-large;
-  width: 100%;
+  &-title {
+    font-size: $font-size-xlarge;
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+  &-content {
+    font-size: $font-size-large;
+    width: 100%;
+  }
 }
 
 .modal-footer {

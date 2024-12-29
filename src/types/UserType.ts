@@ -4,6 +4,7 @@ export interface UserBaseType {
   nickname: string;
   profileImage?: string | undefined | null;
 }
+
 export type UserRoleType = "USER" | "ADMIN";
 
 // (아마도) 전체에서만 사용될 유저 타입

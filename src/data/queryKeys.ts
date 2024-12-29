@@ -22,6 +22,8 @@ export const studyGroupKeys = {
     id: number | undefined,
     params: FetchStudyGroupsParams
   ) => ["studyGroupMyUnsolvedQuizList", id, params] as const,
+  mySolvedQuizList: (id: number | undefined, params: FetchStudyGroupsParams) =>
+    ["studyGroupMySolvedQuizList", id, params] as const,
 };
 
 export const authKeys = {

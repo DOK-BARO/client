@@ -40,10 +40,12 @@ export default function AddStudyGroupModal({ closeModal }: Props) {
     url: defaultImagePath,
     file: null,
   };
+
   const [profileImage, setProfileImage] =
     useState<ProfileImageState>(defaultProfileState);
   const { handleCodeChange, handleKeyDown, codeList, combinedCode } =
     useCodeInput();
+
   // 코드로 스터디 그룹 참여
   const [isJoinByCode, setIsJoinByCode] = useState<boolean>(false);
   const [joinedStudyGroupName] = useState<string>();
@@ -79,10 +81,6 @@ export default function AddStudyGroupModal({ closeModal }: Props) {
     setIsMatch(undefined);
   }, [codeList]);
 
-  useEffect(() => {
-    console.log(profileImage);
-  }, [profileImage]);
-
   const { mutate: uploadImage } = useMutation<
     string,
     ErrorType,
@@ -93,7 +91,7 @@ export default function AddStudyGroupModal({ closeModal }: Props) {
       const newStudy = {
         name,
         introduction,
-        profileImage: imageUrl,
+        profileImageUrl: imageUrl,
       };
       createStudyGroup(newStudy);
     },
@@ -101,6 +99,7 @@ export default function AddStudyGroupModal({ closeModal }: Props) {
   const [isStudyCreated, setIsStudyCreated] = useState<boolean>(false);
   const [isMatch, setIsMatch] = useState<boolean | undefined>(undefined);
   const [isInvitedByCode, setIsInvitedByCode] = useState<boolean>(false);
+
   const { mutate: joinStudyGroup } = useMutation<void, ErrorType, string>({
     mutationFn: (inviteCode) => studyGroupService.joinStudyGroup(inviteCode),
     onError: () => {
@@ -121,8 +120,8 @@ export default function AddStudyGroupModal({ closeModal }: Props) {
         imageTarget: "STUDY_GROUP_PROFILE",
       });
     }
-    // createStudyGroup(newStudy);
   };
+
   const handleJoinStudyGroupByCode = () => {
     console.log("스터디 참여!");
     console.log(codeList);
@@ -143,6 +142,7 @@ export default function AddStudyGroupModal({ closeModal }: Props) {
       copyCode(buttonText);
     }
   };
+
   const getBottomButtons = (): BottomButtonProps[] => {
     const bottomButtons = [
       !isStudyCreated

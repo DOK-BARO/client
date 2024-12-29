@@ -1,4 +1,4 @@
-import { QuizExplanationType, QuizRequestType } from "@/types/QuizType";
+import { QuizExplanationType, QuizRequestType, SolvingQuizStudyGroupGradeReuslt } from "@/types/QuizType";
 import { QuizType, SolvingQuizType } from "@/types/QuizType";
 import { MyQuizType } from "@/types/QuizType";
 import { axiosInstance } from "@/config/axiosConfig";
@@ -132,6 +132,20 @@ class QuizService {
       throw new Error(`푼 퀴즈 결과 보기 조회 실패: ${error}`);
     }
   };
+
+	fetchStudyGradeResult = async(
+		studyGroupId:string,
+		quizId: string
+	):Promise<SolvingQuizStudyGroupGradeReuslt> =>{
+		try{
+			const {data} = await axiosInstance.get(
+				`/solving-quiz/study-groups-grade-result?studyGroupId=${studyGroupId}&quizId=${quizId}`
+			);
+			return data;
+		}catch (error){
+			throw new Error(`스터디 그룹 내 랭킹 조회 ${error}`)
+		}
+	}
 }
 
 export const quizService = new QuizService();

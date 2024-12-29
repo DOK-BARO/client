@@ -23,3 +23,7 @@ export type UserProfileType = UserBaseType & {
   roles: string[];
   profileImage: string;
 };
+
+export type SolvingQuizStudyGroupUser = UserBaseType & {
+	email?:string;
+}

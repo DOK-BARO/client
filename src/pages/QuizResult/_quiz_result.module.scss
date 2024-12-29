@@ -29,3 +29,14 @@
 .sr-only {
 	@include sr-only;
 }
+
+.study-group-container {
+	@include flex(column, center);
+	gap: 40px;
+	margin-inline: 40px;
+}
+
+.decoration {
+	width: 300px;
+	height: 300px;
+}

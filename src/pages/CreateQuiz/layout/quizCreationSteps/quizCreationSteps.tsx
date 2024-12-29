@@ -1,7 +1,6 @@
 import styles from "./_quiz_creation_steps.module.scss";
 import { Step } from "@/types/StepType";
 import Button from "@/components/atom/Button/Button";
-import { CheckEllipse } from "@/svg/checkEllipse";
 
 import {
   gray0,
@@ -9,6 +8,7 @@ import {
   gray50,
   systemSuccess,
 } from "@/styles/abstracts/colors.ts";
+import { CheckEllipse } from "@/svg/CheckEllipse";
 
 export default function QuizCreationSteps({
   steps,

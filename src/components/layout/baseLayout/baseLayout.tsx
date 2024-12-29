@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import styles from "./_base_layout.module.scss";
-import HeaderLayout from "../headerLayout/headerLayout.tsx";
+import HeaderLayout from "../HeaderLayout/HeaderLayout";
 import { useAtom } from "jotai";
 import { currentUserAtom, isLoggedInAtom } from "@/store/userAtom.ts";
 import { authService } from "@/services/server/authService.ts";

@@ -11,7 +11,7 @@ import Input from "@/components/atom/input/input";
 import Textarea from "@/components/atom/textarea/textarea";
 import useInput from "@/hooks/useInput";
 import useTextarea from "@/hooks/useTextarea";
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 import StudyMemberList from "../studyMemberList/studyMemberList";
 import threeDot from "/public/assets/svg/myPage/three-dot.svg";
 import useModal from "@/hooks/useModal";

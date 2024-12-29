@@ -2,7 +2,7 @@ import styles from "./_quiz_setting_study_group_form.module.scss";
 import { useState, useEffect } from "react";
 import useModal from "@/hooks/useModal.ts";
 import useInput from "@/hooks/useInput.ts";
-import Button from "@/components/atom/button/button.tsx";
+import Button from "@/components/atom/Button/Button";
 import { primary } from "@/styles/abstracts/colors.ts";
 import Modal, { ModalContentProps } from "@/components/atom/modal/modal.tsx";
 import Input from "@/components/atom/input/input.tsx";

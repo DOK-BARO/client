@@ -1,6 +1,6 @@
 // Book Category Local Navigation Bar
 import styles from "./_lnb.module.scss";
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 import { useNavigate } from "react-router-dom";
 import { BookCategory } from "@/types/GNBCategoryType";
 import { findTopParentCategoryInfo } from "@/utils/findCategoryInfo";

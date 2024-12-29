@@ -1,4 +1,4 @@
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 import styles from "./_quiz_link_item.module.scss";
 import { QuizExplanationType } from "@/types/QuizType";
 import { formatDate } from "@/utils/formatDate";

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Button from "@/components/atom/button/button.tsx";
+import Button from "@/components/atom/Button/Button";
 import QuestionForm from "@/pages/CreateQuiz/composite/quizWriteForm/questionForm";
 import {
   DragDropContext,

@@ -10,7 +10,7 @@ import {
   systemDanger,
   systemSuccess,
 } from "@/styles/abstracts/colors.ts";
-import Button from "@/components/atom/button/button.tsx";
+import Button from "@/components/atom/Button/Button";
 import { RegisterInfoType } from "@/types/UserType";
 import { registerInfoAtom } from "@/store/userAtom";
 import { Check } from "@/svg/check";

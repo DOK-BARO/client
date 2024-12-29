@@ -7,7 +7,7 @@ import { Invisible } from "@/svg/invisible.tsx";
 import RadioOption from "@/components/atom/radioOption/radioOption";
 import { gray60 } from "@/styles/abstracts/colors.ts";
 import SocialAuthButton from "@/components/composite/socialAuthButton/socialAuthButton.tsx";
-import Button from "@/components/atom/button/button.tsx";
+import Button from "@/components/atom/Button/Button";
 // import Modal from "@/components/atom/modal/modal.tsx";
 import Input from "@/components/atom/input/input.tsx";
 import { useRef } from "react";

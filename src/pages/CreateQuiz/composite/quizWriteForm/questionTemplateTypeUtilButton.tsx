@@ -3,7 +3,7 @@ import { useDropDownList } from "@/hooks/useDropDownList.ts";
 import { ArrowDown } from "@/svg/arrowDown.tsx";
 import QuestionTemplateUtilList from "@/pages/CreateQuiz/composite/quizWriteForm/questionTemplateUtilList";
 
-import Button from "@/components/atom/button/button.tsx";
+import Button from "@/components/atom/Button/Button";
 import { QuestionTemplateType } from "@/types/QuestionTemplateType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { QuizQuestionType } from "@/types/QuizType";

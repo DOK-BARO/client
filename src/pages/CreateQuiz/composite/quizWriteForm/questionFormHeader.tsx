@@ -1,5 +1,5 @@
 import styles from "./_question_form.module.scss";
-import Button from "@/components/atom/button/button.tsx";
+import Button from "@/components/atom/Button/Button";
 import { Move } from "@/svg/quizWriteForm/move.tsx";
 import { gray60, gray90 } from "@/styles/abstracts/colors.ts";
 import { Trash } from "@/svg/quizWriteForm/trash.tsx";

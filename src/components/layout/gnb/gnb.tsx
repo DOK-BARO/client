@@ -5,7 +5,7 @@ import { Minus } from "@/svg/minus";
 import { gray50 } from "@/styles/abstracts/colors";
 import { useQuery } from "@tanstack/react-query";
 import { bookKeys } from "@/data/queryKeys";
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 import useGNB from "@/hooks/useGNB";
 import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 import { bookService } from "@/services/server/bookService";

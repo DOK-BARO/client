@@ -6,7 +6,7 @@ import {
   myPageTitleAtom,
   studyGroupAtom,
 } from "@/store/myPageAtom";
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 
 export default function MyPageLayout() {
   const navigate = useNavigate();

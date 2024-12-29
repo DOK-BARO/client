@@ -1,5 +1,5 @@
 import styles from "./_quiz_settings_container.module.scss";
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 import { QuizSettingOptionType, QuizSettingType } from "@/types/QuizType";
 import { useEffect, useState } from "react";
 

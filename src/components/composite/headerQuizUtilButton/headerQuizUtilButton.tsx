@@ -1,4 +1,4 @@
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 import styles from "./_header_quiz_util_button.module.scss";
 import HeaderQuizUtilList from "@/components/composite/quizMenuList/quizMenuList.tsx";
 import { useDropDownList } from "@/hooks/useDropDownList.ts";

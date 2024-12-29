@@ -1,4 +1,4 @@
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 import styles from "./_member_item.module.scss";
 import trashCan from "/public/assets/svg/myPage/trash-can.svg";
 import memberCircle from "/public/assets/svg/myPage/member-circle.svg";

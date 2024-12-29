@@ -1,5 +1,5 @@
 import { SolvingQuizQuestionType } from "@/types/QuizType";
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 import { RadioOptionType } from "@/types/RadioTypes";
 import RadioOption from "@/components/atom/radioOption/radioOption";
 import useRadioGroup from "@/hooks/useRadioGroup";

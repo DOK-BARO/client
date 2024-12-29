@@ -4,7 +4,7 @@ import FiveStar from "@/components/composite/fiveStar/fiveStar";
 import { formatDate } from "@/utils/formatDate";
 import edit from "/assets/svg/quizDetail/edit.svg";
 import trash from "/assets/svg/quizDetail/delete.svg";
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 
 interface Props {
   review: ReviewType;

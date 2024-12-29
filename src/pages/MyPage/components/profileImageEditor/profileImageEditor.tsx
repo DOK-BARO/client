@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import styles from "./_profile_image_editor.module.scss";
 import editProfile from "/assets/svg/accountSetting/editProfile.svg";
 import { ProfileImageState } from "@/pages/Register/composite/profileSet/profileSet";
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 
 interface Props {
   width: number;

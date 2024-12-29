@@ -1,7 +1,7 @@
 import { Star } from "@mui/icons-material";
 import styles from "./_quiz_item.module.scss";
 import { QuizLevelBarChart } from "@/svg/quizLevelBarChart";
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 import { BookQuizzesDataType } from "@/types/BookType";
 import { useNavigate } from "react-router-dom";
 import { quizService } from "@/services/server/quizService";

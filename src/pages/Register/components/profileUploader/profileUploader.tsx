@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./_profile_uploader.module.scss";
 import { InfoFilled } from "@/svg/infoFilled.tsx";
 import { gray40, gray60 } from "@/styles/abstracts/colors.ts";
-import Button from "@/components/atom/button/button.tsx";
+import Button from "@/components/atom/Button/Button";
 import { ProfileImageState } from "../../composite/profileSet/profileSet";
 
 export default function ProfileUpload({

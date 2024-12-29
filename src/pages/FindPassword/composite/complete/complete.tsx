@@ -1,4 +1,4 @@
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 import styles from "./_complete.module.scss";
 import { useAtom } from "jotai";
 import { isEmailLoginPageAtom } from "@/store/authModalAtom";

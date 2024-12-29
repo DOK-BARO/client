@@ -1,6 +1,6 @@
 import { BookDetailType } from "@/types/BookDetailType.ts";
 import styles from "./_book_detail_section.module.scss";
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 
 export default function BookDetailContent({
 	bookDetailContent,

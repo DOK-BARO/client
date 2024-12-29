@@ -1,6 +1,6 @@
 import { StudyGroupType } from "@/types/StudyGroupType";
 import styles from "./_study_group_item.module.scss";
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 import member from "/public/assets/svg/myPage/member.svg";
 import { useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";

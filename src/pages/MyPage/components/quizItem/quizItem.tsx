@@ -1,4 +1,4 @@
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 import styles from "./_quiz_item.module.scss";
 import infoFilled from "/public/assets/svg/myPage/info-filled.svg";
 import { StudyGroupMyUnSolvedQuizType } from "@/types/StudyGroupType";

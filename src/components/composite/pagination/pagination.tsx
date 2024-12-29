@@ -1,4 +1,4 @@
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 import styles from "./_pagination.module.scss";
 import { ArrowLeft } from "@/svg/arrowLeft";
 import { gray60 } from "@/styles/abstracts/colors";

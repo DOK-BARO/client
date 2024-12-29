@@ -1,6 +1,6 @@
 import styles from "./_my_page_step.module.scss";
 import { Step } from "@/types/StepType";
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 import { useState } from "react";
 
 export default function MyPageSteps({

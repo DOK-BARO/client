@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import styles from "./_terms_agreement.module.scss";
 import { useParams } from "react-router-dom";
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 import CheckBox from "@/pages/Register/components/checkBox/checkBox";
 import { APP_NAME } from "@/data/constants.ts";
 import useModal from "@/hooks/useModal";

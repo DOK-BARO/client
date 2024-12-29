@@ -1,5 +1,5 @@
 import styles from "./_no-data-section.module.scss";
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 
 export const NoDataSection = ({
   title,

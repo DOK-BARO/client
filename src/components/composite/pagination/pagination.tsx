@@ -5,23 +5,33 @@ import { gray60 } from "@/styles/abstracts/colors";
 import { ArrowRight } from "@/svg/arrowRight";
 import usePagination from "@/hooks/usePagination";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { setQueryParam } from "@/utils/setQueryParam";
-import { useAtom } from "jotai";
-import { paginationAtom } from "@/store/paginationAtom";
-import { ParentComponentType } from "@/types/PaginationType";
+import { PaginationType, ParentPage } from "@/types/PaginationType";
 
-interface Props {
-  parentComponent: ParentComponentType;
+// TODO: 직관적으로 (변수명 등)
+interface QueryStringPaginationProps {
+  type: "queryString";
+  parentPage: ParentPage;
+  paginationState: PaginationType;
+  setPaginationState: Dispatch<SetStateAction<PaginationType>>;
 }
 
-export default function Pagination({ parentComponent }: Props) {
+interface StatePaginationProps {
+  type: "state";
+  paginationState: PaginationType;
+  setPaginationState: Dispatch<SetStateAction<PaginationType>>;
+}
+
+type Props = QueryStringPaginationProps | StatePaginationProps;
+
+export default function Pagination(props: Props) {
   const navigate = useNavigate();
-  const [paginationState, setPaginationState] = useAtom(paginationAtom);
+  const { paginationState, setPaginationState } = props;
 
   const { handlePageClick } = usePagination({
-    paginationState: paginationState,
-    setPaginationState: setPaginationState,
+    paginationState,
+    setPaginationState,
   });
 
   const currentPage = paginationState.currentPage;
@@ -30,12 +40,15 @@ export default function Pagination({ parentComponent }: Props) {
   const isMiddlePageUpdated = paginationState.isMiddlePagesUpdated;
 
   useEffect(() => {
-    const queryParams = setQueryParam("page", currentPage.toString());
-    navigate({
-      pathname: `/${parentComponent.toLowerCase()}`,
-      search: `?${queryParams.toString()}`,
-    });
-  }, [currentPage]);
+    // 쿼리 스트링 방식만 해당
+    if (props.type === "queryString") {
+      const queryParams = setQueryParam("page", currentPage.toString());
+      navigate({
+        pathname: `/${props.parentPage}`,
+        search: `?${queryParams.toString()}`,
+      });
+    }
+  }, [currentPage, props.type === "queryString" && props.parentPage]);
 
   // 페이지 번호 버튼
   const renderButton = (page: number, isEllipsis: boolean = false) => {
@@ -77,7 +90,7 @@ export default function Pagination({ parentComponent }: Props) {
         {middlePages.map((page) => renderButton(page))}
         {middlePages[middlePages.length - 1] < totalPagesLength - 1 &&
           renderButton(totalPagesLength + 1, true)}
-        {renderButton(totalPagesLength)}
+        {1 !== totalPagesLength ? renderButton(totalPagesLength) : null}
       </span>
       <Button
         iconOnly

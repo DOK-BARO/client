@@ -1,4 +1,4 @@
-import styles from "./_my_study.module.scss";
+import styles from "./_my_study_groups.module.scss";
 import Button from "@/components/atom/button/button";
 import { Plus } from "@/svg/plus";
 import { primary } from "@/styles/abstracts/colors";
@@ -9,12 +9,10 @@ import { useQuery } from "@tanstack/react-query";
 import { studyGroupService } from "@/services/server/studyGroupService";
 import { studyGroupKeys } from "@/data/queryKeys";
 import { StudyGroupsFilterType, StudyGroupsSortType } from "@/types/FilterType";
-import { useLocation } from "react-router-dom";
-import { paginationAtom } from "@/store/paginationAtom";
+import { myPageStudyGroupPaginationAtom } from "@/store/paginationAtom";
 import { useAtom } from "jotai";
 import { studyGroupFilterAtom } from "@/store/studyGroupAtom";
 import useFilter from "@/hooks/useFilter";
-import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 import ListFilter, {
   FilterOptionType,
 } from "@/components/composite/listFilter/listFilter";
@@ -22,6 +20,7 @@ import { useEffect } from "react";
 import Pagination from "@/components/composite/pagination/pagination";
 import { parseQueryParams } from "@/utils/parseQueryParams";
 import { FetchStudyGroupsParams } from "@/types/ParamsType";
+
 const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
   {
     filter: {
@@ -39,20 +38,20 @@ const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
   },
 ];
 
-export default function MyStudy() {
+export default function MyStudyGroups() {
   const { isModalOpen, openModal, closeModal } = useModal();
 
-  const { search } = useLocation();
-  const queryParams = new URLSearchParams(search);
-  const [, setFilterCriteria] = useAtom(studyGroupFilterAtom);
+  const [filterCriteria, setFilterCriteria] = useAtom(studyGroupFilterAtom);
   useFilter<StudyGroupsFilterType>(setFilterCriteria);
 
-  const [paginationState, setPaginationState] = useAtom(paginationAtom);
+  const [paginationState, setPaginationState] = useAtom(
+    myPageStudyGroupPaginationAtom
+  );
   const totalPagesLength = paginationState.totalPagesLength;
 
-  const sort = queryParams.get("sort") || "CREATED_AT"; // 기본값: 가나다
-  const direction = queryParams.get("direction") || "ASC"; // 기본값: ASC
-  const page = queryParams.get("page") || undefined; // parseQueryParams함수 안에서 기본값 1로 설정
+  const sort = filterCriteria.sort; // 기본값: 가나다
+  const direction = filterCriteria.direction; // 기본값: ASC
+  const page = paginationState.currentPage; // parseQueryParams함수 안에서 기본값 1로 설정
   const size = 4; // 한번에 불러올 최대 길이: 책 목록에서는 10 고정값.
 
   const { data: myStudyGroupsData } = useQuery({
@@ -81,20 +80,10 @@ export default function MyStudy() {
     });
   }, [endPageNumber]);
 
-  const { navigateWithParams } = useNavigateWithParams("MY/STUDY-GROUPS");
-  const [filterCriteria] = useAtom(studyGroupFilterAtom);
-
   const handleOptionClick = (filter: StudyGroupsFilterType) => {
-    navigateWithParams({
-      filter: filter,
-      parentComponentType: "MY/STUDY-GROUPS",
-    });
+    setFilterCriteria(filter);
+    console.log(filter);
   };
-
-  // const myStudyGroupList =
-  //   myStudyGroups.length < 4
-  //     ? [...myStudyGroups, ...Array(4 - myStudyGroups.length).fill(null)]
-  //     : myStudyGroups;
 
   return (
     <section className={styles.container}>
@@ -137,7 +126,11 @@ export default function MyStudy() {
       ) : null}
       {isModalOpen ? <AddStudyGroupModal closeModal={closeModal} /> : null}
       {totalPagesLength ? (
-        <Pagination parentComponent="MY/STUDY-GROUPS" />
+        <Pagination
+          type="state"
+          paginationState={paginationState}
+          setPaginationState={setPaginationState}
+        />
       ) : null}
     </section>
   );

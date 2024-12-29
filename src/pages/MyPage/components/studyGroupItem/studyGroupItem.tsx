@@ -3,12 +3,20 @@ import styles from "./_study_group_item.module.scss";
 import Button from "@/components/atom/button/button";
 import member from "/public/assets/svg/myPage/member.svg";
 import leader from "/public/assets/svg/myPage/leader.svg";
+import { useNavigate } from "react-router-dom";
 
 interface Prop {
   studyGroup: StudyGroupType;
 }
 
 export default function StudyGroupItem({ studyGroup }: Prop) {
+  const navigate = useNavigate();
+
+  // 스터디 그룹 정보
+  const handleStudyInfoClick = () => {
+    navigate(`/my/study-groups/${studyGroup.id}`);
+  };
+
   return (
     <li className={styles.container}>
       {studyGroup.profileImageUrl ? (
@@ -34,7 +42,8 @@ export default function StudyGroupItem({ studyGroup }: Prop) {
           fullWidth
           size="small"
           color="primary"
-          className={styles["more-info"]}
+          className={styles["study-info"]}
+          onClick={handleStudyInfoClick}
         >
           스터디 그룹 정보
         </Button>

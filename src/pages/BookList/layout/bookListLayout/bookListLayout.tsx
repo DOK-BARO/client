@@ -50,7 +50,7 @@ export default function BookListLayout() {
   // -FilterAtom에 저장된 필터 상태를 지정하는 함수 setFilterCriteria를 useFilter에 전달
   const [filterCriteria, setFilterCriteria] = useAtom(bookFilterAtom);
   useFilter<BooksFilterType>(setFilterCriteria);
-  const { navigateWithParams } = useNavigateWithParams("BOOKS");
+  const { navigateWithParams } = useNavigateWithParams("books");
 
   // 책 카테고리 목록 가져오기
   const { data: categories, isLoading: isCategoriesLoading } = useQuery({
@@ -95,7 +95,7 @@ export default function BookListLayout() {
 
   // filterOptions 클릭 시
   const handleOptionClick = (filter: BooksFilterType) => {
-    navigateWithParams({ filter: filter, parentComponentType: "BOOKS" });
+    navigateWithParams({ filter: filter, parentPage: "books" });
   };
 
   const topParentCategoryInfo = categories
@@ -121,7 +121,7 @@ export default function BookListLayout() {
         <div className={styles["breadcrumb-filter-container"]}>
           {currentCategoryInfo ? (
             <Breadcrumb
-              parentComponent="BOOKS"
+              parentPage="books"
               list={[parentCategoryInfo, currentCategoryInfo]}
             />
           ) : (
@@ -135,7 +135,12 @@ export default function BookListLayout() {
         </div>
         {isBooksLoading || !booksData ? null : <Outlet context={{ books }} />}
         {paginationState.totalPagesLength ? (
-          <Pagination parentComponent={"BOOKS"} />
+          <Pagination
+            type="queryString"
+            parentPage="books"
+            paginationState={paginationState}
+            setPaginationState={setPaginationState}
+          />
         ) : null}
       </div>
     </section>

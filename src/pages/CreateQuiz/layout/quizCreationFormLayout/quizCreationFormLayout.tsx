@@ -33,21 +33,20 @@ export default function QuizCreationFormLayout({
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const navigate = useNavigate();
-  const [isQuizNextButtonEnabled,setIsQuizNextButtonEnabled] = useAtom<boolean>(
-    isQuizNextButtonEnabledAtom
-  );
+  const [isQuizNextButtonEnabled, setIsQuizNextButtonEnabled] =
+    useAtom<boolean>(isQuizNextButtonEnabledAtom);
   const [quizCreationInfo] = useAtom<QuizCreationType>(quizCreationInfoAtom);
   const [, setErrorModalTitle] = useAtom(errorModalTitleAtom);
   const [openModal] = useAtom(openErrorModalAtom);
 
-	useEffect(()=>{
-		console.log(quizCreationInfo.questions?.length);
-		if(!quizCreationInfo?.questions?.length){
-			setIsQuizNextButtonEnabled(false);
-		}else{
-			setIsQuizNextButtonEnabled(true);
-		}
-	},[quizCreationInfo.questions?.length,currentStep]);
+  useEffect(() => {
+    console.log(quizCreationInfo.questions?.length);
+    if (!quizCreationInfo?.questions?.length) {
+      setIsQuizNextButtonEnabled(false);
+    } else {
+      setIsQuizNextButtonEnabled(true);
+    }
+  }, [quizCreationInfo.questions?.length, currentStep]);
 
   const getCurrentStep = (): Step => {
     const step = steps[currentStep];
@@ -152,7 +151,7 @@ export default function QuizCreationFormLayout({
       viewScope: viewScopeKey,
       editScope: editScopeKey,
       bookId: quizCreationInfo.book.id,
-      studyGroupIds: quizCreationInfo.studyGroup?.id || undefined,
+      studyGroupId: quizCreationInfo.studyGroup?.id || undefined,
       questions: await setRequestQuestion(),
     };
 
@@ -169,13 +168,13 @@ export default function QuizCreationFormLayout({
           openModal!();
           return;
         }
-				if(question.answerType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER"){
-					if(question.answers.length <= 1 ){
-						setErrorModalTitle("복수정답은 답안을 2개이상 선택해야 합니다");
-          openModal!();
-          return;
-					}
-				}
+        if (question.answerType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER") {
+          if (question.answers.length <= 1) {
+            setErrorModalTitle("복수정답은 답안을 2개이상 선택해야 합니다");
+            openModal!();
+            return;
+          }
+        }
       }
     } else if (currentStep == endStep) {
       await requestCreateQuiz();

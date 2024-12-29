@@ -17,7 +17,7 @@ export default function LNB({
   categoryId?: number;
 }) {
   const navigate = useNavigate();
-  const { navigateWithParams } = useNavigateWithParams("BOOKS");
+  const { navigateWithParams } = useNavigateWithParams("books");
 
   if (!categories) {
     return <div>book categories page error!!</div>;
@@ -31,7 +31,7 @@ export default function LNB({
     // navigateWithParams(e, "BOOKS", "category", ["page"]);
     navigateWithParams({
       category: id,
-      parentComponentType: "BOOKS",
+      parentPage: "books",
       excludeParams: ["page"],
     });
   };

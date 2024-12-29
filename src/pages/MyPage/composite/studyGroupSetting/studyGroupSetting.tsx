@@ -26,6 +26,8 @@ import Modal from "@/components/atom/modal/modal";
 import { studyGroupKeys } from "@/data/queryKeys";
 import { StudyGroupPostType } from "@/types/StudyGroupType";
 import { queryClient } from "@/services/server/queryClient";
+import { UploadImageArgType } from "@/types/UploadImageType";
+import { imageService } from "@/services/server/imageService";
 
 // 스터디 그룹 관리
 export default function StudyGroupSetting() {
@@ -74,11 +76,30 @@ export default function StudyGroupSetting() {
     if (studyGroupDetail) {
       initialName.current = studyGroupDetail.name ?? "";
       initialIntroduction.current = studyGroupDetail.introduction ?? "";
+
+      if (studyGroupDetail.profileImageUrl) {
+        const fileName = studyGroupDetail.profileImageUrl.split("/").pop();
+        initialProfileImage.current = fileName ?? "";
+      }
     }
   }, [studyGroupDetail]);
 
   const initialName = useRef(studyGroupDetail?.name ?? "");
   const initialIntroduction = useRef(studyGroupDetail?.introduction ?? "");
+  const initialProfileImage = useRef(studyGroupDetail?.profileImageUrl ?? "");
+
+  const defaultProfileState: ProfileImageState = {
+    url: defaultImagePath,
+    file: null,
+  };
+
+  const initialProfileState: ProfileImageState = {
+    url: studyGroupDetail?.profileImageUrl ?? defaultImagePath,
+    file: null,
+  };
+
+  const [profileImage, setProfileImage] =
+    useState<ProfileImageState>(initialProfileState);
 
   useEffect(() => {
     if (
@@ -89,14 +110,37 @@ export default function StudyGroupSetting() {
     } else {
       setIsInputChanged(false);
     }
-  }, [name, introduction]);
+    if (profileImage.file) {
+      console.log(profileImage.url, initialProfileImage.current);
 
-  const defaultProfileState: ProfileImageState = {
-    url: defaultImagePath,
-    file: null,
-  };
-  const [profileImage, setProfileImage] =
-    useState<ProfileImageState>(defaultProfileState);
+      if (
+        profileImage.url.split("/").pop() !==
+        initialProfileImage.current.split("/").pop()
+      ) {
+        setIsInputChanged(true);
+      } else {
+        setIsInputChanged(false);
+      }
+    }
+  }, [name, introduction, profileImage.url]);
+
+  // 이미지 업로드
+  const { mutate: uploadImage } = useMutation<
+    string,
+    ErrorType,
+    UploadImageArgType
+  >({
+    mutationFn: (uploadImageArg) => imageService.uploadImage(uploadImageArg),
+    onSuccess: (imageUrl) => {
+      const newStudy: StudyGroupPostType = {
+        name,
+        introduction,
+        profileImageUrl: imageUrl,
+      };
+
+      updateStudyGroup({ id: studyGroupIdNumber!, studyGroup: newStudy });
+    },
+  });
 
   useEffect(() => {
     if (studyGroupDetail) {
@@ -176,15 +220,19 @@ export default function StudyGroupSetting() {
       return;
     }
 
-    updateStudyGroup({
-      id: studyGroupIdNumber,
-      studyGroup: {
+    if (profileImage.file) {
+      uploadImage({
+        image: profileImage.file,
+        imageTarget: "STUDY_GROUP_PROFILE",
+      });
+    } else {
+      const newStudy: StudyGroupPostType = {
         name,
         introduction,
-        // TODO: 프로필 이미지 변경 적용하기
-        profileImageUrl: studyGroupDetail?.profileImageUrl,
-      },
-    });
+      };
+
+      updateStudyGroup({ id: studyGroupIdNumber!, studyGroup: newStudy });
+    }
   };
 
   return (

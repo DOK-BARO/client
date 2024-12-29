@@ -1,6 +1,6 @@
 import styles from "./_my_page_section_nav.module.scss";
 import Button from "@/components/atom/Button/Button";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { SectionNavType } from "@/types/SectionNavType";
 import { useEffect, useState } from "react";
 
@@ -10,10 +10,15 @@ interface Prop {
 
 export default function MyPageSectionNav({ sectionNavList }: Prop) {
   const navigate = useNavigate();
-
+  const location = useLocation();
   const [activeLink, setActiveLink] = useState<string | null>(null);
   const [isSubNavItemClicked, setIsSubNavItemClicked] =
     useState<boolean>(false);
+
+  useEffect(() => {
+    const currentPath = location.pathname.replace("/my/", "");
+    setActiveLink(currentPath);
+  }, [location.pathname]);
 
   const handleSectionChange = (
     e: React.MouseEvent<HTMLButtonElement>,

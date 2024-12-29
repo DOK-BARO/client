@@ -3,21 +3,21 @@ import styles from "./_quiz_detail.module.scss";
 import { quizKeys, reviewKeys } from "@/data/queryKeys";
 import { quizService } from "@/services/server/quizService";
 import { useQuery } from "@tanstack/react-query";
-import Breadcrumb from "@/components/composite/breadcrumb/breadcrumb";
-import QuizShortInfo from "./composite/quizShortInfo/quizShortInfo";
-import ReviewsDetail from "./composite/reviewsDetail/reviewsDetail";
+import Breadcrumb from "@/components/composite/Breadcrumb/Breadcrumb";
+import QuizShortInfo from "./composite/QuizShortInfo/QuizShortInfo";
+import ReviewsDetail from "./composite/ReviewsDetail/ReviewsDetail";
 import { ReviewsTotalScoreType } from "@/types/ReviewType";
 import { reviewService } from "@/services/server/reviewService";
-import QuizLinkItem from "./composite/quizLinkItem/quizLinkItem";
+import QuizLinkItem from "./composite/QuizLinkItem/QuizLinkItem";
 
 export default function Index() {
   const { id } = useParams();
-	if(!id){
-		return;
-	}
+  if (!id) {
+    return;
+  }
   const { data: explanation, isLoading } = useQuery({
     queryKey: quizKeys.explanation(id),
-    queryFn: async () => await (quizService.fetchQuizExplanation(id)),
+    queryFn: async () => await quizService.fetchQuizExplanation(id),
   });
   const { data: reviewsTotalScore } = useQuery<ReviewsTotalScoreType | null>({
     queryKey: reviewKeys.totalScore(Number(id)),

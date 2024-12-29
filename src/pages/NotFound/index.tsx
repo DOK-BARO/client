@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./_not_found.module.scss";
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 
 export default function NotFound() {
 	const errorImgPath = "/public/assets/svg/notFoundPage/404ErrorImage.svg"

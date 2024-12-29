@@ -1,0 +1,25 @@
+@import "../../../../../styles/abstracts/variables";
+@import "../../../../../styles/abstracts/mixins";
+
+.booklist-item {
+  display: flex;
+  gap: 20px;
+  cursor: pointer;
+  padding: 12px;
+  border: 1.5px solid transparent;
+
+  .info-container {
+    @include flex(column);
+    gap: 10px;
+    justify-content: center;
+
+    .title {
+      font-weight: 700;
+      font-size: $font-size-large;
+    }
+    .author {
+      font-size: $font-size-medium;
+      color: $gray-70;
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import BookList from "@/pages/Home/components/composite/bookList/bookList.tsx";
+import BookList from "@/pages/Home/components/composite/BookList/bookList";
 import useModal from "@/hooks/useModal.ts";
 import LoginModal from "@/components/composite/LoginModal/LoginModal";
 import { useEffect } from "react";

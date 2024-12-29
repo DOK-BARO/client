@@ -1,7 +1,7 @@
 import styles from "./_mypage.module.scss";
 import { Step } from "@/types/StepType";
-import MyPageSteps from "./layout/myPageSteps/myPageSteps";
-import MyPageLayout from "./layout/myPageLayout/myPageLayout";
+import MyPageSteps from "./layout/MyPageSteps/myPageSteps";
+import MyPageLayout from "./layout/MyPageLayout/myPageLayout";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 

@@ -1,12 +1,12 @@
 import styles from "./_create_quiz.module.scss";
 import { useEffect, useState } from "react";
-import QuizSettingStudyGroupForm from "@/pages/CreateQuiz/composite/quizSettingStudyGroupForm/quizSettingStudyGroupForm.tsx";
-import QuizBookSelectionForm from "./composite/quizBookSectionForm/quizBookSelectionForm.tsx";
-import QuizWriteForm from "./composite/quizWriteForm/quizWriteForm.tsx";
-import QuizSettingsForm from "./composite/quizSettingsForm/quizSettingsForm.tsx";
-import QuizCreationFormLayout from "./layout/quizCreationFormLayout/quizCreationFormLayout.tsx";
-import QuizCreationSteps from "./layout/quizCreationSteps/quizCreationSteps.tsx";
-import MemoizedQuizBasicInfoForm from "@/pages/CreateQuiz/composite/quizBasicInfoForm/quizBasicInfoForm.tsx";
+import QuizSettingStudyGroupForm from "@/pages/CreateQuiz/composite/QuizSettingStudyGroupForm/quizSettingStudyGroupForm.tsx";
+import QuizBookSelectionForm from "./composite/QuizBookSectionForm/quizBookSelectionForm.tsx";
+import QuizWriteForm from "./composite/QuizWriteForm/quizWriteForm.tsx";
+import QuizSettingsForm from "./composite/QuizSettingsForm/quizSettingsForm.tsx";
+import QuizCreationFormLayout from "./layout/QuizCreationFormLayout/quizCreationFormLayout.tsx";
+import QuizCreationSteps from "./layout/QuizCreationSteps/quizCreationSteps.tsx";
+import MemoizedQuizBasicInfoForm from "@/pages/CreateQuiz/composite/QuizBasicInfoForm/quizBasicInfoForm.tsx";
 import {
   errorModalTitleAtom,
   openErrorModalAtom,

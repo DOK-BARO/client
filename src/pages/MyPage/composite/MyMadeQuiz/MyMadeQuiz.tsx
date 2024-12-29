@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { quizKeys } from "@/data/queryKeys";
-import QuizListLayout from "../../layout/QuizListLayout/quizListLayout";
+import QuizListLayout from "../../layout/QuizListLayout/QuizListLayout";
 import { useNavigate } from "react-router-dom";
 import { quizService } from "@/services/server/quizService";
 

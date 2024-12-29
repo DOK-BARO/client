@@ -29,7 +29,7 @@ import StudyGroup from "./pages/MyPage/composite/StudyGroup/StudyGroup.tsx";
 import StudyGroupSetting from "./pages/MyPage/composite/StudyGroupSetting/StudyGroupSetting.tsx";
 import BaseLayout from "./components/layout/BaseLayout/BaseLayout.tsx";
 import NoHeaderLayout from "./components/layout/NoHeaderLayout/NoHeaderLayout.tsx";
-import ToastPortal from "./components/layout/ToastPortal/ToastPortal.tsx";
+import ToastPortal from "./components/layout/ToastPortal/toastPortal.tsx";
 
 function App() {
   // TODO: 분리하기

@@ -1,7 +1,7 @@
 import styles from "./_add_study_group_modal.module.scss";
 import Modal, { BottomButtonProps } from "@/components/atom/Modal/Modal";
 import Input from "@/components/atom/Input/Input";
-import ProfileImageEditor from "../ProfileImageEditor/profileImageEditor";
+import ProfileImageEditor from "../ProfileImageEditor/ProfileImageEditor";
 import useInput from "@/hooks/useInput";
 import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";

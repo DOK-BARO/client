@@ -12,8 +12,8 @@ import useValidate from "@/hooks/useValidate";
 import { emailValidation } from "@/validation/emailValidation";
 import correct from "/public/assets/svg/common/correct.svg";
 import incorrect from "/public/assets/svg/common/incorrect.svg";
-import useUpdateUser from "@/hooks/useUpdateUser";
-import useUploadImageToStorage from "@/hooks/useUploadImage";
+import useUpdateUser from "@/hooks/mutate/useUpdateUser";
+import useUploadImageToStorage from "@/hooks/mutate/useUploadImage";
 import { UploadImageArgType } from "@/types/UploadImageType";
 
 export default function EditMyInfo() {

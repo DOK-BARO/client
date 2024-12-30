@@ -11,17 +11,16 @@ import CreateQuiz from "./pages/CreateQuiz/index.tsx";
 import Register from "./pages/Register/index.tsx";
 
 //import BaseLayout from "@/components/layout/baseLayout/baseLayout";
-import BaseLayout from "./components/layout/baseLayout/baseLayout";
+import BaseLayout from "./components/layout/BaseLayout/BaseLayout.tsx";
 import RegisterComplete from "./pages/Register/composite/registerComplete/RegisterComplete.tsx";
 import BookList from "./pages/Home/components/composite/bookList/bookList.tsx";
 import BookListLayout from "./pages/BookList/layout/bookListLayout/bookListLayout.tsx";
 import MyPage from "./pages/MyPage/index.tsx";
-import NoHeaderLayout from "./components/layout/noHeaderLayout/noHeaderLayout.tsx";
+import NoHeaderLayout from "./components/layout/NoHeaderLayout/NoHeaderLayout.tsx";
 import SolvingQuizPage from "./pages/SolveQuiz/index.tsx";
 import QuizDetail from "./pages/QuizDetail/index.tsx";
 import FindPassword from "./pages/FindPassword/index.tsx";
 import NotFound from "./pages/NotFound/index.tsx";
-import ToastPortal from "./components/layout/toastPortal/toastPortal.tsx";
 import { queryClient } from "./services/server/queryClient.ts";
 import CreateQuizComplete from "./pages/CreateQuiz/composite/createQuizComplete/createQuizComplete.tsx";
 import QuizResult from "./pages/QuizResult/index.tsx";
@@ -32,6 +31,7 @@ import EditMyInfo from "./pages/MyPage/composite/accountSetting/editMyInfo.tsx";
 import MyStudyGroups from "./pages/MyPage/composite/myStudyGroups/myStudyGroups.tsx";
 import StudyGroup from "./pages/MyPage/composite/studyGroup/studyGroup.tsx";
 import StudyGroupSetting from "./pages/MyPage/composite/studyGroupSetting/studyGroupSetting.tsx";
+import ToastPortal from "./components/layout/ToastPortal/TtoastPortal.tsx";
 
 function App() {
   // TODO: 분리하기

@@ -5,7 +5,7 @@ import QuizBookSelectionForm from "./composite/QuizBookSectionForm/QuizBookSelec
 import QuizWriteForm from "./composite/QuizWriteForm/QuizWriteForm.tsx";
 import QuizSettingsForm from "./composite/QuizSettingsForm/QuizSettingsForm.tsx";
 import QuizCreationFormLayout from "./layout/QuizCreationFormLayout/QuizCreationFormLayout.tsx";
-import QuizCreationSteps from "./layout/QuizCreationSteps/quizCreationSteps.tsx";
+import QuizCreationSteps from "./layout/QuizCreationSteps/QuizCreationSteps.tsx";
 import MemoizedQuizBasicInfoForm from "./composite/QuizBasicInfoForm/QuizBasicInfoForm.tsx";
 import {
   errorModalTitleAtom,

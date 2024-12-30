@@ -1,0 +1,38 @@
+@import "../../../../styles/abstracts/mixins";
+@import "../../../../styles/abstracts/variables";
+
+.container {
+  line-height: 1.5;
+  .title {
+    font-size: 20px;
+    font-weight: $font-weight-bold;
+    line-height: inherit;
+  }
+  .rating-difficulty-container {
+    @include flex(column, center);
+    margin-top: 8px;
+    margin-bottom: 20px;
+    padding: 16px 0;
+    gap: 16px;
+    .rating-container {
+      display: flex;
+      align-items: center;
+      gap: 9.57px;
+      line-height: inherit;
+      font-weight: $font-weight-semibold;
+      color: $gray-60;
+      font-size: $font-size-xlarge;
+
+      .rating-text-container {
+        em {
+          color: $gray-90;
+        }
+      }
+
+      .review-count {
+        font-size: $font-size-medium;
+        color: $gray-60;
+      }
+    }
+  }
+}

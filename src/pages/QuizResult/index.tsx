@@ -1,9 +1,9 @@
 import styles from "./_quiz_result.module.scss";
 import Button from "@/components/atom/Button/Button";
-import CommonQuizResult from "./composite/commonQuizResult";
+import CommonQuizResult from "./composite/CommonQuizResult";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import StudyQuizResult from "./composite/studyQuizResult";
+import StudyQuizResult from "./composite/StudyQuizResult";
 import { useState } from "react";
 
 export default function Index() {

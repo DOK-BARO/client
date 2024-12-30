@@ -1,6 +1,6 @@
 import styles from "./_mypage.module.scss";
-import MyPageSectionNav from "./layout/myPageSectionNav/myPageSectionNav";
-import MyPageLayout from "./layout/myPageLayout/myPageLayout";
+import MyPageSectionNav from "./layout/MyPageSectionNav/MyPageSectionNav";
+import MyPageLayout from "./layout/MyPageLayout/MyPageLayout";
 import { SectionNavType } from "@/types/SectionNavType";
 
 export default function Index() {

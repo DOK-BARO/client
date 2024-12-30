@@ -1,0 +1,41 @@
+@import "../../../../styles/abstracts/variables";
+@import "../../../../styles/abstracts/mixins";
+
+.container {
+  @include flex(row);
+  align-items: center;
+  gap: 20px;
+  line-height: 1.5;
+  @mixin label {
+    line-height: inherit;
+    font-weight: $font-weight-medium;
+    font-size: $font-size-medium;
+  }
+
+  .level {
+    width: 50px;
+    text-align: right;
+    @include label;
+  }
+  .bar {
+    background-color: $secondary;
+    width: 200px;
+    height: 14px;
+    border-radius: 4px;
+
+    .percentage-bar {
+      background-color: $primary;
+      border-radius: inherit;
+      height: 100%;
+    }
+  }
+  .percentage-count-container {
+    display: flex;
+    gap: 6px;
+    @include label;
+
+    .count {
+      color: $gray-60;
+    }
+  }
+}

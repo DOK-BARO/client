@@ -12,8 +12,8 @@ import Register from "./pages/Register/index.tsx";
 
 //import BaseLayout from "@/components/layout/baseLayout/baseLayout";
 import BaseLayout from "./components/layout/BaseLayout/BaseLayout.tsx";
-import RegisterComplete from "./pages/Register/composite/registerComplete/RegisterComplete.tsx";
-import BookList from "./pages/Home/components/composite/bookList/bookList.tsx";
+import RegisterComplete from "./pages/Register/composite/RegisterComplete/RegisterComplete.tsx";
+import BookList from "./pages/Home/components/composite/BookList/BookList.tsx";
 import BookListLayout from "./pages/BookList/layout/BookListLayout/BookListLayout.tsx";
 import MyPage from "./pages/MyPage/index.tsx";
 import NoHeaderLayout from "./components/layout/NoHeaderLayout/NoHeaderLayout.tsx";
@@ -25,12 +25,12 @@ import { queryClient } from "./services/server/queryClient.ts";
 import CreateQuizComplete from "./pages/CreateQuiz/composite/CreateQuizComplete/CreateQuizComplete.tsx";
 import QuizResult from "./pages/QuizResult/index.tsx";
 import QuizReview from "./pages/QuizReview/index.tsx";
-import MyMadeQuiz from "./pages/MyPage/composite/myMadeQuiz/myMadeQuiz.tsx";
-import SolvedQuiz from "./pages/MyPage/composite/solvedQuiz/solvedQuiz.tsx";
-import EditMyInfo from "./pages/MyPage/composite/accountSetting/editMyInfo.tsx";
-import MyStudyGroups from "./pages/MyPage/composite/myStudyGroups/myStudyGroups.tsx";
-import StudyGroup from "./pages/MyPage/composite/studyGroup/studyGroup.tsx";
-import StudyGroupSetting from "./pages/MyPage/composite/studyGroupSetting/studyGroupSetting.tsx";
+import MyMadeQuiz from "./pages/MyPage/composite/MyMadeQuiz/MyMadeQuiz.tsx";
+import SolvedQuiz from "./pages/MyPage/composite/SolvedQuiz/SolvedQuiz.tsx";
+import EditMyInfo from "./pages/MyPage/composite/AccountSetting/EditMyInfo.tsx";
+import MyStudyGroups from "./pages/MyPage/composite/MyStudyGroups/MyStudyGroups.tsx";
+import StudyGroup from "./pages/MyPage/composite/StudyGroup/StudyGroup.tsx";
+import StudyGroupSetting from "./pages/MyPage/composite/StudyGroupSetting/StudyGroupSetting.tsx";
 import ToastPortal from "./components/layout/ToastPortal/TtoastPortal.tsx";
 
 function App() {

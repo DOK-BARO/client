@@ -1,0 +1,41 @@
+@import "../../../../styles/abstracts/variables";
+@import "../../../../styles/abstracts/mixins";
+
+.sr-only {
+  @include sr-only;
+}
+
+.container {
+  @include flex(column);
+  min-width: 164px;
+  max-width: 276px;
+
+  button {
+    border: none;
+    justify-content: space-between;
+    &:hover {
+      padding-left: 24px;
+    }
+  }
+
+
+  .sub-steps-container {
+    visibility: hidden;
+    
+  }
+  .sub-steps-container.is-visible {
+    visibility: visible;
+  }
+
+  .have-sub-step:hover {
+    .sub-steps-container {
+      visibility:visible;
+      
+    }
+  }
+
+  button.sub-steps {
+    justify-content: start;
+    color: $gray-60;
+  }
+}

@@ -1,0 +1,35 @@
+@import "../../../../styles/abstracts/variables";
+@import "../../../../styles/abstracts/mixins";
+
+.container {
+  @include flex(column);
+  // flex-grow: 5;
+  width: 70%;
+}
+
+.title {
+  color: $gray-90;
+  font-size: 32px;
+  font-weight: $font-weight-semibold;
+  line-height: 1.5em;
+  margin-bottom: 8px;
+}
+
+.step-desc {
+  color: $gray-90;
+  font-size: $font-size-large;
+  font-weight: $font-weight-regular;
+  line-height: 1.5em;
+  margin-bottom: 30px;
+}
+
+button.next {
+  margin-left: auto;
+  width: 156px; // 고정
+}
+
+.next-container {
+  // position: fixed;
+  bottom: 0;
+  margin-top: 20px;
+}

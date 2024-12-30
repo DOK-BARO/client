@@ -2,10 +2,10 @@ import styles from "./_create_quiz.module.scss";
 import { useEffect, useState } from "react";
 import QuizSettingStudyGroupForm from "@/pages/CreateQuiz/composite/QuizSettingStudyGroupForm/QuizSettingStudyGroupForm.tsx";
 import QuizBookSelectionForm from "./composite/QuizBookSectionForm/QuizBookSelectionForm.tsx";
-import QuizWriteForm from "./composite/QuizWriteForm/quizWriteForm.tsx";
+import QuizWriteForm from "./composite/QuizWriteForm/QuizWriteForm.tsx";
 import QuizSettingsForm from "./composite/QuizSettingsForm/QuizSettingsForm.tsx";
-import QuizCreationFormLayout from "./layout/quizCreationFormLayout/quizCreationFormLayout.tsx";
-import QuizCreationSteps from "./layout/quizCreationSteps/quizCreationSteps.tsx";
+import QuizCreationFormLayout from "./layout/QuizCreationFormLayout/QuizCreationFormLayout.tsx";
+import QuizCreationSteps from "./layout/QuizCreationSteps/quizCreationSteps.tsx";
 import MemoizedQuizBasicInfoForm from "./composite/QuizBasicInfoForm/QuizBasicInfoForm.tsx";
 import {
   errorModalTitleAtom,

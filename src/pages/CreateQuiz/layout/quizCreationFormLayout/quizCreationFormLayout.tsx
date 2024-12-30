@@ -1,6 +1,6 @@
 import styles from "./_quiz_creation_form_layout.module.scss";
 import { Step } from "@/types/StepType";
-import Button from "@/components/atom/button/button.tsx";
+import Button from "@/components/atom/Button/Button";
 import RightArrow from "@/svg/rightArrow.tsx";
 import { gray0, gray60 } from "@/styles/abstracts/colors.ts";
 import { useAtom } from "jotai";

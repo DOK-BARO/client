@@ -6,7 +6,7 @@ import { Google } from "@/svg/auth/google.tsx";
 import { Naver } from "@/svg/auth/naver.tsx";
 import { Github } from "@/svg/auth/github.tsx";
 import { Email } from "@/svg/auth/email.tsx";
-import Button from "@/components/atom/button/button.tsx";
+import Button from "@/components/atom/Button/Button";
 import { isEmailLoginPageAtom } from "@/store/authModalAtom";
 import { useAtom } from "jotai";
 import { authService } from "@/services/server/authService";

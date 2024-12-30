@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./_modal.module.scss";
 import { gray80 } from "@/styles/abstracts/colors";
-import Button, { ButtonColorProps } from "../button/button";
+import Button, { ButtonColorProps } from "../Button/Button";
 import { XMedium } from "@/svg/xMedium";
 
 export interface ModalContentProps {

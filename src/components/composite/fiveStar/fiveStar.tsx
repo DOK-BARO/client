@@ -1,4 +1,4 @@
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 import { systemWarning } from "@/styles/abstracts/colors";
 import styles from "./_five_star.module.scss";
 import { StarFilled } from "@/svg/starFilled";

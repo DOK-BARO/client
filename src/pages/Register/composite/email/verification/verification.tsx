@@ -5,7 +5,7 @@ import { emailValidation } from "@/validation/emailValidation";
 import { useAtom } from "jotai";
 import useInput from "@/hooks/useInput.ts";
 import Input from "@/components/atom/input/input.tsx";
-import Button from "@/components/atom/button/button.tsx";
+import Button from "@/components/atom/Button/Button";
 import { RegisterInfoType } from "@/types/UserType";
 import { registerInfoAtom } from "@/store/userAtom";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";

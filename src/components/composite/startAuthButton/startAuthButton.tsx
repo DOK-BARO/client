@@ -1,5 +1,5 @@
 import styles from "./_start_auth_button.module.scss";
-import Button from "@/components/atom/button/button.tsx";
+import Button from "@/components/atom/Button/Button";
 import { isEmailLoginPageAtom } from "@/store/authModalAtom.ts";
 import { useAtom } from "jotai";
 

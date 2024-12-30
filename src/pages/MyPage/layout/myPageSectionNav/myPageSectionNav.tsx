@@ -1,5 +1,5 @@
 import styles from "./_my_page_section_nav.module.scss";
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 import { useNavigate } from "react-router-dom";
 import { SectionNavType } from "@/types/SectionNavType";
 import { useState } from "react";

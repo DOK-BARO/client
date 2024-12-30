@@ -1,4 +1,4 @@
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 import styles from "./_breadcrumb.module.scss";
 import { ArrowRight } from "@/svg/arrowRight";
 import { gray90 } from "@/styles/abstracts/colors";

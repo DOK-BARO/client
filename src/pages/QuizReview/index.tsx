@@ -2,7 +2,7 @@ import styles from "./_quiz_review.module.scss";
 import FiveStar from "@/components/composite/fiveStar/fiveStar";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 import { DifficultyType } from "@/types/Difficultytype";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
 import Textarea from "@/components/atom/textarea/textarea";

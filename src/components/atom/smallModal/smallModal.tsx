@@ -1,4 +1,4 @@
-import Button from "../button/button";
+import Button from "../Button/Button";
 import styles from "./_small_modal.module.scss";
 
 interface Prop {

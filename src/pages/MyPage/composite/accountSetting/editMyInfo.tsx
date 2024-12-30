@@ -1,4 +1,4 @@
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 import styles from "./account_setting.module.scss";
 import ProfileImageEditor from "../../components/profileImageEditor/profileImageEditor";
 import { useEffect, useState } from "react";

@@ -14,7 +14,7 @@ import useCodeInput from "@/hooks/useCodeInput";
 import { UploadImageArgType } from "@/types/UploadImageType";
 import { imageService } from "@/services/server/imageService";
 import { ProfileImageState } from "@/pages/Register/composite/profileSet/profileSet";
-import Button, { ButtonColorProps } from "@/components/atom/button/button";
+import Button, { ButtonColorProps } from "@/components/atom/Button/Button";
 import { studyGroupKeys } from "@/data/queryKeys";
 import { Copy } from "@/svg/copy";
 import { primary } from "@/styles/abstracts/colors";

@@ -1,5 +1,5 @@
 import styles from "./_list-filter.module.scss";
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 
 interface Props<T> {
   handleOptionClick: (filter: T) => void;

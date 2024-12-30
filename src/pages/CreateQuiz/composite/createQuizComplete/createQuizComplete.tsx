@@ -1,4 +1,4 @@
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 import styles from "./_create_quiz_complete.module.scss";
 // TODO: Depth 레이아웃 또는 페이지 레벨로 이동 고려 (Register complete도 함께 고려)
 import createQuizCompleteImage from "/assets/image/create-quiz-complete.png";

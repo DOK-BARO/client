@@ -7,7 +7,7 @@ import Modal from "@/components/atom/modal/modal.tsx";
 import Input from "@/components/atom/input/input.tsx";
 import { Visible } from "@/svg/visible.tsx";
 import { gray60, systemDanger } from "@/styles/abstracts/colors.ts";
-import Button from "@/components/atom/button/button.tsx";
+import Button from "@/components/atom/Button/Button.tsx";
 import { Kakao } from "@/svg/auth/kakao.tsx";
 import { Google } from "@/svg/auth/google.tsx";
 import { Naver } from "@/svg/auth/naver.tsx";

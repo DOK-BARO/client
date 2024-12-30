@@ -1,5 +1,5 @@
 import styles from "./_quiz_result.module.scss";
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 import CommonQuizResult from "./composite/commonQuizResult";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";

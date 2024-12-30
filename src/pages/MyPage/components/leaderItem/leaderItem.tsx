@@ -1,4 +1,4 @@
-import Button from "@/components/atom/button/button";
+import Button from "@/components/atom/Button/Button";
 import styles from "./_leader_item.module.scss";
 import exit from "/public/assets/svg/myPage/exit.svg";
 import { Leader } from "@/svg/leader";

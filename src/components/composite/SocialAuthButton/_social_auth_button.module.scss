@@ -1,0 +1,52 @@
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixins";
+
+@mixin social-auth-button-base($bg-color, $color, $border-color) {
+  justify-content: flex-start !important;
+  background-color: $bg-color;
+  color: $color;
+  border: 1.5px solid $border-color !important;
+  font-size: 16px;
+  display: flex;
+  gap: 16px;
+}
+
+.github-auth-button {
+  @include social-auth-button-base(
+    $bg-color: $gray-100,
+    $color: $gray-00,
+    $border-color: $gray-100
+  );
+}
+
+.google-auth-button {
+  @include social-auth-button-base(
+    $bg-color: $gray-00,
+    $color: $gray-100,
+    $border-color: $gray-40
+  );
+}
+
+.kakao-auth-button {
+  @include social-auth-button-base(
+    $bg-color: $kakao,
+    $color: #3c1e1e,
+    $border-color: $kakao
+  );
+}
+
+.naver-auth-button {
+  @include social-auth-button-base(
+    $bg-color: $naver,
+    $color: $gray-00,
+    $border-color: $naver
+  );
+}
+
+.email-auth-button {
+  @include social-auth-button-base(
+    $bg-color: $gray-00,
+    $color: $gray-100,
+    $border-color: $gray-40
+  );
+}

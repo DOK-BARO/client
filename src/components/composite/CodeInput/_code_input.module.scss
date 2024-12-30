@@ -1,0 +1,31 @@
+@import "../../../styles/abstracts/variables";
+
+.code-input-message-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: $system-danger;
+  font-size: $font-size-small;
+  font-weight: $font-weight-regular;
+}
+.code-input-container {
+  display: flex;
+  gap: 10px;
+
+  *:nth-child(3) {
+    margin-right: 10px;
+  }
+  *:nth-child(4) {
+    margin-left: 10px;
+  }
+}
+.code-input {
+  padding: 0;
+  text-align: center;
+  font-size: $font-size-large;
+  font-weight: $font-weight-semibold;
+}
+.message-container {
+  display: flex;
+  align-items: center;
+}

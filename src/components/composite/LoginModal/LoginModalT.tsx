@@ -1,10 +1,7 @@
 import styles from "./_login_modal.module.scss";
 import React, { useEffect, useState } from "react";
 import { SOCIAL_TYPES } from "@/data/constants.ts";
-import SocialAuthButton from "../socialAuthButton/socialAuthButton.tsx";
-import HeaderLogo from "@/components/atom/HeaderLogo/HeaderLogot.tsx";
-import Modal from "@/components/atom/Modal/Modalt.tsx";
-import Input from "@/components/atom/Input/Inputt.tsx";
+import SocialAuthButton from "../SocialAuthButton/SocialAuthButton.tsx";
 import { Visible } from "@/svg/visible.tsx";
 import { gray60, systemDanger } from "@/styles/abstracts/colors.ts";
 import Button from "@/components/atom/Button/Button.tsx";
@@ -21,8 +18,10 @@ import { isEmailLoginPageAtom } from "@/store/authModalAtom.ts";
 import { authService } from "@/services/server/authService.ts";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType.ts";
+import Modal from "@/components/atom/Modal/Modal.tsx";
+import HeaderLogo from "@/components/atom/HeaderLogo/HeaderLogo.tsx";
+import Input from "@/components/atom/Input/Input.tsx";
 import toast from "react-hot-toast";
-// import { CurrentUserAtom } from "@/store/userAtom.ts";
 interface Props {
   closeModal: () => void;
 }

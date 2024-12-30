@@ -1,9 +1,9 @@
-import HeaderLogo from "@/components/atom/HeaderLogo/HeaderLogot";
-import SearchBar from "@/components/composite/searchBar/searchBar";
-import HeaderUtilArea from "@/components/composite/headerUtilArea/headerUtilArea";
+import HeaderLogo from "@/components/atom/HeaderLogo/HeaderLogo";
+import HeaderUtilArea from "@/components/composite/HeaderUtilArea/HeaderUtilArea";
 import styles from "./_header_layout.module.scss";
 import GNB from "@/components/layout/gnb/gnb";
 import { UserType } from "@/types/UserType";
+import SearchBar from "@/components/composite/SearchBar/SearchBar";
 
 type Props = {
   isLoggedIn: boolean;

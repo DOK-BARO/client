@@ -8,21 +8,20 @@ import {
   findParentCategoryInfo,
   findTopParentCategoryInfo,
 } from "@/utils/findCategoryInfo";
-import Breadcrumb from "../../../../components/composite/breadcrumb/breadcrumb";
+import Breadcrumb from "../../../../components/composite/Breadcrumb/Breadcrumb";
 import { useEffect } from "react";
-import Pagination from "@/components/composite/pagination/pagination";
+import Pagination from "@/components/composite/Pagination/Ppagination";
 import { useAtom } from "jotai";
 import { paginationAtom } from "@/store/paginationAtom";
 import { bookService } from "@/services/server/bookService";
-import ListFilter, {
-  FilterOptionType,
-} from "@/components/composite/listFilter/listFilter";
 import { bookFilterAtom } from "@/store/bookAtom";
 import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 import useFilter from "@/hooks/useFilter";
 import { BooksFilterType, BooksSortType } from "@/types/FilterType";
 import { parseQueryParams } from "@/utils/parseQueryParams";
 import { FetchBooksParams } from "@/types/ParamsType";
+import ListFilter from "@/components/composite/ListFilter/ListFilter";
+import { FilterOptionType } from "@/components/composite/ListFilter/ListFilter";
 
 // TODO: 외부 파일로 분리하기
 const filterOptions: FilterOptionType<BooksFilterType>[] = [

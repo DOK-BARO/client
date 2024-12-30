@@ -8,7 +8,7 @@ import styles from "./_study_group_setting.module.scss";
 import ProfileImageEditor from "../../components/profileImageEditor/profileImageEditor";
 import { ProfileImageState } from "@/pages/Register/composite/profileSet/profileSet";
 import Input from "@/components/atom/Input/Input";
-import Textarea from "@/components/atom/Textarea/Ttextarea";
+import Textarea from "@/components/atom/Textarea/Textarea";
 import useInput from "@/hooks/useInput";
 import useTextarea from "@/hooks/useTextarea";
 import Button from "@/components/atom/Button/Button";
@@ -27,7 +27,7 @@ import { StudyGroupPostType } from "@/types/StudyGroupType";
 import { queryClient } from "@/services/server/queryClient";
 import { UploadImageArgType } from "@/types/UploadImageType";
 import { imageService } from "@/services/server/imageService";
-import SmallModal from "@/components/atom/SmallModal/smallModal";
+import SmallModal from "@/components/atom/SmallModal/SmallModal";
 
 // 스터디 그룹 관리
 export default function StudyGroupSetting() {

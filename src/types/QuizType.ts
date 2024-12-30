@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { BookType } from "./BookType";
 import { StudyGroupType } from "./StudyGroupType";
+import { SolvingQuizStudyGroupUser } from "./UserType";
 export interface QuizType {
   id: number;
   title: string;
@@ -36,6 +37,7 @@ export interface QuizExplanationType {
 export interface SolvingQuizType {
   id: number;
   title: string;
+	studyGroupId?: number;
   timeLimitSecond?: number;
   questions: SolvingQuizQuestionType[];
 }
@@ -152,4 +154,18 @@ export interface SolvingQuizGradeReuslt {
   playerId: number;
   questionCount: number;
   correctCount: number;
+}
+
+export interface SolvingQuizStudyGroupGradeReuslt {
+	quizId: number;
+	studyGroupId: number;
+	totalQuestionCount: number;
+	solvedMember: SolvedMember[];
+	unSolvedMember: SolvingQuizStudyGroupUser[];
+}
+
+export interface SolvedMember {
+	member: SolvingQuizStudyGroupUser;
+	solvingQuizId: number;
+	correctCount: number;
 }

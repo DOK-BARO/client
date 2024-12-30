@@ -6,6 +6,7 @@ import { QuestionCheckedResult } from "@/types/QuizType";
 import { handleAxiosError } from "@/utils/errorHandler";
 import { FetchQuizzesParams } from "@/types/ParamsType";
 import { SolvingQuizGradeReuslt } from "@/types/QuizType";
+import { SolvingQuizStudyGroupGradeReuslt } from "@/types/QuizType";
 
 class QuizService {
   fetchQuizzes = async (
@@ -132,6 +133,20 @@ class QuizService {
       throw new Error(`푼 퀴즈 결과 보기 조회 실패: ${error}`);
     }
   };
+
+	fetchStudyGradeResult = async(
+		studyGroupId:string,
+		quizId: string
+	):Promise<SolvingQuizStudyGroupGradeReuslt> =>{
+		try{
+			const {data} = await axiosInstance.get(
+				`/solving-quiz/study-groups-grade-result?studyGroupId=${studyGroupId}&quizId=${quizId}`
+			);
+			return data;
+		}catch (error){
+			throw new Error(`스터디 그룹 내 랭킹 조회 ${error}`)
+		}
+	}
 }
 
 export const quizService = new QuizService();

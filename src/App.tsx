@@ -152,8 +152,8 @@ function App() {
           path: "/quiz/play/:quizId/:solvingQuizId",
           element: <SolvingQuizPage />,
         },
-        {
-          path: "/quiz/result/:quizId/:solvingQuizId/:quizTitle",
+				{
+          path: "/quiz/result/:quizId/:solvingQuizId/:quizTitle/:studyGroupId?",
           element: <QuizResult />,
         },
         {

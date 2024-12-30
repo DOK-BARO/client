@@ -29,3 +29,63 @@
 .sr-only {
 	@include sr-only;
 }
+
+.study-group-container {
+	@include flex(column, center);
+	gap: 40px;
+	margin-inline: 40px;
+}
+
+.decoration {
+	width: 250px;
+	height: 250px;
+}
+
+.rank-item {
+	width: 282px;
+	height: 46px;
+	background-color: $gray-00;
+	margin-bottom: 16px;
+	display: grid;
+	grid-template-columns: min-content 1fr min-content;
+	align-items: center;
+	padding-inline: 12px;
+
+	&--me {}
+}
+
+.rank-badge-container {
+	display: inline-block;
+	width: 20px;
+	height: 20px;
+
+	.rank-badge-wrapper {
+		display: inline-block;
+		width: 20px;
+	height: 20px;
+		position: relative;
+	}
+
+	.rank-num {
+		position: absolute;
+		color: $gray-00;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		font-size: $font-size-small;
+	}
+
+}
+.nickname{
+font-size: $font-size-medium;
+}
+
+.correct-count{
+	font-size: $font-size-medium;
+	
+}
+
+.total-count{
+	color: $gray-60;
+	font-size: $font-size-small;
+}

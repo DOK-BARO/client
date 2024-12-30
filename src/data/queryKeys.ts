@@ -40,6 +40,7 @@ export const quizKeys = {
   detail: (id: string | undefined) => ["quizDetail", id] as const,
   explanation: (id: string | undefined) => ["quizExplanation", id] as const,
   result: (solvingQuizId: string) => ["quizResult", solvingQuizId],
+	studyResult: (studyGroupId:string, quizId:string) => ["studyResult",studyGroupId,quizId],
 };
 
 export const reviewKeys = {

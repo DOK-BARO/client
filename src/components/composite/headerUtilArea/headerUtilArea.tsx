@@ -4,7 +4,7 @@ import HeaderQuizUtilButton from "../HeaderQuizUtilButton/HeaderQuizUtilButton";
 import StartAuthButton from "../StartAuthButton/StartAuthButton";
 import useModal from "@/hooks/useModal";
 import { UserType } from "@/types/UserType";
-import LoginModal from "../LoginModal/LoginModalT";
+import LoginModal from "../LoginModal/LoginModal";
 interface Props {
   isLoggedIn: boolean;
   currentUser: UserType | null;

@@ -1,0 +1,79 @@
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixins";
+
+.modal-button {
+  @include button-base;
+  background-color: transparent;
+  height: auto;
+  right: 30px;
+  top: 30px;
+  position: absolute;
+}
+
+.modal-backdrop {
+  @include modal-backdrop;
+}
+
+.modal-view {
+  @include modal-view;
+}
+
+.modal-header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: 32px;
+
+  .title {
+    font-size: $font-size-large;
+    font-weight: $font-weight-regular;
+  }
+
+  button {
+    padding: 0;
+  }
+}
+
+.modal-main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 40px;
+
+  .line {
+    position: relative;
+    height: 1px;
+    width: calc(100% + 60px);
+    margin-left: -30px;
+    background-color: $gray-40;
+  }
+}
+
+.content {
+  &-title {
+    font-size: $font-size-xlarge;
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+  &-content {
+    font-size: $font-size-large;
+    width: 100%;
+  }
+}
+
+.modal-footer {
+  width: 100%;
+  margin-top: 24px;
+
+  .button-container {
+    display: flex;
+    width: 100%;
+    justify-content: end;
+    gap: 20px;
+  }
+
+  // .close-button {
+  //   background-color: $primary;
+  //   border: none;
+  // }
+}

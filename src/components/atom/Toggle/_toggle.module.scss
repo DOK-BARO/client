@@ -1,0 +1,44 @@
+@import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/mixins";
+
+.toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: $gray-70;
+  font-size: $font-size-large;
+
+  button.toggle {
+    border-radius: 60px;
+    width: 48px;
+    height: 30px;
+    border: none;
+    padding: 3px;
+    display: flex;
+    position: relative;
+
+    &.on {
+      background-color: $primary;
+    }
+    &.off {
+      background-color: $gray-50;
+    }
+
+    .circle {
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      background-color: $gray-00;
+      position: absolute;
+      left: 3px;
+      transition: transform 0.2s ease;
+    }
+    &.on .circle {
+      transform: translateX(18px);
+    }
+
+    &.off .circle {
+      transform: translateX(0);
+    }
+  }
+}

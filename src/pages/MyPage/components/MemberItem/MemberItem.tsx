@@ -5,10 +5,10 @@ import memberCircle from "/public/assets/svg/myPage/member-circle.svg";
 import { StudyMemberType } from "@/types/StudyGroupType";
 interface Prop {
   member: StudyMemberType;
-  handleChangeLeader: () => void;
+  handleChangeLeaderClick: () => void;
 }
 
-export default function MemberItem({ member, handleChangeLeader }: Prop) {
+export default function MemberItem({ member, handleChangeLeaderClick }: Prop) {
   return (
     <div className={styles.container} key={member.id}>
       <span className={styles["profile-container"]}>
@@ -22,7 +22,11 @@ export default function MemberItem({ member, handleChangeLeader }: Prop) {
       </span>
 
       <div className={styles["button-container"]}>
-        <Button color="secondary" size="xsmall" onClick={handleChangeLeader}>
+        <Button
+          color="secondary"
+          size="xsmall"
+          onClick={handleChangeLeaderClick}
+        >
           스터디장 위임
         </Button>
         <Button

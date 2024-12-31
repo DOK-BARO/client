@@ -7,12 +7,20 @@ import styles from "../StudyGroupSetting/_study_group_setting.module.scss";
 import { ErrorType } from "@/types/ErrorType";
 import toast from "react-hot-toast";
 import { StudyMemberType } from "@/types/StudyGroupType";
+import useModal from "@/hooks/useModal";
+import Modal from "@/components/atom/Modal/Modal";
+import { Fragment } from "react/jsx-runtime";
 
 export interface Prop {
   studyGroupId?: number;
 }
 
 export default function StudyMemberList({ studyGroupId }: Prop) {
+  const {
+    openModal: openChangeStudyGroupLeaderModal,
+    closeModal: closeChangeStudyGroupLeaderModal,
+    isModalOpen: isChangeStudyGroupLeaderModalOpen,
+  } = useModal();
   const { data: studyGroupDetail } = useQuery({
     queryKey: studyGroupKeys.detail(studyGroupId),
     queryFn: () =>
@@ -50,16 +58,47 @@ export default function StudyMemberList({ studyGroupId }: Prop) {
       </div>
       {/* 스터디장 */}
       <ol className={styles["member-list"]}>
-        {studyGroupDetail?.studyMembers?.map((member) =>
-          member.role === "LEADER" ? (
-            <LeaderItem member={member} />
-          ) : (
-            <MemberItem
-              member={member}
-              handleChangeLeader={() => changeLeader({ member })}
-            />
-          )
-        )}
+        {studyGroupDetail?.studyMembers?.map((member) => (
+          <Fragment key={member.id}>
+            {isChangeStudyGroupLeaderModalOpen && (
+              <Modal
+                title=""
+                contents={[
+                  {
+                    title: `${member.nickname}님을 ${studyGroupDetail.name} 스터디장으로 위임하시겠어요?`,
+                    content: (
+                      <p>
+                        위임 후{" "}
+                        {
+                          studyGroupDetail.studyMembers?.find(
+                            (member) => member.role === "LEADER"
+                          )?.nickname
+                        }
+                        님의 스터디장 권한이 없어집니다.
+                      </p>
+                    ),
+                  },
+                ]}
+                bottomButtons={[
+                  {
+                    color: "primary",
+                    text: "위임하기",
+                    handleClick: () => changeLeader({ member }),
+                  },
+                ]}
+                closeModal={closeChangeStudyGroupLeaderModal}
+              ></Modal>
+            )}
+            {member.role === "LEADER" ? (
+              <LeaderItem member={member} />
+            ) : (
+              <MemberItem
+                member={member}
+                handleChangeLeaderClick={openChangeStudyGroupLeaderModal}
+              />
+            )}
+          </Fragment>
+        ))}
       </ol>
     </section>
   );

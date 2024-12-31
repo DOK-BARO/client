@@ -61,7 +61,7 @@ export default function Verification({
     },
   });
 
-  const { mutate: resendEmailCode } = useMutation({
+  const { mutate: resendEmailCode } = useMutation<void, ErrorType>({
     mutationFn: () => authService.resendEmailCode(email),
     // onError 시 토스트 알람 처리는 전역에서 설정
     onSuccess: () => {

@@ -3,12 +3,12 @@ import styles from "./_member_item.module.scss";
 import trashCan from "/public/assets/svg/myPage/trash-can.svg";
 import memberCircle from "/public/assets/svg/myPage/member-circle.svg";
 import { StudyMemberType } from "@/types/StudyGroupType";
-
 interface Prop {
   member: StudyMemberType;
+  handleChangeLeader: () => void;
 }
 
-export default function MemberItem({ member }: Prop) {
+export default function MemberItem({ member, handleChangeLeader }: Prop) {
   return (
     <div className={styles.container} key={member.id}>
       <span className={styles["profile-container"]}>
@@ -22,7 +22,7 @@ export default function MemberItem({ member }: Prop) {
       </span>
 
       <div className={styles["button-container"]}>
-        <Button color="secondary" size="xsmall">
+        <Button color="secondary" size="xsmall" onClick={handleChangeLeader}>
           스터디장 위임
         </Button>
         <Button

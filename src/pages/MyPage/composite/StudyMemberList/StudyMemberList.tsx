@@ -13,9 +13,13 @@ import { Fragment } from "react/jsx-runtime";
 
 export interface Prop {
   studyGroupId?: number;
+  handleDeleteStudyGroupClick: () => void;
 }
 
-export default function StudyMemberList({ studyGroupId }: Prop) {
+export default function StudyMemberList({
+  studyGroupId,
+  handleDeleteStudyGroupClick,
+}: Prop) {
   const {
     openModal: openChangeStudyGroupLeaderModal,
     closeModal: closeChangeStudyGroupLeaderModal,
@@ -28,6 +32,7 @@ export default function StudyMemberList({ studyGroupId }: Prop) {
     enabled: !!studyGroupId,
   });
 
+  // 스터디장 위임
   const { mutate: changeLeader } = useMutation<
     void,
     ErrorType,
@@ -51,15 +56,47 @@ export default function StudyMemberList({ studyGroupId }: Prop) {
     },
   });
 
+  const {
+    openModal: openWithdrawStudyGroupMemberModal,
+    closeModal: closeWithdrawStudyGroupMemberModal,
+    isModalOpen: isWithdrawStudyGroupMemberModalOpen,
+  } = useModal();
+
+  // 스터디원 내보내기 (탈퇴)
+  const { mutate: withdrawMember } = useMutation<
+    void,
+    ErrorType,
+    { member: StudyMemberType }
+  >({
+    mutationFn: ({ member }) => {
+      if (studyGroupId) {
+        return studyGroupService.withdrawStudyGroupMember({
+          studyGroupId,
+          memberId: member.id,
+        });
+      }
+      return Promise.reject(new Error("스터디 그룹 없음"));
+    },
+    onSuccess: (_, { member }) => {
+      toast.success(`${member.nickname}을 내보냈습니다.`);
+    },
+    onError: (error, { member }) => {
+      console.error(error);
+      toast.error(
+        error.message || `${member.nickname}을 내보내기에 실패했습니다.`
+      );
+    },
+  });
+
   return (
     <section className={styles.container}>
       <div className={styles["header-container"]}>
         <h3 className={styles.title}>스터디원 관리</h3>
       </div>
-      {/* 스터디장 */}
       <ol className={styles["member-list"]}>
         {studyGroupDetail?.studyMembers?.map((member) => (
           <Fragment key={member.id}>
+            {/* 스터디장 위임 확인 모달 */}
             {isChangeStudyGroupLeaderModalOpen && (
               <Modal
                 title=""
@@ -87,14 +124,42 @@ export default function StudyMemberList({ studyGroupId }: Prop) {
                   },
                 ]}
                 closeModal={closeChangeStudyGroupLeaderModal}
-              ></Modal>
+              />
+            )}
+            {/* 스터디원 내보내기 확인 모달 */}
+            {isWithdrawStudyGroupMemberModalOpen && (
+              <Modal
+                title=""
+                closeModal={closeWithdrawStudyGroupMemberModal}
+                contents={[
+                  {
+                    title: `${member.nickname}님을 ${studyGroupDetail.name}에서 내보내시겠어요?`,
+                    content: (
+                      <p>내보낸 스터디원은 스터디 그룹에 재가입할 수 있어요.</p>
+                    ),
+                  },
+                ]}
+                bottomButtons={[
+                  {
+                    color: "primary",
+                    text: "내보내기",
+                    handleClick: () => {
+                      withdrawMember({ member });
+                    },
+                  },
+                ]}
+              />
             )}
             {member.role === "LEADER" ? (
-              <LeaderItem member={member} />
+              <LeaderItem
+                member={member}
+                onDeleteStudyGroupClick={handleDeleteStudyGroupClick}
+              />
             ) : (
               <MemberItem
                 member={member}
-                handleChangeLeaderClick={openChangeStudyGroupLeaderModal}
+                onChangeLeaderClick={openChangeStudyGroupLeaderModal}
+                onWithdrawMemberClick={openWithdrawStudyGroupMemberModal}
               />
             )}
           </Fragment>

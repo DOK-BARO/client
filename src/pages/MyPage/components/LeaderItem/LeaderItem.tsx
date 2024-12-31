@@ -7,8 +7,12 @@ import { StudyMemberType } from "@/types/StudyGroupType";
 
 interface Prop {
   member: StudyMemberType;
+  onDeleteStudyGroupClick: () => void;
 }
-export default function LeaderItem({ member }: Prop) {
+export default function LeaderItem({
+  member,
+  onDeleteStudyGroupClick,
+}: Prop) {
   return (
     <div className={styles.container}>
       <span className={styles["profile-container"]}>
@@ -22,6 +26,7 @@ export default function LeaderItem({ member }: Prop) {
           className={styles.button}
           icon={<img src={exit} alt="" width={16} height={16} />}
           iconOnly
+          onClick={onDeleteStudyGroupClick}
         />
       </div>
     </div>

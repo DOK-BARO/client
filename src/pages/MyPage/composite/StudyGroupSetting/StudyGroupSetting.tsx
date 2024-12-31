@@ -331,7 +331,10 @@ export default function StudyGroupSetting() {
       </section>
 
       {/* 스터디원 관리 */}
-      <StudyMemberList studyGroupId={studyGroupDetail?.id} />
+      <StudyMemberList
+        studyGroupId={studyGroupDetail?.id}
+        handleDeleteStudyGroupClick={openConfirmModal}
+      />
     </section>
   );
 }

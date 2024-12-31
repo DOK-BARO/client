@@ -86,6 +86,8 @@ export default function MyStudyGroups() {
     console.log(filter);
   };
 
+  console.log(myStudyGroupsData);
+
   return (
     <section className={styles.container}>
       <div className={styles.header}>
@@ -107,29 +109,31 @@ export default function MyStudyGroups() {
           filterOptions={filterOptions}
         />
       </div>
-      {myStudyGroups && myStudyGroups.length > 0 ? (
-        <ol className={styles["study-list"]}>
-          {/* 스터디 그룹 아이템과 부족한 공간 채우기 */}
-          {[
-            ...myStudyGroups,
-            ...Array(size - (myStudyGroups.length % size || size)).fill(null),
-          ].map((studyGroup, index) =>
-            studyGroup ? (
-              <StudyGroupItem key={studyGroup.id} studyGroup={studyGroup} />
-            ) : (
-              <li
-                key={`empty-${index}`}
-                className={styles["study-list-empty-item"]}
-              />
-            )
-          )}
-        </ol>
-      ) : (
+      {myStudyGroups && myStudyGroups.length === 0 && page === 1 ? (
         <NoDataSection
           title="아직 내 스터디 그룹이 없어요 😔"
           buttonName="스터디 그룹 추가하기"
           onClick={() => {}}
         />
+      ) : (
+        myStudyGroups && (
+          <ol className={styles["study-list"]}>
+            {/* 스터디 그룹 아이템과 부족한 공간 채우기 */}
+            {[
+              ...myStudyGroups,
+              ...Array(size - (myStudyGroups.length % size || size)).fill(null),
+            ].map((studyGroup, index) =>
+              studyGroup ? (
+                <StudyGroupItem key={studyGroup.id} studyGroup={studyGroup} />
+              ) : (
+                <li
+                  key={`empty-${index}`}
+                  className={styles["study-list-empty-item"]}
+                />
+              )
+            )}
+          </ol>
+        )
       )}
       {isModalOpen ? (
         <AddStudyGroupModal closeModal={closeModal} currentPage={page} />

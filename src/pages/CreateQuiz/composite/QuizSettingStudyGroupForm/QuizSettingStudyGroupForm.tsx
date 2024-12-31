@@ -31,14 +31,14 @@ export default function QuizSettingStudyGroupForm() {
   const { data: studyGroupsData, isLoading: isStudyGroupsLoading } = useQuery({
     queryKey: studyGroupKeys.list({
       page: 1,
-      size: 10,
+      size: 50,
       sort: "CREATED_AT",
       direction: "ASC",
     }),
     queryFn: () =>
       studyGroupService.fetchStudyGroups({
         page: 1,
-        size: 10,
+        size: 50,
         sort: "CREATED_AT",
         direction: "ASC",
       }),
@@ -103,11 +103,6 @@ export default function QuizSettingStudyGroupForm() {
     },
   });
 
-  // 스터디 삭제
-  // const {mutate: removeStudyGroup} = useMutation<void, ErrorType>({
-  //   mutationFn: () =>
-  // })
-
   // 입력한 스터디 그룹 삭제
   const removeStudyGroup = () => {
     setNewStudyGroup(null);
@@ -147,9 +142,6 @@ export default function QuizSettingStudyGroupForm() {
     resetStudyNameInput("");
   };
 
-  // const [selectedStudyGroup, setSelectedStudyGroup] = useAtom(
-  //   SelectedStudyGroupAtom
-  // );
   const [, setIsSet] = useAtom(isSetAtom);
 
   // 스터디 선택
@@ -187,7 +179,6 @@ export default function QuizSettingStudyGroupForm() {
             {newStudyGroup.name}
           </Button>
         ) : (
-          // </div>
           <div className={styles["input-button-container"]}>
             <Input
               fullWidth
@@ -256,7 +247,11 @@ export default function QuizSettingStudyGroupForm() {
             >
               <div className={styles["profile-container"]}>
                 {studyGroup.profileImageUrl ? (
-                  <img className={styles.profile} src="" alt="" />
+                  <img
+                    className={styles.profile}
+                    src={studyGroup.profileImageUrl}
+                    alt={studyGroup.name}
+                  />
                 ) : (
                   <div className={styles.profile} />
                 )}

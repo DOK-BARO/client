@@ -88,6 +88,10 @@ function App() {
           element: <MyPage />,
           children: [
             {
+              path: "/my",
+              element: <Navigate to="made-quiz" replace />,
+            },
+            {
               path: "made-quiz",
               element: <MyMadeQuiz />,
             },

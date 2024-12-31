@@ -166,7 +166,7 @@ export default function AddStudyGroupModal({ closeModal, currentPage }: Props) {
         ? {
             text: !isJoinByCode ? "코드로 참여하기" : "스터디 새로 만들기",
             color: "primary-border" as ButtonColorProps,
-            handleClick: () => setIsJoinByCode((prev) => !prev),
+            onClick: () => setIsJoinByCode((prev) => !prev),
           }
         : null,
       {
@@ -177,7 +177,7 @@ export default function AddStudyGroupModal({ closeModal, currentPage }: Props) {
           : true,
         text: !isInvitedByCode ? "완료" : "그룹 페이지 가기",
         color: "primary" as ButtonColorProps,
-        handleClick: () => {
+        onClick: () => {
           if (isJoinByCode) {
             handleJoinStudyGroupByCode();
           } else if (!isStudyCreated) {
@@ -285,8 +285,8 @@ export default function AddStudyGroupModal({ closeModal, currentPage }: Props) {
                         <CodeInput
                           codeList={codeList}
                           borderColor={"default"}
-                          handleCodeChange={handleCodeChange}
-                          handleKeyDown={handleKeyDown}
+                          onCodeChange={handleCodeChange}
+                          onKeyDown={handleKeyDown}
                           isMatch={isMatch ?? true}
                           errorMessage="올바르지 않은 그룹 코드입니다."
                         />

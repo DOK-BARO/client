@@ -101,7 +101,7 @@ export default function ReviewList({ quizId }: Props) {
       <h2 className={styles["sr-only"]}>퀴즈 리뷰 리스트</h2>
       <div className={styles["list-filter-container"]}>
         <ListFilter
-          handleOptionClick={handleOptionClick}
+          onOptionClick={handleOptionClick}
           sortFilter={filterCriteria}
           filterOptions={filterOptions}
         />

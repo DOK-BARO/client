@@ -256,7 +256,7 @@ export default function StudyGroupSetting() {
             {
               text: "삭제하기",
               color: "red",
-              handleClick: handleDeleteStudyGroup,
+              onClick: handleDeleteStudyGroup,
             },
           ]}
         />
@@ -277,7 +277,7 @@ export default function StudyGroupSetting() {
           {isSmallModalOpen ? (
             <div className={styles["small-modal-container"]} ref={modalRef}>
               <SmallModal
-                handleLabelClick={openConfirmModal}
+                onLabelClick={openConfirmModal}
                 icon={<img src={trashCan} width={20} height={20} />}
                 label="스터디 삭제"
               />
@@ -333,7 +333,7 @@ export default function StudyGroupSetting() {
       {/* 스터디원 관리 */}
       <StudyMemberList
         studyGroupId={studyGroupDetail?.id}
-        handleDeleteStudyGroupClick={openConfirmModal}
+        onDeleteStudyGroupClick={openConfirmModal}
       />
     </section>
   );

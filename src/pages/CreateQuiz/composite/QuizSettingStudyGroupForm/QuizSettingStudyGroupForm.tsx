@@ -294,7 +294,7 @@ export default function QuizSettingStudyGroupForm() {
                   {
                     text: "완료",
                     color: "primary",
-                    handleClick: done,
+                    onClick: done,
                   },
                 ]
               : undefined

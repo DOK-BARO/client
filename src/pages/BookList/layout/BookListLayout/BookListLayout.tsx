@@ -128,7 +128,7 @@ export default function BookListLayout() {
             <span />
           )}
           <ListFilter
-            handleOptionClick={handleOptionClick}
+            onOptionClick={handleOptionClick}
             sortFilter={filterCriteria}
             filterOptions={filterOptions}
           />

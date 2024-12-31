@@ -4,15 +4,15 @@ import styles from "./_small_modal.module.scss";
 interface Prop {
   icon?: JSX.Element;
   label: string;
-  handleLabelClick: () => void;
+  onLabelClick: () => void;
 }
 
-export default function SmallModal({ icon, label, handleLabelClick }: Prop) {
+export default function SmallModal({ icon, label, onLabelClick }: Prop) {
   return (
     <div className={styles["small-modal"]}>
       <Button
         className={styles["icon-label-container"]}
-        onClick={handleLabelClick}
+        onClick={onLabelClick}
         size="small"
       >
         {icon ? icon : null} <p className={styles.label}>{label}</p>

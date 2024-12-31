@@ -10,7 +10,7 @@ export default function SolvedQuiz() {
     queryFn: async () => await quizService.fetchMyMadeQuizzes(),
   });
   //const navigate = useNavigate();
-  const onClickBtnWhenNoData = (_: React.MouseEvent<HTMLButtonElement>) => {
+  const onClickBtnWhenNoData = () => {
     //navigate("/create-quiz");
   };
   const myQuizzes = myQuizzesData?.data;

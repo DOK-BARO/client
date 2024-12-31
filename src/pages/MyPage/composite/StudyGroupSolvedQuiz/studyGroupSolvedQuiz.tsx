@@ -100,7 +100,7 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Prop) {
         <h3 className={styles.title}>제출한 퀴즈</h3>
         {isQuizzesExist ? (
           <ListFilter
-            handleOptionClick={handleOptionClick}
+            onOptionClick={handleOptionClick}
             sortFilter={filterCriteria}
             filterOptions={filterOptions}
           />

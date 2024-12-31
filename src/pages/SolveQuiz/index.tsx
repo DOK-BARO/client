@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "./_solve_quiz.module.scss";
 import SolvingQuizForm from "./composite/SolvingQuizForm";
 import ProgressBar from "./composite/ProgressBar";
@@ -20,9 +19,7 @@ export default function Index() {
     quizId: string;
     solvingQuizId: string;
   }>();
-  if (!quizId || !solvingQuizId) {
-    return;
-  }
+
   const warning = "/assets/svg/solvingQuizFormLayout/warning.svg";
   const navigate = useNavigate();
 
@@ -32,8 +29,9 @@ export default function Index() {
     error,
   } = useQuery({
     queryKey: quizKeys.detail(quizId),
-    queryFn: () => quizService.fetchQuiz(quizId),
+    queryFn: () => (quizId ? quizService.fetchQuiz(quizId) : null),
     retry: false,
+    enabled: !!quizId,
   });
 
   const [currentStep, setCurrentStep] = useState<number>(1);
@@ -48,9 +46,10 @@ export default function Index() {
   const [isAnswerCorrects, setIsAnswerCorrects] = useState<boolean[]>([]);
   const currentFormIndex: number = currentStep - 1;
 
-  const handleQuestionSubmit = async (
-    _: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  const handleQuestionSubmit = async () => {
+    if (!solvingQuizId) {
+      return;
+    }
     setOptionDisabled(true);
     const questionId: number = quiz!.questions[currentStep - 1].id;
     const solvingQuizIdToString: string = solvingQuizId.toString();
@@ -75,7 +74,7 @@ export default function Index() {
   const handleNextQuestionBtn = () => {
     const endStep = quiz!.questions.length;
 
-    if (endStep === currentStep) {
+    if (endStep === currentStep && quizId && solvingQuizId) {
       const id: string = quizId.toString();
       const solvingId: string = solvingQuizId.toString();
       const quizTitle: string = quiz?.title ?? "";

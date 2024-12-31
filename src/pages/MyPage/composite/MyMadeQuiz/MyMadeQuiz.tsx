@@ -10,7 +10,7 @@ export default function MyMadeQuiz() {
     queryFn: async () => await quizService.fetchMyMadeQuizzes(),
   });
   const navigate = useNavigate();
-  const handleClickWhenNoData = (_: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClickWhenNoData = () => {
     navigate("/create-quiz");
   };
 

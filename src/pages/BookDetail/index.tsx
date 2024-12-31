@@ -59,11 +59,11 @@ export default function Index() {
       <div className={styles["book-detail-section"]}>
         <BookDetailContent
           bookDetailContent={data}
-          handleGoToMakeQuiz={handleGoToMakeQuiz}
+          onGoToMakeQuiz={handleGoToMakeQuiz}
         />
         <QuizListSection
           bookId={id ?? "0"}
-          handleGoToMakeQuiz={handleGoToMakeQuiz}
+          onGoToMakeQuiz={handleGoToMakeQuiz}
         />
       </div>
     </section>

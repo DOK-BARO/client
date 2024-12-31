@@ -13,12 +13,12 @@ import { Fragment } from "react/jsx-runtime";
 
 export interface Prop {
   studyGroupId?: number;
-  handleDeleteStudyGroupClick: () => void;
+  onDeleteStudyGroupClick: () => void;
 }
 
 export default function StudyMemberList({
   studyGroupId,
-  handleDeleteStudyGroupClick,
+  onDeleteStudyGroupClick,
 }: Prop) {
   const {
     openModal: openChangeStudyGroupLeaderModal,
@@ -120,7 +120,7 @@ export default function StudyMemberList({
                   {
                     color: "primary",
                     text: "위임하기",
-                    handleClick: () => changeLeader({ member }),
+                    onClick: () => changeLeader({ member }),
                   },
                 ]}
                 closeModal={closeChangeStudyGroupLeaderModal}
@@ -143,7 +143,7 @@ export default function StudyMemberList({
                   {
                     color: "primary",
                     text: "내보내기",
-                    handleClick: () => {
+                    onClick: () => {
                       withdrawMember({ member });
                     },
                   },
@@ -153,7 +153,7 @@ export default function StudyMemberList({
             {member.role === "LEADER" ? (
               <LeaderItem
                 member={member}
-                onDeleteStudyGroupClick={handleDeleteStudyGroupClick}
+                onDeleteStudyGroupClick={onDeleteStudyGroupClick}
               />
             ) : (
               <MemberItem

@@ -104,7 +104,7 @@ export default function MyStudyGroups() {
       </div>
       <div className={styles["filter-container"]}>
         <ListFilter
-          handleOptionClick={handleOptionClick}
+          onOptionClick={handleOptionClick}
           sortFilter={filterCriteria}
           filterOptions={filterOptions}
         />

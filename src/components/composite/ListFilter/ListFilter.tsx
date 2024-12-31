@@ -2,7 +2,7 @@ import styles from "./_list-filter.module.scss";
 import Button from "@/components/atom/Button/Button";
 
 interface Props<T> {
-  handleOptionClick: (filter: T) => void;
+  onOptionClick: (filter: T) => void;
   sortFilter: T;
   filterOptions: FilterOptionType<T>[];
 }
@@ -14,7 +14,7 @@ export interface FilterOptionType<T> {
 
 export default function ListFilter<
   T extends { sort: string; direction: string }
->({ sortFilter, filterOptions, handleOptionClick }: Props<T>) {
+>({ sortFilter, filterOptions, onOptionClick }: Props<T>) {
   return (
     <div className={styles.container}>
       <ul>
@@ -24,7 +24,7 @@ export default function ListFilter<
               size="xsmall"
               color="transparent"
               onClick={() => {
-                handleOptionClick(option.filter);
+                onOptionClick(option.filter);
               }}
               className={`${styles["filter-button"]} ${
                 sortFilter.sort === option.filter.sort &&

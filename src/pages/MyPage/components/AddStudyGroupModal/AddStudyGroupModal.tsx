@@ -20,11 +20,13 @@ import { Copy } from "@/svg/Copy";
 import { primary } from "@/styles/abstracts/colors";
 import Textarea from "@/components/atom/Textarea/Textarea";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
+import { queryClient } from "@/services/server/queryClient";
 interface Props {
   closeModal: () => void;
+  currentPage: number;
 }
 
-export default function AddStudyGroupModal({ closeModal }: Props) {
+export default function AddStudyGroupModal({ closeModal, currentPage }: Props) {
   const { value: name, onChange: onNameChange } = useInput("");
 
   const {
@@ -59,6 +61,15 @@ export default function AddStudyGroupModal({ closeModal }: Props) {
   >({
     mutationFn: (newStudy) => studyGroupService.createStudyGroup(newStudy),
     onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: studyGroupKeys.list({
+          page: currentPage,
+          size: 4,
+          sort: "CREATED_AT",
+          direction: "ASC",
+        }),
+        exact: true,
+      });
       toast.success("스터디가 생성되었습니다.");
       setIsStudyCreated(true);
       if (!data) return;
@@ -119,6 +130,12 @@ export default function AddStudyGroupModal({ closeModal }: Props) {
         image: profileImage.file,
         imageTarget: "STUDY_GROUP_PROFILE",
       });
+    } else {
+      const newStudy = {
+        name,
+        introduction,
+      };
+      createStudyGroup(newStudy);
     }
   };
 

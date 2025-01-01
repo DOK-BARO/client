@@ -76,6 +76,7 @@ const Modal: React.FC<ModalProps> = ({
             <div className={styles["button-container"]}>
               {bottomButtons.map((button) => (
                 <Button
+                  key={button.text}
                   color={button.color}
                   onClick={button.onClick}
                   size="medium"

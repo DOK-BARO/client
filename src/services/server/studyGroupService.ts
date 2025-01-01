@@ -6,6 +6,7 @@ import {
   StudyGroupMySolvedQuizType,
   StudyGroupMyUnSolvedQuizType,
   StudyGroupType,
+  QuizStudyGroupGradeResult,
 } from "@/types/StudyGroupType";
 import { handleAxiosError } from "@/utils/errorHandler";
 
@@ -195,6 +196,32 @@ class StudyGroupService {
       console.log(response);
     } catch (error) {
       handleAxiosError(error);
+    }
+  };
+
+  // 스터디 그룹 내 랭킹 조회
+  fetchQuizStudyGroupGradeResult = async ({
+    studyGroupId,
+    quizId,
+  }: {
+    studyGroupId: number;
+    quizId: number;
+  }): Promise<QuizStudyGroupGradeResult | null> => {
+    try {
+      const response = await axiosInstance.get(
+        "/solving-quiz/study-groups-grade-result",
+        {
+          params: {
+            studyGroupId,
+            quizId,
+          },
+        }
+      );
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      handleAxiosError(error);
+      return null;
     }
   };
 }

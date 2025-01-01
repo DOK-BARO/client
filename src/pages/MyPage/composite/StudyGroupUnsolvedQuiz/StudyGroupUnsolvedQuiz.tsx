@@ -114,6 +114,7 @@ export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Prop) {
               key={quizData.quiz.id}
               isSolved={false}
               quizData={quizData}
+              studyGroupId={studyGroupId}
             />
           ))}
         </ol>

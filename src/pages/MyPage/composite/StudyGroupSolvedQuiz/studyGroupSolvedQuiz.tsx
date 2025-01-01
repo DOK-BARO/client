@@ -109,7 +109,12 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Prop) {
       {isQuizzesExist ? (
         <ol className={styles["quiz-list"]}>
           {solvedQuizzes?.map((quizData) => (
-            <QuizItem key={quizData.id} isSolved quizData={quizData} />
+            <QuizItem
+              key={quizData.id}
+              isSolved
+              quizData={quizData}
+              studyGroupId={studyGroupId}
+            />
           ))}
         </ol>
       ) : (

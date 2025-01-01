@@ -3,15 +3,9 @@ import HeaderMyInfoUtilButton from "../HeaderMyInfoUtilButton/HeaderMyInfoUtilBu
 import HeaderQuizUtilButton from "../HeaderQuizUtilButton/HeaderQuizUtilButton";
 import useModal from "@/hooks/useModal";
 import LoginModal from "../LoginModal/LoginModal";
-import { UserType } from "@/types/UserType";
 import StartAuthButton from "../StartAuthButton/StartAuthButton";
 
-interface Props {
-  isLoggedIn: boolean;
-  currentUser: UserType | null;
-}
-
-export default function HeaderUtilArea({ isLoggedIn, currentUser }: Props) {
+export default function HeaderUtilArea() {
   const {
     isModalOpen: isLoginModalOpen,
     closeModal: closeLoginModal,
@@ -21,12 +15,8 @@ export default function HeaderUtilArea({ isLoggedIn, currentUser }: Props) {
   return (
     <span className={styles["header-util-area-container"]}>
       <HeaderQuizUtilButton openLoginModal={openLoginModal} />
-      <HeaderMyInfoUtilButton
-        isLoggedIn={isLoggedIn}
-        currentUser={currentUser}
-      />
+      <HeaderMyInfoUtilButton />
       <StartAuthButton
-        isLoggedIn={isLoggedIn}
         openLoginModal={openLoginModal}
       />
       {isLoginModalOpen && <LoginModal closeModal={closeLoginModal} />}

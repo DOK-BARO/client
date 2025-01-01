@@ -121,7 +121,9 @@ export default function QuizListSection({
       <div className={styles["list-container"]}>
         {quizzes &&
           quizzes?.data.map((quiz) => (
-            <a href={`/quiz/${quiz.id}`}>
+            <a 
+						key={quiz.id}
+						href={`/quiz/${quiz.id}`}>
               <QuizItem key={quiz.id} quiz={quiz} />
             </a>
           ))}

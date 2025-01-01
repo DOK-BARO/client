@@ -28,7 +28,6 @@ import MyStudyGroups from "./pages/MyPage/composite/MyStudyGroups/MyStudyGroups.
 import StudyGroup from "./pages/MyPage/composite/StudyGroup/StudyGroup.tsx";
 import StudyGroupSetting from "./pages/MyPage/composite/StudyGroupSetting/StudyGroupSetting.tsx";
 import BaseLayout from "./components/layout/BaseLayout/BaseLayout.tsx";
-import NoHeaderLayout from "./components/layout/NoHeaderLayout/NoHeaderLayout.tsx";
 import ToastPortal from "./components/layout/ToastPortal/ToastPortal.tsx";
 
 function App() {
@@ -144,13 +143,9 @@ function App() {
         },
       ],
     },
-    // {
-    //   path: "/oauth2/redirected/:provider",
-    //   element: <AuthRedirectedPage />,
-    // },
     {
       path: "/quiz",
-      element: <NoHeaderLayout />,
+      element: <BaseLayout showHeader={false} />,
       children: [
         {
           path: "/quiz/play/:quizId/:solvingQuizId",
@@ -168,7 +163,7 @@ function App() {
     },
     {
       path: "*",
-      element: <NoHeaderLayout />,
+      element: <BaseLayout showHeader={false} />,
       children: [
         {
           path: "*",

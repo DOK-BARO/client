@@ -105,7 +105,7 @@ export default function Index() {
           closeModal={closeModal}
           title={errorModalTitle}
           bottomButtons={[
-            { text: "확인", color: "primary", handleClick: closeModal },
+            { text: "확인", color: "primary", onClick: closeModal },
           ]}
           showHeaderCloseButton={false}
           contents={[]}

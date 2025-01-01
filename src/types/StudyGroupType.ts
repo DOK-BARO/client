@@ -22,7 +22,7 @@ export interface StudyMemberType {
   id: number;
   nickname: string;
   profileImageUrl: string;
-  role: string;
+  role: "LEADER" | "MEMBER";
 }
 
 // TODO: 변수명 -Prop, -Type?

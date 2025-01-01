@@ -54,7 +54,7 @@ export default function EditMyInfo() {
     });
   });
 
-  const handleClickChangeEmail = (_: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClickChangeEmail = () => {
     setIsChangeEmailMode(!isChangeEmailMode);
   };
   const handleClickChangeNickname = () => {

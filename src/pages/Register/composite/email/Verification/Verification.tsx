@@ -61,7 +61,7 @@ export default function Verification({
     },
   });
 
-  const { mutate: resendEmailCode } = useMutation({
+  const { mutate: resendEmailCode } = useMutation<void, ErrorType>({
     mutationFn: () => authService.resendEmailCode(email),
     // onError 시 토스트 알람 처리는 전역에서 설정
     onSuccess: () => {
@@ -173,8 +173,8 @@ export default function Verification({
         <CodeInput
           codeList={codeList}
           borderColor={combinedCode.length !== 6 ? "default" : "black"}
-          handleCodeChange={handleCodeChange}
-          handleKeyDown={handleKeyDown}
+          onCodeChange={handleCodeChange}
+          onKeyDown={handleKeyDown}
           isMatch={isMatch ?? true}
           errorMessage="인증 코드가 일치하지 않습니다."
         />

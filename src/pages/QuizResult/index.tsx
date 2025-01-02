@@ -7,48 +7,43 @@ import StudyQuizResult from "./composite/StudyQuizResult";
 import { useState } from "react";
 
 export default function Index() {
-	const [currentStep,setCurrentStep] = useState<number>(0);  
+	const [currentStep, setCurrentStep] = useState<number>(0);
 	const navigate = useNavigate();
-	const { quizId,solvingQuizId, quizTitle,studyGroupId } = useParams<{ quizId: string,solvingQuizId:string, quizTitle: string,studyGroupId?:string }>();
-	
-  if (!quizId || !solvingQuizId || !quizTitle) {
-    return;
-  }
+	const { quizId, solvingQuizId, quizTitle, studyGroupId } = useParams<{ quizId: string, solvingQuizId: string, quizTitle: string, studyGroupId?: string }>();
 
-  const steps: { order: number; component: JSX.Element }[] = [
-    {
-      order: 0,
-      component: <CommonQuizResult solvingQuizId={solvingQuizId} />,
-    },
-    {
-      order: 1,
-      component: <StudyQuizResult studyGroupId={studyGroupId!} quizId={quizId}/>
-    },
-  ];
 
-  const handleGoToNext = () => {
-    // TODO: 스터디참여인 경우 스터디내에 순위확인 -> 1번으로
-    // 아닌경우 -> navigate
- 
-		if(studyGroupId){
+	const steps: { order: number; component: JSX.Element }[] = [
+		{
+			order: 0,
+			component: <CommonQuizResult solvingQuizId={solvingQuizId!} />,
+		},
+		{
+			order: 1,
+			component: <StudyQuizResult studyGroupId={studyGroupId!} solvingQuizId={solvingQuizId!} quizTitle={quizTitle!} quizId={quizId!} />
+		},
+	];
+
+	const handleGoToNext = () => {
+		if (studyGroupId) {
 			setCurrentStep(1);
-		}else{
-			navigate(`/quiz/review/${quizId}/${solvingQuizId}/${quizTitle}`, { replace: false, });
+		} else {
+			navigate(`/quiz/review/${quizId}/${solvingQuizId}/${quizTitle}`, { replace: false });
 		}
-  };
+	};
 
-  return (
-    <section className={styles["container"]}>
-      <h2 className={styles["sr-only"]}>퀴즈 결과화면</h2>
-      {steps[currentStep].component}
-			{ currentStep !==1 && 
-      <Button 
-				color="primary" 
-				size="medium" 
-				onClick={handleGoToNext}>
-        다음
-      </Button>
+	return (
+		<section className={styles["container"]}>
+			<h2 className={styles["sr-only"]}>퀴즈 결과화면</h2>
+			{steps[currentStep].component}
+			{
+				currentStep !== 1 &&
+				<Button
+					color="primary"
+					size="medium"
+					onClick={handleGoToNext}>
+					다음
+				</Button>
 			}
-    </section>
-  );
+		</section>
+	);
 }

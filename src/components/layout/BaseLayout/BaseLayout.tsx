@@ -2,41 +2,42 @@ import { Outlet } from "react-router-dom";
 import styles from "./_base_layout.module.scss";
 import HeaderLayout from "../HeaderLayout/HeaderLayout";
 import { useAtom } from "jotai";
-import { currentUserAtom, isLoggedInAtom } from "@/store/userAtom.ts";
+import { currentUserAtom } from "@/store/userAtom.ts";
 import { authService } from "@/services/server/authService.ts";
 import { useEffect } from "react";
-// import { useQueryCurrentUser } from "@/hooks/useQueryCurrentUser.ts";
+import { useQuery } from "@tanstack/react-query";
+import { userKeys } from "@/data/queryKeys";
 
-export default function BaseLayout() {
-  // const { isLoggedIn, isLoading } = useQueryCurrentUser();
+export default function BaseLayout({ showHeader = true }: { showHeader?: boolean }) {
+	const [, setCurrentUser] = useAtom(currentUserAtom);
 
-  // if (isLoading) {
-  //   return <div className={styles["container"]}>"로딩중"</div>;
-  // }
-  const [currentUser, setCurrentUser] = useAtom(currentUserAtom);
-  const [isLoggedIn] = useAtom(isLoggedInAtom);
-  // const { pathname } = useLocation();
+	const { isLoading, data, isError } = useQuery({
+		queryKey: userKeys.user(),
+		queryFn: () => authService.fetchUser(),
+	});
 
-  // 전역에 사용자 정보 저장
-  const setLoggedInUser = async () => {
-    const currentUser = await authService.fetchUser();
-    setCurrentUser(currentUser);
-  };
+	useEffect(() => {
+		setCurrentUser(data!);
+	}, [data]);
 
-  useEffect(() => {
-    setLoggedInUser();
-  }, []);
+	if (isLoading) {
+		return <div>"로딩중"</div>;
+	}
 
-  return (
-    <div className={styles["container"]}>
-      <HeaderLayout isLoggedIn={isLoggedIn} currentUser={currentUser} />
+	if (isError) {
+		return <div>로그인 에러</div>;
+	}
 
-      <main className={styles["main"]}>
-        <div className={styles["inner-container"]}>
-          <Outlet />
-        </div>
-      </main>
-      <footer className={styles["footer"]}></footer>
-    </div>
-  );
+	return (
+		<div className={styles["container"]}>
+			{showHeader && <HeaderLayout />}
+
+			<main className={styles[showHeader ? "main--header" : "main"]}>
+				<div className={styles["inner-container"]}>
+					<Outlet />
+				</div>
+			</main>
+			<footer className={styles["footer"]}></footer>
+		</div>
+	);
 }

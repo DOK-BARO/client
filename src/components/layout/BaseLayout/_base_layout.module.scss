@@ -1,41 +1,48 @@
 @import "../../../styles/abstracts/variables";
 @import "../../../styles/abstracts/mixins";
 
+@mixin base-layout {
+	width: 1140px;
+	margin: 0 auto;
+	padding: 0 40px;
+}
+
 .container {
-  @include flex(column);
+	@include flex(column);
 
-  // padding: 0 320px;
-  // @include respond-to(2xl) {
-  //   padding: 0 240px;
-  // }
-  // @include respond-to(xl) {
-  //   padding: 0 150px;
-  // }
-  // @include respond-to(lg) {
-  //   padding: 0 128px;
-  // }
+	// padding: 0 320px;
+	// @include respond-to(2xl) {
+	//   padding: 0 240px;
+	// }
+	// @include respond-to(xl) {
+	//   padding: 0 150px;
+	// }
+	// @include respond-to(lg) {
+	//   padding: 0 128px;
+	// }
 
-  // @include respond-to(md) {
-  //   padding: 0 80px;
-  // }
+	// @include respond-to(md) {
+	//   padding: 0 80px;
+	// }
 
-  // 모바일
-  @include respond-to(sm) {
-    padding: 0 40px;
-    // flex-direction: column;
-    // align-items: center;
-  }
+	// 모바일
+	@include respond-to(sm) {
+		padding: 0 40px;
+		// flex-direction: column;
+		// align-items: center;
+	}
 
-  .main {
-    width: 1140px;
-    margin: 0 auto;
-    padding: 0 40px;
-    margin-top: 103px; // 헤더 크기(GNB 포함) 45 + 58 = 103 (최소 margin-top)
+	.main {
+		@include base-layout;
+		margin-top: 40px;
+		
+		&--header{
+			@include base-layout;
+			margin-top: 103px; // 헤더 크기(GNB 포함) 45 + 58 = 103 (최소 margin-top)
+		}
+	}
 
-    .inner-container {
-      width: 100%;
-    }
-  }
-  .footer {
-  }
+	.inner-container {
+		width: 100%;
+	}
 }

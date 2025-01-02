@@ -12,7 +12,7 @@ export interface ModalContentProps {
 export interface BottomButtonProps {
   color: ButtonColorProps;
   text: string;
-  handleClick: () => void;
+  onClick: () => void;
   disabled?: boolean;
 }
 
@@ -77,7 +77,7 @@ const Modal: React.FC<ModalProps> = ({
               {bottomButtons.map((button) => (
                 <Button
                   color={button.color}
-                  onClick={button.handleClick}
+                  onClick={button.onClick}
                   size="medium"
                   disabled={button.disabled}
                 >

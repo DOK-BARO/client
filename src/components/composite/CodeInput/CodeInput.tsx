@@ -7,16 +7,16 @@ import { systemDanger } from "@/styles/abstracts/colors";
 interface Props {
   codeList: string[];
   isMatch: boolean;
-  handleCodeChange: (e: React.ChangeEvent<HTMLInputElement>, i: number) => void;
-  handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>, i: number) => void;
+  onCodeChange: (e: React.ChangeEvent<HTMLInputElement>, i: number) => void;
+  onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>, i: number) => void;
   borderColor: "default" | "black";
   errorMessage: string;
 }
 export default function CodeInput({
   codeList,
   isMatch,
-  handleCodeChange,
-  handleKeyDown,
+  onCodeChange,
+  onKeyDown,
   borderColor,
   errorMessage,
 }: Props) {
@@ -30,8 +30,8 @@ export default function CodeInput({
             key={i}
             id={`code-input-${i}`}
             value={digit}
-            onChange={(e) => handleCodeChange(e, i)}
-            onKeyDown={(e) => handleKeyDown(e, i)}
+            onChange={(e) => onCodeChange(e, i)}
+            onKeyDown={(e) => onKeyDown(e, i)}
             maxLength={1}
             color={borderColor}
             isError={!isMatch}

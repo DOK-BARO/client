@@ -145,13 +145,54 @@ class StudyGroupService {
   }: {
     id: number;
     studyGroup: StudyGroupPostType;
-  }) => {
+  }): Promise<void> => {
     try {
       const response = await axiosInstance.put(
         `/study-groups/${id}`,
         studyGroup
       );
       console.log("response", response);
+    } catch (error) {
+      handleAxiosError(error);
+    }
+  };
+
+  changeStudyGroupLeader = async ({
+    studyGroupId,
+    newLeaderId,
+  }: {
+    studyGroupId: number;
+    newLeaderId: number;
+  }): Promise<void> => {
+    try {
+      const response = await axiosInstance.post(
+        `/study-groups/${studyGroupId}/change-leader`,
+        {
+          newLeaderId,
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      handleAxiosError(error);
+    }
+  };
+
+  // 스터디 그룹 탈퇴
+  withdrawStudyGroupMember = async ({
+    studyGroupId,
+    memberId,
+  }: {
+    studyGroupId: number;
+    memberId: number;
+  }): Promise<void> => {
+    try {
+      const response = await axiosInstance.post(
+        `/study-groups/${studyGroupId}/withdraw`,
+        {
+          memberId,
+        }
+      );
+      console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }

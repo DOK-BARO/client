@@ -19,10 +19,10 @@ import { useEffect } from "react";
 
 export default function QuizListSection({
   bookId,
-  handleGoToMakeQuiz,
+  onGoToMakeQuiz,
 }: {
   bookId: string;
-  handleGoToMakeQuiz: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onGoToMakeQuiz: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }) {
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
@@ -31,7 +31,7 @@ export default function QuizListSection({
   useFilter<BookQuizzesFilterType>(setFilterCriteria);
   const titleWhenNoData = "아직 만들어진 퀴즈가 없어요 😔";
   const buttonNameWhenNoData = "퀴즈 만들기";
-  const onClickBtnWhenNoData = handleGoToMakeQuiz;
+  const onClickBtnWhenNoData = onGoToMakeQuiz;
 
   const [paginationState, setPaginationState] = useAtom(paginationAtom);
   const totalPagesLength = paginationState.totalPagesLength;
@@ -103,7 +103,7 @@ export default function QuizListSection({
         <span className={styles["filter-title"]}>정렬기준</span>
         <div className={styles["filter-button-area"]}>
           <ListFilter
-            handleOptionClick={handleOptionClick}
+            onOptionClick={handleOptionClick}
             sortFilter={filterCriteria}
             filterOptions={filterOptions}
           />
@@ -121,7 +121,9 @@ export default function QuizListSection({
       <div className={styles["list-container"]}>
         {quizzes &&
           quizzes?.data.map((quiz) => (
-            <a href={`/quiz/${quiz.id}`}>
+            <a 
+						key={quiz.id}
+						href={`/quiz/${quiz.id}`}>
               <QuizItem key={quiz.id} quiz={quiz} />
             </a>
           ))}

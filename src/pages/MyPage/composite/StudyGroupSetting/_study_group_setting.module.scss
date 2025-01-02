@@ -5,6 +5,10 @@
   line-height: 1.5;
   position: relative;
 
+  &:not(:first-child) {
+    margin-top: 40px;
+  }
+
   .header-container {
     display: flex;
     align-items: center;

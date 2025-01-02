@@ -20,6 +20,7 @@ import { useEffect } from "react";
 import Pagination from "@/components/composite/Pagination/Pagination";
 import { parseQueryParams } from "@/utils/parseQueryParams";
 import { FetchStudyGroupsParams } from "@/types/ParamsType";
+import { NoDataSection } from "@/components/composite/NoDataSection/NoDataSection";
 
 const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
   {
@@ -49,10 +50,10 @@ export default function MyStudyGroups() {
   );
   const totalPagesLength = paginationState.totalPagesLength;
 
-  const sort = filterCriteria.sort; // 기본값: 가나다
+  const sort = filterCriteria.sort;
   const direction = filterCriteria.direction; // 기본값: ASC
   const page = paginationState.currentPage; // parseQueryParams함수 안에서 기본값 1로 설정
-  const size = 4; // 한번에 불러올 최대 길이: 책 목록에서는 10 고정값.
+  const size = 4; // 한번에 불러올 최대 길이
 
   const { data: myStudyGroupsData } = useQuery({
     queryKey: studyGroupKeys.list(
@@ -85,6 +86,8 @@ export default function MyStudyGroups() {
     console.log(filter);
   };
 
+  console.log(myStudyGroupsData);
+
   return (
     <section className={styles.container}>
       <div className={styles.header}>
@@ -101,30 +104,40 @@ export default function MyStudyGroups() {
       </div>
       <div className={styles["filter-container"]}>
         <ListFilter
-          handleOptionClick={handleOptionClick}
+          onOptionClick={handleOptionClick}
           sortFilter={filterCriteria}
           filterOptions={filterOptions}
         />
       </div>
-      {myStudyGroups ? (
-        <ol className={styles["study-list"]}>
-          {/* 스터디 그룹 아이템과 부족한 공간 채우기 */}
-          {[
-            ...myStudyGroups,
-            ...Array(size - (myStudyGroups.length % size || size)).fill(null),
-          ].map((studyGroup, index) =>
-            studyGroup ? (
-              <StudyGroupItem key={studyGroup.id} studyGroup={studyGroup} />
-            ) : (
-              <li
-                key={`empty-${index}`}
-                className={styles["study-list-empty-item"]}
-              />
-            )
-          )}
-        </ol>
+      {myStudyGroups && myStudyGroups.length === 0 && page === 1 ? (
+        <NoDataSection
+          title="아직 내 스터디 그룹이 없어요 😔"
+          buttonName="스터디 그룹 추가하기"
+          onClick={() => {}}
+        />
+      ) : (
+        myStudyGroups && (
+          <ol className={styles["study-list"]}>
+            {/* 스터디 그룹 아이템과 부족한 공간 채우기 */}
+            {[
+              ...myStudyGroups,
+              ...Array(size - (myStudyGroups.length % size || size)).fill(null),
+            ].map((studyGroup, index) =>
+              studyGroup ? (
+                <StudyGroupItem key={studyGroup.id} studyGroup={studyGroup} />
+              ) : (
+                <li
+                  key={`empty-${index}`}
+                  className={styles["study-list-empty-item"]}
+                />
+              )
+            )}
+          </ol>
+        )
+      )}
+      {isModalOpen ? (
+        <AddStudyGroupModal closeModal={closeModal} currentPage={page} />
       ) : null}
-      {isModalOpen ? <AddStudyGroupModal closeModal={closeModal} /> : null}
       {totalPagesLength ? (
         <Pagination
           type="state"

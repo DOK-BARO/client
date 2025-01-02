@@ -78,9 +78,7 @@ export default function Index() {
       const id: string = quizId.toString();
       const solvingId: string = solvingQuizId.toString();
       const quizTitle: string = quiz?.title ?? "";
-      navigate(`/quiz/result/${id}/${solvingId}/${quizTitle}`, {
-        replace: false,
-      });
+			navigate(`/quiz/result/${id}/${solvingId}/${quizTitle}/${quiz?.studyGroupId ?? ""}`,{replace: false,});
 
       return;
     } else {

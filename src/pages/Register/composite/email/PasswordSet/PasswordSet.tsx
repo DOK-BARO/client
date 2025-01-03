@@ -5,18 +5,15 @@ import useInput from "@/hooks/useInput.ts";
 import { passwordValidation } from "@/validation/passwordValidation.ts";
 import Input from "@/components/atom/Input/Input";
 import {
-  gray40,
   gray60,
-  systemDanger,
-  systemSuccess,
 } from "@/styles/abstracts/colors.ts";
 import Button from "@/components/atom/Button/Button";
 import { RegisterInfoType } from "@/types/UserType";
 import { registerInfoAtom } from "@/store/userAtom";
-import { Check } from "@/svg/Check";
 import { Invisible } from "@/svg/Invisible";
 import { Visible } from "@/svg/Visible";
-import { XSmall } from "@/svg/XSmall";
+import PasswordValidationMessage from "@/components/atom/PasswordValidationMessage/PasswordValidationMessage";
+import PasswordMatchCheckMessage from "@/components/atom/PasswordMatchCheckMessage/PasswordMatchCheckMessage";
 
 export default function PasswordSet({
   setStep,
@@ -64,20 +61,6 @@ export default function PasswordSet({
   const isPasswordMatched = password === passwordCheck && passwordCheck !== "";
 
   // TODO: isSuccess 추가하고 적용시키기
-  const renderPasswordValidationMessage = () => (
-    <div className={styles["password-message-container"]}>
-      {Object.entries(passwordValidations).map(([key, isValid]) => (
-        <span key={key} className={styles["icon-container"]}>
-          <p style={{ color: isValid ? systemSuccess : gray40 }}>{key}</p>
-          <Check
-            width={20}
-            height={20}
-            stroke={isValid ? systemSuccess : gray40}
-          />
-        </span>
-      ))}
-    </div>
-  );
 
   return (
     <section className={styles["password-set"]}>
@@ -90,7 +73,7 @@ export default function PasswordSet({
       <Input
         type={isPasswordVisible ? "text" : "password"}
         isSuccess={isPasswordValid}
-        message={renderPasswordValidationMessage()}
+        message={<PasswordValidationMessage passwordValidations={passwordValidations}/>}
         rightIcon={
           <Button iconOnly onClick={handleVisibleToggle}>
             {isPasswordVisible ? (
@@ -136,18 +119,7 @@ export default function PasswordSet({
             isError={!isPasswordMatched && passwordCheck !== ""}
             isSuccess={isPasswordMatched}
             message={
-              passwordCheck && (
-                <span className={styles["password-check-message-container"]}>
-                  <p>
-                    {isPasswordMatched ? "비밀번호 일치" : "비밀번호 불일치"}
-                  </p>
-                  {isPasswordMatched ? (
-                    <Check stroke={systemSuccess} width={20} height={20} />
-                  ) : (
-                    <XSmall stroke={systemDanger} width={20} height={20} />
-                  )}
-                </span>
-              )
+              passwordCheck &&  <PasswordMatchCheckMessage isPasswordMatched={isPasswordMatched}/>
             }
           />
         </>

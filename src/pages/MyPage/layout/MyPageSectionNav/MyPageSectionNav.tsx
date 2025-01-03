@@ -3,6 +3,7 @@ import Button from "@/components/atom/Button/Button";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SectionNavType } from "@/types/SectionNavType";
 import { useEffect, useState } from "react";
+import { isNumberString } from "@/utils/isNumberString";
 
 interface Prop {
   sectionNavList: SectionNavType[];
@@ -16,8 +17,15 @@ export default function MyPageSectionNav({ sectionNavList }: Prop) {
     useState<boolean>(false);
 
   useEffect(() => {
-    const currentPath = location.pathname.replace("/my/", "");
-    setActiveLink(currentPath);
+    const paths = location.pathname.split("/");
+    const basePath = paths[1] === "my" ? paths[2] : null;
+    const subPath = paths[3];
+
+    if (subPath === undefined || isNumberString(subPath)) {
+      setActiveLink(basePath);
+    } else {
+      setActiveLink(`${basePath}/${subPath}`);
+    }
   }, [location.pathname]);
 
   const handleSectionChange = (

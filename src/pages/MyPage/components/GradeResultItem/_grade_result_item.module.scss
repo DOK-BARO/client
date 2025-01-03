@@ -1,0 +1,57 @@
+@import "../../../../styles/abstracts/mixins";
+@import "../../../../styles/abstracts/variables";
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  background-color: $background;
+  padding: 12.75px 12px;
+  border-radius: 6px;
+  font-size: $font-size-medium;
+  font-weight: $font-weight-medium;
+  line-height: 1.5;
+
+  .score-container {
+    font-size: $font-size-small;
+    color: $gray-60;
+    p {
+      display: inline-block;
+    }
+    .score {
+      font-size: $font-size-medium;
+      color: $gray-90;
+    }
+  }
+
+  .nickname-container {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    .grade-container {
+      @include flex(row, center);
+      position: relative;
+      font-weight: $font-weight-medium;
+
+      .grade {
+        position: absolute;
+        font-size: 10px;
+        color: $gray-00;
+      }
+    }
+  }
+  &.active {
+    background-color: $primary;
+    color: $gray-00;
+
+    .score-container {
+      color: rgba($secondary, 0.5);
+      .score {
+        color: $gray-00;
+      }
+    }
+    .grade {
+      color: $primary;
+    }
+  }
+}

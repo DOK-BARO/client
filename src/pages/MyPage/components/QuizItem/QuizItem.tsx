@@ -9,6 +9,7 @@ import Modal from "@/components/atom/Modal/Modal";
 import { useQuery } from "@tanstack/react-query";
 import { studyGroupKeys } from "@/data/queryKeys";
 import { studyGroupService } from "@/services/server/studyGroupService";
+import GradeResultItem from "../GradeResultItem/GradeResultItem";
 
 interface Prop {
   quizData: StudyGroupMyUnSolvedQuizType;
@@ -25,29 +26,50 @@ export default function QuizItem({ quizData, isSolved, studyGroupId }: Prop) {
   const { openModal, closeModal, isModalOpen } = useModal();
 
   // fetchQuizStudyGroupGradeResult
-  const { data: gradeResult, isLoading: isGradeResultLoading } = useQuery({
-    queryKey: studyGroupKeys.quizGradeResult(studyGroupId!, quizData.quiz.id),
-    queryFn: () =>
-      studyGroupId
-        ? studyGroupService.fetchQuizStudyGroupGradeResult({
-            studyGroupId,
-            quizId: quizData.quiz.id,
-          })
-        : null,
-    enabled: !!studyGroupId,
-  });
+  // const { data: gradeResult, isLoading: isGradeResultLoading } = useQuery({
+  //   queryKey: studyGroupKeys.quizGradeResult(studyGroupId!, quizData.quiz.id),
+  //   queryFn: () =>
+  //     studyGroupId
+  //       ? studyGroupService.fetchQuizStudyGroupGradeResult({
+  //           studyGroupId,
+  //           quizId: quizData.quiz.id,
+  //         })
+  //       : null,
+  //   enabled: !!studyGroupId,
+  // });
 
-  console.log(gradeResult);
+  // console.log(gradeResult);
 
   return (
     <li className={styles.container}>
-      {isModalOpen ? (
+      {true ? (
         <Modal
           closeModal={closeModal}
           title={`${quizData.quiz.title} 점수보기`}
           contents={[
-            { title: "제출한 스터디원", content: <div>최바로</div> },
-            { title: "미제출 스터디원", content: <div>박바로</div> },
+            {
+              title: "제출한 스터디원",
+              content: (
+                <GradeResultItem
+                  nickname="최바로"
+                  isActive={false}
+                  score={10}
+                  grade={1}
+                />
+              ),
+            },
+            {
+              title: "미제출 스터디원",
+              content: (
+                <GradeResultItem
+                  nickname="최바로"
+                  isActive={false}
+                  score={10}
+                  grade={1}
+                  isSubmitted={false}
+                />
+              ),
+            },
           ]}
           bottomButtons={[
             { text: "닫기", color: "primary", onClick: closeModal },

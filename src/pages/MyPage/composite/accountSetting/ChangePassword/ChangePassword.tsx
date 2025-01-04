@@ -9,8 +9,13 @@ import { Invisible } from "@/svg/Invisible";
 import { gray60 } from "@/styles/abstracts/colors";
 import Input from "@/components/atom/Input/Input";
 import PasswordMatchCheckMessage from "@/components/atom/PasswordMatchCheckMessage/PasswordMatchCheckMessage";
+import { useMutation } from "@tanstack/react-query";
+import { ErrorType } from "@/types/ErrorType";
+import { authService } from "@/services/server/authService";
+import { useNavigate } from "react-router-dom";
 // TODO: 대소문자 규정 체크 필요 (현재 대문자 없어도 valid 처리됨)
 export default function ChangePassword() {
+	const navigate = useNavigate();
 	const { value: currentPassword, onChange: onCurrentPasswordChange } =
 		useInput("");
 	const {
@@ -25,8 +30,21 @@ export default function ChangePassword() {
 	const isPasswordMatched = password === passwordCheck && passwordCheck !== "";
 	const [isPasswordVisible, setIsPasswordVisibleCheck] =
 		useState<boolean>(false);
+	const { mutate: changePassword } = useMutation<
+		void,
+		ErrorType,
+		{ oldPassword: string, newPassword: string }
+	>({
+		mutationFn: ({ oldPassword, newPassword }) => authService.changePassword({ oldPassword, newPassword }),
+		onSuccess: () => {
+			// TODO: 변경하고 결과가 확인안됨
+			navigate("/my/settings/change-password");
+		}
+	});
+
+
 	const handleSubmit = (): void => {
-		// TODO: 비밀번호 변경 요청
+		changePassword({oldPassword: currentPassword, newPassword: password});
 	}
 	const handleMoveToNext = (): void => {
 		setSubStep(2);

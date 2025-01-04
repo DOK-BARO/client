@@ -1,6 +1,6 @@
 import Button from "@/components/atom/Button/Button";
-import styles from "./account_setting.module.scss";
-import ProfileImageEditor from "../../components/ProfileImageEditor/ProfileImageEditor";
+import styles from "./_edit_my_info.module.scss";
+import ProfileImageEditor from "../../../components/ProfileImageEditor/ProfileImageEditor";
 import { useEffect, useState } from "react";
 import Input from "@/components/atom/Input/Input";
 import useInput from "@/hooks/useInput";

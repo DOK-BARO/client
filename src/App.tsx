@@ -23,12 +23,13 @@ import QuizResult from "./pages/QuizResult/index.tsx";
 import QuizReview from "./pages/QuizReview/index.tsx";
 import MyMadeQuiz from "./pages/MyPage/composite/MyMadeQuiz/MyMadeQuiz.tsx";
 import SolvedQuiz from "./pages/MyPage/composite/SolvedQuiz/SolvedQuiz.tsx";
-import EditMyInfo from "./pages/MyPage/composite/accountSetting/EditMyInfo.tsx";
+import EditMyInfo from "./pages/MyPage/composite/accountSetting/EditMyInfo/EditMyInfo.tsx";
 import MyStudyGroups from "./pages/MyPage/composite/MyStudyGroups/MyStudyGroups.tsx";
 import StudyGroup from "./pages/MyPage/composite/StudyGroup/StudyGroup.tsx";
 import StudyGroupSetting from "./pages/MyPage/composite/StudyGroupSetting/StudyGroupSetting.tsx";
 import BaseLayout from "./components/layout/BaseLayout/BaseLayout.tsx";
 import ToastPortal from "./components/layout/ToastPortal/ToastPortal.tsx";
+import ChangePassword from "./pages/MyPage/composite/accountSetting/ChangePassword/ChangePassword.tsx";
 
 function App() {
   // TODO: 분리하기
@@ -113,7 +114,6 @@ function App() {
             },
             {
               path: "settings",
-              element: <EditMyInfo />,
               children: [
                 {
                   index: true,
@@ -125,7 +125,7 @@ function App() {
                 },
                 {
                   path: "change-password",
-                  element: <></>,
+                  element: <ChangePassword></ChangePassword>,
                 },
                 {
                   path: "delete-account",

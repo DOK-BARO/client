@@ -62,12 +62,9 @@ const LoginModal = ({ closeModal }: Props) => {
     mutationFn: (loginInfo) => authService.emailLogin(loginInfo),
     onSuccess: () => {
       toast.success("로그인이 완료되었습니다.");
-      // const currentUser = await authService.fetchUser();
-      // if (currentUser) {
-      //   setCurrentUser(currentUser);
-      // }
       closeModal();
-      navigate("/");
+			navigate('/');
+      navigate(0);
     },
     onError: () => {
       setIsMatched(false);

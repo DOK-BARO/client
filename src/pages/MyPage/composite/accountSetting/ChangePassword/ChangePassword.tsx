@@ -13,6 +13,8 @@ import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";
 import { authService } from "@/services/server/authService";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+
 // TODO: 대소문자 규정 체크 필요 (현재 대문자 없어도 valid 처리됨)
 export default function ChangePassword() {
 	const navigate = useNavigate();
@@ -37,8 +39,8 @@ export default function ChangePassword() {
 	>({
 		mutationFn: ({ oldPassword, newPassword }) => authService.changePassword({ oldPassword, newPassword }),
 		onSuccess: () => {
-			// TODO: 변경하고 결과가 확인안됨
-			navigate("/my/settings/change-password");
+			toast.success("비밀번호 변경이 완료되었습니다.");
+			navigate(0);
 		}
 	});
 

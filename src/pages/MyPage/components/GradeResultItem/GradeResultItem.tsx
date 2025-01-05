@@ -2,16 +2,17 @@ import { ScoreBadge } from "@/svg/ScoreBadge";
 import styles from "./_grade_result_item.module.scss";
 import { gray0, gray30 } from "@/styles/abstracts/colors";
 import memberCircle from "/public/assets/svg/myPage/member-circle.svg";
+import { StudyGroupMemberType } from "@/types/StudyGroupType";
 interface Props {
   isActive: boolean; // isMe
-  nickname: string;
+  member: StudyGroupMemberType;
   score: number;
   grade: number;
   isSubmitted?: boolean;
 }
 export default function GradeResultItem({
   isActive = false,
-  nickname,
+  member,
   score,
   grade = 1,
   isSubmitted = true,
@@ -30,9 +31,14 @@ export default function GradeResultItem({
             <p className={styles.grade}>{grade}</p>
           </div>
         ) : (
-          <img src={memberCircle} width={18} height={18} />
+          <img
+            src={member.profileImageUrl ?? memberCircle}
+            width={18}
+            height={18}
+            className={styles["profile-image"]}
+          />
         )}
-        <p className={styles.nickname}>{nickname}</p>
+        <p className={styles.nickname}>{member.nickname}</p>
       </span>
       <span className={styles["score-container"]}>
         {isSubmitted ? (

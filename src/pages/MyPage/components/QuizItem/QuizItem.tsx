@@ -22,55 +22,68 @@ export default function QuizItem({ quizData, isSolved, studyGroupId }: Prop) {
   const handleGoToSolveQuiz = () => {
     navigate(`/quiz/play/${quizData.quiz.id}`);
   };
-  console.log(quizData);
   const { openModal, closeModal, isModalOpen } = useModal();
 
-  // fetchQuizStudyGroupGradeResult
-  // const { data: gradeResult, isLoading: isGradeResultLoading } = useQuery({
-  //   queryKey: studyGroupKeys.quizGradeResult(studyGroupId!, quizData.quiz.id),
-  //   queryFn: () =>
-  //     studyGroupId
-  //       ? studyGroupService.fetchQuizStudyGroupGradeResult({
-  //           studyGroupId,
-  //           quizId: quizData.quiz.id,
-  //         })
-  //       : null,
-  //   enabled: !!studyGroupId,
-  // });
-
-  // console.log(gradeResult);
+  const { data: gradeResult, isLoading: isGradeResultLoading } = useQuery({
+    queryKey: studyGroupKeys.quizGradeResult(studyGroupId!, quizData.quiz.id),
+    queryFn: () =>
+      studyGroupId
+        ? studyGroupService.fetchQuizStudyGroupGradeResult({
+            studyGroupId,
+            quizId: quizData.quiz.id,
+          })
+        : null,
+    enabled: !!studyGroupId,
+  });
 
   return (
     <li className={styles.container}>
-      {true ? (
+      {isModalOpen ? (
         <Modal
           closeModal={closeModal}
           title={`${quizData.quiz.title} 점수보기`}
-          contents={[
-            {
-              title: "제출한 스터디원",
-              content: (
-                <GradeResultItem
-                  nickname="최바로"
-                  isActive={false}
-                  score={10}
-                  grade={1}
-                />
-              ),
-            },
-            {
-              title: "미제출 스터디원",
-              content: (
-                <GradeResultItem
-                  nickname="최바로"
-                  isActive={false}
-                  score={10}
-                  grade={1}
-                  isSubmitted={false}
-                />
-              ),
-            },
-          ]}
+          contents={
+            !isGradeResultLoading
+              ? [
+                  {
+                    title: "제출한 스터디원",
+                    content: gradeResult?.solvedMember ? (
+                      <>
+                        {gradeResult?.solvedMember.map((memberData) => (
+                          <GradeResultItem
+                            member={memberData.member}
+                            isActive={false}
+                            score={10}
+                            grade={1}
+                          />
+                        ))}
+                      </>
+                    ) : (
+                      <></>
+                    ),
+                  },
+                  {
+                    title: "미제출 스터디원",
+                    content: gradeResult?.unSolvedMember ? (
+                      <>
+                        {gradeResult?.unSolvedMember.map((member) => (
+                          <GradeResultItem
+                            key={member.id}
+                            member={member}
+                            isActive={false}
+                            score={10}
+                            grade={1}
+                            isSubmitted={false}
+                          />
+                        ))}
+                      </>
+                    ) : (
+                      <></>
+                    ),
+                  },
+                ]
+              : []
+          }
           bottomButtons={[
             { text: "닫기", color: "primary", onClick: closeModal },
           ]}

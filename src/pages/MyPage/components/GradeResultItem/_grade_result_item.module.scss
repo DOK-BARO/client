@@ -39,6 +39,10 @@
         color: $gray-00;
       }
     }
+
+    .profile-image {
+      border-radius: 50%;
+    }
   }
   &.active {
     background-color: $primary;

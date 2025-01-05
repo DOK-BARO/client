@@ -60,7 +60,7 @@ export interface StudyGroupMySolvedQuizType
   solvedAt: string;
 }
 
-interface StudyGroupMemberType {
+export interface StudyGroupMemberType {
   id: number;
   nickname: string;
   profileImageUrl: string;
@@ -76,5 +76,5 @@ export interface QuizStudyGroupGradeResult {
     solvingQuizId: number;
     correctCount: number;
   }[];
-  unsolvedMember: StudyGroupMemberType[];
+  unSolvedMember: StudyGroupMemberType[];
 }

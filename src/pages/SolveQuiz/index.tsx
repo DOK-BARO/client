@@ -143,10 +143,11 @@ export default function Index() {
 						>
 							해설
 						</Button>
-						<ReactMarkdown rehypePlugins={[rehypeHighlight]}>
-							{questionCheckedResult?.answerExplanationContent}
-						</ReactMarkdown>
-
+						<div className={` ${styles["markdown-content"]}`}>
+							<ReactMarkdown rehypePlugins={[rehypeHighlight]}>
+								{questionCheckedResult?.answerExplanationContent}
+							</ReactMarkdown>
+						</div>
 						{questionCheckedResult?.answerExplanationImages[0] && (
 							<section className={styles["image-area"]}>
 								{questionCheckedResult?.answerExplanationImages.map(

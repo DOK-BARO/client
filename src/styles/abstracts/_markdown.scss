@@ -1,0 +1,80 @@
+@mixin title-display {
+	display: block;
+	width: 100%;
+}
+
+.markdown-content h1 {
+	@include title-display;
+	font-size: 2em;
+	font-weight: bold;
+	margin: 0.67em 0;
+}
+
+.markdown-content h2 {
+	@include title-display;
+	font-size: 1.5em;
+	font-weight: bold;
+	margin: 0.75em 0;
+}
+
+.markdown-content h3 {
+	@include title-display;
+	font-size: 1.17em;
+	font-weight: bold;
+	margin: 0.83em 0;
+}
+
+.markdown-content h4 {
+	@include title-display;
+	font-size: 1em;
+	font-weight: bold;
+	margin: 0.67em 0;
+}
+
+.markdown-content h5 {
+	@include title-display;
+	font-size: 0.83em;
+	font-weight: bold;
+	margin: 0.5em 0;
+}
+
+.markdown-content h6 {
+	@include title-display;
+	font-size: 0.67em;
+	font-weight: bold;
+	margin: 0.5em 0;
+}
+
+.markdown-content p {
+	display: block;
+	width: 100%;
+	margin: 1em 0;
+}
+
+.markdown-content ul {
+	list-style: disc inside;
+	margin: 1em 0;
+	padding-left: 1.5em;
+}
+
+.markdown-content ol {
+	list-style: decimal inside;
+	margin: 1em 0;
+	padding-left: 1.5em;
+}
+
+.markdown-content strong {
+	font-weight: bold;
+}
+
+.markdown-content em {
+	font-style: italic;
+}
+
+.markdown-content u {
+	text-decoration: underline;
+}
+
+.markdown-content del {
+	text-decoration: line-through;
+}

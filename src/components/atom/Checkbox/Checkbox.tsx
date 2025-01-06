@@ -90,7 +90,7 @@ export default function CheckBox({
 						fullWidth
 					/>
 				) : (
-					<div className={`${styles["option-label-value"]}`}>
+					<div className={`${styles["option-label-value"]} ${styles["markdown-content"]}`}>
 						<ReactMarkdown rehypePlugins={[rehypeHighlight]}>
 							{value}
 						</ReactMarkdown>

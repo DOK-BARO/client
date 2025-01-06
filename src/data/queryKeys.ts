@@ -1,5 +1,6 @@
 import {
   FetchBooksParams,
+  FetchMyMadeQuizzesParams,
   FetchQuizzesParams,
   FetchReviewsParams,
   FetchStudyGroupsParams,
@@ -36,7 +37,7 @@ export const userKeys = {
 };
 
 export const quizKeys = {
-  myQuiz: () => ["myQuiz"] as const,
+  myQuiz: (params:FetchMyMadeQuizzesParams) => ["myQuiz",params] as const,
   detail: (id: string | undefined) => ["quizDetail", id] as const,
   explanation: (id: string | undefined) => ["quizExplanation", id] as const,
   result: (solvingQuizId: string) => ["quizResult", solvingQuizId],

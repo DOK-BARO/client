@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { isNumberString } from "@/utils/isNumberString";
 import { useAtom } from "jotai";
 import { currentUserAtom } from "@/store/userAtom";
-
 interface Prop {
 	sectionNavList: SectionNavType[];
 }
@@ -69,10 +68,8 @@ export default function MyPageSectionNav({ sectionNavList }: Prop) {
 									sectionNavItem.subTitles.map((subNavItem, index: number) => {
 										const isEmailAuthType: boolean = (currentUser?.accountType === "EMAIL");
 										const isCurrentTitlePassword: boolean = subNavItem.title === "비밀번호 변경";
-										console.log(`${sectionNavItem.title}1111"`);
 										if ((!isEmailAuthType) && isCurrentTitlePassword) {
-											console.log(`${isEmailAuthType}!!!"`);
-											return (<div></div>);
+											return null;
 										}
 										return (<li key={index}>
 											<Button

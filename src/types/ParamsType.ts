@@ -54,6 +54,13 @@ export interface FetchQuizzesParams {
   direction: string;
 }
 
+export interface FetchMyMadeQuizzesParams {
+  page: string;
+  size: string;
+  sort: string;
+  direction: string;
+}
+
 // STUDY GROUP
 export interface FetchStudyGroupsParams {
   page?: number;

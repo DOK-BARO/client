@@ -11,6 +11,7 @@ export type UserRoleType = "USER" | "ADMIN";
 export interface UserType extends UserBaseType {
   certificationId: string;
   role: UserRoleType[];
+	accountType: "SOCIAL" | "EMAIL";
 }
 // 회원가입에서만 사용되는 타입
 export interface RegisterInfoType extends UserBaseType {

@@ -12,16 +12,17 @@ import QuizLinkItem from "./composite/QuizLinkItem/QuizLinkItem";
 
 export default function Index() {
   const { id } = useParams();
-  if (!id) {
-    return;
-  }
+
   const { data: explanation, isLoading } = useQuery({
     queryKey: quizKeys.explanation(id),
-    queryFn: async () => await quizService.fetchQuizExplanation(id),
+    queryFn: () => (id ? quizService.fetchQuizExplanation(id) : null),
+    enabled: !!id,
   });
   const { data: reviewsTotalScore } = useQuery<ReviewsTotalScoreType | null>({
     queryKey: reviewKeys.totalScore(Number(id)),
-    queryFn: () => reviewService.fetchReviewsTotalScore(Number(id)),
+    queryFn: () =>
+      id ? reviewService.fetchReviewsTotalScore(Number(id)) : null,
+    enabled: !!id,
   });
 
   if (isLoading) {
@@ -44,14 +45,16 @@ export default function Index() {
     (total, item) => total + item.selectCount,
     0
   );
-  const roundedAverageRating = parseFloat(
-    reviewsTotalScore.averageStarRating.toFixed(1)
-  );
-  const averageDifficulty = Math.max(
-    ...Object.entries(reviewsTotalScore.difficulty).map(
-      ([, data]) => data.selectCount
-    )
-  );
+  const roundedAverageRating = reviewsTotalScore.averageStarRating
+    ? parseFloat(reviewsTotalScore.averageStarRating.toFixed(1))
+    : 0;
+  const averageDifficulty = reviewsTotalScore.difficulty
+    ? Math.max(
+        ...Object.entries(reviewsTotalScore.difficulty).map(
+          ([, data]) => data.selectCount
+        )
+      )
+    : 0;
 
   return (
     <section className={styles.container}>

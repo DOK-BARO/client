@@ -1,0 +1,9 @@
+@import "../../../../../styles/abstracts/mixins";
+@import "../../../../../styles/abstracts/variables";
+
+.container {
+	@include flex(column);
+}
+
+
+

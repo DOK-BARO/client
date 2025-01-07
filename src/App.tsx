@@ -30,6 +30,7 @@ import StudyGroupSetting from "./pages/MyPage/composite/StudyGroupSetting/StudyG
 import BaseLayout from "./components/layout/BaseLayout/BaseLayout.tsx";
 import ToastPortal from "./components/layout/ToastPortal/ToastPortal.tsx";
 import ChangePassword from "./pages/MyPage/composite/accountSetting/ChangePassword/ChangePassword.tsx";
+import DeleteAccount from "./pages/MyPage/composite/accountSetting/DeleteAccount/DeleteAccount.tsx";
 
 function App() {
   // TODO: 분리하기
@@ -129,7 +130,7 @@ function App() {
                 },
                 {
                   path: "delete-account",
-                  element: <></>,
+                  element: <DeleteAccount></DeleteAccount>,
                 },
               ],
             },

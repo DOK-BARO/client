@@ -70,8 +70,7 @@ export default function QuizListLayout({
 									<div className={styles["info"]}>
 										<img src={myQuiz.bookImageUrl}></img>
 										<div className={styles["sub-info"]}>
-											{/* TODO: 최종 출제일이 없음 -> api수정 기다리는 중 */}
-											<span className={styles["label"]}>최종 수정일</span>
+											<span className={styles["label"]}>{("updatedAt" in myQuiz) ? "최종 수정일" : "최종 제출일"}</span>
 											<span className={styles["quiz-updated-at"]}>
 												{formattedDate}
 											</span>

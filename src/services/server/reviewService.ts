@@ -80,5 +80,27 @@ class ReviewService {
       handleAxiosError(error);
     }
   };
+
+  // 신고하기
+  reportQuizReview = async ({
+    quizReviewId,
+    content,
+  }: {
+    quizReviewId: number;
+    content: string;
+  }): Promise<{ id: number } | null> => {
+    console.log(quizReviewId, content);
+    try {
+      const response = await axiosInstance.post("/quiz-review-reports", {
+        quizReviewId,
+        content,
+      });
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      handleAxiosError(error);
+      return null;
+    }
+  };
 }
 export const reviewService = new ReviewService();

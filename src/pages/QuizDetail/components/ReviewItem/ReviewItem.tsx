@@ -59,9 +59,16 @@ Props) {
     openModal: openDeleteModal,
     closeModal: closeDeleteModal,
   } = useModal();
+  const {
+    isModalOpen: isReportModalOpen,
+    openModal: openReportModal,
+    closeModal: closeReportModal,
+  } = useModal();
   const { value: comment, onChange: onCommentChange } = useTextarea(
     review.comment ?? ""
   );
+  const { value: reportContent, onChange: onReportContentChange } =
+    useTextarea("");
 
   const { mutate: updateReview } = useMutation<
     void,
@@ -101,6 +108,31 @@ Props) {
     },
   });
 
+  const { mutate: reportReview } = useMutation<
+    { id: number } | null,
+    ErrorType,
+    { quizReviewId: number; content: string }
+  >({
+    mutationFn: ({ quizReviewId, content }) =>
+      reviewService.reportQuizReview({ quizReviewId, content }),
+    onSuccess: (data) => {
+      if (!data) {
+        toast.error("리뷰 신고에 실패했습니다.");
+        return;
+      }
+
+      queryClient.invalidateQueries({
+        queryKey: reviewKeys.list({ quizId: review.quizId }),
+      });
+      queryClient.invalidateQueries({
+        queryKey: reviewKeys.totalScore(review.quizId),
+      });
+
+      toast.success("리뷰가 신고되었습니다.");
+      closeReportModal();
+    },
+  });
+
   const handleUpdateReview = () => {
     const reviewToUpdate: ReviewPostType = {
       starRating: starRating,
@@ -113,6 +145,10 @@ Props) {
 
   const handleDeleteReview = () => {
     deleteReview(review.id);
+  };
+
+  const handleReportReview = () => {
+    reportReview({ quizReviewId: review.id, content: reportContent });
   };
 
   const difficulties: DifficultyType[] = [
@@ -221,6 +257,36 @@ Props) {
           ]}
         />
       ) : null}
+
+      {isReportModalOpen ? (
+        <Modal
+          closeModal={closeReportModal}
+          contents={[
+            {
+              title: `${quizTitle}에 남긴 후기를 신고하시겠어요?`,
+              content: (
+                <div>
+                  <p className={styles["report-text"]}>
+                    신고된 후기는 검토 후 삭제됩니다.
+                  </p>
+                  <Textarea
+                    maxLengthShow
+                    maxLength={200}
+                    onChange={onReportContentChange}
+                    value={reportContent}
+                    id="report-content"
+                    rows={5}
+                    size="small"
+                  />
+                </div>
+              ),
+            },
+          ]}
+          bottomButtons={[
+            { text: "신고하기", color: "primary", onClick: handleReportReview },
+          ]}
+        />
+      ) : null}
       <div className={styles["review-info"]}>
         <FiveStar rating={review.starRating} size="small" />
         <p className={styles.writer}>{review.writerNickname}</p>
@@ -250,7 +316,12 @@ Props) {
       <p className={styles.comment}>{review.comment}</p>
       <div className={styles["report-container"]}>
         {isMyReview ? null : (
-          <Button color="transparent" size="xsmall" className={styles.report}>
+          <Button
+            color="transparent"
+            size="xsmall"
+            className={styles.report}
+            onClick={openReportModal}
+          >
             신고하기
           </Button>
         )}

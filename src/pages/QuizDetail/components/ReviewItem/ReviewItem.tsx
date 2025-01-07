@@ -21,6 +21,7 @@ import { reviewKeys } from "@/data/queryKeys";
 interface Props {
   review: ReviewType;
   isMyReview: boolean;
+  quizTitle: string;
   // onEditReview: () => void;
   // onDeleteReview: () => void;
 }
@@ -41,6 +42,7 @@ const ratingMapping: Record<RatingType, string> = {
 export default function ReviewItem({
   review,
   isMyReview,
+  quizTitle,
 }: // onEditReview,
 // onDeleteReview,
 Props) {
@@ -52,11 +54,11 @@ Props) {
     openModal: openEditModal,
     closeModal: closeEditModal,
   } = useModal();
-  // const {
-  //   isModalOpen: isDeleteModalOpen,
-  //   openModal: openDeleteModal,
-  //   closeModal: closeDeleteModal,
-  // } = useModal();
+  const {
+    isModalOpen: isDeleteModalOpen,
+    openModal: openDeleteModal,
+    closeModal: closeDeleteModal,
+  } = useModal();
   const { value: comment, onChange: onCommentChange } = useTextarea(
     review.comment ?? ""
   );
@@ -84,6 +86,21 @@ Props) {
     },
   });
 
+  const { mutate: deleteReview } = useMutation<void, ErrorType, number>({
+    mutationFn: (id) => reviewService.deleteQuizReview(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: reviewKeys.list({ quizId: review.quizId }),
+      });
+      queryClient.invalidateQueries({
+        queryKey: reviewKeys.totalScore(review.quizId),
+      });
+
+      toast.success("리뷰가 삭제되었습니다.");
+      closeDeleteModal();
+    },
+  });
+
   const handleUpdateReview = () => {
     const reviewToUpdate: ReviewPostType = {
       starRating: starRating,
@@ -92,6 +109,10 @@ Props) {
       quizId: review.quizId,
     };
     updateReview({ id: review.id, review: reviewToUpdate });
+  };
+
+  const handleDeleteReview = () => {
+    deleteReview(review.id);
   };
 
   const difficulties: DifficultyType[] = [
@@ -185,6 +206,21 @@ Props) {
           ]}
         />
       ) : null}
+
+      {isDeleteModalOpen ? (
+        <Modal
+          closeModal={closeDeleteModal}
+          contents={[
+            {
+              title: `${quizTitle}에 남긴 후기를 삭제하시겠어요?`,
+              content: <p>삭제된 후기는 복구되지 않습니다.</p>,
+            },
+          ]}
+          bottomButtons={[
+            { text: "삭제하기", color: "primary", onClick: handleDeleteReview },
+          ]}
+        />
+      ) : null}
       <div className={styles["review-info"]}>
         <FiveStar rating={review.starRating} size="small" />
         <p className={styles.writer}>{review.writerNickname}</p>
@@ -206,7 +242,7 @@ Props) {
             <Button
               icon={<img src={trash} alt="삭제하기" width={16} height={16} />}
               iconOnly
-              // onClick={onDeleteReview}
+              onClick={openDeleteModal}
             />
           </span>
         ) : null}

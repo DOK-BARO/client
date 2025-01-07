@@ -46,9 +46,10 @@ const filterOptions: FilterOptionType<ReviewsFilterType>[] = [
 ];
 interface Props {
   quizId: number;
+  quizTitle: string;
 }
 
-export default function ReviewList({ quizId }: Props) {
+export default function ReviewList({ quizId, quizTitle }: Props) {
   const { navigateWithParams } = useNavigateWithParams("quiz");
   const [, setFilterCriteria] = useAtom(reviewFilterAtom);
   useFilter<ReviewsFilterType>(setFilterCriteria);
@@ -144,6 +145,7 @@ export default function ReviewList({ quizId }: Props) {
               key={review.id}
               review={review}
               isMyReview={review.writerId === currentUser.id}
+              quizTitle={quizTitle}
               // onDeleteReview={handleDeleteReview}
               // onEditReview={openEditModal}
             />

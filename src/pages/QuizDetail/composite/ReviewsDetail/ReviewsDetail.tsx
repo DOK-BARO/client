@@ -8,11 +8,13 @@ interface Props {
   reviewsTotalScore: ReviewsTotalScoreType;
   reviewCount: number;
   roundedAverageRating: number;
+  quizTitle: string;
 }
 export default function ReviewsDetail({
   reviewsTotalScore,
   reviewCount,
   roundedAverageRating,
+  quizTitle,
 }: Props) {
   return (
     <section className={styles.container}>
@@ -29,7 +31,7 @@ export default function ReviewsDetail({
             </span>
             <QuizDifficultyChart difficulty={reviewsTotalScore.difficulty} />
           </div>
-          <ReviewList quizId={reviewsTotalScore.quizId} />
+          <ReviewList quizId={reviewsTotalScore.quizId} quizTitle={quizTitle} />
         </div>
       ) : null}
     </section>

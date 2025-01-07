@@ -1,8 +1,5 @@
 @import "../../../../../styles/abstracts/variables";
 @import "../../../../../styles/abstracts/mixins";
-.sr-only {
-  @include sr-only;
-}
 
 .book-list-container {
   margin-top: 16px;

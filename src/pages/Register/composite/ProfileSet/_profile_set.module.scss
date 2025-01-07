@@ -6,9 +6,6 @@
   flex-direction: column;
   gap: 32px;
 
-  h3 {
-    @include sr-only;
-  }
   .description {
     margin-top: 32px;
     font-size: $font-size-large;

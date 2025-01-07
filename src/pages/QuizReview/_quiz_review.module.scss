@@ -49,10 +49,6 @@
 	}
 }
 
-.sr-only {
-	@include sr-only;
-}
-
 .review-text-container {
 	@include flex(column, center);
 	gap: 16px;

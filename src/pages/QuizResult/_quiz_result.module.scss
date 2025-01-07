@@ -26,10 +26,6 @@
 	height: 420px;
 }
 
-.sr-only {
-	@include sr-only;
-}
-
 .study-group-container {
 	@include flex(column, center);
 	gap: 40px;

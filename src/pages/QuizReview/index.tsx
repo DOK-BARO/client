@@ -21,18 +21,6 @@ export default function Index() {
     solvingQuizId: string;
     quizTitle: string;
   }>();
-  
-	const { mutate: createQuizReview } = useMutation<
-		void,
-		ErrorType,
-		CreateReviewParams
-	>({
-		mutationFn: (newQuizReview) => reviewService.createQuizReview(newQuizReview),
-		onSuccess: () => {
-			toast.success("후기 작성이 완료되었습니다");
-			navigate(ROUTES.QUIZ_DETAIL(parseInt(quizId)));
-		}
-	});
 
   const { mutate: createQuizReview } = useMutation<
     void,
@@ -44,7 +32,7 @@ export default function Index() {
     },
     onSuccess: () => {
       toast.success("후기 작성이 완료되었습니다");
-      navigate(`/quiz/${quizId}`);
+      navigate(ROUTES.QUIZ_DETAIL(parseInt(quizId!)));
     },
   });
 

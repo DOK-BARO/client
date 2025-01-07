@@ -6,14 +6,22 @@ interface Props {
   difficulty: DifficultyType;
 }
 
-export default function DifficultyChart({ difficulty }: Props) {
+export default function QuizDifficultyChart({ difficulty }: Props) {
   return (
     <div className={styles.container}>
-      {Object.entries(difficulty)
-        .reverse()
-        .map(([level, data]) => (
-          <DifficultyLevelItem key={level} level={level} data={data} />
-        ))}
+      {difficulty
+        ? Object.entries(difficulty)
+            .reverse()
+            .map(([level, data]) => (
+              <DifficultyLevelItem key={level} level={level} data={data} />
+            ))
+        : [1, 2, 3].map((level) => (
+            <DifficultyLevelItem
+              key={level}
+              level={level.toString()}
+              data={{ selectCount: 0, selectRate: 0 }}
+            />
+          ))}
     </div>
   );
 }

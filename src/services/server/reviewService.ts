@@ -10,7 +10,6 @@ class ReviewService {
     params: FetchReviewsParams
   ): Promise<{ endPageNumber: number; data: ReviewType[] } | null> => {
     const { page = 1, size = 10, quizId, sort, direction } = params;
-    console.log(params);
     try {
       const { data } = await axiosInstance.get("/quiz-reviews", {
         params: {
@@ -45,13 +44,13 @@ class ReviewService {
     }
   };
 
-	createQuizReview = async (params:CreateReviewParams) => {
-		try{
-			const { data } = await axiosInstance.post(`/quiz-reviews`,params);
-			return data;
-		}catch(error){
-			throw new Error(`퀴즈 리뷰 생성 실패: ${error}`)
-		}
-	}
+  createQuizReview = async (params: CreateReviewParams) => {
+    try {
+      const { data } = await axiosInstance.post(`/quiz-reviews`, params);
+      return data;
+    } catch (error) {
+      throw new Error(`퀴즈 리뷰 생성 실패: ${error}`);
+    }
+  };
 }
 export const reviewService = new ReviewService();

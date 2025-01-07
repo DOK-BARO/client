@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import styles from "./_review_list.module.scss";
 import { reviewKeys } from "@/data/queryKeys";
 import { reviewService } from "@/services/server/reviewService";
@@ -15,6 +15,10 @@ import { ReviewsFilterType, ReviewsSortType } from "@/types/FilterType";
 import { parseQueryParams } from "@/utils/parseQueryParams";
 import { useLocation } from "react-router-dom";
 import { FetchReviewsParams } from "@/types/ParamsType";
+import { ReviewType } from "@/types/ReviewType";
+import { ErrorType } from "@/types/ErrorType";
+import { useRef } from "react";
+import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 
 // TODO: 분리하기
 const filterOptions: FilterOptionType<ReviewsFilterType>[] = [
@@ -51,6 +55,7 @@ export default function ReviewList({ quizId }: Props) {
   const [currentUser] = useAtom(currentUserAtom);
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
+  const observerRef = useRef<HTMLDivElement | null>(null);
 
   const handleOptionClick = (filter: ReviewsFilterType) => {
     navigateWithParams({
@@ -65,10 +70,22 @@ export default function ReviewList({ quizId }: Props) {
 
   const sort = queryParams.get("sort") || "CREATED_AT"; // 기본값: 최신순
   const direction = queryParams.get("direction") || "ASC"; // 기본값: ASC
-  const page = queryParams.get("page") || undefined; // parseQueryParams함수 안에서 기본값 1로 설정
-  const size = 10; // 한번에 불러올 최대 길이: 책 목록에서는 10 고정값.
+  const page = 1;
+  const size = 10; // 한번에 불러올 최대 길이
 
-  const { data: reviewsData } = useQuery({
+  const {
+    data: reviewsData,
+    fetchNextPage,
+    isFetchingNextPage,
+    hasNextPage,
+  } = useInfiniteQuery<
+    { endPageNumber: number; data: ReviewType[] },
+    ErrorType,
+    {
+      pageParam: number[];
+      pages: { endPageNumber: number; data: ReviewType[] }[];
+    }
+  >({
     queryKey: reviewKeys.list(
       parseQueryParams<ReviewsSortType, FetchReviewsParams>({
         sort,
@@ -78,22 +95,35 @@ export default function ReviewList({ quizId }: Props) {
         quizId,
       })
     ),
-    queryFn: () =>
-      reviewService.fetchReviews(
-        parseQueryParams({ sort, direction, page, size, quizId })
-      ),
+    queryFn: async ({ pageParam }) => {
+      const result = await reviewService.fetchReviews(
+        parseQueryParams({
+          sort,
+          direction,
+          page: pageParam as number,
+          size,
+          quizId,
+        })
+      );
+      return result || { endPageNumber: 0, data: [] };
+    },
+
+    initialPageParam: 1,
+    getNextPageParam: (lastPage, allPages) => {
+      const currentPage = allPages.length;
+      if (currentPage < lastPage.endPageNumber) {
+        return currentPage + 1;
+      }
+      return undefined;
+    },
   });
+
+  useInfiniteScroll({ hasNextPage, fetchNextPage, observerRef });
+
   if (!currentUser) {
     return;
   }
-  console.log(reviewsData?.data);
-  const reviews = reviewsData?.data;
-
-  const myReviews =
-    reviews?.filter((review) => review.writerId === currentUser.id) ?? [];
-
-  const otherReviews =
-    reviews?.filter((review) => review.writerId !== currentUser.id) ?? [];
+  console.log(reviewsData);
 
   return (
     <section className={styles.container}>
@@ -107,15 +137,18 @@ export default function ReviewList({ quizId }: Props) {
         />
       </div>
       <ul className={styles["review-list"]}>
-        {myReviews?.concat(otherReviews)?.map((review) => (
-          <ReviewItem
-            key={review.id}
-            review={review}
-            isMyReview={review.writerId === currentUser.id}
-          />
-        ))}
+        {reviewsData?.pages
+          .flatMap((page) => page.data)
+          .map((review) => (
+            <ReviewItem
+              key={review.id}
+              review={review}
+              isMyReview={review.writerId === currentUser.id}
+            />
+          ))}
       </ul>
       {/* TODO: 무한 스크롤 */}
+      <div ref={observerRef}>{isFetchingNextPage && <div>로딩중...</div>}</div>
     </section>
   );
 }

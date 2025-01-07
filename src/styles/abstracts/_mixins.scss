@@ -10,17 +10,6 @@
 	}
 }
 
-@mixin sr-only {
-	position: absolute;
-	width: 1px;
-	height: 1px;
-	padding: 0;
-	margin: -1px;
-	overflow: hidden;
-	clip: rect(0, 0, 0, 0);
-	border: 0;
-}
-
 // 버튼 기본 스타일
 @mixin button-base {
 	@include flex(row, center);
@@ -185,4 +174,15 @@
 	border-radius: $border-radius-large; // 12px
 	padding: 30px;
 	position: relative;
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
 }

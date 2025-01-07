@@ -22,8 +22,6 @@ interface Props {
   review: ReviewType;
   isMyReview: boolean;
   quizTitle: string;
-  // onEditReview: () => void;
-  // onDeleteReview: () => void;
 }
 type LevelType = "1" | "2" | "3";
 const levelMapping: Record<LevelType, string> = {
@@ -39,13 +37,7 @@ const ratingMapping: Record<RatingType, string> = {
   "4": "추천해요 😄",
   "5": "매우 추천해요 😍",
 };
-export default function ReviewItem({
-  review,
-  isMyReview,
-  quizTitle,
-}: // onEditReview,
-// onDeleteReview,
-Props) {
+export default function ReviewItem({ review, isMyReview, quizTitle }: Props) {
   const roundedRating: number = Math.floor(review.starRating);
   const [starRating, setStarRating] = useState<number>(roundedRating);
   console.log(review);

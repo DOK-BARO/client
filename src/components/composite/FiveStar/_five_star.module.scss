@@ -2,30 +2,37 @@
 @import "../../../styles/abstracts/variables";
 
 .container {
-	@include flex(row, center);
+  @include flex(row, center);
 
-	&.medium {
-		gap: 9.57px;
-	}
+  &.medium {
+    gap: 9.57px;
+  }
 
-	&.small {
-		gap: 3.5px;
-	}
+  &.small {
+    gap: 3.5px;
+  }
 
-	.stars {
-		@include flex(row, center);
+  &.gap-30 {
+    gap: 30px;
+  }
+  &.gap-46 {
+    gap: 46px;
+  }
 
-		&.slideIn {
-		@include slideIn;
-		}
-	}
+  .stars {
+    @include flex(row, center);
 
-	.review-type-description {
-		margin-left: 46px;
-		@include fadeIn;
-	}
+    &.slideIn {
+      @include slideIn;
+    }
+  }
 
-	.non-button {
-		cursor: default;
-	}
+  .review-type-description {
+    font-size: $font-size-large;
+    @include fadeIn;
+  }
+
+  .non-button {
+    cursor: default;
+  }
 }

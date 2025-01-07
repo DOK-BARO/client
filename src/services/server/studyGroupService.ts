@@ -131,7 +131,7 @@ class StudyGroupService {
     }
   };
 
-  deleteStudyGroup = async (id: number) => {
+  deleteStudyGroup = async (id: number): Promise<void> => {
     try {
       const response = await axiosInstance.delete(`/study-groups/${id}`);
       console.log(response);
@@ -148,11 +148,7 @@ class StudyGroupService {
     studyGroup: StudyGroupPostType;
   }): Promise<void> => {
     try {
-      const response = await axiosInstance.put(
-        `/study-groups/${id}`,
-        studyGroup
-      );
-      console.log("response", response);
+      await axiosInstance.put(`/study-groups/${id}`, studyGroup);
     } catch (error) {
       handleAxiosError(error);
     }

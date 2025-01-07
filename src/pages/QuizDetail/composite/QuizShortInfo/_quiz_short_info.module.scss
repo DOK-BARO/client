@@ -3,14 +3,24 @@
 
 .container {
   line-height: 1.5;
+  position: relative;
 
-  // 제목 스타일 믹스인으로 묶기
-  .title {
-    font-size: 32px;
-    color: $gray-90;
-    line-height: inherit;
-    font-weight: $font-weight-bold;
-    margin-bottom: 8px;
+  .report-text {
+    margin-bottom: 14px; // 임의
+  }
+
+  .title-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    // 제목 스타일 믹스인으로 묶기
+    .title {
+      font-size: 32px;
+      color: $gray-90;
+      line-height: inherit;
+      font-weight: $font-weight-bold;
+      margin-bottom: 8px;
+    }
   }
 
   .iconTextLabel-container {
@@ -46,5 +56,12 @@
     font-size: $font-size-small;
     font-weight: $font-weight-regular;
     color: $gray-90;
+  }
+
+  .small-modal-container {
+    position: absolute;
+    right: 12px;
+    margin-top: 40px;
+    z-index: 10;
   }
 }

@@ -17,7 +17,8 @@ import { useLocation } from "react-router-dom";
 import { FetchReviewsParams } from "@/types/ParamsType";
 import { ReviewType } from "@/types/ReviewType";
 import { ErrorType } from "@/types/ErrorType";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
+import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 
 // TODO: 분리하기
 const filterOptions: FilterOptionType<ReviewsFilterType>[] = [
@@ -54,6 +55,7 @@ export default function ReviewList({ quizId }: Props) {
   const [currentUser] = useAtom(currentUserAtom);
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
+  const observerRef = useRef<HTMLDivElement | null>(null);
 
   const handleOptionClick = (filter: ReviewsFilterType) => {
     navigateWithParams({
@@ -65,11 +67,9 @@ export default function ReviewList({ quizId }: Props) {
 
   // TODO: 페이지네이션
   const [filterCriteria] = useAtom(reviewFilterAtom);
-  const observerRef = useRef<HTMLDivElement | null>(null);
 
   const sort = queryParams.get("sort") || "CREATED_AT"; // 기본값: 최신순
   const direction = queryParams.get("direction") || "ASC"; // 기본값: ASC
-  // const page = queryParams.get("page") || undefined; // parseQueryParams함수 안에서 기본값 1로 설정
   const page = 1;
   const size = 10; // 한번에 불러올 최대 길이
 
@@ -118,28 +118,7 @@ export default function ReviewList({ quizId }: Props) {
     },
   });
 
-  useEffect(() => {
-    if (!hasNextPage) {
-      return;
-    }
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          fetchNextPage();
-        }
-      },
-      { threshold: 1.0 } // 요소가 완전히 보일 때 콜백 실행
-    );
-
-    if (observerRef.current) {
-      observer.observe(observerRef.current); // 뭘까?
-    }
-    return () => {
-      if (observerRef.current) {
-        observer.unobserve(observerRef.current);
-      }
-    };
-  }, [hasNextPage]);
+  useInfiniteScroll({ hasNextPage, fetchNextPage, observerRef });
 
   if (!currentUser) {
     return;

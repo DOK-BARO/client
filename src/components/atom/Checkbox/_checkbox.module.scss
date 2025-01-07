@@ -1,5 +1,6 @@
 @import "../../../styles/abstracts/variables";
 @import "../../../styles/abstracts/mixins";
+@import "../../../styles/abstracts/markdown";
 
 
 @mixin basic-checkbox-button($default-color, $checked-color) {
@@ -57,9 +58,11 @@
 	justify-content: space-between;
 	border-radius: 8px;
 	background-color: white;
+
 	&.checkbox-writing,
 	&.checkbox-written {
 		@include basic-checkbox-button($default-color: $gray-60, $checked-color: $system-success);
+
 		&:focus-within {
 			background-color: $background;
 		}
@@ -86,35 +89,40 @@
 
 	&.solving-correct {
 		background-color: #3DBF0F1A;
+
 		input[type="checkbox"] {
 			position: relative;
-			&::after{
-			display: inline-block;
-			content: '';
-			position: absolute;
-			width: 20px;
-			height: 20px;
-			top:-4px; left:-4px;
-			border-radius: 50%;
-			background: url('/public/assets/svg/solvingQuizFormLayout/correct.svg') no-repeat;
+
+			&::after {
+				display: inline-block;
+				content: '';
+				position: absolute;
+				width: 20px;
+				height: 20px;
+				top: -4px;
+				left: -4px;
+				border-radius: 50%;
+				background: url('/public/assets/svg/solvingQuizFormLayout/correct.svg') no-repeat;
 			}
 		}
-	
+
 	}
 
 	&.solving-incorrect {
 		background-color: #EB003B1A;
 
-		input[type="checkbox"]{
+		input[type="checkbox"] {
 			position: relative;
-			&::after{
+
+			&::after {
 				display: inline-block;
-			content: '';
-			position: absolute;
-			width: 20px;
-			height: 20px;
-			top:-4px; left:-4px;
-			background: url('/public/assets/svg/solvingQuizFormLayout/incorrect.svg') no-repeat;
+				content: '';
+				position: absolute;
+				width: 20px;
+				height: 20px;
+				top: -4px;
+				left: -4px;
+				background: url('/public/assets/svg/solvingQuizFormLayout/incorrect.svg') no-repeat;
 			}
 		}
 	}
@@ -166,7 +174,8 @@
 	height: 20px;
 }
 
-.empty-icon{
+.empty-icon {
 	width: 20px;
 	height: 20px;
-	}
+}
+

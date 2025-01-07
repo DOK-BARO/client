@@ -7,7 +7,7 @@ import {
 } from "@/types/ParamsType";
 
 export const bookKeys = {
-  detail: (id: string) => ["bookDetailContent", id] as const,
+  detail: (id: string | undefined) => ["bookDetailContent", id] as const,
   categories: () => ["bookCategories"] as const,
   list: (param?: FetchBooksParams) => ["bookList", param] as const,
   search: (params?: SearchBooksParams) => ["bookSearch", params] as const,
@@ -42,7 +42,11 @@ export const quizKeys = {
   detail: (id: string | undefined) => ["quizDetail", id] as const,
   explanation: (id: string | undefined) => ["quizExplanation", id] as const,
   result: (solvingQuizId: string) => ["quizResult", solvingQuizId],
-	studyResult: (studyGroupId:string, quizId:string) => ["studyResult",studyGroupId,quizId],
+  studyResult: (studyGroupId: string, quizId: string) => [
+    "studyResult",
+    studyGroupId,
+    quizId,
+  ],
 };
 
 export const reviewKeys = {

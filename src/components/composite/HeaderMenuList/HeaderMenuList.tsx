@@ -14,6 +14,7 @@ import { currentUserAtom } from "@/store/userAtom";
 import { ErrorType } from "@/types/ErrorType";
 import { authService } from "@/services/server/authService";
 import toast from "react-hot-toast";
+import ROUTES from "@/data/routes";
 // import { useQueryCurrentUser } from "@/hooks/useQueryCurrentUser.ts";
 
 type HeaderMenuListItem = {
@@ -52,7 +53,7 @@ export default function HeaderMenuList({ closeDropDownList }: Props) {
     onSuccess: () => {
       queryClient.setQueryData(userKeys.user(), null);
       toast.success("로그아웃 되었습니다.");
-      navigate("/");
+      navigate(ROUTES.ROOT);
       setCurrentUser(null);
     },
   });
@@ -74,7 +75,7 @@ export default function HeaderMenuList({ closeDropDownList }: Props) {
         <button
           className={styles["user-info"]}
           onClick={() => {
-            navigate("/my");
+            navigate(ROUTES.MY_PAGE);
           }}
         >
           <span className={styles["user-name"]}>

@@ -9,9 +9,9 @@ import Textarea from "@/components/atom/Textarea/Textarea";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";
-import { CreateReviewParams } from "@/types/ParamsType";
 import { reviewService } from "@/services/server/reviewService";
 import { useParams } from "react-router-dom";
+import { ReviewPostType } from "@/types/ReviewType";
 export default function Index() {
   const navigate = useNavigate();
   const { quizId, solvingQuizId, quizTitle } = useParams<{
@@ -19,16 +19,15 @@ export default function Index() {
     solvingQuizId: string;
     quizTitle: string;
   }>();
-  if (!quizId || !solvingQuizId || !quizTitle) {
-    return;
-  }
+
   const { mutate: createQuizReview } = useMutation<
     void,
     ErrorType,
-    CreateReviewParams
+    ReviewPostType
   >({
-    mutationFn: (newQuizReview) =>
-      reviewService.createQuizReview(newQuizReview),
+    mutationFn: async (newQuizReview) => {
+      await reviewService.createQuizReview(newQuizReview);
+    },
     onSuccess: () => {
       toast.success("후기 작성이 완료되었습니다");
       navigate(`/quiz/${quizId}`);
@@ -43,10 +42,13 @@ export default function Index() {
   const showDifficultySection = rating !== 0;
   const showReviewTextArea = difficultyLevel;
 
-  const handleClickSubmit = (_: React.MouseEvent<HTMLButtonElement>) => {
-    const review: CreateReviewParams = {
+  const handleClickSubmit = () => {
+    if (!difficultyLevel?.difficultyValue || !quizId) {
+      return;
+    }
+    const review: ReviewPostType = {
       starRating: rating,
-      difficultyLevel: difficultyLevel?.difficultyValue!,
+      difficultyLevel: difficultyLevel?.difficultyValue,
       comment: value,
       quizId: parseInt(quizId),
     };
@@ -74,6 +76,9 @@ export default function Index() {
     );
     setDifficultyLevel(currentDifficulty);
   };
+  if (!quizId || !solvingQuizId || !quizTitle) {
+    return;
+  }
 
   return (
     <section className={styles["container"]}>

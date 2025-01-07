@@ -2,88 +2,85 @@
 @import "../../../../styles/abstracts/variables";
 
 .list-section {
-  @include flex(column);
-  gap: 16px;
+	@include flex(column);
+	gap: 16px;
 
-  .quiz-list {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    // TODO: 피그마에 크기 확인 필요
-    max-width: 816px;
-  }
+	.quiz-list {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 16px;
+		max-width: 816px;
+	}
 
-  .quiz {
-    @include flex(column);
-    justify-content: start;
-    gap: 10px;
-    padding: 16px;
-    background-color: white;
-    width: 192px;
-    // TODO: width192 고정, 화면이 줄여지면 아래줄로 내려가게 구현 필요
-    border-radius: 5px;
+	.quiz {
+		@include flex(column);
+		justify-content: start;
+		gap: 10px;
+		padding: 16px;
+		background-color: white;
+		width: 192px;
+		border-radius: 5px;
 
-    .info {
-      @include flex(column);
-      gap: 14px;
+		.info {
+			@include flex(column);
+			gap: 14px;
 
-      .sub-info {
-        @include flex(column);
-        gap: 4px;
-      }
+			.sub-info {
+				@include flex(column);
+				gap: 4px;
+			}
 
-      .label {
-        display: inline-block;
-        width: 65px;
-        padding: 2px 5px;
-        font-size: 12px;
-        font-weight: $font-weight-medium;
-        color: $gray-70;
-        background-color: $secondary;
-        border-radius: 3.2px;
-      }
+			.label {
+				display: inline-block;
+				width: 65px;
+				padding: 2px 5px;
+				font-size: 12px;
+				font-weight: $font-weight-medium;
+				color: $gray-70;
+				background-color: $secondary;
+				border-radius: 3.2px;
+			}
 
-      .quiz-updated-at {
-        font-size: 12px;
-        font-weight: $font-weight-regular;
-      }
+			.quiz-updated-at {
+				font-size: 12px;
+				font-weight: $font-weight-regular;
+			}
 
-      .quiz-name {
-        font-size: $font-size-large;
-        font-weight: $font-weight-semibold;
-        padding-bottom: 19px;
-      }
-    }
+			.quiz-name {
+				font-size: $font-size-large;
+				font-weight: $font-weight-semibold;
+				padding-bottom: 19px;
+			}
+		}
 
-    .util {
-      @include flex(column);
-      justify-content: start;
-      gap: 7px;
+		.util {
+			@include flex(column);
+			justify-content: start;
+			gap: 7px;
 
-      .delete {
-        text-decoration: underline;
-        height: 18px;
-        color: $gray-60;
-        font-weight: $font-weight-regular;
-        font-size: 12px;
-      }
-    }
+			.delete {
+				text-decoration: underline;
+				height: 18px;
+				color: $gray-60;
+				font-weight: $font-weight-regular;
+				font-size: 12px;
+			}
+		}
 
-    img {
-      border: 1px solid $gray-40;
-      border-radius: 5px;
-    }
-  }
+		img {
+			border: 1px solid $gray-40;
+			border-radius: 5px;
+		}
+	}
 }
 
 .list-header {
-  @include flex(row);
-  justify-content: space-between;
+	@include flex(row);
+	justify-content: space-between;
 
-  h3 {
-    font-size: 18px;
-    line-height: 1.5;
-    font-weight: $font-weight-semibold;
-  }
+	h3 {
+		font-size: 18px;
+		line-height: 1.5;
+		font-weight: $font-weight-semibold;
+	}
 }
-

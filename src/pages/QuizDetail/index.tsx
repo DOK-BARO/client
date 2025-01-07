@@ -25,6 +25,7 @@ export default function Index() {
     enabled: !!id,
   });
 
+  // TODO:
   if (isLoading) {
     return <div>loading</div>;
   }
@@ -32,9 +33,7 @@ export default function Index() {
   if (!explanation || !reviewsTotalScore) {
     return <div>quiz explanation page error!!</div>;
   }
-  if (!id) {
-    return <div>404</div>;
-  }
+
   // TODO:
   const list = [
     { id: 1, name: "OS" },

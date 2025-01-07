@@ -9,6 +9,7 @@ import Breadcrumb from "@/components/composite/Breadcrumb/Breadcrumb.tsx";
 import { useNavigate } from "react-router-dom";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { BookType } from "@/types/BookType";
+import { extractCategoryList } from "@/utils/extractCategoryList.ts";
 
 export default function Index() {
   const { id } = useParams();
@@ -44,18 +45,14 @@ export default function Index() {
   if (!data) {
     return <div>book detail page error!!</div>;
   }
-
+  const categoryList = data.categories
+    ? extractCategoryList(data.categories[0])
+    : [];
   return (
     <section className={styles.container}>
-      <div className={styles["bread-crumb"]}>
-        <Breadcrumb
-          parentPage="books"
-          list={data.categories.map((e, index) => ({
-            id: index,
-            name: e.name,
-          }))}
-        />
-      </div>
+      {/* TODO */}
+      <Breadcrumb parentPage="books" list={categoryList} />
+
       <div className={styles["book-detail-section"]}>
         <BookDetailContent
           bookDetailContent={data}

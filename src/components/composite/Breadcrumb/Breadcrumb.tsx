@@ -27,7 +27,7 @@ export default function Breadcrumb({ list, parentPage }: Props) {
   const handleClick = (id: string | undefined) => {
     // navigateWithParams(id, "BOOKS", ["category"], ["page"]);
     navigateWithParams({
-      category: id,
+      category: Number(id) > 2 ? id : undefined,
       parentPage: "books",
       excludeParams: ["page"],
     });

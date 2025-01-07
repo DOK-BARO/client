@@ -26,59 +26,65 @@ interface ButtonProps {
   iconOnly?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({
-  onClick = () => {},
-  children,
-  id,
-  type = "button",
-  className: customClassName,
-  disabled = false,
-  size = "medium",
-  value,
-  icon,
-  iconPosition = "right",
-  onIconClick,
-  color,
-  fullWidth = false,
-  iconOnly = false,
-}) => {
-  const className = `${styles.button} ${styles[`button--${size}`]} ${
-    styles[`button--${color}`]
-  } ${fullWidth ? styles.full : ""} ${iconOnly ? styles.iconOnly : ""}
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      onClick = () => {},
+      children,
+      id,
+      type = "button",
+      className: customClassName,
+      disabled = false,
+      size = "medium",
+      value,
+      icon,
+      iconPosition = "right",
+      onIconClick,
+      color,
+      fullWidth = false,
+      iconOnly = false,
+    },
+    ref
+  ) => {
+    const className = `${styles.button} ${styles[`button--${size}`]} ${
+      styles[`button--${color}`]
+    } ${fullWidth ? styles.full : ""} ${iconOnly ? styles.iconOnly : ""}
  ${customClassName || ""}`;
-  return (
-    <button
-      id={id}
-      type={type}
-      value={value}
-      // aria-label={}
-      onClick={(e) => onClick(e)}
-      className={className}
-      disabled={disabled}
-    >
-      {icon && iconPosition === "left" && (
-        <div
-          className={styles["icon-container"]}
-          onClick={(e) => {
-            onIconClick ? onIconClick(e) : null;
-          }}
-        >
-          {icon}
-        </div>
-      )}
-      {children}
-      {icon && iconPosition === "right" && (
-        <div
-          className={styles["icon-container"]}
-          onClick={(e) => {
-            onIconClick ? onIconClick(e) : null;
-          }}
-        >
-          {icon}
-        </div>
-      )}
-    </button>
-  );
-};
+    return (
+      <button
+        id={id}
+        type={type}
+        value={value}
+        // aria-label={}
+        onClick={(e) => onClick(e)}
+        className={className}
+        disabled={disabled}
+        ref={ref}
+      >
+        {icon && iconPosition === "left" && (
+          <div
+            className={styles["icon-container"]}
+            onClick={(e) => {
+              onIconClick ? onIconClick(e) : null;
+            }}
+          >
+            {icon}
+          </div>
+        )}
+        {children}
+        {icon && iconPosition === "right" && (
+          <div
+            className={styles["icon-container"]}
+            onClick={(e) => {
+              onIconClick ? onIconClick(e) : null;
+            }}
+          >
+            {icon}
+          </div>
+        )}
+      </button>
+    );
+  }
+);
 
 export default Button;

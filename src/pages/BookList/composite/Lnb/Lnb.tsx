@@ -7,6 +7,7 @@ import { findTopParentCategoryInfo } from "@/utils/findCategoryInfo";
 import { ArrowLeft } from "@/svg/ArrowLeft";
 import { gray90 } from "@/styles/abstracts/colors";
 import useNavigateWithParams from "@/hooks/useNavigateWithParams";
+import ROUTES from "@/data/routes";
 
 // Book Category GNB
 export default function LNB({
@@ -54,7 +55,7 @@ export default function LNB({
                   />
                 }
                 iconOnly
-                onClick={() => navigate("/")}
+                onClick={() => navigate(ROUTES.ROOT)}
               />
               <Button
                 size="xsmall"

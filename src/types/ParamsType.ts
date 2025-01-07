@@ -62,3 +62,19 @@ export interface UpdateUserParams {
   email?: string;
   profileImage?: string | null;
 }
+
+// ROUTES
+
+export interface QuizResultRouteParams{
+	quizId: number;
+	solvingQuizId: number;
+	quizTitle :string;
+	studyGroupId? :string;
+}
+
+export interface QuizReviewRouteParams{
+	quizId: number;
+	solvingQuizId: number;
+	quizTitle :string;
+}
+

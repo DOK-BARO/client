@@ -3,6 +3,7 @@ import styles from "./_quiz_link_item.module.scss";
 import { QuizExplanationType } from "@/types/QuizType";
 import { formatDate } from "@/utils/formatDate";
 import { useNavigate } from "react-router-dom";
+import ROUTES from "@/data/routes";
 
 interface Props {
   quizExplanation: QuizExplanationType;
@@ -11,7 +12,7 @@ interface Props {
 export default function QuizLinkItem({ quizExplanation }: Props) {
   const navigate = useNavigate();
   const handlePlayQuiz = () => {
-    navigate(`/quiz/play/${quizExplanation.id}`);
+		navigate(ROUTES.SOLVING_QUIZ(quizExplanation.id));
   };
   return (
     <article className={styles.container}>

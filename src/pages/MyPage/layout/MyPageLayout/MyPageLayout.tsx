@@ -7,6 +7,7 @@ import {
   studyGroupAtom,
 } from "@/store/myPageAtom";
 import Button from "@/components/atom/Button/Button";
+import ROUTES from "@/data/routes";
 
 export default function MyPageLayout() {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ export default function MyPageLayout() {
   const [isStudyGroupSettingPage] = useAtom(isStudyGroupSettingPageAtom);
 
   const handleGoToStudyGroupSetting = () => {
-    navigate(`/my/study-groups/${studyGroup?.id}/setting`);
+		navigate(ROUTES.STUDY_GROUP_SETTING(studyGroup?.id));
   };
 
   return (

@@ -2,11 +2,12 @@ import styles from "./_bookItem.module.scss";
 import { useNavigate } from "react-router-dom";
 import { BookType } from "@/types/BookType.ts";
 import pencil from "/assets/svg/bookList/pencil.svg";
+import ROUTES from "@/data/routes";
 
 export default function BookItem({ book }: { book: BookType }) {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate(`/book/${book.id}`);
+    navigate(ROUTES.BOOK_DETAIL_SECTION(book.id));
   };
   const bookAuthor =
     book.authors.length > 1 ? `${book.authors[0]} 외` : book.authors;
@@ -15,7 +16,7 @@ export default function BookItem({ book }: { book: BookType }) {
     <article className={styles["book-item"]} onClick={handleClick}>
       <figure>
         <img className={styles.img} src={book.imageUrl} alt={book.title} />
-        <figcaption>{book.title}</figcaption>
+        <figcaption className={styles["sr-only"]}>{book.title}</figcaption>
       </figure>
       <div className={styles["book-item-info"]}>
         <p className={styles.title} aria-label="책 제목">

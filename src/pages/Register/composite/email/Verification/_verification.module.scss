@@ -2,9 +2,7 @@
 @import "../../../../../styles/abstracts/mixins";
 
 .verification {
-  h3 {
-    @include sr-only;
-  }
+
   .description {
     margin: 32px 0 32px 0;
     font-size: $font-size-large;

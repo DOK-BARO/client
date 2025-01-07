@@ -59,3 +59,22 @@ export interface StudyGroupMySolvedQuizType
   id: number;
   solvedAt: string;
 }
+
+export interface StudyGroupMemberType {
+  id: number;
+  nickname: string;
+  profileImageUrl: string;
+}
+
+// 스터디 그룹 내 랭킹 조회
+export interface QuizStudyGroupGradeResult {
+  quizId: number;
+  studyGroupId: number;
+  totalQuestionCount: number;
+  solvedMember: {
+    member: StudyGroupMemberType;
+    solvingQuizId: number;
+    correctCount: number;
+  }[];
+  unSolvedMember: StudyGroupMemberType[];
+}

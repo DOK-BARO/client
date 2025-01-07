@@ -1,5 +1,6 @@
 @import "../../../styles/abstracts/variables";
 @import "../../../styles/abstracts/mixins";
+@import "../../../styles/abstracts/markdown";
 
 //TODO: option mixin 정의 필요
 @mixin basic-radio-button($default-border-color) {

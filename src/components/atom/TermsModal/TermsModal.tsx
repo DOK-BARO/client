@@ -43,7 +43,7 @@ const TermsModal: React.FC<ModalProps> = ({
         <main className={styles["modal-main"]}>
           <ReactMarkdown
             remarkPlugins={[remarkGfm, remarkBreaks]}
-            className={styles["modal-content"]}
+            className={`${styles["modal-content"]} ${styles["markdown-content"]}`}
           >
             {content}
           </ReactMarkdown>

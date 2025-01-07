@@ -4,7 +4,7 @@ export interface BookDetailType {
   title: string;
   publisher: string;
   publishedAt: string;
-  price: number,
+  price: number;
   description: string;
   imageUrl: string;
   categories: BookCategories[];
@@ -14,4 +14,5 @@ export interface BookDetailType {
 export interface BookCategories {
   id: string;
   name: string;
+  parent: BookCategories | null;
 }

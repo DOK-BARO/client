@@ -100,7 +100,7 @@ export const CheckBoxQuestionTemplate: FC<{
 
   return (
     <fieldset className={styles["question-options"]}>
-      <legend>답안 선택지</legend>
+      <legend className={styles["sr-only"]}>답안 선택지</legend>
       {options.map((option) => (
         <SelectOption
           key={option.id}

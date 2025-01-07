@@ -2,10 +2,6 @@
 @import "../../../../styles/abstracts/mixins";
 
 .register-complete {
-  h3,
-  h4 {
-    @include sr-only;
-  }
   .container {
     display: flex;
     gap: 80px;

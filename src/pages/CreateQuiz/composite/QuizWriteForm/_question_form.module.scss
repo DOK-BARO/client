@@ -1,10 +1,6 @@
 @import "../../../../styles/abstracts/variables";
 @import "../../../../styles/abstracts/mixins";
 
-.sr-only {
-  @include sr-only;
-}
-
 .question-form {
   @include flex(column);
   gap: 20px;
@@ -215,10 +211,6 @@
   align-items: start;
   gap: 13px;
   // max-width:100%;
-
-  legend {
-    @include sr-only;
-  }
 }
 
 .option-container {

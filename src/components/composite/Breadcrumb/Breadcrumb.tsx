@@ -5,8 +5,12 @@ import { gray90 } from "@/styles/abstracts/colors";
 import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 import { ParentPage } from "@/types/PaginationType";
 
+export interface ListItem {
+  id: number;
+  name: string;
+}
 interface Props {
-  list: ({ id: number; name: string } | null)[];
+  list: (ListItem | null)[];
   parentPage: ParentPage;
 }
 export default function Breadcrumb({ list, parentPage }: Props) {
@@ -22,7 +26,6 @@ export default function Breadcrumb({ list, parentPage }: Props) {
 
   const handleClick = (id: string | undefined) => {
     // navigateWithParams(id, "BOOKS", ["category"], ["page"]);
-
     navigateWithParams({
       category: id,
       parentPage: "books",

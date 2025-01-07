@@ -52,7 +52,7 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Prop) {
   const sort = filterCriteria.sort; // 기본값: 최신순
   const direction = filterCriteria.direction; // 기본값: ASC
   const page = paginationState.currentPage; // parseQueryParams함수 안에서 기본값 1로 설정
-  const size = 10; // 한번에 불러올 최대 길이: 책 목록에서는 10 고정값.
+  const size = 4; // 한번에 불러올 최대 길이: 책 목록에서는 10 고정값.
 
   const { data: solvedQuizData } = useQuery({
     queryKey: studyGroupKeys.mySolvedQuizList(
@@ -109,7 +109,12 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Prop) {
       {isQuizzesExist ? (
         <ol className={styles["quiz-list"]}>
           {solvedQuizzes?.map((quizData) => (
-            <QuizItem key={quizData.id} isSolved quizData={quizData} />
+            <QuizItem
+              key={quizData.id}
+              isSolved
+              quizData={quizData}
+              studyGroupId={studyGroupId}
+            />
           ))}
         </ol>
       ) : (

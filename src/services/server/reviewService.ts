@@ -1,8 +1,11 @@
 import { axiosInstance } from "@/config/axiosConfig";
 import { FetchReviewsParams } from "@/types/ParamsType";
-import { ReviewsTotalScoreType, ReviewType } from "@/types/ReviewType";
+import {
+  ReviewPostType,
+  ReviewsTotalScoreType,
+  ReviewType,
+} from "@/types/ReviewType";
 import { handleAxiosError } from "@/utils/errorHandler";
-import { CreateReviewParams } from "@/types/ParamsType";
 
 class ReviewService {
   // 퀴즈 요약 목록 조회
@@ -44,12 +47,37 @@ class ReviewService {
     }
   };
 
-  createQuizReview = async (params: CreateReviewParams) => {
+  createQuizReview = async (
+    review: ReviewPostType
+  ): Promise<{ id: string } | null> => {
     try {
-      const { data } = await axiosInstance.post(`/quiz-reviews`, params);
+      const { data } = await axiosInstance.post("/quiz-reviews", review);
       return data;
     } catch (error) {
-      throw new Error(`퀴즈 리뷰 생성 실패: ${error}`);
+      handleAxiosError(error);
+      return null;
+    }
+  };
+
+  deleteQuizReview = async (id: number): Promise<void> => {
+    try {
+      await axiosInstance.delete(`/quiz-reviews/${id}`);
+    } catch (error) {
+      handleAxiosError(error);
+    }
+  };
+
+  updateQuizReview = async ({
+    id,
+    review,
+  }: {
+    id: number;
+    review: ReviewPostType;
+  }): Promise<void> => {
+    try {
+      await axiosInstance.put(`/quiz-reviews/${id}`, review);
+    } catch (error) {
+      handleAxiosError(error);
     }
   };
 }

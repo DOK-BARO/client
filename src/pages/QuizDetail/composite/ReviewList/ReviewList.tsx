@@ -120,11 +120,11 @@ export default function ReviewList({ quizId }: Props) {
 
   useInfiniteScroll({ hasNextPage, fetchNextPage, observerRef });
 
+  console.log(reviewsData);
+
   if (!currentUser) {
     return;
   }
-  console.log(reviewsData);
-
   return (
     <section className={styles.container}>
       {/* TODO: h3? */}
@@ -144,6 +144,8 @@ export default function ReviewList({ quizId }: Props) {
               key={review.id}
               review={review}
               isMyReview={review.writerId === currentUser.id}
+              // onDeleteReview={handleDeleteReview}
+              // onEditReview={openEditModal}
             />
           ))}
       </ul>

@@ -66,3 +66,12 @@
     }
   }
 }
+// 리뷰 수정하기 모달
+.difficulty-button-container {
+  display: flex;
+  gap: 16px;
+
+  * {
+    flex: 1;
+  }
+}

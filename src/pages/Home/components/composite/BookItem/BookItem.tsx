@@ -16,7 +16,7 @@ export default function BookItem({ book }: { book: BookType }) {
     <article className={styles["book-item"]} onClick={handleClick}>
       <figure>
         <img className={styles.img} src={book.imageUrl} alt={book.title} />
-        <figcaption>{book.title}</figcaption>
+        <figcaption className={styles["sr-only"]}>{book.title}</figcaption>
       </figure>
       <div className={styles["book-item-info"]}>
         <p className={styles.title} aria-label="책 제목">

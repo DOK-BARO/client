@@ -22,6 +22,7 @@ import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import ROUTES from "@/data/routes";
 
 export default function QuizCreationFormLayout({
   steps,
@@ -119,7 +120,7 @@ export default function QuizCreationFormLayout({
       }
       setCreatedQuizId(data.id);
       // 완료 페이지로 이동
-      navigate("/create-quiz/complete");
+      navigate(ROUTES.CREATE_QUIZ_COMPLETE);
     },
   });
 

@@ -12,6 +12,7 @@ import { ErrorType } from "@/types/ErrorType";
 import { CreateReviewParams } from "@/types/ParamsType";
 import { reviewService } from "@/services/server/reviewService";
 import { useParams } from "react-router-dom";
+import ROUTES from "@/data/routes";
 export default function Index() {
 	const navigate = useNavigate();
 	const { quizId, solvingQuizId, quizTitle } = useParams<{ quizId: string, solvingQuizId:string, quizTitle: string }>();
@@ -26,7 +27,7 @@ export default function Index() {
 		mutationFn: (newQuizReview) => reviewService.createQuizReview(newQuizReview),
 		onSuccess: () => {
 			toast.success("후기 작성이 완료되었습니다");
-			navigate(`/quiz/${quizId}`);
+			navigate(ROUTES.QUIZ_DETAIL(parseInt(quizId)));
 		}
 	});
 

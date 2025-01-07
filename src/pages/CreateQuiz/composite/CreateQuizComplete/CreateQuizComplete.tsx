@@ -8,16 +8,17 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useAtom } from "jotai";
 import { createdQuizIdAtom } from "@/store/quizAtom";
+import ROUTES from "@/data/routes";
 
 export default function CreateQuizComplete() {
   const [createdQuizId] = useAtom(createdQuizIdAtom);
-  const quizPath = `quiz/play/${createdQuizId}`;
-  const quizLink = `${import.meta.env.VITE_DEFAULT_URL}/${quizPath}`;
+  const quizPath = ROUTES.SOLVING_QUIZ(createdQuizId);
+  const quizLink = `${import.meta.env.VITE_DEFAULT_URL}${quizPath}`;
 
   const navigate = useNavigate();
 
   const handleGoToQuiz = () => {
-    navigate(`/${quizPath}`);
+    navigate(quizPath);
   };
   const handleCopyQuizLink = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { value: quizLink } = e.target as HTMLButtonElement;

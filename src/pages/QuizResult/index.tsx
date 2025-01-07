@@ -5,12 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import StudyQuizResult from "./composite/StudyQuizResult";
 import { useState } from "react";
+import ROUTES from "@/data/routes";
+import { QuizReviewRouteParams } from "@/types/ParamsType";
 
 export default function Index() {
 	const [currentStep, setCurrentStep] = useState<number>(0);
 	const navigate = useNavigate();
 	const { quizId, solvingQuizId, quizTitle, studyGroupId } = useParams<{ quizId: string, solvingQuizId: string, quizTitle: string, studyGroupId?: string }>();
-
 
 	const steps: { order: number; component: JSX.Element }[] = [
 		{
@@ -23,12 +24,19 @@ export default function Index() {
 		},
 	];
 
-	const handleGoToNext = () => {
-		if (studyGroupId) {
-			setCurrentStep(1);
-		} else {
-			navigate(`/quiz/review/${quizId}/${solvingQuizId}/${quizTitle}`, { replace: false });
+	const goToReviewPage = () => {
+		const params: QuizReviewRouteParams = {
+			quizId: parseInt(quizId!),
+			solvingQuizId: parseInt(solvingQuizId!),
+			quizTitle: quizTitle!,
 		}
+		navigate(ROUTES.QUIZ_REVIEW(params),
+			{ replace: false }
+		);
+	}
+
+	const handleGoToNext = () => {
+		studyGroupId ? setCurrentStep(1) : goToReviewPage();
 	};
 
 	return (

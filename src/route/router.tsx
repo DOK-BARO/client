@@ -48,7 +48,7 @@ const router = createBrowserRouter([
 				element: <BookDetailSection />,
 			},
 			{
-				path: ROUTES.QUIZ_DETAIL,
+				path: ROUTES.QUIZ_DETAIL(),
 				element: <QuizDetail />,
 			},
 			{
@@ -67,7 +67,7 @@ const router = createBrowserRouter([
 			},
 
 			{
-				path: ROUTES.REGISTER,
+				path: ROUTES.REGISTER(),
 				element: <Register />,
 			},
 
@@ -97,11 +97,11 @@ const router = createBrowserRouter([
 						element: <MyStudyGroups />,
 					},
 					{
-						path: ROUTES.STUDY_GROUP,
+						path: ROUTES.STUDY_GROUP(),
 						element: <StudyGroup />,
 					},
 					{
-						path: ROUTES.STUDY_GROUP_SETTING,
+						path: ROUTES.STUDY_GROUP_SETTING(),
 						element: <StudyGroupSetting />,
 					},
 					{
@@ -140,15 +140,15 @@ const router = createBrowserRouter([
 		element: <BaseLayout showHeader={false} />,
 		children: [
 			{
-				path: ROUTES.SOLVING_QUIZ,
+				path: ROUTES.SOLVING_QUIZ(),
 				element: <SolvingQuiz />,
 			},
 			{
-				path: ROUTES.QUIZ_RESULT,
+				path: ROUTES.QUIZ_RESULT(),
 				element: <QuizResult />,
 			},
 			{
-				path: ROUTES.QUIZ_REVIEW,
+				path: ROUTES.QUIZ_REVIEW(),
 				element: <QuizReview />,
 			},
 		],

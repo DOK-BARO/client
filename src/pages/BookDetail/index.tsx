@@ -9,6 +9,7 @@ import Breadcrumb from "@/components/composite/Breadcrumb/Breadcrumb.tsx";
 import { useNavigate } from "react-router-dom";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { BookType } from "@/types/BookType";
+import ROUTES from "@/data/routes.ts";
 
 export default function Index() {
   const { id } = useParams();
@@ -34,7 +35,7 @@ export default function Index() {
       authors: data!.authors,
     };
     updateQuizCreationInfo("book", book);
-    navigate("/create-quiz");
+    navigate(ROUTES.CREATE_QUIZ);
   };
 
   if (isLoading) {

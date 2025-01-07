@@ -1,10 +1,6 @@
 @import "../../styles/abstracts/variables";
 @import "../../styles/abstracts/mixins";
 
-.sr-only {
-  @include sr-only;
-}
-
 .container {
   @include flex(column);
   gap: 40px;

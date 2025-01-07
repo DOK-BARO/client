@@ -22,7 +22,7 @@ export const OXQuestionTemplate: FC<{ questionFormMode?: string, questionFormId?
 	}];
 
 	const { quizCreationInfo, updateQuizCreationInfo } = useUpdateQuizCreationInfo();
-// TODO: 선택지를 1개이상 추가해주세요 에러남
+	// TODO: 선택지를 1개이상 추가해주세요 에러남
 	const {
 		getQuestion,
 	} = useQuestionTemplate("OX", questionFormId!);
@@ -58,13 +58,13 @@ export const OXQuestionTemplate: FC<{ questionFormMode?: string, questionFormId?
 
 	return (
 		<fieldset className={styles["question-options"]}>
-			<legend>답안 선택지</legend>
+			<legend className={styles["sr-only"]}>답안 선택지</legend>
 			{
 				options.map((option) => {
 					// TODO: 동작 확인 필요
 					let isChecked;
 					isChecked = selectedRadioGroupValue === option.label;
-					
+
 					return (
 						<div
 							key={option.id}

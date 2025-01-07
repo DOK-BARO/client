@@ -1,10 +1,6 @@
 @import "../../../../styles/abstracts/mixins";
 @import "../../../../styles/abstracts/variables";
 
-.sr-only {
-	@include sr-only;
-}
-
 .container {
 	width: fit-content;
 

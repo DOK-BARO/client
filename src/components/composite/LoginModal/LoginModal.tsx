@@ -22,6 +22,8 @@ import { authService } from "@/services/server/authService.ts";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType.ts";
 import toast from "react-hot-toast";
+import ROUTES from "@/data/routes.ts";
+import { SocialLoginType } from "@/types/SocialLoginType.ts";
 // import { CurrentUserAtom } from "@/store/userAtom.ts";
 interface Props {
   closeModal: () => void;
@@ -63,7 +65,7 @@ const LoginModal = ({ closeModal }: Props) => {
     onSuccess: () => {
       toast.success("로그인이 완료되었습니다.");
       closeModal();
-			navigate('/');
+			navigate(ROUTES.ROOT);
       navigate(0);
     },
     onError: () => {
@@ -89,12 +91,13 @@ const LoginModal = ({ closeModal }: Props) => {
 
   const handleSignupClick = () => {
     closeModal();
-    navigate("/register/email");
+		const method = SocialLoginType.EMAIL.toLocaleLowerCase();
+		navigate(ROUTES.REGISTER(method));
   };
 
   const handleFindPasswordClick = () => {
     closeModal();
-    navigate("/find-password");
+    navigate(ROUTES.FIND_PASSWORD);
   };
 
   return (

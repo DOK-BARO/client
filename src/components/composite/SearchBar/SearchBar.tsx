@@ -8,6 +8,7 @@ import { FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { isLoggedInAtom } from "@/store/userAtom";
 import { useAtom } from "jotai";
+import ROUTES from "@/data/routes";
 
 export default function SearchBar() {
   // const { isLoggedIn } = useQueryCurrentUser();
@@ -19,7 +20,7 @@ export default function SearchBar() {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (!isLoggedIn) {
-      navigate("/", { state: { openModal: true } }); //TODO: 랜딩페이지로 이동
+      navigate(ROUTES.ROOT, { state: { openModal: true } }); //TODO: 랜딩페이지로 이동
     }
     console.log("Search submitted with:", searchWord);
   };

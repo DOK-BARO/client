@@ -16,7 +16,9 @@ import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/xcode.css";
 import toast from "react-hot-toast";
-
+import ROUTES from "@/data/routes";
+import { QuizResultRouteParams } from "@/types/ParamsType";
+// TODO:solvingquiz 넘겨받는것이 아닌 이 안에서 생성 필요
 export default function Index() {
 	const { quizId, solvingQuizId } = useParams<{
 		quizId: string;
@@ -81,9 +83,15 @@ export default function Index() {
 			const id: string = quizId.toString();
 			const solvingId: string = solvingQuizId.toString();
 			const quizTitle: string = quiz?.title ?? "";
-			navigate(`/quiz/result/${id}/${solvingId}/${quizTitle}/${quiz?.studyGroupId ?? ""}`, { replace: false, });
-
+			const params:QuizResultRouteParams = {
+				quizId: parseInt(id),
+				solvingQuizId: parseInt(solvingId), // TODO 제거
+				quizTitle: quizTitle,
+				studyGroupId: quiz?.studyGroupId?.toString() ?? "",
+			}
+			navigate(ROUTES.QUIZ_RESULT(params),{replace:false,});
 			return;
+
 		} else {
 			// 초기화 작업
 			setSubmitDisabled(true);
@@ -102,7 +110,7 @@ export default function Index() {
 	}
 	if (error || !quiz) {
 		toast.error("퀴즈를 불러오는데 실패했습니다.\n없는 퀴즈일 수 있습니다.");
-		navigate("/");
+		navigate(ROUTES.ROOT);
 		return;
 	}
 

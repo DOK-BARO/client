@@ -4,6 +4,7 @@ import { useAtom } from "jotai";
 import { isLoggedInAtom } from "@/store/userAtom";
 import pencil from "/public/assets/svg/header/pencil.svg";
 import checkSquare from "/public/assets/svg/header/check-square.svg";
+import ROUTES from "@/data/routes";
 interface HeaderQuizUtilListProps {
   closeDropDownList: () => void;
   openLoginModal: () => void;
@@ -19,10 +20,10 @@ export default function HeaderQuizUtilList({
   const onClickMakeQuiz = () => {
     closeDropDownList();
     if (!isLoggedIn) {
-      navigate("/"); //TODO: 랜딩페이지로 이동
+      navigate(ROUTES.ROOT); //TODO: 랜딩페이지로 이동
       openLoginModal();
     } else {
-      navigate("/create-quiz");
+      navigate(ROUTES.CREATE_QUIZ);
     }
   };
 

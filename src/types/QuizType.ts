@@ -62,10 +62,30 @@ export interface MyQuizDataType {
 	studyGroup?: MyQuizStudyGroupType;
 }
 
+
+export interface MySolvedQuizType {
+	endPageNumber: number;
+	data: MySolvedQuizDataType[];
+}
+
+export interface MySolvedQuizDataType {
+  id: number;
+  bookImageUrl?: string;
+  title: string;
+  solvedAt: string;
+	studyGroup?: MyQuizStudyGroupType;
+	quiz?:SolvedQuizType
+}
+
 interface MyQuizStudyGroupType{
 	id: number;
 	name: string;
 	profileImageUrl?: string;
+}
+
+interface SolvedQuizType {
+	id: number,
+	title: string
 }
 
 export type ViewScope = "EVERYONE" | "STUDY_GROUP" | "CREATOR";

@@ -11,7 +11,7 @@ import Pagination from "@/components/composite/Pagination/Pagination";
 import { BookQuizzesFilterType } from "@/types/BookType";
 import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 import { FilterOptionType } from "@/components/composite/ListFilter/ListFilter";
-import { FetchMyMadeQuizzesParams } from "@/types/ParamsType";
+import { FetchMyQuizzesParams } from "@/types/ParamsType";
 import { useEffect } from "react";
 
 const filterOptions: FilterOptionType<BookQuizzesFilterType>[] = [
@@ -44,7 +44,7 @@ export default function MyMadeQuiz() {
 
 	const totalPagesLength = paginationState.totalPagesLength;
 
-	const params: FetchMyMadeQuizzesParams = {
+	const params: FetchMyQuizzesParams = {
 		page: queryParams.get("page") ?? "1",
 		sort: queryParams.get("sort") ?? "CREATED_AT",
 		direction: queryParams.get("direction") ?? "DESC",
@@ -70,11 +70,6 @@ export default function MyMadeQuiz() {
 			});
 		}
 	}, [endPageNumber]);
-
-
-
-
-
 
 	const handleOptionClick = (filter: BookQuizzesFilterType) => {
 		navigateWithParams({

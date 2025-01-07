@@ -7,7 +7,7 @@ import { handleAxiosError } from "@/utils/errorHandler";
 import { FetchQuizzesParams } from "@/types/ParamsType";
 import { SolvingQuizGradeReuslt } from "@/types/QuizType";
 import { SolvingQuizStudyGroupGradeReuslt } from "@/types/QuizType";
-import { FetchMyMadeQuizzesParams } from "@/types/ParamsType";
+import { FetchMyQuizzesParams } from "@/types/ParamsType";
 
 class QuizService {
 	fetchQuizzes = async (
@@ -47,10 +47,21 @@ class QuizService {
 		}
 	};
 
-	fetchMyMadeQuizzes = async (params: FetchMyMadeQuizzesParams): Promise<MyQuizType| null> => {
+	fetchMyMadeQuizzes = async (params: FetchMyQuizzesParams): Promise<MyQuizType| null> => {
 		try {
 			const { page, size, sort, direction } = params;
 			const { data } = await axiosInstance.get(`/book-quizzes/my?page=${page}&size=${size}&sort=${sort}&direction=${direction}`);
+			return data;
+		} catch (error) {
+			handleAxiosError(error);
+			return null;
+		}
+	};
+
+	fetchMySolvedeQuizzes = async (params: FetchMyQuizzesParams): Promise<MyQuizType| null> => {
+		try {
+			const { page, size, sort, direction } = params;
+			const { data } = await axiosInstance.get(`/solving-quiz/my?page=${page}&size=${size}&sort=${sort}&direction=${direction}`);
 			return data;
 		} catch (error) {
 			handleAxiosError(error);

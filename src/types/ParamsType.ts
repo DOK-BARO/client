@@ -54,7 +54,8 @@ export interface FetchQuizzesParams {
   direction: string;
 }
 
-export interface FetchMyMadeQuizzesParams {
+// 내가 만든 퀴즈, 내가 푼 퀴즈
+export interface FetchMyQuizzesParams {
   page: string;
   size: string;
   sort: string;

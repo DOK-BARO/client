@@ -6,6 +6,7 @@ import { NoDataSection } from "@/components/composite/NoDataSection/NoDataSectio
 import { BookQuizzesFilterType } from "@/types/BookType";
 import ListFilter from "@/components/composite/ListFilter/ListFilter";
 import { FilterOptionType } from "@/components/composite/ListFilter/ListFilter";
+import { MySolvedQuizDataType } from "@/types/QuizType";
 
 export default function QuizListLayout({
 	title,
@@ -18,7 +19,7 @@ export default function QuizListLayout({
 	filterOptions
 }: {
 	title: string;
-	quizzes: MyQuizDataType[];
+	quizzes: MyQuizDataType[] | MySolvedQuizDataType[];
 	titleWhenNoData: string;
 	buttonNameWhenNoData: string;
 	onClickBtnWhenNoData: (e: React.MouseEvent<HTMLButtonElement>) => void;
@@ -26,6 +27,15 @@ export default function QuizListLayout({
 	filterCriteria: BookQuizzesFilterType,
 	filterOptions: FilterOptionType<BookQuizzesFilterType>[],
 }) {
+	const handleReSovingQuiz = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+	}
+
+	const handleModifyQuiz = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+	}
 
 	return (
 		<section className={styles["list-section"]}>
@@ -44,8 +54,8 @@ export default function QuizListLayout({
 			)}
 			<ul className={styles["quiz-list"]}>
 				{quizzes &&
-					quizzes.map((myQuiz: MyQuizDataType, index: number) => {
-						const updatedAtDate: Date = new Date(myQuiz.updatedAt);
+					quizzes.map((myQuiz: MyQuizDataType | MySolvedQuizDataType, index: number) => {
+						const updatedAtDate: Date = ("updatedAt" in myQuiz) ? new Date(myQuiz.updatedAt) : new Date(myQuiz.solvedAt);
 
 						const year = updatedAtDate.getFullYear();
 						const month = updatedAtDate.getMonth() + 1;
@@ -55,22 +65,29 @@ export default function QuizListLayout({
 
 						return (
 							<li className={styles["quiz"]}
-							key={index}>
-								<Link to={`/quiz/${myQuiz.id}`}>
+								key={index}>
+								<Link to={("quiz" in myQuiz) ? `/quiz/${myQuiz.quiz?.id}` : `/quiz/${myQuiz.id}`}>
 									<div className={styles["info"]}>
 										<img src={myQuiz.bookImageUrl}></img>
 										<div className={styles["sub-info"]}>
-											{/* TODO: 공용 컴포넌트로 만들기 */}
+											{/* TODO: 최종 출제일이 없음 -> api수정 기다리는 중 */}
 											<span className={styles["label"]}>최종 수정일</span>
 											<span className={styles["quiz-updated-at"]}>
 												{formattedDate}
 											</span>
 										</div>
-										<span className={styles["quiz-name"]}>{myQuiz.title}</span>
+										<span className={styles["quiz-name"]}>
+											{("title" in myQuiz) && myQuiz.title}
+											{(("quiz" in myQuiz)) && myQuiz?.quiz?.title}
+										</span>
 									</div>
 									<div className={styles["util"]}>
-										<Button color="primary" size="small">
-											수정하기
+										<Button 
+										color="primary" 
+										size="small"
+										onClick={("quiz" in myQuiz) ? handleReSovingQuiz : handleModifyQuiz}
+										>
+											{("quiz" in myQuiz) ? "다시 풀기" : "수정하기"}
 										</Button>
 										<Button
 											className={styles["delete"]}

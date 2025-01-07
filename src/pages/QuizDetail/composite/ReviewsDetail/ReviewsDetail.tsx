@@ -20,7 +20,7 @@ export default function ReviewsDetail({
     <section className={styles.container}>
       <h2 className={styles.title}>퀴즈 후기</h2>
       {reviewsTotalScore ? (
-        <div>
+        <>
           <div className={styles["rating-difficulty-container"]}>
             <span className={styles["rating-container"]}>
               <FiveStar size="medium" rating={roundedAverageRating} />
@@ -32,7 +32,7 @@ export default function ReviewsDetail({
             <QuizDifficultyChart difficulty={reviewsTotalScore.difficulty} />
           </div>
           <ReviewList quizId={reviewsTotalScore.quizId} quizTitle={quizTitle} />
-        </div>
+        </>
       ) : null}
     </section>
   );

@@ -146,8 +146,6 @@ export default function ReviewList({ quizId, quizTitle }: Props) {
               review={review}
               isMyReview={review.writerId === currentUser.id}
               quizTitle={quizTitle}
-              // onDeleteReview={handleDeleteReview}
-              // onEditReview={openEditModal}
             />
           ))}
       </ul>

@@ -1,7 +1,9 @@
+import { gray50, gray90 } from "@/styles/abstracts/colors";
 import styles from "./_quiz_settings_container.module.scss";
 import Button from "@/components/atom/Button/Button";
 import { QuizSettingOptionType, QuizSettingType } from "@/types/QuizType";
 import { useEffect, useState } from "react";
+import { ArrowDown2 } from "@/svg/ArrowDown2";
 
 export const QuizSettingContainer = ({
   quizSetting,
@@ -12,15 +14,15 @@ export const QuizSettingContainer = ({
   onOptionSelect: (name: string, label: string) => void;
   selectedOptionLabel: string | null;
 }) => {
-  const arrowDown = "/assets/svg/quizSettingForm/arrowDown.svg";
   const options = quizSetting.options;
+  console.log(options);
 
   const [description, setDescription] = useState<string>("");
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    if (quizSetting.options.length === 1) {
-      onOptionSelect(quizSetting.name, quizSetting.options[0].label);
+    if (options.length === 1) {
+      onOptionSelect(quizSetting.name, options[0].label);
     }
   }, []);
 
@@ -55,11 +57,17 @@ export const QuizSettingContainer = ({
         onClick={() => setIsSelectOpen(!isSelectOpen)}
         className={styles.select}
         size="medium"
-        icon={<img src={arrowDown} />}
+        icon={
+          <ArrowDown2
+            stroke={options.length > 1 ? gray90 : gray50}
+            width={20}
+            height={20}
+          />
+        }
       >
         {selectedOptionLabel ?? "선택"}
       </Button>
-      {quizSetting.options.length > 1 && isSelectOpen ? (
+      {options.length > 1 && isSelectOpen ? (
         <ul className={styles["option-list"]}>
           {options.map((option: QuizSettingOptionType) => (
             <li key={option.label}>

@@ -13,12 +13,13 @@ import { isQuizNextButtonEnabledAtom } from "@/store/quizAtom";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { bookService } from "@/services/server/bookService";
 import { BookListItem } from "../BookListItem/BookListItem";
+import loadingIndicator from "/public/assets/svg/quizBookSelectionForm/loading.gif";
+import useOutsideClick from "@/hooks/useOutsideClick";
 
 // 2. 도서 선택
 export default function QuizBookSelectionForm() {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const inputRef = useRef<HTMLDivElement>(null);
-  const loadingIcon = "/assets/svg/quizBookSelectionForm/loading.gif";
   const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
     isQuizNextButtonEnabledAtom
   );
@@ -63,17 +64,9 @@ export default function QuizBookSelectionForm() {
     if (!selectedBook) {
       setIsQuizNextButtonEnabled(false);
     }
-    const handleClickOutside = (e: MouseEvent) => {
-      if (inputRef.current && !inputRef.current.contains(e.target as Node)) {
-        setIsClicked(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
   }, []);
+
+  useOutsideClick([inputRef], () => setIsClicked(false));
 
   const handleSearchBook = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChangeSearchValue(e);
@@ -106,7 +99,9 @@ export default function QuizBookSelectionForm() {
       <Input
         leftIcon={<Search width={20} stroke={gray60} />}
         rightIcon={
-          isActuallyLoading ? <img src={loadingIcon} width={24} /> : undefined
+          isActuallyLoading ? (
+            <img src={loadingIndicator} width={24} />
+          ) : undefined
         }
         onChange={handleSearchBook}
         value={searchValue}

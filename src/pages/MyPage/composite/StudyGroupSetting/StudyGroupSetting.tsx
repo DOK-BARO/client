@@ -29,6 +29,7 @@ import { queryClient } from "@/services/server/queryClient";
 import { UploadImageArgType } from "@/types/UploadImageType";
 import { imageService } from "@/services/server/imageService";
 import ROUTES from "@/data/routes";
+import useOutsideClick from "@/hooks/useOutsideClick";
 
 // 스터디 그룹 관리
 export default function StudyGroupSetting() {
@@ -64,7 +65,7 @@ export default function StudyGroupSetting() {
   } = useModal();
 
   const modalRef = useRef<HTMLDivElement>(null);
-  const buttonRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const { value: name, onChange: onNameChange } = useInput(
     studyGroupDetail?.name ?? ""
@@ -163,22 +164,7 @@ export default function StudyGroupSetting() {
     }
   };
 
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        modalRef.current?.contains(e.target as Node) ||
-        buttonRef.current?.contains(e.target as Node)
-      ) {
-        return;
-      }
-      closeSmallModal();
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  useOutsideClick([modalRef, buttonRef], closeSmallModal);
 
   const handleDeleteStudyGroup = () => {
     if (!studyGroupDetail) {
@@ -267,13 +253,12 @@ export default function StudyGroupSetting() {
         {/* 스터디 그룹 관리 */}
         <div className={styles["header-container"]}>
           <h3 className={styles.title}>스터디 그룹 관리</h3>
-          <div ref={buttonRef}>
-            <Button
-              iconOnly
-              icon={<img src={threeDot} width={16} height={16} />}
-              onClick={handleToggle}
-            />
-          </div>
+          <Button
+            iconOnly
+            icon={<img src={threeDot} width={16} height={16} />}
+            onClick={handleToggle}
+            ref={buttonRef}
+          />
 
           {isSmallModalOpen ? (
             <div className={styles["small-modal-container"]} ref={modalRef}>

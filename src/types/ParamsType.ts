@@ -47,6 +47,14 @@ export interface FetchQuizzesParams {
   direction: string;
 }
 
+// 내가 만든 퀴즈, 내가 푼 퀴즈
+export interface FetchMyQuizzesParams {
+  page: string;
+  size: string;
+  sort: string;
+  direction: string;
+}
+
 // STUDY GROUP
 export interface FetchStudyGroupsParams {
   page?: number;

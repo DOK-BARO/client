@@ -1,0 +1,17 @@
+@import "../../../../styles/abstracts/mixins";
+@import "../../../../styles/abstracts/variables";
+
+.container {
+  .sub-title {
+    font-size: 20px;
+    font-weight: $font-weight-semibold;
+  }
+  .code-input-container {
+    width: 342px;
+    margin-top: 24px;
+  }
+  .done {
+    width: 150px;
+    margin-top: 40px;
+  }
+}

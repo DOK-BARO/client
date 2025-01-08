@@ -2,16 +2,17 @@ import styles from "./_mypage.module.scss";
 import MyPageLayout from "./layout/MyPageLayout/MyPageLayout";
 import { SectionNavType } from "@/types/SectionNavType";
 import MyPageSectionNav from "./layout/MyPageSectionNav/MyPageSectionNav";
+import ROUTES from "@/data/routes";
 
 export default function Index() {
   const sectionNavList: SectionNavType[] = [
     {
       title: "만든 퀴즈",
-      link: "made-quiz",
+      link: ROUTES.MY_MADE_QUIZ,
     },
     {
       title: "푼 퀴즈",
-      link: "solved-quiz",
+      link: ROUTES.SOLVED_QUIZ,
     },
     {
       title: "내 스터디 그룹",
@@ -19,15 +20,15 @@ export default function Index() {
     },
     {
       title: "계정 설정",
-      link: "settings",
+      link: ROUTES.SETTINGS,
       subTitles: [
         {
           title: "회원정보 수정",
-          link: "settings/edit-profile",
+          link: `${ROUTES.SETTINGS}/${ROUTES.EDIT_PROFILE}`,
         },
         {
           title: "비밀번호 변경",
-          link: "settings/change-password",
+          link: `${ROUTES.SETTINGS}/${ROUTES.CHANGE_PASSWORD}`,
         },
         {
           title: "회원 탈퇴",

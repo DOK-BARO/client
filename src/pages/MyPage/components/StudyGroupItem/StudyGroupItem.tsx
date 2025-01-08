@@ -7,6 +7,7 @@ import { useAtom } from "jotai";
 import { studyGroupAtom } from "@/store/myPageAtom";
 import { Leader } from "@/svg/Leader";
 import { gray50 } from "@/styles/abstracts/colors";
+import ROUTES from "@/data/routes";
 interface Prop {
   studyGroup: StudyGroupType;
 }
@@ -17,7 +18,7 @@ export default function StudyGroupItem({ studyGroup }: Prop) {
 
   // 스터디 그룹 정보
   const handleStudyInfoClick = () => {
-    navigate(`/my/study-groups/${studyGroup.id}`);
+		navigate(ROUTES.STUDY_GROUP(studyGroup.id));
     setStudyGroup({
       id: studyGroup.id,
       name: studyGroup.name,

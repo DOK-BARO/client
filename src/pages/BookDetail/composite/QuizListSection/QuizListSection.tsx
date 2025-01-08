@@ -16,6 +16,7 @@ import ListFilter from "@/components/composite/ListFilter/ListFilter.tsx";
 import { NoDataSection } from "@/components/composite/NoDataSection/NoDataSection.tsx";
 import { paginationAtom } from "@/store/paginationAtom.ts";
 import { useEffect } from "react";
+import ROUTES from "@/data/routes.ts";
 
 export default function QuizListSection({
   bookId,
@@ -123,7 +124,7 @@ export default function QuizListSection({
           quizzes?.data.map((quiz) => (
             <a 
 						key={quiz.id}
-						href={`/quiz/${quiz.id}`}>
+						href={ROUTES.QUIZ_DETAIL(quiz.id)}>
               <QuizItem key={quiz.id} quiz={quiz} />
             </a>
           ))}

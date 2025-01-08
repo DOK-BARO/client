@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { studyGroupKeys } from "@/data/queryKeys";
 import { studyGroupService } from "@/services/server/studyGroupService";
 import GradeResultItem from "../GradeResultItem/GradeResultItem";
+import ROUTES from "@/data/routes";
 
 interface Prop {
   quizData: StudyGroupMyUnSolvedQuizType;
@@ -20,7 +21,7 @@ interface Prop {
 export default function QuizItem({ quizData, isSolved, studyGroupId }: Prop) {
   const navigate = useNavigate();
   const handleGoToSolveQuiz = () => {
-    navigate(`/quiz/play/${quizData.quiz.id}`);
+		navigate(ROUTES.SOLVING_QUIZ(quizData.quiz.id));
   };
   const { openModal, closeModal, isModalOpen } = useModal();
 

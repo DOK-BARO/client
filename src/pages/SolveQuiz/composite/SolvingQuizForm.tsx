@@ -37,7 +37,6 @@ export default function SolvingQuizForm({
 	const [checkedOptions, setCheckedOptions] = useState<{ [key: string]: boolean; }>({});
 
 	useEffect(() => {
-		console.log(selectedRadioOption);
 		if (question.type === "MULTIPLE_CHOICE_SINGLE_ANSWER" || question.type === "OX") {
 			if (selectedRadioOption) {
 				setSubmitDisabled(false);
@@ -135,6 +134,7 @@ export default function SolvingQuizForm({
 						}
 					}
 					return <RadioOption
+						key={index}
 						radioGroupName={question.id.toString()}
 						option={radioOption}
 						checked={isChecked}

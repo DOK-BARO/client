@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from "react-router-dom"
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import ROUTES from "@/data/routes";
 import BaseLayout from "@/components/layout/BaseLayout/BaseLayout.tsx";
 import BookListLayout from "@/pages/BookList/layout/BookListLayout/BookListLayout";
@@ -26,144 +26,144 @@ import DeleteAccount from "@/pages/MyPage/composite/accountSetting/DeleteAccount
 import NotFound from "@/pages/NotFound";
 
 const router = createBrowserRouter([
-	{
-		path: ROUTES.ROOT,
-		element: <BaseLayout />,
-		children: [
-			{
-				path: ROUTES.ROOT,
-				element: <BookListLayout />,
-				children: [
-					{
-						path: ROUTES.ROOT,
-						element: <Navigate to={ROUTES.BOOK_LIST} replace />, // "/"로 들어왔을 때 "/books"로 리다이렉트
-					},
-					{
-						path: ROUTES.BOOK_LIST,
-						element: <BookList />,
-					},
-				],
-			},
-			{
-				path: ROUTES.BOOK_DETAIL_SECTION(),
-				element: <BookDetailSection />,
-			},
-			{
-				path: ROUTES.QUIZ_DETAIL(),
-				element: <QuizDetail />,
-			},
-			{
-				path: ROUTES.CREATE_QUIZ,
-				element: <CreateQuiz />,
-			},
+  {
+    path: ROUTES.ROOT,
+    element: <BaseLayout />,
+    children: [
+      {
+        path: ROUTES.ROOT,
+        element: <BookListLayout />,
+        children: [
+          {
+            path: ROUTES.ROOT,
+            element: <Navigate to={ROUTES.BOOK_LIST} replace />, // "/"로 들어왔을 때 "/books"로 리다이렉트
+          },
+          {
+            path: ROUTES.BOOK_LIST,
+            element: <BookList />,
+          },
+        ],
+      },
+      {
+        path: ROUTES.BOOK_DETAIL_SECTION(),
+        element: <BookDetailSection />,
+      },
+      {
+        path: ROUTES.QUIZ_DETAIL(),
+        element: <QuizDetail />,
+      },
+      {
+        path: ROUTES.CREATE_QUIZ,
+        element: <CreateQuiz />,
+      },
 
-			{
-				path: ROUTES.CREATE_QUIZ_COMPLETE,
-				element: <CreateQuizComplete />,
-			},
-		
-			{
-				path: ROUTES.FIND_PASSWORD,
-				element: <FindPassword />,
-			},
+      {
+        path: ROUTES.CREATE_QUIZ_COMPLETE,
+        element: <CreateQuizComplete />,
+      },
 
-			{
-				path: ROUTES.REGISTER(),
-				element: <Register />,
-			},
+      {
+        path: ROUTES.FIND_PASSWORD,
+        element: <FindPassword />,
+      },
 
-			{
-				path: ROUTES.REGISTER_COMPLETE,
-				element: <RegisterComplete />,
-			},
-			{
-				path: ROUTES.MY_PAGE,
-				element: <MyPage />,
-				children: [
-					{
-						path: ROUTES.MY_PAGE,
-						element: <Navigate to={ROUTES.MY_MADE_QUIZ} replace />,
-					},
-					{
-						path: ROUTES.MY_MADE_QUIZ,
-						element: <MyMadeQuiz />,
-					},
-					{
-						path: ROUTES.SOLVED_QUIZ,
-						element: <SolvedQuiz />,
-					},
-					// TODO: study-group 으로 변경하기
-					{
-						path: "study-groups",
-						element: <MyStudyGroups />,
-					},
-					{
-						path: ROUTES.STUDY_GROUP(),
-						element: <StudyGroup />,
-					},
-					{
-						path: ROUTES.STUDY_GROUP_SETTING(),
-						element: <StudyGroupSetting />,
-					},
-					{
-						path: ROUTES.SETTINGS,
-						children: [
-							{
-								index: true,
-								element: <Navigate to={ROUTES.EDIT_PROFILE} replace />,
-							},
-							{
-								path: ROUTES.EDIT_PROFILE,
-								element: <EditMyInfo />,
-							},
-							{
-								path: ROUTES.CHANGE_PASSWORD,
-								element: <ChangePassword></ChangePassword>,
-							},
-							{
-								path: ROUTES.DELETE_ACCOUNT,
-								element: <DeleteAccount></DeleteAccount>,
-							},
-						],
-					},
-				],
-			},
+      {
+        path: ROUTES.REGISTER(),
+        element: <Register />,
+      },
 
-			{
-				// 공용 컴포넌트 미리보기를 위한 페이지
-				path: ROUTES.COMPONENT_TEST,
-				element: <ComponentTest />,
-			},
-		],
-	},
-	{
-		path: ROUTES.QUIZ,
-		element: <BaseLayout showHeader={false} />,
-		children: [
-			{
-				path: ROUTES.SOLVING_QUIZ(),
-				element: <SolvingQuiz />,
-			},
-			{
-				path: ROUTES.QUIZ_RESULT(),
-				element: <QuizResult />,
-			},
-			{
-				path: ROUTES.QUIZ_REVIEW(),
-				element: <QuizReview />,
-			},
-		],
-	},
-	{
-		path: ROUTES.NOT_FOUND,
-		element: <BaseLayout showHeader={false} />,
-		children: [
-			{
-				path: ROUTES.NOT_FOUND,
-				element: <NotFound />,
-			},
-		],
-	},
+      {
+        path: ROUTES.REGISTER_COMPLETE,
+        element: <RegisterComplete />,
+      },
+      {
+        path: ROUTES.MY_PAGE,
+        element: <MyPage />,
+        children: [
+          {
+            path: ROUTES.MY_PAGE,
+            element: <Navigate to={ROUTES.MY_MADE_QUIZ} replace />,
+          },
+          {
+            path: ROUTES.MY_MADE_QUIZ,
+            element: <MyMadeQuiz />,
+          },
+          {
+            path: ROUTES.SOLVED_QUIZ,
+            element: <SolvedQuiz />,
+          },
+          // TODO: study-group 으로 변경하기
+          {
+            path: "study-groups",
+            element: <MyStudyGroups />,
+          },
+          {
+            path: ROUTES.STUDY_GROUP(),
+            element: <StudyGroup />,
+          },
+          {
+            path: ROUTES.STUDY_GROUP_SETTING(),
+            element: <StudyGroupSetting />,
+          },
+          {
+            path: ROUTES.SETTINGS,
+            children: [
+              {
+                index: true,
+                element: <Navigate to={ROUTES.EDIT_PROFILE} replace />,
+              },
+              {
+                path: ROUTES.EDIT_PROFILE,
+                element: <EditMyInfo />,
+              },
+              {
+                path: ROUTES.CHANGE_PASSWORD,
+                element: <ChangePassword></ChangePassword>,
+              },
+              {
+                path: ROUTES.DELETE_ACCOUNT,
+                element: <DeleteAccount></DeleteAccount>,
+              },
+            ],
+          },
+        ],
+      },
+
+      {
+        // 공용 컴포넌트 미리보기를 위한 페이지
+        path: ROUTES.COMPONENT_TEST,
+        element: <ComponentTest />,
+      },
+    ],
+  },
+  {
+    path: ROUTES.QUIZ,
+    element: <BaseLayout showHeader={false} />,
+    children: [
+      {
+        path: ROUTES.SOLVING_QUIZ(),
+        element: <SolvingQuiz />,
+      },
+      {
+        path: ROUTES.QUIZ_RESULT(),
+        element: <QuizResult />,
+      },
+      {
+        path: ROUTES.QUIZ_REVIEW(),
+        element: <QuizReview />,
+      },
+    ],
+  },
+  {
+    path: ROUTES.NOT_FOUND,
+    element: <BaseLayout showHeader={false} />,
+    children: [
+      {
+        path: ROUTES.NOT_FOUND,
+        element: <NotFound />,
+      },
+    ],
+  },
 ]);
 
 export default router;

@@ -7,6 +7,10 @@
 	margin: 40px 0 175px;
 }
 
+.common-quiz-container {
+	text-align: center;
+}
+
 .title {
 	font-size: 32px;
 	font-weight: $font-weight-bold;
@@ -17,13 +21,17 @@
 	}
 }
 
+.result-img {
+	position: relative;
+}
+
 .confetti {
 	position: absolute;
 	left: 50%;
-	top: 30%;
+	top: 50%;
 	transform: translate(-50%, -50%);
-	width: 492px;
-	height: 420px;
+	width: 150%;
+	height: 150%;
 }
 
 .study-group-container {
@@ -125,7 +133,7 @@
 }
 
 .animation-container {
-	@include flex(column,center);
+	@include flex(column, center);
 	animation: slide-down 0.8s ease-out;
 }
 
@@ -135,6 +143,7 @@
 
 .btn-next {
 	width: 200px;
+	z-index: 1;
 }
 
 @keyframes slide-down {

@@ -1,6 +1,4 @@
-import {
-  RouterProvider,
-} from "react-router-dom";
+import { RouterProvider } from "react-router-dom";
 import "./styles/main.scss";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./services/server/queryClient.ts";

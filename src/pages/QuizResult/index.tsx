@@ -48,7 +48,9 @@ export default function Index() {
 				<Button
 					color="primary"
 					size="medium"
-					onClick={handleGoToNext}>
+					onClick={handleGoToNext}
+					className={styles["btn-next"]}
+					>
 					다음
 				</Button>
 			}

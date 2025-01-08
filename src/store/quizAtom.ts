@@ -1,5 +1,6 @@
 import { QuizCreationType } from "@/types/QuizType";
 import { atom } from "jotai";
+import { BookQuizzesFilterType } from "@/types/BookType";
 
 {
   /* 초기값 정의 */
@@ -83,4 +84,9 @@ export const resetQuizCreationStateAtom = atom(null, (_, set) => {
   set(errorModalTitleAtom, initialErrorModalTitle);
   set(selectedOptionsAtom, initialSelectedOptions);
   set(createdQuizIdAtom, initialQuizId);
+});
+
+export const quizzesFilterAtom = atom<BookQuizzesFilterType>({
+	sort: "CREATED_AT",
+	direction: "DESC",
 });

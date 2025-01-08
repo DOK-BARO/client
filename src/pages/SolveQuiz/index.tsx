@@ -5,7 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { quizKeys } from "@/data/queryKeys";
 import { quizService } from "@/services/server/quizService";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "@/components/atom/Button/Button";
 import { ArrowRight } from "@/svg/ArrowRight";
 import { gray0 } from "@/styles/abstracts/colors";
@@ -18,12 +18,23 @@ import "highlight.js/styles/xcode.css";
 import toast from "react-hot-toast";
 import ROUTES from "@/data/routes";
 import { QuizResultRouteParams } from "@/types/ParamsType";
-// TODO:solvingquiz 넘겨받는것이 아닌 이 안에서 생성 필요
+
 export default function Index() {
-	const { quizId, solvingQuizId } = useParams<{
+	const [solvingQuizId, setSolvingQuizId] = useState<number>();
+	const { quizId } = useParams<{
 		quizId: string;
-		solvingQuizId: string;
 	}>();
+
+	useEffect(()=>{
+		quizService.startSolvingQuiz(quizId!).then(({id})=>{
+			setSolvingQuizId(id!);
+		});
+	},[]);
+
+	useEffect(()=>{
+		console.log("solvingQuizId" , solvingQuizId);
+
+	},[solvingQuizId]);
 
 	const warning = "/assets/svg/solvingQuizFormLayout/warning.svg";
 	const navigate = useNavigate();
@@ -105,7 +116,7 @@ export default function Index() {
 		}
 	};
 
-	if (isQuizLoading) {
+	if (isQuizLoading || !solvingQuizId) {
 		return <>로딩</>;
 	}
 	if (error || !quiz) {

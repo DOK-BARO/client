@@ -13,7 +13,7 @@ import Button from "@/components/atom/Button/Button";
 import useModal from "@/hooks/useModal";
 import SmallModal from "@/components/atom/SmallModal/SmallModal";
 import noticeCircle from "/public/assets/svg/myPage/notice-circle.svg";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Modal from "@/components/atom/Modal/Modal";
 import Textarea from "@/components/atom/Textarea/Textarea";
 import { useMutation } from "@tanstack/react-query";
@@ -23,7 +23,6 @@ import { quizService } from "@/services/server/quizService";
 import useOutsideClick from "@/hooks/useOutsideClick";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
 import CheckBox from "@/components/atom/Checkbox/Checkbox";
-import RadioOption from "@/components/atom/RadioOption/RadioOption";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "@/data/routes";
 interface Props {
@@ -79,6 +78,7 @@ export default function QuizShortInfo({
     resetTextarea: resetReportContent,
   } = useAutoResizeTextarea("", "40px");
 
+  // TODO: 퀴즈 신고하기 API 변경 사항에 맞게 수정
   const { mutate: reportReview } = useMutation<
     { id: number } | null,
     ErrorType,
@@ -102,11 +102,24 @@ export default function QuizShortInfo({
     reportReview({ questionId: quizExplanation.id, content: reportContent });
   };
 
-  const reportReasons = [
-    { id: 1, text: "비속어 또는 비방 내용이 포함되어 있어요." },
-    { id: 2, text: "도서와 무관한 퀴즈예요." },
-    { id: 3, text: "스팸/광고 내용이 포함되어 있어요." },
+  const reportReasonList = [
+    { id: 1, text: "비속어 또는 비방 내용이 포함되어 있어요.", checked: false },
+    { id: 2, text: "도서와 무관한 퀴즈예요.", checked: false },
+    { id: 3, text: "스팸/광고 내용이 포함되어 있어요.", checked: false },
+    { id: 4, text: "기타", checked: false },
   ];
+
+  const [reportReasons, setReportReasons] = useState<
+    {
+      id: number;
+      text: string;
+      checked: boolean;
+    }[]
+  >(reportReasonList);
+
+  const [selectedReportReason, setSelectedReportReason] = useState<string[]>(
+    []
+  );
 
   const handleSmallModalClick = () => {
     closeSmallModal();
@@ -120,6 +133,29 @@ export default function QuizShortInfo({
   const handleGoBackToQuiz = () => {
     navigate(-1);
   };
+
+  const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id } = e.target;
+
+    setReportReasons(
+      reportReasons.map((reason) =>
+        reason.id === Number(id)
+          ? { ...reason, checked: !reason.checked }
+          : reason
+      )
+    );
+  };
+
+  useEffect(() => {
+    const reportReasonTextList = reportReasons.filter(
+      (reason) => reason.checked
+    );
+    setSelectedReportReason(reportReasonTextList.map((item) => item.text));
+  }, [reportReasons]);
+
+  useEffect(() => {
+    console.log("selectedReportReason", selectedReportReason);
+  }, [selectedReportReason]);
 
   return (
     <section className={styles.container}>
@@ -152,36 +188,43 @@ export default function QuizShortInfo({
               content: (
                 <div>
                   {reportReasons.map((reason) => (
-                    <div>
-                      {reason.text}
-                      {/* <RadioOption
-                        option={{
-                          id: reason.id,
-                          value: reason.text,
-                          label: reason.text,
-                        }}
-                        type="option-black-square"
-                      /> */}
-                    </div>
+                    <CheckBox
+                      id={reason.id.toString()}
+                      type="checkbox-black"
+                      value={reason.text}
+                      onChange={handleCheckBoxChange}
+                      checked={reason.checked}
+                    />
                   ))}
                   {/* 입력 전/후 높이 차이 */}
-                  <Textarea
-                    placeholder="기타 사유를 작성해 주세요."
-                    maxLengthShow
-                    maxLength={500}
-                    onChange={onReportContentChange}
-                    value={reportContent}
-                    id="report-content"
-                    textAreaRef={reportContentRef}
-                    size="small"
-                    rows={1}
-                  />
+                  {/* 기타 선택했을 때만 보이게 */}
+                  {selectedReportReason.some((reason) => reason === "기타") ? (
+                    <div className={styles["textarea-container"]}>
+                      <Textarea
+                        placeholder="기타 사유를 작성해 주세요."
+                        maxLengthShow
+                        maxLength={500}
+                        onChange={onReportContentChange}
+                        value={reportContent}
+                        id="report-content"
+                        textAreaRef={reportContentRef}
+                        size="small"
+                        rows={1}
+                      />
+                    </div>
+                  ) : null}
                 </div>
               ),
             },
           ]}
+          // disabled: 하나 이상 선택했을 떄만 활성화되도록
           bottomButtons={[
-            { text: "신고하기", color: "primary", onClick: handleReportReview },
+            {
+              text: "신고하기",
+              color: "primary",
+              onClick: handleReportReview,
+              disabled: selectedReportReason.length < 1,
+            },
           ]}
         />
       ) : null}

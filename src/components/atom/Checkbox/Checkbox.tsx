@@ -24,7 +24,7 @@ export type CheckboxStatusType =
 interface CheckBoxProps {
   id: string;
   checked: boolean;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   type?: CheckboxStatusType;
   disabled?: boolean;
   className?: string;

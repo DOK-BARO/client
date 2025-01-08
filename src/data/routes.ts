@@ -38,8 +38,7 @@ const ROUTES = {
   COMPONENT_TEST: "/component-test",
 
   QUIZ: "/quiz",
-  SOLVING_QUIZ: (quizId?: number, solvingQuizId?: number) =>
-    `/quiz/play/${quizId ?? ":quizId"}/${solvingQuizId ?? ":solvingQuizId"}`,
+  SOLVING_QUIZ: (quizId?: number) => `/quiz/play/${quizId ?? ":quizId"}`,
 
   QUIZ_REVIEW: (param?: QuizReviewRouteParams) =>
     `/quiz/review/${param?.quizId ?? ":quizId"}/${

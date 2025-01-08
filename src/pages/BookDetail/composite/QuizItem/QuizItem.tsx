@@ -4,7 +4,6 @@ import { QuizLevelBarChart } from "@/svg/QuizLevelBarChart";
 import Button from "@/components/atom/Button/Button";
 import { BookQuizzesDataType } from "@/types/BookType";
 import { useNavigate } from "react-router-dom";
-import { quizService } from "@/services/server/quizService";
 import ROUTES from "@/data/routes";
 
 export default function QuizItem({ quiz }: { quiz: BookQuizzesDataType }) {
@@ -12,9 +11,7 @@ export default function QuizItem({ quiz }: { quiz: BookQuizzesDataType }) {
 
 	const goToPlayQuiz = async (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
-		quizService.startSolvingQuiz(quiz.id.toString()).then(({id})=>{
-			navigate(ROUTES.SOLVING_QUIZ(quiz.id, id));
-		})
+		navigate(ROUTES.SOLVING_QUIZ(quiz.id));
 	}
 
 	const renderQuizDifficultyLevel = (): string => {

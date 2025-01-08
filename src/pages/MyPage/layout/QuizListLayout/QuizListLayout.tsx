@@ -1,9 +1,12 @@
-import { MyQuizType } from "@/types/QuizType";
+import { MyQuizDataType } from "@/types/QuizType";
 import Button from "@/components/atom/Button/Button";
 import styles from "./_quiz_list_layout.module.scss";
 import { Link } from "react-router-dom";
 import { NoDataSection } from "@/components/composite/NoDataSection/NoDataSection";
-import ROUTES from "@/data/routes";
+import { BookQuizzesFilterType } from "@/types/BookType";
+import ListFilter from "@/components/composite/ListFilter/ListFilter";
+import { FilterOptionType } from "@/components/composite/ListFilter/ListFilter";
+import { MySolvedQuizDataType } from "@/types/QuizType";
 
 export default function QuizListLayout({
   title,
@@ -11,16 +14,35 @@ export default function QuizListLayout({
   titleWhenNoData,
   buttonNameWhenNoData,
   onClickBtnWhenNoData,
+  handleOptionClick,
+  filterCriteria,
+  filterOptions,
 }: {
   title: string;
-  quizzes: MyQuizType[];
+  quizzes: MyQuizDataType[] | MySolvedQuizDataType[];
   titleWhenNoData: string;
   buttonNameWhenNoData: string;
   onClickBtnWhenNoData: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleOptionClick: (filter: BookQuizzesFilterType) => void;
+  filterCriteria: BookQuizzesFilterType;
+  filterOptions: FilterOptionType<BookQuizzesFilterType>[];
 }) {
+  const handleReSovingQuiz = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+  };
+
+  const handleModifyQuiz = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+  };
+
   return (
     <section className={styles["list-section"]}>
-      <ListHeader title={title} />
+      <ListHeader
+        title={title}
+        handleOptionClick={handleOptionClick}
+        filterCriteria={filterCriteria}
+        filterOptions={filterOptions}
+      />
       {!quizzes?.length && (
         <NoDataSection
           title={titleWhenNoData}
@@ -28,64 +50,102 @@ export default function QuizListLayout({
           onClick={onClickBtnWhenNoData}
         />
       )}
-      <ul>
+      <ul className={styles["quiz-list"]}>
         {quizzes &&
-          quizzes.map((myQuiz: MyQuizType, index: number) => {
-            const updatedAtDate: Date = new Date(myQuiz.updatedAt);
+          quizzes.map(
+            (myQuiz: MyQuizDataType | MySolvedQuizDataType, index: number) => {
+              const updatedAtDate: Date =
+                "updatedAt" in myQuiz
+                  ? new Date(myQuiz.updatedAt)
+                  : new Date(myQuiz.solvedAt);
 
-            const year = updatedAtDate.getFullYear();
-            const month = updatedAtDate.getMonth() + 1;
-            const date = updatedAtDate.getDate();
+              const year = updatedAtDate.getFullYear();
+              const month = updatedAtDate.getMonth() + 1;
+              const date = updatedAtDate.getDate();
 
-            const formattedDate: string = `${year}년 ${month}월 ${date}일`;
+              const formattedDate: string = `${year}년 ${month}월 ${date}일`;
 
-            return (
-              <li key={index}>
-                <Link to={ROUTES.QUIZ_DETAIL(myQuiz.id)}>
-                  <div className={styles["info"]}>
-                    <img src={myQuiz.bookImageUrl}></img>
-                    <div className={styles["sub-info"]}>
-                      {/* TODO: 공용 컴포넌트로 만들기 */}
-                      <span className={styles["label"]}>최종 수정일</span>
-                      <span className={styles["quiz-updated-at"]}>
-                        {formattedDate}
+              return (
+                <li className={styles["quiz"]} key={index}>
+                  {/* TODO: ROUTES적용 */}
+                  {/* <Link to={ROUTES.QUIZ_DETAIL(myQuiz.id)}> */}
+                  <Link
+                    to={
+                      "quiz" in myQuiz
+                        ? `/quiz/${myQuiz.quiz?.id}`
+                        : `/quiz/${myQuiz.id}`
+                    }
+                  >
+                    <div className={styles["info"]}>
+                      <div className={styles["img-container"]}>
+                        <img src={myQuiz.bookImageUrl} />
+                      </div>
+                      <div className={styles["sub-info"]}>
+                        <span className={styles["label"]}>
+                          {"updatedAt" in myQuiz
+                            ? "최종 수정일"
+                            : "최종 제출일"}
+                        </span>
+                        <span className={styles["quiz-updated-at"]}>
+                          {formattedDate}
+                        </span>
+                      </div>
+                      <span className={styles["quiz-name"]}>
+                        {"title" in myQuiz && myQuiz.title}
+                        {"quiz" in myQuiz && myQuiz?.quiz?.title}
                       </span>
                     </div>
-                    <span className={styles["quiz-name"]}>{myQuiz.title}</span>
-                  </div>
-                  <div className={styles["util"]}>
-                    <Button color="primary" size="small">
-                      수정하기
-                    </Button>
-                    <Button
-                      className={styles["delete"]}
-                      color="transparent"
-                      size="xsmall"
-                    >
-                      퀴즈 삭제하기
-                    </Button>
-                  </div>
-                </Link>
-              </li>
-            );
-          })}
+                    <div className={styles["util"]}>
+                      <Button
+                        color="primary"
+                        size="small"
+                        onClick={
+                          "quiz" in myQuiz
+                            ? handleReSovingQuiz
+                            : handleModifyQuiz
+                        }
+                      >
+                        {"quiz" in myQuiz ? "다시 풀기" : "수정하기"}
+                      </Button>
+                      <Button
+                        className={styles["delete"]}
+                        color="transparent"
+                        size="xsmall"
+                      >
+                        퀴즈 삭제하기
+                      </Button>
+                    </div>
+                  </Link>
+                </li>
+              );
+            }
+          )}
       </ul>
     </section>
   );
 }
 
-const ListHeader = ({ title }: { title: string }) => {
+const ListHeader = ({
+  title,
+  handleOptionClick,
+  filterCriteria,
+  filterOptions,
+}: {
+  title: string;
+  handleOptionClick: (filter: BookQuizzesFilterType) => void;
+  filterCriteria: BookQuizzesFilterType;
+  filterOptions: FilterOptionType<BookQuizzesFilterType>[];
+}) => {
   return (
     <div className={styles["list-header"]}>
-      <h3 className={styles["sub-title"]}>{title}</h3>
-      <span className={styles["button-area"]}>
-        <Button size="xsmall" color="transparent">
-          최신순
-        </Button>
-        <Button size="xsmall" color="transparent">
-          가나다순
-        </Button>
-      </span>
+      <h3>{title}</h3>
+      <div className={styles["filter-button-area"]}>
+        <ListFilter
+          onOptionClick={handleOptionClick}
+          sortFilter={filterCriteria}
+          filterOptions={filterOptions}
+        />
+      </div>
     </div>
   );
 };

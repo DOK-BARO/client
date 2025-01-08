@@ -7,7 +7,6 @@ import { BookQuizzesFilterType } from "@/types/BookType";
 import ListFilter from "@/components/composite/ListFilter/ListFilter";
 import { FilterOptionType } from "@/components/composite/ListFilter/ListFilter";
 import { MySolvedQuizDataType } from "@/types/QuizType";
-import ROUTES from "@/data/routes";
 
 export default function QuizListLayout({
 	title,
@@ -29,12 +28,12 @@ export default function QuizListLayout({
 	filterOptions: FilterOptionType<BookQuizzesFilterType>[],
 }) {
 	const handleReSovingQuiz = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+		e.preventDefault();
 
 	}
 
 	const handleModifyQuiz = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+		e.preventDefault();
 
 	}
 
@@ -67,8 +66,8 @@ export default function QuizListLayout({
 						return (
 							<li className={styles["quiz"]}
 								key={index}>
-																	{/* <Link to={ROUTES.QUIZ_DETAIL(myQuiz.id)}> */}
-
+									{/* TODO: ROUTES적용 */}
+								{/* <Link to={ROUTES.QUIZ_DETAIL(myQuiz.id)}> */}
 								<Link to={("quiz" in myQuiz) ? `/quiz/${myQuiz.quiz?.id}` : `/quiz/${myQuiz.id}`}>
 									<div className={styles["info"]}>
 										<img src={myQuiz.bookImageUrl}></img>
@@ -84,10 +83,10 @@ export default function QuizListLayout({
 										</span>
 									</div>
 									<div className={styles["util"]}>
-										<Button 
-										color="primary" 
-										size="small"
-										onClick={("quiz" in myQuiz) ? handleReSovingQuiz : handleModifyQuiz}
+										<Button
+											color="primary"
+											size="small"
+											onClick={("quiz" in myQuiz) ? handleReSovingQuiz : handleModifyQuiz}
 										>
 											{("quiz" in myQuiz) ? "다시 풀기" : "수정하기"}
 										</Button>

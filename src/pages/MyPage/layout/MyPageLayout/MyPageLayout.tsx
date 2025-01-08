@@ -8,7 +8,7 @@ import {
 } from "@/store/myPageAtom";
 import Button from "@/components/atom/Button/Button";
 import ROUTES from "@/data/routes";
-
+import pencilLine from "/public/assets/svg/myPage/pencil-line.svg";
 export default function MyPageLayout() {
   const navigate = useNavigate();
   const [myPageTitle] = useAtom(myPageTitleAtom);
@@ -42,6 +42,8 @@ export default function MyPageLayout() {
             color="secondary"
             size="xsmall"
             className={styles["setting-button"]}
+            icon={<img src={pencilLine} width={16} height={16} />}
+            iconPosition="left"
           >
             스터디 그룹 관리
           </Button>

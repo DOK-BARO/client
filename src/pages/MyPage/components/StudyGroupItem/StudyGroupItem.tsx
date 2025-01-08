@@ -6,8 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
 import { studyGroupAtom } from "@/store/myPageAtom";
 import { Leader } from "@/svg/Leader";
-import { gray50 } from "@/styles/abstracts/colors";
+import { primary } from "@/styles/abstracts/colors";
 import ROUTES from "@/data/routes";
+import { currentUserAtom } from "@/store/userAtom";
 interface Prop {
   studyGroup: StudyGroupType;
 }
@@ -15,14 +16,20 @@ interface Prop {
 export default function StudyGroupItem({ studyGroup }: Prop) {
   const navigate = useNavigate();
   const [, setStudyGroup] = useAtom(studyGroupAtom);
+  const [currentUser] = useAtom(currentUserAtom);
 
-  // 스터디 그룹 정보
-  const handleStudyInfoClick = () => {
+  // 퀴즈 리스트 보기
+  const handleGoToQuizList = () => {
     navigate(ROUTES.STUDY_GROUP(studyGroup.id));
     setStudyGroup({
       id: studyGroup.id,
       name: studyGroup.name,
     });
+  };
+
+  // 스터디원 관리
+  const handleGoToMemberSetting = () => {
+    navigate(ROUTES.STUDY_GROUP_SETTING(studyGroup.id));
   };
 
   return (
@@ -37,23 +44,41 @@ export default function StudyGroupItem({ studyGroup }: Prop) {
         <div className={styles["profile-image"]} />
       )}
       <div className={styles.info}>
-        <p className={styles.name}>{studyGroup.name || "\u00A0"}</p>
+        <div className={styles["name-button-container"]}>
+          <p className={styles.name}>{studyGroup.name || "\u00A0"}</p>
+          <Button
+            size="xsmall"
+            color="secondary"
+            className={styles["member-setting"]}
+            onClick={handleGoToMemberSetting}
+          >
+            스터디원 관리
+          </Button>
+        </div>
         <span className={styles["icon-text-label"]}>
           <img src={member} width={16} height={16} alt="스터디 멤버" />
           <p>{studyGroup.studyMemberCount}명</p>
         </span>
-        <span className={styles["icon-text-label"]}>
-          <Leader width={16} height={16} fill={gray50} alt="스터디장" />
-          <p>{studyGroup.leader?.nickname}</p>
+        <span
+          className={`${styles["icon-text-label"]} ${
+            currentUser?.id === studyGroup.leader?.id ? styles.active : null
+          }`}
+        >
+          <Leader width={16} height={16} fill={primary} alt="스터디장" />
+          <p>
+            {currentUser?.id === studyGroup.leader?.id
+              ? "나"
+              : studyGroup.leader?.nickname}
+          </p>
         </span>
         <Button
           fullWidth
           size="small"
           color="primary"
           className={styles["study-info"]}
-          onClick={handleStudyInfoClick}
+          onClick={handleGoToQuizList}
         >
-          스터디 그룹 정보
+          퀴즈 리스트 보기
         </Button>
       </div>
     </li>

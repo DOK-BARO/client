@@ -24,6 +24,8 @@ import { NoDataSection } from "@/components/composite/NoDataSection/NoDataSectio
 import StudyGroupButton from "../../components/StudyGroupButton/StudyGroupButton";
 import textBox from "/public/assets/svg/myPage/text-box.svg";
 import pencilUnderline from "/public/assets/svg/myPage/pencil-underline.svg";
+import { useNavigate } from "react-router-dom";
+import ROUTES from "@/data/routes";
 
 const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
   {
@@ -43,6 +45,7 @@ const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
 ];
 
 export default function MyStudyGroups() {
+  const navigate = useNavigate();
   const { isModalOpen, openModal, closeModal } = useModal();
 
   const [filterCriteria, setFilterCriteria] = useAtom(studyGroupFilterAtom);
@@ -91,6 +94,14 @@ export default function MyStudyGroups() {
 
   console.log(myStudyGroupsData);
 
+  const handleStudyGroupJoinClick = () => {
+    navigate(ROUTES.MY_STUDY_GROUPS_JOIN);
+  };
+  
+  const handleStudyGroupCreateClick = () => {
+    navigate(ROUTES.MY_STUDY_GROUPS_CREATE);
+  };
+
   return (
     <section className={styles.container}>
       <h3 className={styles.title}>내 스터디 그룹</h3>
@@ -130,6 +141,7 @@ export default function MyStudyGroups() {
                     alt="코드로 가입하기"
                   />
                 }
+                onClick={handleStudyGroupJoinClick}
               />
               <StudyGroupButton
                 label="내가 만들기"
@@ -141,6 +153,7 @@ export default function MyStudyGroups() {
                     alt="내가 만들기"
                   />
                 }
+                onClick={handleStudyGroupCreateClick}
               />
             </li>
             {/* 스터디 그룹 아이템과 부족한 공간 채우기 */}

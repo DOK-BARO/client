@@ -1,8 +1,8 @@
 import { useAtom } from "jotai";
 import styles from "./_my_page_layout.module.scss";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import {
-  isStudyGroupSettingPageAtom,
+  isStudyGroupMainPageAtom,
   myPageTitleAtom,
   studyGroupAtom,
 } from "@/store/myPageAtom";
@@ -13,23 +13,35 @@ export default function MyPageLayout() {
   const navigate = useNavigate();
   const [myPageTitle] = useAtom(myPageTitleAtom);
   const [studyGroup] = useAtom(studyGroupAtom);
-  const isStudyGroupPage = myPageTitle !== "마이페이지";
-  const [isStudyGroupSettingPage] = useAtom(isStudyGroupSettingPageAtom);
+  const [isStudyGroupMainPage] = useAtom(isStudyGroupMainPageAtom);
+  const { studyGroupId } = useParams();
 
   const handleGoToStudyGroupSetting = () => {
-		navigate(ROUTES.STUDY_GROUP_SETTING(studyGroup?.id));
+    navigate(ROUTES.STUDY_GROUP_SETTING(studyGroup?.id));
+  };
+
+  const handleGoToBack = () => {
+    navigate(-1);
   };
 
   return (
     <section className={styles["container"]}>
       <div className={styles["header-container"]}>
+        {!isStudyGroupMainPage ? (
+          <Button
+            iconOnly
+            icon={<div className={styles["back-button"]}>&larr;</div>}
+            onClick={handleGoToBack}
+          />
+        ) : null}
         <h2 className={styles.title}>{myPageTitle}</h2>
         {/* TODO: 관리 권한 있는지 확인 로직 추가 */}
-        {isStudyGroupPage && !isStudyGroupSettingPage ? (
+        {studyGroupId ? (
           <Button
             onClick={handleGoToStudyGroupSetting}
             color="secondary"
             size="xsmall"
+            className={styles["setting-button"]}
           >
             스터디 그룹 관리
           </Button>

@@ -8,17 +8,19 @@ interface Props {
   reviewsTotalScore: ReviewsTotalScoreType;
   reviewCount: number;
   roundedAverageRating: number;
+  quizTitle: string;
 }
 export default function ReviewsDetail({
   reviewsTotalScore,
   reviewCount,
   roundedAverageRating,
+  quizTitle,
 }: Props) {
   return (
     <section className={styles.container}>
       <h2 className={styles.title}>퀴즈 후기</h2>
       {reviewsTotalScore ? (
-        <div>
+        <>
           <div className={styles["rating-difficulty-container"]}>
             <span className={styles["rating-container"]}>
               <FiveStar size="medium" rating={roundedAverageRating} />
@@ -29,8 +31,8 @@ export default function ReviewsDetail({
             </span>
             <QuizDifficultyChart difficulty={reviewsTotalScore.difficulty} />
           </div>
-          <ReviewList quizId={reviewsTotalScore.quizId} />
-        </div>
+          <ReviewList quizId={reviewsTotalScore.quizId} quizTitle={quizTitle} />
+        </>
       ) : null}
     </section>
   );

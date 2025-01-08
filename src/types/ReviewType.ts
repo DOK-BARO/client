@@ -10,12 +10,13 @@ export interface ReviewType {
   createdAt: string;
 }
 // 퀴즈 리뷰 생성 타입
-export interface ReviewCreationType {
+export interface ReviewPostType {
   starRating: number;
   difficultyLevel: number;
   comment: string;
   quizId: number;
 }
+
 export interface DifficultyLevelType {
   selectCount: number;
   selectRate: number;

@@ -64,11 +64,7 @@ export default function AddStudyGroupModal({ closeModal, currentPage }: Props) {
       queryClient.invalidateQueries({
         queryKey: studyGroupKeys.list({
           page: currentPage,
-          size: 4,
-          sort: "CREATED_AT",
-          direction: "ASC",
         }),
-        exact: true,
       });
       toast.success("스터디가 생성되었습니다.");
       setIsStudyCreated(true);

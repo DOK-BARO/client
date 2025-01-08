@@ -24,6 +24,7 @@ interface ModalProps {
   closeModal: () => void;
   showHeaderCloseButton?: boolean;
 }
+
 const Modal: React.FC<ModalProps> = ({
   width = 560,
   title,
@@ -79,7 +80,7 @@ const Modal: React.FC<ModalProps> = ({
                   key={button.text}
                   color={button.color}
                   onClick={button.onClick}
-                  size="medium"
+                  size="small"
                   disabled={button.disabled}
                 >
                   {button.text}

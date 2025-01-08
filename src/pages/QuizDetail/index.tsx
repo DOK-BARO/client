@@ -81,6 +81,7 @@ export default function Index() {
             reviewsTotalScore={reviewsTotalScore}
             reviewCount={reviewCount}
             roundedAverageRating={roundedAverageRating}
+            quizTitle={explanation.title}
           />
         </div>
       </div>

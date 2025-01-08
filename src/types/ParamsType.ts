@@ -37,13 +37,6 @@ export interface NavigateReviewParams {
   quizTitle: string;
 }
 
-export interface CreateReviewParams {
-  starRating: number;
-  difficultyLevel: number;
-  comment: string;
-  quizId: number;
-}
-
 // QUIZ
 // TODO: 필드 타입 수정 필요
 export interface FetchQuizzesParams {
@@ -65,9 +58,9 @@ export interface FetchStudyGroupsParams {
 // Auth
 
 export interface UpdateUserParams {
-	nickname?: string;
-	email?: string;
-	profileImage?: string|null;
+  nickname?: string;
+  email?: string;
+  profileImage?: string | null;
 }
 
 // ROUTES

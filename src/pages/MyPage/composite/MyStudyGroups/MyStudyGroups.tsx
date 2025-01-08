@@ -104,7 +104,7 @@ export default function MyStudyGroups() {
 
   return (
     <section className={styles.container}>
-      <h3 className={styles.title}>내 스터디 그룹</h3>
+      <h3 className={styles["sub-title"]}>내 스터디 그룹</h3>
       {/* <Button
           size="xsmall"
           color="secondary"

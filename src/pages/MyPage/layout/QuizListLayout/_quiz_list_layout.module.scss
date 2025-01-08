@@ -80,10 +80,10 @@
   @include flex(row);
   justify-content: space-between;
 
-  h3 {
-    font-size: 18px;
-    line-height: 1.5;
+  .sub-title {
+    font-size: $font-size-subTitle;
     font-weight: $font-weight-semibold;
+    line-height: 1.5;
   }
 
   .button-area {

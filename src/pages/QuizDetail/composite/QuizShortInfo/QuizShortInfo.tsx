@@ -13,7 +13,7 @@ import Button from "@/components/atom/Button/Button";
 import useModal from "@/hooks/useModal";
 import SmallModal from "@/components/atom/SmallModal/SmallModal";
 import noticeCircle from "/public/assets/svg/myPage/notice-circle.svg";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import Modal from "@/components/atom/Modal/Modal";
 import Textarea from "@/components/atom/Textarea/Textarea";
 import { useMutation } from "@tanstack/react-query";
@@ -21,6 +21,7 @@ import useTextarea from "@/hooks/useTextarea";
 import { ErrorType } from "@/types/ErrorType";
 import toast from "react-hot-toast";
 import { quizService } from "@/services/server/quizService";
+import useOutsideClick from "@/hooks/useOutsideClick";
 interface Props {
   quizExplanation: QuizExplanationType;
   reviewCount: number;
@@ -58,25 +59,8 @@ export default function QuizShortInfo({
     }
   };
   const modalRef = useRef<HTMLDivElement>(null);
-  const buttonRef = useRef<HTMLDivElement>(null);
-
-  // TODO: 훅으로 분리
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (
-        modalRef.current?.contains(e.target as Node) ||
-        buttonRef.current?.contains(e.target as Node)
-      ) {
-        return;
-      }
-      closeSmallModal();
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  useOutsideClick([modalRef, buttonRef], closeSmallModal);
 
   const { value: reportContent, onChange: onReportContentChange } =
     useTextarea("");
@@ -150,6 +134,7 @@ export default function QuizShortInfo({
             <img src={threeDots} width={16} height={16} alt="퀴즈 신고하기" />
           }
           onClick={handleToggle}
+          ref={buttonRef}
         />
       </span>
       <span className={styles["iconTextLabel-container"]}>

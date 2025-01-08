@@ -11,6 +11,7 @@ interface Props {
   strokeWidth?: number;
   setStarRating?: React.Dispatch<React.SetStateAction<number>>;
   type?: "review" | "normal";
+  gap?: 46 | 30;
 }
 
 export default function FiveStar({
@@ -20,6 +21,7 @@ export default function FiveStar({
   strokeWidth,
   setStarRating,
   type = "normal",
+  gap = 46,
 }: Props) {
   const iconSize = () => {
     if (size === "small") {
@@ -57,7 +59,9 @@ export default function FiveStar({
   };
 
   return (
-    <span className={`${styles.container} ${styles[size]}`}>
+    <span
+      className={`${styles.container} ${styles[size]} ${styles[`gap-${gap}`]}`}
+    >
       <span
         className={`${styles["stars"]} ${
           styles[starSelected ? "slideIn" : ""]

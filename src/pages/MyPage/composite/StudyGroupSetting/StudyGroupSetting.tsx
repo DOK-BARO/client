@@ -28,6 +28,7 @@ import { StudyGroupPostType } from "@/types/StudyGroupType";
 import { queryClient } from "@/services/server/queryClient";
 import { UploadImageArgType } from "@/types/UploadImageType";
 import { imageService } from "@/services/server/imageService";
+import ROUTES from "@/data/routes";
 
 // 스터디 그룹 관리
 export default function StudyGroupSetting() {
@@ -190,7 +191,7 @@ export default function StudyGroupSetting() {
     mutationFn: (id) => studyGroupService.deleteStudyGroup(id),
     onSuccess: () => {
       toast.success("스터디를 삭제했습니다.");
-      navigate("/my/study-groups");
+      navigate(ROUTES.MY_STUDY_GROUPS);
     },
   });
 

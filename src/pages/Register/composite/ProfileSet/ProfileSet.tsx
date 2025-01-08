@@ -15,6 +15,7 @@ import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";
 import { UploadImageArgType } from "@/types/UploadImageType";
 import ProfileUploader from "../../components/ProfileUploader/ProfileUploader";
+import ROUTES from "@/data/routes";
 
 export interface ProfileImageState {
   url: string;
@@ -24,7 +25,6 @@ export interface ProfileImageState {
 /* eslint-disable @typescript-eslint/no-unused-vars */
 export default function ProfileSet() {
   const { method } = useParams();
-  const completePage = "/register/complete";
   const navigate = useNavigate();
   const [, setCurrentUser] = useAtom(currentUserAtom);
 
@@ -93,7 +93,7 @@ export default function ProfileSet() {
     mutationFn: (termsAgreements) =>
       authService.sendTermsAgreement(termsAgreements),
     onSuccess: () => {
-      navigate(completePage);
+      navigate(ROUTES.REGISTER_COMPLETE);
     },
   });
   const { mutate: emailSignup } = useMutation<

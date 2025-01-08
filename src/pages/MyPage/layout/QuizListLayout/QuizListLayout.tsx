@@ -7,6 +7,7 @@ import { BookQuizzesFilterType } from "@/types/BookType";
 import ListFilter from "@/components/composite/ListFilter/ListFilter";
 import { FilterOptionType } from "@/components/composite/ListFilter/ListFilter";
 import { MySolvedQuizDataType } from "@/types/QuizType";
+import ROUTES from "@/data/routes";
 
 export default function QuizListLayout({
 	title,
@@ -66,6 +67,8 @@ export default function QuizListLayout({
 						return (
 							<li className={styles["quiz"]}
 								key={index}>
+																	{/* <Link to={ROUTES.QUIZ_DETAIL(myQuiz.id)}> */}
+
 								<Link to={("quiz" in myQuiz) ? `/quiz/${myQuiz.quiz?.id}` : `/quiz/${myQuiz.id}`}>
 									<div className={styles["info"]}>
 										<img src={myQuiz.bookImageUrl}></img>

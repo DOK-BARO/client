@@ -51,12 +51,12 @@
 
 .content {
   &-title {
-    font-size: $font-size-xlarge;
+    font-size: $font-size-large; // xlarge
     font-weight: 500;
     margin-bottom: 24px;
   }
   &-content {
-    font-size: $font-size-large;
+    font-size: $font-size-medium; // large
     width: 100%;
   }
 }

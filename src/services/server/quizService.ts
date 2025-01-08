@@ -139,19 +139,40 @@ class QuizService {
 		}
 	};
 
-	fetchStudyGradeResult = async (
-		studyGroupId: string,
-		quizId: string
-	): Promise<SolvingQuizStudyGroupGradeReuslt> => {
-		try {
-			const { data } = await axiosInstance.get(
-				`/solving-quiz/study-groups-grade-result?studyGroupId=${studyGroupId}&quizId=${quizId}`
-			);
-			return data;
-		} catch (error) {
-			throw new Error(`스터디 그룹 내 랭킹 조회 ${error}`)
-		}
-	}
+  fetchStudyGradeResult = async  (
+    studyGroupId:  string,
+    quizId: string
+  ):  Promise<SolvingQuizStudyGroupGradeReuslt> =>  {
+    try  {
+      const {  data  } = await axiosInstance.get(
+        `/solving-quiz/study-groups-grade-result?studyGroupId=${studyGroupId}&quizId=${quizId}`
+      );
+      return data;
+    }  catch (error)  {
+      throw new Error(`스터디 그룹 내 랭킹 조회 ${error}`);
+    }
+  };
+  reportQuiz = async ({
+    questionId,
+    content,
+  }: {
+    questionId: number;
+    content: string;
+  }): Promise<{ id: number } | null> => {
+    console.log(questionId, content);
+    try {
+      const response = await axiosInstance.post("/quiz-question-reports", {
+        questionId,
+        content,
+      });
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+      handleAxiosError(error);
+      return null;
+    }
+  };
 }
 
 export const quizService = new QuizService();

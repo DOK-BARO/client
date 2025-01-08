@@ -11,6 +11,8 @@ import { useAtom } from "jotai";
 import Button from "@/components/atom/Button/Button";
 import { studyGroupService } from "@/services/server/studyGroupService";
 import { useNavigate } from "react-router-dom";
+import { QuizReviewRouteParams } from "@/types/ParamsType";
+import ROUTES from "@/data/routes";
 
 export default function StudyQuizResult({ studyGroupId, solvingQuizId, quizTitle, quizId }: { studyGroupId: string, solvingQuizId: string, quizTitle:string, quizId: string }) {
 	const [currentUser] = useAtom(currentUserAtom);
@@ -32,7 +34,12 @@ export default function StudyQuizResult({ studyGroupId, solvingQuizId, quizTitle
 	) ?? -1) + 1;
 
 	const handleNextClick = () => {
-		navigate(`/quiz/review/${quizId}/${solvingQuizId}/${quizTitle}`, { replace: false, });
+		const params: QuizReviewRouteParams = {
+			quizId: parseInt(quizId),
+			solvingQuizId: parseInt(solvingQuizId),
+			quizTitle: quizTitle,
+		}
+		navigate(ROUTES.QUIZ_REVIEW(params), {replace: false});
 	}
 
 	if (isQuizResultStudyLoading || isStudyGroupLoading) {

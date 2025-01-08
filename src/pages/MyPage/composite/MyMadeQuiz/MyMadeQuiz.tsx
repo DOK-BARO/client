@@ -30,6 +30,7 @@ const filterOptions: FilterOptionType<BookQuizzesFilterType>[] = [
 		label: "가나다순",
 	},
 ];
+import ROUTES from "@/data/routes";
 
 export default function MyMadeQuiz() {
 	const { search } = useLocation();
@@ -58,7 +59,7 @@ export default function MyMadeQuiz() {
 
 	const navigate = useNavigate();
 	const handleClickWhenNoData = () => {
-		navigate("/create-quiz");
+		navigate(ROUTES.CREATE_QUIZ);
 	};
 
 	const endPageNumber = myQuizzesData?.endPageNumber;

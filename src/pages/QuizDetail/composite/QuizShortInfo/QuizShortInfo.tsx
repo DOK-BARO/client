@@ -8,7 +8,19 @@ import {
   levelMapping,
   LevelType,
 } from "../../components/DifficultyLevelItem/DifficultyLevelItem";
-
+import threeDots from "/public/assets/svg/myPage/three-dot.svg";
+import Button from "@/components/atom/Button/Button";
+import useModal from "@/hooks/useModal";
+import SmallModal from "@/components/atom/SmallModal/SmallModal";
+import noticeCircle from "/public/assets/svg/myPage/notice-circle.svg";
+import { useEffect, useRef } from "react";
+import Modal from "@/components/atom/Modal/Modal";
+import Textarea from "@/components/atom/Textarea/Textarea";
+import { useMutation } from "@tanstack/react-query";
+import useTextarea from "@/hooks/useTextarea";
+import { ErrorType } from "@/types/ErrorType";
+import toast from "react-hot-toast";
+import { quizService } from "@/services/server/quizService";
 interface Props {
   quizExplanation: QuizExplanationType;
   reviewCount: number;
@@ -25,9 +37,121 @@ export default function QuizShortInfo({
   const averageDifficultyLabel =
     levelMapping[averageDifficulty.toString() as LevelType];
 
+  const {
+    isModalOpen: isSmallModalOpen,
+    openModal: openSmallModal,
+    closeModal: closeSmallModal,
+  } = useModal();
+
+  const {
+    isModalOpen: isReportModalOpen,
+    openModal: openReportModal,
+    closeModal: closeReportModal,
+  } = useModal();
+
+  // 작은 모달 토글
+  const handleToggle = () => {
+    if (isSmallModalOpen) {
+      closeSmallModal();
+    } else {
+      openSmallModal();
+    }
+  };
+  const modalRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLDivElement>(null);
+
+  // TODO: 훅으로 분리
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        modalRef.current?.contains(e.target as Node) ||
+        buttonRef.current?.contains(e.target as Node)
+      ) {
+        return;
+      }
+      closeSmallModal();
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const { value: reportContent, onChange: onReportContentChange } =
+    useTextarea("");
+  const { mutate: reportReview } = useMutation<
+    { id: number } | null,
+    ErrorType,
+    { questionId: number; content: string }
+  >({
+    mutationFn: ({ questionId, content }) =>
+      quizService.reportQuiz({ questionId, content }),
+    onSuccess: (data) => {
+      if (!data) {
+        toast.error("퀴즈 신고에 실패했습니다.");
+        return;
+      }
+
+      toast.success("퀴즈가 신고되었습니다.");
+      closeReportModal();
+    },
+  });
+
+  const handleReportReview = () => {
+    reportReview({ questionId: quizExplanation.id, content: reportContent });
+  };
+
   return (
     <section className={styles.container}>
-      <h2 className={styles.title}>{quizExplanation.title}</h2>
+      {isReportModalOpen ? (
+        <Modal
+          closeModal={closeReportModal}
+          contents={[
+            {
+              title: `${quizExplanation.title}를 신고하시겠어요?`,
+              content: (
+                <div>
+                  <p className={styles["report-text"]}>
+                    신고된 퀴즈는 검토 후 삭제됩니다.
+                  </p>
+                  <Textarea
+                    maxLengthShow
+                    maxLength={200}
+                    onChange={onReportContentChange}
+                    value={reportContent}
+                    id="report-content"
+                    rows={5}
+                    size="small"
+                  />
+                </div>
+              ),
+            },
+          ]}
+          bottomButtons={[
+            { text: "신고하기", color: "primary", onClick: handleReportReview },
+          ]}
+        />
+      ) : null}
+      {isSmallModalOpen ? (
+        <div className={styles["small-modal-container"]} ref={modalRef}>
+          <SmallModal
+            label="퀴즈 신고하기"
+            onLabelClick={openReportModal}
+            icon={<img src={noticeCircle} width={20} height={20} />}
+          />
+        </div>
+      ) : null}
+      <span className={styles["title-container"]}>
+        <h2 className={styles.title}>{quizExplanation.title}</h2>
+        <Button
+          iconOnly
+          icon={
+            <img src={threeDots} width={16} height={16} alt="퀴즈 신고하기" />
+          }
+          onClick={handleToggle}
+        />
+      </span>
       <span className={styles["iconTextLabel-container"]}>
         <IconTextLabel
           icon={<StarFilled width={20} height={20} fill={systemWarning} />}

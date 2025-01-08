@@ -22,6 +22,7 @@ import ComponentTest from "@/pages/ComponentTest";
 import SolvingQuiz from "@/pages/SolveQuiz";
 import QuizResult from "@/pages/QuizResult";
 import QuizReview from "@/pages/QuizReview";
+import DeleteAccount from "@/pages/MyPage/composite/accountSetting/DeleteAccount/DeleteAccount.tsx";
 import NotFound from "@/pages/NotFound";
 
 const router = createBrowserRouter([
@@ -120,8 +121,8 @@ const router = createBrowserRouter([
 								element: <ChangePassword></ChangePassword>,
 							},
 							{
-								path: "delete-account",
-								element: <></>,
+								path: ROUTES.DELETE_ACCOUNT,
+								element: <DeleteAccount></DeleteAccount>,
 							},
 						],
 					},

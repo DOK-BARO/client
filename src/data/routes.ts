@@ -26,7 +26,7 @@ const ROUTES = {
 	SETTINGS: "settings",
 	EDIT_PROFILE: "edit-profile",
 	CHANGE_PASSWORD: "change-password",
-	SETTINGS_DELETE_ACCOUNT: "/my/settings/delete-account",
+	DELETE_ACCOUNT: "delete-account",
 
 	COMPONENT_TEST: "/component-test",
 

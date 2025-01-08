@@ -25,6 +25,18 @@
 			@include flex(column);
 			gap: 14px;
 
+			// 책의 크기가 달라 container의 높이를 지정하고 이미지는 넓이만 지정하여 위로 올라오게 함
+			.img-container {
+				@include flex(column);
+				justify-content: end;
+				align-items: center;
+				height: 194.4px;
+
+				img {
+					width: 143.2px;
+				}
+			}
+
 			.sub-info {
 				@include flex(column);
 				gap: 4px;

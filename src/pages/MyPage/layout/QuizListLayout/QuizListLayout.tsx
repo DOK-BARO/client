@@ -66,11 +66,13 @@ export default function QuizListLayout({
 						return (
 							<li className={styles["quiz"]}
 								key={index}>
-									{/* TODO: ROUTES적용 */}
+								{/* TODO: ROUTES적용 */}
 								{/* <Link to={ROUTES.QUIZ_DETAIL(myQuiz.id)}> */}
 								<Link to={("quiz" in myQuiz) ? `/quiz/${myQuiz.quiz?.id}` : `/quiz/${myQuiz.id}`}>
 									<div className={styles["info"]}>
-										<img src={myQuiz.bookImageUrl}></img>
+										<div className={styles["img-container"]}>
+											<img src={myQuiz.bookImageUrl} />
+										</div>
 										<div className={styles["sub-info"]}>
 											<span className={styles["label"]}>{("updatedAt" in myQuiz) ? "최종 수정일" : "최종 제출일"}</span>
 											<span className={styles["quiz-updated-at"]}>

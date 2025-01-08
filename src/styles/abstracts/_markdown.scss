@@ -45,11 +45,12 @@
 	margin: 0.5em 0;
 }
 
-.markdown-content p {
-	display: block;
-	width: 100%;
-	margin: 1em 0;
-}
+// p태그가 markdown 영역에 자동 적용되어 선택옵션에 margin이 자동으로 들어가기 때문에 의도하지 않은 결과 발생 -> 주석처리함
+// .markdown-content p {
+// 	display: block;
+// 	width: 100%;
+// 	margin: 1em 0;
+// }
 
 .markdown-content ul {
 	list-style: disc inside;

@@ -2,8 +2,18 @@
 @import "../../../../styles/abstracts/variables";
 
 .container {
+  .sub-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    &:not(:first-child) {
+      margin-top: 40px;
+    }
+  }
   .sub-title {
     font-size: 20px;
+    line-height: 1.5;
     font-weight: $font-weight-semibold;
   }
   .code-input-container {
@@ -13,5 +23,8 @@
   .done {
     width: 150px;
     margin-top: 40px;
+  }
+  .right-end {
+    margin-left: auto;
   }
 }

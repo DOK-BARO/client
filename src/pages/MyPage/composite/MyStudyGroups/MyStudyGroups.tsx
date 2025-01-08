@@ -1,7 +1,4 @@
 import styles from "./_my_study_groups.module.scss";
-import Button from "@/components/atom/Button/Button";
-import { Plus } from "@/svg/Plus";
-import { primary } from "@/styles/abstracts/colors";
 import StudyGroupItem from "../../components/StudyGroupItem/StudyGroupItem";
 import AddStudyGroupModal from "../../components/AddStudyGroupModal/AddStudyGroupModal";
 import useModal from "@/hooks/useModal";
@@ -59,8 +56,9 @@ export default function MyStudyGroups() {
   const sort = filterCriteria.sort;
   const direction = filterCriteria.direction; // 기본값: ASC
   const page = paginationState.currentPage; // parseQueryParams함수 안에서 기본값 1로 설정
-  const size = 6; // 한번에 불러올 최대 길이
+  const size = 5; // 한번에 불러올 최대 길이
 
+  console.log(size, page);
   const { data: myStudyGroupsData } = useQuery({
     queryKey: studyGroupKeys.list(
       parseQueryParams<StudyGroupsSortType, FetchStudyGroupsParams>({
@@ -78,6 +76,8 @@ export default function MyStudyGroups() {
 
   const myStudyGroups = myStudyGroupsData?.data;
   const endPageNumber = myStudyGroupsData?.endPageNumber;
+
+  console.log(myStudyGroups);
 
   // 마지막 페이지 번호 저장
   useEffect(() => {
@@ -97,7 +97,7 @@ export default function MyStudyGroups() {
   const handleStudyGroupJoinClick = () => {
     navigate(ROUTES.MY_STUDY_GROUPS_JOIN);
   };
-  
+
   const handleStudyGroupCreateClick = () => {
     navigate(ROUTES.MY_STUDY_GROUPS_CREATE);
   };
@@ -156,12 +156,11 @@ export default function MyStudyGroups() {
                 onClick={handleStudyGroupCreateClick}
               />
             </li>
+
             {/* 스터디 그룹 아이템과 부족한 공간 채우기 */}
             {[
               ...myStudyGroups,
-              ...Array(size - (myStudyGroups.length % size || size) - 1).fill(
-                null
-              ),
+              ...Array(size - (myStudyGroups.length % size || size)).fill(null),
             ].map((studyGroup, index) =>
               studyGroup ? (
                 <StudyGroupItem key={studyGroup.id} studyGroup={studyGroup} />

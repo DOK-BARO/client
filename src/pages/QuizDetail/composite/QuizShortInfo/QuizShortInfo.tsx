@@ -17,11 +17,15 @@ import { useRef } from "react";
 import Modal from "@/components/atom/Modal/Modal";
 import Textarea from "@/components/atom/Textarea/Textarea";
 import { useMutation } from "@tanstack/react-query";
-import useTextarea from "@/hooks/useTextarea";
 import { ErrorType } from "@/types/ErrorType";
 import toast from "react-hot-toast";
 import { quizService } from "@/services/server/quizService";
 import useOutsideClick from "@/hooks/useOutsideClick";
+import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
+import CheckBox from "@/components/atom/Checkbox/Checkbox";
+import RadioOption from "@/components/atom/RadioOption/RadioOption";
+import { useNavigate } from "react-router-dom";
+import ROUTES from "@/data/routes";
 interface Props {
   quizExplanation: QuizExplanationType;
   reviewCount: number;
@@ -35,6 +39,7 @@ export default function QuizShortInfo({
   roundedAverageRating,
   averageDifficulty,
 }: Props) {
+  const navigate = useNavigate();
   const averageDifficultyLabel =
     levelMapping[averageDifficulty.toString() as LevelType];
 
@@ -50,6 +55,11 @@ export default function QuizShortInfo({
     closeModal: closeReportModal,
   } = useModal();
 
+  const {
+    isModalOpen: isReportConfirmModalOpen,
+    openModal: openReportConfirmModal,
+    closeModal: closeReportConfirmModal,
+  } = useModal();
   // 작은 모달 토글
   const handleToggle = () => {
     if (isSmallModalOpen) {
@@ -62,8 +72,13 @@ export default function QuizShortInfo({
   const buttonRef = useRef<HTMLButtonElement>(null);
   useOutsideClick([modalRef, buttonRef], closeSmallModal);
 
-  const { value: reportContent, onChange: onReportContentChange } =
-    useTextarea("");
+  const {
+    value: reportContent,
+    onChange: onReportContentChange,
+    textareaRef: reportContentRef,
+    resetTextarea: resetReportContent,
+  } = useAutoResizeTextarea("", "40px");
+
   const { mutate: reportReview } = useMutation<
     { id: number } | null,
     ErrorType,
@@ -79,6 +94,7 @@ export default function QuizShortInfo({
 
       toast.success("퀴즈가 신고되었습니다.");
       closeReportModal();
+      openReportConfirmModal();
     },
   });
 
@@ -86,27 +102,79 @@ export default function QuizShortInfo({
     reportReview({ questionId: quizExplanation.id, content: reportContent });
   };
 
+  const reportReasons = [
+    { id: 1, text: "비속어 또는 비방 내용이 포함되어 있어요." },
+    { id: 2, text: "도서와 무관한 퀴즈예요." },
+    { id: 3, text: "스팸/광고 내용이 포함되어 있어요." },
+  ];
+
+  const handleSmallModalClick = () => {
+    closeSmallModal();
+    openReportModal();
+    resetReportContent();
+  };
+
+  const handleGoBackToHome = () => {
+    navigate(ROUTES.ROOT);
+  };
+  const handleGoBackToQuiz = () => {
+    navigate(-1);
+  };
+
   return (
     <section className={styles.container}>
+      {isReportConfirmModalOpen ? (
+        <Modal
+          title="신고하기"
+          closeModal={closeReportConfirmModal}
+          contents={[{ title: "신고가 완료되었습니다.", content: <></> }]}
+          bottomButtons={[
+            {
+              text: "홈으로 가기",
+              color: "primary-border",
+              onClick: handleGoBackToHome,
+            },
+            {
+              text: "퀴즈로 돌아가기",
+              color: "primary",
+              onClick: handleGoBackToQuiz,
+            },
+          ]}
+        />
+      ) : null}
       {isReportModalOpen ? (
         <Modal
+          title="신고하기"
           closeModal={closeReportModal}
           contents={[
             {
-              title: `${quizExplanation.title}를 신고하시겠어요?`,
+              title: `${quizExplanation.title} 신고 시, 검토 후 적절한 조치가 이루어질 예정입니다.`,
               content: (
                 <div>
-                  <p className={styles["report-text"]}>
-                    신고된 퀴즈는 검토 후 삭제됩니다.
-                  </p>
+                  {reportReasons.map((reason) => (
+                    <div>
+                      {reason.text}
+                      {/* <RadioOption
+                        option={{
+                          id: reason.id,
+                          value: reason.text,
+                          label: reason.text,
+                        }}
+                        type="option-black-square"
+                      /> */}
+                    </div>
+                  ))}
+                  {/* 입력 전/후 높이 차이 */}
                   <Textarea
+                    placeholder="기타 사유를 작성해 주세요."
                     maxLengthShow
-                    maxLength={200}
+                    maxLength={500}
                     onChange={onReportContentChange}
                     value={reportContent}
                     id="report-content"
-                    rows={5}
+                    textAreaRef={reportContentRef}
                     size="small"
+                    rows={1}
                   />
                 </div>
               ),
@@ -121,7 +189,7 @@ export default function QuizShortInfo({
         <div className={styles["small-modal-container"]} ref={modalRef}>
           <SmallModal
             label="퀴즈 신고하기"
-            onLabelClick={openReportModal}
+            onLabelClick={handleSmallModalClick}
             icon={<img src={noticeCircle} width={20} height={20} />}
           />
         </div>

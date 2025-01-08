@@ -17,7 +17,7 @@ export default function MyPageLayout() {
   const [isStudyGroupSettingPage] = useAtom(isStudyGroupSettingPageAtom);
 
   const handleGoToStudyGroupSetting = () => {
-		navigate(ROUTES.STUDY_GROUP_SETTING(studyGroup?.id));
+    navigate(ROUTES.STUDY_GROUP_SETTING(studyGroup?.id));
   };
 
   return (

@@ -5,16 +5,10 @@
 .container {
   line-height: 1.5;
 
-  .header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    .title {
-      font-size: 18px;
-      font-weight: $font-weight-semibold;
-    }
+  .title {
+    font-size: 18px;
+    font-weight: $font-weight-semibold;
   }
-
   .filter-container {
     display: flex;
     justify-content: end;
@@ -31,6 +25,11 @@
       height: 166px;
       background-color: transparent;
       border: none;
+    }
+
+    .button-container {
+      display: flex;
+      gap: 20px;
     }
   }
 }

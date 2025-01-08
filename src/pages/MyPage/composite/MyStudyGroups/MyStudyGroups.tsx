@@ -21,6 +21,9 @@ import Pagination from "@/components/composite/Pagination/Pagination";
 import { parseQueryParams } from "@/utils/parseQueryParams";
 import { FetchStudyGroupsParams } from "@/types/ParamsType";
 import { NoDataSection } from "@/components/composite/NoDataSection/NoDataSection";
+import StudyGroupButton from "../../components/StudyGroupButton/StudyGroupButton";
+import textBox from "/public/assets/svg/myPage/text-box.svg";
+import pencilUnderline from "/public/assets/svg/myPage/pencil-underline.svg";
 
 const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
   {
@@ -53,7 +56,7 @@ export default function MyStudyGroups() {
   const sort = filterCriteria.sort;
   const direction = filterCriteria.direction; // 기본값: ASC
   const page = paginationState.currentPage; // parseQueryParams함수 안에서 기본값 1로 설정
-  const size = 4; // 한번에 불러올 최대 길이
+  const size = 6; // 한번에 불러올 최대 길이
 
   const { data: myStudyGroupsData } = useQuery({
     queryKey: studyGroupKeys.list(
@@ -90,9 +93,8 @@ export default function MyStudyGroups() {
 
   return (
     <section className={styles.container}>
-      <div className={styles.header}>
-        <h3 className={styles.title}>내 스터디 그룹</h3>
-        <Button
+      <h3 className={styles.title}>내 스터디 그룹</h3>
+      {/* <Button
           size="xsmall"
           color="secondary"
           icon={<Plus stroke={primary} width={16} height={16} />}
@@ -100,8 +102,7 @@ export default function MyStudyGroups() {
           onClick={openModal}
         >
           스터디 그룹 추가
-        </Button>
-      </div>
+        </Button> */}
       <div className={styles["filter-container"]}>
         <ListFilter
           onOptionClick={handleOptionClick}
@@ -118,10 +119,36 @@ export default function MyStudyGroups() {
       ) : (
         myStudyGroups && (
           <ol className={styles["study-list"]}>
+            <li className={styles["button-container"]}>
+              <StudyGroupButton
+                label="코드로 가입하기"
+                icon={
+                  <img
+                    src={textBox}
+                    width={24}
+                    height={24}
+                    alt="코드로 가입하기"
+                  />
+                }
+              />
+              <StudyGroupButton
+                label="내가 만들기"
+                icon={
+                  <img
+                    src={pencilUnderline}
+                    width={24}
+                    height={24}
+                    alt="내가 만들기"
+                  />
+                }
+              />
+            </li>
             {/* 스터디 그룹 아이템과 부족한 공간 채우기 */}
             {[
               ...myStudyGroups,
-              ...Array(size - (myStudyGroups.length % size || size)).fill(null),
+              ...Array(size - (myStudyGroups.length % size || size) - 1).fill(
+                null
+              ),
             ].map((studyGroup, index) =>
               studyGroup ? (
                 <StudyGroupItem key={studyGroup.id} studyGroup={studyGroup} />

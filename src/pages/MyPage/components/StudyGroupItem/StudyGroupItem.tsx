@@ -18,7 +18,7 @@ export default function StudyGroupItem({ studyGroup }: Prop) {
 
   // 스터디 그룹 정보
   const handleStudyInfoClick = () => {
-		navigate(ROUTES.STUDY_GROUP(studyGroup.id));
+    navigate(ROUTES.STUDY_GROUP(studyGroup.id));
     setStudyGroup({
       id: studyGroup.id,
       name: studyGroup.name,

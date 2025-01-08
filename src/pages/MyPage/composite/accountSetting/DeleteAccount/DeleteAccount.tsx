@@ -5,11 +5,17 @@ import styles from "./_delete_account.module.scss";
 import { currentUserAtom } from "@/store/userAtom";
 import CheckBox from "@/pages/Register/components/CheckBox/CheckBox";
 import Button from "@/components/atom/Button/Button";
+import { useMutation } from "@tanstack/react-query";
+import { ErrorType } from "@/types/ErrorType";
+import { authService } from "@/services/server/authService";
+import toast from "react-hot-toast";
+import useLogout from "@/hooks/mutate/useLogout";
 
 export default function DeleteAccount() {
 	const [currentUser] = useAtom(currentUserAtom);
 	const [, setMyPageTitle] = useAtom(myPageTitleAtom);
 	const [agreement, setAgreement] = useState<{ checked: boolean }>({ checked: false });
+	const { logout } = useLogout();
 
 	useEffect(() => {
 		setMyPageTitle("회원 탈퇴");
@@ -20,10 +26,21 @@ export default function DeleteAccount() {
 		const { checked } = event.target;
 		setAgreement({ checked: checked });
 	}
-
+	const {mutate: withdrawMember} = useMutation<
+		void,
+		ErrorType,
+		void
+	>({
+		mutationFn: () => authService.withdrawMember(),
+		onSuccess: () => {
+			toast.success("탈퇴가 완료되었습니다.");
+				// TODO 테스트 필요
+			logout();
+		}
+	});
+	
 	const handleDeleteAccount = () => {
-
-		
+		withdrawMember();
 	}
 
 	return (

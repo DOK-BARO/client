@@ -8,36 +8,40 @@ import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { userKeys } from "@/data/queryKeys";
 
-export default function BaseLayout({ showHeader = true }: { showHeader?: boolean }) {
-	const [, setCurrentUser] = useAtom(currentUserAtom);
+export default function BaseLayout({
+  showHeader = true,
+}: {
+  showHeader?: boolean;
+}) {
+  const [, setCurrentUser] = useAtom(currentUserAtom);
 
-	const { isLoading, data, isError } = useQuery({
-		queryKey: userKeys.user(),
-		queryFn: () => authService.fetchUser(),
-	});
+  const { isLoading, data, isError } = useQuery({
+    queryKey: userKeys.user(),
+    queryFn: () => authService.fetchUser(),
+  });
 
-	useEffect(() => {
-		setCurrentUser(data!);
-	}, [data]);
+  useEffect(() => {
+    setCurrentUser(data!);
+  }, [data]);
 
-	if (isLoading) {
-		return <div>"로딩중"</div>;
-	}
+  if (isLoading) {
+    return <div>"로딩중"</div>;
+  }
 
-	if (isError) {
-		return <div>로그인 에러</div>;
-	}
+  if (isError) {
+    return <div>로그인 에러</div>;
+  }
 
-	return (
-		<div className={styles["container"]}>
-			{showHeader && <HeaderLayout />}
+  return (
+    <div className={styles["container"]}>
+      {showHeader && <HeaderLayout />}
 
-			<main className={styles[showHeader ? "main--header" : "main"]}>
-				<div className={styles["inner-container"]}>
-					<Outlet />
-				</div>
-			</main>
-			<footer className={styles["footer"]}></footer>
-		</div>
-	);
+      <main className={styles[showHeader ? "main--header" : "main"]}>
+        <div className={styles["inner-container"]}>
+          <Outlet />
+        </div>
+      </main>
+      <footer className={styles["footer"]}></footer>
+    </div>
+  );
 }

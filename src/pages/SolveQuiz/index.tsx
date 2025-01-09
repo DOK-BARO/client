@@ -25,16 +25,16 @@ export default function Index() {
 		quizId: string;
 	}>();
 
-	useEffect(()=>{
-		quizService.startSolvingQuiz(quizId!).then(({id})=>{
+	useEffect(() => {
+		quizService.startSolvingQuiz(quizId!).then(({ id }) => {
 			setSolvingQuizId(id!);
 		});
-	},[]);
+	}, []);
 
-	useEffect(()=>{
-		console.log("solvingQuizId" , solvingQuizId);
+	useEffect(() => {
+		console.log("solvingQuizId", solvingQuizId);
 
-	},[solvingQuizId]);
+	}, [solvingQuizId]);
 
 	const warning = "/assets/svg/solvingQuizFormLayout/warning.svg";
 	const navigate = useNavigate();
@@ -94,13 +94,13 @@ export default function Index() {
 			const id: string = quizId.toString();
 			const solvingId: string = solvingQuizId.toString();
 			const quizTitle: string = quiz?.title ?? "";
-			const params:QuizResultRouteParams = {
+			const params: QuizResultRouteParams = {
 				quizId: parseInt(id),
 				solvingQuizId: parseInt(solvingId), // TODO 제거
 				quizTitle: quizTitle,
 				studyGroupId: quiz?.studyGroupId?.toString() ?? "",
 			}
-			navigate(ROUTES.QUIZ_RESULT(params),{replace:false,});
+			navigate(ROUTES.QUIZ_RESULT(params), { replace: false, });
 			return;
 
 		} else {
@@ -192,31 +192,37 @@ export default function Index() {
 					color="primary"
 					icon={<ArrowRight stroke={gray0} width={20} height={20} />}
 					className={styles["footer-btn"]}
+					ableAnimation
 				>
 					채점하기
 				</Button>
 			)}
-			{/* TODO: 없다가 나타나는 애니메이션 처리 필요 */}
 			{didAnswerChecked && (
-				<div
-					className={`${styles["footer-btn-container"]} ${didAnswerChecked ? styles.visible : ""
-						}`}
-				>
-					<Button
-						onClick={handleShowAnswerDescriptionBtn}
-						color="primary-border"
-						className={styles["footer-btn"]}
+				<div className={`
+					${styles[toggleAnswerDescription ? "slideIn" : ""]}`}>
+					<div
+						className={`
+							${styles["footer-btn-container"]}
+						${didAnswerChecked ? styles.visible : ""
+							}
+					`}
 					>
-						해설보기
-					</Button>
-					<Button
-						onClick={handleNextQuestionBtn}
-						color="primary"
-						icon={<ArrowRight stroke={gray0} width={20} height={20} />}
-						className={styles["footer-btn"]}
-					>
-						{currentStep === quiz!.questions.length ? "점수 보기" : "다음문제"}
-					</Button>
+						<Button
+							onClick={handleShowAnswerDescriptionBtn}
+							color="primary-border"
+							className={styles["footer-btn"]}
+						>
+							해설보기
+						</Button>
+						<Button
+							onClick={handleNextQuestionBtn}
+							color="primary"
+							icon={<ArrowRight stroke={gray0} width={20} height={20} />}
+							className={styles["footer-btn"]}
+						>
+							{currentStep === quiz!.questions.length ? "점수 보기" : "다음문제"}
+						</Button>
+					</div>
 				</div>
 			)}
 		</section>

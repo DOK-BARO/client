@@ -1,7 +1,4 @@
 import styles from "./_my_study_groups.module.scss";
-import Button from "@/components/atom/Button/Button";
-import { Plus } from "@/svg/Plus";
-import { primary } from "@/styles/abstracts/colors";
 import StudyGroupItem from "../../components/StudyGroupItem/StudyGroupItem";
 import AddStudyGroupModal from "../../components/AddStudyGroupModal/AddStudyGroupModal";
 import useModal from "@/hooks/useModal";
@@ -21,6 +18,11 @@ import Pagination from "@/components/composite/Pagination/Pagination";
 import { parseQueryParams } from "@/utils/parseQueryParams";
 import { FetchStudyGroupsParams } from "@/types/ParamsType";
 import { NoDataSection } from "@/components/composite/NoDataSection/NoDataSection";
+import StudyGroupButton from "../../components/StudyGroupButton/StudyGroupButton";
+import textBox from "/public/assets/svg/myPage/text-box.svg";
+import pencilUnderline from "/public/assets/svg/myPage/pencil-underline.svg";
+import { useNavigate } from "react-router-dom";
+import ROUTES from "@/data/routes";
 
 const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
   {
@@ -40,6 +42,7 @@ const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
 ];
 
 export default function MyStudyGroups() {
+  const navigate = useNavigate();
   const { isModalOpen, openModal, closeModal } = useModal();
 
   const [filterCriteria, setFilterCriteria] = useAtom(studyGroupFilterAtom);
@@ -53,8 +56,9 @@ export default function MyStudyGroups() {
   const sort = filterCriteria.sort;
   const direction = filterCriteria.direction; // 기본값: ASC
   const page = paginationState.currentPage; // parseQueryParams함수 안에서 기본값 1로 설정
-  const size = 4; // 한번에 불러올 최대 길이
+  const size = 5; // 한번에 불러올 최대 길이
 
+  console.log(size, page);
   const { data: myStudyGroupsData } = useQuery({
     queryKey: studyGroupKeys.list(
       parseQueryParams<StudyGroupsSortType, FetchStudyGroupsParams>({
@@ -73,6 +77,8 @@ export default function MyStudyGroups() {
   const myStudyGroups = myStudyGroupsData?.data;
   const endPageNumber = myStudyGroupsData?.endPageNumber;
 
+  console.log(myStudyGroups);
+
   // 마지막 페이지 번호 저장
   useEffect(() => {
     setPaginationState({
@@ -88,11 +94,18 @@ export default function MyStudyGroups() {
 
   console.log(myStudyGroupsData);
 
+  const handleStudyGroupJoinClick = () => {
+    navigate(ROUTES.MY_STUDY_GROUPS_JOIN);
+  };
+
+  const handleStudyGroupCreateClick = () => {
+    navigate(ROUTES.MY_STUDY_GROUPS_CREATE);
+  };
+
   return (
     <section className={styles.container}>
-      <div className={styles.header}>
-        <h3 className={styles.title}>내 스터디 그룹</h3>
-        <Button
+      <h3 className={styles["sub-title"]}>내 스터디 그룹</h3>
+      {/* <Button
           size="xsmall"
           color="secondary"
           icon={<Plus stroke={primary} width={16} height={16} />}
@@ -100,8 +113,7 @@ export default function MyStudyGroups() {
           onClick={openModal}
         >
           스터디 그룹 추가
-        </Button>
-      </div>
+        </Button> */}
       <div className={styles["filter-container"]}>
         <ListFilter
           onOptionClick={handleOptionClick}
@@ -118,6 +130,33 @@ export default function MyStudyGroups() {
       ) : (
         myStudyGroups && (
           <ol className={styles["study-list"]}>
+            <li className={styles["button-container"]}>
+              <StudyGroupButton
+                label="코드로 가입하기"
+                icon={
+                  <img
+                    src={textBox}
+                    width={24}
+                    height={24}
+                    alt="코드로 가입하기"
+                  />
+                }
+                onClick={handleStudyGroupJoinClick}
+              />
+              <StudyGroupButton
+                label="내가 만들기"
+                icon={
+                  <img
+                    src={pencilUnderline}
+                    width={24}
+                    height={24}
+                    alt="내가 만들기"
+                  />
+                }
+                onClick={handleStudyGroupCreateClick}
+              />
+            </li>
+
             {/* 스터디 그룹 아이템과 부족한 공간 채우기 */}
             {[
               ...myStudyGroups,

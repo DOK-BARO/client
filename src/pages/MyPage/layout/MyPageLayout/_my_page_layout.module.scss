@@ -8,8 +8,18 @@
   .header-container {
     display: flex;
     align-items: center;
-    gap: 26px;
+    gap: 16px;
     margin-bottom: 20px;
+
+    .back-button {
+      font-size: 32px;
+      font-weight: $font-weight-medium;
+      line-height: 1.5;
+    }
+
+    .setting-button {
+      margin-left: 10px;
+    }
   }
 
   .title {

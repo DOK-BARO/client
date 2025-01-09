@@ -23,6 +23,8 @@ const ROUTES = {
   SOLVED_QUIZ: "solved-quiz",
 
   MY_STUDY_GROUPS: "/my/study-groups",
+  MY_STUDY_GROUPS_JOIN: "/my/study-groups/join",
+  MY_STUDY_GROUPS_CREATE: "/my/study-groups/create",
   STUDY_GROUP: (studyGroupId?: number) =>
     `/my/study-groups/${studyGroupId ?? ":studyGroupId"}`,
   STUDY_GROUP_SETTING: (studyGroupId?: number) =>
@@ -31,7 +33,7 @@ const ROUTES = {
   SETTINGS: "settings",
   EDIT_PROFILE: "edit-profile",
   CHANGE_PASSWORD: "change-password",
-  SETTINGS_DELETE_ACCOUNT: "/my/settings/delete-account",
+  DELETE_ACCOUNT: "delete-account",
 
   COMPONENT_TEST: "/component-test",
 

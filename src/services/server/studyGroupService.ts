@@ -220,5 +220,20 @@ class StudyGroupService {
       return null;
     }
   };
+
+  // 초대 코드를 통한 스터디 그룹 상세 조회
+  fetchStudyGroupDetailByInviteCode = async (
+    inviteCode: string
+  ): Promise<StudyGroupDetailType | null> => {
+    try {
+      const { data } = await axiosInstance.get(
+        `/study-groups/invite-code/${inviteCode}`
+      );
+      return data;
+    } catch (error) {
+      handleAxiosError(error);
+      return null;
+    }
+  };
 }
 export const studyGroupService = new StudyGroupService();

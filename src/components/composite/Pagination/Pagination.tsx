@@ -34,10 +34,12 @@ export default function Pagination(props: Props) {
     setPaginationState,
   });
 
-  const currentPage = paginationState.currentPage;
+  const currentPage = paginationState.currentPage ?? 1;
   const totalPagesLength = paginationState.totalPagesLength ?? 0;
   const middlePages = paginationState.middlePages;
   const isMiddlePageUpdated = paginationState.isMiddlePagesUpdated;
+
+  console.log(currentPage, middlePages, totalPagesLength);
 
   useEffect(() => {
     // 쿼리 스트링 방식만 해당
@@ -48,7 +50,9 @@ export default function Pagination(props: Props) {
           pathname: `/${props.parentPage}`,
           search: `?${queryParams.toString()}`,
         },
-        { replace: currentPage === 1 }
+        {
+          replace: true,
+        }
       );
     }
   }, [currentPage, props.type === "queryString" && props.parentPage]);

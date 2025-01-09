@@ -25,7 +25,7 @@ interface Props {
   closeModal: () => void;
   currentPage: number;
 }
-
+// TODO: 제거
 export default function AddStudyGroupModal({ closeModal, currentPage }: Props) {
   const { value: name, onChange: onNameChange } = useInput("");
 

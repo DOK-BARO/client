@@ -90,6 +90,10 @@ export default function MyStudyGroupsCreate() {
     });
 
   const handleCreateStudyGroup = () => {
+    if (!name) {
+      toast.error("스터디 이름을 입력해주세요.");
+      return;
+    }
     // 스터디 그룹 사진이 있는 경우
     if (profileImage.file) {
       const arg: UploadImageArgType = {
@@ -200,6 +204,7 @@ export default function MyStudyGroupsCreate() {
         className={`${styles.done} ${styles["right-end"]}`}
         color="primary"
         onClick={handleCreateStudyGroup}
+        disabled={!name}
       >
         완료
       </Button>

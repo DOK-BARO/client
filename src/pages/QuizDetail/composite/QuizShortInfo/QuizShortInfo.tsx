@@ -59,6 +59,7 @@ export default function QuizShortInfo({
     openModal: openReportConfirmModal,
     closeModal: closeReportConfirmModal,
   } = useModal();
+
   // 작은 모달 토글
   const handleToggle = () => {
     if (isSmallModalOpen) {
@@ -71,21 +72,24 @@ export default function QuizShortInfo({
   const buttonRef = useRef<HTMLButtonElement>(null);
   useOutsideClick([modalRef, buttonRef], closeSmallModal);
 
+  // 기타 사유
   const {
-    value: reportContent,
-    onChange: onReportContentChange,
-    textareaRef: reportContentRef,
-    resetTextarea: resetReportContent,
+    value: OtherGrounds,
+    onChange: onOtherGroundsChange,
+    textareaRef: OtherGroundsRef,
+    resetTextarea: resetOtherGrounds,
   } = useAutoResizeTextarea("", "40px");
+  const [selectedReportReason, setSelectedReportReason] = useState<string[]>(
+    []
+  );
 
-  // TODO: 퀴즈 신고하기 API 변경 사항에 맞게 수정
   const { mutate: reportReview } = useMutation<
     { id: number } | null,
     ErrorType,
-    { questionId: number; content: string }
+    { questionId: number; contents: string[] }
   >({
-    mutationFn: ({ questionId, content }) =>
-      quizService.reportQuiz({ questionId, content }),
+    mutationFn: ({ questionId, contents }) =>
+      quizService.reportQuiz({ questionId, contents }),
     onSuccess: (data) => {
       if (!data) {
         toast.error("퀴즈 신고에 실패했습니다.");
@@ -99,7 +103,13 @@ export default function QuizShortInfo({
   });
 
   const handleReportReview = () => {
-    reportReview({ questionId: quizExplanation.id, content: reportContent });
+    const selectedReportReasonFiltered = selectedReportReason.map((reason) =>
+      reason === "기타" ? OtherGrounds : reason
+    );
+    reportReview({
+      questionId: quizExplanation.id,
+      contents: selectedReportReasonFiltered,
+    });
   };
 
   const reportReasonList = [
@@ -117,15 +127,17 @@ export default function QuizShortInfo({
     }[]
   >(reportReasonList);
 
-  const [selectedReportReason, setSelectedReportReason] = useState<string[]>(
-    []
-  );
-
   const handleSmallModalClick = () => {
     closeSmallModal();
     openReportModal();
-    resetReportContent();
+    resetOtherGrounds();
   };
+
+  useEffect(() => {
+    resetOtherGrounds();
+    setSelectedReportReason([]);
+    setReportReasons(reportReasonList);
+  }, [isReportModalOpen]);
 
   const handleGoBackToHome = () => {
     navigate(ROUTES.ROOT);
@@ -152,10 +164,6 @@ export default function QuizShortInfo({
     );
     setSelectedReportReason(reportReasonTextList.map((item) => item.text));
   }, [reportReasons]);
-
-  useEffect(() => {
-    console.log("selectedReportReason", selectedReportReason);
-  }, [selectedReportReason]);
 
   return (
     <section className={styles.container}>
@@ -189,6 +197,7 @@ export default function QuizShortInfo({
                 <div>
                   {reportReasons.map((reason) => (
                     <CheckBox
+                      key={reason.id}
                       id={reason.id.toString()}
                       type="checkbox-black"
                       value={reason.text}
@@ -196,7 +205,7 @@ export default function QuizShortInfo({
                       checked={reason.checked}
                     />
                   ))}
-                  {/* 입력 전/후 높이 차이 */}
+                  {/* TODO: 입력 전/후 높이 차이 */}
                   {/* 기타 선택했을 때만 보이게 */}
                   {selectedReportReason.some((reason) => reason === "기타") ? (
                     <div className={styles["textarea-container"]}>
@@ -204,10 +213,10 @@ export default function QuizShortInfo({
                         placeholder="기타 사유를 작성해 주세요."
                         maxLengthShow
                         maxLength={500}
-                        onChange={onReportContentChange}
-                        value={reportContent}
+                        onChange={onOtherGroundsChange}
+                        value={OtherGrounds}
                         id="report-content"
-                        textAreaRef={reportContentRef}
+                        textAreaRef={OtherGroundsRef}
                         size="small"
                         rows={1}
                       />
@@ -223,7 +232,11 @@ export default function QuizShortInfo({
               text: "신고하기",
               color: "primary",
               onClick: handleReportReview,
-              disabled: selectedReportReason.length < 1,
+              disabled:
+                selectedReportReason.length < 1 ||
+                selectedReportReason.some(
+                  (reason) => reason === "기타" && OtherGrounds === ""
+                ),
             },
           ]}
         />

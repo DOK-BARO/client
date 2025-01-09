@@ -8,5 +8,5 @@ export const bookFilterAtom = atom<BooksFilterType>({
 
 export const bookQuizzesFilterAtom = atom<BookQuizzesFilterType>({
   sort: "STAR_RATING",
-	direction: "ASC",
+  direction: "ASC",
 });

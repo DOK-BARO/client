@@ -64,11 +64,12 @@ export default function BookListLayout() {
   const direction = queryParams.get("direction") || "ASC"; // 기본값: ASC
   const page = queryParams.get("page") || undefined; // parseQueryParams함수 안에서 기본값 1로 설정
   const size = 10; // 한번에 불러올 최대 길이: 책 목록에서는 10 고정값.
-
+  const title = queryParams.get("title") || undefined;
   // 책 목록 가져오기
   const { data: booksData, isLoading: isBooksLoading } = useQuery({
     queryKey: bookKeys.list(
       parseQueryParams<BooksSortType, FetchBooksParams>({
+        title,
         category,
         sort,
         direction,
@@ -78,7 +79,7 @@ export default function BookListLayout() {
     ),
     queryFn: () =>
       bookService.fetchBooks(
-        parseQueryParams({ category, sort, direction, page, size })
+        parseQueryParams({ title, category, sort, direction, page, size })
       ),
   });
 

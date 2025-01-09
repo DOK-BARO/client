@@ -15,15 +15,17 @@ class BookService {
     params: FetchBooksParams = {}
   ): Promise<{ data: BookType[]; endPageNumber: number } | void> => {
     const {
-      title = undefined,
-      authorName = undefined,
-      description = undefined,
-      category = undefined,
+      title,
+      authorName,
+      description,
+      category,
       page = 1,
-      size = undefined,
+      size,
       sort = "QUIZ_COUNT",
       direction = "ASC",
     } = params || {};
+
+    console.log(params);
 
     try {
       const response = await axiosInstance.get("/books", {
@@ -47,7 +49,7 @@ class BookService {
   fetchSearchBooks = async (
     params?: SearchBooksParams
   ): Promise<BookType[]> => {
-    const { keyword, lastId = null, size = 10 } = params || {};
+    const { keyword, lastId = null, size = 20 } = params || {};
 
     try {
       const { data } = await axiosInstance.get("/books/integrated", {

@@ -20,7 +20,6 @@ export const parseQueryParams = <SortType, ReturnParams>({
   quizId,
 }: ParseQueryParamsArgs): ReturnParams => {
   const params: Record<string, unknown> = {};
-  console.log("title", title);
 
   params["page"] = page ? Number(page) : 1; // 기본값 1 페이지
 

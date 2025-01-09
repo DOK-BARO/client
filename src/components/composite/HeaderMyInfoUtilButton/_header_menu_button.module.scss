@@ -5,10 +5,13 @@
   }
 }
 .profile {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  overflow: hidden;
+  img {
+    padding: 2px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+  }
 
   h3 {
     margin-left: 8px;

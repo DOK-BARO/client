@@ -41,7 +41,7 @@
   //   height: $button-height-xlarge;
   // }
 
-// 버튼 색상(스타일)
+  // 버튼 색상(스타일)
   &--primary {
     background-color: $primary;
     color: $gray-00;
@@ -53,7 +53,6 @@
     color: $gray-00;
     border: 1.5px solid $primary;
     transition: all 0.3s ease;
-
   }
 
   &--secondary {
@@ -122,4 +121,5 @@
   width: auto;
   height: auto;
   border-radius: 0;
+  border: 0;
 }

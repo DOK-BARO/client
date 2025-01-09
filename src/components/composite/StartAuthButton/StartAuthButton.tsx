@@ -6,8 +6,10 @@ import { isLoggedInAtom } from "@/store/userAtom";
 
 export default function StartAuthButton({
   openLoginModal,
-}: {openLoginModal: () => void;}) {
-		const [isLoggedIn] = useAtom(isLoggedInAtom);
+}: {
+  openLoginModal: () => void;
+}) {
+  const [isLoggedIn] = useAtom(isLoggedInAtom);
 
   const [, setIsEmailLoginPage] = useAtom(isEmailLoginPageAtom);
 
@@ -21,15 +23,13 @@ export default function StartAuthButton({
   };
 
   return (
-    <div>
-      <Button
-        color="black"
-        className={styles["start-button"]}
-        onClick={handleClick}
-        size="small"
-      >
-        시작하기
-      </Button>
-    </div>
+    <Button
+      color="black"
+      className={styles["start-button"]}
+      onClick={handleClick}
+      size="small"
+    >
+      시작하기
+    </Button>
   );
 }

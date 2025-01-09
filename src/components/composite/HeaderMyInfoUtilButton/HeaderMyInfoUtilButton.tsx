@@ -6,44 +6,49 @@ import { Person } from "@/svg/Person.tsx";
 import { useAtom } from "jotai";
 import { isLoggedInAtom } from "@/store/userAtom.ts";
 import { currentUserAtom } from "@/store/userAtom.ts";
+import defaultImage from "/public/assets/svg/header/default-profile.svg";
 
 export default function HeaderMyInfoUtilButton() {
-	const [isLoggedIn] = useAtom(isLoggedInAtom);
-	const [currentUser] = useAtom(currentUserAtom);
+  const [isLoggedIn] = useAtom(isLoggedInAtom);
+  const [currentUser] = useAtom(currentUserAtom);
 
-	const {
-		isOpenDropDownList,
-		anchorEl,
-		openDropDownList,
-		closeDropDownList,
-		dropDownListRef,
-	} = useDropDownList();
+  const {
+    isOpenDropDownList,
+    anchorEl,
+    openDropDownList,
+    closeDropDownList,
+    dropDownListRef,
+  } = useDropDownList();
 
-	if (!isLoggedIn) {
-		return null;
-	}
-	
-	return (
-		<div
-			className={styles["header-my-info-util-container"]}
-			ref={dropDownListRef}
-		>
-			<Button
-				color="transparent"
-				onClick={openDropDownList}
-				iconOnly
-				className={styles.profile}
-				icon={
-					currentUser ? (
-						<img src={currentUser.profileImage ?? ""} width={40} height={40} />
-					) : (
-						<Person width={40} height={40} />
-					)
-				}
-			/>
-			{isOpenDropDownList && anchorEl && (
-				<HeaderMenuList closeDropDownList={closeDropDownList} />
-			)}
-		</div>
-	);
+  if (!isLoggedIn) {
+    return null;
+  }
+
+  return (
+    <div
+      className={styles["header-my-info-util-container"]}
+      ref={dropDownListRef}
+    >
+      <Button
+        color="transparent"
+        onClick={openDropDownList}
+        iconOnly
+        className={styles.profile}
+        icon={
+          currentUser ? (
+            <img
+              src={currentUser.profileImage ?? defaultImage}
+              width={40}
+              height={40}
+            />
+          ) : (
+            <Person width={40} height={40} />
+          )
+        }
+      />
+      {isOpenDropDownList && anchorEl && (
+        <HeaderMenuList closeDropDownList={closeDropDownList} />
+      )}
+    </div>
+  );
 }

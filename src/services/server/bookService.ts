@@ -25,8 +25,6 @@ class BookService {
       direction = "ASC",
     } = params || {};
 
-    console.log(params);
-
     try {
       const response = await axiosInstance.get("/books", {
         params: {

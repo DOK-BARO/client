@@ -1,7 +1,4 @@
-import {
-  isStudyGroupSettingPageAtom,
-  myPageTitleAtom,
-} from "@/store/myPageAtom";
+import { myPageTitleAtom } from "@/store/myPageAtom";
 import { useAtom } from "jotai";
 import { useEffect, useRef, useState } from "react";
 import styles from "./_study_group_setting.module.scss";
@@ -26,10 +23,9 @@ import Modal from "@/components/atom/Modal/Modal";
 import { studyGroupKeys } from "@/data/queryKeys";
 import { StudyGroupPostType } from "@/types/StudyGroupType";
 import { queryClient } from "@/services/server/queryClient";
-import { UploadImageArgType } from "@/types/UploadImageType";
-import { imageService } from "@/services/server/imageService";
 import ROUTES from "@/data/routes";
 import useOutsideClick from "@/hooks/useOutsideClick";
+import useUploadImageToStorage from "@/hooks/mutate/useUploadImage";
 
 // 스터디 그룹 관리
 export default function StudyGroupSetting() {
@@ -48,7 +44,6 @@ export default function StudyGroupSetting() {
   });
 
   const [, setMyPageTitle] = useAtom(myPageTitleAtom);
-  const [, setIsStudyGroupSettingPage] = useAtom(isStudyGroupSettingPageAtom);
   const defaultImagePath = "/public/assets/image/default-profile.png";
   const [isInputChanged, setIsInputChanged] = useState<boolean>(false);
   const {
@@ -127,31 +122,39 @@ export default function StudyGroupSetting() {
   }, [name, introduction, profileImage.url]);
 
   // 이미지 업로드
-  const { mutate: uploadImage } = useMutation<
-    string,
-    ErrorType,
-    UploadImageArgType
-  >({
-    mutationFn: (uploadImageArg) => imageService.uploadImage(uploadImageArg),
-    onSuccess: (imageUrl) => {
-      const newStudy: StudyGroupPostType = {
-        name,
-        introduction,
-        profileImageUrl: imageUrl,
-      };
+  // TODO: 훅 사용으로 변경하기
+  // const { mutate: uploadImage } = useMutation<
+  //   string,
+  //   ErrorType,
+  //   UploadImageArgType
+  // >({
+  //   mutationFn: (uploadImageArg) => imageService.uploadImage(uploadImageArg),
+  //   onSuccess: (imageUrl) => {
+  //     const newStudy: StudyGroupPostType = {
+  //       name,
+  //       introduction,
+  //       profileImageUrl: imageUrl,
+  //     };
 
-      updateStudyGroup({ id: studyGroupIdNumber!, studyGroup: newStudy });
-    },
+  //     updateStudyGroup({ id: studyGroupIdNumber!, studyGroup: newStudy });
+  //   },
+  // });
+
+  const { uploadImage } = useUploadImageToStorage((imageUrl: string) => {
+    const newStudy: StudyGroupPostType = {
+      name,
+      introduction,
+      profileImageUrl: imageUrl,
+    };
+    updateStudyGroup({ id: studyGroupIdNumber!, studyGroup: newStudy });
   });
 
   useEffect(() => {
     if (studyGroupDetail) {
       setMyPageTitle(studyGroupDetail.name);
-      setIsStudyGroupSettingPage(true);
     }
     return () => {
       setMyPageTitle("마이페이지");
-      setIsStudyGroupSettingPage(false);
     };
   }, [studyGroupDetail]);
 

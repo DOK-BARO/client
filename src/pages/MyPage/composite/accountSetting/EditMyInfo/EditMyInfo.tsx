@@ -74,7 +74,7 @@ export default function EditMyInfo() {
   return (
     <>
       <section className={styles["setting-img"]}>
-        <h2 className={styles["title"]}>프로필 사진 설정</h2>
+        <h2 className={styles["sub-title"]}>프로필 사진 설정</h2>
         <ProfileImageEditor
           width={200}
           profileImage={profileImage}
@@ -84,7 +84,7 @@ export default function EditMyInfo() {
       </section>
 
       <section className={styles["setting-container"]}>
-        <h2 className={styles["title"]}>닉네임 설정</h2>
+        <h2 className={styles["sub-title"]}>닉네임 설정</h2>
         {!isChangeNicknameMode && (
           <div className={styles["change-form"]}>
             <span>{currentUser?.nickname}</span>
@@ -142,7 +142,7 @@ export default function EditMyInfo() {
       </section>
 
       <section className={styles["setting-container"]}>
-        <h2 className={styles["title"]}>가입 이메일 설정</h2>
+        <h2 className={styles["sub-title"]}>가입 이메일 설정</h2>
         <div className={styles["change-form"]}>
           <span
             className={isChangeEmailMode ? styles["current-email"] : styles[""]}

@@ -11,7 +11,7 @@ interface Props {
   isDeletable?: boolean;
   initialImageState: ProfileImageState;
 }
-// TODO: hover 시 background 어두워지기
+
 export default function ProfileImageEditor({
   width,
   initialImageState,

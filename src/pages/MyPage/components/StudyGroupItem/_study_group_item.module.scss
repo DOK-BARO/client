@@ -21,17 +21,33 @@
     flex: 1;
     gap: 4px;
 
-    .name {
-      line-height: inherit;
-      font-weight: $font-weight-semibold;
-      font-size: $font-size-large;
+    .name-button-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      .name {
+        line-height: inherit;
+        font-weight: $font-weight-semibold;
+        font-size: $font-size-large;
+      }
+      .member-setting {
+        height: 26px;
+        font-size: 14px;
+        font-weight: $font-weight-regular;
+        border-radius: 4px;
+      }
     }
+
     .icon-text-label {
       @include flex(row, center);
       justify-content: start;
       gap: 8px;
       font-size: 12px;
       font-weight: $font-weight-medium;
+
+      &.active {
+        color: $primary;
+      }
     }
 
     .study-info {

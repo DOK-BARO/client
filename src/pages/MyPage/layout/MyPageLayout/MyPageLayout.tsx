@@ -13,8 +13,13 @@ export default function MyPageLayout() {
   const navigate = useNavigate();
   const [myPageTitle] = useAtom(myPageTitleAtom);
   const [studyGroup] = useAtom(studyGroupAtom);
+
   const [isStudyGroupMainPage] = useAtom(isStudyGroupMainPageAtom);
   const { studyGroupId } = useParams();
+  
+  // TODO: 
+  const isStudyGroupPage = (myPageTitle !== "마이페이지") && (myPageTitle !=="회원 탈퇴"); // TODO: 로직 수정해야 할 듯 합니다... 너무 하드코딩 한 듯 합니다ㅜ
+  const [isStudyGroupSettingPage] = useAtom(isStudyGroupSettingPageAtom);
 
   const handleGoToStudyGroupSetting = () => {
     navigate(ROUTES.STUDY_GROUP_SETTING(studyGroup?.id));

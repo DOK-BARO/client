@@ -6,15 +6,15 @@ import { useNavigate } from "react-router-dom";
 
 const useDeleteQuiz = () => {
 	const navigate = useNavigate();
-	const {mutate: deleteQuiz} = useMutation<void,ErrorType,string>({
-		mutationFn: (quizId:string) => quizService.deleteQuiz(quizId),
+	const { mutate: deleteQuiz } = useMutation<void, ErrorType, string>({
+		mutationFn: (quizId: string) => quizService.deleteQuiz(quizId),
 		onSuccess: () => {
 			toast.success("퀴즈가 삭제되었습니다.");
 			navigate(0);
 		}
 	});
 
-	return {deleteQuiz};
+	return { deleteQuiz };
 }
 
 export default useDeleteQuiz;

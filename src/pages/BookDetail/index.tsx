@@ -11,7 +11,6 @@ import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { BookType } from "@/types/BookType";
 import { extractCategoryList } from "@/utils/extractCategoryList.ts";
 import ROUTES from "@/data/routes.ts";
-import { useEffect } from "react";
 
 export default function Index() {
   const { id } = useParams();
@@ -21,20 +20,6 @@ export default function Index() {
     queryKey: bookKeys.detail(id!),
     queryFn: () => bookService.fetchBook(id!),
   });
-
-  useEffect(() => {
-    const handlePopState = () => {
-      // 뒤로가기를 누르면 메인으로 이동
-      if (window.location.pathname.startsWith("/book")) {
-        navigate(ROUTES.ROOT);
-      }
-    };
-
-    window.addEventListener("popstate", handlePopState);
-    return () => {
-      window.removeEventListener("popstate", handlePopState);
-    };
-  }, [navigate]);
 
   const { updateQuizCreationInfo } = useUpdateQuizCreationInfo();
 

@@ -6,6 +6,7 @@ import ROUTES from "@/data/routes";
 
 export default function BookItem({ book }: { book: BookType }) {
   const navigate = useNavigate();
+
   const handleClick = () => {
     navigate(ROUTES.BOOK_DETAIL_SECTION(book.id));
   };

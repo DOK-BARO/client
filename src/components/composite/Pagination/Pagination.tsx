@@ -45,7 +45,7 @@ export default function Pagination(props: Props) {
       const queryParams = setQueryParam("page", currentPage.toString());
       navigate({
         pathname: `/${props.parentPage}`,
-        search: `?${queryParams.toString()}`,
+        search: currentPage === 1 ? undefined : `?${queryParams.toString()}`,
       });
     }
   }, [currentPage, props.type === "queryString" && props.parentPage]);

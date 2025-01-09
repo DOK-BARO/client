@@ -63,11 +63,23 @@ export default function Index() {
   const currentFormIndex: number = currentStep - 1;
 
   const handleQuestionSubmit = async () => {
+    const isMultipleAnswerType: boolean = quiz?.questions[currentFormIndex].type === "MULTIPLE_CHOICE_MULTIPLE_ANSWER";
+    if (isMultipleAnswerType) {
+      const selectedSingleAnswer: boolean = (selectedOptions.length ?? 0) <= 1;
+      console.log(quiz?.questions[currentFormIndex].selectOptions.length);
+      console.log(selectedSingleAnswer);
+      if (selectedSingleAnswer) {
+        toast.error("답안을 2개 이상 선택해주세요");
+        return;
+      }
+    }
+
     if (!solvingQuizId) {
       return;
     }
+
     setOptionDisabled(true);
-    const questionId: number = quiz!.questions[currentStep - 1].id;
+    const questionId: number = quiz!.questions[currentFormIndex].id;
     const solvingQuizIdToString: string = solvingQuizId.toString();
     const checkedResult: QuestionCheckedResult =
       await quizService.submitQuestion(

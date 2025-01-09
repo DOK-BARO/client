@@ -8,6 +8,8 @@ import { ArrowLeft } from "@/svg/ArrowLeft";
 import { gray90 } from "@/styles/abstracts/colors";
 import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 import ROUTES from "@/data/routes";
+import { prevPaginationStateAtom } from "@/store/paginationAtom";
+import { useAtom } from "jotai";
 
 // Book Category GNB
 export default function LNB({
@@ -19,6 +21,7 @@ export default function LNB({
 }) {
   const navigate = useNavigate();
   const { navigateWithParams } = useNavigateWithParams("books");
+  const [, setPrePaginationState] = useAtom(prevPaginationStateAtom);
 
   if (!categories) {
     return <div>book categories page error!!</div>;
@@ -29,7 +32,8 @@ export default function LNB({
     : null;
 
   const handleClick = (id: string | undefined) => {
-    // navigateWithParams(e, "BOOKS", "category", ["page"]);
+    sessionStorage.removeItem("prevPage");
+    setPrePaginationState(undefined);
     navigateWithParams({
       category: id,
       parentPage: "books",

@@ -39,8 +39,6 @@ export default function Pagination(props: Props) {
   const middlePages = paginationState.middlePages;
   const isMiddlePageUpdated = paginationState.isMiddlePagesUpdated;
 
-  console.log(currentPage, middlePages, totalPagesLength);
-
   useEffect(() => {
     // 쿼리 스트링 방식만 해당
     if (props.type === "queryString") {

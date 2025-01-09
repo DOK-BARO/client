@@ -11,6 +11,7 @@ import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { BookType } from "@/types/BookType";
 import { extractCategoryList } from "@/utils/extractCategoryList.ts";
 import ROUTES from "@/data/routes.ts";
+import { useEffect } from "react";
 
 export default function Index() {
   const { id } = useParams();
@@ -20,6 +21,11 @@ export default function Index() {
     queryKey: bookKeys.detail(id!),
     queryFn: () => bookService.fetchBook(id!),
   });
+  // useEffect(() => {
+  //   return () => {
+  //     sessionStorage.removeItem("prevPage");
+  //   };
+  // }, []);
 
   const { updateQuizCreationInfo } = useUpdateQuizCreationInfo();
 

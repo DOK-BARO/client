@@ -1,4 +1,7 @@
-import { paginationAtom } from "@/store/paginationAtom";
+import {
+  paginationAtom,
+  prevPaginationStateAtom,
+} from "@/store/paginationAtom";
 import { BooksFilterType, ReviewsFilterType } from "@/types/FilterType";
 import { ParentPage } from "@/types/PaginationType";
 import { FetchBooksKeyType } from "@/types/ParamsType";
@@ -12,8 +15,23 @@ import { useNavigate } from "react-router-dom";
 const useNavigateWithParams = (parentPage: ParentPage) => {
   const navigate = useNavigate();
   const [, setPaginationState] = useAtom(paginationAtom);
+  const [prevPaginationState] = useAtom(prevPaginationStateAtom);
 
   const initializePaginationState = () => {
+    if (parentPage === "books" && prevPaginationState !== undefined) {
+      setPaginationState(prevPaginationState);
+    } else {
+      setPaginationState((prev) => ({
+        ...prev,
+        currentPage: 1,
+        pagePosition: "START",
+        middlePages: [],
+        isMiddlePagesUpdated: false,
+      }));
+    }
+  };
+
+  useEffect(() => {
     setPaginationState((prev) => ({
       ...prev,
       currentPage: 1,
@@ -21,10 +39,11 @@ const useNavigateWithParams = (parentPage: ParentPage) => {
       middlePages: [],
       isMiddlePagesUpdated: false,
     }));
-  };
+  }, [prevPaginationState]);
 
   useEffect(() => {
     // Pagination 상태 초기화
+    console.log("초기화..");
     initializePaginationState();
   }, [parentPage]);
 
@@ -42,7 +61,6 @@ const useNavigateWithParams = (parentPage: ParentPage) => {
     page?: number;
     category?: string;
     parentPage: ParentPage;
-    includeParamName?: FetchBooksKeyType[];
     excludeParams?: FetchBooksKeyType[];
     itemId?: number;
   }) => {
@@ -78,10 +96,18 @@ const useNavigateWithParams = (parentPage: ParentPage) => {
     // 제외할 파라미터 삭제
     excludeParams.forEach((param) => queryParams.delete(param));
 
-    // if (excludeParams.includes("page")) {
-    //   console.log("페이지 초기화");
-    //   initializePaginationState();
-    // }
+    if (excludeParams.includes("page")) {
+      // TODO: 이전과 비교해서 페이지가 변화가 없다면, 초기화 하지 않아도 되도록 하기
+      // 즉, 한번 초기화가 된 상태라면 초기화하지 않아도 되게 하기
+
+      if (!sessionStorage.getItem("prevPage")) {
+        initializePaginationState();
+      } else if (
+        sessionStorage.getItem("prevPage") !== (!page ? "1" : "page")
+      ) {
+        initializePaginationState();
+      }
+    }
 
     const pathname = !itemId
       ? `/${parentPage.toLowerCase()}`

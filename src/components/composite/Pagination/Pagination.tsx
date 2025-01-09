@@ -43,10 +43,16 @@ export default function Pagination(props: Props) {
     // 쿼리 스트링 방식만 해당
     if (props.type === "queryString") {
       const queryParams = setQueryParam("page", currentPage.toString());
-      navigate({
-        pathname: `/${props.parentPage}`,
-        search: currentPage === 1 ? undefined : `?${queryParams.toString()}`,
-      });
+
+      const search = currentPage === 1 ? "" : `?${queryParams.toString()}`;
+
+      navigate(
+        {
+          pathname: `/${props.parentPage}`,
+          search,
+        },
+        { replace: currentPage === 1 }
+      );
     }
   }, [currentPage, props.type === "queryString" && props.parentPage]);
 

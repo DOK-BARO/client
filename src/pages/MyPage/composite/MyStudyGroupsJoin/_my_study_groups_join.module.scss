@@ -1,0 +1,35 @@
+@import "../../../../styles/abstracts/mixins";
+@import "../../../../styles/abstracts/variables";
+
+.container {
+  .sub-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    &:not(:first-child) {
+      margin-top: 40px;
+    }
+  }
+  .sub-title {
+    line-height: 1.5;
+    font-size: $font-size-subTitle;
+    font-weight: $font-weight-semibold;
+  }
+  .code-input-container {
+    width: 342px;
+    margin-top: 24px;
+  }
+  .done {
+    width: 150px;
+    margin-top: 40px;
+  }
+  .right-end {
+    margin-left: auto;
+  }
+}
+
+.new-study-invite-code {
+  background-color: $background;
+  color: $primary;
+}

@@ -11,30 +11,29 @@ import useDeleteQuiz from "@/hooks/mutate/useDeleteQuiz";
 import ROUTES from "@/data/routes";
 
 export default function QuizListLayout({
-	title,
-	quizzes,
-	titleWhenNoData,
-	buttonNameWhenNoData,
-	onClickBtnWhenNoData,
-	handleOptionClick,
-	filterCriteria,
-	filterOptions
+  title,
+  quizzes,
+  titleWhenNoData,
+  buttonNameWhenNoData,
+  onClickBtnWhenNoData,
+  handleOptionClick,
+  filterCriteria,
+  filterOptions,
 }: {
-	title: string;
-	quizzes: MyQuizDataType[] | MySolvedQuizDataType[];
-	titleWhenNoData: string;
-	buttonNameWhenNoData: string;
-	onClickBtnWhenNoData: (e: React.MouseEvent<HTMLButtonElement>) => void;
-	handleOptionClick: (filter: BookQuizzesFilterType) => void,
-	filterCriteria: BookQuizzesFilterType,
-	filterOptions: FilterOptionType<BookQuizzesFilterType>[],
+  title: string;
+  quizzes: MyQuizDataType[] | MySolvedQuizDataType[];
+  titleWhenNoData: string;
+  buttonNameWhenNoData: string;
+  onClickBtnWhenNoData: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleOptionClick: (filter: BookQuizzesFilterType) => void;
+  filterCriteria: BookQuizzesFilterType;
+  filterOptions: FilterOptionType<BookQuizzesFilterType>[];
 }) {
 
 	const { deleteQuiz } = useDeleteQuiz();
-	const handleReSovingQuiz = (e: React.MouseEvent<HTMLButtonElement>) => {
-		e.preventDefault();
-
-	}
+  const handleReSovingQuiz = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+  };
 
 	const handleModifyQuiz = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
@@ -45,31 +44,35 @@ export default function QuizListLayout({
 		deleteQuiz(quizId.toString());
 	}
 
-	return (
-		<section className={styles["list-section"]}>
-			<ListHeader
-				title={title}
-				handleOptionClick={handleOptionClick}
-				filterCriteria={filterCriteria}
-				filterOptions={filterOptions}
-			/>
-			{!quizzes?.length && (
-				<NoDataSection
-					title={titleWhenNoData}
-					buttonName={buttonNameWhenNoData}
-					onClick={onClickBtnWhenNoData}
-				/>
-			)}
-			<ul className={styles["quiz-list"]}>
-				{quizzes &&
-					quizzes.map((myQuiz: MyQuizDataType | MySolvedQuizDataType, index: number) => {
-						const updatedAtDate: Date = ("updatedAt" in myQuiz) ? new Date(myQuiz.updatedAt) : new Date(myQuiz.solvedAt);
+  return (
+    <section className={styles["list-section"]}>
+      <ListHeader
+        title={title}
+        handleOptionClick={handleOptionClick}
+        filterCriteria={filterCriteria}
+        filterOptions={filterOptions}
+      />
+      {!quizzes?.length && (
+        <NoDataSection
+          title={titleWhenNoData}
+          buttonName={buttonNameWhenNoData}
+          onClick={onClickBtnWhenNoData}
+        />
+      )}
+      <ul className={styles["quiz-list"]}>
+        {quizzes &&
+          quizzes.map(
+            (myQuiz: MyQuizDataType | MySolvedQuizDataType, index: number) => {
+              const updatedAtDate: Date =
+                "updatedAt" in myQuiz
+                  ? new Date(myQuiz.updatedAt)
+                  : new Date(myQuiz.solvedAt);
 
-						const year = updatedAtDate.getFullYear();
-						const month = updatedAtDate.getMonth() + 1;
-						const date = updatedAtDate.getDate();
+              const year = updatedAtDate.getFullYear();
+              const month = updatedAtDate.getMonth() + 1;
+              const date = updatedAtDate.getDate();
 
-						const formattedDate: string = `${year}년 ${month}월 ${date}일`;
+              const formattedDate: string = `${year}년 ${month}월 ${date}일`;
 
 						return (
 							<li className={styles["quiz"]}
@@ -120,24 +123,27 @@ export default function QuizListLayout({
 	);
 }
 
-const ListHeader = ({ title, handleOptionClick, filterCriteria, filterOptions }:
-	{
-		title: string,
-		handleOptionClick: (filter: BookQuizzesFilterType) => void,
-		filterCriteria: BookQuizzesFilterType,
-		filterOptions: FilterOptionType<BookQuizzesFilterType>[],
-	}) => {
-
-	return (
-		<div className={styles["list-header"]}>
-			<h3>{title}</h3>
-			<div className={styles["filter-button-area"]}>
-				<ListFilter
-					onOptionClick={handleOptionClick}
-					sortFilter={filterCriteria}
-					filterOptions={filterOptions}
-				/>
-			</div>
-		</div>
-	);
+const ListHeader = ({
+  title,
+  handleOptionClick,
+  filterCriteria,
+  filterOptions,
+}: {
+  title: string;
+  handleOptionClick: (filter: BookQuizzesFilterType) => void;
+  filterCriteria: BookQuizzesFilterType;
+  filterOptions: FilterOptionType<BookQuizzesFilterType>[];
+}) => {
+  return (
+    <div className={styles["list-header"]}>
+      <h3>{title}</h3>
+      <div className={styles["filter-button-area"]}>
+        <ListFilter
+          onOptionClick={handleOptionClick}
+          sortFilter={filterCriteria}
+          filterOptions={filterOptions}
+        />
+      </div>
+    </div>
+  );
 };

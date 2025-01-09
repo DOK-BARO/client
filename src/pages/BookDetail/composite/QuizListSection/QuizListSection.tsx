@@ -74,6 +74,7 @@ export default function QuizListSection({
       filter: filter,
       parentPage: `book/${Number(bookId)}`,
       itemId: parseInt(bookId),
+      excludeParams: ["page"],
     });
   };
   const filterOptions: FilterOptionType<BookQuizzesFilterType>[] = [
@@ -122,9 +123,7 @@ export default function QuizListSection({
       <div className={styles["list-container"]}>
         {quizzes &&
           quizzes?.data.map((quiz) => (
-            <a 
-						key={quiz.id}
-						href={ROUTES.QUIZ_DETAIL(quiz.id)}>
+            <a key={quiz.id} href={ROUTES.QUIZ_DETAIL(quiz.id)}>
               <QuizItem key={quiz.id} quiz={quiz} />
             </a>
           ))}

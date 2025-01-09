@@ -32,7 +32,11 @@ export default function SearchBar() {
     if (!isLoggedIn) {
       navigate(ROUTES.ROOT, { state: { openModal: true } }); //TODO: 랜딩페이지로 이동
     }
-    navigateWithParams({ title: searchWord, parentPage: "books" });
+    navigateWithParams({
+      title: searchWord,
+      parentPage: "books",
+      excludeParams: ["page"],
+    });
   };
 
   return (

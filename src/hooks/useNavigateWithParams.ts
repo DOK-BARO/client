@@ -13,8 +13,8 @@ import { useNavigate } from "react-router-dom";
 const useNavigateWithParams = (parentPage: ParentPage) => {
   const navigate = useNavigate();
   const [, setPaginationState] = useAtom(paginationAtom);
-  useEffect(() => {
-    // Pagination 상태 초기화
+
+  const initializePaginationState = () => {
     setPaginationState((prev) => ({
       ...prev,
       currentPage: 1,
@@ -22,10 +22,16 @@ const useNavigateWithParams = (parentPage: ParentPage) => {
       middlePages: [],
       isMiddlePagesUpdated: false,
     }));
+  };
+
+  useEffect(() => {
+    // Pagination 상태 초기화
+    initializePaginationState();
   }, [parentPage]);
 
   const navigateWithParams = ({
     filter,
+    title,
     page,
     category,
     parentPage, // 현재 어떤 페이지에 있는지
@@ -33,6 +39,7 @@ const useNavigateWithParams = (parentPage: ParentPage) => {
     itemId = undefined,
   }: {
     filter?: BooksFilterType | ReviewsFilterType;
+    title?: string;
     page?: number;
     category?: string;
     parentPage: ParentPage;
@@ -44,11 +51,19 @@ const useNavigateWithParams = (parentPage: ParentPage) => {
 
     if (filter) {
       const { sort, direction } = filter;
+      // TODO: if문 꼭 필요한지 확인 후 제거
       if (excludeParams.includes("sort")) queryParams.delete("sort");
       if (excludeParams.includes("direction")) queryParams.delete("direction");
 
       queryParams.set("sort", sort);
       queryParams.set("direction", direction);
+    }
+    if (title) {
+      if (!excludeParams.includes("title")) {
+        if (excludeParams.includes("page")) queryParams.delete("page");
+        queryParams.set("title", title);
+        initializePaginationState();
+      }
     }
     if (page) {
       // 페이지 파라미터 처리 (exclude 옵션 고려)
@@ -65,13 +80,7 @@ const useNavigateWithParams = (parentPage: ParentPage) => {
     excludeParams.forEach((param) => queryParams.delete(param));
 
     if (excludeParams.includes("page")) {
-      setPaginationState((prev) => ({
-        ...prev,
-        currentPage: 1, // or 아예 삭제 (초기화)
-        pagePosition: "START",
-        middlePages: [],
-        isMiddlePagesUpdated: false,
-      }));
+      initializePaginationState();
     }
 
     const pathname = !itemId

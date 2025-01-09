@@ -8,11 +8,11 @@
 	gap: 8px;
 }
 
-.inner-container{
+.inner-container {
 	@include flex(column);
 	align-items: center;
 	width: 100%;
-	gap:16px;
+	gap: 16px;
 }
 
 .question-area {
@@ -22,38 +22,38 @@
 	gap: 8px;
 }
 
-.footer-btn{
+.footer-btn {
 	display: flex;
 	width: 120px;
-	
-	&-container{
-		opacity: 0;
-	}
-	// TODO: 없다가 나타나는 애니메이션 처리 필요
-	&-container.visible{
+
+	&-container.visible {
 		display: flex;
 		gap: 20px;
-		opacity: 1;
-		transition: all 0.3s;
+		@include fadeIn;
 	}
 }
 
-.answer-description-area{
+.slideIn {
+	@include slideInY;
+}
+
+.answer-description-area {
 	@include flex(column);
+	@include fadeIn;
 	width: 100%;
 	gap: 16px;
 	padding: 16px;
 	border-radius: 8px;
 	background-color: white;
-	
-	.answer-description{
-	width: 46px;
+
+	.answer-description {
+		width: 46px;
 	}
 
-	.image-area{
+	.image-area {
 		display: flex;
-    flex-direction: row;
-    gap: 10px;
+		flex-direction: row;
+		gap: 10px;
 	}
 
 	.image {
@@ -63,5 +63,3 @@
 		border-radius: 4px;
 	}
 }
-
-

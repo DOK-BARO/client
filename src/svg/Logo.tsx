@@ -7,6 +7,7 @@ export const Logo: React.FC<SVGProps> = ({ alt, ...props }) => {
       className={props.className}
       width={props.width}
       height={props.height}
+      // TODO:
       viewBox={`0 0 ${props.width} ${props.height}`}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

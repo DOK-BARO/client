@@ -16,9 +16,7 @@ export default function HeaderUtilArea() {
     <span className={styles["header-util-area-container"]}>
       <HeaderQuizUtilButton openLoginModal={openLoginModal} />
       <HeaderMyInfoUtilButton />
-      <StartAuthButton
-        openLoginModal={openLoginModal}
-      />
+      <StartAuthButton openLoginModal={openLoginModal} />
       {isLoginModalOpen && <LoginModal closeModal={closeLoginModal} />}
     </span>
   );

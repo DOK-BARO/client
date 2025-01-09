@@ -24,12 +24,13 @@ interface ButtonProps {
   onIconClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
   fullWidth?: boolean;
   iconOnly?: boolean;
+  ableAnimation?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
-      onClick = () => {},
+      onClick = () => { },
       children,
       id,
       type = "button",
@@ -43,13 +44,15 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       color,
       fullWidth = false,
       iconOnly = false,
+      ableAnimation = false,
     },
     ref
   ) => {
-    const className = `${styles.button} ${styles[`button--${size}`]} ${
-      styles[`button--${color}`]
-    } ${fullWidth ? styles.full : ""} ${iconOnly ? styles.iconOnly : ""}
- ${customClassName || ""}`;
+    const className = `${styles.button} ${styles[`button--${size}`]} ${styles[`button--${color}`]
+      } ${fullWidth ? styles.full : ""} ${iconOnly ? styles.iconOnly : ""}
+     ${customClassName || ""}
+     ${styles[ableAnimation && !disabled ? "button--abled-animation" : ""]}
+ `;
     return (
       <button
         id={id}

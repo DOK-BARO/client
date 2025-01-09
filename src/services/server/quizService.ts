@@ -47,7 +47,7 @@ class QuizService {
 		}
 	};
 
-	fetchMyMadeQuizzes = async (params: FetchMyQuizzesParams): Promise<MyQuizType| null> => {
+	fetchMyMadeQuizzes = async (params: FetchMyQuizzesParams): Promise<MyQuizType | null> => {
 		try {
 			const { page, size, sort, direction } = params;
 			const { data } = await axiosInstance.get(`/book-quizzes/my?page=${page}&size=${size}&sort=${sort}&direction=${direction}`);
@@ -58,7 +58,7 @@ class QuizService {
 		}
 	};
 
-	fetchMySolvedeQuizzes = async (params: FetchMyQuizzesParams): Promise<MyQuizType| null> => {
+	fetchMySolvedeQuizzes = async (params: FetchMyQuizzesParams): Promise<MyQuizType | null> => {
 		try {
 			const { page, size, sort, direction } = params;
 			const { data } = await axiosInstance.get(`/solving-quiz/my?page=${page}&size=${size}&sort=${sort}&direction=${direction}`);
@@ -139,40 +139,48 @@ class QuizService {
 		}
 	};
 
-  fetchStudyGradeResult = async  (
-    studyGroupId:  string,
-    quizId: string
-  ):  Promise<SolvingQuizStudyGroupGradeReuslt> =>  {
-    try  {
-      const {  data  } = await axiosInstance.get(
-        `/solving-quiz/study-groups-grade-result?studyGroupId=${studyGroupId}&quizId=${quizId}`
-      );
-      return data;
-    }  catch (error)  {
-      throw new Error(`스터디 그룹 내 랭킹 조회 ${error}`);
-    }
-  };
-  reportQuiz = async ({
-    questionId,
-    content,
-  }: {
-    questionId: number;
-    content: string;
-  }): Promise<{ id: number } | null> => {
-    console.log(questionId, content);
-    try {
-      const response = await axiosInstance.post("/quiz-question-reports", {
-        questionId,
-        content,
-      });
-      console.log(response);
-      return response.data;
-    } catch (error) {
-      console.log(error);
-      handleAxiosError(error);
-      return null;
-    }
-  };
+	fetchStudyGradeResult = async (
+		studyGroupId: string,
+		quizId: string
+	): Promise<SolvingQuizStudyGroupGradeReuslt> => {
+		try {
+			const { data } = await axiosInstance.get(
+				`/solving-quiz/study-groups-grade-result?studyGroupId=${studyGroupId}&quizId=${quizId}`
+			);
+			return data;
+		} catch (error) {
+			throw new Error(`스터디 그룹 내 랭킹 조회 ${error}`);
+		}
+	};
+	reportQuiz = async ({
+		questionId,
+		content,
+	}: {
+		questionId: number;
+		content: string;
+	}): Promise<{ id: number } | null> => {
+		console.log(questionId, content);
+		try {
+			const response = await axiosInstance.post("/quiz-question-reports", {
+				questionId,
+				content,
+			});
+			console.log(response);
+			return response.data;
+		} catch (error) {
+			console.log(error);
+			handleAxiosError(error);
+			return null;
+		}
+	};
+
+	deleteQuiz = async (quizId: string) => {
+		try {
+			await axiosInstance.delete(`/book-quizzes/${quizId}`);
+		} catch (error) {
+			handleAxiosError(error);
+		}
+	}
 }
 
 export const quizService = new QuizService();

@@ -7,6 +7,8 @@ import { BookQuizzesFilterType } from "@/types/BookType";
 import ListFilter from "@/components/composite/ListFilter/ListFilter";
 import { FilterOptionType } from "@/components/composite/ListFilter/ListFilter";
 import { MySolvedQuizDataType } from "@/types/QuizType";
+import useDeleteQuiz from "@/hooks/mutate/useDeleteQuiz";
+import ROUTES from "@/data/routes";
 
 export default function QuizListLayout({
 	title,
@@ -27,6 +29,8 @@ export default function QuizListLayout({
 	filterCriteria: BookQuizzesFilterType,
 	filterOptions: FilterOptionType<BookQuizzesFilterType>[],
 }) {
+
+	const { deleteQuiz } = useDeleteQuiz();
 	const handleReSovingQuiz = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 
@@ -34,7 +38,11 @@ export default function QuizListLayout({
 
 	const handleModifyQuiz = (e: React.MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
+	}
 
+	const handleDeleteQuiz = (e: React.MouseEvent<HTMLButtonElement>, quizId: number) => {
+		e.preventDefault();
+		deleteQuiz(quizId.toString());
 	}
 
 	return (
@@ -66,9 +74,7 @@ export default function QuizListLayout({
 						return (
 							<li className={styles["quiz"]}
 								key={index}>
-								{/* TODO: ROUTES적용 */}
-								{/* <Link to={ROUTES.QUIZ_DETAIL(myQuiz.id)}> */}
-								<Link to={("quiz" in myQuiz) ? `/quiz/${myQuiz.quiz?.id}` : `/quiz/${myQuiz.id}`}>
+								<Link to={("quiz" in myQuiz) ? ROUTES.QUIZ_DETAIL(myQuiz.id) : ROUTES.QUIZ_DETAIL(myQuiz.id)}>
 									<div className={styles["info"]}>
 										<div className={styles["img-container"]}>
 											<img src={myQuiz.bookImageUrl} />
@@ -92,13 +98,16 @@ export default function QuizListLayout({
 										>
 											{("quiz" in myQuiz) ? "다시 풀기" : "수정하기"}
 										</Button>
-										<Button
-											className={styles["delete"]}
-											color="transparent"
-											size="xsmall"
-										>
-											퀴즈 삭제하기
-										</Button>
+										{
+											!("quiz" in myQuiz) &&
+											<Button
+												className={styles["delete"]}
+												color="transparent"
+												size="xsmall"
+												onClick={(e) => handleDeleteQuiz(e, ("quiz" in myQuiz) ? myQuiz.quiz!.id : myQuiz.id)}
+											>
+												퀴즈 삭제하기
+											</Button>}
 									</div>
 								</Link>
 							</li>

@@ -90,7 +90,7 @@ export default function QuizListLayout({
               return (
                 <li className={styles["quiz"]}
                   key={index}>
-                  <Link to={("quiz" in myQuiz) ? ROUTES.QUIZ_DETAIL(myQuiz.id) : ROUTES.QUIZ_DETAIL(myQuiz.id)}>
+                  <Link to={("quiz" in myQuiz) ? ROUTES.QUIZ_DETAIL(myQuiz.id) : ROUTES.QUIZ_DETAIL(parseInt(quizId!))}>
                     <div className={styles["info"]}>
                       <div className={styles["img-container"]}>
                         <img src={myQuiz.bookImageUrl} />

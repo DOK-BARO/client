@@ -34,7 +34,7 @@ export default function Pagination(props: Props) {
     setPaginationState,
   });
 
-  const currentPage = paginationState.currentPage;
+  const currentPage = paginationState.currentPage ?? 1;
   const totalPagesLength = paginationState.totalPagesLength ?? 0;
   const middlePages = paginationState.middlePages;
   const isMiddlePageUpdated = paginationState.isMiddlePagesUpdated;
@@ -43,10 +43,15 @@ export default function Pagination(props: Props) {
     // 쿼리 스트링 방식만 해당
     if (props.type === "queryString") {
       const queryParams = setQueryParam("page", currentPage.toString());
-      navigate({
-        pathname: `/${props.parentPage}`,
-        search: `?${queryParams.toString()}`,
-      });
+      navigate(
+        {
+          pathname: `/${props.parentPage}`,
+          search: `?${queryParams.toString()}`,
+        },
+        {
+          replace: true,
+        }
+      );
     }
   }, [currentPage, props.type === "queryString" && props.parentPage]);
 

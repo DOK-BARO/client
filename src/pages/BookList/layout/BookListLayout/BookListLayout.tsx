@@ -96,7 +96,11 @@ export default function BookListLayout() {
 
   // filterOptions 클릭 시
   const handleOptionClick = (filter: BooksFilterType) => {
-    navigateWithParams({ filter: filter, parentPage: "books" });
+    navigateWithParams({
+      filter: filter,
+      parentPage: "books",
+      excludeParams: ["page"],
+    });
   };
 
   const topParentCategoryInfo = categories

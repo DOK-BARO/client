@@ -181,6 +181,14 @@ class QuizService {
       return null;
     }
   };
+
+  deleteQuiz = async (quizId: string) => {
+    try {
+      await axiosInstance.delete(`/book-quizzes/${quizId}`);
+    } catch (error) {
+      handleAxiosError(error);
+    }
+  }
 }
 
 export const quizService = new QuizService();

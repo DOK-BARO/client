@@ -60,7 +60,7 @@ const useNavigateWithParams = (parentPage: ParentPage) => {
     }
     if (title) {
       if (!excludeParams.includes("title")) {
-        queryParams.delete("page");
+        if (excludeParams.includes("page")) queryParams.delete("page");
         queryParams.set("title", title);
         initializePaginationState();
       }

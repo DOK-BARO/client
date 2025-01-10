@@ -63,6 +63,7 @@ export default function ReviewList({ quizId, quizTitle }: Props) {
       filter,
       parentPage: "quiz",
       itemId: quizId,
+      excludeParams: ["page"],
     });
   };
 

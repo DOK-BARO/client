@@ -3,7 +3,7 @@ import QuizItem from "../QuizItem/QuizItem.tsx";
 import { useQuery } from "@tanstack/react-query";
 import { bookKeys } from "@/data/queryKeys.ts";
 import { bookService } from "@/services/server/bookService.ts";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FetchQuizzesParams } from "@/types/BookType.ts";
 import Pagination from "@/components/composite/Pagination/Pagination.tsx";
 import { BookQuizzesFilterType } from "@/types/BookType.ts";
@@ -29,12 +29,15 @@ export default function QuizListSection({
 }) {
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
+  const navigator = useNavigate();
 
   const [filterCriteria, setFilterCriteria] = useAtom(bookQuizzesFilterAtom);
   useFilter<BookQuizzesFilterType>(setFilterCriteria);
   const titleWhenNoData = "아직 만들어진 퀴즈가 없어요 😔";
   const buttonNameWhenNoData = "퀴즈 만들기";
   const { handleAuthenticatedAction } = useLoginAction();
+  const [, setQuizLength] = useAtom(quizzesLengthAtom);
+
 
   const [paginationState, setPaginationState] = useAtom(paginationAtom);
   const totalPagesLength = paginationState.totalPagesLength;
@@ -51,9 +54,6 @@ export default function QuizListSection({
     direction: direction ?? "DESC",
     size: pageSize,
   };
-
-  const [, setQuizLength] = useAtom(quizzesLengthAtom);
-
 
   const { data: quizzes, isLoading } = useQuery({
     queryKey: bookKeys.quizList(params),
@@ -74,17 +74,17 @@ export default function QuizListSection({
     }
   }, [endPageNumber]);
 
-  const { navigateWithParams } = useNavigateWithParams(
-    `book/${Number(bookId)}`
-  );
-
+  const { navigateWithParams } = useNavigateWithParams(`book/${Number(bookId)}`);
   const handleOptionClick = (filter: BookQuizzesFilterType) => {
-    navigateWithParams({
-      filter: filter,
-      parentPage: `book/${Number(bookId)}`,
-      itemId: parseInt(bookId),
-      excludeParams: ["page"],
-    });
+    handleAuthenticatedAction(
+      () => navigateWithParams({
+        filter: filter,
+        parentPage: `book/${Number(bookId)}`,
+        itemId: parseInt(bookId),
+        excludeParams: ["page"],
+      })
+    );
+
   };
   const filterOptions: FilterOptionType<BookQuizzesFilterType>[] = [
     {
@@ -102,6 +102,10 @@ export default function QuizListSection({
       label: "최신순",
     },
   ];
+
+  const handleGoToQuizDetail = (quizId: number) => {
+    handleAuthenticatedAction(()=>navigator( ROUTES.QUIZ_DETAIL(quizId)));
+  }
 
   if (isLoading) {
     return <div>loading</div>;
@@ -132,7 +136,7 @@ export default function QuizListSection({
       <div className={styles["list-container"]}>
         {quizzes &&
           quizzes?.data.map((quiz) => (
-            <a key={quiz.id} href={ROUTES.QUIZ_DETAIL(quiz.id)}>
+            <a key={quiz.id} href="#" onClick={()=>handleGoToQuizDetail(quiz.id)}>
               <QuizItem key={quiz.id} quiz={quiz} />
             </a>
           ))}

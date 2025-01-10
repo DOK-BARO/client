@@ -27,7 +27,6 @@ export default function ProgressBar({
 					}
 					if (isCheckedAnswer) {
 						isCorrect = isAnswerCorrects[index];
-						console.log(isCorrect);
 						if (isCorrect) {
 							className = styles["correct-step"];
 						} else {

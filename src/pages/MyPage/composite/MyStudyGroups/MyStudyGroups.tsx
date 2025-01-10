@@ -1,7 +1,5 @@
 import styles from "./_my_study_groups.module.scss";
 import StudyGroupItem from "../../components/StudyGroupItem/StudyGroupItem";
-import AddStudyGroupModal from "../../components/AddStudyGroupModal/AddStudyGroupModal";
-import useModal from "@/hooks/useModal";
 import { useQuery } from "@tanstack/react-query";
 import { studyGroupService } from "@/services/server/studyGroupService";
 import { studyGroupKeys } from "@/data/queryKeys";
@@ -43,7 +41,6 @@ const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
 
 export default function MyStudyGroups() {
   const navigate = useNavigate();
-  const { isModalOpen, openModal, closeModal } = useModal();
 
   const [filterCriteria, setFilterCriteria] = useAtom(studyGroupFilterAtom);
   useFilter<StudyGroupsFilterType>(setFilterCriteria);
@@ -105,15 +102,6 @@ export default function MyStudyGroups() {
   return (
     <section className={styles.container}>
       <h3 className={styles["sub-title"]}>내 스터디 그룹</h3>
-      {/* <Button
-          size="xsmall"
-          color="secondary"
-          icon={<Plus stroke={primary} width={16} height={16} />}
-          iconPosition="left"
-          onClick={openModal}
-        >
-          스터디 그룹 추가
-        </Button> */}
       <div className={styles["filter-container"]}>
         <ListFilter
           onOptionClick={handleOptionClick}
@@ -174,9 +162,7 @@ export default function MyStudyGroups() {
           </ol>
         )
       )}
-      {isModalOpen ? (
-        <AddStudyGroupModal closeModal={closeModal} currentPage={page} />
-      ) : null}
+
       {totalPagesLength ? (
         <Pagination
           type="state"

@@ -23,7 +23,7 @@
     @include flex(row, center);
 
     &.slideIn {
-      @include slideIn;
+      @include slideInX;
     }
   }
 

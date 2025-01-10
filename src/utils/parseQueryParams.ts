@@ -1,6 +1,7 @@
 import { FilterType } from "@/types/FilterType";
 
 type ParseQueryParamsArgs = {
+  title?: string;
   category?: string;
   page?: string | number; // 쿼리스트링 | 상태
   size?: number;
@@ -10,6 +11,7 @@ type ParseQueryParamsArgs = {
 };
 
 export const parseQueryParams = <SortType, ReturnParams>({
+  title,
   category,
   page,
   size,
@@ -20,6 +22,10 @@ export const parseQueryParams = <SortType, ReturnParams>({
   const params: Record<string, unknown> = {};
 
   params["page"] = page ? Number(page) : 1; // 기본값 1 페이지
+
+  if (title) {
+    params["title"] = title;
+  }
 
   if (category) {
     params["category"] = Number(category);

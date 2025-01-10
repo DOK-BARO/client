@@ -164,7 +164,6 @@ export default function SolvingQuizForm({
 					let typeName: CheckboxStatusType = "checkbox-default";
 					if (JSON.stringify(checkedOptions) !== '{}') {
 						isChecked = checkedOptions[checkBoxOption.id]
-						console.log("ccheckedId: ", checkBoxOption.id);
 						if (isChecked) { // 체크 되었을 때
 							typeName = "checkbox-selected";
 						}

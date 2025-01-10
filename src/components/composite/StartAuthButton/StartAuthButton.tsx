@@ -5,14 +5,9 @@ import { useAtom } from "jotai";
 import { isLoggedInAtom } from "@/store/userAtom";
 import useLoginModal from "@/hooks/useLoginModal";
 
-export default function StartAuthButton({
-  // openLoginModal,
-}: {
-  openLoginModal: () => void;
-}) {
+export default function StartAuthButton() {
   const [isLoggedIn] = useAtom(isLoggedInAtom);
-  const {openLoginModal} = useLoginModal();
-
+  const { openLoginModal } = useLoginModal();
 
   const [, setIsEmailLoginPage] = useAtom(isEmailLoginPageAtom);
 

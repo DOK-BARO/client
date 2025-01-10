@@ -1,30 +1,23 @@
 import styles from "./_header_quiz_util_list.module.scss";
 import { useNavigate } from "react-router-dom";
-import { useAtom } from "jotai";
-import { isLoggedInAtom } from "@/store/userAtom";
 import pencil from "/public/assets/svg/header/pencil.svg";
 import checkSquare from "/public/assets/svg/header/check-square.svg";
 import ROUTES from "@/data/routes";
+import useLoginAction from "@/hooks/useLoginAction";
 interface HeaderQuizUtilListProps {
   closeDropDownList: () => void;
-  openLoginModal: () => void;
 }
 
 export default function HeaderQuizUtilList({
   closeDropDownList,
-  openLoginModal,
 }: HeaderQuizUtilListProps) {
+  
   const navigate = useNavigate();
-  const [isLoggedIn] = useAtom(isLoggedInAtom);
+  const { handleAuthenticatedAction } = useLoginAction();
 
   const onClickMakeQuiz = () => {
     closeDropDownList();
-    if (!isLoggedIn) {
-      navigate(ROUTES.ROOT); //TODO: 랜딩페이지로 이동
-      openLoginModal();
-    } else {
-      navigate(ROUTES.CREATE_QUIZ);
-    }
+    handleAuthenticatedAction(() => navigate(ROUTES.CREATE_QUIZ));
   };
 
   const onClickDoingQuiz = () => {

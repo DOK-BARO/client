@@ -18,13 +18,14 @@ import { paginationAtom } from "@/store/paginationAtom.ts";
 import { useEffect } from "react";
 import ROUTES from "@/data/routes.ts";
 import { quizzesLengthAtom } from "@/store/quizAtom.ts";
+import useLoginAction from "@/hooks/useLoginAction.ts";
 
 export default function QuizListSection({
   bookId,
   onGoToMakeQuiz,
 }: {
   bookId: string;
-  onGoToMakeQuiz: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onGoToMakeQuiz: () => void;
 }) {
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
@@ -33,7 +34,7 @@ export default function QuizListSection({
   useFilter<BookQuizzesFilterType>(setFilterCriteria);
   const titleWhenNoData = "아직 만들어진 퀴즈가 없어요 😔";
   const buttonNameWhenNoData = "퀴즈 만들기";
-  const onClickBtnWhenNoData = onGoToMakeQuiz;
+  const { handleAuthenticatedAction } = useLoginAction();
 
   const [paginationState, setPaginationState] = useAtom(paginationAtom);
   const totalPagesLength = paginationState.totalPagesLength;
@@ -51,17 +52,17 @@ export default function QuizListSection({
     size: pageSize,
   };
 
-    const [,setQuizLength] = useAtom(quizzesLengthAtom);
-  
+  const [, setQuizLength] = useAtom(quizzesLengthAtom);
+
 
   const { data: quizzes, isLoading } = useQuery({
     queryKey: bookKeys.quizList(params),
     queryFn: () => bookService.fetchBookQuizzes(params),
   });
 
-  useEffect(()=>{
+  useEffect(() => {
     setQuizLength(quizzes?.data.length ?? 0);
-  },[quizzes?.data.length]);
+  }, [quizzes?.data.length]);
 
   const endPageNumber = quizzes?.endPageNumber;
   useEffect(() => {
@@ -125,7 +126,7 @@ export default function QuizListSection({
           <NoDataSection
             title={titleWhenNoData}
             buttonName={buttonNameWhenNoData}
-            onClick={onClickBtnWhenNoData}
+            onClick={() => handleAuthenticatedAction(onGoToMakeQuiz)}
           />
         ))}
       <div className={styles["list-container"]}>

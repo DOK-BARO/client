@@ -3,15 +3,17 @@ import styles from "./_book_detail_section.module.scss";
 import Button from "@/components/atom/Button/Button";
 import { useAtom } from "jotai";
 import { quizzesLengthAtom } from "@/store/quizAtom.ts";
+import useLoginAction from "@/hooks/useLoginAction";
 
 export default function BookDetailContent({
   bookDetailContent,
   onGoToMakeQuiz,
 }: {
   bookDetailContent: BookDetailType;
-  onGoToMakeQuiz: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onGoToMakeQuiz: () => void;
 }) {
   const [quizLength] = useAtom(quizzesLengthAtom);
+  const { handleAuthenticatedAction } = useLoginAction();
 
   return (
     <section className={"container"}>
@@ -58,7 +60,7 @@ export default function BookDetailContent({
           <div className={styles["button-container"]}>
             <Button
               className={styles["make-quiz-button"]}
-              onClick={onGoToMakeQuiz}
+              onClick={() => handleAuthenticatedAction(onGoToMakeQuiz)}
               size="medium"
               color="primary"
             >

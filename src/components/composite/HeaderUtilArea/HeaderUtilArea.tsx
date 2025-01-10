@@ -4,13 +4,12 @@ import HeaderQuizUtilButton from "../HeaderQuizUtilButton/HeaderQuizUtilButton";
 import useModal from "@/hooks/useModal";
 import LoginModal from "../LoginModal/LoginModal";
 import StartAuthButton from "../StartAuthButton/StartAuthButton";
+import useLoginModal from "@/hooks/useLoginModal";
 
 export default function HeaderUtilArea() {
-  const {
-    isModalOpen: isLoginModalOpen,
-    closeModal: closeLoginModal,
-    openModal: openLoginModal,
-  } = useModal();
+  const { openModal: openLoginModal} = useModal();
+
+  const { isLoginModalOpen, closeLoginModal } = useLoginModal();
 
   return (
     <span className={styles["header-util-area-container"]}>

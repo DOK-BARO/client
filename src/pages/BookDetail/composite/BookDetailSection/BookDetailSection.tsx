@@ -1,6 +1,8 @@
 import { BookDetailType } from "@/types/BookDetailType.ts";
 import styles from "./_book_detail_section.module.scss";
 import Button from "@/components/atom/Button/Button";
+import { useAtom } from "jotai";
+import { quizzesLengthAtom } from "@/store/quizAtom.ts";
 
 export default function BookDetailContent({
   bookDetailContent,
@@ -9,6 +11,8 @@ export default function BookDetailContent({
   bookDetailContent: BookDetailType;
   onGoToMakeQuiz: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }) {
+  const [quizLength] = useAtom(quizzesLengthAtom);
+
   return (
     <section className={"container"}>
       <div className={styles["book-detail-section-container"]}>
@@ -20,7 +24,6 @@ export default function BookDetailContent({
           />
         </div>
         <div className={styles["book-container"]}>
-          {/*TODO 퀴즈 n개 이상 마크 필요*/}
 
           <div>
             <h1 className={styles["book-detail-title"]}>
@@ -43,11 +46,11 @@ export default function BookDetailContent({
                 <span>{bookDetailContent.isbn}</span>
               </div>
             </div>
-            {/*TODO 퀴즈 갯수*/}
+
             <div className={styles["number-of-quiz-container"]}>
               <div className={styles["book-detail-sub-title"]}>퀴즈 개수</div>
               <div className={styles["book-detail-sub-content"]}>
-                <span>10개</span>
+                <span>{quizLength}개</span>
               </div>
             </div>
           </div>

@@ -17,6 +17,7 @@ import { NoDataSection } from "@/components/composite/NoDataSection/NoDataSectio
 import { paginationAtom } from "@/store/paginationAtom.ts";
 import { useEffect } from "react";
 import ROUTES from "@/data/routes.ts";
+import { quizzesLengthAtom } from "@/store/quizAtom.ts";
 
 export default function QuizListSection({
   bookId,
@@ -50,10 +51,17 @@ export default function QuizListSection({
     size: pageSize,
   };
 
+    const [,setQuizLength] = useAtom(quizzesLengthAtom);
+  
+
   const { data: quizzes, isLoading } = useQuery({
     queryKey: bookKeys.quizList(params),
     queryFn: () => bookService.fetchBookQuizzes(params),
   });
+
+  useEffect(()=>{
+    setQuizLength(quizzes?.data.length ?? 0);
+  },[quizzes?.data.length]);
 
   const endPageNumber = quizzes?.endPageNumber;
   useEffect(() => {

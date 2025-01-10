@@ -1,4 +1,5 @@
 import { PagePositionType, PaginationType } from "@/types/PaginationType";
+import { useAtom } from "jotai";
 import { Dispatch, SetStateAction, useEffect } from "react";
 
 interface UsePaginationReturn {

@@ -12,7 +12,10 @@ import Breadcrumb from "../../../../components/composite/Breadcrumb/Breadcrumb";
 import { useEffect } from "react";
 import Pagination from "@/components/composite/Pagination/Pagination";
 import { useAtom } from "jotai";
-import { paginationAtom } from "@/store/paginationAtom";
+import {
+  paginationAtom,
+  prevPaginationStateAtom,
+} from "@/store/paginationAtom";
 import { bookService } from "@/services/server/bookService";
 import ListFilter, {
   FilterOptionType,
@@ -88,14 +91,21 @@ export default function BookListLayout() {
 
   // 마지막 페이지 번호 저장
   useEffect(() => {
-    setPaginationState({
-      ...paginationState,
-      totalPagesLength: endPageNumber,
-    });
+    if (endPageNumber && paginationState.totalPagesLength !== endPageNumber) {
+      setPaginationState((prev) => ({
+        ...prev,
+        totalPagesLength: endPageNumber,
+      }));
+    }
   }, [endPageNumber]);
+
+  const [, setPrePaginationState] = useAtom(prevPaginationStateAtom);
 
   // filterOptions 클릭 시
   const handleOptionClick = (filter: BooksFilterType) => {
+    sessionStorage.setItem("prevPage", page ? page : "1");
+    setPrePaginationState(undefined);
+
     navigateWithParams({
       filter: filter,
       parentPage: "books",

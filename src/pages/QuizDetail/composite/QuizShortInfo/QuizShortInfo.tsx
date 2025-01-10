@@ -78,7 +78,7 @@ export default function QuizShortInfo({
     onChange: onOtherGroundsChange,
     textareaRef: OtherGroundsRef,
     resetTextarea: resetOtherGrounds,
-  } = useAutoResizeTextarea("", "40px"); // TODO: Textarea 미세한 높이 차이 22.5 -> 23
+  } = useAutoResizeTextarea("", 40, 3); // TODO: Textarea 미세한 높이 차이 22.5 -> 23
   const [selectedReportReason, setSelectedReportReason] = useState<string[]>(
     []
   );

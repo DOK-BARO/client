@@ -7,6 +7,11 @@ import { BookQuizzesFilterType } from "@/types/BookType";
 import ListFilter from "@/components/composite/ListFilter/ListFilter";
 import { FilterOptionType } from "@/components/composite/ListFilter/ListFilter";
 import { MySolvedQuizDataType } from "@/types/QuizType";
+import useDeleteQuiz from "@/hooks/mutate/useDeleteQuiz";
+import ROUTES from "@/data/routes";
+import useModal from "@/hooks/useModal";
+import Modal from "@/components/atom/Modal/Modal";
+import { useState } from "react";
 
 export default function QuizListLayout({
   title,
@@ -27,13 +32,30 @@ export default function QuizListLayout({
   filterCriteria: BookQuizzesFilterType;
   filterOptions: FilterOptionType<BookQuizzesFilterType>[];
 }) {
+  const { isModalOpen, openModal, closeModal } = useModal();
+  const [quizId, setQuizId] = useState<string>();
+
+  const { deleteQuiz } = useDeleteQuiz();
   const handleReSovingQuiz = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
   };
 
   const handleModifyQuiz = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-  };
+  }
+
+  const handleClickDelete = (e: React.MouseEvent<HTMLButtonElement>, quizId: number) => {
+    e.preventDefault();
+    openModal();
+    setQuizId(quizId.toString());
+  }
+
+  const handleDeleteQuiz = () => {
+    if (quizId) {
+      deleteQuiz(quizId);
+      closeModal();
+    }
+  }
 
   return (
     <section className={styles["list-section"]}>
@@ -66,61 +88,61 @@ export default function QuizListLayout({
               const formattedDate: string = `${year}년 ${month}월 ${date}일`;
 
               return (
-                <li className={styles["quiz"]} key={index}>
-                  {/* TODO: ROUTES적용 */}
-                  {/* <Link to={ROUTES.QUIZ_DETAIL(myQuiz.id)}> */}
-                  <Link
-                    to={
-                      "quiz" in myQuiz
-                        ? `/quiz/${myQuiz.quiz?.id}`
-                        : `/quiz/${myQuiz.id}`
-                    }
-                  >
+                <li className={styles["quiz"]}
+                  key={index}>
+                  <Link to={("quiz" in myQuiz) ? ROUTES.QUIZ_DETAIL(myQuiz.id) : ROUTES.QUIZ_DETAIL(parseInt(quizId!))}>
                     <div className={styles["info"]}>
                       <div className={styles["img-container"]}>
                         <img src={myQuiz.bookImageUrl} />
                       </div>
                       <div className={styles["sub-info"]}>
-                        <span className={styles["label"]}>
-                          {"updatedAt" in myQuiz
-                            ? "최종 수정일"
-                            : "최종 제출일"}
-                        </span>
+                        <span className={styles["label"]}>{("updatedAt" in myQuiz) ? "최종 수정일" : "최종 제출일"}</span>
                         <span className={styles["quiz-updated-at"]}>
                           {formattedDate}
                         </span>
                       </div>
                       <span className={styles["quiz-name"]}>
-                        {"title" in myQuiz && myQuiz.title}
-                        {"quiz" in myQuiz && myQuiz?.quiz?.title}
+                        {("title" in myQuiz) && myQuiz.title}
+                        {(("quiz" in myQuiz)) && myQuiz?.quiz?.title}
                       </span>
                     </div>
                     <div className={styles["util"]}>
                       <Button
                         color="primary"
                         size="small"
-                        onClick={
-                          "quiz" in myQuiz
-                            ? handleReSovingQuiz
-                            : handleModifyQuiz
-                        }
+                        onClick={("quiz" in myQuiz) ? handleReSovingQuiz : handleModifyQuiz}
                       >
-                        {"quiz" in myQuiz ? "다시 풀기" : "수정하기"}
+                        {("quiz" in myQuiz) ? "다시 풀기" : "수정하기"}
                       </Button>
-                      <Button
-                        className={styles["delete"]}
-                        color="transparent"
-                        size="xsmall"
-                      >
-                        퀴즈 삭제하기
-                      </Button>
+                      {
+                        !("quiz" in myQuiz) &&
+                        <Button
+                          className={styles["delete"]}
+                          color="transparent"
+                          size="xsmall"
+                          onClick={(e) => handleClickDelete(e, ("quiz" in myQuiz) ? myQuiz.quiz!.id : myQuiz.id)}
+                        >
+                          퀴즈 삭제하기
+                        </Button>
+                      }
                     </div>
                   </Link>
                 </li>
               );
-            }
-          )}
+            })}
       </ul>
+      {isModalOpen && (
+        <Modal
+          closeModal={closeModal}
+          title={"퀴즈를 삭제하시겠습니까?"}
+          bottomButtons={[
+            { text: "취소", color: "white", onClick: closeModal, },
+            { text: "확인", color: "primary", onClick: () => handleDeleteQuiz() },
+          ]}
+          showHeaderCloseButton={false}
+          contents={[]}
+        />
+      )}
     </section>
   );
 }

@@ -25,7 +25,7 @@ const filterOptions: FilterOptionType<ReviewsFilterType>[] = [
   {
     filter: {
       sort: "CREATED_AT",
-      direction: "ASC",
+      direction: "DESC",
     },
     label: "최신순",
   },

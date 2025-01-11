@@ -40,7 +40,7 @@ export default function QuizSettingStudyGroupForm() {
         page: 1,
         size: 50,
         sort: "CREATED_AT",
-        direction: "ASC",
+        direction: "DESC",
       }),
   });
   const studyGroups = studyGroupsData?.data;

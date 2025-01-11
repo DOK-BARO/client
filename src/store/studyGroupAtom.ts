@@ -3,5 +3,5 @@ import { atom } from "jotai";
 
 export const studyGroupFilterAtom = atom<StudyGroupsFilterType>({
   sort: "CREATED_AT",
-  direction: "ASC",
+  direction: "DESC",
 });

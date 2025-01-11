@@ -2,17 +2,17 @@ import { useQuery } from "@tanstack/react-query";
 import { quizKeys } from "@/data/queryKeys";
 import QuizListLayout from "../../layout/QuizListLayout/QuizListLayout";
 import { quizService } from "@/services/server/quizService";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { quizzesFilterAtom } from "@/store/quizAtom";
 import { useAtom } from "jotai";
 import useFilter from "@/hooks/useFilter";
-import { paginationAtom } from "@/store/paginationAtom";
+import { solvedQuizPaginationAtom } from "@/store/paginationAtom";
 import Pagination from "@/components/composite/Pagination/Pagination";
 import { BookQuizzesFilterType } from "@/types/BookType";
-import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 import { FilterOptionType } from "@/components/composite/ListFilter/ListFilter";
 import { FetchMyQuizzesParams } from "@/types/ParamsType";
 import { useEffect } from "react";
+import ROUTES from "@/data/routes";
 
 const filterOptions: FilterOptionType<BookQuizzesFilterType>[] = [
 	{
@@ -31,34 +31,27 @@ const filterOptions: FilterOptionType<BookQuizzesFilterType>[] = [
 	},
 ];
 export default function SolvedQuiz() {
-	const { search } = useLocation();
-	const queryParams = new URLSearchParams(search);
-	const [paginationState, setPaginationState] = useAtom(paginationAtom);
-
+	const navigate = useNavigate();
 	const [filterCriteria, setFilterCriteria] = useAtom(quizzesFilterAtom);
 	useFilter<BookQuizzesFilterType>(setFilterCriteria);
-	const { navigateWithParams } = useNavigateWithParams(
-		"my/solved-quiz"
-	);
+
+	const [paginationState, setPaginationState] = useAtom(solvedQuizPaginationAtom);
 
 	const totalPagesLength = paginationState.totalPagesLength;
-
 	const params: FetchMyQuizzesParams = {
-		page: queryParams.get("page") ?? "1",
-		sort: queryParams.get("sort") ?? "CREATED_AT",
-		direction: queryParams.get("direction") ?? "DESC",
+		page: paginationState.currentPage.toString() ?? "1",
+		sort: filterCriteria.sort,
+		direction: filterCriteria.direction,
 		size: "4",
-	};
-
+	}
 
 	const { isLoading, data: myQuizzesData } = useQuery({
 		queryKey: quizKeys.solvedQuiz(params),
 		queryFn: async () => await quizService.fetchMySolvedeQuizzes(params),
 	});
 
-	const navigate = useNavigate();
 	const handleClickWhenNoData = () => {
-		navigate("/create-quiz");
+		navigate(ROUTES.CREATE_QUIZ);
 	};
 
 	const endPageNumber = myQuizzesData?.endPageNumber;
@@ -72,10 +65,7 @@ export default function SolvedQuiz() {
 	}, [endPageNumber]);
 
 	const handleOptionClick = (filter: BookQuizzesFilterType) => {
-		navigateWithParams({
-			filter: filter,
-			parentPage: "my/solved-quiz",
-		});
+		setFilterCriteria(filter);
 	};
 
 	const myQuizzes = myQuizzesData?.data;

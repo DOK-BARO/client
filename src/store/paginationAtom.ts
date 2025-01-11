@@ -26,6 +26,26 @@ export const prevPaginationStateAtom = atom<PaginationType | undefined>(
   undefined
 );
 
+// 마이페이지 > 만든 퀴즈
+export const myMadeQuizPaginationAtom = atom<PaginationType>({
+  currentPage: 1,
+  pagePosition: "START",
+  totalPagesLength: undefined,
+  middlePages: [],
+  middlePagesLength: 6,
+  isMiddlePagesUpdated: false,
+});
+
+// 마이페이지 푼 퀴즈
+export const solvedQuizPaginationAtom = atom<PaginationType>({
+  currentPage: 1,
+  pagePosition: "START",
+  totalPagesLength: undefined,
+  middlePages: [],
+  middlePagesLength: 6,
+  isMiddlePagesUpdated: false,
+});
+
 // 마이페이지 > 내 스터디 그룹
 export const myPageStudyGroupPaginationAtom = atom<PaginationType>({
   currentPage: 1,

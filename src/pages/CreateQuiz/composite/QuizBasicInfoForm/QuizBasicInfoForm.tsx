@@ -17,7 +17,6 @@ function QuizBasicInfoForm() {
 
   const titleMaxLength = 127;
   const descriptionMaxLength = 150;
-  const titlePlaceHolder: string = quizCreationInfo.book?.title ?? "퀴즈 제목";
   const { value: titleInputValue, onChange: onTitleChange } = useInput(
     quizCreationInfo.title ?? ""
   );
@@ -52,7 +51,7 @@ function QuizBasicInfoForm() {
         id="quiz-basic-info-title"
         value={titleInputValue}
         onChange={handleTitleChange}
-        placeholder={titlePlaceHolder}
+        placeholder="퀴즈 제목"
         maxLength={titleMaxLength}
         fullWidth
       />

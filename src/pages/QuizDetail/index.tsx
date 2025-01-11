@@ -58,12 +58,17 @@ export default function Index() {
     ? parseFloat(reviewsTotalScore.averageStarRating.toFixed(1))
     : 0;
   const averageDifficulty = reviewsTotalScore.difficulty
-    ? Math.max(
-        ...Object.entries(reviewsTotalScore.difficulty).map(
-          ([, data]) => data.selectCount
+    ? Math.round(
+        Object.entries(reviewsTotalScore.difficulty).reduce(
+          (acc, [difficulty, data]) => {
+            return acc + Number(difficulty) * data.selectRate;
+          },
+          0
         )
       )
     : 0;
+
+  console.log("reviewsTotalScore", reviewsTotalScore);
 
   return (
     <section className={styles.container}>

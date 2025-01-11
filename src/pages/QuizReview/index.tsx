@@ -38,7 +38,7 @@ export default function Index() {
 
   const [rating, setStarRating] = useState<number>(0);
   const [difficultyLevel, setDifficultyLevel] = useState<DifficultyType>();
-  const { value, onChange, textareaRef } = useAutoResizeTextarea("", "51px");
+  const { value, onChange, textareaRef } = useAutoResizeTextarea("", 51);
   const reviewMaxLength = 200;
 
   const showDifficultySection = rating !== 0;

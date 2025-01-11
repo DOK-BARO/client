@@ -13,15 +13,18 @@ import Button from "@/components/atom/Button/Button";
 import useModal from "@/hooks/useModal";
 import SmallModal from "@/components/atom/SmallModal/SmallModal";
 import noticeCircle from "/public/assets/svg/myPage/notice-circle.svg";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Modal from "@/components/atom/Modal/Modal";
 import Textarea from "@/components/atom/Textarea/Textarea";
 import { useMutation } from "@tanstack/react-query";
-import useTextarea from "@/hooks/useTextarea";
 import { ErrorType } from "@/types/ErrorType";
 import toast from "react-hot-toast";
 import { quizService } from "@/services/server/quizService";
 import useOutsideClick from "@/hooks/useOutsideClick";
+import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
+import CheckBox from "@/components/atom/Checkbox/Checkbox";
+import { useNavigate } from "react-router-dom";
+import ROUTES from "@/data/routes";
 interface Props {
   quizExplanation: QuizExplanationType;
   reviewCount: number;
@@ -35,6 +38,7 @@ export default function QuizShortInfo({
   roundedAverageRating,
   averageDifficulty,
 }: Props) {
+  const navigate = useNavigate();
   const averageDifficultyLabel =
     levelMapping[averageDifficulty.toString() as LevelType];
 
@@ -50,6 +54,12 @@ export default function QuizShortInfo({
     closeModal: closeReportModal,
   } = useModal();
 
+  const {
+    isModalOpen: isReportConfirmModalOpen,
+    openModal: openReportConfirmModal,
+    closeModal: closeReportConfirmModal,
+  } = useModal();
+
   // 작은 모달 토글
   const handleToggle = () => {
     if (isSmallModalOpen) {
@@ -62,15 +72,24 @@ export default function QuizShortInfo({
   const buttonRef = useRef<HTMLButtonElement>(null);
   useOutsideClick([modalRef, buttonRef], closeSmallModal);
 
-  const { value: reportContent, onChange: onReportContentChange } =
-    useTextarea("");
+  // 기타 사유
+  const {
+    value: OtherGrounds,
+    onChange: onOtherGroundsChange,
+    textareaRef: OtherGroundsRef,
+    resetTextarea: resetOtherGrounds,
+  } = useAutoResizeTextarea("", 40, 3); // TODO: Textarea 미세한 높이 차이 22.5 -> 23
+  const [selectedReportReason, setSelectedReportReason] = useState<string[]>(
+    []
+  );
+
   const { mutate: reportReview } = useMutation<
     { id: number } | null,
     ErrorType,
-    { questionId: number; content: string }
+    { questionId: number; contents: string[] }
   >({
-    mutationFn: ({ questionId, content }) =>
-      quizService.reportQuiz({ questionId, content }),
+    mutationFn: ({ questionId, contents }) =>
+      quizService.reportQuiz({ questionId, contents }),
     onSuccess: (data) => {
       if (!data) {
         toast.error("퀴즈 신고에 실패했습니다.");
@@ -79,41 +98,146 @@ export default function QuizShortInfo({
 
       toast.success("퀴즈가 신고되었습니다.");
       closeReportModal();
+      openReportConfirmModal();
     },
   });
 
   const handleReportReview = () => {
-    reportReview({ questionId: quizExplanation.id, content: reportContent });
+    const selectedReportReasonFiltered = selectedReportReason.map((reason) =>
+      reason === "기타" ? OtherGrounds : reason
+    );
+    reportReview({
+      questionId: quizExplanation.id,
+      contents: selectedReportReasonFiltered,
+    });
   };
+
+  const reportReasonList = [
+    { id: 1, text: "비속어 또는 비방 내용이 포함되어 있어요.", checked: false },
+    { id: 2, text: "도서와 무관한 퀴즈예요.", checked: false },
+    { id: 3, text: "스팸/광고 내용이 포함되어 있어요.", checked: false },
+    { id: 4, text: "기타", checked: false },
+  ];
+
+  const [reportReasons, setReportReasons] = useState<
+    {
+      id: number;
+      text: string;
+      checked: boolean;
+    }[]
+  >(reportReasonList);
+
+  const handleSmallModalClick = () => {
+    closeSmallModal();
+    openReportModal();
+    resetOtherGrounds();
+  };
+
+  useEffect(() => {
+    resetOtherGrounds();
+    setSelectedReportReason([]);
+    setReportReasons(reportReasonList);
+  }, [isReportModalOpen]);
+
+  const handleGoBackToHome = () => {
+    navigate(ROUTES.ROOT);
+  };
+  const handleGoBackToQuiz = () => {
+    navigate(-1);
+  };
+
+  const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id } = e.target;
+
+    setReportReasons(
+      reportReasons.map((reason) =>
+        reason.id === Number(id)
+          ? { ...reason, checked: !reason.checked }
+          : reason
+      )
+    );
+  };
+
+  useEffect(() => {
+    const reportReasonTextList = reportReasons.filter(
+      (reason) => reason.checked
+    );
+    setSelectedReportReason(reportReasonTextList.map((item) => item.text));
+  }, [reportReasons]);
 
   return (
     <section className={styles.container}>
+      {isReportConfirmModalOpen ? (
+        <Modal
+          title="신고하기"
+          closeModal={closeReportConfirmModal}
+          contents={[{ title: "신고가 완료되었습니다.", content: <></> }]}
+          bottomButtons={[
+            {
+              text: "홈으로 가기",
+              color: "primary-border",
+              onClick: handleGoBackToHome,
+            },
+            {
+              text: "퀴즈로 돌아가기",
+              color: "primary",
+              onClick: handleGoBackToQuiz,
+            },
+          ]}
+        />
+      ) : null}
       {isReportModalOpen ? (
         <Modal
+          title="신고하기"
           closeModal={closeReportModal}
           contents={[
             {
-              title: `${quizExplanation.title}를 신고하시겠어요?`,
+              title: `${quizExplanation.title} 신고 시, 검토 후 적절한 조치가 이루어질 예정입니다.`,
               content: (
                 <div>
-                  <p className={styles["report-text"]}>
-                    신고된 퀴즈는 검토 후 삭제됩니다.
-                  </p>
-                  <Textarea
-                    maxLengthShow
-                    maxLength={200}
-                    onChange={onReportContentChange}
-                    value={reportContent}
-                    id="report-content"
-                    rows={5}
-                    size="small"
-                  />
+                  {reportReasons.map((reason) => (
+                    <CheckBox
+                      key={reason.id}
+                      id={reason.id.toString()}
+                      type="checkbox-black"
+                      value={reason.text}
+                      onChange={handleCheckBoxChange}
+                      checked={reason.checked}
+                    />
+                  ))}
+                  {/* TODO: 입력 전/후 높이 차이 */}
+                  {/* 기타 선택했을 때만 보이게 */}
+                  {selectedReportReason.some((reason) => reason === "기타") ? (
+                    <div className={styles["textarea-container"]}>
+                      <Textarea
+                        placeholder="기타 사유를 작성해 주세요."
+                        maxLengthShow
+                        maxLength={500}
+                        onChange={onOtherGroundsChange}
+                        value={OtherGrounds}
+                        id="report-content"
+                        textAreaRef={OtherGroundsRef}
+                        size="small"
+                        rows={1}
+                      />
+                    </div>
+                  ) : null}
                 </div>
               ),
             },
           ]}
+          // disabled: 하나 이상 선택했을 떄만 활성화되도록
           bottomButtons={[
-            { text: "신고하기", color: "primary", onClick: handleReportReview },
+            {
+              text: "신고하기",
+              color: "primary",
+              onClick: handleReportReview,
+              disabled:
+                selectedReportReason.length < 1 ||
+                selectedReportReason.some(
+                  (reason) => reason === "기타" && OtherGrounds === ""
+                ),
+            },
           ]}
         />
       ) : null}
@@ -121,7 +245,7 @@ export default function QuizShortInfo({
         <div className={styles["small-modal-container"]} ref={modalRef}>
           <SmallModal
             label="퀴즈 신고하기"
-            onLabelClick={openReportModal}
+            onLabelClick={handleSmallModalClick}
             icon={<img src={noticeCircle} width={20} height={20} />}
           />
         </div>

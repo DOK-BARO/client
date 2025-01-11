@@ -5,10 +5,6 @@
   line-height: 1.5;
   position: relative;
 
-  .report-text {
-    margin-bottom: 14px; // 임의
-  }
-
   .title-container {
     display: flex;
     justify-content: space-between;
@@ -64,4 +60,10 @@
     margin-top: 40px;
     z-index: 10;
   }
+}
+
+// 신고하기 모달
+.textarea-container {
+  padding: 0 16px;
+  margin-top: 6px;
 }

@@ -33,7 +33,7 @@ export default function AddStudyGroupModal({ closeModal, currentPage }: Props) {
     value: introduction,
     onChange: onIntroductionChange,
     textareaRef,
-  } = useAutoResizeTextarea("", "48px");
+  } = useAutoResizeTextarea("", 48);
 
   // TODO: 이미지 업로드하기
   const defaultImagePath = "/public/assets/image/default-profile.png";

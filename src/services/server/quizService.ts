@@ -47,10 +47,14 @@ class QuizService {
     }
   };
 
-  fetchMyMadeQuizzes = async (params: FetchMyQuizzesParams): Promise<MyQuizType | null> => {
+  fetchMyMadeQuizzes = async (
+    params: FetchMyQuizzesParams
+  ): Promise<MyQuizType | null> => {
     try {
       const { page, size, sort, direction } = params;
-      const { data } = await axiosInstance.get(`/book-quizzes/my?page=${page}&size=${size}&sort=${sort}&direction=${direction}`);
+      const { data } = await axiosInstance.get(
+        `/book-quizzes/my?page=${page}&size=${size}&sort=${sort}&direction=${direction}`
+      );
       return data;
     } catch (error) {
       handleAxiosError(error);
@@ -58,10 +62,14 @@ class QuizService {
     }
   };
 
-  fetchMySolvedeQuizzes = async (params: FetchMyQuizzesParams): Promise<MyQuizType | null> => {
+  fetchMySolvedeQuizzes = async (
+    params: FetchMyQuizzesParams
+  ): Promise<MyQuizType | null> => {
     try {
       const { page, size, sort, direction } = params;
-      const { data } = await axiosInstance.get(`/solving-quiz/my?page=${page}&size=${size}&sort=${sort}&direction=${direction}`);
+      const { data } = await axiosInstance.get(
+        `/solving-quiz/my?page=${page}&size=${size}&sort=${sort}&direction=${direction}`
+      );
       return data;
     } catch (error) {
       handleAxiosError(error);
@@ -154,16 +162,16 @@ class QuizService {
   };
   reportQuiz = async ({
     questionId,
-    content,
+    contents,
   }: {
     questionId: number;
-    content: string;
+    contents: string[];
   }): Promise<{ id: number } | null> => {
-    console.log(questionId, content);
+    console.log(questionId, contents);
     try {
       const response = await axiosInstance.post("/quiz-question-reports", {
         questionId,
-        content,
+        contents,
       });
       console.log(response);
       return response.data;

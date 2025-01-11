@@ -20,12 +20,12 @@ import { bookService } from "@/services/server/bookService";
 import ListFilter, {
   FilterOptionType,
 } from "@/components/composite/ListFilter/ListFilter";
-import { bookFilterAtom } from "@/store/bookAtom";
 import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 import useFilter from "@/hooks/useFilter";
 import { BooksFilterType, BooksSortType } from "@/types/FilterType";
 import { parseQueryParams } from "@/utils/parseQueryParams";
 import { FetchBooksParams } from "@/types/ParamsType";
+import { bookFilterAtom } from "@/store/filterAtom";
 
 // TODO: 외부 파일로 분리하기
 const filterOptions: FilterOptionType<BooksFilterType>[] = [
@@ -54,6 +54,8 @@ export default function BookListLayout() {
   const [filterCriteria, setFilterCriteria] = useAtom(bookFilterAtom);
   useFilter<BooksFilterType>(setFilterCriteria);
   const { navigateWithParams } = useNavigateWithParams("books");
+
+  console.log("filtercriteria", filterCriteria);
 
   // 책 카테고리 목록 가져오기
   const { data: categories, isLoading: isCategoriesLoading } = useQuery({

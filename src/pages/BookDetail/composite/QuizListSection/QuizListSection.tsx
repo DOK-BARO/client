@@ -4,11 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import { bookKeys } from "@/data/queryKeys.ts";
 import { bookService } from "@/services/server/bookService.ts";
 import { useLocation, useNavigate } from "react-router-dom";
-import { FetchQuizzesParams } from "@/types/BookType.ts";
 import Pagination from "@/components/composite/Pagination/Pagination.tsx";
-import { BookQuizzesFilterType } from "@/types/BookType.ts";
 import { FilterOptionType } from "@/components/composite/ListFilter/ListFilter.tsx";
-import { bookQuizzesFilterAtom } from "@/store/bookAtom.ts";
 import { useAtom } from "jotai";
 import useFilter from "@/hooks/useFilter.ts";
 import useNavigateWithParams from "@/hooks/useNavigateWithParams.ts";
@@ -19,6 +16,9 @@ import { useEffect } from "react";
 import ROUTES from "@/data/routes.ts";
 import { quizzesLengthAtom } from "@/store/quizAtom.ts";
 import useLoginAction from "@/hooks/useLoginAction.ts";
+import { quizzesFilterAtom } from "@/store/filterAtom.ts";
+import { FetchQuizzesParams } from "@/types/ParamsType.ts";
+import { QuizzesFilterType } from "@/types/FilterType.ts";
 
 export default function QuizListSection({
   bookId,
@@ -31,13 +31,12 @@ export default function QuizListSection({
   const queryParams = new URLSearchParams(search);
   const navigator = useNavigate();
 
-  const [filterCriteria, setFilterCriteria] = useAtom(bookQuizzesFilterAtom);
-  useFilter<BookQuizzesFilterType>(setFilterCriteria);
+  const [filterCriteria, setFilterCriteria] = useAtom(quizzesFilterAtom);
+  useFilter<QuizzesFilterType>(setFilterCriteria);
   const titleWhenNoData = "아직 만들어진 퀴즈가 없어요 😔";
   const buttonNameWhenNoData = "퀴즈 만들기";
   const { handleAuthenticatedAction } = useLoginAction();
   const [, setQuizLength] = useAtom(quizzesLengthAtom);
-
 
   const [paginationState, setPaginationState] = useAtom(paginationAtom);
   const totalPagesLength = paginationState.totalPagesLength;
@@ -74,25 +73,26 @@ export default function QuizListSection({
     }
   }, [endPageNumber]);
 
-  const { navigateWithParams } = useNavigateWithParams(`book/${Number(bookId)}`);
-  const handleOptionClick = (filter: BookQuizzesFilterType) => {
-    handleAuthenticatedAction(
-      () => navigateWithParams({
+  const { navigateWithParams } = useNavigateWithParams(
+    `book/${Number(bookId)}`
+  );
+  const handleOptionClick = (filter: QuizzesFilterType) => {
+    handleAuthenticatedAction(() =>
+      navigateWithParams({
         filter: filter,
         parentPage: `book/${Number(bookId)}`,
         itemId: parseInt(bookId),
         excludeParams: ["page"],
       })
     );
-
   };
-  const filterOptions: FilterOptionType<BookQuizzesFilterType>[] = [
+  const filterOptions: FilterOptionType<QuizzesFilterType>[] = [
     {
       filter: {
         sort: "STAR_RATING",
         direction: "DESC",
       },
-      label: "인기순",
+      label: "별점순",
     },
     {
       filter: {
@@ -104,8 +104,8 @@ export default function QuizListSection({
   ];
 
   const handleGoToQuizDetail = (quizId: number) => {
-    handleAuthenticatedAction(()=>navigator( ROUTES.QUIZ_DETAIL(quizId)));
-  }
+    handleAuthenticatedAction(() => navigator(ROUTES.QUIZ_DETAIL(quizId)));
+  };
 
   if (isLoading) {
     return <div>loading</div>;
@@ -115,7 +115,6 @@ export default function QuizListSection({
     <section className={styles["container"]}>
       <h3 className={styles["quiz-list-header"]}>퀴즈 목록</h3>
       <div className={styles["filter-list"]}>
-        <span className={styles["filter-title"]}>정렬기준</span>
         <div className={styles["filter-button-area"]}>
           <ListFilter
             onOptionClick={handleOptionClick}
@@ -136,7 +135,11 @@ export default function QuizListSection({
       <div className={styles["list-container"]}>
         {quizzes &&
           quizzes?.data.map((quiz) => (
-            <a key={quiz.id} href="#" onClick={()=>handleGoToQuizDetail(quiz.id)}>
+            <a
+              key={quiz.id}
+              href="#"
+              onClick={() => handleGoToQuizDetail(quiz.id)}
+            >
               <QuizItem key={quiz.id} quiz={quiz} />
             </a>
           ))}

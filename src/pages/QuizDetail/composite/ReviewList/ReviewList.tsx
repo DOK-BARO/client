@@ -7,7 +7,6 @@ import ListFilter, {
   FilterOptionType,
 } from "@/components/composite/ListFilter/ListFilter";
 import { useAtom } from "jotai";
-import { reviewFilterAtom } from "@/store/reviewAtom";
 import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 import useFilter from "@/hooks/useFilter";
 import { currentUserAtom } from "@/store/userAtom";
@@ -19,6 +18,7 @@ import { ReviewType } from "@/types/ReviewType";
 import { ErrorType } from "@/types/ErrorType";
 import { useRef } from "react";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
+import { reviewFilterAtom } from "@/store/filterAtom";
 
 // TODO: 분리하기
 const filterOptions: FilterOptionType<ReviewsFilterType>[] = [

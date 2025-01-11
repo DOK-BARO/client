@@ -11,7 +11,7 @@ import {
 import Breadcrumb from "../../../../components/composite/Breadcrumb/Breadcrumb";
 import { useEffect } from "react";
 import Pagination from "@/components/composite/Pagination/Pagination";
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import {
   paginationAtom,
   prevPaginationStateAtom,
@@ -25,7 +25,7 @@ import useFilter from "@/hooks/useFilter";
 import { BooksFilterType, BooksSortType } from "@/types/FilterType";
 import { parseQueryParams } from "@/utils/parseQueryParams";
 import { FetchBooksParams } from "@/types/ParamsType";
-import { bookFilterAtom } from "@/store/filterAtom";
+import { bookFilterAtom, resetBooksFilter } from "@/store/filterAtom";
 
 // TODO: 외부 파일로 분리하기
 const filterOptions: FilterOptionType<BooksFilterType>[] = [
@@ -52,10 +52,11 @@ export default function BookListLayout() {
 
   // -FilterAtom에 저장된 필터 상태를 지정하는 함수 setFilterCriteria를 useFilter에 전달
   const [filterCriteria, setFilterCriteria] = useAtom(bookFilterAtom);
-  useFilter<BooksFilterType>(setFilterCriteria);
+  const setBooksFilter = useSetAtom(bookFilterAtom);
+  useFilter<BooksFilterType>(setFilterCriteria, () =>
+    resetBooksFilter(setBooksFilter)
+  );
   const { navigateWithParams } = useNavigateWithParams("books");
-
-  console.log("filtercriteria", filterCriteria);
 
   // 책 카테고리 목록 가져오기
   const { data: categories, isLoading: isCategoriesLoading } = useQuery({

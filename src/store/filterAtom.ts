@@ -113,7 +113,7 @@ export const resetMyPageSolvedQuizFilter = (
 /**
  * 메인페이지 > 책 목록 필터 리셋
  */
-export const resetBookFilter = (setAtom: (value: BooksFilterType) => void) =>
+export const resetBooksFilter = (setAtom: (value: BooksFilterType) => void) =>
   resetFilter(setAtom, DEFAULT_BOOK_FILTER);
 
 /**

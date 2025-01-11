@@ -23,26 +23,27 @@ type FilterCriteria = {
     | MyMadeQuizzesFilterType["direction"];
 };
 const useFilter = <T extends FilterCriteria>(
-  setFilterCriteria: (value: SetStateAction<T>) => void
+  setFilterCriteria: (value: SetStateAction<T>) => void,
+  resetFilter?: () => void
 ) => {
   // const [, setFilterCriteria] = useAtom(bookFilterAtom);
   const { search } = useLocation();
-  const navigate = useNavigate();
 
   // URL의 쿼리 파라미터와 동기화
   useEffect(() => {
+    if (resetFilter && search == "") {
+      resetFilter();
+    }
     const queryParams = new URLSearchParams(search);
     const sort = queryParams.get("sort");
     const direction = queryParams.get("direction");
-
-    console.log(sort, direction);
 
     setFilterCriteria((prev) => ({
       ...prev,
       sort: sort ? (sort as T["sort"]) : prev.sort,
       direction: direction ? (direction as T["direction"]) : prev.direction,
     }));
-  }, [search, setFilterCriteria, navigate]);
+  }, [search, setFilterCriteria]);
 };
 
 export default useFilter;

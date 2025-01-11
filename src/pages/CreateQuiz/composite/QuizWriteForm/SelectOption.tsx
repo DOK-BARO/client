@@ -38,7 +38,7 @@ const SelectOption: React.FC<SelectOptionProps> = ({
     value: optionText,
     onChange: onOptionChange,
     textareaRef,
-  } = useAutoResizeTextarea(option.label, "26px");
+  } = useAutoResizeTextarea(option.label, 26);
 
   const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onOptionChange(e);

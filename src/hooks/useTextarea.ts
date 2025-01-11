@@ -7,7 +7,13 @@ const useTextarea = (initialValue: string) => {
     setValue(e.target.value);
   };
 
-  return { value, onChange };
+  const resetTextarea = (
+    newInitialValue: string | undefined = initialValue
+  ) => {
+    setValue(newInitialValue);
+  };
+
+  return { value, onChange, resetTextarea };
 };
 
 export default useTextarea;

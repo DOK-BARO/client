@@ -225,6 +225,11 @@ export default function StudyGroupSetting() {
     }
   };
 
+  const handleDeleteStudyGroupClick = () => {
+    openConfirmModal();
+    closeSmallModal();
+  };
+
   return (
     <section className={styles.container}>
       {isDeleteConfirmModal ? (
@@ -266,7 +271,7 @@ export default function StudyGroupSetting() {
           {isSmallModalOpen ? (
             <div className={styles["small-modal-container"]} ref={modalRef}>
               <SmallModal
-                onLabelClick={openConfirmModal}
+                onLabelClick={handleDeleteStudyGroupClick}
                 icon={<img src={trashCan} width={20} height={20} />}
                 label="스터디 삭제"
               />

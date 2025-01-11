@@ -12,8 +12,8 @@
 }
 
 .textarea {
-  @include textarea-base;
   @include input-base;
+  @include textarea-base;
   line-height: 1.5;
 
   &--error {
@@ -31,13 +31,15 @@
   &--small {
     font-size: $input-font-small;
     padding: $textarea-padding-small;
+    // height: 40px;
+    line-height: inherit;
   }
 }
 
-.option-label{
-	font-size: 17px;
-	padding: 0;
-	border:none;
+.option-label {
+  font-size: 17px;
+  padding: 0;
+  border: none;
 }
 
 .message-container {

@@ -30,10 +30,10 @@ const ROUTES = {
   STUDY_GROUP_SETTING: (studyGroupId?: number) =>
     `/my/study-groups/${studyGroupId ?? ":studyGroupId"}/setting`,
 
-	SETTINGS: "settings",
-	EDIT_PROFILE: "edit-profile",
-	CHANGE_PASSWORD: "change-password",
-	DELETE_ACCOUNT: "delete-account",
+  SETTINGS: "settings",
+  EDIT_PROFILE: "edit-profile",
+  CHANGE_PASSWORD: "change-password",
+  DELETE_ACCOUNT: "delete-account",
 
   COMPONENT_TEST: "/component-test",
 

@@ -7,8 +7,8 @@ import { QuestionFormMode } from "@/data/constants.ts";
 import { QuestionTemplateType as QuestionTemplateType } from "@/types/QuestionTemplateType";
 import { UlList } from "@/svg/QuizWriteForm/UlList";
 import { OlList } from "@/svg/QuizWriteForm/OlList";
-import { BlankQuiz } from "@/svg/QuizWriteForm/BlankQuiz";
-import { AlignJustify } from "@/svg/QuizWriteForm/AlignJustify";
+// import { BlankQuiz } from "@/svg/QuizWriteForm/BlankQuiz";
+// import { AlignJustify } from "@/svg/QuizWriteForm/AlignJustify";
 import { MultipleChoiceQuestionTemplate } from "@/pages/CreateQuiz/composite/QuizWriteForm/MultipleChoiceQuestionTemplate";
 import { CheckBoxQuestionTemplate } from "@/pages/CreateQuiz/composite/QuizWriteForm/CheckBoxQuestionTemplate";
 import { OXQuestionTemplate } from "@/pages/CreateQuiz/composite/QuizWriteForm/OXQuestionTemplate";
@@ -47,18 +47,18 @@ const questionTemplates: QuestionTemplateType[] = [
     answerType: "OX",
     FormComponent: <OXQuestionTemplate />,
   },
-  {
-    Icon: BlankQuiz,
-    text: "빈칸 채우기",
-    answerType: "FILL_BLANK",
-    FormComponent: <div></div>,
-  },
-  {
-    Icon: AlignJustify,
-    text: "단답형 주관식",
-    answerType: "SHORT",
-    FormComponent: <div></div>,
-  },
+  // {
+  //   Icon: BlankQuiz,
+  //   text: "빈칸 채우기",
+  //   answerType: "FILL_BLANK",
+  //   FormComponent: <div></div>,
+  // },
+  // {
+  //   Icon: AlignJustify,
+  //   text: "단답형 주관식",
+  //   answerType: "SHORT",
+  //   FormComponent: <div></div>,
+  // },
 ] as const;
 
 export default function QuestionForm({

@@ -1,4 +1,3 @@
-import { authService } from "@/services/server/authService";
 import { ErrorType } from "@/types/ErrorType";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";

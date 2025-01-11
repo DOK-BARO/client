@@ -5,7 +5,6 @@ import { axiosInstance } from "@/config/axiosConfig.ts";
 import { handleAxiosError } from "@/utils/errorHandler.ts";
 import { SocialLoginType } from "@/types/SocialLoginType.ts";
 import { UpdateUserParams } from "@/types/ParamsType";
-import { AxiosError } from "axios";
 
 class AuthService {
   // 소셜 회원가입

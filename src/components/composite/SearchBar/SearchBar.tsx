@@ -4,14 +4,10 @@ import styles from "./_search_bar.module.scss";
 import Input from "@/components/atom/Input/Input";
 import useInput from "@/hooks/useInput.ts";
 import { FormEvent, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { isLoggedInAtom } from "@/store/userAtom";
-import { useAtom } from "jotai";
-import ROUTES from "@/data/routes";
+import { useLocation } from "react-router-dom";
 import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 
 export default function SearchBar() {
-  const [isLoggedIn] = useAtom(isLoggedInAtom);
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -23,15 +19,11 @@ export default function SearchBar() {
     onChange: onSearchWordChange,
     resetInput,
   } = useInput("");
-  const navigate = useNavigate();
   const { navigateWithParams } = useNavigateWithParams("books");
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     // TODO: 확인
-    if (!isLoggedIn) {
-      navigate(ROUTES.ROOT, { state: { openModal: true } }); //TODO: 랜딩페이지로 이동
-    }
     navigateWithParams({
       title: searchWord,
       parentPage: "books",

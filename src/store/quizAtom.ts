@@ -90,3 +90,5 @@ export const quizzesFilterAtom = atom<BookQuizzesFilterType>({
 	sort: "CREATED_AT",
 	direction: "DESC",
 });
+
+export const quizzesLengthAtom = atom(0);

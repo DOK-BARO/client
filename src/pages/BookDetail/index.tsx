@@ -57,7 +57,6 @@ export default function Index() {
     : [];
   return (
     <section className={styles.container}>
-      {/* TODO */}
       <Breadcrumb parentPage="books" list={categoryList} />
 
       <div className={styles["book-detail-section"]}>

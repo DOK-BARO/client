@@ -5,11 +5,7 @@ import { useDropDownList } from "@/hooks/useDropDownList.ts";
 import { black } from "@/styles/abstracts/colors";
 import { ArrowDown } from "@/svg/ArrowDown";
 
-interface HeaderQuizUtilButtonProps {
-  openLoginModal: () => void;
-}
-
-function HeaderQuizUtilButton({ openLoginModal }: HeaderQuizUtilButtonProps) {
+function HeaderQuizUtilButton() {
   const {
     isOpenDropDownList,
     anchorEl,
@@ -36,7 +32,6 @@ function HeaderQuizUtilButton({ openLoginModal }: HeaderQuizUtilButtonProps) {
       {isOpenDropDownList && anchorEl && (
         <HeaderQuizUtilList
           closeDropDownList={closeDropDownList}
-          openLoginModal={openLoginModal}
         />
       )}
     </div>

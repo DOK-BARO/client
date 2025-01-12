@@ -36,8 +36,8 @@ export const myMadeQuizPaginationAtom = atom<PaginationType>({
   isMiddlePagesUpdated: false,
 });
 
-// 마이페이지 푼 퀴즈
-export const solvedQuizPaginationAtom = atom<PaginationType>({
+// 마이페이지 전체 푼 퀴즈
+export const mySolvedQuizPaginationAtom = atom<PaginationType>({
   currentPage: 1,
   pagePosition: "START",
   totalPagesLength: undefined,
@@ -47,7 +47,7 @@ export const solvedQuizPaginationAtom = atom<PaginationType>({
 });
 
 // 마이페이지 > 내 스터디 그룹
-export const myPageStudyGroupPaginationAtom = atom<PaginationType>({
+export const myStudyGroupPaginationAtom = atom<PaginationType>({
   currentPage: 1,
   pagePosition: "START",
   totalPagesLength: undefined,
@@ -57,7 +57,7 @@ export const myPageStudyGroupPaginationAtom = atom<PaginationType>({
 });
 
 // 마이페이지 > 내 스터디 퀴즈 > 풀어야 할 퀴즈
-export const myPageUnsolvedQuizPaginationAtom = atom<PaginationType>({
+export const myStudyUnsolvedQuizPaginationAtom = atom<PaginationType>({
   currentPage: 1,
   pagePosition: "START",
   totalPagesLength: undefined,
@@ -67,7 +67,7 @@ export const myPageUnsolvedQuizPaginationAtom = atom<PaginationType>({
 });
 
 // 마이페이지 > 내 스터디 퀴즈 > 제출한 퀴즈
-export const myPageSolvedQuizPaginationAtom = atom<PaginationType>({
+export const myStudySolvedQuizPaginationAtom = atom<PaginationType>({
   currentPage: 1,
   pagePosition: "START",
   totalPagesLength: undefined,

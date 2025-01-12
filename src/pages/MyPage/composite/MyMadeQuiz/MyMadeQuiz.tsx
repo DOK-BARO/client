@@ -7,11 +7,12 @@ import { useAtom } from "jotai";
 import useFilter from "@/hooks/useFilter";
 import { myMadeQuizPaginationAtom } from "@/store/paginationAtom";
 import Pagination from "@/components/composite/Pagination/Pagination";
-import { BookQuizzesFilterType } from "@/types/BookType";
-import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 import { FilterOptionType } from "@/components/composite/ListFilter/ListFilter";
 import { FetchMyQuizzesParams } from "@/types/ParamsType";
 import { useEffect } from "react";
+import ROUTES from "@/data/routes";
+import { MyMadeQuizzesFilterType } from "@/types/FilterType";
+import { myMadeQuizzesFilterAtom } from "@/store/filterAtom";
 
 const filterOptions: FilterOptionType<MyMadeQuizzesFilterType>[] = [
   {
@@ -29,34 +30,31 @@ const filterOptions: FilterOptionType<MyMadeQuizzesFilterType>[] = [
     label: "가나다순",
   },
 ];
-import ROUTES from "@/data/routes";
-import { myMadeQuizzesFilterAtom } from "@/store/filterAtom";
-import { MyMadeQuizzesFilterType } from "@/types/FilterType";
-
 export default function MyMadeQuiz() {
-	const navigate = useNavigate();
-	const [filterCriteria, setFilterCriteria] = useAtom(quizzesFilterAtom);
-	useFilter<BookQuizzesFilterType>(setFilterCriteria);
+  const navigate = useNavigate();
+  const [filterCriteria, setFilterCriteria] = useAtom(myMadeQuizzesFilterAtom);
+  useFilter<MyMadeQuizzesFilterType>(setFilterCriteria);
 
-	const [paginationState, setPaginationState] = useAtom(myMadeQuizPaginationAtom);
-	const totalPagesLength = paginationState.totalPagesLength;
+  const [paginationState, setPaginationState] = useAtom(
+    myMadeQuizPaginationAtom
+  );
+  const totalPagesLength = paginationState.totalPagesLength;
 
-	const params: FetchMyQuizzesParams = {
-		page:  paginationState.currentPage.toString() ?? "1",
-		sort:  filterCriteria.sort,
-		direction:  filterCriteria.direction,
-		size: "4",
-	}
+  const params: FetchMyQuizzesParams = {
+    page: paginationState.currentPage.toString() ?? "1",
+    sort: filterCriteria.sort,
+    direction: filterCriteria.direction,
+    size: "4",
+  };
 
-	const { isLoading, data: myQuizzesData } = useQuery({
-		queryKey: quizKeys.myQuiz(params),
-		queryFn: () => quizService.fetchMyMadeQuizzes(params),
-	});
+  const { isLoading, data: myQuizzesData } = useQuery({
+    queryKey: quizKeys.myQuiz(params),
+    queryFn: () => quizService.fetchMyMadeQuizzes(params),
+  });
 
-	const handleClickWhenNoData = () => {
-		navigate(ROUTES.CREATE_QUIZ);
-	};
-
+  const handleClickWhenNoData = () => {
+    navigate(ROUTES.CREATE_QUIZ);
+  };
 
   const endPageNumber = myQuizzesData?.endPageNumber;
   useEffect(() => {
@@ -68,15 +66,14 @@ export default function MyMadeQuiz() {
     }
   }, [endPageNumber]);
 
-	const handleOptionClick = (filter: BookQuizzesFilterType) => {
-		setFilterCriteria(filter);
-	};
-
+  const handleOptionClick = (filter: MyMadeQuizzesFilterType) => {
+    setFilterCriteria(filter);
+  };
 
   const myQuizzes = myQuizzesData?.data;
 
   if (isLoading || !myQuizzes) {
-    return <>로딩</>;
+    return <>로딩</>; 
   }
 
   return (

@@ -9,8 +9,16 @@ export type ReviewsSortType = "CREATED_AT" | "STAR_RATING";
 export type StudyGroupsSortType = "CREATED_AT" | "JOINED_AT" | "NAME";
 // 퀴즈 정렬 기준
 export type QuizzesSortType = "STAR_RATING" | "CREATED_AT" | "UPDATED_AT";
-// 내가 만든 퀴즈 정렬 기준
+
+// 전체 > 내가 만든 퀴즈 정렬 기준
 export type MyMadeQuizzesSortType = "CREATED_AT" | "UPDATED_AT" | "TITLE";
+// 전체 > 내가 푼 퀴즈 정렬 기준
+export type MySolvedQuizzesSortType = "TITLE" | "CREATED_AT";
+
+// 스터디 그룹 > 내가 안푼 퀴즈 정렬 기준
+export type MyStudyUnSolvedQuizzesSortType = "TITLE" | "CREATED_AT";
+// 스터디 그룹 > 내가 푼 퀴즈 정렬 기준
+export type MyStudySolvedQuizzesSortType = "TITLE" | "CREATED_AT";
 
 export interface FilterType<TSortType> {
   sort: TSortType;
@@ -24,3 +32,10 @@ export interface StudyGroupsFilterType
 export interface QuizzesFilterType extends FilterType<QuizzesSortType> {}
 export interface MyMadeQuizzesFilterType
   extends FilterType<MyMadeQuizzesSortType> {}
+
+export interface MySolvedQuizzesFilterType
+  extends FilterType<MySolvedQuizzesSortType> {}
+export interface MyStudyUnSolvedQuizzesFilterType
+  extends FilterType<MyStudyUnSolvedQuizzesSortType> {}
+export interface MyStudySolvedQuizzesFilterType
+  extends FilterType<MyStudySolvedQuizzesSortType> {}

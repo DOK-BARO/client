@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { studyGroupService } from "@/services/server/studyGroupService";
 import { studyGroupKeys } from "@/data/queryKeys";
 import { StudyGroupsFilterType, StudyGroupsSortType } from "@/types/FilterType";
-import { myPageStudyGroupPaginationAtom } from "@/store/paginationAtom";
+import { myStudyGroupPaginationAtom } from "@/store/paginationAtom";
 import { useAtom } from "jotai";
 import useFilter from "@/hooks/useFilter";
 import ListFilter, {
@@ -20,7 +20,7 @@ import textBox from "/public/assets/svg/myPage/text-box.svg";
 import pencilUnderline from "/public/assets/svg/myPage/pencil-underline.svg";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "@/data/routes";
-import { myPageStudyGroupFilterAtom } from "@/store/filterAtom";
+import { myStudyGroupFilterAtom } from "@/store/filterAtom";
 
 const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
   {
@@ -42,15 +42,13 @@ const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
 export default function MyStudyGroups() {
   const navigate = useNavigate();
 
-  const [filterCriteria, setFilterCriteria] = useAtom(
-    myPageStudyGroupFilterAtom
-  );
+  const [filterCriteria, setFilterCriteria] = useAtom(myStudyGroupFilterAtom);
   console.log("filterCriteria", filterCriteria);
 
   useFilter<StudyGroupsFilterType>(setFilterCriteria);
 
   const [paginationState, setPaginationState] = useAtom(
-    myPageStudyGroupPaginationAtom
+    myStudyGroupPaginationAtom
   );
   const totalPagesLength = paginationState.totalPagesLength;
 

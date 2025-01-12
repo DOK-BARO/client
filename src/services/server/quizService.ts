@@ -62,7 +62,7 @@ class QuizService {
     }
   };
 
-  fetchMySolvedeQuizzes = async (
+  fetchMySolvedQuizzes = async (
     params: FetchMyQuizzesParams
   ): Promise<MyQuizType | null> => {
     try {
@@ -188,7 +188,7 @@ class QuizService {
     } catch (error) {
       handleAxiosError(error);
     }
-  }
+  };
 }
 
 export const quizService = new QuizService();

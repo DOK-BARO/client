@@ -15,20 +15,20 @@ import { useEffect } from "react";
 import ROUTES from "@/data/routes";
 
 const filterOptions: FilterOptionType<BookQuizzesFilterType>[] = [
-	{
-		filter: {
-			sort: "CREATED_AT",
-			direction: "DESC",
-		},
-		label: "최신순",
-	},
-	{
-		filter: {
-			sort: "TITLE",
-			direction: "ASC",
-		},
-		label: "가나다순",
-	},
+  {
+    filter: {
+      sort: "CREATED_AT",
+      direction: "DESC",
+    },
+    label: "최신순",
+  },
+  {
+    filter: {
+      sort: "TITLE",
+      direction: "ASC",
+    },
+    label: "가나다순",
+  },
 ];
 export default function SolvedQuiz() {
 	const navigate = useNavigate();
@@ -44,25 +44,21 @@ export default function SolvedQuiz() {
 		direction: filterCriteria.direction,
 		size: "4",
 	}
-
-	const { isLoading, data: myQuizzesData } = useQuery({
-		queryKey: quizKeys.solvedQuiz(params),
-		queryFn: async () => await quizService.fetchMySolvedeQuizzes(params),
-	});
+  const navigate = useNavigate();
+  const handleClickWhenNoData = () => {
+    navigate("/create-quiz");
+  };
 
 	const handleClickWhenNoData = () => {
 		navigate(ROUTES.CREATE_QUIZ);
 	};
 
-	const endPageNumber = myQuizzesData?.endPageNumber;
-	useEffect(() => {
-		if (endPageNumber) {
-			setPaginationState({
-				...paginationState,
-				totalPagesLength: endPageNumber,
-			});
-		}
-	}, [endPageNumber]);
+  const handleOptionClick = (filter: BookQuizzesFilterType) => {
+    navigateWithParams({
+      filter: filter,
+      parentPage: "my/solved-quiz",
+    });
+  };
 
 	const handleOptionClick = (filter: BookQuizzesFilterType) => {
 		setFilterCriteria(filter);
@@ -98,4 +94,27 @@ export default function SolvedQuiz() {
 
 	);
 
+
+  return (
+    <div>
+      <QuizListLayout
+        title="내가 푼 퀴즈"
+        quizzes={myQuizzes}
+        titleWhenNoData="아직 내가 푼 퀴즈가 없어요. 😞"
+        buttonNameWhenNoData="퀴즈 풀러 가기"
+        onClickBtnWhenNoData={handleClickWhenNoData}
+        handleOptionClick={handleOptionClick}
+        filterCriteria={filterCriteria}
+        filterOptions={filterOptions}
+      />
+      {totalPagesLength && totalPagesLength > 0 && (
+        <Pagination
+          type="queryString"
+          parentPage={"my/solved-quiz"}
+          paginationState={paginationState}
+          setPaginationState={setPaginationState}
+        />
+      )}
+    </div>
+  );
 }

@@ -6,7 +6,6 @@ import { studyGroupKeys } from "@/data/queryKeys";
 import { StudyGroupsFilterType, StudyGroupsSortType } from "@/types/FilterType";
 import { myPageStudyGroupPaginationAtom } from "@/store/paginationAtom";
 import { useAtom } from "jotai";
-import { studyGroupFilterAtom } from "@/store/studyGroupAtom";
 import useFilter from "@/hooks/useFilter";
 import ListFilter, {
   FilterOptionType,
@@ -21,12 +20,13 @@ import textBox from "/public/assets/svg/myPage/text-box.svg";
 import pencilUnderline from "/public/assets/svg/myPage/pencil-underline.svg";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "@/data/routes";
+import { myPageStudyGroupFilterAtom } from "@/store/filterAtom";
 
 const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
   {
     filter: {
       sort: "CREATED_AT",
-      direction: "ASC",
+      direction: "DESC",
     },
     label: "최신순",
   },
@@ -42,7 +42,11 @@ const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
 export default function MyStudyGroups() {
   const navigate = useNavigate();
 
-  const [filterCriteria, setFilterCriteria] = useAtom(studyGroupFilterAtom);
+  const [filterCriteria, setFilterCriteria] = useAtom(
+    myPageStudyGroupFilterAtom
+  );
+  console.log("filterCriteria", filterCriteria);
+
   useFilter<StudyGroupsFilterType>(setFilterCriteria);
 
   const [paginationState, setPaginationState] = useAtom(
@@ -55,7 +59,7 @@ export default function MyStudyGroups() {
   const page = paginationState.currentPage; // parseQueryParams함수 안에서 기본값 1로 설정
   const size = 5; // 한번에 불러올 최대 길이
 
-  console.log(size, page);
+  console.log(sort, direction, size, page);
   const { data: myStudyGroupsData } = useQuery({
     queryKey: studyGroupKeys.list(
       parseQueryParams<StudyGroupsSortType, FetchStudyGroupsParams>({

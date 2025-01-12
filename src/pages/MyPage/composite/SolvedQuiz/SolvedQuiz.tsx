@@ -2,19 +2,19 @@ import { useQuery } from "@tanstack/react-query";
 import { quizKeys } from "@/data/queryKeys";
 import QuizListLayout from "../../layout/QuizListLayout/QuizListLayout";
 import { quizService } from "@/services/server/quizService";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
 import useFilter from "@/hooks/useFilter";
-import { paginationAtom } from "@/store/paginationAtom";
+import { mySolvedQuizPaginationAtom } from "@/store/paginationAtom";
 import Pagination from "@/components/composite/Pagination/Pagination";
-import { BookQuizzesFilterType } from "@/types/BookType";
-import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 import { FilterOptionType } from "@/components/composite/ListFilter/ListFilter";
 import { FetchMyQuizzesParams } from "@/types/ParamsType";
 import { useEffect } from "react";
-import { quizzesFilterAtom } from "@/store/filterAtom";
+import ROUTES from "@/data/routes";
+import { MySolvedQuizzesFilterType } from "@/types/FilterType";
+import { mySolvedQuizFilterAtom } from "@/store/filterAtom";
 
-const filterOptions: FilterOptionType<BookQuizzesFilterType>[] = [
+const filterOptions: FilterOptionType<MySolvedQuizzesFilterType>[] = [
   {
     filter: {
       sort: "CREATED_AT",
@@ -31,31 +31,29 @@ const filterOptions: FilterOptionType<BookQuizzesFilterType>[] = [
   },
 ];
 export default function SolvedQuiz() {
-  const { search } = useLocation();
-  const queryParams = new URLSearchParams(search);
-  const [paginationState, setPaginationState] = useAtom(paginationAtom);
+  const navigate = useNavigate();
+  const [filterCriteria, setFilterCriteria] = useAtom(mySolvedQuizFilterAtom);
+  useFilter<MySolvedQuizzesFilterType>(setFilterCriteria);
 
-  const [filterCriteria, setFilterCriteria] = useAtom(quizzesFilterAtom);
-  useFilter<BookQuizzesFilterType>(setFilterCriteria);
-  const { navigateWithParams } = useNavigateWithParams("my/solved-quiz");
+  const [paginationState, setPaginationState] = useAtom(
+    mySolvedQuizPaginationAtom
+  );
 
   const totalPagesLength = paginationState.totalPagesLength;
-
   const params: FetchMyQuizzesParams = {
-    page: queryParams.get("page") ?? "1",
-    sort: queryParams.get("sort") ?? "CREATED_AT",
-    direction: queryParams.get("direction") ?? "DESC",
+    page: paginationState.currentPage.toString() ?? "1",
+    sort: filterCriteria.sort,
+    direction: filterCriteria.direction,
     size: "4",
   };
 
   const { isLoading, data: myQuizzesData } = useQuery({
     queryKey: quizKeys.solvedQuiz(params),
-    queryFn: async () => await quizService.fetchMySolvedeQuizzes(params),
+    queryFn: async () => await quizService.fetchMySolvedQuizzes(params),
   });
 
-  const navigate = useNavigate();
   const handleClickWhenNoData = () => {
-    navigate("/create-quiz");
+    navigate(ROUTES.CREATE_QUIZ);
   };
 
   const endPageNumber = myQuizzesData?.endPageNumber;
@@ -68,11 +66,8 @@ export default function SolvedQuiz() {
     }
   }, [endPageNumber]);
 
-  const handleOptionClick = (filter: BookQuizzesFilterType) => {
-    navigateWithParams({
-      filter: filter,
-      parentPage: "my/solved-quiz",
-    });
+  const handleOptionClick = (filter: MySolvedQuizzesFilterType) => {
+    setFilterCriteria(filter);
   };
 
   const myQuizzes = myQuizzesData?.data;

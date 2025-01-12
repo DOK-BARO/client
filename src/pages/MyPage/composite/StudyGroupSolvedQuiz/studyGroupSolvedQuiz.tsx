@@ -1,11 +1,14 @@
 import { useEffect } from "react";
 import styles from "../StudyGroup/_study_group.module.scss";
-import { StudyGroupsFilterType, StudyGroupsSortType } from "@/types/FilterType";
+import {
+  MyStudySolvedQuizzesFilterType,
+  MyStudySolvedQuizzesSortType,
+} from "@/types/FilterType";
 import { parseQueryParams } from "@/utils/parseQueryParams";
 import { FetchStudyGroupsParams } from "@/types/ParamsType";
 import { useAtom } from "jotai";
-import { myPageSolvedQuizPaginationAtom } from "@/store/paginationAtom";
-import { myPageSolvedQuizFilterAtom } from "@/store/filterAtom";
+import { mySolvedQuizPaginationAtom } from "@/store/paginationAtom";
+import { myStudySolvedQuizFilterAtom } from "@/store/filterAtom";
 import useFilter from "@/hooks/useFilter";
 import { useQuery } from "@tanstack/react-query";
 import { studyGroupKeys } from "@/data/queryKeys";
@@ -17,7 +20,7 @@ import QuizItem from "../../components/QuizItem/QuizItem";
 import Pagination from "@/components/composite/Pagination/Pagination";
 import { NoDataSection } from "@/components/composite/NoDataSection/NoDataSection";
 
-const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
+const filterOptions: FilterOptionType<MyStudySolvedQuizzesFilterType>[] = [
   {
     filter: {
       sort: "CREATED_AT",
@@ -27,7 +30,7 @@ const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
   },
   {
     filter: {
-      sort: "NAME",
+      sort: "TITLE",
       direction: "ASC",
     },
     label: "가나다순",
@@ -39,12 +42,12 @@ interface Prop {
 }
 export default function StudyGroupSolvedQuiz({ studyGroupId }: Prop) {
   const [filterCriteria, setFilterCriteria] = useAtom(
-    myPageSolvedQuizFilterAtom
+    myStudySolvedQuizFilterAtom
   );
-  useFilter<StudyGroupsFilterType>(setFilterCriteria);
+  useFilter<MyStudySolvedQuizzesFilterType>(setFilterCriteria);
 
   const [paginationState, setPaginationState] = useAtom(
-    myPageSolvedQuizPaginationAtom
+    mySolvedQuizPaginationAtom
   );
 
   const totalPagesLength = paginationState.totalPagesLength;
@@ -57,7 +60,7 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Prop) {
   const { data: solvedQuizData } = useQuery({
     queryKey: studyGroupKeys.mySolvedQuizList(
       studyGroupId,
-      parseQueryParams<StudyGroupsSortType, FetchStudyGroupsParams>({
+      parseQueryParams<MyStudySolvedQuizzesSortType, FetchStudyGroupsParams>({
         sort,
         direction,
         page,
@@ -68,7 +71,10 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Prop) {
       studyGroupId
         ? studyGroupService.fetchStudyGroupMySolvedQuizzes(
             studyGroupId,
-            parseQueryParams<StudyGroupsSortType, FetchStudyGroupsParams>({
+            parseQueryParams<
+              MyStudySolvedQuizzesSortType,
+              FetchStudyGroupsParams
+            >({
               sort,
               direction,
               page,
@@ -90,7 +96,7 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Prop) {
     });
   }, [endPageNumber]);
 
-  const handleOptionClick = (filter: StudyGroupsFilterType) => {
+  const handleOptionClick = (filter: MyStudySolvedQuizzesFilterType) => {
     setFilterCriteria(filter);
   };
 

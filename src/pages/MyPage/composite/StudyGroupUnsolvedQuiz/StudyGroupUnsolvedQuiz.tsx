@@ -1,11 +1,10 @@
 import { useEffect } from "react";
 import styles from "../StudyGroup/_study_group.module.scss";
-import { StudyGroupsFilterType, StudyGroupsSortType } from "@/types/FilterType";
 import { parseQueryParams } from "@/utils/parseQueryParams";
 import { FetchStudyGroupsParams } from "@/types/ParamsType";
 import { useAtom } from "jotai";
-import { myPageUnsolvedQuizPaginationAtom } from "@/store/paginationAtom";
-import { myPageUnsolvedQuizFilterAtom } from "@/store/filterAtom";
+import { myStudyUnsolvedQuizPaginationAtom } from "@/store/paginationAtom";
+import { myStudyUnsolvedQuizFilterAtom } from "@/store/filterAtom";
 import useFilter from "@/hooks/useFilter";
 import { useQuery } from "@tanstack/react-query";
 import { studyGroupKeys } from "@/data/queryKeys";
@@ -16,8 +15,12 @@ import ListFilter, {
 import QuizItem from "../../components/QuizItem/QuizItem";
 import Pagination from "@/components/composite/Pagination/Pagination";
 import { NoDataSection } from "@/components/composite/NoDataSection/NoDataSection";
+import {
+  MyStudyUnSolvedQuizzesFilterType,
+  MyStudyUnSolvedQuizzesSortType,
+} from "@/types/FilterType";
 
-const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
+const filterOptions: FilterOptionType<MyStudyUnSolvedQuizzesFilterType>[] = [
   {
     filter: {
       sort: "CREATED_AT",
@@ -27,7 +30,7 @@ const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
   },
   {
     filter: {
-      sort: "NAME",
+      sort: "TITLE",
       direction: "ASC",
     },
     label: "가나다순",
@@ -39,12 +42,12 @@ interface Prop {
 }
 export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Prop) {
   const [filterCriteria, setFilterCriteria] = useAtom(
-    myPageUnsolvedQuizFilterAtom
+    myStudyUnsolvedQuizFilterAtom
   );
-  useFilter<StudyGroupsFilterType>(setFilterCriteria);
+  useFilter<MyStudyUnSolvedQuizzesFilterType>(setFilterCriteria);
 
   const [paginationState, setPaginationState] = useAtom(
-    myPageUnsolvedQuizPaginationAtom
+    myStudyUnsolvedQuizPaginationAtom
   );
 
   const totalPagesLength = paginationState.totalPagesLength;
@@ -57,7 +60,7 @@ export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Prop) {
   const { data: unsolvedQuizData } = useQuery({
     queryKey: studyGroupKeys.myUnsolvedQuizList(
       studyGroupId,
-      parseQueryParams<StudyGroupsSortType, FetchStudyGroupsParams>({
+      parseQueryParams<MyStudyUnSolvedQuizzesSortType, FetchStudyGroupsParams>({
         sort,
         direction,
         page,
@@ -68,7 +71,10 @@ export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Prop) {
       studyGroupId
         ? studyGroupService.fetchStudyGroupMyUnsolvedQuizzes(
             studyGroupId,
-            parseQueryParams<StudyGroupsSortType, FetchStudyGroupsParams>({
+            parseQueryParams<
+              MyStudyUnSolvedQuizzesSortType,
+              FetchStudyGroupsParams
+            >({
               sort,
               direction,
               page,
@@ -90,7 +96,7 @@ export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Prop) {
     });
   }, [endPageNumber]);
 
-  const handleOptionClick = (filter: StudyGroupsFilterType) => {
+  const handleOptionClick = (filter: MyStudyUnSolvedQuizzesFilterType) => {
     setFilterCriteria(filter);
   };
 

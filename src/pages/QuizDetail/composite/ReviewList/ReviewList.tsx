@@ -71,7 +71,7 @@ export default function ReviewList({ quizId, quizTitle }: Props) {
   const [filterCriteria] = useAtom(reviewFilterAtom);
 
   const sort = queryParams.get("sort") || "CREATED_AT"; // 기본값: 최신순
-  const direction = queryParams.get("direction") || "ASC"; // 기본값: ASC
+  const direction = queryParams.get("direction") || "DESC"; // 기본값: DESC
   const page = 1;
   const size = 10; // 한번에 불러올 최대 길이
 

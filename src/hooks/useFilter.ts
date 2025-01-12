@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { SetStateAction, useEffect } from "react";
 import {
   BooksFilterType,

@@ -3,7 +3,6 @@ import Button from "@/components/atom/Button/Button";
 import styles from "./_quiz_list_layout.module.scss";
 import { Link } from "react-router-dom";
 import { NoDataSection } from "@/components/composite/NoDataSection/NoDataSection";
-import { BookQuizzesFilterType } from "@/types/BookType";
 import ListFilter from "@/components/composite/ListFilter/ListFilter";
 import { FilterOptionType } from "@/components/composite/ListFilter/ListFilter";
 import { MySolvedQuizDataType } from "@/types/QuizType";
@@ -13,7 +12,9 @@ import useModal from "@/hooks/useModal";
 import Modal from "@/components/atom/Modal/Modal";
 import { useState } from "react";
 
-export default function QuizListLayout({
+export default function QuizListLayout<
+  T extends { sort: string; direction: string }
+>({
   title,
   quizzes,
   titleWhenNoData,
@@ -28,9 +29,9 @@ export default function QuizListLayout({
   titleWhenNoData: string;
   buttonNameWhenNoData: string;
   onClickBtnWhenNoData: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  handleOptionClick: (filter: BookQuizzesFilterType) => void;
-  filterCriteria: BookQuizzesFilterType;
-  filterOptions: FilterOptionType<BookQuizzesFilterType>[];
+  handleOptionClick: (filter: T) => void;
+  filterCriteria: T;
+  filterOptions: FilterOptionType<T>[];
 }) {
   const { isModalOpen, openModal, closeModal } = useModal();
   const [quizId, setQuizId] = useState<string>();
@@ -42,20 +43,23 @@ export default function QuizListLayout({
 
   const handleModifyQuiz = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-  }
+  };
 
-  const handleClickDelete = (e: React.MouseEvent<HTMLButtonElement>, quizId: number) => {
+  const handleClickDelete = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    quizId: number
+  ) => {
     e.preventDefault();
     openModal();
     setQuizId(quizId.toString());
-  }
+  };
 
   const handleDeleteQuiz = () => {
     if (quizId) {
       deleteQuiz(quizId);
       closeModal();
     }
-  }
+  };
 
   return (
     <section className={styles["list-section"]}>
@@ -88,56 +92,78 @@ export default function QuizListLayout({
               const formattedDate: string = `${year}년 ${month}월 ${date}일`;
 
               return (
-                <li className={styles["quiz"]}
-                  key={index}>
-                  <Link to={("quiz" in myQuiz) ? ROUTES.QUIZ_DETAIL(myQuiz.quiz?.id) : ROUTES.QUIZ_DETAIL(myQuiz.id)}>
+                <li className={styles["quiz"]} key={index}>
+                  <Link
+                    to={
+                      "quiz" in myQuiz
+                        ? ROUTES.QUIZ_DETAIL(myQuiz.quiz?.id)
+                        : ROUTES.QUIZ_DETAIL(myQuiz.id)
+                    }
+                  >
                     <div className={styles["info"]}>
                       <div className={styles["img-container"]}>
                         <img src={myQuiz.bookImageUrl} />
                       </div>
                       <div className={styles["sub-info"]}>
-                        <span className={styles["label"]}>{("updatedAt" in myQuiz) ? "최종 수정일" : "최종 제출일"}</span>
+                        <span className={styles["label"]}>
+                          {"updatedAt" in myQuiz
+                            ? "최종 수정일"
+                            : "최종 제출일"}
+                        </span>
                         <span className={styles["quiz-updated-at"]}>
                           {formattedDate}
                         </span>
                       </div>
                       <span className={styles["quiz-name"]}>
-                        {("title" in myQuiz) && myQuiz.title}
-                        {(("quiz" in myQuiz)) && myQuiz?.quiz?.title}
+                        {"title" in myQuiz && myQuiz.title}
+                        {"quiz" in myQuiz && myQuiz?.quiz?.title}
                       </span>
                     </div>
                     <div className={styles["util"]}>
                       <Button
                         color="primary"
                         size="small"
-                        onClick={("quiz" in myQuiz) ? handleReSovingQuiz : handleModifyQuiz}
+                        onClick={
+                          "quiz" in myQuiz
+                            ? handleReSovingQuiz
+                            : handleModifyQuiz
+                        }
                       >
-                        {("quiz" in myQuiz) ? "다시 풀기" : "수정하기"}
+                        {"quiz" in myQuiz ? "다시 풀기" : "수정하기"}
                       </Button>
-                      {
-                        !("quiz" in myQuiz) &&
+                      {!("quiz" in myQuiz) && (
                         <Button
                           className={styles["delete"]}
                           color="transparent"
                           size="xsmall"
-                          onClick={(e) => handleClickDelete(e, ("quiz" in myQuiz) ? myQuiz.quiz!.id : myQuiz.id)}
+                          onClick={(e) =>
+                            handleClickDelete(
+                              e,
+                              "quiz" in myQuiz ? myQuiz.quiz!.id : myQuiz.id
+                            )
+                          }
                         >
                           퀴즈 삭제하기
                         </Button>
-                      }
+                      )}
                     </div>
                   </Link>
                 </li>
               );
-            })}
+            }
+          )}
       </ul>
       {isModalOpen && (
         <Modal
           closeModal={closeModal}
           title={"퀴즈를 삭제하시겠습니까?"}
           bottomButtons={[
-            { text: "취소", color: "white", onClick: closeModal, },
-            { text: "확인", color: "primary", onClick: () => handleDeleteQuiz() },
+            { text: "취소", color: "white", onClick: closeModal },
+            {
+              text: "확인",
+              color: "primary",
+              onClick: () => handleDeleteQuiz(),
+            },
           ]}
           showHeaderCloseButton={false}
           contents={[]}
@@ -147,16 +173,16 @@ export default function QuizListLayout({
   );
 }
 
-const ListHeader = ({
+const ListHeader = <T extends { sort: string; direction: string }>({
   title,
   handleOptionClick,
   filterCriteria,
   filterOptions,
 }: {
   title: string;
-  handleOptionClick: (filter: BookQuizzesFilterType) => void;
-  filterCriteria: BookQuizzesFilterType;
-  filterOptions: FilterOptionType<BookQuizzesFilterType>[];
+  handleOptionClick: (filter: T) => void;
+  filterCriteria: T;
+  filterOptions: FilterOptionType<T>[];
 }) => {
   return (
     <div className={styles["list-header"]}>

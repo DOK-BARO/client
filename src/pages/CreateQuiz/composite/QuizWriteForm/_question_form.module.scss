@@ -42,10 +42,10 @@
 }
 
 .invalid {
-  border: 2px solid $system-danger;
+  border: 1.5px solid $system-danger;
 
   &:focus-within {
-    border: 2px solid $system-danger;
+    border: 1.5px solid $system-danger;
   }
 }
 

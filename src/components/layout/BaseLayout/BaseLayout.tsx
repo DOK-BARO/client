@@ -15,22 +15,16 @@ export default function BaseLayout({
 }) {
   const [, setCurrentUser] = useAtom(currentUserAtom);
 
-  const { isLoading, data, isError } = useQuery({
+  const { data } = useQuery({
     queryKey: userKeys.user(),
-    queryFn: () => authService.fetchUser(),
+    queryFn: () => authService.fetchUser(true),
   });
 
   useEffect(() => {
-    setCurrentUser(data!);
+    if (data) {
+      setCurrentUser(data);
+    }
   }, [data]);
-
-  if (isLoading) {
-    return <div>"로딩중"</div>;
-  }
-
-  if (isError) {
-    return <div>로그인 에러</div>;
-  }
 
   return (
     <div className={styles["container"]}>

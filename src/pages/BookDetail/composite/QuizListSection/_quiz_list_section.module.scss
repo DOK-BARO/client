@@ -2,42 +2,35 @@
 @import "../../../../styles/abstracts/mixins";
 
 .quiz-list-header {
-	display: flex;
-	font-size: 20px;
-	font-weight: bold;
-	line-height: 150%;
-	color: $gray-90;
-	margin-bottom: 20px;
+  display: flex;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 150%;
+  color: $gray-90;
+  margin-bottom: 20px;
 }
 
 .filter-list {
-	display: flex;
-	justify-content: end;
-	align-items: center;
-	margin-bottom: 20px;
-}
-
-.filter-title {
-	font-weight: bold;
-	color: $gray-90;
-	margin-right: 12px;
-	font-size: $font-size-large;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .filter-button-area {
-	display: flex;
-	gap: 16px;
+  display: flex;
+  gap: 16px;
 
-	.filter-button {
-		padding: 0;
-		border: none;
-		font-size: $font-size-large;
-		height: 26px;
-	}
+  .filter-button {
+    padding: 0;
+    border: none;
+    font-size: $font-size-large;
+    height: 26px;
+  }
 }
 
 .list-container {
-	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
 }

@@ -2,7 +2,12 @@ import {
   paginationAtom,
   prevPaginationStateAtom,
 } from "@/store/paginationAtom";
-import { BooksFilterType, ReviewsFilterType } from "@/types/FilterType";
+import {
+  BooksFilterType,
+  MyMadeQuizzesFilterType,
+  QuizzesFilterType,
+  ReviewsFilterType,
+} from "@/types/FilterType";
 import { ParentPage } from "@/types/PaginationType";
 import { FetchBooksKeyType } from "@/types/ParamsType";
 import { useAtom } from "jotai";
@@ -56,7 +61,11 @@ const useNavigateWithParams = (parentPage: ParentPage) => {
     excludeParams = [],
     itemId = undefined,
   }: {
-    filter?: BooksFilterType | ReviewsFilterType;
+    filter?:
+      | BooksFilterType
+      | ReviewsFilterType
+      | QuizzesFilterType
+      | MyMadeQuizzesFilterType;
     title?: string;
     page?: number;
     category?: string;

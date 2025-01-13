@@ -8,7 +8,6 @@ import {
 } from "@/store/paginationAtom";
 import { useAtom } from "jotai";
 import ROUTES from "@/data/routes";
-import { useEffect } from "react";
 
 export default function BookList() {
   // TODO: 페이징

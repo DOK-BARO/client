@@ -1,4 +1,4 @@
-import { authService } from "@/services/server/authService";
+// import { authService } from "@/services/server/authService";
 import { useEffect } from "react";
 // import { useLocation, useNavigate } from "react-router-dom";
 // 현재 사용되지 않음
@@ -20,11 +20,11 @@ export const useAuth = () => {
   // const { redirectToAuthPage } = useRedirectToAuthPage();
 
   // 로컬 스토리지에 토큰(certificationId) 저장
-  const setUserInLocalStorage = async () => {
-    const user = await authService.fetchUser();
-    if (!user) return;
-    localStorage.setItem("certificationId", user.certificationId);
-  };
+  // const setUserInLocalStorage = async () => {
+  //   const user = await authService.fetchUser();
+  //   if (!user) return;
+  //   localStorage.setItem("certificationId", user.certificationId);
+  // };
 
   // const doSignUp = async (code: string) => {
   //   try {
@@ -90,5 +90,5 @@ export const useAuth = () => {
     // action === AUTH_ACTION.LOGIN ? doLogin(code) : doSignUp(code);
     // }
   }, []);
-  return { setUserInLocalStorage };
+  // return { setUserInLocalStorage };
 };

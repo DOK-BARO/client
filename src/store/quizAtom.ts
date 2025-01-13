@@ -86,3 +86,4 @@ export const resetQuizCreationStateAtom = atom(null, (_, set) => {
 });
 
 export const quizzesLengthAtom = atom(0);
+export const invalidQuestionFormIdAtom = atom<number>();

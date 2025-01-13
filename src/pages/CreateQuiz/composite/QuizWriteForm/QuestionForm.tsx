@@ -21,7 +21,7 @@ import { QuizQuestionType } from "@/types/QuizType";
 import QuestionTemplateTypeUtilButton from "./QuestionTemplateTypeUtilButton";
 import { SelectOptionType } from "@/types/QuizType";
 import { OxQuiz } from "@/svg/QuizWriteForm/OXQuiz";
-
+import { invalidQuestionFormIdAtom } from "@/store/quizAtom";
 interface QuizWriteFormItemProps {
   questionFormId: number;
   deleteQuestion: (id: number) => void;
@@ -68,6 +68,8 @@ export default function QuestionForm({
 }: QuizWriteFormItemProps) {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
+  const [invalidQuestionFormId,setInvalidQuestionFormId] = useAtom(invalidQuestionFormIdAtom);
+  const isInvalidForm = invalidQuestionFormId === questionFormId;
 
   const setInitialFormType = (): QuestionTemplateType => {
     return (
@@ -279,9 +281,24 @@ export default function QuestionForm({
     }
     fileInputRef.current?.click();
   };
+  const formRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
+  useEffect(() => {
+    if (invalidQuestionFormId && invalidQuestionFormId === questionFormId) {
+      const targetElement = formRefs.current[invalidQuestionFormId];
+      console.log("id!: "+invalidQuestionFormId);
+      targetElement?.scrollIntoView({ behavior: "smooth", block: 'center' });
+      console.log("scrolled!:d***");
+    }
+  }, [invalidQuestionFormId]);
+  
+  const handleRef = (id: string) => (element: HTMLDivElement | null) => {
+    formRefs.current[id] = element;
+  };
   return (
-    <section className={styles["question-form"]}>
+    <section
+      ref={handleRef(questionFormId.toString())}
+      className={`${styles["question-form"]} ${styles[isInvalidForm ? "invalid" : ""]}`}>
       <h2 className={styles["sr-only"]}>퀴즈 문제 작성 폼</h2>
       <QuestionFormHeader
         id={questionFormId}

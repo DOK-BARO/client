@@ -1,5 +1,5 @@
 import styles from "./_create_quiz.module.scss";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import QuizSettingStudyGroupForm from "@/pages/CreateQuiz/composite/QuizSettingStudyGroupForm/QuizSettingStudyGroupForm";
 import QuizWriteForm from "./composite/QuizWriteForm/QuizWriteForm";
 import QuizSettingsForm from "./composite/QuizSettingsForm/QuizSettingsForm";
@@ -22,7 +22,7 @@ export default function Index() {
   const [completionStatus] = useAtom(stepsCompletionStatusAtom);
 
   // TODO: 외부 파일로 옮기기
-  const steps: Step[] = [
+  const steps: Step[] = useMemo(() => [
     {
       order: 0,
       icon: "👥",
@@ -67,7 +67,7 @@ export default function Index() {
       formComponent: () => <QuizSettingsForm />,
       isDone: completionStatus.isSet,
     },
-  ];
+  ], [completionStatus]);
 
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [errorModalTitle] = useAtom(errorModalTitleAtom);

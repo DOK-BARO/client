@@ -210,15 +210,18 @@ export default function StudyGroupSetting() {
       return;
     }
 
-    if (profileImage.file) {
+    if (profileImage.file && profileImage.url !== initialProfileState.url) {
+      // 이미지가 바뀌었을 경우
       uploadImage({
         image: profileImage.file,
         imageTarget: "STUDY_GROUP_PROFILE",
       });
     } else {
+      // 이미지가 바뀌지 않았을 경우
       const newStudy: StudyGroupPostType = {
         name,
         introduction,
+        profileImageUrl: profileImage.url,
       };
 
       updateStudyGroup({ id: studyGroupIdNumber!, studyGroup: newStudy });

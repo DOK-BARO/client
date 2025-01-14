@@ -33,7 +33,6 @@ export default function Index() {
 
   useEffect(() => {
     console.log("solvingQuizId", solvingQuizId);
-
   }, [solvingQuizId]);
 
   const warning = "/assets/svg/solvingQuizFormLayout/warning.svg";
@@ -63,7 +62,9 @@ export default function Index() {
   const currentFormIndex: number = currentStep - 1;
 
   const handleQuestionSubmit = async () => {
-    const isMultipleAnswerType: boolean = quiz?.questions[currentFormIndex].type === "MULTIPLE_CHOICE_MULTIPLE_ANSWER";
+    const isMultipleAnswerType: boolean =
+      quiz?.questions[currentFormIndex].type ===
+      "MULTIPLE_CHOICE_MULTIPLE_ANSWER";
     if (isMultipleAnswerType) {
       const selectedSingleAnswer: boolean = (selectedOptions.length ?? 0) <= 1;
       console.log(quiz?.questions[currentFormIndex].selectOptions.length);
@@ -111,10 +112,9 @@ export default function Index() {
         solvingQuizId: parseInt(solvingId), // TODO 제거
         quizTitle: quizTitle,
         studyGroupId: quiz?.studyGroupId?.toString() ?? "",
-      }
-      navigate(ROUTES.QUIZ_RESULT(params), { replace: false, });
+      };
+      navigate(ROUTES.QUIZ_RESULT(params), { replace: true });
       return;
-
     } else {
       // 초기화 작업
       setSubmitDisabled(true);
@@ -210,13 +210,14 @@ export default function Index() {
         </Button>
       )}
       {didAnswerChecked && (
-        <div className={`
-          ${styles[toggleAnswerDescription ? "slideIn" : ""]}`}>
+        <div
+          className={`
+          ${styles[toggleAnswerDescription ? "slideIn" : ""]}`}
+        >
           <div
             className={`
               ${styles["footer-btn-container"]}
-            ${didAnswerChecked ? styles.visible : ""
-              }
+            ${didAnswerChecked ? styles.visible : ""}
           `}
           >
             <Button
@@ -232,7 +233,9 @@ export default function Index() {
               icon={<ArrowRight stroke={gray0} width={20} height={20} />}
               className={styles["footer-btn"]}
             >
-              {currentStep === quiz!.questions.length ? "점수 보기" : "다음문제"}
+              {currentStep === quiz!.questions.length
+                ? "점수 보기"
+                : "다음문제"}
             </Button>
           </div>
         </div>

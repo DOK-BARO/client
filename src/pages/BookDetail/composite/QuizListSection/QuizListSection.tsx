@@ -52,6 +52,7 @@ export default function QuizListSection({
     sort: sort ?? "CREATED_AT",
     direction: direction ?? "DESC",
     size: pageSize,
+    studyGroupAll: true,
   };
 
   const { data: quizzes, isLoading } = useQuery({

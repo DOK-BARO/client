@@ -85,9 +85,9 @@ class BookService {
     params: FetchQuizzesParams
   ): Promise<BookQuizzesType> => {
     try {
-      const { page, size, sort, direction, bookId } = params;
+      const { page, size, sort, direction, bookId, studyGroupAll, studyGroupId } = params;
       const { data } = await axiosInstance.get(
-        `/book-quizzes?page=${page}&size=${size}&sort=${sort}&direction=${direction}&bookId=${bookId}`
+        `/book-quizzes?page=${page}&size=${size}&sort=${sort}&direction=${direction}&bookId=${bookId}&studyGroupAll=${studyGroupAll}${studyGroupId ? "&studyGroupId="+studyGroupId : ""}`
       );
       return data;
     } catch (error) {

@@ -3,7 +3,6 @@
 
 .container {
   @include flex(column);
-  margin-top: 40px;
 
   .row-container {
     @include flex(row);

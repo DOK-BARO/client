@@ -3,7 +3,6 @@
 
 .create-quiz-complete {
   @include flex(column, center);
-  margin-top: 40px;
   line-height: 1.5;
   .title {
     font-size: 32px;

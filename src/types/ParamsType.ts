@@ -45,8 +45,6 @@ export interface FetchQuizzesParams {
   bookId: string;
   sort: string;
   direction: string;
-  studyGroupAll: boolean;
-  studyGroupId?: string;
 }
 
 // 내가 만든 퀴즈, 내가 푼 퀴즈

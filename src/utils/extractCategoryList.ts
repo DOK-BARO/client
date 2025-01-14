@@ -5,11 +5,9 @@ export const extractCategoryList = (
   data: BookCategories,
   list: ListItem[] = []
 ): ListItem[] => {
-  if (data) {
+  if (data.parent) {
     list.unshift({ id: Number(data.id), name: data.name });
-    if (data.parent) {
-      return extractCategoryList(data.parent, list);
-    }
+    return extractCategoryList(data.parent, list);
   }
   return list;
 };

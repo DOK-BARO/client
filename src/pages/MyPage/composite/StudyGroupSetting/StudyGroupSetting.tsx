@@ -1,4 +1,4 @@
-import { myPageTitleAtom } from "@/store/myPageAtom";
+import { myPageTitleAtom, studyGroupAtom } from "@/store/myPageAtom";
 import { useAtom } from "jotai";
 import { useEffect, useRef, useState } from "react";
 import styles from "./_study_group_setting.module.scss";
@@ -44,6 +44,7 @@ export default function StudyGroupSetting() {
   });
 
   const [, setMyPageTitle] = useAtom(myPageTitleAtom);
+  const [, setStudyGroup] = useAtom(studyGroupAtom);
   const defaultImagePath = "/public/assets/image/default-profile.png";
   const [isInputChanged, setIsInputChanged] = useState<boolean>(false);
   const {
@@ -152,6 +153,7 @@ export default function StudyGroupSetting() {
   useEffect(() => {
     if (studyGroupDetail) {
       setMyPageTitle(studyGroupDetail.name);
+      setStudyGroup({ id: studyGroupDetail.id, name: studyGroupDetail.name });
     }
     return () => {
       setMyPageTitle("마이페이지");

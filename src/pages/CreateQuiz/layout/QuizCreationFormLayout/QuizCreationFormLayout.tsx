@@ -23,6 +23,8 @@ import { ErrorType } from "@/types/ErrorType";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import ROUTES from "@/data/routes";
+import { invalidQuestionFormIdAtom } from "@/store/quizAtom";
+import React from "react";
 
 export default function QuizCreationFormLayout({
   steps,
@@ -32,16 +34,17 @@ export default function QuizCreationFormLayout({
   steps: Step[];
   currentStep: number;
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
-}) {
+}) 
+{
   const navigate = useNavigate();
   const [isQuizNextButtonEnabled, setIsQuizNextButtonEnabled] =
     useAtom<boolean>(isQuizNextButtonEnabledAtom);
   const [quizCreationInfo] = useAtom<QuizCreationType>(quizCreationInfoAtom);
   const [, setErrorModalTitle] = useAtom(errorModalTitleAtom);
   const [openModal] = useAtom(openErrorModalAtom);
+  const [, setInvalidQuestionFormId] = useAtom(invalidQuestionFormIdAtom);
 
   useEffect(() => {
-    console.log(quizCreationInfo.questions?.length);
     if (!quizCreationInfo?.questions?.length) {
       setIsQuizNextButtonEnabled(false);
     } else {
@@ -75,9 +78,9 @@ export default function QuizCreationFormLayout({
       const paramObj: {
         image: File;
         imageTarget:
-          | "MEMBER_PROFILE"
-          | "STUDY_GROUP_PROFILE"
-          | "BOOK_QUIZ_ANSWER";
+        | "MEMBER_PROFILE"
+        | "STUDY_GROUP_PROFILE"
+        | "BOOK_QUIZ_ANSWER";
       } = {
         image: img,
         imageTarget: "BOOK_QUIZ_ANSWER",
@@ -167,15 +170,18 @@ export default function QuizCreationFormLayout({
         if (!question.answers?.length) {
           setErrorModalTitle("답안이 선택되었는지 확인하세요.");
           openModal!();
+          setInvalidQuestionFormId(question.id);
           return;
         }
         if (question.answerType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER") {
           if (question.answers.length <= 1) {
             setErrorModalTitle("복수정답은 답안을 2개이상 선택해야 합니다");
+            setInvalidQuestionFormId(question.id);
             openModal!();
             return;
           }
         }
+        setInvalidQuestionFormId(undefined);
       }
     } else if (currentStep == endStep) {
       await requestCreateQuiz();
@@ -222,14 +228,14 @@ export default function QuizCreationFormLayout({
   const description = step?.description
     ? step.description
     : step?.subSteps?.[0].description
-    ? step.subSteps?.[0].description
-    : "";
+      ? step.subSteps?.[0].description
+      : "";
 
   const FormComponent = step?.formComponent
     ? step.formComponent
     : step?.subSteps?.[0]?.formComponent
-    ? step.subSteps[0].formComponent
-    : null;
+      ? step.subSteps[0].formComponent
+      : null;
 
   return (
     <section className={styles["container"]}>

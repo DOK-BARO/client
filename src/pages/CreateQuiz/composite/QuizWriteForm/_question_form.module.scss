@@ -41,6 +41,14 @@
   }
 }
 
+.invalid {
+  border: 1.5px solid $system-danger;
+
+  &:focus-within {
+    border: 1.5px solid $system-danger;
+  }
+}
+
 .util-button-area {
   display: flex;
   gap: 16px;

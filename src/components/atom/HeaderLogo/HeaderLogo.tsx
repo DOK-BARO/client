@@ -13,7 +13,7 @@ const HeaderLogo: React.FC = () => {
   return (
     <div className={styles["logo-container"]}>
       <Button
-        className={styles["logo-link"]}
+        className={styles["logo-button"]}
         iconPosition="left"
         onClick={handleNavigateToMain}
         icon={

@@ -11,6 +11,8 @@ import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { BookType } from "@/types/BookType";
 import { extractCategoryList } from "@/utils/extractCategoryList.ts";
 import ROUTES from "@/data/routes.ts";
+import { useAtom } from "jotai";
+import { selectedBookAtom } from "@/store/quizAtom.ts";
 
 export default function Index() {
   const { id } = useParams();
@@ -27,7 +29,6 @@ export default function Index() {
   // }, []);
 
   const { updateQuizCreationInfo } = useUpdateQuizCreationInfo();
-
   const handleGoToMakeQuiz = () => {
     //TODO: 리팩토링
     const book: BookType = {

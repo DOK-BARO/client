@@ -1,5 +1,6 @@
 import { PagePositionType, PaginationType } from "@/types/PaginationType";
 import { Dispatch, SetStateAction, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 interface UsePaginationReturn {
   handlePageClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
@@ -12,6 +13,8 @@ const usePagination = ({
   paginationState: PaginationType;
   setPaginationState: Dispatch<SetStateAction<PaginationType>>;
 }): UsePaginationReturn => {
+  const location = useLocation();
+
   const totalPagesLength = paginationState.totalPagesLength ?? 0;
   const currentPage = paginationState.currentPage;
   const pagePosition = paginationState.pagePosition;
@@ -52,7 +55,7 @@ const usePagination = ({
         isMiddlePagesUpdated: true, // 중간 페이지 업데이트 완료
       }));
     }
-  }, [pagePosition, totalPagesLength]);
+  }, [pagePosition, totalPagesLength, location]);
 
   const setPageState = (
     currentPage: number,

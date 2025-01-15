@@ -11,10 +11,12 @@ import {
 import { CheckEllipse } from "@/svg/CheckEllipse";
 
 export default function QuizCreationSteps({
+  isEditMode,
   steps,
   currentStep,
   setCurrentStep,
 }: {
+  isEditMode:boolean;
   steps: Step[];
   currentStep: number;
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
@@ -51,6 +53,7 @@ export default function QuizCreationSteps({
               onClick={(e) => onChangeStep(e)}
               value={step.title}
               className={styles.steps}
+              disabled={isEditMode && (step.order === 0 || step.order === 1)}
               fullWidth
             >
               <span>

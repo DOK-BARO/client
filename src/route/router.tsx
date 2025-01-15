@@ -55,7 +55,7 @@ const router = createBrowserRouter([
         element: <QuizDetail />,
       },
       {
-        path: ROUTES.CREATE_QUIZ,
+        path: ROUTES.CREATE_QUIZ(),
         element: <CreateQuiz />,
       },
 

@@ -17,7 +17,7 @@ export default function HeaderQuizUtilList({
 
   const onClickMakeQuiz = () => {
     closeDropDownList();
-    handleAuthenticatedAction(() => navigate(ROUTES.CREATE_QUIZ));
+    handleAuthenticatedAction(() => navigate(ROUTES.CREATE_QUIZ()));
   };
 
   const onClickDoingQuiz = () => {

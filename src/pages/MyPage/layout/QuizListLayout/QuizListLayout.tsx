@@ -1,7 +1,7 @@
 import { MyQuizDataType } from "@/types/QuizType";
 import Button from "@/components/atom/Button/Button";
 import styles from "./_quiz_list_layout.module.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { NoDataSection } from "@/components/composite/NoDataSection/NoDataSection";
 import ListFilter from "@/components/composite/ListFilter/ListFilter";
 import { FilterOptionType } from "@/components/composite/ListFilter/ListFilter";
@@ -33,6 +33,7 @@ export default function QuizListLayout<
   filterCriteria: T;
   filterOptions: FilterOptionType<T>[];
 }) {
+  const navigate = useNavigate();
   const { isModalOpen, openModal, closeModal } = useModal();
   const [quizId, setQuizId] = useState<string>();
 
@@ -41,8 +42,11 @@ export default function QuizListLayout<
     e.preventDefault();
   };
 
-  const handleModifyQuiz = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleModifyQuiz = (e: React.MouseEvent<HTMLButtonElement>, quizId: string) => {
     e.preventDefault();
+    // TODO: 엑셀문서 확인하고 해당페이지로 이동하면 될듯
+    // 퀴즈 작성으로 이동하여 스터디 그룹 선택, 도서 선택 disble처리..
+    navigate(ROUTES.CREATE_QUIZ(quizId));
   };
 
   const handleClickDelete = (
@@ -126,7 +130,7 @@ export default function QuizListLayout<
                         onClick={
                           "quiz" in myQuiz
                             ? handleReSovingQuiz
-                            : handleModifyQuiz
+                            : (e) => handleModifyQuiz(e, myQuiz.id.toString())
                         }
                       >
                         {"quiz" in myQuiz ? "다시 풀기" : "수정하기"}

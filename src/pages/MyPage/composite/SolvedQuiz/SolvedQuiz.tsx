@@ -53,7 +53,7 @@ export default function SolvedQuiz() {
   });
 
   const handleClickWhenNoData = () => {
-    navigate(ROUTES.CREATE_QUIZ);
+    navigate(ROUTES.CREATE_QUIZ());
   };
 
   const endPageNumber = myQuizzesData?.endPageNumber;
@@ -78,7 +78,7 @@ export default function SolvedQuiz() {
   return (
     <div>
       <QuizListLayout
-        title="내가 푼 퀴즈"
+        title="푼 퀴즈"
         quizzes={myQuizzes}
         titleWhenNoData="아직 내가 푼 퀴즈가 없어요. 😞"
         buttonNameWhenNoData="퀴즈 풀러 가기"

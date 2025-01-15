@@ -17,9 +17,18 @@ import Modal from "@/components/atom/Modal/Modal.tsx";
 import useModal from "@/hooks/useModal.ts";
 import { Step } from "@/types/StepType.ts";
 import QuizBookSelectionForm from "./composite/QuizBookSectionForm/QuizBookSelectionForm/QuizBookSelectionForm.tsx";
+import { useParams } from "react-router-dom";
 
 export default function Index() {
+  const {id} = useParams();
+  const quizId = id && id !== ":id" ? id : null;
+  const [isEditMode] = useState<boolean>(!!quizId);
   const [completionStatus] = useAtom(stepsCompletionStatusAtom);
+
+  useEffect(()=>{
+    if(isEditMode){
+    }
+  },[isEditMode]);
 
   // TODO: 외부 파일로 옮기기
   const steps: Step[] = [
@@ -89,6 +98,7 @@ export default function Index() {
     <section className={styles["container"]}>
       <h2 className={styles["sr-only"]}>퀴즈 등록</h2>
       <QuizCreationSteps
+      isEditMode={isEditMode}
         steps={steps}
         currentStep={currentStep}
         setCurrentStep={setCurrentStep}

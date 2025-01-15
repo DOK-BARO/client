@@ -4,7 +4,7 @@ import { atom } from "jotai";
 {
   /* 초기값 정의 */
 }
-// 퀴즈 만들기 상태관리를 위한 전역변수
+
 const initialQuizCreationInfo: QuizCreationType = {
   title: null,
   description: null,
@@ -77,9 +77,16 @@ export const stepsCompletionStatusAtom = atom((get) => ({
 }));
 
 // 초기화
-export const resetQuizCreationStateAtom = atom(null, (_, set) => {
+export const resetQuizCreationStateAtom = atom(null, (get, set) => {
+  const currentBook = get(quizCreationInfoAtom).book;
+
+  // book은 유지
+  set(quizCreationInfoAtom, {
+    ...initialQuizCreationInfo,
+    book: currentBook,
+  });
+
   set(isQuizNextButtonEnabledAtom, initialIsQuizNextButtonEnabled);
-  set(quizCreationInfoAtom, initialQuizCreationInfo);
   set(errorModalTitleAtom, initialErrorModalTitle);
   set(selectedOptionsAtom, initialSelectedOptions);
   set(createdQuizIdAtom, initialQuizId);

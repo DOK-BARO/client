@@ -27,7 +27,7 @@ export default function GNB() {
     queryFn: bookService.fetchBookCategories,
   });
   const { navigateWithParams } = useNavigateWithParams("books");
-  const [, setPrePaginationState] = useAtom(prevPaginationStateAtom);
+  const [, setPrevPaginationState] = useAtom(prevPaginationStateAtom);
 
   if (isLoading) {
     return <div>loading</div>;
@@ -38,7 +38,7 @@ export default function GNB() {
 
   const handleClick = (id: string) => {
     sessionStorage.removeItem("prevPage");
-    setPrePaginationState(undefined);
+    setPrevPaginationState(undefined);
 
     navigateWithParams({
       parentPage: "books",

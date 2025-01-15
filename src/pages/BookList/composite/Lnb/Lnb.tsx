@@ -21,7 +21,9 @@ export default function LNB({
 }) {
   const navigate = useNavigate();
   const { navigateWithParams } = useNavigateWithParams("books");
-  const [, setPrePaginationState] = useAtom(prevPaginationStateAtom);
+  const [prevPaginationState, setPrevPaginationState] = useAtom(
+    prevPaginationStateAtom
+  );
 
   if (!categories) {
     return <div>book categories page error!!</div>;
@@ -33,7 +35,7 @@ export default function LNB({
 
   const handleClick = (id: string | undefined) => {
     sessionStorage.removeItem("prevPage");
-    setPrePaginationState(undefined);
+    setPrevPaginationState(undefined);
     navigateWithParams({
       category: id,
       parentPage: "books",

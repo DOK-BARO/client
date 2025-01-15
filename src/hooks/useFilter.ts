@@ -31,7 +31,7 @@ const useFilter = <T extends FilterCriteria>(
 
   // URL의 쿼리 파라미터와 동기화
   useEffect(() => {
-    if (resetFilter && search == "") {
+    if (resetFilter) {
       resetFilter();
     }
     const queryParams = new URLSearchParams(search);

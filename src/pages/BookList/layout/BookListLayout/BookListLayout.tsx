@@ -102,12 +102,12 @@ export default function BookListLayout() {
     }
   }, [endPageNumber]);
 
-  const [, setPrePaginationState] = useAtom(prevPaginationStateAtom);
+  const [, setPrevPaginationState] = useAtom(prevPaginationStateAtom);
 
   // filterOptions 클릭 시
   const handleOptionClick = (filter: BooksFilterType) => {
     sessionStorage.setItem("prevPage", page ? page : "1");
-    setPrePaginationState(undefined);
+    setPrevPaginationState(undefined);
 
     navigateWithParams({
       filter: filter,

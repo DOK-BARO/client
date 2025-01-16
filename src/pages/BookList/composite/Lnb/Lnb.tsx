@@ -21,9 +21,7 @@ export default function LNB({
 }) {
   const navigate = useNavigate();
   const { navigateWithParams } = useNavigateWithParams("books");
-  const [prevPaginationState, setPrevPaginationState] = useAtom(
-    prevPaginationStateAtom
-  );
+  const [, setPrevPaginationState] = useAtom(prevPaginationStateAtom);
 
   if (!categories) {
     return <div>book categories page error!!</div>;

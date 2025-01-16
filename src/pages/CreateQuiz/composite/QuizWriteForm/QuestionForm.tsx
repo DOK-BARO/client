@@ -68,7 +68,7 @@ export default function QuestionForm({
 }: QuizWriteFormItemProps) {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
-  const [invalidQuestionFormId,setInvalidQuestionFormId] = useAtom(invalidQuestionFormIdAtom);
+  const [invalidQuestionFormId] = useAtom(invalidQuestionFormIdAtom);
   const isInvalidForm = invalidQuestionFormId === questionFormId;
 
   const setInitialFormType = (): QuestionTemplateType => {
@@ -286,19 +286,22 @@ export default function QuestionForm({
   useEffect(() => {
     if (invalidQuestionFormId && invalidQuestionFormId === questionFormId) {
       const targetElement = formRefs.current[invalidQuestionFormId];
-      console.log("id!: "+invalidQuestionFormId);
-      targetElement?.scrollIntoView({ behavior: "smooth", block: 'center' });
+      console.log("id!: " + invalidQuestionFormId);
+      targetElement?.scrollIntoView({ behavior: "smooth", block: "center" });
       console.log("scrolled!:d***");
     }
   }, [invalidQuestionFormId]);
-  
+
   const handleRef = (id: string) => (element: HTMLDivElement | null) => {
     formRefs.current[id] = element;
   };
   return (
     <section
       ref={handleRef(questionFormId.toString())}
-      className={`${styles["question-form"]} ${styles[isInvalidForm ? "invalid" : ""]}`}>
+      className={`${styles["question-form"]} ${
+        styles[isInvalidForm ? "invalid" : ""]
+      }`}
+    >
       <h2 className={styles["sr-only"]}>퀴즈 문제 작성 폼</h2>
       <QuestionFormHeader
         id={questionFormId}

@@ -89,7 +89,8 @@ interface SolvedQuizType {
 }
 
 export type ViewScope = "EVERYONE" | "STUDY_GROUP" | "CREATOR";
-export type EditScope = "EVERYONE" | "STUDY_GROUP" | "CREATOR";
+// export type EditScope = "EVERYONE" | "STUDY_GROUP" | "CREATOR";
+export type EditScope = "CREATOR";
 export const scopeTranslations: Record<ViewScope, string> = {
   EVERYONE: "모두",
   STUDY_GROUP: "스터디원만",

@@ -11,8 +11,6 @@ import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { BookType } from "@/types/BookType";
 import { extractCategoryList } from "@/utils/extractCategoryList.ts";
 import ROUTES from "@/data/routes.ts";
-import { useAtom } from "jotai";
-import { selectedBookAtom } from "@/store/quizAtom.ts";
 
 export default function Index() {
   const { id } = useParams();
@@ -22,11 +20,6 @@ export default function Index() {
     queryKey: bookKeys.detail(id!),
     queryFn: () => bookService.fetchBook(id!),
   });
-  // useEffect(() => {
-  //   return () => {
-  //     sessionStorage.removeItem("prevPage");
-  //   };
-  // }, []);
 
   const { updateQuizCreationInfo } = useUpdateQuizCreationInfo();
   const handleGoToMakeQuiz = () => {
@@ -59,7 +52,6 @@ export default function Index() {
   return (
     <section className={styles.container}>
       <Breadcrumb parentPage="books" list={categoryList} />
-
       <div className={styles["book-detail-section"]}>
         <BookDetailContent
           bookDetailContent={data}

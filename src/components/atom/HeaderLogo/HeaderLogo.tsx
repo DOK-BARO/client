@@ -4,11 +4,22 @@ import { APP_NAME } from "@/data/constants.ts";
 import { Logo } from "@/svg/Logo";
 import Button from "../Button/Button";
 import { useNavigate } from "react-router-dom";
+import { paginationAtom } from "@/store/paginationAtom";
+import { useAtom } from "jotai";
+import ROUTES from "@/data/routes";
 
 const HeaderLogo: React.FC = () => {
+  const [, setPaginationState] = useAtom(paginationAtom);
   const navigate = useNavigate();
   const handleNavigateToMain = () => {
-    navigate("/");
+    navigate(ROUTES.BOOK_LIST);
+    setPaginationState((prev) => ({
+      ...prev,
+      currentPage: 1,
+      pagePosition: "START",
+      middlePages: [],
+      isMiddlePagesUpdated: false,
+    }));
   };
   return (
     <div className={styles["logo-container"]}>

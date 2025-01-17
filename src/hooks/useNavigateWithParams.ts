@@ -48,7 +48,6 @@ const useNavigateWithParams = (parentPage: ParentPage) => {
 
   useEffect(() => {
     // Pagination 상태 초기화
-    console.log("초기화..");
     initializePaginationState();
   }, [parentPage]);
 

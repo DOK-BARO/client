@@ -46,7 +46,9 @@ export default function Index() {
   }
 
   const categoryList = bookDetail
-    ? extractCategoryList(bookDetail?.categories[0])
+    ? extractCategoryList(
+        bookDetail?.categories[bookDetail?.categories.length - 1]
+      )
     : [];
 
   console.log(explanation);

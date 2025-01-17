@@ -33,6 +33,8 @@ export default function QuizBookSelectionForm() {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
 
+  // console.log("quizCreationInfo", quizCreationInfo);
+
   const [tempSelectedBook, setTempSelectedBook] = useState<BookType | null>(
     quizCreationInfo.book
   );
@@ -45,7 +47,7 @@ export default function QuizBookSelectionForm() {
     isLoading,
     isFetching,
     refetch,
-} = useQuery({
+  } = useQuery({
     queryKey: bookKeys.search({ keyword: debouncedSearchValue }),
     queryFn: () =>
       bookService.fetchSearchBooks({ keyword: debouncedSearchValue }),

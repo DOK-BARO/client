@@ -1,4 +1,4 @@
-import { myPageTitleAtom } from "@/store/myPageAtom";
+import { myPageTitleAtom, studyGroupAtom } from "@/store/myPageAtom";
 import { useAtom } from "jotai";
 import { useEffect, useRef, useState } from "react";
 import styles from "./_study_group_setting.module.scss";
@@ -44,6 +44,7 @@ export default function StudyGroupSetting() {
   });
 
   const [, setMyPageTitle] = useAtom(myPageTitleAtom);
+  const [, setStudyGroup] = useAtom(studyGroupAtom);
   const defaultImagePath = "/public/assets/image/default-profile.png";
   const [isInputChanged, setIsInputChanged] = useState<boolean>(false);
   const {
@@ -152,6 +153,7 @@ export default function StudyGroupSetting() {
   useEffect(() => {
     if (studyGroupDetail) {
       setMyPageTitle(studyGroupDetail.name);
+      setStudyGroup({ id: studyGroupDetail.id, name: studyGroupDetail.name });
     }
     return () => {
       setMyPageTitle("마이페이지");
@@ -210,15 +212,18 @@ export default function StudyGroupSetting() {
       return;
     }
 
-    if (profileImage.file) {
+    if (profileImage.file && profileImage.url !== initialProfileState.url) {
+      // 이미지가 바뀌었을 경우
       uploadImage({
         image: profileImage.file,
         imageTarget: "STUDY_GROUP_PROFILE",
       });
     } else {
+      // 이미지가 바뀌지 않았을 경우
       const newStudy: StudyGroupPostType = {
         name,
         introduction,
+        profileImageUrl: profileImage.url,
       };
 
       updateStudyGroup({ id: studyGroupIdNumber!, studyGroup: newStudy });

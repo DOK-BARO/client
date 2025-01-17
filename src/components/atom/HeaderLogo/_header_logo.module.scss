@@ -2,22 +2,16 @@
 
 .logo {
   &-container {
-    width: 158px;
     flex-shrink: 0;
 
     h1 {
-      margin-left: 4px;
-      font-size: 1.25em;
+      font-size: 20px;
       font-weight: bold;
     }
   }
 
-  &-link {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    border: none;
-    background: transparent;
+  &-button {
+    padding: 0 !important;
   }
 
   &-icon {

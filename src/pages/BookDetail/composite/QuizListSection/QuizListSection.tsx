@@ -73,15 +73,13 @@ export default function QuizListSection({
     }
   }, [endPageNumber]);
 
-  const { navigateWithParams } = useNavigateWithParams(
-    `book/${Number(bookId)}`
-  );
+  const { navigateWithParams } = useNavigateWithParams("book");
   const handleOptionClick = (filter: QuizzesFilterType) => {
     handleAuthenticatedAction(() =>
       navigateWithParams({
         filter: filter,
-        parentPage: `book/${Number(bookId)}`,
-        itemId: parseInt(bookId),
+        parentPage: "book",
+        itemId: Number(bookId),
         excludeParams: ["page"],
       })
     );
@@ -147,7 +145,8 @@ export default function QuizListSection({
       {totalPagesLength && totalPagesLength > 0 && (
         <Pagination
           type="queryString"
-          parentPage={`book/${Number(bookId)}`}
+          parentPage="book"
+          itemId={Number(bookId)}
           paginationState={paginationState}
           setPaginationState={setPaginationState}
         />

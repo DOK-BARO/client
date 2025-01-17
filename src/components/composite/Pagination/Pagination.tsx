@@ -13,12 +13,14 @@ import { PaginationType, ParentPage } from "@/types/PaginationType";
 interface QueryStringPaginationProps {
   type: "queryString";
   parentPage: ParentPage;
+  itemId?: number;
   paginationState: PaginationType;
   setPaginationState: Dispatch<SetStateAction<PaginationType>>;
 }
 
 interface StatePaginationProps {
   type: "state";
+  itemId?: number;
   paginationState: PaginationType;
   setPaginationState: Dispatch<SetStateAction<PaginationType>>;
 }
@@ -43,9 +45,13 @@ export default function Pagination(props: Props) {
     // 쿼리 스트링 방식만 해당
     if (props.type === "queryString") {
       const queryParams = setQueryParam("page", currentPage.toString());
+      const pathname = !props.itemId
+        ? `/${props.parentPage.toLowerCase()}`
+        : `/${props.parentPage.toLowerCase()}/${props.itemId}`;
+
       navigate(
         {
-          pathname: `/${props.parentPage}`,
+          pathname,
           search: `?${queryParams.toString()}`,
         },
         {

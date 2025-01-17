@@ -20,14 +20,8 @@ export default function Index() {
     queryKey: bookKeys.detail(id!),
     queryFn: () => bookService.fetchBook(id!),
   });
-  // useEffect(() => {
-  //   return () => {
-  //     sessionStorage.removeItem("prevPage");
-  //   };
-  // }, []);
 
   const { updateQuizCreationInfo } = useUpdateQuizCreationInfo();
-
   const handleGoToMakeQuiz = () => {
     //TODO: 리팩토링
     const book: BookType = {
@@ -51,13 +45,13 @@ export default function Index() {
   if (!data) {
     return <div>book detail page error!!</div>;
   }
+  console.log(data.categories);
   const categoryList = data.categories
-    ? extractCategoryList(data.categories[0])
+    ? extractCategoryList(data.categories[data.categories.length - 1])
     : [];
   return (
     <section className={styles.container}>
       <Breadcrumb parentPage="books" list={categoryList} />
-
       <div className={styles["book-detail-section"]}>
         <BookDetailContent
           bookDetailContent={data}

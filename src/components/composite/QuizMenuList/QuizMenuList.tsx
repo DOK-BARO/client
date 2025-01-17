@@ -1,9 +1,10 @@
 import styles from "./_header_quiz_util_list.module.scss";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import pencil from "/public/assets/svg/header/pencil.svg";
 import checkSquare from "/public/assets/svg/header/check-square.svg";
 import ROUTES from "@/data/routes";
 import useLoginAction from "@/hooks/useLoginAction";
+import toast from "react-hot-toast";
 interface HeaderQuizUtilListProps {
   closeDropDownList: () => void;
 }
@@ -11,8 +12,8 @@ interface HeaderQuizUtilListProps {
 export default function HeaderQuizUtilList({
   closeDropDownList,
 }: HeaderQuizUtilListProps) {
-  
   const navigate = useNavigate();
+  const location = useLocation();
   const { handleAuthenticatedAction } = useLoginAction();
 
   const onClickMakeQuiz = () => {
@@ -22,6 +23,12 @@ export default function HeaderQuizUtilList({
 
   const onClickDoingQuiz = () => {
     closeDropDownList();
+    if (location.pathname === ROUTES.BOOK_LIST) {
+      toast("퀴즈를 풀 책을 선택해 주세요.", {
+        icon: "🔍",
+      });
+    }
+    navigate(ROUTES.BOOK_LIST);
   };
 
   return (

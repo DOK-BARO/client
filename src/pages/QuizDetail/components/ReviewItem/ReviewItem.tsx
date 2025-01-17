@@ -40,7 +40,7 @@ const ratingMapping: Record<RatingType, string> = {
 export default function ReviewItem({ review, isMyReview, quizTitle }: Props) {
   const roundedRating: number = Math.floor(review.starRating);
   const [starRating, setStarRating] = useState<number>(roundedRating);
-  console.log(review);
+
   const {
     isModalOpen: isEditModalOpen,
     openModal: openEditModal,

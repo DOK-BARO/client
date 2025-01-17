@@ -47,7 +47,8 @@ export default function Index() {
   const [difficultyLevel, setDifficultyLevel] = useState<DifficultyType>();
   const { value, onChange, textareaRef, resetTextarea } = useAutoResizeTextarea(
     "",
-    51
+    48,
+    3
   );
 
   useEffect(() => {
@@ -166,14 +167,19 @@ export default function Index() {
             maxLength={reviewMaxLength}
             textAreaRef={textareaRef}
             className={styles["review-textarea"]}
-            size="small"
+            size="medium"
             maxLengthShow
           />
           <div className={styles["button-container"]}>
             <Button size="medium" color="primary-border" onClick={handleSkip}>
               건너뛰기
             </Button>
-            <Button size="medium" color="primary" onClick={handleSubmit}>
+            <Button
+              size="medium"
+              className={styles.done}
+              color="primary"
+              onClick={handleSubmit}
+            >
               완료
             </Button>
           </div>

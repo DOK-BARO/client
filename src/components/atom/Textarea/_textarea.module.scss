@@ -20,19 +20,18 @@
     box-shadow: 0 0 0 2px $system-danger;
   }
 
-  &--large {
-    font-size: $input-font-large;
-    padding: $textarea-padding-large;
-  }
+  // &--large {
+  //   font-size: $input-font-large; //
+  //   padding: $textarea-padding-large;
+  // }
   &--medium {
-    font-size: $input-font-medium;
+    font-size: $input-font-medium; // 17px
     padding: $textarea-padding-medium;
   }
   &--small {
-    font-size: $input-font-small;
+    font-size: $input-font-small; // 15px
     padding: $textarea-padding-small;
-    // height: 40px;
-    line-height: inherit;
+    // height: 51px;
   }
 }
 

@@ -8,11 +8,15 @@ export interface ReviewType {
   writerNickname: string;
   comment: string;
   createdAt: string;
+  updatedAt: string;
 }
 
 // 내가 작성한 리뷰
 export interface MyReviewType
-  extends Omit<ReviewType, "writerId" | "writerNickname" | "createdAt"> {}
+  extends Omit<
+    ReviewType,
+    "writerId" | "writerNickname" | "createdAt" | "updatedAt"
+  > {}
 
 // 퀴즈 리뷰 생성 타입
 export interface ReviewPostType {

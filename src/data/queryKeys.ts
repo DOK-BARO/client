@@ -1,3 +1,4 @@
+// TODO: id string | number 타입 통일하기
 import {
   FetchBooksParams,
   FetchMyQuizzesParams,
@@ -41,8 +42,8 @@ export const userKeys = {
 };
 
 export const quizKeys = {
-  myQuiz: (params:FetchMyQuizzesParams) => ["myQuiz",params] as const,
-	solvedQuiz: (params:FetchMyQuizzesParams) => ["solvedQuiz",params] as const,
+  myQuiz: (params: FetchMyQuizzesParams) => ["myQuiz", params] as const,
+  solvedQuiz: (params: FetchMyQuizzesParams) => ["solvedQuiz", params] as const,
   detail: (id: string | undefined) => ["quizDetail", id] as const,
   explanation: (id: string | undefined) => ["quizExplanation", id] as const,
   result: (solvingQuizId: string) => ["quizResult", solvingQuizId],
@@ -56,4 +57,5 @@ export const quizKeys = {
 export const reviewKeys = {
   totalScore: (id: number | undefined) => ["reviewTotalScore", id] as const,
   list: (param?: FetchReviewsParams) => ["reviewList", param] as const,
+  myReview: (id: number | undefined) => ["myReview", id] as const,
 };

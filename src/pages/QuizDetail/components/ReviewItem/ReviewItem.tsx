@@ -282,7 +282,10 @@ export default function ReviewItem({ review, isMyReview, quizTitle }: Props) {
       <div className={styles["review-info"]}>
         <FiveStar rating={review.starRating} size="small" />
         <p className={styles.writer}>{review.writerNickname}</p>
-        <p className={styles.createdAt}>{formatDate(review.createdAt)}</p>
+        {review.createdAt === review.updatedAt ? null : (
+          <span className={styles["is-updated"]}>수정됨</span>
+        )}
+        <p className={styles.updatedAt}>{formatDate(review.updatedAt)}</p>
       </div>
       <div className={styles["review-short-container"]}>
         <span className={styles["review-short"]}>

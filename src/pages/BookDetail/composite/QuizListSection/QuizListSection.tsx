@@ -3,7 +3,7 @@ import QuizItem from "../QuizItem/QuizItem.tsx";
 import { useQuery } from "@tanstack/react-query";
 import { bookKeys } from "@/data/queryKeys.ts";
 import { bookService } from "@/services/server/bookService.ts";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Pagination from "@/components/composite/Pagination/Pagination.tsx";
 import { FilterOptionType } from "@/components/composite/ListFilter/ListFilter.tsx";
 import { useAtom } from "jotai";
@@ -12,7 +12,7 @@ import useNavigateWithParams from "@/hooks/useNavigateWithParams.ts";
 import ListFilter from "@/components/composite/ListFilter/ListFilter.tsx";
 import { NoDataSection } from "@/components/composite/NoDataSection/NoDataSection.tsx";
 import { paginationAtom } from "@/store/paginationAtom.ts";
-import { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import ROUTES from "@/data/routes.ts";
 import { quizzesLengthAtom } from "@/store/quizAtom.ts";
 import useLoginAction from "@/hooks/useLoginAction.ts";
@@ -133,13 +133,11 @@ export default function QuizListSection({
       <div className={styles["list-container"]}>
         {quizzes &&
           quizzes?.data.map((quiz) => (
-            <a
+            <QuizItem
               key={quiz.id}
-              href="#"
+              quiz={quiz}
               onClick={() => handleGoToQuizDetail(quiz.id)}
-            >
-              <QuizItem key={quiz.id} quiz={quiz} />
-            </a>
+            />
           ))}
       </div>
       {totalPagesLength && totalPagesLength > 0 && (

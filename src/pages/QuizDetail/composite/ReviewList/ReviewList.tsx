@@ -122,8 +122,6 @@ export default function ReviewList({ quizId, quizTitle }: Props) {
 
   useInfiniteScroll({ hasNextPage, fetchNextPage, observerRef });
 
-  console.log(reviewsData);
-
   if (!currentUser) {
     return;
   }

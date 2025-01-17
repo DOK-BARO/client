@@ -14,7 +14,7 @@ import {
   QuizQuestionRequestApiType,
   QuizRequestType,
 } from "@/types/QuizType";
-import { ViewScope, EditScope, scopeTranslations } from "@/types/QuizType";
+import { ViewScope, scopeTranslations } from "@/types/QuizType";
 import { imageService } from "@/services/server/imageService";
 import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
 import { quizService } from "@/services/server/quizService";
@@ -64,7 +64,7 @@ export default function QuizCreationFormLayout({
 
   const getScopeKeyByTranslation = (
     translation: string
-  ): ViewScope | EditScope | null => {
+  ): ViewScope | null => {
     const entry = Object.entries(scopeTranslations).find(
       ([, value]) => value === translation
     );
@@ -129,21 +129,19 @@ export default function QuizCreationFormLayout({
 
   const requestCreateQuiz = async () => {
     if (
-      quizCreationInfo.viewScope === null ||
-      quizCreationInfo.editScope === null
+      quizCreationInfo.viewScope === null 
+      //|| quizCreationInfo.editScope === null
     ) {
       return;
     }
 
     const viewScopeKey = getScopeKeyByTranslation(quizCreationInfo.viewScope);
-    const editScopeKey = getScopeKeyByTranslation(quizCreationInfo.editScope);
 
     if (
       quizCreationInfo.title === null ||
       quizCreationInfo.description === null ||
       quizCreationInfo.book === null ||
       viewScopeKey === null ||
-      editScopeKey === null ||
       quizCreationInfo.questions === null
     ) {
       return;
@@ -153,7 +151,7 @@ export default function QuizCreationFormLayout({
       title: quizCreationInfo.title,
       description: quizCreationInfo.description,
       viewScope: viewScopeKey,
-      editScope: editScopeKey,
+      editScope: "CREATOR",
       bookId: quizCreationInfo.book.id,
       studyGroupId: quizCreationInfo.studyGroup?.id || undefined,
       questions: await setRequestQuestion(),

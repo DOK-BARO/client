@@ -24,7 +24,7 @@ export default function QuizSettingsForm() {
   const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>(
     () => ({
       "view-access": quizCreationInfo.viewScope,
-      "edit-access": quizCreationInfo.editScope,
+      // "edit-access": quizCreationInfo.editScope,
     })
   );
   const [quizSettings, setQuizSettings] = useState<QuizSettingType[]>();
@@ -41,7 +41,7 @@ export default function QuizSettingsForm() {
 
     const updateMapping: { [key: string]: keyof QuizCreationType } = {
       "view-access": "viewScope",
-      "edit-access": "editScope",
+      // "edit-access": "editScope",
     };
     const updateKey: keyof QuizCreationType = updateMapping[settingName]!;
     updateQuizCreationInfo(updateKey, label);
@@ -101,27 +101,27 @@ const getQuizSettings = (isStudyGroupSelected: boolean): QuizSettingType[] => [
 
     icon: "/assets/svg/quizSettingForm/view.svg",
   },
-  {
-    title: "편집 권한",
-    name: "edit-access",
-    options: isStudyGroupSelected
-      ? [
-          {
-            label: "스터디원만",
-            description: "스터디원이 이 퀴즈를 편집할 수 있습니다.",
-          },
-          {
-            label: "나만",
-            description: "나만 이 퀴즈를 편집할 수 있습니다.",
-          },
-        ]
-      : [
-          {
-            label: "나만",
-            description: "나만 이 퀴즈를 보고 풀 수 있습니다.",
-          },
-        ],
+  // {
+  //   title: "편집 권한",
+  //   name: "edit-access",
+  //   options: isStudyGroupSelected
+  //     ? [
+  //         {
+  //           label: "스터디원만",
+  //           description: "스터디원이 이 퀴즈를 편집할 수 있습니다.",
+  //         },
+  //         {
+  //           label: "나만",
+  //           description: "나만 이 퀴즈를 편집할 수 있습니다.",
+  //         },
+  //       ]
+  //     : [
+  //         {
+  //           label: "나만",
+  //           description: "나만 이 퀴즈를 보고 풀 수 있습니다.",
+  //         },
+  //       ],
 
-    icon: "/assets/svg/quizSettingForm/edit.svg",
-  },
+  //   icon: "/assets/svg/quizSettingForm/edit.svg",
+  // },
 ];

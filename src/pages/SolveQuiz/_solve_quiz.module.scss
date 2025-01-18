@@ -5,7 +5,7 @@
 .container {
   @include flex(column);
   align-items: center;
-  gap: 8px;
+  margin-bottom: 73px;
 }
 
 .inner-container {
@@ -45,6 +45,7 @@
   padding: 16px;
   border-radius: 8px;
   background-color: white;
+  margin-bottom: 16px;
 
   .answer-description {
     width: 46px;
@@ -62,4 +63,10 @@
     height: 10.75em;
     border-radius: 4px;
   }
+}
+
+// 신고하기 모달
+.textarea-container {
+  padding: 0 16px;
+  margin-top: 6px;
 }

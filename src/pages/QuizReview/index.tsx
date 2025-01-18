@@ -1,18 +1,19 @@
 import styles from "./_quiz_review.module.scss";
 import FiveStar from "@/components/composite/FiveStar/FiveStar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Button from "@/components/atom/Button/Button";
 import { DifficultyType } from "@/types/Difficultytype";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
 import Textarea from "@/components/atom/Textarea/Textarea";
 import { useNavigate } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";
 import { reviewService } from "@/services/server/reviewService";
 import { useParams } from "react-router-dom";
 import { ReviewPostType } from "@/types/ReviewType";
 import ROUTES from "@/data/routes";
+import { reviewKeys } from "@/data/queryKeys";
 
 export default function Index() {
   const navigate = useNavigate();
@@ -36,15 +37,37 @@ export default function Index() {
     },
   });
 
+  const { data: myReview } = useQuery({
+    queryKey: reviewKeys.myReview(Number(quizId)),
+    queryFn: () => reviewService.fetchMyReview(Number(quizId)),
+    enabled: !!quizId,
+  });
+
   const [rating, setStarRating] = useState<number>(0);
   const [difficultyLevel, setDifficultyLevel] = useState<DifficultyType>();
-  const { value, onChange, textareaRef } = useAutoResizeTextarea("", 51);
+  const { value, onChange, textareaRef, resetTextarea } = useAutoResizeTextarea(
+    "",
+    48,
+    3
+  );
+
+  useEffect(() => {
+    if (myReview) {
+      setStarRating(myReview.starRating);
+      setDifficultyLevel({
+        label: "",
+        difficultyValue: myReview?.difficultyLevel,
+      });
+      resetTextarea(myReview.comment);
+    }
+  }, [myReview]);
+
   const reviewMaxLength = 200;
 
   const showDifficultySection = rating !== 0;
   const showReviewTextArea = difficultyLevel;
 
-  const handleClickSubmit = () => {
+  const handleSubmit = () => {
     if (!difficultyLevel?.difficultyValue || !quizId) {
       return;
     }
@@ -55,6 +78,10 @@ export default function Index() {
       quizId: parseInt(quizId),
     };
     createQuizReview(review);
+  };
+
+  const handleSkip = () => {
+    navigate(ROUTES.QUIZ_DETAIL(parseInt(quizId!)));
   };
 
   const difficulties: DifficultyType[] = [
@@ -140,12 +167,22 @@ export default function Index() {
             maxLength={reviewMaxLength}
             textAreaRef={textareaRef}
             className={styles["review-textarea"]}
-            size="small"
+            size="medium"
             maxLengthShow
           />
-          <Button size="medium" color="primary" onClick={handleClickSubmit}>
-            완료
-          </Button>
+          <div className={styles["button-container"]}>
+            <Button size="medium" color="primary-border" onClick={handleSkip}>
+              건너뛰기
+            </Button>
+            <Button
+              size="medium"
+              className={styles.done}
+              color="primary"
+              onClick={handleSubmit}
+            >
+              완료
+            </Button>
+          </div>
         </section>
       )}
     </section>

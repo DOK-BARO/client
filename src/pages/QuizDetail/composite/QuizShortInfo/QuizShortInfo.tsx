@@ -8,8 +8,8 @@ import {
   levelMapping,
   LevelType,
 } from "../../components/DifficultyLevelItem/DifficultyLevelItem";
-import threeDots from "/public/assets/svg/myPage/three-dot.svg";
-import Button from "@/components/atom/Button/Button";
+// import threeDots from "/public/assets/svg/myPage/three-dot.svg";
+// import Button from "@/components/atom/Button/Button";
 import useModal from "@/hooks/useModal";
 import SmallModal from "@/components/atom/SmallModal/SmallModal";
 import noticeCircle from "/public/assets/svg/myPage/notice-circle.svg";
@@ -44,7 +44,7 @@ export default function QuizShortInfo({
 
   const {
     isModalOpen: isSmallModalOpen,
-    openModal: openSmallModal,
+    // openModal: openSmallModal,
     closeModal: closeSmallModal,
   } = useModal();
 
@@ -61,13 +61,13 @@ export default function QuizShortInfo({
   } = useModal();
 
   // 작은 모달 토글
-  const handleToggle = () => {
-    if (isSmallModalOpen) {
-      closeSmallModal();
-    } else {
-      openSmallModal();
-    }
-  };
+  // const handleToggle = () => {
+  //   if (isSmallModalOpen) {
+  //     closeSmallModal();
+  //   } else {
+  //     openSmallModal();
+  //   }
+  // };
   const modalRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   useOutsideClick([modalRef, buttonRef], closeSmallModal);
@@ -78,23 +78,19 @@ export default function QuizShortInfo({
     onChange: onOtherGroundsChange,
     textareaRef: OtherGroundsRef,
     resetTextarea: resetOtherGrounds,
-  } = useAutoResizeTextarea("", 40, 3); // TODO: Textarea 미세한 높이 차이 22.5 -> 23
+  } = useAutoResizeTextarea("", 40, 3); // TODO: Textarea 미세한 높이 차이 42.5 -> 43
   const [selectedReportReason, setSelectedReportReason] = useState<string[]>(
     [],
   );
 
-  const { mutate: reportReview } = useMutation<
-    { id: number } | null,
-    ErrorType,
-    { questionId: number; contents: string[] }
-  >({
-    mutationFn: ({ questionId, contents }) =>
-      quizService.reportQuiz({ questionId, contents }),
-    onSuccess: (data) => {
-      if (!data) {
-        toast.error("퀴즈 신고에 실패했습니다.");
-        return;
-      }
+  // 퀴즈집 신고
+  const { mutate: reportQuiz } = useMutation<void, ErrorType, void>({
+    mutationFn: quizService.reportQuiz,
+    onSuccess: () => {
+      // if (!data) {
+      //   toast.error("퀴즈 신고에 실패했습니다.");
+      //   return;
+      // }
 
       toast.success("퀴즈가 신고되었습니다.");
       closeReportModal();
@@ -102,14 +98,15 @@ export default function QuizShortInfo({
     },
   });
 
-  const handleReportReview = () => {
-    const selectedReportReasonFiltered = selectedReportReason.map((reason) =>
-      reason === "기타" ? OtherGrounds : reason,
-    );
-    reportReview({
-      questionId: quizExplanation.id,
-      contents: selectedReportReasonFiltered,
-    });
+  const handleReportQuiz = () => {
+    // const selectedReportReasonFiltered = selectedReportReason.map((reason) =>
+    //   reason === "기타" ? OtherGrounds : reason
+    // );
+    // reportQuiz({
+    //   questionId: quizExplanation.id,
+    //   contents: selectedReportReasonFiltered,
+    // });
+    reportQuiz();
   };
 
   const reportReasonList = [
@@ -231,7 +228,7 @@ export default function QuizShortInfo({
             {
               text: "신고하기",
               color: "primary",
-              onClick: handleReportReview,
+              onClick: handleReportQuiz,
               disabled:
                 selectedReportReason.length < 1 ||
                 selectedReportReason.some(
@@ -252,14 +249,14 @@ export default function QuizShortInfo({
       ) : null}
       <span className={styles["title-container"]}>
         <h2 className={styles.title}>{quizExplanation.title}</h2>
-        <Button
+        {/* <Button
           iconOnly
           icon={
             <img src={threeDots} width={16} height={16} alt="퀴즈 신고하기" />
           }
           onClick={handleToggle}
           ref={buttonRef}
-        />
+        /> */}
       </span>
       <span className={styles["iconTextLabel-container"]}>
         <IconTextLabel

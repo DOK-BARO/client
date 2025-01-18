@@ -51,7 +51,6 @@ export default function Index() {
     )
     : [];
 
-  console.log(explanation);
   const reviewCount = Object.values(reviewsTotalScore?.difficulty || {}).reduce(
     (total, item) => total + item.selectCount,
     0,
@@ -69,8 +68,6 @@ export default function Index() {
       ),
     )
     : 0;
-
-  console.log("reviewsTotalScore", reviewsTotalScore);
 
   return (
     <section className={styles.container}>

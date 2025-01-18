@@ -6,11 +6,17 @@ import { BookQuizzesDataType } from "@/types/BookType";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "@/data/routes";
 
-export default function QuizItem({ quiz }: { quiz: BookQuizzesDataType }) {
+interface Props {
+  quiz: BookQuizzesDataType;
+  onClick: () => void;
+}
+
+export default function QuizItem({ quiz, onClick }: Props) {
   const navigate = useNavigate();
 
-  const goToPlayQuiz = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  const goToPlayQuiz = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    e.stopPropagation();
     navigate(ROUTES.SOLVING_QUIZ(quiz.id));
   };
 
@@ -23,8 +29,9 @@ export default function QuizItem({ quiz }: { quiz: BookQuizzesDataType }) {
       return "어려움";
     }
   };
+
   return (
-    <div className={styles["container"]}>
+    <div className={styles["container"]} onClick={onClick}>
       <div className={styles["content"]}>
         <div className={styles["header"]}>
           <div className={styles["review"]}>

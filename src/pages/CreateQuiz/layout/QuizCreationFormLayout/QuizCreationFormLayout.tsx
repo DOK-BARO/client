@@ -151,21 +151,19 @@ export default function QuizCreationFormLayout({
     console.log("*************start: %o", quizCreationInfo);
 
     if (
-      quizCreationInfo.viewScope === null ||
-      quizCreationInfo.editScope === null
+      quizCreationInfo.viewScope === null
+      //|| quizCreationInfo.editScope === null
     ) {
       return;
     }
 
     const viewScopeKey = getScopeKeyByTranslation(quizCreationInfo.viewScope);
-    const editScopeKey = getScopeKeyByTranslation(quizCreationInfo.editScope);
 
     if (
       quizCreationInfo.title === null ||
       quizCreationInfo.description === null ||
       quizCreationInfo.book === null ||
       viewScopeKey === null ||
-      editScopeKey === null ||
       quizCreationInfo.questions === null
     ) {
       return;
@@ -176,7 +174,7 @@ export default function QuizCreationFormLayout({
       title: quizCreationInfo.title,
       description: quizCreationInfo.description,
       viewScope: viewScopeKey,
-      editScope: editScopeKey,
+      editScope: "CREATOR",
       bookId: quizCreationInfo.book.id,
       studyGroupId: quizCreationInfo.studyGroup?.id || undefined,
       questions: await setRequestQuestion(),

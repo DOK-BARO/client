@@ -1,6 +1,7 @@
 import { axiosInstance } from "@/config/axiosConfig";
 import { FetchReviewsParams } from "@/types/ParamsType";
 import {
+  MyReviewType,
   ReviewPostType,
   ReviewsTotalScoreType,
   ReviewType,
@@ -36,6 +37,21 @@ class ReviewService {
   ): Promise<ReviewsTotalScoreType | null> => {
     try {
       const { data } = await axiosInstance.get("/quiz-reviews/total-score", {
+        params: {
+          quizId,
+        },
+      });
+      return data;
+    } catch (error) {
+      handleAxiosError(error);
+      return null;
+    }
+  };
+
+  // 내가 작성한 퀴즈 리뷰 조회
+  fetchMyReview = async (quizId: number): Promise<MyReviewType | null> => {
+    try {
+      const { data } = await axiosInstance.get("/quiz-reviews/my", {
         params: {
           quizId,
         },

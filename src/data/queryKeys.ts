@@ -1,3 +1,4 @@
+// TODO: id string | number 타입 통일하기
 import {
   FetchBooksParams,
   FetchMyQuizzesParams,
@@ -57,4 +58,5 @@ export const quizKeys = {
 export const reviewKeys = {
   totalScore: (id: number | undefined) => ["reviewTotalScore", id] as const,
   list: (param?: FetchReviewsParams) => ["reviewList", param] as const,
+  myReview: (id: number | undefined) => ["myReview", id] as const,
 };

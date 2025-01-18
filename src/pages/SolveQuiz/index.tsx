@@ -2,7 +2,7 @@ import styles from "./_solve_quiz.module.scss";
 import SolvingQuizForm from "./composite/SolvingQuizForm";
 import ProgressBar from "./composite/ProgressBar";
 import { useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { quizKeys } from "@/data/queryKeys";
 import { quizService } from "@/services/server/quizService";
 import { useEffect, useState } from "react";
@@ -18,8 +18,16 @@ import "highlight.js/styles/xcode.css";
 import toast from "react-hot-toast";
 import ROUTES from "@/data/routes";
 import { QuizResultRouteParams } from "@/types/ParamsType";
+import { ErrorType } from "@/types/ErrorType";
+import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
+import useModal from "@/hooks/useModal";
+import Textarea from "@/components/atom/Textarea/Textarea";
+import Modal from "@/components/atom/Modal/Modal";
+import CheckBox from "@/components/atom/Checkbox/Checkbox";
 
+// TODO: 신고하기 모달 컴포넌트 분리 (중복 사용됨)
 export default function Index() {
+  const warning = "/assets/svg/solvingQuizFormLayout/warning.svg";
   const [solvingQuizId, setSolvingQuizId] = useState<number>();
   const { quizId } = useParams<{
     quizId: string;
@@ -31,11 +39,88 @@ export default function Index() {
     });
   }, []);
 
-  useEffect(() => {
-    console.log("solvingQuizId", solvingQuizId);
-  }, [solvingQuizId]);
+  // 퀴즈 개별 신고
+  const { mutate: reportQuiz } = useMutation<
+    { id: number } | null,
+    ErrorType,
+    { questionId: number; contents: string[] }
+  >({
+    mutationFn: ({ questionId, contents }) =>
+      quizService.reportQuizQuestion({ questionId, contents }),
+    onSuccess: (data) => {
+      if (!data) {
+        toast.error("퀴즈 신고에 실패했습니다.");
+        return;
+      }
 
-  const warning = "/assets/svg/solvingQuizFormLayout/warning.svg";
+      toast.success("퀴즈가 신고되었습니다.");
+      closeReportModal();
+      openReportConfirmModal();
+    },
+  });
+
+  const reportReasonList = [
+    { id: 1, text: "비속어 또는 비방 내용이 포함되어 있어요.", checked: false },
+    { id: 2, text: "문제 또는 해설 내용에 오류가 있어요.", checked: false },
+    { id: 3, text: "도서와 무관한 문제 또는 해설이에요.", checked: false },
+    { id: 4, text: "스팸/광고 내용이 포함되어 있어요.", checked: false },
+    { id: 5, text: "기타", checked: false },
+  ];
+
+  const [reportReasons, setReportReasons] = useState<
+    {
+      id: number;
+      text: string;
+      checked: boolean;
+    }[]
+  >(reportReasonList);
+
+  const {
+    isModalOpen: isReportModalOpen,
+    openModal: openReportModal,
+    closeModal: closeReportModal,
+  } = useModal();
+
+  const {
+    isModalOpen: isReportConfirmModalOpen,
+    openModal: openReportConfirmModal,
+    closeModal: closeReportConfirmModal,
+  } = useModal();
+
+  // const [reportQuestionIndex, setReportQuestionIndex] = useState<number>();
+
+  // const handleOpenReportModal = (questionIndex: number) => {
+  //   setReportQuestionIndex(questionIndex); // 신고하기 누른 퀴즈 번호
+  //   openReportModal();
+  // };
+
+  // const modalRef = useRef<HTMLDivElement>(null);
+  // const buttonRef = useRef<HTMLButtonElement>(null);
+
+  // 기타 사유
+  const {
+    value: OtherGrounds,
+    onChange: onOtherGroundsChange,
+    textareaRef: OtherGroundsRef,
+    resetTextarea: resetOtherGrounds,
+  } = useAutoResizeTextarea("", 40, 3); // TODO: Textarea 미세한 높이 차이 22.5 -> 23
+  const [selectedReportReason, setSelectedReportReason] = useState<string[]>(
+    []
+  );
+
+  useEffect(() => {
+    resetOtherGrounds();
+    setSelectedReportReason([]);
+    setReportReasons(reportReasonList);
+  }, [isReportModalOpen]);
+
+  useEffect(() => {
+    const reportReasonTextList = reportReasons.filter(
+      (reason) => reason.checked
+    );
+    setSelectedReportReason(reportReasonTextList.map((item) => item.text));
+  }, [reportReasons]);
+
   const navigate = useNavigate();
 
   const {
@@ -136,14 +221,115 @@ export default function Index() {
     navigate(ROUTES.ROOT);
     return;
   }
+  const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { id } = e.target;
+
+    setReportReasons(
+      reportReasons.map((reason) =>
+        reason.id === Number(id)
+          ? { ...reason, checked: !reason.checked }
+          : reason
+      )
+    );
+  };
+
+  const handleReportQuiz = () => {
+    const selectedReportReasonFiltered = selectedReportReason.map((reason) =>
+      reason === "기타" ? OtherGrounds : reason
+    );
+
+    reportQuiz({
+      questionId: quiz.questions[currentFormIndex].id,
+      contents: selectedReportReasonFiltered,
+    });
+  };
+
+  const handleGoBackToQuizDetail = () => {
+    navigate(ROUTES.QUIZ_DETAIL(quiz.id));
+  };
 
   return (
     <section className={styles["container"]}>
+      {isReportConfirmModalOpen ? (
+        <Modal
+          title="신고하기"
+          closeModal={closeReportConfirmModal}
+          contents={[{ title: "신고가 완료되었습니다.", content: <></> }]}
+          bottomButtons={[
+            {
+              text: "퀴즈로 돌아가기",
+              color: "primary-border",
+              onClick: handleGoBackToQuizDetail,
+            },
+            {
+              text: "계속 풀기",
+              color: "primary",
+              onClick: closeReportConfirmModal,
+            },
+          ]}
+        />
+      ) : null}
+      {isReportModalOpen ? (
+        <Modal
+          title="신고하기"
+          closeModal={closeReportModal}
+          contents={[
+            {
+              title: `${quiz.title}의 문제 ${currentStep}번 신고 시, 검토 후 수정 요청이 안내됩니다.`,
+              content: (
+                <div>
+                  {reportReasons.map((reason) => (
+                    <CheckBox
+                      key={reason.id}
+                      id={reason.id.toString()}
+                      type="checkbox-black"
+                      value={reason.text}
+                      onChange={handleCheckBoxChange}
+                      checked={reason.checked}
+                    />
+                  ))}
+                  {/* TODO: 입력 전/후 높이 차이 */}
+                  {/* 기타 선택했을 때만 보이게 */}
+                  {selectedReportReason.some((reason) => reason === "기타") ? (
+                    <div className={styles["textarea-container"]}>
+                      <Textarea
+                        placeholder="기타 사유를 작성해 주세요."
+                        maxLengthShow
+                        maxLength={500}
+                        onChange={onOtherGroundsChange}
+                        value={OtherGrounds}
+                        id="report-content"
+                        textAreaRef={OtherGroundsRef}
+                        size="small"
+                        rows={1}
+                      />
+                    </div>
+                  ) : null}
+                </div>
+              ),
+            },
+          ]}
+          // disabled: 하나 이상 선택했을 떄만 활성화되도록
+          bottomButtons={[
+            {
+              text: "신고하기",
+              color: "primary",
+              onClick: handleReportQuiz,
+              disabled:
+                selectedReportReason.length < 1 ||
+                selectedReportReason.some(
+                  (reason) => reason === "기타" && OtherGrounds === ""
+                ),
+            },
+          ]}
+        />
+      ) : null}
       <ProgressBar
         questions={quiz.questions}
         isAnswerCorrects={isAnswerCorrects}
         currentStep={currentStep}
       />
+
       <div className={styles["inner-container"]}>
         <div className={styles["question-area"]}>
           <SolvingQuizForm
@@ -161,6 +347,7 @@ export default function Index() {
             iconPosition="left"
             icon={<img src={warning} />}
             className={styles["report"]}
+            onClick={openReportModal}
           >
             신고하기
           </Button>
@@ -196,7 +383,6 @@ export default function Index() {
           </section>
         )}
       </div>
-
       {!didAnswerChecked && (
         <Button
           onClick={handleQuestionSubmit}

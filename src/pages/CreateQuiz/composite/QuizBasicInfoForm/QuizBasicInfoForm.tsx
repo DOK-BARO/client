@@ -24,7 +24,7 @@ function QuizBasicInfoForm() {
     value: descriptionTextareaValue,
     onChange: onDescriptionChange,
     textareaRef,
-  } = useAutoResizeTextarea(quizCreationInfo.description ?? "", 56);
+  } = useAutoResizeTextarea(quizCreationInfo.description ?? "", 56, 3);
 
   useEffect(() => {
     const disable =

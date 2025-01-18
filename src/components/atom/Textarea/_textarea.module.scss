@@ -20,10 +20,10 @@
     box-shadow: 0 0 0 2px $system-danger;
   }
 
-  // &--large {
-  //   font-size: $input-font-large; //
-  //   padding: $textarea-padding-large;
-  // }
+  &--large {
+    font-size: $input-font-large; // 17px
+    padding: $textarea-padding-large;
+  }
   &--medium {
     font-size: $input-font-medium; // 17px
     padding: $textarea-padding-medium;

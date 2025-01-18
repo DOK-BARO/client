@@ -81,7 +81,7 @@ export default function QuizListSection({
         parentPage: "book",
         itemId: Number(bookId),
         excludeParams: ["page"],
-      })
+      }),
     );
   };
   const filterOptions: FilterOptionType<QuizzesFilterType>[] = [

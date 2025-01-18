@@ -61,29 +61,27 @@ export default function QuizCreationFormLayout({
 
     const truncatedStep = Math.trunc(currentStep);
     return steps[truncatedStep]!.subSteps!.find(
-      (subStep) => subStep.order === currentStep
+      (subStep) => subStep.order === currentStep,
     )!;
   };
 
-  const getScopeKeyByTranslation = (
-    translation: string
-  ): ViewScope | null => {
+  const getScopeKeyByTranslation = (translation: string): ViewScope | null => {
     const entry = Object.entries(viewScopeTranslations).find(
-      ([, value]) => value === translation
+      ([, value]) => value === translation,
     );
     return entry ? (entry[0] as ViewScope) : null;
   };
 
   const requestUploadExplanationImages = async (
-    uploadTargetImgs: File[]
+    uploadTargetImgs: File[],
   ): Promise<string[]> => {
     const promiseImgList = uploadTargetImgs.map(async (img) => {
       const paramObj: {
         image: File;
         imageTarget:
-        | "MEMBER_PROFILE"
-        | "STUDY_GROUP_PROFILE"
-        | "BOOK_QUIZ_ANSWER";
+          | "MEMBER_PROFILE"
+          | "STUDY_GROUP_PROFILE"
+          | "BOOK_QUIZ_ANSWER";
       } = {
         image: img,
         imageTarget: "BOOK_QUIZ_ANSWER",
@@ -106,11 +104,13 @@ export default function QuizCreationFormLayout({
           return {
             ...rest,
             answerExplanationImages: await requestUploadExplanationImages(
-              question.answerExplanationImages
+              question.answerExplanationImages,
             ),
-            selectOptions: question.selectOptions.map((option) => option.option),
+            selectOptions: question.selectOptions.map(
+              (option) => option.option,
+            ),
           };
-        }
+        },
       );
       return await Promise.all(uploadedImgQuestions);
     } catch (error) {
@@ -138,13 +138,13 @@ export default function QuizCreationFormLayout({
   const { mutate: requestModifyQuiz } = useMutation<
     void,
     ErrorType,
-    { editQuizId: string, quiz: QuizRequestType }
+    { editQuizId: string; quiz: QuizRequestType }
   >({
-    mutationFn: ({ editQuizId, quiz }) => quizService.modifyQuiz({ editQuizId, quiz }),
+    mutationFn: ({ editQuizId, quiz }) =>
+      quizService.modifyQuiz({ editQuizId, quiz }),
     onSuccess: () => {
       //navigate(ROUTES.ROOT);
-    }
-
+    },
   });
 
   const requestQuiz = async () => {
@@ -182,7 +182,9 @@ export default function QuizCreationFormLayout({
       questions: await setRequestQuestion(),
     };
     console.log("*************end: %o", quiz);
-    isEditMode ? requestModifyQuiz({ editQuizId: editQuizId!, quiz }) : createQuiz(quiz);
+    isEditMode
+      ? requestModifyQuiz({ editQuizId: editQuizId!, quiz })
+      : createQuiz(quiz);
     return;
   };
   const endStep = steps.length - 1;

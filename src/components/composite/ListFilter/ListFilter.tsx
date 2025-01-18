@@ -13,7 +13,7 @@ export interface FilterOptionType<T> {
 }
 
 export default function ListFilter<
-  T extends { sort: string; direction: string }
+  T extends { sort: string; direction: string },
 >({ sortFilter, filterOptions, onOptionClick }: Props<T>) {
   return (
     <div className={styles.container}>

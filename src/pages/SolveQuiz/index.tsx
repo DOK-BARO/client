@@ -86,7 +86,7 @@ export default function Index() {
       await quizService.submitQuestion(
         solvingQuizIdToString,
         questionId,
-        selectedOptions
+        selectedOptions,
       );
 
     if (checkedResult) {
@@ -189,7 +189,7 @@ export default function Index() {
                       alt={`해설 이미지 ${index + 1}`}
                       className={styles["image"]}
                     />
-                  )
+                  ),
                 )}
               </section>
             )}

@@ -74,7 +74,7 @@ export default function Index() {
   const handleDifficultyClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { id } = e.currentTarget;
     const currentDifficulty = difficulties.find(
-      ({ difficultyValue }) => difficultyValue.toString() === id
+      ({ difficultyValue }) => difficultyValue.toString() === id,
     );
     setDifficultyLevel(currentDifficulty);
   };

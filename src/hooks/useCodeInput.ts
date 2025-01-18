@@ -6,7 +6,7 @@ const useCodeInput = () => {
 
   const handleCodeChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    index: number
+    index: number,
   ) => {
     // setIsMatch(undefined);
     let { value } = e.target;
@@ -46,7 +46,7 @@ const useCodeInput = () => {
   };
   const handleKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
-    index: number
+    index: number,
   ) => {
     if (e.key === "Backspace" && codeList[index] === "") {
       if (index > 0) {

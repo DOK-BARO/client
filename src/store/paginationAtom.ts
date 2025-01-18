@@ -23,7 +23,7 @@ export const paginationAtom = atom<PaginationType>(initialPaginationState);
 
 // 이전 (책 목록) 페이지네이션 상태 저장
 export const prevPaginationStateAtom = atom<PaginationType | undefined>(
-  undefined
+  undefined,
 );
 
 // 마이페이지 > 만든 퀴즈

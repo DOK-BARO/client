@@ -56,7 +56,7 @@ export default function Pagination(props: Props) {
         },
         {
           replace: true,
-        }
+        },
       );
     }
   }, [currentPage, props.type === "queryString" && props.parentPage]);

@@ -124,7 +124,7 @@ class AuthService {
   fetchTermDetail = async (id: number): Promise<string | null> => {
     try {
       const { data } = await axiosInstance.get(
-        `/terms-of-services/${id}/detail`
+        `/terms-of-services/${id}/detail`,
       );
       return data.value;
     } catch (error) {
@@ -165,7 +165,7 @@ class AuthService {
         "/email-authentications/recreate",
         {
           email: email,
-        }
+        },
       );
       // 204
       console.log(response);
@@ -187,7 +187,7 @@ class AuthService {
         {
           email: email,
           code: code,
-        }
+        },
       );
       return data;
     } catch (error) {
@@ -205,7 +205,7 @@ class AuthService {
         "/accounts/email/issue-temporary-password",
         {
           email: email,
-        }
+        },
       );
       console.log(response);
     } catch (error) {

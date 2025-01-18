@@ -36,7 +36,7 @@ export default function SolvedQuiz() {
   useFilter<MySolvedQuizzesFilterType>(setFilterCriteria);
 
   const [paginationState, setPaginationState] = useAtom(
-    mySolvedQuizPaginationAtom
+    mySolvedQuizPaginationAtom,
   );
 
   const totalPagesLength = paginationState.totalPagesLength;

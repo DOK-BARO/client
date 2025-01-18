@@ -23,10 +23,10 @@ const initialIsQuizNextButtonEnabled = false; // 퀴즈 생성 단계 다음 버
   /* Atom 정의 */
 }
 export const quizCreationInfoAtom = atom<QuizCreationType>(
-  initialQuizCreationInfo
+  initialQuizCreationInfo,
 );
 export const isQuizNextButtonEnabledAtom = atom<boolean>(
-  initialIsQuizNextButtonEnabled
+  initialIsQuizNextButtonEnabled,
 );
 export const errorModalTitleAtom = atom<string>(initialErrorModalTitle);
 export const openErrorModalAtom = atom<() => void>();
@@ -35,12 +35,12 @@ export const createdQuizIdAtom = atom<number | undefined>(initialQuizId);
 
 // 스터디 선택 단계 완료 여부 Atom
 export const isStudyGroupSelectedAtom = atom(
-  (get) => get(quizCreationInfoAtom).studyGroup !== null
+  (get) => get(quizCreationInfoAtom).studyGroup !== null,
 );
 
 // 도서 선택 단계 완료 여부 Atom
 export const isBookSelectedAtom = atom(
-  (get) => get(quizCreationInfoAtom).book !== null
+  (get) => get(quizCreationInfoAtom).book !== null,
 );
 
 // 퀴즈 작성 단계 완료 여부 Atom
@@ -50,7 +50,7 @@ export const isQuestionsWrittenAtom = atom(
     get(quizCreationInfoAtom).title !== null &&
     get(quizCreationInfoAtom).description !== null &&
     get(quizCreationInfoAtom).questions !== null &&
-    get(quizCreationInfoAtom).questions!.length > 0
+    get(quizCreationInfoAtom).questions!.length > 0,
 );
 
 // 공유 설정 단계 완료 여부 Atom
@@ -65,7 +65,7 @@ export const isSetAtom = atom(
       viewScope: update ? quizCreationInfo.viewScope : null,
       editScope: update ? quizCreationInfo.editScope : null,
     });
-  }
+  },
 );
 
 // 각 단계의 완료 상태를 확인

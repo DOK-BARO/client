@@ -6,14 +6,14 @@ export default function Index() {
   const { method } = useParams();
 
   switch (method) {
-    case "email":
-      return <EmailRegisterLayout />;
-    case "google":
-    case "github":
-    case "naver":
-    case "kakao":
-      return <SocialRegisterLayout />;
-    default:
-      return <div>404</div>;
+  case "email":
+    return <EmailRegisterLayout />;
+  case "google":
+  case "github":
+  case "naver":
+  case "kakao":
+    return <SocialRegisterLayout />;
+  default:
+    return <div>404</div>;
   }
 }

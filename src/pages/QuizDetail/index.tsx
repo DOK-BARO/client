@@ -47,27 +47,27 @@ export default function Index() {
 
   const categoryList = bookDetail
     ? extractCategoryList(
-        bookDetail?.categories[bookDetail?.categories.length - 1]
-      )
+      bookDetail?.categories[bookDetail?.categories.length - 1],
+    )
     : [];
 
   console.log(explanation);
   const reviewCount = Object.values(reviewsTotalScore?.difficulty || {}).reduce(
     (total, item) => total + item.selectCount,
-    0
+    0,
   );
   const roundedAverageRating = reviewsTotalScore.averageStarRating
     ? parseFloat(reviewsTotalScore.averageStarRating.toFixed(1))
     : 0;
   const averageDifficulty = reviewsTotalScore.difficulty
     ? Math.round(
-        Object.entries(reviewsTotalScore.difficulty).reduce(
-          (acc, [difficulty, data]) => {
-            return acc + Number(difficulty) * data.selectRate;
-          },
-          0
-        )
-      )
+      Object.entries(reviewsTotalScore.difficulty).reduce(
+        (acc, [difficulty, data]) => {
+          return acc + Number(difficulty) * data.selectRate;
+        },
+        0,
+      ),
+    )
     : 0;
 
   console.log("reviewsTotalScore", reviewsTotalScore);

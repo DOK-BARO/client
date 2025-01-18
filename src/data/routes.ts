@@ -41,12 +41,15 @@ const ROUTES = {
   SOLVING_QUIZ: (quizId?: number) => `/quiz/play/${quizId ?? ":quizId"}`,
 
   QUIZ_REVIEW: (param?: QuizReviewRouteParams) =>
-    `/quiz/review/${param?.quizId ?? ":quizId"}/${param?.solvingQuizId ?? ":solvingQuizId"
+    `/quiz/review/${param?.quizId ?? ":quizId"}/${
+      param?.solvingQuizId ?? ":solvingQuizId"
     }/${param?.quizTitle ?? ":quizTitle"}`,
 
   QUIZ_RESULT: (param?: QuizResultRouteParams) =>
-    `/quiz/result/${param?.quizId ?? ":quizId"}/${param?.solvingQuizId ?? ":solvingQuizId"
-    }/${param?.quizTitle ?? ":quizTitle"}/${param?.studyGroupId ?? ":studyGroupId?"
+    `/quiz/result/${param?.quizId ?? ":quizId"}/${
+      param?.solvingQuizId ?? ":solvingQuizId"
+    }/${param?.quizTitle ?? ":quizTitle"}/${
+      param?.studyGroupId ?? ":studyGroupId?"
     }`,
 
   NOT_FOUND: "*",

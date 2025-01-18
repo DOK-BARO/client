@@ -10,9 +10,7 @@ export default defineConfig({
   server: { https: true },
   plugins: [react(), mkcert()],
   resolve: {
-    alias: [
-      { find:"@",replacement:"/src" },
-    ],
+    alias: [{ find: "@", replacement: "/src" }],
   },
   test: {
     globals: true,

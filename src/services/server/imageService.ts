@@ -16,7 +16,7 @@ class ImageService {
     try {
       const { data } = await axiosInstance.post(
         `/images/${imageTarget}`,
-        formData
+        formData,
       );
       console.log("data: %o", data);
       return data.url;

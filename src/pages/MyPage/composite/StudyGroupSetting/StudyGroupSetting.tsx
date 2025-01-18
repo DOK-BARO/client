@@ -64,10 +64,10 @@ export default function StudyGroupSetting() {
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const { value: name, onChange: onNameChange } = useInput(
-    studyGroupDetail?.name ?? ""
+    studyGroupDetail?.name ?? "",
   );
   const { value: introduction, onChange: onIntroductionChange } = useTextarea(
-    studyGroupDetail?.introduction ?? ""
+    studyGroupDetail?.introduction ?? "",
   );
 
   useEffect(() => {

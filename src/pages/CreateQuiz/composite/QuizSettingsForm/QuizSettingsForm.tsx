@@ -18,7 +18,7 @@ export default function QuizSettingsForm() {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
   const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
-    isQuizNextButtonEnabledAtom
+    isQuizNextButtonEnabledAtom,
   );
 
   // 다음 버튼 초기화
@@ -34,7 +34,7 @@ export default function QuizSettingsForm() {
       "edit-access": quizCreationInfo.editScope
         ? editScopeTranslations[quizCreationInfo.editScope]
         : null,
-    })
+    }),
   );
 
   const [quizSettings, setQuizSettings] = useState<QuizSettingType[]>();
@@ -65,7 +65,7 @@ export default function QuizSettingsForm() {
       return;
     }
     const isAllSelected = quizSettings.every(
-      (setting) => selectedOptions[setting.name] !== null
+      (setting) => selectedOptions[setting.name] !== null,
     );
 
     setIsQuizNextButtonEnabled(isAllSelected);
@@ -91,25 +91,25 @@ const getQuizSettings = (isStudyGroupSelected: boolean): QuizSettingType[] => [
     name: "view-access",
     options: isStudyGroupSelected
       ? [
-          {
-            label: "스터디원만",
-            description: "스터디원이 이 퀴즈를 보고 풀 수 있습니다.",
-          },
-          {
-            label: "나만",
-            description: "나만 이 퀴즈를 보고 풀 수 있습니다.",
-          },
-        ]
+        {
+          label: "스터디원만",
+          description: "스터디원이 이 퀴즈를 보고 풀 수 있습니다.",
+        },
+        {
+          label: "나만",
+          description: "나만 이 퀴즈를 보고 풀 수 있습니다.",
+        },
+      ]
       : [
-          {
-            label: "모두",
-            description: "모든 사용자가 이 퀴즈를 보고 풀 수 있습니다.",
-          },
-          {
-            label: "나만",
-            description: "나만 이 퀴즈를 보고 풀 수 있습니다.",
-          },
-        ],
+        {
+          label: "모두",
+          description: "모든 사용자가 이 퀴즈를 보고 풀 수 있습니다.",
+        },
+        {
+          label: "나만",
+          description: "나만 이 퀴즈를 보고 풀 수 있습니다.",
+        },
+      ],
 
     icon: "/assets/svg/quizSettingForm/view.svg",
   },
@@ -118,21 +118,21 @@ const getQuizSettings = (isStudyGroupSelected: boolean): QuizSettingType[] => [
     name: "edit-access",
     options: isStudyGroupSelected
       ? [
-          {
-            label: "스터디원만",
-            description: "스터디원이 이 퀴즈를 편집할 수 있습니다.",
-          },
-          {
-            label: "나만",
-            description: "나만 이 퀴즈를 편집할 수 있습니다.",
-          },
-        ]
+        {
+          label: "스터디원만",
+          description: "스터디원이 이 퀴즈를 편집할 수 있습니다.",
+        },
+        {
+          label: "나만",
+          description: "나만 이 퀴즈를 편집할 수 있습니다.",
+        },
+      ]
       : [
-          {
-            label: "나만",
-            description: "나만 이 퀴즈를 보고 풀 수 있습니다.",
-          },
-        ],
+        {
+          label: "나만",
+          description: "나만 이 퀴즈를 보고 풀 수 있습니다.",
+        },
+      ],
 
     icon: "/assets/svg/quizSettingForm/edit.svg",
   },

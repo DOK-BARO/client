@@ -10,7 +10,7 @@ import { SolvingQuizStudyGroupGradeReuslt } from "@/types/QuizType";
 import { FetchMyQuizzesParams } from "@/types/ParamsType";
 class QuizService {
   fetchQuizzes = async (
-    params: FetchQuizzesParams
+    params: FetchQuizzesParams,
   ): Promise<{ data: QuizType[]; endPageNumber: number } | null> => {
     try {
       const {
@@ -34,7 +34,7 @@ class QuizService {
   };
 
   createQuiz = async (
-    quiz: QuizRequestType
+    quiz: QuizRequestType,
   ): Promise<{ id: number } | null> => {
     try {
       const { data } = await axiosInstance.post("/book-quizzes", quiz);
@@ -46,21 +46,27 @@ class QuizService {
     }
   };
 
-  modifyQuiz = async ({editQuizId, quiz}:{editQuizId: string, quiz: QuizRequestType}) => {
+  modifyQuiz = async ({
+    editQuizId,
+    quiz,
+  }: {
+    editQuizId: string;
+    quiz: QuizRequestType;
+  }) => {
     try {
-      await axiosInstance.put(`book-quizzes/${editQuizId}`,quiz);
+      await axiosInstance.put(`book-quizzes/${editQuizId}`, quiz);
     } catch (error) {
       handleAxiosError(error);
     }
-  }
+  };
 
   fetchMyMadeQuizzes = async (
-    params: FetchMyQuizzesParams
+    params: FetchMyQuizzesParams,
   ): Promise<MyQuizType | null> => {
     try {
       const { page, size, sort, direction } = params;
       const { data } = await axiosInstance.get(
-        `/book-quizzes/my?page=${page}&size=${size}&sort=${sort}&direction=${direction}`
+        `/book-quizzes/my?page=${page}&size=${size}&sort=${sort}&direction=${direction}`,
       );
       return data;
     } catch (error) {
@@ -70,12 +76,12 @@ class QuizService {
   };
 
   fetchMySolvedQuizzes = async (
-    params: FetchMyQuizzesParams
+    params: FetchMyQuizzesParams,
   ): Promise<MyQuizType | null> => {
     try {
       const { page, size, sort, direction } = params;
       const { data } = await axiosInstance.get(
-        `/solving-quiz/my?page=${page}&size=${size}&sort=${sort}&direction=${direction}`
+        `/solving-quiz/my?page=${page}&size=${size}&sort=${sort}&direction=${direction}`,
       );
       return data;
     } catch (error) {
@@ -87,7 +93,7 @@ class QuizService {
   fetchQuiz = async (quizId: string): Promise<SolvingQuizType | null> => {
     try {
       const { data } = await axiosInstance.get(
-        `/book-quizzes/${quizId}/questions`
+        `/book-quizzes/${quizId}/questions`,
       );
       return data;
     } catch (error) {
@@ -97,11 +103,11 @@ class QuizService {
   };
 
   fetchQuizExplanation = async (
-    id: string
+    id: string,
   ): Promise<QuizExplanationType | null> => {
     try {
       const { data } = await axiosInstance.get(
-        `/book-quizzes/${id}/explanation`
+        `/book-quizzes/${id}/explanation`,
       );
       return data;
     } catch (error) {
@@ -113,7 +119,7 @@ class QuizService {
   // 북 퀴즈 풀기 시작 요청 함수. 백엔드 쪽에서 정답을 적을 omr카드 만드는 개념이라고 함..
   startSolvingQuiz = async (quizId: string) => {
     try {
-      const { data } = await axiosInstance.post(`/solving-quiz/start`, {
+      const { data } = await axiosInstance.post("/solving-quiz/start", {
         quizId: quizId,
       });
       return data;
@@ -125,7 +131,7 @@ class QuizService {
   submitQuestion = async (
     solvingQuizId: string,
     questionId: number,
-    answers: string[]
+    answers: string[],
   ): Promise<QuestionCheckedResult> => {
     try {
       const { data } = await axiosInstance.post(
@@ -133,7 +139,7 @@ class QuizService {
         {
           questionId: questionId,
           answers: answers,
-        }
+        },
       );
       return data;
     } catch (error) {
@@ -142,11 +148,11 @@ class QuizService {
   };
 
   fetchGradeResult = async (
-    solvingQuizId: string
+    solvingQuizId: string,
   ): Promise<SolvingQuizGradeReuslt> => {
     try {
       const { data } = await axiosInstance.get(
-        `/solving-quiz/${solvingQuizId}/grade-result`
+        `/solving-quiz/${solvingQuizId}/grade-result`,
       );
       return data;
     } catch (error) {
@@ -156,11 +162,11 @@ class QuizService {
 
   fetchStudyGradeResult = async (
     studyGroupId: string,
-    quizId: string
+    quizId: string,
   ): Promise<SolvingQuizStudyGroupGradeReuslt> => {
     try {
       const { data } = await axiosInstance.get(
-        `/solving-quiz/study-groups-grade-result?studyGroupId=${studyGroupId}&quizId=${quizId}`
+        `/solving-quiz/study-groups-grade-result?studyGroupId=${studyGroupId}&quizId=${quizId}`,
       );
       return data;
     } catch (error) {
@@ -202,11 +208,10 @@ class QuizService {
     try {
       const response = await axiosInstance.get(`/book-quizzes/${quizId}`);
       return response.data;
-
     } catch (error) {
       throw new Error(`퀴즈 수정용 데이터 가져오기 실패: ${error}`);
     }
-  }
+  };
 }
 
 export const quizService = new QuizService();

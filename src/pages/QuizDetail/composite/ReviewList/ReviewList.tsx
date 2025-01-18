@@ -95,7 +95,7 @@ export default function ReviewList({ quizId, quizTitle }: Props) {
         page,
         size,
         quizId,
-      })
+      }),
     ),
     queryFn: async ({ pageParam }) => {
       const result = await reviewService.fetchReviews(
@@ -105,7 +105,7 @@ export default function ReviewList({ quizId, quizTitle }: Props) {
           page: pageParam as number,
           size,
           quizId,
-        })
+        }),
       );
       return result || { endPageNumber: 0, data: [] };
     },

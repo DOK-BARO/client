@@ -13,7 +13,7 @@ import Modal from "@/components/atom/Modal/Modal";
 import { useState } from "react";
 
 export default function QuizListLayout<
-  T extends { sort: string; direction: string }
+  T extends { sort: string; direction: string },
 >({
   title,
   quizzes,
@@ -42,7 +42,10 @@ export default function QuizListLayout<
     e.preventDefault();
   };
 
-  const handleModifyQuiz = (e: React.MouseEvent<HTMLButtonElement>, quizId: string) => {
+  const handleModifyQuiz = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    quizId: string,
+  ) => {
     e.preventDefault();
     // TODO: 엑셀문서 확인하고 해당페이지로 이동하면 될듯
     // 퀴즈 작성으로 이동하여 스터디 그룹 선택, 도서 선택 disble처리..
@@ -51,7 +54,7 @@ export default function QuizListLayout<
 
   const handleClickDelete = (
     e: React.MouseEvent<HTMLButtonElement>,
-    quizId: number
+    quizId: number,
   ) => {
     e.preventDefault();
     openModal();
@@ -143,7 +146,7 @@ export default function QuizListLayout<
                           onClick={(e) =>
                             handleClickDelete(
                               e,
-                              "quiz" in myQuiz ? myQuiz.quiz!.id : myQuiz.id
+                              "quiz" in myQuiz ? myQuiz.quiz!.id : myQuiz.id,
                             )
                           }
                         >
@@ -154,7 +157,7 @@ export default function QuizListLayout<
                   </Link>
                 </li>
               );
-            }
+            },
           )}
       </ul>
       {isModalOpen && (

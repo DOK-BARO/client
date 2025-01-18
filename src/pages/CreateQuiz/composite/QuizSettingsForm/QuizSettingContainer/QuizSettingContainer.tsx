@@ -28,7 +28,7 @@ export const QuizSettingContainer = ({
 
   const handleSelect = (
     e: React.MouseEvent<HTMLButtonElement>,
-    name: string
+    name: string,
   ) => {
     const value = e.currentTarget.value;
     onOptionSelect(name, value);
@@ -37,11 +37,11 @@ export const QuizSettingContainer = ({
 
   useEffect(() => {
     const selectedOption = options.find(
-      (option) => option.label === selectedOptionLabel
+      (option) => option.label === selectedOptionLabel,
     );
 
     setDescription(
-      selectedOption ? selectedOption.description : options[0].description
+      selectedOption ? selectedOption.description : options[0].description,
     );
   }, [selectedOptionLabel]);
 

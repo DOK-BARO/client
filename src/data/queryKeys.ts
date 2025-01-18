@@ -21,7 +21,7 @@ export const studyGroupKeys = {
     ["studyGroupList", params] as const,
   myUnsolvedQuizList: (
     id: number | undefined,
-    params: FetchStudyGroupsParams
+    params: FetchStudyGroupsParams,
   ) => ["studyGroupMyUnsolvedQuizList", id, params] as const,
   mySolvedQuizList: (id: number | undefined, params: FetchStudyGroupsParams) =>
     ["studyGroupMySolvedQuizList", id, params] as const,
@@ -41,10 +41,10 @@ export const userKeys = {
 };
 
 export const quizKeys = {
-  myQuiz: (params:FetchMyQuizzesParams) => ["myQuiz",params] as const,
-	solvedQuiz: (params:FetchMyQuizzesParams) => ["solvedQuiz",params] as const,
+  myQuiz: (params: FetchMyQuizzesParams) => ["myQuiz", params] as const,
+  solvedQuiz: (params: FetchMyQuizzesParams) => ["solvedQuiz", params] as const,
   detail: (id: string | undefined) => ["quizDetail", id] as const,
-  prevDetail: (id: string | undefined)=> ["prevDetail",id] as const,
+  prevDetail: (id: string | undefined) => ["prevDetail", id] as const,
   explanation: (id: string | undefined) => ["quizExplanation", id] as const,
   result: (solvingQuizId: string) => ["quizResult", solvingQuizId],
   studyResult: (studyGroupId: string, quizId: string) => [

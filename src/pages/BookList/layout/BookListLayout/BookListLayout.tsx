@@ -54,7 +54,7 @@ export default function BookListLayout() {
   const [filterCriteria, setFilterCriteria] = useAtom(bookFilterAtom);
   const setBooksFilter = useSetAtom(bookFilterAtom);
   useFilter<BooksFilterType>(setFilterCriteria, () =>
-    resetBooksFilter(setBooksFilter)
+    resetBooksFilter(setBooksFilter),
   );
   const { navigateWithParams } = useNavigateWithParams("books");
 
@@ -81,11 +81,11 @@ export default function BookListLayout() {
         direction,
         page,
         size,
-      })
+      }),
     ),
     queryFn: () =>
       bookService.fetchBooks(
-        parseQueryParams({ title, category, sort, direction, page, size })
+        parseQueryParams({ title, category, sort, direction, page, size }),
       ),
   });
 

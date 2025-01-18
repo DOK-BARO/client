@@ -37,9 +37,7 @@ export default function Index() {
   const [completionStatus] = useAtom(stepsCompletionStatusAtom);
   const [, setQuizCreationInfoAtom] = useAtom(quizCreationInfoAtom);
 
-  const { data: prevQuiz,
-    isLoading: isPrevQuizLoading,
-  } = useQuery({
+  const { data: prevQuiz, isLoading: isPrevQuizLoading } = useQuery({
     queryKey: quizKeys.prevDetail(quizId!),
     queryFn: () => (quizId ? quizService.fetchQuizzesDetail(quizId) : null),
     enabled: isEditMode && !!quizId,
@@ -49,27 +47,26 @@ export default function Index() {
     queryKey: ["bookDetail", prevQuiz?.bookId],
     queryFn: () => bookService.fetchBook(prevQuiz?.bookId.toString()!),
     enabled: isEditMode && !!prevQuiz?.bookId,
-  }
-  );
+  });
 
   const { data: studyGroupDetail, isLoading: isStudyGroupLoading } = useQuery({
     queryKey: ["studyGroupDetail", prevQuiz?.studyGroupId],
     queryFn: () => studyGroupService.fetchStudyGroup(prevQuiz?.studyGroupId!),
     enabled: isEditMode && !!prevQuiz?.studyGroupId,
-  }
-  );
+  });
 
   async function convertUrlsToFiles(urls: string[]): Promise<File[]> {
     const files = await Promise.all(
       urls.map(async (url, index) => {
         const response = await fetch(url);
         const blob = await response.blob();
-        return new File([blob], `file_${index + 1}.jpg`, { type: blob.type });
-      })
+        return new File([blob], `file_${index + 1}.jpg`, {
+          type: blob.type,
+        });
+      }),
     );
     return files;
   }
-
 
   useEffect(() => {
     async function initializeQuiz() {
@@ -83,14 +80,14 @@ export default function Index() {
           imageUrl: prevBook?.imageUrl!,
           categories: prevBook?.categories!,
           authors: prevBook?.authors!,
-        }
+        };
         console.log("FormattedBook: %o", formattedBook);
 
         const formattedStudyGroup: StudyGroupType = {
           id: studyGroupDetail?.id!,
           name: studyGroupDetail?.name!,
           profileImageUrl: studyGroupDetail?.profileImageUrl,
-        }
+        };
 
         let selectOptions: SelectOptionType[];
         prevQuiz?.questions.forEach((question) => {
@@ -99,10 +96,10 @@ export default function Index() {
               id: index,
               option: optionText,
               value: index.toString(),
-              answerIndex: index + 1
-            }
+              answerIndex: index + 1,
+            };
             return option;
-          })
+          });
         });
 
         const prevQuestions: QuizQuestionType[] = await Promise.all(
@@ -114,7 +111,7 @@ export default function Index() {
                 option: optionText,
                 value: index.toString(),
                 answerIndex: index + 1,
-              })
+              }),
             );
 
             return {
@@ -126,10 +123,9 @@ export default function Index() {
               answerType: q.answerType,
               answers: q.answers,
             };
-          })!
+          })!,
         );
 
-      
         const quiz: QuizCreationType = {
           title: prevQuiz?.title!,
           description: prevQuiz?.description!,
@@ -138,7 +134,7 @@ export default function Index() {
           editScope: "CREATOR" as EditScope,
           studyGroup: formattedStudyGroup,
           questions: prevQuestions,
-        }
+        };
         console.log("real: %o", quiz);
         setQuizCreationInfoAtom(quiz);
       }
@@ -194,7 +190,7 @@ export default function Index() {
         isDone: completionStatus.isSet,
       },
     ],
-    [completionStatus]
+    [completionStatus],
   );
 
   const [currentStep, setCurrentStep] = useState<number>(0);
@@ -214,7 +210,7 @@ export default function Index() {
   }, [setOpenErrorModal]);
 
   if (isPrevQuizLoading || isBookLoading || isStudyGroupLoading) {
-    return (<div>로딩중</div>);
+    return <div>로딩중</div>;
   }
 
   return (

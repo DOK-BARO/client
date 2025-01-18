@@ -2,16 +2,15 @@
 @import "../../styles/abstracts/mixins";
 
 .container {
-	@include flex(column, center);
-	gap: 24px;
+  @include flex(column, center);
+  gap: 24px;
 
-	img {
-		width: 500px;
-		height: 500px;
-	}
+  img {
+    width: 500px;
+    height: 500px;
+  }
 
-	.home-btn {
-		width: 250px;
-		;
-	}
+  .home-btn {
+    width: 250px;
+  }
 }

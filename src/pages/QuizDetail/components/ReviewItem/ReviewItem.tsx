@@ -57,7 +57,7 @@ export default function ReviewItem({ review, isMyReview, quizTitle }: Props) {
     closeModal: closeReportModal,
   } = useModal();
   const { value: comment, onChange: onCommentChange } = useTextarea(
-    review.comment ?? ""
+    review.comment ?? "",
   );
   const { value: reportContent, onChange: onReportContentChange } =
     useTextarea("");
@@ -159,7 +159,7 @@ export default function ReviewItem({ review, isMyReview, quizTitle }: Props) {
   ];
 
   const [difficultyLevel, setDifficultyLevel] = useState<number>(
-    review.difficultyLevel
+    review.difficultyLevel,
   );
 
   const handleDifficultyClick = (e: React.MouseEvent<HTMLButtonElement>) => {

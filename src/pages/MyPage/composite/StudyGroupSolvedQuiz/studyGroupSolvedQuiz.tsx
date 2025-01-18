@@ -42,12 +42,12 @@ interface Prop {
 }
 export default function StudyGroupSolvedQuiz({ studyGroupId }: Prop) {
   const [filterCriteria, setFilterCriteria] = useAtom(
-    myStudySolvedQuizFilterAtom
+    myStudySolvedQuizFilterAtom,
   );
   useFilter<MyStudySolvedQuizzesFilterType>(setFilterCriteria);
 
   const [paginationState, setPaginationState] = useAtom(
-    mySolvedQuizPaginationAtom
+    mySolvedQuizPaginationAtom,
   );
 
   const totalPagesLength = paginationState.totalPagesLength;
@@ -65,13 +65,13 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Prop) {
         direction,
         page,
         size,
-      })
+      }),
     ),
     queryFn: () =>
       studyGroupId
         ? studyGroupService.fetchStudyGroupMySolvedQuizzes(
-            studyGroupId,
-            parseQueryParams<
+          studyGroupId,
+          parseQueryParams<
               MyStudySolvedQuizzesSortType,
               FetchStudyGroupsParams
             >({
@@ -79,8 +79,8 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Prop) {
               direction,
               page,
               size,
-            })
-          )
+            }),
+        )
         : null,
     enabled: !!studyGroupId,
   });

@@ -25,11 +25,11 @@ const QuizWriteForm = React.memo(() => {
 
     const deleteQuestion = (targetId: number) => {
       setQuestionForms((prevQuizList) =>
-        prevQuizList.filter(({ id }) => id !== targetId)
+        prevQuizList.filter(({ id }) => id !== targetId),
       );
 
       const updatedQuestions = quizCreationInfo.questions?.filter(
-        (question) => question.id !== targetId
+        (question) => question.id !== targetId,
       );
       updateQuizCreationInfo("questions", updatedQuestions);
     };
@@ -38,24 +38,23 @@ const QuizWriteForm = React.memo(() => {
       const quizWriteForms: QuestionFormType[] =
         quizCreationInfo.questions?.map(
           (question) =>
-          ({
-            id: question.id,
-            answerType: question.answerType,
-            component: (
-              <QuestionForm
-                questionFormId={question.id!}
-                deleteQuestion={deleteQuestion}
-                answerType={question.answerType}
-              />
-            ),
-          } as QuestionFormType)
+            ({
+              id: question.id,
+              answerType: question.answerType,
+              component: (
+                <QuestionForm
+                  questionFormId={question.id!}
+                  deleteQuestion={deleteQuestion}
+                  answerType={question.answerType}
+                />
+              ),
+            }) as QuestionFormType,
         ) ?? [];
 
       return quizWriteForms;
     };
-    const [questionForms, setQuestionForms] = useState<QuestionFormType[]>(
-      setInitialForms()
-    );
+    const [questionForms, setQuestionForms] =
+      useState<QuestionFormType[]>(setInitialForms());
 
     const reorderItems = (items: any[], result: DropResult) => {
       const reorderedItems = [...items];
@@ -72,7 +71,7 @@ const QuizWriteForm = React.memo(() => {
 
       const updatedGlobalQuizItems = reorderItems(
         quizCreationInfo.questions ?? [],
-        result
+        result,
       );
       updateQuizCreationInfo("questions", updatedGlobalQuizItems);
     };

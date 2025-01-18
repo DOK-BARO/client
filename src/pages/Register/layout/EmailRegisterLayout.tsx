@@ -19,16 +19,16 @@ const EmailRegisterLayout = () => {
 
   const renderStepComponent = () => {
     switch (step) {
-      case 1:
-        return <TermsAgreement setStep={setStep} />;
-      case 2:
-        return <Verification setStep={setStep} />;
-      case 3:
-        return <PasswordSet setStep={setStep} />;
-      case 4:
-        return <ProfileSet />;
-      default:
-        return <div>404</div>;
+    case 1:
+      return <TermsAgreement setStep={setStep} />;
+    case 2:
+      return <Verification setStep={setStep} />;
+    case 3:
+      return <PasswordSet setStep={setStep} />;
+    case 4:
+      return <ProfileSet />;
+    default:
+      return <div>404</div>;
     }
   };
 

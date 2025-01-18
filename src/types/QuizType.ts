@@ -37,7 +37,7 @@ export interface QuizExplanationType {
 export interface SolvingQuizType {
   id: number;
   title: string;
-	studyGroupId?: number;
+  studyGroupId?: number;
   timeLimitSecond?: number;
   questions: SolvingQuizQuestionType[];
 }
@@ -50,8 +50,8 @@ export interface SolvingQuizQuestionType {
 }
 
 export interface MyQuizType {
-	endPageNumber: number;
-	data: MyQuizDataType[];
+  endPageNumber: number;
+  data: MyQuizDataType[];
 }
 
 export interface MyQuizDataType {
@@ -59,13 +59,12 @@ export interface MyQuizDataType {
   bookImageUrl?: string;
   title: string;
   updatedAt: string;
-	studyGroup?: MyQuizStudyGroupType;
+  studyGroup?: MyQuizStudyGroupType;
 }
 
-
 export interface MySolvedQuizType {
-	endPageNumber: number;
-	data: MySolvedQuizDataType[];
+  endPageNumber: number;
+  data: MySolvedQuizDataType[];
 }
 
 export interface MySolvedQuizDataType {
@@ -73,19 +72,19 @@ export interface MySolvedQuizDataType {
   bookImageUrl?: string;
   title: string;
   solvedAt: string;
-	studyGroup?: MyQuizStudyGroupType;
-	quiz?:SolvedQuizType
+  studyGroup?: MyQuizStudyGroupType;
+  quiz?: SolvedQuizType;
 }
 
-interface MyQuizStudyGroupType{
-	id: number;
-	name: string;
-	profileImageUrl?: string;
+interface MyQuizStudyGroupType {
+  id: number;
+  name: string;
+  profileImageUrl?: string;
 }
 
 interface SolvedQuizType {
-	id: number,
-	title: string
+  id: number;
+  title: string;
 }
 
 export type ViewScope = "EVERYONE" | "STUDY_GROUP" | "CREATOR";
@@ -195,15 +194,15 @@ export interface SolvingQuizGradeReuslt {
 }
 
 export interface SolvingQuizStudyGroupGradeReuslt {
-	quizId: number;
-	studyGroupId: number;
-	totalQuestionCount: number;
-	solvedMember: SolvedMember[];
-	unSolvedMember: SolvingQuizStudyGroupUser[];
+  quizId: number;
+  studyGroupId: number;
+  totalQuestionCount: number;
+  solvedMember: SolvedMember[];
+  unSolvedMember: SolvingQuizStudyGroupUser[];
 }
 
 export interface SolvedMember {
-	member: SolvingQuizStudyGroupUser;
-	solvingQuizId: number;
-	correctCount: number;
+  member: SolvingQuizStudyGroupUser;
+  solvingQuizId: number;
+  correctCount: number;
 }

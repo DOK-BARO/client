@@ -36,7 +36,7 @@ export default function MyMadeQuiz() {
   useFilter<MyMadeQuizzesFilterType>(setFilterCriteria);
 
   const [paginationState, setPaginationState] = useAtom(
-    myMadeQuizPaginationAtom
+    myMadeQuizPaginationAtom,
   );
   const totalPagesLength = paginationState.totalPagesLength;
 
@@ -73,7 +73,7 @@ export default function MyMadeQuiz() {
   const myQuizzes = myQuizzesData?.data;
 
   if (isLoading || !myQuizzes) {
-    return <>로딩</>; 
+    return <>로딩</>;
   }
 
   return (

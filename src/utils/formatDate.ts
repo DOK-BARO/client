@@ -1,6 +1,6 @@
 export function formatDate(
   isoString: string,
-  isTextFormat: boolean = false
+  isTextFormat: boolean = false,
 ): string {
   const date = new Date(isoString);
   const year = date.getFullYear();

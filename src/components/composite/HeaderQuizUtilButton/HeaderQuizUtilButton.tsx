@@ -30,9 +30,7 @@ function HeaderQuizUtilButton() {
         {/*<KeyboardArrowDownIcon className={styles["header-quiz-util-icon"]}/>*/}
       </Button>
       {isOpenDropDownList && anchorEl && (
-        <HeaderQuizUtilList
-          closeDropDownList={closeDropDownList}
-        />
+        <HeaderQuizUtilList closeDropDownList={closeDropDownList} />
       )}
     </div>
   );

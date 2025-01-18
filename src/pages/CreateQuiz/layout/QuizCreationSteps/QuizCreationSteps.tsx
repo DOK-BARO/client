@@ -16,7 +16,7 @@ export default function QuizCreationSteps({
   currentStep,
   setCurrentStep,
 }: {
-  isEditMode:boolean;
+  isEditMode: boolean;
   steps: Step[];
   currentStep: number;
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
@@ -40,7 +40,7 @@ export default function QuizCreationSteps({
       {steps.map((step) => {
         const isActiveStep = currentStep === step.order;
         const isAnySubStepActive = step.subSteps?.some(
-          (subStep) => subStep.order === currentStep
+          (subStep) => subStep.order === currentStep,
         );
         const firstSubStepOrder = step.subSteps?.[0]?.order;
 

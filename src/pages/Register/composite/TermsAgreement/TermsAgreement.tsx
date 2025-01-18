@@ -63,10 +63,13 @@ export default function TermsAgreement({
 
   useEffect(() => {
     if (terms && terms.length > 0) {
-      const serviceAgreementObject = terms.reduce((acc, service) => {
-        acc[service.title] = { checked: false, isRequired: service.primary };
-        return acc;
-      }, {} as Record<string, { checked: boolean; isRequired: boolean }>);
+      const serviceAgreementObject = terms.reduce(
+        (acc, service) => {
+          acc[service.title] = { checked: false, isRequired: service.primary };
+          return acc;
+        },
+        {} as Record<string, { checked: boolean; isRequired: boolean }>,
+      );
       setAgreements({
         ...serviceAgreementObject,
         allAgree: { checked: false, isRequired: false },
@@ -79,10 +82,13 @@ export default function TermsAgreement({
     const { checked } = event.target;
 
     setAgreements((prev) => {
-      const updatedAgreements = Object.keys(prev).reduce((acc, key) => {
-        acc[key] = { ...prev[key], checked };
-        return acc;
-      }, {} as Record<string, { checked: boolean; isRequired: boolean }>);
+      const updatedAgreements = Object.keys(prev).reduce(
+        (acc, key) => {
+          acc[key] = { ...prev[key], checked };
+          return acc;
+        },
+        {} as Record<string, { checked: boolean; isRequired: boolean }>,
+      );
 
       return {
         ...updatedAgreements,
@@ -93,7 +99,7 @@ export default function TermsAgreement({
 
   // 개별 동의
   const handleSingleAgreeChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const { id, checked } = event.target;
 
@@ -118,7 +124,7 @@ export default function TermsAgreement({
   };
 
   const handleTermsContentShowButton = (
-    e: React.MouseEvent<HTMLButtonElement>
+    e: React.MouseEvent<HTMLButtonElement>,
   ) => {
     const { value } = e.target as HTMLButtonElement;
     const index = Number(value);
@@ -136,8 +142,8 @@ export default function TermsAgreement({
   // 필수 항목에 동의했을 때
   const isSubmitAble: boolean = terms
     ? Object.values(agreements).every(
-        (agreement) => agreement.checked || !agreement.isRequired
-      )
+      (agreement) => agreement.checked || !agreement.isRequired,
+    )
     : false;
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {

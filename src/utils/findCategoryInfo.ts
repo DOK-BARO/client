@@ -3,11 +3,11 @@ import { BookCategory } from "@/types/GNBCategoryType";
 // 가장 상위의 부모 카테고리 아이디를 찾음
 export const findTopParentCategoryInfo = (
   categories: BookCategory[],
-  targetId: number
+  targetId: number,
 ): { id: number; name: string } | null => {
   const traverse = (
     items: BookCategory[],
-    parent: { id: number; name: string } | null
+    parent: { id: number; name: string } | null,
   ): { id: number; name: string } | null => {
     for (const item of items) {
       // 'parent'가 targetId로 일치하는지 체크
@@ -19,7 +19,7 @@ export const findTopParentCategoryInfo = (
       if (item.details && item.details.length > 0) {
         const result = traverse(
           item.details,
-          parent === null ? { id: item.id, name: item.name } : parent
+          parent === null ? { id: item.id, name: item.name } : parent,
         );
 
         if (result !== null) {
@@ -36,10 +36,10 @@ export const findTopParentCategoryInfo = (
 // 한 단계 상위의 부모 카테고리 아이디를 찾음
 export const findParentCategoryInfo = (
   categories: BookCategory[],
-  targetId: number
+  targetId: number,
 ): { id: number; name: string } | null => {
   const traverse = (
-    items: BookCategory[]
+    items: BookCategory[],
   ): { id: number; name: string } | null => {
     for (const item of items) {
       // 현재 아이템의 자식에서 targetId를 찾으면 현재 아이템의 id와 name 반환
@@ -64,10 +64,10 @@ export const findParentCategoryInfo = (
 // 본인의 Id와 name 반환
 export const findCurrentCategoryInfo = (
   categories: BookCategory[],
-  targetId: number
+  targetId: number,
 ): { id: number; name: string } | null => {
   const traverse = (
-    items: BookCategory[]
+    items: BookCategory[],
   ): { id: number; name: string } | null => {
     for (const item of items) {
       // targetId와 일치하는 항목을 찾으면 id와 name 반환

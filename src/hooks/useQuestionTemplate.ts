@@ -7,28 +7,28 @@ import { BOOK_QUIZ_OPTION_MAX_LENGTH } from "@/data/constants";
 
 export const useQuestionTemplate = (
   questionFormType: AnswerType,
-  questionFormId: string
+  questionFormId: string,
 ) => {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
 
   const getQuestion = (): QuizQuestionType =>
-    (quizCreationInfo.questions?.find(
-      (question) => question.id!.toString() === questionFormId
-    ) as QuizQuestionType);
+    quizCreationInfo.questions?.find(
+      (question) => question.id!.toString() === questionFormId,
+    ) as QuizQuestionType;
 
   const setInitialOptions = (
-    questionFormType: AnswerType
+    questionFormType: AnswerType,
   ): (CheckBoxOption | RadioOptionType)[] => {
     const question: QuizQuestionType = getQuestion();
-    console.log("in template: %o:",question.selectOptions);
+    console.log("in template: %o:", question.selectOptions);
     const initialOptions =
       question?.selectOptions.map((option) => ({
         id: option.id,
         value: option.value,
         label: option.option,
       })) ?? [];
-      console.log("initi: %o",initialOptions);
+    console.log("initi: %o", initialOptions);
 
     return questionFormType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER"
       ? (initialOptions as CheckBoxOption[])
@@ -36,7 +36,7 @@ export const useQuestionTemplate = (
   };
 
   const [options, setOptions] = useState<(RadioOptionType | CheckBoxOption)[]>(
-    setInitialOptions(questionFormType)
+    setInitialOptions(questionFormType),
   );
 
   const deleteOption = (optionId: number) => {
@@ -44,7 +44,7 @@ export const useQuestionTemplate = (
     const updatedQuestions: QuizQuestionType[] =
       quizCreationInfo.questions?.map((question) => {
         const filteredSelectOptions = question.selectOptions.filter(
-          (option) => option.id !== optionId
+          (option) => option.id !== optionId,
         );
         return {
           ...question,
@@ -59,7 +59,7 @@ export const useQuestionTemplate = (
     if (options.length < BOOK_QUIZ_OPTION_MAX_LENGTH) {
       const id: number = Date.now();
       const value: string = (options.length + 1).toString();
-			const answerIndex: number = (options.length + 1);
+      const answerIndex: number = options.length + 1;
 
       setOptions((prev) => [
         ...prev,
@@ -67,7 +67,7 @@ export const useQuestionTemplate = (
           id: id,
           value: value,
           label: "",
-					answerIndex: answerIndex,
+          answerIndex: answerIndex,
         },
       ]);
 
@@ -77,7 +77,7 @@ export const useQuestionTemplate = (
             ...question,
             selectOptions: [
               ...question.selectOptions,
-              { id: id, option: "", value: value, answerIndex: answerIndex},
+              { id: id, option: "", value: value, answerIndex: answerIndex },
             ],
           };
         }

@@ -3,59 +3,59 @@
 
 /* progress bar 시작 */
 .progress-bar {
-	display: flex;
-	justify-content: space-between;
-	width: 100%;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .step-container:not(:last-child) {
-	position: relative;
-	// width를 100%로 하기 위해 wrapping
-	width: 100%;
+  position: relative;
+  // width를 100%로 하기 위해 wrapping
+  width: 100%;
 }
 
-.step-container:last-child>.step-bar {
-	display: none;
+.step-container:last-child > .step-bar {
+  display: none;
 }
 
 @mixin base-step {
-	@include flex(row, center);
+  @include flex(row, center);
 
-	width: 30px;
-	height: 30px;
-	font-size: $font-size-medium;
-	border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: $font-size-medium;
+  border-radius: 50%;
 }
 
 .current-step {
-	@include base-step;
-	background-color: $secondary;
-	color: $primary;
+  @include base-step;
+  background-color: $secondary;
+  color: $primary;
 }
 
 .step {
-	@include base-step;
-	background-color: $gray-00;
-	color: $gray-60;
+  @include base-step;
+  background-color: $gray-00;
+  color: $gray-60;
 }
 
 .correct-step {
-	@include base-step;
-	background-color: $system-success;
+  @include base-step;
+  background-color: $system-success;
 }
 
 .incorrect-step {
-	@include base-step;
-	background-color: $system-danger;
+  @include base-step;
+  background-color: $system-danger;
 }
 
 .step-bar {
-	position: absolute;
-	top: 15px;
-	left: 30px;
-	width: calc(100% - 30px);
-	height: 2px;
-	background-color: $gray-20;
+  position: absolute;
+  top: 15px;
+  left: 30px;
+  width: calc(100% - 30px);
+  height: 2px;
+  background-color: $gray-20;
 }
 
 /* progress bar 끝 */

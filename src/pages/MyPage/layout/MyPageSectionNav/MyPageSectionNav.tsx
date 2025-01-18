@@ -35,7 +35,7 @@ export default function MyPageSectionNav({ sectionNavList }: Prop) {
   // activeLink 업데이트 및 navigate
   const handleSectionChange = (
     e: React.MouseEvent<HTMLButtonElement>,
-    isSubNavItem: boolean = false
+    isSubNavItem: boolean = false,
   ) => {
     const { value } = e.currentTarget;
     setActiveLink(calculateActiveLink(value));
@@ -78,7 +78,7 @@ export default function MyPageSectionNav({ sectionNavList }: Prop) {
                     console.log(`${sectionNavItem.title}1111"`);
                     if (!isEmailAuthType && isCurrentTitlePassword) {
                       console.log(`${isEmailAuthType}!!!"`);
-											return null;
+                      return null;
                     }
                     return (
                       <li key={index}>

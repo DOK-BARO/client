@@ -12,13 +12,13 @@ function QuizBasicInfoForm() {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
   const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
-    isQuizNextButtonEnabledAtom
+    isQuizNextButtonEnabledAtom,
   );
 
   const titleMaxLength = 127;
   const descriptionMaxLength = 150;
   const { value: titleInputValue, onChange: onTitleChange } = useInput(
-    quizCreationInfo.title ?? ""
+    quizCreationInfo.title ?? "",
   );
   const {
     value: descriptionTextareaValue,
@@ -33,7 +33,7 @@ function QuizBasicInfoForm() {
   }, [titleInputValue, descriptionTextareaValue]);
 
   const handleDescriptionChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLTextAreaElement>,
   ) => {
     onDescriptionChange(e);
     updateQuizCreationInfo("description", e.target.value);

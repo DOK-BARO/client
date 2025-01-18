@@ -18,7 +18,7 @@ interface TextareaProps {
   autoFocus?: boolean;
   fullWidth?: boolean;
   size?: "large" | "medium" | "small";
-	type?: "option-label";
+  type?: "option-label";
 }
 
 const Textarea: React.FC<TextareaProps> = ({
@@ -38,7 +38,7 @@ const Textarea: React.FC<TextareaProps> = ({
   autoFocus,
   fullWidth = false,
   size = "medium",
-	type = "",
+  type = "",
 }) => {
   const className = `${styles.textarea} ${styles[type]} ${styles[`textarea--${size}`]} ${
     isError ? styles["textarea--error"] : ""
@@ -70,28 +70,28 @@ const Textarea: React.FC<TextareaProps> = ({
       {message ||
       (maxLength && maxLengthShow) ||
       (maxLength && maxLength <= value.length) ? (
-        <div className={styles["message-container"]}>
-          {
-            <span className={styles[`message${isError ? "--error" : ""}`]}>
-              {message}
-            </span>
-          }
-          <span className={styles["char-count"]}>
-            <em
-              className={
-                maxLength && value.length >= maxLength
-                  ? styles["char-count-max-length"]
-                  : ""
-              }
-            >
-              {value.length}
-            </em>
+          <div className={styles["message-container"]}>
+            {
+              <span className={styles[`message${isError ? "--error" : ""}`]}>
+                {message}
+              </span>
+            }
+            <span className={styles["char-count"]}>
+              <em
+                className={
+                  maxLength && value.length >= maxLength
+                    ? styles["char-count-max-length"]
+                    : ""
+                }
+              >
+                {value.length}
+              </em>
             /{maxLength}
-          </span>
-        </div>
-      ) : (
-        <></>
-      )}
+            </span>
+          </div>
+        ) : (
+          <></>
+        )}
     </div>
   );
 };

@@ -30,7 +30,7 @@ interface ButtonProps {
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
-      onClick = () => { },
+      onClick = () => {},
       children,
       id,
       type = "button",
@@ -46,10 +46,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       iconOnly = false,
       ableAnimation = false,
     },
-    ref
+    ref,
   ) => {
-    const className = `${styles.button} ${styles[`button--${size}`]} ${styles[`button--${color}`]
-      } ${fullWidth ? styles.full : ""} ${iconOnly ? styles.iconOnly : ""}
+    const className = `${styles.button} ${styles[`button--${size}`]} ${
+      styles[`button--${color}`]
+    } ${fullWidth ? styles.full : ""} ${iconOnly ? styles.iconOnly : ""}
      ${customClassName || ""}
      ${styles[ableAnimation && !disabled ? "button--abled-animation" : ""]}
  `;
@@ -87,7 +88,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         )}
       </button>
     );
-  }
+  },
 );
 
 export default Button;

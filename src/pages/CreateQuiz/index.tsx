@@ -9,6 +9,7 @@ import MemoizedQuizBasicInfoForm from "@/pages/CreateQuiz/composite/QuizBasicInf
 import {
   errorModalTitleAtom,
   openErrorModalAtom,
+  quizCreationInfoAtom,
   resetQuizCreationStateAtom,
   stepsCompletionStatusAtom,
 } from "@/store/quizAtom.ts";
@@ -18,17 +19,132 @@ import useModal from "@/hooks/useModal.ts";
 import { Step } from "@/types/StepType.ts";
 import QuizBookSelectionForm from "./composite/QuizBookSectionForm/QuizBookSelectionForm/QuizBookSelectionForm.tsx";
 import { useParams } from "react-router-dom";
+import { quizKeys } from "@/data/queryKeys.ts";
+import { quizService } from "@/services/server/quizService.ts";
+import { useQuery } from "@tanstack/react-query";
+import { EditScope, QuizCreationType, ViewScope } from "@/types/QuizType.ts";
+import { BookType } from "@/types/BookType.ts";
+import { bookService } from "@/services/server/bookService.ts";
+import { studyGroupService } from "@/services/server/studyGroupService.ts";
+import { StudyGroupType } from "@/types/StudyGroupType.ts";
+import { SelectOptionType } from "@/types/QuizType.ts";
+import { QuizQuestionType } from "@/types/QuizType.ts";
 
 export default function Index() {
-  const {id} = useParams();
+  const { id } = useParams();
   const quizId = id && id !== ":id" ? id : null;
   const [isEditMode] = useState<boolean>(!!quizId);
   const [completionStatus] = useAtom(stepsCompletionStatusAtom);
+  const [, setQuizCreationInfoAtom] = useAtom(quizCreationInfoAtom);
 
-  useEffect(()=>{
-    if(isEditMode){
+  const { data: prevQuiz,
+    isLoading: isPrevQuizLoading,
+  } = useQuery({
+    queryKey: quizKeys.prevDetail(quizId!),
+    queryFn: () => (quizId ? quizService.fetchQuizzesDetail(quizId) : null),
+    enabled: isEditMode && !!quizId,
+  });
+
+  const { data: prevBook, isLoading: isBookLoading } = useQuery({
+    queryKey: ["bookDetail", prevQuiz?.bookId],
+    queryFn: () => bookService.fetchBook(prevQuiz?.bookId.toString()!),
+    enabled: isEditMode && !!prevQuiz?.bookId,
+  }
+  );
+
+  const { data: studyGroupDetail, isLoading: isStudyGroupLoading } = useQuery({
+    queryKey: ["studyGroupDetail", prevQuiz?.studyGroupId],
+    queryFn: () => studyGroupService.fetchStudyGroup(prevQuiz?.studyGroupId!),
+    enabled: isEditMode && !!prevQuiz?.studyGroupId,
+  }
+  );
+
+  async function convertUrlsToFiles(urls: string[]): Promise<File[]> {
+    const files = await Promise.all(
+      urls.map(async (url, index) => {
+        const response = await fetch(url);
+        const blob = await response.blob();
+        return new File([blob], `file_${index + 1}.jpg`, { type: blob.type });
+      })
+    );
+    return files;
+  }
+
+
+  useEffect(() => {
+    async function initializeQuiz() {
+      if (isEditMode) {
+        const formattedBook: BookType = {
+          id: prevBook?.id!,
+          isbn: prevBook?.isbn!,
+          title: prevBook?.title!,
+          publisher: prevBook?.publisher!,
+          publishedAt: prevBook?.publishedAt!,
+          imageUrl: prevBook?.imageUrl!,
+          categories: prevBook?.categories!,
+          authors: prevBook?.authors!,
+        }
+        console.log("FormattedBook: %o", formattedBook);
+
+        const formattedStudyGroup: StudyGroupType = {
+          id: studyGroupDetail?.id!,
+          name: studyGroupDetail?.name!,
+          profileImageUrl: studyGroupDetail?.profileImageUrl,
+        }
+
+        let selectOptions: SelectOptionType[];
+        prevQuiz?.questions.forEach((question) => {
+          selectOptions = question.selectOptions.map((optionText, index) => {
+            const option: SelectOptionType = {
+              id: index,
+              option: optionText,
+              value: index.toString(),
+              answerIndex: index + 1
+            }
+            return option;
+          })
+        });
+
+        const prevQuestions: QuizQuestionType[] = await Promise.all(
+          prevQuiz?.questions.map(async (q, index) => {
+            const images = await convertUrlsToFiles(q.answerExplanationImages);
+            const selectOptions: SelectOptionType[] = q.selectOptions.map(
+              (optionText, index) => ({
+                id: index,
+                option: optionText,
+                value: index.toString(),
+                answerIndex: index + 1,
+              })
+            );
+
+            return {
+              id: index,
+              content: q.content,
+              selectOptions,
+              answerExplanationContent: q.answerExplanationContent,
+              answerExplanationImages: images,
+              answerType: q.answerType,
+              answers: q.answers,
+            };
+          })!
+        );
+
+      
+        const quiz: QuizCreationType = {
+          title: prevQuiz?.title!,
+          description: prevQuiz?.description!,
+          book: formattedBook,
+          viewScope: prevQuiz?.viewScope! as ViewScope,
+          editScope: "CREATOR" as EditScope,
+          studyGroup: formattedStudyGroup,
+          questions: prevQuestions,
+        }
+        console.log("real: %o", quiz);
+        setQuizCreationInfoAtom(quiz);
+      }
     }
-  },[isEditMode]);
+    initializeQuiz();
+  }, [prevQuiz, isEditMode]);
 
   // TODO: 외부 파일로 옮기기
   const steps: Step[] = useMemo(
@@ -97,16 +213,22 @@ export default function Index() {
     setOpenErrorModal(() => openModal);
   }, [setOpenErrorModal]);
 
+  if (isPrevQuizLoading || isBookLoading || isStudyGroupLoading) {
+    return (<div>로딩중</div>);
+  }
+
   return (
     <section className={styles["container"]}>
       <h2 className={styles["sr-only"]}>퀴즈 등록</h2>
       <QuizCreationSteps
-      isEditMode={isEditMode}
+        isEditMode={isEditMode}
         steps={steps}
         currentStep={currentStep}
         setCurrentStep={setCurrentStep}
       />
       <QuizCreationFormLayout
+        isEditMode={isEditMode}
+        editQuizId={quizId ?? ""}
         steps={steps}
         currentStep={currentStep}
         setCurrentStep={setCurrentStep}

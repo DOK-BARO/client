@@ -46,7 +46,7 @@ const SelectOption: React.FC<SelectOptionProps> = ({
 
     const updatedQuestions: QuizQuestionType[] =
       quizCreationInfo.questions?.map((question) => {
-        if (question.id.toString() === questionFormId!) {
+        if (question.id!.toString() === questionFormId!) {
           return {
             ...question,
             selectOptions: question.selectOptions.map((selectOption) => {

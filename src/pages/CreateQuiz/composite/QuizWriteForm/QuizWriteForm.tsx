@@ -43,7 +43,7 @@ const QuizWriteForm = React.memo(() => {
             answerType: question.answerType,
             component: (
               <QuestionForm
-                questionFormId={question.id}
+                questionFormId={question.id!}
                 deleteQuestion={deleteQuestion}
                 answerType={question.answerType}
               />

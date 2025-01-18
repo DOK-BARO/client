@@ -14,19 +14,21 @@ export const useQuestionTemplate = (
 
   const getQuestion = (): QuizQuestionType =>
     (quizCreationInfo.questions?.find(
-      (question) => question.id.toString() === questionFormId
+      (question) => question.id!.toString() === questionFormId
     ) as QuizQuestionType);
 
   const setInitialOptions = (
     questionFormType: AnswerType
   ): (CheckBoxOption | RadioOptionType)[] => {
     const question: QuizQuestionType = getQuestion();
+    console.log("in template: %o:",question.selectOptions);
     const initialOptions =
       question?.selectOptions.map((option) => ({
         id: option.id,
         value: option.value,
         label: option.option,
       })) ?? [];
+      console.log("initi: %o",initialOptions);
 
     return questionFormType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER"
       ? (initialOptions as CheckBoxOption[])
@@ -70,7 +72,7 @@ export const useQuestionTemplate = (
       ]);
 
       const updatedQuestions = quizCreationInfo.questions!.map((question) => {
-        if (question.id.toString() === questionFormId!) {
+        if (question.id!.toString() === questionFormId!) {
           return {
             ...question,
             selectOptions: [

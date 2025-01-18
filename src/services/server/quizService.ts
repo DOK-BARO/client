@@ -8,7 +8,6 @@ import { FetchQuizzesParams } from "@/types/ParamsType";
 import { SolvingQuizGradeReuslt } from "@/types/QuizType";
 import { SolvingQuizStudyGroupGradeReuslt } from "@/types/QuizType";
 import { FetchMyQuizzesParams } from "@/types/ParamsType";
-
 class QuizService {
   fetchQuizzes = async (
     params: FetchQuizzesParams
@@ -46,6 +45,14 @@ class QuizService {
       return null;
     }
   };
+
+  modifyQuiz = async ({editQuizId, quiz}:{editQuizId: string, quiz: QuizRequestType}) => {
+    try {
+      await axiosInstance.put(`book-quizzes/${editQuizId}`,quiz);
+    } catch (error) {
+      handleAxiosError(error);
+    }
+  }
 
   fetchMyMadeQuizzes = async (
     params: FetchMyQuizzesParams
@@ -189,6 +196,17 @@ class QuizService {
       handleAxiosError(error);
     }
   };
+
+  // 퀴즈 수정 시 사용되는 퀴즈 상세조회 (정답, 정답 설명을 포함한 조회)
+  fetchQuizzesDetail = async (quizId: string): Promise<QuizRequestType> => {
+    try {
+      const response = await axiosInstance.get(`/book-quizzes/${quizId}`);
+      return response.data;
+
+    } catch (error) {
+      throw new Error(`퀴즈 수정용 데이터 가져오기 실패: ${error}`);
+    }
+  }
 }
 
 export const quizService = new QuizService();

@@ -63,7 +63,7 @@ export const MultipleChoiceQuestionTemplate: FC<{
 		onRadioGroupChange(event);
 
 		const currentQuestion: QuizQuestionType = quizCreationInfo.questions?.find(
-			(question) => question.id.toString() === questionFormId!
+			(question) => question.id!.toString() === questionFormId!
 		)!;
 		const targetSelectOption: SelectOptionType =
 			currentQuestion.selectOptions.find(
@@ -74,7 +74,7 @@ export const MultipleChoiceQuestionTemplate: FC<{
 
 		const updatedQuestions: QuizQuestionType[] =
 			quizCreationInfo.questions!.map((question) =>
-				question.id.toString() === questionFormId
+				question.id!.toString() === questionFormId
 					? { ...question, answers: [currentAnswer] }
 					: question
 			);

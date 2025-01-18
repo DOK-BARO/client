@@ -90,7 +90,12 @@ interface SolvedQuizType {
 
 export type ViewScope = "EVERYONE" | "STUDY_GROUP" | "CREATOR";
 export type EditScope = "EVERYONE" | "STUDY_GROUP" | "CREATOR";
-export const scopeTranslations: Record<ViewScope, string> = {
+export const viewScopeTranslations: Record<ViewScope, string> = {
+  EVERYONE: "모두",
+  STUDY_GROUP: "스터디원만",
+  CREATOR: "나만",
+};
+export const editScopeTranslations: Record<EditScope, string> = {
   EVERYONE: "모두",
   STUDY_GROUP: "스터디원만",
   CREATOR: "나만",
@@ -132,6 +137,7 @@ export interface QuizQuestionType {
 
 export interface QuizRequestType {
   // TODO: 이름 아래와 통일 필요
+  id?: string;
   title: string;
   description: string;
   bookId: number;

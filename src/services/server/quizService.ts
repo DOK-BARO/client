@@ -160,7 +160,13 @@ class QuizService {
       throw new Error(`스터디 그룹 내 랭킹 조회 ${error}`);
     }
   };
-  reportQuiz = async ({
+
+  reportQuiz = async () => {
+    console.log("준비중인 기능입니다.");
+  };
+
+  // 퀴즈 개별 신고하기
+  reportQuizQuestion = async ({
     questionId,
     contents,
   }: {

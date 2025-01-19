@@ -26,6 +26,7 @@ import DeleteAccount from "@/pages/MyPage/composite/accountSetting/DeleteAccount
 import NotFound from "@/pages/NotFound";
 import MyStudyGroupsCreate from "@/pages/MyPage/composite/MyStudyGroupsCreate/MyStudyGroupsCreate";
 import MyStudyGroupsJoin from "@/pages/MyPage/composite/MyStudyGroupsJoin/MyStudyGroupsJoin";
+import Landing from "@/pages/Landing";
 
 const router = createBrowserRouter([
   {
@@ -34,12 +35,13 @@ const router = createBrowserRouter([
     children: [
       {
         path: ROUTES.ROOT,
+        element: <Landing />,
+      },
+
+      {
+        path: ROUTES.BOOK_LIST,
         element: <BookListLayout />,
         children: [
-          {
-            path: ROUTES.ROOT,
-            element: <Navigate to={ROUTES.BOOK_LIST} replace />, // "/"로 들어왔을 때 "/books"로 리다이렉트
-          },
           {
             path: ROUTES.BOOK_LIST,
             element: <BookList />,

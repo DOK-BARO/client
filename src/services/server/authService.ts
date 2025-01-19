@@ -16,7 +16,7 @@ class AuthService {
     redirectUrl: string;
   }): void => {
     window.location.href = `${import.meta.env.VITE_API_URL
-    }/auth/login/oauth2/${socialType.toLocaleLowerCase()}?redirect-url=${redirectUrl}`;
+      }/auth/login/oauth2/${socialType.toLocaleLowerCase()}?redirect-url=${redirectUrl}`;
   };
 
   // 이메일 회원가입
@@ -148,7 +148,7 @@ class AuthService {
   // 이메일로 인증코드 보내기
   sendEmailCode = async (email: string): Promise<void> => {
     try {
-      const response = await axiosInstance.post("/email-authentications", {
+      await axiosInstance.post("/email-authentications", {
         email: email,
       });
       // 201

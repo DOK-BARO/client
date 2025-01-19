@@ -15,8 +15,7 @@ class AuthService {
     socialType: SocialLoginType;
     redirectUrl: string;
   }): void => {
-    window.location.href = `${
-      import.meta.env.VITE_API_URL
+    window.location.href = `${import.meta.env.VITE_API_URL
     }/auth/login/oauth2/${socialType.toLocaleLowerCase()}?redirect-url=${redirectUrl}`;
   };
 
@@ -29,7 +28,7 @@ class AuthService {
   }): Promise<void> => {
     try {
       // console.log(userInfo);
-      const response = await axiosInstance.post("/accounts/email", userInfo);
+      await axiosInstance.post("/accounts/email", userInfo);
       // console.log("이메일 회원가입 post 응답", response);
       // TODO: return 타입 확인하기
     } catch (error) {
@@ -49,7 +48,7 @@ class AuthService {
     });
     // console.log(loginInfo);
     try {
-      const response = await axiosInstance.post("/auth/login/email", formData, {
+      await axiosInstance.post("/auth/login/email", formData, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
@@ -64,7 +63,7 @@ class AuthService {
   // 문서 상에는 'modify login member' 로 명시되어 있음.
   updateUser = async (userInfo: UpdateUserParams): Promise<void> => {
     try {
-      const response = await axiosInstance.put("/members/login-user", userInfo);
+      await axiosInstance.put("/members/login-user", userInfo);
       // console.log(response);
     } catch (error) {
       handleAxiosError(error);
@@ -102,7 +101,7 @@ class AuthService {
   // };
   logout = async (): Promise<void> => {
     try {
-      const response = await axiosInstance.post("/auth/logout");
+      await axiosInstance.post("/auth/logout");
       // console.log(response);
     } catch (error) {
       handleAxiosError(error);
@@ -137,7 +136,7 @@ class AuthService {
   sendTermsAgreement = async (items: number[]): Promise<void> => {
     // console.log(items);
     try {
-      const response = await axiosInstance.post("/terms-of-services/agree", {
+      await axiosInstance.post("/terms-of-services/agree", {
         items,
       });
       // console.log(response);
@@ -161,7 +160,7 @@ class AuthService {
 
   resendEmailCode = async (email: string): Promise<void> => {
     try {
-      const response = await axiosInstance.post(
+      await axiosInstance.post(
         "/email-authentications/recreate",
         {
           email: email,
@@ -201,7 +200,7 @@ class AuthService {
   // 임시 비밀번호 발급
   issueTempPassword = async (email: string): Promise<void> => {
     try {
-      const response = await axiosInstance.post(
+      await axiosInstance.post(
         "/accounts/email/issue-temporary-password",
         {
           email: email,

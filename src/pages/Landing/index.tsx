@@ -24,7 +24,7 @@ export default function Index() {
           onClick={() => window.open(EXTERNAL_SERVICE_INTRODUCTION_PAGE)}
           color="white">상세기능 보기 ↗</Button>
       </div>
-      <img src="/public/assets/image/landingimage.svg" />
+      <img src="/assets/image/landingimage.svg" />
     </section>
 
   );

@@ -109,7 +109,7 @@ export default function StudyGroupSetting() {
       setIsInputChanged(false);
     }
     if (profileImage.file) {
-      console.log(profileImage.url, initialProfileImage.current);
+      // console.log(profileImage.url, initialProfileImage.current);
 
       if (
         profileImage.url.split("/").pop() !==

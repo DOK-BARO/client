@@ -152,8 +152,8 @@ export default function Index() {
       "MULTIPLE_CHOICE_MULTIPLE_ANSWER";
     if (isMultipleAnswerType) {
       const selectedSingleAnswer: boolean = (selectedOptions.length ?? 0) <= 1;
-      console.log(quiz?.questions[currentFormIndex].selectOptions.length);
-      console.log(selectedSingleAnswer);
+      // console.log(quiz?.questions[currentFormIndex].selectOptions.length);
+      // console.log(selectedSingleAnswer);
       if (selectedSingleAnswer) {
         toast.error("답안을 2개 이상 선택해주세요");
         return;

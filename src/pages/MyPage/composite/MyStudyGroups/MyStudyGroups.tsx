@@ -44,7 +44,7 @@ export default function MyStudyGroups() {
   const navigate = useNavigate();
 
   const [filterCriteria, setFilterCriteria] = useAtom(myStudyGroupFilterAtom);
-  console.log("filterCriteria", filterCriteria);
+  // console.log("filterCriteria", filterCriteria);
   const observerRef = useRef<HTMLDivElement | null>(null);
 
   useFilter<StudyGroupsFilterType>(setFilterCriteria);
@@ -54,7 +54,7 @@ export default function MyStudyGroups() {
   const page = 1; // parseQueryParams함수 안에서 기본값 1로 설정
   const size = 10; // 한번에 불러올 최대 길이 // 임의
 
-  console.log(sort, direction, size, page);
+  // console.log(sort, direction, size, page);
   const {
     data: myStudyGroupsData,
     fetchNextPage,
@@ -97,10 +97,10 @@ export default function MyStudyGroups() {
 
   const handleOptionClick = (filter: StudyGroupsFilterType) => {
     setFilterCriteria(filter);
-    console.log(filter);
+    // console.log(filter);
   };
 
-  console.log(myStudyGroupsData);
+  // console.log(myStudyGroupsData);
 
   const handleStudyGroupJoinClick = () => {
     navigate(ROUTES.MY_STUDY_GROUPS_JOIN);

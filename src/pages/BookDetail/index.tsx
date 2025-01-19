@@ -45,7 +45,7 @@ export default function Index() {
   if (!data) {
     return <div>book detail page error!!</div>;
   }
-  console.log(data.categories);
+  // console.log(data.categories);
   const categoryList = data.categories
     ? extractCategoryList(data.categories[data.categories.length - 1])
     : [];

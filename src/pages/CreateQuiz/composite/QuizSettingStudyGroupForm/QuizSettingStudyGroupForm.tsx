@@ -94,7 +94,7 @@ export default function QuizSettingStudyGroupForm() {
     onSuccess: (data, newStudy) => {
       toast.success("스터디가 생성되었습니다.");
       if (!data) return;
-      console.log("새롭게 생성된 스터디 그룹 아이디", data.id);
+      // console.log("새롭게 생성된 스터디 그룹 아이디", data.id);
       setNewStudyGroup({
         name: newStudy.name,
         id: data.id,

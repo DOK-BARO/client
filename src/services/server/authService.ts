@@ -28,9 +28,9 @@ class AuthService {
     profileImage?: string | null;
   }): Promise<void> => {
     try {
-      console.log(userInfo);
+      // console.log(userInfo);
       const response = await axiosInstance.post("/accounts/email", userInfo);
-      console.log("이메일 회원가입 post 응답", response);
+      // console.log("이메일 회원가입 post 응답", response);
       // TODO: return 타입 확인하기
     } catch (error) {
       handleAxiosError(error);
@@ -47,14 +47,14 @@ class AuthService {
     Object.entries(loginInfo).forEach(([key, value]) => {
       formData.append(key, value);
     });
-    console.log(loginInfo);
+    // console.log(loginInfo);
     try {
       const response = await axiosInstance.post("/auth/login/email", formData, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
       });
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       console.error("에러", error);
       handleAxiosError(error);
@@ -65,7 +65,7 @@ class AuthService {
   updateUser = async (userInfo: UpdateUserParams): Promise<void> => {
     try {
       const response = await axiosInstance.put("/members/login-user", userInfo);
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }
@@ -75,7 +75,7 @@ class AuthService {
   fetchUser = async (isMainPage: boolean = false): Promise<UserType | null> => {
     try {
       const { data } = await axiosInstance.get("/members/login-user");
-      console.log("FETchUser", data);
+      // console.log("FETchUser", data);
       return data;
     } catch (error) {
       if (isMainPage) {
@@ -103,7 +103,7 @@ class AuthService {
   logout = async (): Promise<void> => {
     try {
       const response = await axiosInstance.post("/auth/logout");
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }
@@ -135,12 +135,12 @@ class AuthService {
 
   // 이용약관 동의 요청
   sendTermsAgreement = async (items: number[]): Promise<void> => {
-    console.log(items);
+    // console.log(items);
     try {
       const response = await axiosInstance.post("/terms-of-services/agree", {
         items,
       });
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }
@@ -153,7 +153,7 @@ class AuthService {
         email: email,
       });
       // 201
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }
@@ -168,7 +168,7 @@ class AuthService {
         }
       );
       // 204
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }
@@ -207,7 +207,7 @@ class AuthService {
           email: email,
         }
       );
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }

@@ -26,7 +26,7 @@ class QuizService {
         params: { page, size, bookId, sort, direction },
       });
 
-      console.log(data);
+      // console.log(data);
       return data;
     } catch (error) {
       handleAxiosError(error);
@@ -39,7 +39,7 @@ class QuizService {
   ): Promise<{ id: number } | null> => {
     try {
       const { data } = await axiosInstance.post("/book-quizzes", quiz);
-      console.log("data result: %o", data);
+      // console.log("data result: %o", data);
       return data;
     } catch (error) {
       handleAxiosError(error);
@@ -162,7 +162,7 @@ class QuizService {
   };
 
   reportQuiz = async () => {
-    console.log("준비중인 기능입니다.");
+    // console.log("준비중인 기능입니다.");
   };
 
   // 퀴즈 개별 신고하기
@@ -173,16 +173,16 @@ class QuizService {
     questionId: number;
     contents: string[];
   }): Promise<{ id: number } | null> => {
-    console.log(questionId, contents);
+    // console.log(questionId, contents);
     try {
       const response = await axiosInstance.post("/quiz-question-reports", {
         questionId,
         contents,
       });
-      console.log(response);
+      // console.log(response);
       return response.data;
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       handleAxiosError(error);
       return null;
     }

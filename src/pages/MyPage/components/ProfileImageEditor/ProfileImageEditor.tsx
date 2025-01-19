@@ -22,9 +22,9 @@ export default function ProfileImageEditor({
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("on file change");
+    // console.log("on file change");
     const file = event.target.files?.[0];
-    console.log(file);
+    // console.log(file);
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {

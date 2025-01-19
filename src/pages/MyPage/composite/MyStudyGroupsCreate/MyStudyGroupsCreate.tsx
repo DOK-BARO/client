@@ -73,7 +73,7 @@ export default function MyStudyGroupsCreate() {
       openModal();
       // setIsStudyCreated(true);
       if (!data) return;
-      console.log("새롭게 생성된 스터디 그룹 아이디", data.id);
+      // console.log("새롭게 생성된 스터디 그룹 아이디", data.id);
       setNewStudyGroupId(data.id);
     },
   });

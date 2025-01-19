@@ -15,7 +15,7 @@ export const QuizSettingContainer = ({
   selectedOptionLabel: string | null;
 }) => {
   const options = quizSetting.options;
-  console.log(options);
+  // console.log(options);
 
   const [description, setDescription] = useState<string>("");
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);

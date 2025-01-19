@@ -19,7 +19,7 @@ class StudyGroupService {
       const { data } = await axiosInstance.get(`/study-groups/${id}`);
       return data;
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       handleAxiosError(error);
       return null;
     }
@@ -65,7 +65,7 @@ class StudyGroupService {
       const response = await axiosInstance.post("/study-groups/join", {
         inviteCode,
       });
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }
@@ -93,7 +93,7 @@ class StudyGroupService {
           },
         }
       );
-      console.log(response);
+      // console.log(response);
       return response.data;
     } catch (error) {
       handleAxiosError(error);
@@ -123,7 +123,7 @@ class StudyGroupService {
           },
         }
       );
-      console.log(response);
+      // console.log(response);
       return response.data;
     } catch (error) {
       handleAxiosError(error);
@@ -134,7 +134,7 @@ class StudyGroupService {
   deleteStudyGroup = async (id: number): Promise<void> => {
     try {
       const response = await axiosInstance.delete(`/study-groups/${id}`);
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }
@@ -168,7 +168,7 @@ class StudyGroupService {
           newLeaderId,
         }
       );
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }
@@ -189,7 +189,7 @@ class StudyGroupService {
           memberId,
         }
       );
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }
@@ -213,7 +213,7 @@ class StudyGroupService {
           },
         }
       );
-      console.log(response);
+      // console.log(response);
       return response.data;
     } catch (error) {
       handleAxiosError(error);

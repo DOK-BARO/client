@@ -69,7 +69,7 @@ export default function AddStudyGroupModal({ closeModal, currentPage }: Props) {
       toast.success("스터디가 생성되었습니다.");
       setIsStudyCreated(true);
       if (!data) return;
-      console.log("새롭게 생성된 스터디 그룹 아이디", data.id);
+      // console.log("새롭게 생성된 스터디 그룹 아이디", data.id);
       setNewStudyGroupId(data.id);
     },
   });
@@ -118,8 +118,8 @@ export default function AddStudyGroupModal({ closeModal, currentPage }: Props) {
   });
 
   const handleCreateStudyGroup = () => {
-    console.log("스터디 만들기!", profileImage.file);
-    console.log(profileImage.file);
+    // console.log("스터디 만들기!", profileImage.file);
+    // console.log(profileImage.file);
 
     if (profileImage.file) {
       uploadImage({
@@ -136,8 +136,8 @@ export default function AddStudyGroupModal({ closeModal, currentPage }: Props) {
   };
 
   const handleJoinStudyGroupByCode = () => {
-    console.log("스터디 참여!");
-    console.log(codeList);
+    // console.log("스터디 참여!");
+    // console.log(codeList);
     joinStudyGroup(combinedCode);
   };
 
@@ -179,7 +179,7 @@ export default function AddStudyGroupModal({ closeModal, currentPage }: Props) {
           } else if (!isStudyCreated) {
             handleCreateStudyGroup();
           } else if (isInvitedByCode) {
-            console.log("그룹 페이지 가기");
+            // console.log("그룹 페이지 가기");
           } else {
             closeModal();
           }

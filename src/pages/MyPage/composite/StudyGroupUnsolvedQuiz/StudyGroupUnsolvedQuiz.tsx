@@ -86,7 +86,7 @@ export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Prop) {
   });
   const unsolvedQuizzes = unsolvedQuizData?.data;
   const endPageNumber = unsolvedQuizData?.endPageNumber;
-  console.log(unsolvedQuizzes);
+  // console.log(unsolvedQuizzes);
 
   // 마지막 페이지 번호 저장
   useEffect(() => {

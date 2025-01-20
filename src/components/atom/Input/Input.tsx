@@ -51,8 +51,8 @@ const Input: React.FC<InputProps> = ({
   } ${isSuccess ? styles["input--success"] : ""}
   ${styles[`input--${color}`]} ${fullWidth ? styles.full : ""} 
     ${leftIcon ? styles[`input--left-icon-${size}`] : ""} ${
-    rightIcon ? styles[`input--right-icon-${size}`] : ""
-  } ${customClassName || ""}`;
+  rightIcon ? styles[`input--right-icon-${size}`] : ""
+} ${customClassName || ""}`;
 
   return (
     <div className={`${styles.container} ${fullWidth ? styles.full : ""}`}>

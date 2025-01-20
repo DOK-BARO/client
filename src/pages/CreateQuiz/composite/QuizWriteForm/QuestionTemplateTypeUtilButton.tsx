@@ -27,12 +27,12 @@ function QuestionTemplateTypeUtilButton({
       quizCreationInfo.questions?.map((question) =>
         question.id === quizId
           ? {
-              ...question,
-              selectOptions: [],
-              answerType: option.answerType,
-              answers: [],
-            }
-          : question
+            ...question,
+            selectOptions: [],
+            answerType: option.answerType,
+            answers: [],
+          }
+          : question,
       ) ?? [];
     updateQuizCreationInfo("questions", updatedQuestions);
 

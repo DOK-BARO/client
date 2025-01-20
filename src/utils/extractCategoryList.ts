@@ -3,7 +3,7 @@ import { BookCategories } from "@/types/BookDetailType";
 
 export const extractCategoryList = (
   data: BookCategories,
-  list: ListItem[] = []
+  list: ListItem[] = [],
 ): ListItem[] => {
   if (data.parent) {
     list.unshift({ id: Number(data.id), name: data.name });

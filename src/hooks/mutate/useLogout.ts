@@ -10,21 +10,21 @@ import { currentUserAtom } from "@/store/userAtom";
 import { useQueryClient } from "@tanstack/react-query";
 
 function useLogout() {
-	const [, setCurrentUser] = useAtom(currentUserAtom);
-	const navigate = useNavigate();
-	const queryClient = useQueryClient();
+  const [, setCurrentUser] = useAtom(currentUserAtom);
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
-	const { mutate: logout } = useMutation<void, ErrorType>({
-		mutationFn: () => authService.logout(),
-		onSuccess: () => {
-			queryClient.setQueryData(userKeys.user(), null);
-			toast.success("로그아웃 되었습니다.");
-			navigate(ROUTES.ROOT);
-			setCurrentUser(null);
-		},
-	});
+  const { mutate: logout } = useMutation<void, ErrorType>({
+    mutationFn: () => authService.logout(),
+    onSuccess: () => {
+      queryClient.setQueryData(userKeys.user(), null);
+      toast.success("로그아웃 되었습니다.");
+      navigate(ROUTES.ROOT);
+      setCurrentUser(null);
+    },
+  });
 
-	return { logout };
+  return { logout };
 }
 
 export default useLogout;

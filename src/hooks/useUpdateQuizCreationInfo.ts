@@ -8,7 +8,7 @@ const useUpdateQuizCreationInfo = () => {
 
   const updateQuizCreationInfo = <T extends keyof QuizCreationType, V>(
     field: T,
-    value: V
+    value: V,
   ) => {
     setQuizCreationInfo((prev) => ({
       ...prev,

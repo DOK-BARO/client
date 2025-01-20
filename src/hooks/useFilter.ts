@@ -24,7 +24,7 @@ type FilterCriteria = {
 };
 const useFilter = <T extends FilterCriteria>(
   setFilterCriteria: (value: SetStateAction<T>) => void,
-  resetFilter?: () => void
+  resetFilter?: () => void,
 ) => {
   // const [, setFilterCriteria] = useAtom(bookFilterAtom);
   const { search } = useLocation();

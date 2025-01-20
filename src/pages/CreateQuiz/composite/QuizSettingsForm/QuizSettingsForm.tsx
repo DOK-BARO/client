@@ -2,18 +2,23 @@ import { useEffect, useState } from "react";
 import { isQuizNextButtonEnabledAtom } from "@/store/quizAtom";
 import { useAtom } from "jotai";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
-import { QuizCreationType, QuizSettingType } from "@/types/QuizType";
+import {
+  editScopeTranslations,
+  QuizCreationType,
+  QuizSettingType,
+  viewScopeTranslations,
+} from "@/types/QuizType";
 import { QuizSettingContainer } from "./QuizSettingContainer/QuizSettingContainer";
 
 interface SelectedOptions {
-  [key: string]: string | null;
+  [key: string]: string | null; // 한글 label
 }
 // 4. 퀴즈 설정
 export default function QuizSettingsForm() {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
   const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
-    isQuizNextButtonEnabledAtom
+    isQuizNextButtonEnabledAtom,
   );
 
   // 다음 버튼 초기화
@@ -23,10 +28,15 @@ export default function QuizSettingsForm() {
 
   const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>(
     () => ({
-      "view-access": quizCreationInfo.viewScope,
-      // "edit-access": quizCreationInfo.editScope,
-    })
+      "view-access": quizCreationInfo.viewScope
+        ? viewScopeTranslations[quizCreationInfo.viewScope]
+        : null,
+      "edit-access": quizCreationInfo.editScope
+        ? editScopeTranslations[quizCreationInfo.editScope]
+        : null,
+    }),
   );
+
   const [quizSettings, setQuizSettings] = useState<QuizSettingType[]>();
 
   useEffect(() => {
@@ -38,6 +48,8 @@ export default function QuizSettingsForm() {
       ...prev,
       [settingName]: label,
     }));
+
+    console.log(settingName, label);
 
     const updateMapping: { [key: string]: keyof QuizCreationType } = {
       "view-access": "viewScope",
@@ -53,7 +65,7 @@ export default function QuizSettingsForm() {
       return;
     }
     const isAllSelected = quizSettings.every(
-      (setting) => selectedOptions[setting.name] !== null
+      (setting) => selectedOptions[setting.name] !== null,
     );
 
     setIsQuizNextButtonEnabled(isAllSelected);

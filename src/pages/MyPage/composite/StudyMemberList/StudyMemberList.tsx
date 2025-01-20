@@ -83,7 +83,7 @@ export default function StudyMemberList({
     onError: (error, { member }) => {
       console.error(error);
       toast.error(
-        error.message || `${member.nickname}을 내보내기에 실패했습니다.`
+        error.message || `${member.nickname}을 내보내기에 실패했습니다.`,
       );
     },
   });
@@ -108,7 +108,7 @@ export default function StudyMemberList({
                         위임 후{" "}
                         {
                           studyGroupDetail.studyMembers?.find(
-                            (member) => member.role === "LEADER"
+                            (member) => member.role === "LEADER",
                           )?.nickname
                         }
                         님의 스터디장 권한이 없어집니다.

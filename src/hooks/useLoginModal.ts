@@ -20,7 +20,7 @@ const useLoginModal = () => {
     isLoginModalOpen,
     closeLoginModal,
     handleGoToLogin,
-    openLoginModal
+    openLoginModal,
   };
-}
+};
 export default useLoginModal;

@@ -21,7 +21,7 @@ export default function QuizBookSelectionForm() {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const inputRef = useRef<HTMLDivElement>(null);
   const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
-    isQuizNextButtonEnabledAtom
+    isQuizNextButtonEnabledAtom,
   );
   const {
     value: searchValue,
@@ -36,10 +36,10 @@ export default function QuizBookSelectionForm() {
   // console.log("quizCreationInfo", quizCreationInfo);
 
   const [tempSelectedBook, setTempSelectedBook] = useState<BookType | null>(
-    quizCreationInfo.book
+    quizCreationInfo.book,
   );
   const [selectedBook, setSelectedBook] = useState<BookType | null>(
-    tempSelectedBook
+    tempSelectedBook,
   );
 
   const {

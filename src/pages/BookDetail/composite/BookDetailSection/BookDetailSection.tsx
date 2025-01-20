@@ -26,7 +26,6 @@ export default function BookDetailContent({
           />
         </div>
         <div className={styles["book-container"]}>
-
           <div>
             <h1 className={styles["book-detail-title"]}>
               {bookDetailContent.title}

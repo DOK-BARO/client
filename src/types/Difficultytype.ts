@@ -1,4 +1,4 @@
-export interface DifficultyType{
-	label:string;
-	difficultyValue: number;
+export interface DifficultyType {
+  label: string;
+  difficultyValue: number;
 }

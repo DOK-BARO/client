@@ -74,7 +74,7 @@ export default function QuestionForm({
   const setInitialFormType = (): QuestionTemplateType => {
     return (
       questionTemplates.find(
-        ({ answerType: typeFlag }) => typeFlag === answerType
+        ({ answerType: typeFlag }) => typeFlag === answerType,
       ) || questionTemplates[0]
     );
   };
@@ -82,7 +82,7 @@ export default function QuestionForm({
   const [questionFormType, setQuestionFormType] =
     useState<QuestionTemplateType>(setInitialFormType());
   const [questionFormMode, setQuestionFormMode] = useState<string>(
-    QuestionFormMode.QUESTION
+    QuestionFormMode.QUESTION,
   );
   const titleMaxLength = 25000;
   const descriptionMaxLength = 500;
@@ -93,8 +93,8 @@ export default function QuestionForm({
     textareaRef: questionTextAreaRef,
   } = useAutoResizeTextarea(
     quizCreationInfo.questions?.find(
-      (question) => question.id === questionFormId
-    )?.content
+      (question) => question.id === questionFormId,
+    )?.content,
   );
   const {
     value: answerTextAreaValue,
@@ -102,14 +102,14 @@ export default function QuestionForm({
     textareaRef: descriptionTextAreaRef,
   } = useAutoResizeTextarea(
     quizCreationInfo.questions?.find(
-      (question) => question.id === questionFormId
-    )?.answerExplanationContent
+      (question) => question.id === questionFormId,
+    )?.answerExplanationContent,
   );
 
   const [selectedImages, setSelectedImages] = useState<File[]>(
     quizCreationInfo.questions?.find(
-      (question) => question.id === questionFormId
-    )?.answerExplanationImages ?? []
+      (question) => question.id === questionFormId,
+    )?.answerExplanationImages ?? [],
   );
   const [imagePreview, setImagePreview] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -123,7 +123,7 @@ export default function QuestionForm({
       quizCreationInfo.questions?.map((question) =>
         question.id === questionFormId
           ? { ...question, answerExplanationContent: e.target.value }
-          : question
+          : question,
       ) ?? [];
     updateQuizCreationInfo("questions", updatedQuestions);
   };
@@ -143,7 +143,7 @@ export default function QuestionForm({
   const setInitialImgPreview = async (): Promise<string[]> => {
     const answerExplanationImages: File[] =
       quizCreationInfo.questions?.find(
-        (question) => question.id === questionFormId
+        (question) => question.id === questionFormId,
       )?.answerExplanationImages ?? [];
     const newImages = await readFilesAsDataURL(answerExplanationImages);
 
@@ -160,7 +160,7 @@ export default function QuestionForm({
           return {
             ...question,
             answerExplanationImages: question.answerExplanationImages.filter(
-              (_, i) => i !== index
+              (_, i) => i !== index,
             ),
           };
         }
@@ -176,7 +176,7 @@ export default function QuestionForm({
   };
   const checkValidation = () => {
     const questionForm = quizCreationInfo.questions?.find(
-      ({ id }) => id === questionFormId
+      ({ id }) => id === questionFormId,
     );
 
     if (!questionForm) {
@@ -227,7 +227,7 @@ export default function QuestionForm({
   };
 
   const handleImageChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     // TODO: 이미지 핸들링 hook으로 만들기
     const files = event.target.files;
@@ -269,7 +269,7 @@ export default function QuestionForm({
       quizCreationInfo.questions?.map((question) =>
         question.id === questionFormId
           ? { ...question, content: e.target.value }
-          : question
+          : question,
       ) ?? [];
     updateQuizCreationInfo("questions", updatedQuestions);
   };

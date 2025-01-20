@@ -65,7 +65,7 @@ const LoginModal = ({ closeModal }: Props) => {
     onSuccess: () => {
       toast.success("로그인이 완료되었습니다.");
       closeModal();
-			navigate(ROUTES.ROOT);
+      navigate(ROUTES.ROOT);
       navigate(0);
     },
     onError: () => {
@@ -91,8 +91,8 @@ const LoginModal = ({ closeModal }: Props) => {
 
   const handleSignupClick = () => {
     closeModal();
-		const method = SocialLoginType.EMAIL.toLocaleLowerCase();
-		navigate(ROUTES.REGISTER(method));
+    const method = SocialLoginType.EMAIL.toLocaleLowerCase();
+    navigate(ROUTES.REGISTER(method));
   };
 
   const handleFindPasswordClick = () => {

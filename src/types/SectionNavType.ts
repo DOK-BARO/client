@@ -2,5 +2,5 @@ export interface SectionNavType {
   title: string;
   link: string;
   subTitles?: SectionNavType[];
-	pageTitle?: string;
+  pageTitle?: string;
 }

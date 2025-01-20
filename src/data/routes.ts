@@ -10,7 +10,7 @@ const ROUTES = {
   BOOK_DETAIL_SECTION: (id?: number) => `/book/${id ?? ":id"}`,
 
   QUIZ_DETAIL: (id?: number) => `/quiz/${id ?? ":id"}`,
-  CREATE_QUIZ: "/create-quiz",
+  CREATE_QUIZ: (id?: string | null) => `/create-quiz/${id ?? ":id"}`,
   CREATE_QUIZ_COMPLETE: "/create-quiz/complete",
 
   FIND_PASSWORD: "/find-password",

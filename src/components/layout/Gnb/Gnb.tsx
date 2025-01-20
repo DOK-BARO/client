@@ -16,7 +16,7 @@ import { prevPaginationStateAtom } from "@/store/paginationAtom";
 export default function GNB() {
   const { isGNBHidden } = useGNB();
   const [activeCategoryIndex, setActiveCategoryIndex] = useState<number | null>(
-    null
+    null,
   );
   const [expandedSubCategories, setExpandedSubCategories] = useState<{
     [key: number]: boolean;
@@ -104,7 +104,7 @@ export default function GNB() {
                       >
                         {subCategory.name}
                       </Button>
-                      {subCategory?.details?.length ?? 0 > 0 ? (
+                      {(subCategory?.details?.length ?? 0 > 0) ? (
                         <Button
                           onClick={() => {
                             toggleSubCategory(subCategoryId);

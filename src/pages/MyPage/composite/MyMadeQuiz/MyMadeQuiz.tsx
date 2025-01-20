@@ -36,7 +36,7 @@ export default function MyMadeQuiz() {
   useFilter<MyMadeQuizzesFilterType>(setFilterCriteria);
 
   const [paginationState, setPaginationState] = useAtom(
-    myMadeQuizPaginationAtom
+    myMadeQuizPaginationAtom,
   );
   const totalPagesLength = paginationState.totalPagesLength;
 
@@ -53,7 +53,7 @@ export default function MyMadeQuiz() {
   });
 
   const handleClickWhenNoData = () => {
-    navigate(ROUTES.CREATE_QUIZ);
+    navigate(ROUTES.CREATE_QUIZ());
   };
 
   const endPageNumber = myQuizzesData?.endPageNumber;
@@ -73,13 +73,13 @@ export default function MyMadeQuiz() {
   const myQuizzes = myQuizzesData?.data;
 
   if (isLoading || !myQuizzes) {
-    return <>로딩</>; 
+    return <>로딩</>;
   }
 
   return (
     <div>
       <QuizListLayout
-        title="내가 만든 퀴즈"
+        title="만든 퀴즈"
         quizzes={myQuizzes}
         titleWhenNoData="아직 내가 만든 퀴즈가 없어요. 😞"
         buttonNameWhenNoData="퀴즈 만들러 가기"

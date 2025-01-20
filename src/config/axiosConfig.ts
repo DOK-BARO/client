@@ -24,7 +24,7 @@ axiosInstance.interceptors.response.use(
       return Promise.reject(new Error("요청 시간이 초과되었습니다."));
     }
     return Promise.reject(error);
-  }
+  },
 
   // (error) => {
   //   // TODO: useQuery 에러 처리랑 겹치는 부분 어떻게 할지

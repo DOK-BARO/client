@@ -31,5 +31,5 @@ export const BookListItem = memo(
         </div>
       </li>
     );
-  }
+  },
 );

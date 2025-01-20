@@ -53,13 +53,13 @@ export default function QuizSettingStudyGroupForm() {
 
   // 새롭게 추가된 스터디 그룹 이름
   const [newStudyGroup, setNewStudyGroup] = useState<StudyGroupType | null>(
-    null
+    null,
   );
 
   const [isNewStudyGroupAdded, setNewStudyGroupAdded] =
     useState<boolean>(false);
   const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
-    isQuizNextButtonEnabledAtom
+    isQuizNextButtonEnabledAtom,
   );
 
   useEffect(() => {
@@ -204,29 +204,29 @@ export default function QuizSettingStudyGroupForm() {
 
       newStudyGroup
         ? {
-            title: "스터디 그룹 초대코드",
-            content: (
-              <div className={styles["email-invite"]}>
-                <Button
-                  fullWidth
-                  color="secondary"
-                  icon={
-                    <Copy width={20} stroke={primary} alt="초대 코드 복사" />
-                  }
-                  iconPosition="left"
-                  onClick={handleClickCopyCode}
-                >
-                  <span id="invite-code" aria-label="스터디 그룹 초대 코드">
-                    {!isStudyGroupDetailLoading && studyGroupDetail?.inviteCode}
-                  </span>
-                </Button>
-              </div>
-            ),
-          }
+          title: "스터디 그룹 초대코드",
+          content: (
+            <div className={styles["email-invite"]}>
+              <Button
+                fullWidth
+                color="secondary"
+                icon={
+                  <Copy width={20} stroke={primary} alt="초대 코드 복사" />
+                }
+                iconPosition="left"
+                onClick={handleClickCopyCode}
+              >
+                <span id="invite-code" aria-label="스터디 그룹 초대 코드">
+                  {!isStudyGroupDetailLoading && studyGroupDetail?.inviteCode}
+                </span>
+              </Button>
+            </div>
+          ),
+        }
         : null,
     ];
     return contents.filter(
-      (content): content is ModalContentProps => content !== null
+      (content): content is ModalContentProps => content !== null,
     );
   };
 
@@ -286,12 +286,12 @@ export default function QuizSettingStudyGroupForm() {
           bottomButtons={
             newStudyGroup
               ? [
-                  {
-                    text: "완료",
-                    color: "primary",
-                    onClick: done,
-                  },
-                ]
+                {
+                  text: "완료",
+                  color: "primary",
+                  onClick: done,
+                },
+              ]
               : undefined
           }
           closeModal={closeModal}

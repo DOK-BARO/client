@@ -12,7 +12,7 @@ const useLoginAction = () => {
     } else {
       handleGoToLogin();
     }
-  }
+  };
   return { handleAuthenticatedAction };
-}
+};
 export default useLoginAction;

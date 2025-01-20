@@ -80,7 +80,7 @@ export default function QuizShortInfo({
     resetTextarea: resetOtherGrounds,
   } = useAutoResizeTextarea("", 40, 3); // TODO: Textarea 미세한 높이 차이 42.5 -> 43
   const [selectedReportReason, setSelectedReportReason] = useState<string[]>(
-    []
+    [],
   );
 
   // 퀴즈집 신고
@@ -150,14 +150,14 @@ export default function QuizShortInfo({
       reportReasons.map((reason) =>
         reason.id === Number(id)
           ? { ...reason, checked: !reason.checked }
-          : reason
-      )
+          : reason,
+      ),
     );
   };
 
   useEffect(() => {
     const reportReasonTextList = reportReasons.filter(
-      (reason) => reason.checked
+      (reason) => reason.checked,
     );
     setSelectedReportReason(reportReasonTextList.map((item) => item.text));
   }, [reportReasons]);
@@ -232,7 +232,7 @@ export default function QuizShortInfo({
               disabled:
                 selectedReportReason.length < 1 ||
                 selectedReportReason.some(
-                  (reason) => reason === "기타" && OtherGrounds === ""
+                  (reason) => reason === "기타" && OtherGrounds === "",
                 ),
             },
           ]}

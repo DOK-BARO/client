@@ -79,9 +79,9 @@ export default function QuizCreationFormLayout({
       const paramObj: {
         image: File;
         imageTarget:
-          | "MEMBER_PROFILE"
-          | "STUDY_GROUP_PROFILE"
-          | "BOOK_QUIZ_ANSWER";
+        | "MEMBER_PROFILE"
+        | "STUDY_GROUP_PROFILE"
+        | "BOOK_QUIZ_ANSWER";
       } = {
         image: img,
         imageTarget: "BOOK_QUIZ_ANSWER",
@@ -95,27 +95,24 @@ export default function QuizCreationFormLayout({
   const setRequestQuestion = async (): Promise<
     QuizQuestionRequestApiType[]
   > => {
-    try {
-      console.log("*********3");
-      const uploadedImgQuestions = quizCreationInfo.questions!.map(
-        async (question) => {
-          const { id, ...rest } = question;
-          void id;
-          return {
-            ...rest,
-            answerExplanationImages: await requestUploadExplanationImages(
-              question.answerExplanationImages,
-            ),
-            selectOptions: question.selectOptions.map(
-              (option) => option.option,
-            ),
-          };
-        },
-      );
-      return await Promise.all(uploadedImgQuestions);
-    } catch (error) {
-      throw error;
-    }
+
+    console.log("*********3");
+    const uploadedImgQuestions = quizCreationInfo.questions!.map(
+      async (question) => {
+        const { id, ...rest } = question;
+        void id;
+        return {
+          ...rest,
+          answerExplanationImages: await requestUploadExplanationImages(
+            question.answerExplanationImages,
+          ),
+          selectOptions: question.selectOptions.map(
+            (option) => option.option,
+          ),
+        };
+      },
+    );
+    return await Promise.all(uploadedImgQuestions);
   };
 
   const [, setCreatedQuizId] = useAtom(createdQuizIdAtom);
@@ -157,8 +154,10 @@ export default function QuizCreationFormLayout({
       return;
     }
 
-    const viewScopeKey = getScopeKeyByTranslation(quizCreationInfo.viewScope);
-
+    // 한글을 영어로 바꾸는 함수.
+    // 수정할 땐 영어가 들어온다
+    const viewScopeKey = isEditMode ? quizCreationInfo.viewScope : getScopeKeyByTranslation(quizCreationInfo.viewScope); 
+   
     if (
       quizCreationInfo.title === null ||
       quizCreationInfo.description === null ||

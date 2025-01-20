@@ -45,13 +45,13 @@ export default function Index() {
 
   const { data: prevBook, isLoading: isBookLoading } = useQuery({
     queryKey: ["bookDetail", prevQuiz?.bookId],
-    queryFn: () => bookService.fetchBook(prevQuiz?.bookId.toString()!),
+    queryFn: () => bookService.fetchBook(prevQuiz?.bookId.toString() ?? ""),
     enabled: isEditMode && !!prevQuiz?.bookId,
   });
 
   const { data: studyGroupDetail, isLoading: isStudyGroupLoading } = useQuery({
     queryKey: ["studyGroupDetail", prevQuiz?.studyGroupId],
-    queryFn: () => studyGroupService.fetchStudyGroup(prevQuiz?.studyGroupId!),
+    queryFn: () => studyGroupService.fetchStudyGroup(prevQuiz?.studyGroupId ?? -1),
     enabled: isEditMode && !!prevQuiz?.studyGroupId,
   });
 
@@ -72,20 +72,20 @@ export default function Index() {
     async function initializeQuiz() {
       if (isEditMode) {
         const formattedBook: BookType = {
-          id: prevBook?.id!,
-          isbn: prevBook?.isbn!,
-          title: prevBook?.title!,
-          publisher: prevBook?.publisher!,
-          publishedAt: prevBook?.publishedAt!,
-          imageUrl: prevBook?.imageUrl!,
-          categories: prevBook?.categories!,
-          authors: prevBook?.authors!,
+          id: prevBook?.id ?? -1,
+          isbn: prevBook?.isbn ?? "",
+          title: prevBook?.title ?? "",
+          publisher: prevBook?.publisher ?? "",
+          publishedAt: prevBook?.publishedAt ?? "",
+          imageUrl: prevBook?.imageUrl ?? "",
+          categories: prevBook?.categories ?? [],
+          authors: prevBook?.authors ?? [],
         };
         console.log("FormattedBook: %o", formattedBook);
 
         const formattedStudyGroup: StudyGroupType = {
-          id: studyGroupDetail?.id!,
-          name: studyGroupDetail?.name!,
+          id: studyGroupDetail?.id ?? -1,
+          name: studyGroupDetail?.name ?? "",
           profileImageUrl: studyGroupDetail?.profileImageUrl,
         };
 
@@ -123,14 +123,14 @@ export default function Index() {
               answerType: q.answerType,
               answers: q.answers,
             };
-          })!,
+          }) ?? [],
         );
 
         const quiz: QuizCreationType = {
-          title: prevQuiz?.title!,
-          description: prevQuiz?.description!,
+          title: prevQuiz?.title ?? "",
+          description: prevQuiz?.description ?? "",
           book: formattedBook,
-          viewScope: prevQuiz?.viewScope! as ViewScope,
+          viewScope: prevQuiz?.viewScope as ViewScope,
           editScope: "CREATOR" as EditScope,
           studyGroup: formattedStudyGroup,
           questions: prevQuestions,

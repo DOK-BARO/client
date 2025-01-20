@@ -24,9 +24,9 @@ export default function ProfileUpload({
   };
 
   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("on file change");
+    // console.log("on file change");
     const file = event.target.files?.[0];
-    console.log(file);
+    // console.log(file);
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {

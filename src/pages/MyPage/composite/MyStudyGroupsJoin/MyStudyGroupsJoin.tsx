@@ -52,7 +52,7 @@ export default function MyStudyGroupsJoin() {
   });
 
   const handleJoinStudyGroupByCode = () => {
-    console.log(codeList, combinedCode);
+    // console.log(codeList, combinedCode);
     joinStudyGroup(combinedCode);
   };
 

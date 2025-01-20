@@ -27,7 +27,7 @@ function useValidate({
 
   useEffect(() => {
     if (debouncedCode.length === 6) {
-      console.log(debouncedCode);
+      // console.log(debouncedCode);
       matchingEmailCode();
     } else {
       setIsMatch(undefined);

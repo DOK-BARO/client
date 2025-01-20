@@ -34,3 +34,6 @@ export const QuestionFormMode = {
 } as const;
 
 export const BOOK_QUIZ_OPTION_MAX_LENGTH = 5;
+
+export const EXTERNAL_SERVICE_INTRODUCTION_PAGE =
+  "https://maddening-radar-044.notion.site/a13ecec47e8c4d789b6939c01733749e?pvs=4";

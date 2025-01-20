@@ -286,7 +286,7 @@ export default function QuestionForm({
   useEffect(() => {
     if (invalidQuestionFormId && invalidQuestionFormId === questionFormId) {
       const targetElement = formRefs.current[invalidQuestionFormId];
-      console.log("id!: " + invalidQuestionFormId);
+      // console.log("id!: " + invalidQuestionFormId);
       targetElement?.scrollIntoView({ behavior: "smooth", block: "center" });
       console.log("scrolled!:d***");
     }

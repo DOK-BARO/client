@@ -1,0 +1,34 @@
+@import "../../styles/abstracts/mixins";
+@import "../../styles/abstracts/variables";
+
+.container {
+  @include flex(column, center);
+  margin-block: 40px 35px;
+
+}
+
+.title {
+  margin-bottom: 16px;
+  font-size: $font-size-large;
+  font-weight: $font-weight-semibold;
+}
+
+.desc {
+  margin-bottom: 32px;
+  font-size: 32px;
+  font-weight: $font-weight-semibold;
+
+  .app-name {
+    color: $primary;
+  }
+}
+
+.button-area {
+  @include flex(row);
+  gap: 7px;
+  margin-bottom: 24px;
+
+  button {
+    width: 150px;
+  }
+}

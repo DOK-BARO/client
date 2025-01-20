@@ -15,9 +15,8 @@ class AuthService {
     socialType: SocialLoginType;
     redirectUrl: string;
   }): void => {
-    window.location.href = `${
-      import.meta.env.VITE_API_URL
-    }/auth/login/oauth2/${socialType.toLocaleLowerCase()}?redirect-url=${redirectUrl}`;
+    window.location.href = `${import.meta.env.VITE_API_URL
+      }/auth/login/oauth2/${socialType.toLocaleLowerCase()}?redirect-url=${redirectUrl}`;
   };
 
   // 이메일 회원가입
@@ -28,9 +27,9 @@ class AuthService {
     profileImage?: string | null;
   }): Promise<void> => {
     try {
-      console.log(userInfo);
-      const response = await axiosInstance.post("/accounts/email", userInfo);
-      console.log("이메일 회원가입 post 응답", response);
+      // console.log(userInfo);
+      await axiosInstance.post("/accounts/email", userInfo);
+      // console.log("이메일 회원가입 post 응답", response);
       // TODO: return 타입 확인하기
     } catch (error) {
       handleAxiosError(error);
@@ -47,14 +46,14 @@ class AuthService {
     Object.entries(loginInfo).forEach(([key, value]) => {
       formData.append(key, value);
     });
-    console.log(loginInfo);
+    // console.log(loginInfo);
     try {
-      const response = await axiosInstance.post("/auth/login/email", formData, {
+      await axiosInstance.post("/auth/login/email", formData, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
       });
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       console.error("에러", error);
       handleAxiosError(error);
@@ -64,8 +63,8 @@ class AuthService {
   // 문서 상에는 'modify login member' 로 명시되어 있음.
   updateUser = async (userInfo: UpdateUserParams): Promise<void> => {
     try {
-      const response = await axiosInstance.put("/members/login-user", userInfo);
-      console.log(response);
+      await axiosInstance.put("/members/login-user", userInfo);
+      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }
@@ -75,7 +74,7 @@ class AuthService {
   fetchUser = async (isMainPage: boolean = false): Promise<UserType | null> => {
     try {
       const { data } = await axiosInstance.get("/members/login-user");
-      console.log("FETchUser", data);
+      // console.log("FETchUser", data);
       return data;
     } catch (error) {
       if (isMainPage) {
@@ -102,8 +101,8 @@ class AuthService {
   // };
   logout = async (): Promise<void> => {
     try {
-      const response = await axiosInstance.post("/auth/logout");
-      console.log(response);
+      await axiosInstance.post("/auth/logout");
+      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }
@@ -135,12 +134,12 @@ class AuthService {
 
   // 이용약관 동의 요청
   sendTermsAgreement = async (items: number[]): Promise<void> => {
-    console.log(items);
+    // console.log(items);
     try {
-      const response = await axiosInstance.post("/terms-of-services/agree", {
+      await axiosInstance.post("/terms-of-services/agree", {
         items,
       });
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }
@@ -149,11 +148,11 @@ class AuthService {
   // 이메일로 인증코드 보내기
   sendEmailCode = async (email: string): Promise<void> => {
     try {
-      const response = await axiosInstance.post("/email-authentications", {
+      await axiosInstance.post("/email-authentications", {
         email: email,
       });
       // 201
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }
@@ -161,14 +160,14 @@ class AuthService {
 
   resendEmailCode = async (email: string): Promise<void> => {
     try {
-      const response = await axiosInstance.post(
+      await axiosInstance.post(
         "/email-authentications/recreate",
         {
           email: email,
         },
       );
       // 204
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }
@@ -201,13 +200,13 @@ class AuthService {
   // 임시 비밀번호 발급
   issueTempPassword = async (email: string): Promise<void> => {
     try {
-      const response = await axiosInstance.post(
+      await axiosInstance.post(
         "/accounts/email/issue-temporary-password",
         {
           email: email,
         },
       );
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }

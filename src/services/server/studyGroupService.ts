@@ -19,7 +19,7 @@ class StudyGroupService {
       const { data } = await axiosInstance.get(`/study-groups/${id}`);
       return data;
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       handleAxiosError(error);
       return null;
     }
@@ -62,10 +62,10 @@ class StudyGroupService {
   // 초대코드로 스터디 그룹 참여
   joinStudyGroup = async (inviteCode: string): Promise<void> => {
     try {
-      const response = await axiosInstance.post("/study-groups/join", {
+      await axiosInstance.post("/study-groups/join", {
         inviteCode,
       });
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }
@@ -93,7 +93,7 @@ class StudyGroupService {
           },
         },
       );
-      console.log(response);
+      // console.log(response);
       return response.data;
     } catch (error) {
       handleAxiosError(error);
@@ -123,7 +123,7 @@ class StudyGroupService {
           },
         },
       );
-      console.log(response);
+      // console.log(response);
       return response.data;
     } catch (error) {
       handleAxiosError(error);
@@ -133,8 +133,8 @@ class StudyGroupService {
 
   deleteStudyGroup = async (id: number): Promise<void> => {
     try {
-      const response = await axiosInstance.delete(`/study-groups/${id}`);
-      console.log(response);
+      await axiosInstance.delete(`/study-groups/${id}`);
+      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }
@@ -162,13 +162,13 @@ class StudyGroupService {
     newLeaderId: number;
   }): Promise<void> => {
     try {
-      const response = await axiosInstance.post(
+      await axiosInstance.post(
         `/study-groups/${studyGroupId}/change-leader`,
         {
           newLeaderId,
         },
       );
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }
@@ -183,13 +183,13 @@ class StudyGroupService {
     memberId: number;
   }): Promise<void> => {
     try {
-      const response = await axiosInstance.post(
+      await axiosInstance.post(
         `/study-groups/${studyGroupId}/withdraw`,
         {
           memberId,
         },
       );
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }
@@ -213,7 +213,7 @@ class StudyGroupService {
           },
         },
       );
-      console.log(response);
+      // console.log(response);
       return response.data;
     } catch (error) {
       handleAxiosError(error);

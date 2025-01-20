@@ -4,9 +4,7 @@ import styles from "./_password_set.module.scss";
 import useInput from "@/hooks/useInput.ts";
 import { passwordValidation } from "@/validation/passwordValidation.ts";
 import Input from "@/components/atom/Input/Input";
-import {
-  gray60,
-} from "@/styles/abstracts/colors.ts";
+import { gray60 } from "@/styles/abstracts/colors.ts";
 import Button from "@/components/atom/Button/Button";
 import { RegisterInfoType } from "@/types/UserType";
 import { registerInfoAtom } from "@/store/userAtom";
@@ -73,7 +71,11 @@ export default function PasswordSet({
       <Input
         type={isPasswordVisible ? "text" : "password"}
         isSuccess={isPasswordValid}
-        message={<PasswordValidationMessage passwordValidations={passwordValidations}/>}
+        message={
+          <PasswordValidationMessage
+            passwordValidations={passwordValidations}
+          />
+        }
         rightIcon={
           <Button iconOnly onClick={handleVisibleToggle}>
             {isPasswordVisible ? (
@@ -119,7 +121,11 @@ export default function PasswordSet({
             isError={!isPasswordMatched && passwordCheck !== ""}
             isSuccess={isPasswordMatched}
             message={
-              passwordCheck &&  <PasswordMatchCheckMessage isPasswordMatched={isPasswordMatched}/>
+              passwordCheck && (
+                <PasswordMatchCheckMessage
+                  isPasswordMatched={isPasswordMatched}
+                />
+              )
             }
           />
         </>

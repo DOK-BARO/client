@@ -8,7 +8,7 @@ const useTextarea = (initialValue: string) => {
   };
 
   const resetTextarea = (
-    newInitialValue: string | undefined = initialValue
+    newInitialValue: string | undefined = initialValue,
   ) => {
     setValue(newInitialValue);
   };

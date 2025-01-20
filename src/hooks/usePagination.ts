@@ -32,11 +32,11 @@ const usePagination = ({
 
     const pageList = Array.from(
       { length: middlePagesLength },
-      (_, i) => startIndex + i + 1
+      (_, i) => startIndex + i + 1,
     );
 
     const middlePageList = pageList.filter(
-      (page) => page > 1 && page < totalPagesLength
+      (page) => page > 1 && page < totalPagesLength,
     );
     return middlePageList;
   };
@@ -59,7 +59,7 @@ const usePagination = ({
 
   const setPageState = (
     currentPage: number,
-    pagePosition: PagePositionType
+    pagePosition: PagePositionType,
   ) => {
     setPaginationState((prev) => ({
       ...prev,

@@ -14,7 +14,7 @@ import {
   QuizQuestionRequestApiType,
   QuizRequestType,
 } from "@/types/QuizType";
-import { ViewScope, scopeTranslations } from "@/types/QuizType";
+import { ViewScope, viewScopeTranslations } from "@/types/QuizType";
 import { imageService } from "@/services/server/imageService";
 import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
 import { quizService } from "@/services/server/quizService";
@@ -27,15 +27,18 @@ import { invalidQuestionFormIdAtom } from "@/store/quizAtom";
 import React from "react";
 
 export default function QuizCreationFormLayout({
+  isEditMode,
+  editQuizId,
   steps,
   currentStep,
   setCurrentStep,
 }: {
+  isEditMode: boolean;
+  editQuizId?: string;
   steps: Step[];
   currentStep: number;
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
-}) 
-{
+}) {
   const navigate = useNavigate();
   const [isQuizNextButtonEnabled, setIsQuizNextButtonEnabled] =
     useAtom<boolean>(isQuizNextButtonEnabledAtom);
@@ -58,29 +61,27 @@ export default function QuizCreationFormLayout({
 
     const truncatedStep = Math.trunc(currentStep);
     return steps[truncatedStep]!.subSteps!.find(
-      (subStep) => subStep.order === currentStep
+      (subStep) => subStep.order === currentStep,
     )!;
   };
 
-  const getScopeKeyByTranslation = (
-    translation: string
-  ): ViewScope | null => {
-    const entry = Object.entries(scopeTranslations).find(
-      ([, value]) => value === translation
+  const getScopeKeyByTranslation = (translation: string): ViewScope | null => {
+    const entry = Object.entries(viewScopeTranslations).find(
+      ([, value]) => value === translation,
     );
     return entry ? (entry[0] as ViewScope) : null;
   };
 
   const requestUploadExplanationImages = async (
-    uploadTargetImgs: File[]
+    uploadTargetImgs: File[],
   ): Promise<string[]> => {
     const promiseImgList = uploadTargetImgs.map(async (img) => {
       const paramObj: {
         image: File;
         imageTarget:
-        | "MEMBER_PROFILE"
-        | "STUDY_GROUP_PROFILE"
-        | "BOOK_QUIZ_ANSWER";
+          | "MEMBER_PROFILE"
+          | "STUDY_GROUP_PROFILE"
+          | "BOOK_QUIZ_ANSWER";
       } = {
         image: img,
         imageTarget: "BOOK_QUIZ_ANSWER",
@@ -94,20 +95,27 @@ export default function QuizCreationFormLayout({
   const setRequestQuestion = async (): Promise<
     QuizQuestionRequestApiType[]
   > => {
-    const uploadedImgQuestions = quizCreationInfo.questions!.map(
-      async (question) => {
-        const { id, ...rest } = question;
-        void id;
-        return {
-          ...rest,
-          answerExplanationImages: await requestUploadExplanationImages(
-            question.answerExplanationImages
-          ),
-          selectOptions: question.selectOptions.map((option) => option.option),
-        };
-      }
-    );
-    return await Promise.all(uploadedImgQuestions);
+    try {
+      console.log("*********3");
+      const uploadedImgQuestions = quizCreationInfo.questions!.map(
+        async (question) => {
+          const { id, ...rest } = question;
+          void id;
+          return {
+            ...rest,
+            answerExplanationImages: await requestUploadExplanationImages(
+              question.answerExplanationImages,
+            ),
+            selectOptions: question.selectOptions.map(
+              (option) => option.option,
+            ),
+          };
+        },
+      );
+      return await Promise.all(uploadedImgQuestions);
+    } catch (error) {
+      throw error;
+    }
   };
 
   const [, setCreatedQuizId] = useAtom(createdQuizIdAtom);
@@ -127,9 +135,23 @@ export default function QuizCreationFormLayout({
     },
   });
 
-  const requestCreateQuiz = async () => {
+  const { mutate: requestModifyQuiz } = useMutation<
+    void,
+    ErrorType,
+    { editQuizId: string; quiz: QuizRequestType }
+  >({
+    mutationFn: ({ editQuizId, quiz }) =>
+      quizService.modifyQuiz({ editQuizId, quiz }),
+    onSuccess: () => {
+      //navigate(ROUTES.ROOT);
+    },
+  });
+
+  const requestQuiz = async () => {
+    console.log("*************start: %o", quizCreationInfo);
+
     if (
-      quizCreationInfo.viewScope === null 
+      quizCreationInfo.viewScope === null
       //|| quizCreationInfo.editScope === null
     ) {
       return;
@@ -146,6 +168,7 @@ export default function QuizCreationFormLayout({
     ) {
       return;
     }
+    console.log("*************3:");
 
     const quiz: QuizRequestType = {
       title: quizCreationInfo.title,
@@ -156,8 +179,10 @@ export default function QuizCreationFormLayout({
       studyGroupId: quizCreationInfo.studyGroup?.id || undefined,
       questions: await setRequestQuestion(),
     };
-
-    createQuiz(quiz);
+    console.log("*************end: %o", quiz);
+    isEditMode
+      ? requestModifyQuiz({ editQuizId: editQuizId!, quiz })
+      : createQuiz(quiz);
     return;
   };
   const endStep = steps.length - 1;
@@ -182,7 +207,7 @@ export default function QuizCreationFormLayout({
         setInvalidQuestionFormId(undefined);
       }
     } else if (currentStep == endStep) {
-      await requestCreateQuiz();
+      await requestQuiz(); //TODO: 리팩토링 필요: 퀴즈 수정과 생성을 이 함수에서 같이 하고있음
       return;
     }
 

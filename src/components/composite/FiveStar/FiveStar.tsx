@@ -53,7 +53,7 @@ export default function FiveStar({
 
   const handleStarClick = (
     _: React.MouseEvent<HTMLButtonElement>,
-    starValue: number
+    starValue: number,
   ) => {
     setStarRating ? setStarRating(starValue ?? 0) : () => {};
   };

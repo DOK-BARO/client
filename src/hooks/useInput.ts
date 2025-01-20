@@ -14,7 +14,7 @@ interface UseInputReturn {
 
 const useInput = (
   initialValue: string,
-  validationRules: ValidationRule[] = []
+  validationRules: ValidationRule[] = [],
 ): UseInputReturn => {
   const [value, setValue] = useState<string>(initialValue);
 
@@ -23,10 +23,10 @@ const useInput = (
       ...acc,
       [rule.message]: false,
     }),
-    {}
+    {},
   );
   const [validations, setValidations] = useState<{ [key: string]: boolean }>(
-    initialValidations
+    initialValidations,
   );
   const [isValid, setIsValid] = useState<boolean | undefined>(undefined);
 
@@ -39,7 +39,7 @@ const useInput = (
         ...acc,
         [rule.message]: rule.rule(inputValue),
       }),
-      {}
+      {},
     );
     setValidations(newValidations);
 

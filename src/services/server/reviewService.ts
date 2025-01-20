@@ -11,7 +11,7 @@ import { handleAxiosError } from "@/utils/errorHandler";
 class ReviewService {
   // 퀴즈 요약 목록 조회
   fetchReviews = async (
-    params: FetchReviewsParams
+    params: FetchReviewsParams,
   ): Promise<{ endPageNumber: number; data: ReviewType[] } | null> => {
     const { page = 1, size = 10, quizId, sort, direction } = params;
     try {
@@ -33,7 +33,7 @@ class ReviewService {
 
   // 퀴즈 리뷰 총평 (별점, 난이도) 조회
   fetchReviewsTotalScore = async (
-    quizId: number
+    quizId: number,
   ): Promise<ReviewsTotalScoreType | null> => {
     try {
       const { data } = await axiosInstance.get("/quiz-reviews/total-score", {
@@ -64,7 +64,7 @@ class ReviewService {
   };
 
   createQuizReview = async (
-    review: ReviewPostType
+    review: ReviewPostType,
   ): Promise<{ id: string } | null> => {
     try {
       const { data } = await axiosInstance.post("/quiz-reviews", review);

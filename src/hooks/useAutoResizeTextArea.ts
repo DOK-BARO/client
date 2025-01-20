@@ -4,7 +4,7 @@ import useTextarea from "./useTextarea";
 const useAutoResizeTextarea = (
   initialValue: string = "",
   minHeight: number = 48,
-  borderWidth: number = 0
+  borderWidth: number = 0,
 ) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { value, onChange, resetTextarea } = useTextarea(initialValue);

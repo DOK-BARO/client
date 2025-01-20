@@ -5,7 +5,7 @@ export interface CheckBoxOption {
   id: number;
   value: string;
   label: string;
-	answerIndex?: number;
+  answerIndex?: number;
 }
 
 export interface CheckBoxProps {
@@ -14,7 +14,7 @@ export interface CheckBoxProps {
   onChange: (value: string) => void;
   isDisabled: boolean;
   className?: string;
-  autoFocus : boolean;
+  autoFocus: boolean;
   icon?: ReactElement | null;
   LabelComponent: ReactElement;
 }

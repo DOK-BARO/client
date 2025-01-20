@@ -46,7 +46,7 @@ const SelectOption: React.FC<SelectOptionProps> = ({
 
     const updatedQuestions: QuizQuestionType[] =
       quizCreationInfo.questions?.map((question) => {
-        if (question.id.toString() === questionFormId!) {
+        if (question.id!.toString() === questionFormId!) {
           return {
             ...question,
             selectOptions: question.selectOptions.map((selectOption) => {
@@ -67,8 +67,8 @@ const SelectOption: React.FC<SelectOptionProps> = ({
     typeof selectedValue === "string"
       ? selectedValue === option.value
       : selectedValue
-      ? selectedValue[option.id]
-      : false;
+        ? selectedValue[option.id]
+        : false;
 
   return (
     <div key={option.id} className={styles["option-container"]}>
@@ -85,8 +85,8 @@ const SelectOption: React.FC<SelectOptionProps> = ({
             quizMode === QuestionFormMode.QUESTION
               ? "option-writing"
               : isChecked
-              ? "option-correct"
-              : "option-written"
+                ? "option-correct"
+                : "option-written"
           }
           deleteOption={deleteOption}
           textAreaRef={textareaRef}
@@ -103,8 +103,8 @@ const SelectOption: React.FC<SelectOptionProps> = ({
             quizMode === QuestionFormMode.QUESTION
               ? "checkbox-writing"
               : isChecked
-              ? "checkbox-correct"
-              : "checkbox-written"
+                ? "checkbox-correct"
+                : "checkbox-written"
           }
           deleteOption={deleteOption}
           textAreaRef={textareaRef}

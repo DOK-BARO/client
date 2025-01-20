@@ -19,7 +19,7 @@ const useInfiniteScroll = ({
           fetchNextPage();
         }
       },
-      { threshold: 1.0 } // 요소가 완전히 보일 때
+      { threshold: 1.0 }, // 요소가 완전히 보일 때
     );
 
     if (observerRef.current) {

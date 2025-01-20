@@ -62,28 +62,28 @@ const DEFAULT_REVIEW_FILTER: ReviewsFilterType = {
 
 // Atom 정의
 export const myStudyGroupFilterAtom = atom<StudyGroupsFilterType>(
-  DEFAULT_MY_STUDY_GROUP_FILTER
+  DEFAULT_MY_STUDY_GROUP_FILTER,
 );
 
 export const mySolvedQuizFilterAtom = atom<MySolvedQuizzesFilterType>(
-  DEFAULT_MY_SOLVED_QUIZ_FILTER
+  DEFAULT_MY_SOLVED_QUIZ_FILTER,
 );
 
 export const myStudyUnsolvedQuizFilterAtom =
   atom<MyStudyUnSolvedQuizzesFilterType>(DEFAULT_MY_STUDY_UNSOLVED_QUIZ_FILTER);
 
 export const myStudySolvedQuizFilterAtom = atom<MyStudySolvedQuizzesFilterType>(
-  DEFAULT_MY_STUDY_SOLVED_QUIZ_FILTER
+  DEFAULT_MY_STUDY_SOLVED_QUIZ_FILTER,
 );
 
 export const bookFilterAtom = atom<BooksFilterType>(DEFAULT_BOOK_FILTER);
 
 export const quizzesFilterAtom = atom<QuizzesFilterType>(
-  DEFAULT_QUIZZES_FILTER
+  DEFAULT_QUIZZES_FILTER,
 );
 
 export const myMadeQuizzesFilterAtom = atom<MyMadeQuizzesFilterType>(
-  DEFAULT_MY_MADE_QUIZZES_FILTER
+  DEFAULT_MY_MADE_QUIZZES_FILTER,
 );
 
 export const reviewFilterAtom = atom<ReviewsFilterType>(DEFAULT_REVIEW_FILTER);
@@ -96,7 +96,7 @@ export const reviewFilterAtom = atom<ReviewsFilterType>(DEFAULT_REVIEW_FILTER);
  */
 export const resetFilter = <T>(
   setAtom: (value: T) => void,
-  defaultValue: T
+  defaultValue: T,
 ) => {
   setAtom(defaultValue);
 };
@@ -106,28 +106,28 @@ export const resetFilter = <T>(
  * 마이페이지 > 내 스터디 그룹 필터 리셋
  */
 export const resetMyStudyGroupFilter = (
-  setAtom: (value: StudyGroupsFilterType) => void
+  setAtom: (value: StudyGroupsFilterType) => void,
 ) => resetFilter(setAtom, DEFAULT_MY_STUDY_GROUP_FILTER);
 
 /**
  * 마이페이지 > 내 스터디 퀴즈 > 풀어야 할 퀴즈 필터 리셋
  */
 export const resetMyStudyUnsolvedQuizFilter = (
-  setAtom: (value: MyStudyUnSolvedQuizzesFilterType) => void
+  setAtom: (value: MyStudyUnSolvedQuizzesFilterType) => void,
 ) => resetFilter(setAtom, DEFAULT_MY_STUDY_UNSOLVED_QUIZ_FILTER);
 
 /**
  * 마이페이지 > 내 스터디 퀴즈 > 제출한 퀴즈 필터 리셋
  */
 export const resetMyStudySolvedQuizFilter = (
-  setAtom: (value: MyStudySolvedQuizzesFilterType) => void
+  setAtom: (value: MyStudySolvedQuizzesFilterType) => void,
 ) => resetFilter(setAtom, DEFAULT_MY_STUDY_SOLVED_QUIZ_FILTER);
 
 /**
  * 마이페이지 > 전체 > 제출한 퀴즈 필터 리셋
  */
 export const resetMySolvedQuizFilter = (
-  setAtom: (value: MySolvedQuizzesFilterType) => void
+  setAtom: (value: MySolvedQuizzesFilterType) => void,
 ) => resetFilter(setAtom, DEFAULT_MY_SOLVED_QUIZ_FILTER);
 
 /**
@@ -140,19 +140,19 @@ export const resetBooksFilter = (setAtom: (value: BooksFilterType) => void) =>
  * 책 상세 페이지 > 퀴즈 목록 필터 리셋
  */
 export const resetBookQuizzesFilter = (
-  setAtom: (value: QuizzesFilterType) => void
+  setAtom: (value: QuizzesFilterType) => void,
 ) => resetFilter(setAtom, DEFAULT_QUIZZES_FILTER);
 
 /**
  * 마이 페이지 > 내가 만든 퀴즈 목록 필터 리셋
  */
 export const resetQuizzesFilter = (
-  setAtom: (value: MyMadeQuizzesFilterType) => void
+  setAtom: (value: MyMadeQuizzesFilterType) => void,
 ) => resetFilter(setAtom, DEFAULT_MY_MADE_QUIZZES_FILTER);
 
 /**
  * 퀴즈 상세 페이지 > 리뷰 필터 리셋
  */
 export const resetReviewFilter = (
-  setAtom: (value: ReviewsFilterType) => void
+  setAtom: (value: ReviewsFilterType) => void,
 ) => resetFilter(setAtom, DEFAULT_REVIEW_FILTER);

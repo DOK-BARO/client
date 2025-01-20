@@ -11,10 +11,12 @@ import {
 import { CheckEllipse } from "@/svg/CheckEllipse";
 
 export default function QuizCreationSteps({
+  isEditMode,
   steps,
   currentStep,
   setCurrentStep,
 }: {
+  isEditMode: boolean;
   steps: Step[];
   currentStep: number;
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
@@ -38,7 +40,7 @@ export default function QuizCreationSteps({
       {steps.map((step) => {
         const isActiveStep = currentStep === step.order;
         const isAnySubStepActive = step.subSteps?.some(
-          (subStep) => subStep.order === currentStep
+          (subStep) => subStep.order === currentStep,
         );
         const firstSubStepOrder = step.subSteps?.[0]?.order;
 
@@ -51,6 +53,7 @@ export default function QuizCreationSteps({
               onClick={(e) => onChangeStep(e)}
               value={step.title}
               className={styles.steps}
+              disabled={isEditMode && (step.order === 0 || step.order === 1)}
               fullWidth
             >
               <span>

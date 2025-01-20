@@ -77,11 +77,11 @@ export default function MyStudyGroups() {
         direction,
         page,
         size,
-      })
+      }),
     ),
     queryFn: async ({ pageParam }) => {
       const result = await studyGroupService.fetchStudyGroups(
-        parseQueryParams({ sort, direction, page: pageParam as number, size })
+        parseQueryParams({ sort, direction, page: pageParam as number, size }),
       );
       return result || { endPageNumber: 0, data: [] };
     },

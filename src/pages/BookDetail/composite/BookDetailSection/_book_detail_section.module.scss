@@ -2,87 +2,85 @@
 @import "../../../../styles/abstracts/mixins";
 
 .category-depth-list {
-	display: flex;
-	font-size: $font-size-small;
-	color: $gray-90;
-	padding: 6px;
-	margin-bottom: 40px;
+  display: flex;
+  font-size: $font-size-small;
+  color: $gray-90;
+  padding: 6px;
+  margin-bottom: 40px;
 }
 
-.book-detail-section-container{
-	display: flex;
-	flex-direction: row;
-	gap: 40px;
+.book-detail-section-container {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
 
-	.book-img {
-		max-width: 196px;
-		max-height: 268px;
-		object-fit:contain;
-		border: 1px solid $gray-40;
-		margin: 13px 15px;
-	}
+  .book-img {
+    max-width: 196px;
+    max-height: 268px;
+    object-fit: contain;
+    border: 1px solid $gray-40;
+    margin: 13px 15px;
+  }
 }
-
-
 
 .book-container {
-display: flex;
-flex-direction: column;
-gap: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .book-detail-title {
-	font-size: 32px; //TODO: 변경 필요
-	font-weight: bold;
-	color: $gray-90;
-	margin-bottom: 16px;
+  font-size: 32px; //TODO: 변경 필요
+  font-weight: bold;
+  color: $gray-90;
+  margin-bottom: 16px;
 }
 
 .book-description {
-	color: $gray-90;
-	font-size: $font-size-medium;
-	line-height: 1.5;
+  color: $gray-90;
+  font-size: $font-size-medium;
+  line-height: 1.5;
 }
 
 .book-detail-sub-container {
-	display: flex;
-	flex-direction: row;
-	gap: 40px;
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
 }
 
 .book-detail-info-container {
-	display: flex;
-	fleX:1;
-	flex-direction: column;
-	gap: 8px;
-	color: $gray-90;
-	font-size: $font-size-large;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+  color: $gray-90;
+  font-size: $font-size-large;
 }
 
 .book-detail-sub-title {
-	font-weight: 600;
+  font-weight: 600;
 }
 
 .book-detail-sub-content {
-	flex-direction: row;
-	font-size: $font-size-medium;
-	span{
-		display: inline-block;
-	min-width: 80px;
-	}
+  flex-direction: row;
+  font-size: $font-size-medium;
+  span {
+    display: inline-block;
+    min-width: 80px;
+  }
 }
 
 .number-of-quiz-container {
-	// TODO: 중복제거 (책 상세정보)
-	display: flex;
-	fleX:1;
-	flex-direction: column;
-	gap: 8px;
-	color: $gray-90;
-	font-size: $font-size-large;
+  // TODO: 중복제거 (책 상세정보)
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+  color: $gray-90;
+  font-size: $font-size-large;
 }
 
 .button-container {
-	display: flex;
-	flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }

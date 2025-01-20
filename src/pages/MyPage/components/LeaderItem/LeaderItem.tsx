@@ -9,10 +9,7 @@ interface Prop {
   member: StudyMemberType;
   onDeleteStudyGroupClick: () => void;
 }
-export default function LeaderItem({
-  member,
-  onDeleteStudyGroupClick,
-}: Prop) {
+export default function LeaderItem({ member, onDeleteStudyGroupClick }: Prop) {
   return (
     <div className={styles.container}>
       <span className={styles["profile-container"]}>

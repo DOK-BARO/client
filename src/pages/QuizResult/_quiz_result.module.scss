@@ -2,158 +2,154 @@
 @import "../../styles/abstracts/variables";
 
 .container {
-	@include flex(column, center);
-	gap: 40px;
-	margin: 40px 0 175px;
+  @include flex(column, center);
+  gap: 40px;
+  margin: 40px 0 175px;
 }
 
 .common-quiz-container {
-	text-align: center;
+  text-align: center;
 }
 
 .title {
-	font-size: 32px;
-	font-weight: $font-weight-bold;
-	line-height: 150%;
+  font-size: 32px;
+  font-weight: $font-weight-bold;
+  line-height: 150%;
 
-	span {
-		color: $primary;
-	}
+  span {
+    color: $primary;
+  }
 }
 
 .result-img {
-	position: relative;
+  position: relative;
 }
 
 .confetti {
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
-	width: 150%;
-	height: 150%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 150%;
+  height: 150%;
 }
 
 .study-group-container {
-	@include flex(column, center);
-	gap: 40px;
-	margin-inline: 40px;
+  @include flex(column, center);
+  gap: 40px;
+  margin-inline: 40px;
 }
 
 .decoration {
-	width: 250px;
-	height: 250px;
+  width: 250px;
+  height: 250px;
 }
 
 .rank-item {
-	width: 282px;
-	height: 46px;
-	background-color: $gray-00;
-	margin-bottom: 16px;
-	display: grid;
-	grid-template-columns: min-content 1fr min-content;
-	align-items: center;
-	padding-inline: 12px;
-	border-radius: 8px;
+  width: 282px;
+  height: 46px;
+  background-color: $gray-00;
+  margin-bottom: 16px;
+  display: grid;
+  grid-template-columns: min-content 1fr min-content;
+  align-items: center;
+  padding-inline: 12px;
+  border-radius: 8px;
 
-	&--me {
-		background-color: $primary;
-		width: 282px;
-		height: 46px;
-		margin-bottom: 16px;
-		display: grid;
-		grid-template-columns: min-content 1fr min-content;
-		align-items: center;
-		padding-inline: 12px;
-		border-radius: 8px;
-
-
-	}
+  &--me {
+    background-color: $primary;
+    width: 282px;
+    height: 46px;
+    margin-bottom: 16px;
+    display: grid;
+    grid-template-columns: min-content 1fr min-content;
+    align-items: center;
+    padding-inline: 12px;
+    border-radius: 8px;
+  }
 }
 
 .rank-badge-container {
-	display: inline-block;
-	width: 20px;
-	height: 20px;
-	margin-right: 4px;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 4px;
 
-	.rank-badge-wrapper {
-		display: inline-block;
-		width: 20px;
-		height: 20px;
-		position: relative;
-	}
+  .rank-badge-wrapper {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    position: relative;
+  }
 
-	.rank-num {
-		position: absolute;
-		color: $gray-00;
-		left: 50%;
-		top: 50%;
-		transform: translate(-50%, -50%);
-		font-size: $font-size-small;
+  .rank-num {
+    position: absolute;
+    color: $gray-00;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: $font-size-small;
 
-		&--me {
-			position: absolute;
-			color: $primary;
-			left: 50%;
-			top: 50%;
-			transform: translate(-50%, -50%);
-			font-size: $font-size-small;
-		}
-	}
-
+    &--me {
+      position: absolute;
+      color: $primary;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: $font-size-small;
+    }
+  }
 }
 
 .nickname {
-	font-size: $font-size-medium;
+  font-size: $font-size-medium;
 
-	&--me {
-		color: $gray-00;
-		font-size: $font-size-medium;
-	}
+  &--me {
+    color: $gray-00;
+    font-size: $font-size-medium;
+  }
 }
 
 .correct-count {
-	font-size: $font-size-medium;
+  font-size: $font-size-medium;
 
-	&--me {
-		color: $gray-00;
-	}
+  &--me {
+    color: $gray-00;
+  }
 }
 
 .total-count {
-	color: $gray-60;
-	font-size: $font-size-small;
+  color: $gray-60;
+  font-size: $font-size-small;
 
-	&--me {
-		color: #F5EDFF80;
-		font-size: $font-size-small;
-
-	}
+  &--me {
+    color: #f5edff80;
+    font-size: $font-size-small;
+  }
 }
 
 .animation-container {
-	@include flex(column, center);
-	animation: slide-down 0.8s ease-out;
+  @include flex(column, center);
+  animation: slide-down 0.8s ease-out;
 }
 
 .rank-list {
-	margin-bottom: 40px;
+  margin-bottom: 40px;
 }
 
 .btn-next {
-	width: 200px;
-	z-index: 1;
+  width: 200px;
+  z-index: 1;
 }
 
 @keyframes slide-down {
-	0% {
-		opacity: 0;
-		clip-path: inset(0 0 100% 0);
-	}
+  0% {
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+  }
 
-	100% {
-		opacity: 1;
-		clip-path: inset(0 0 0 0);
-	}
+  100% {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
 }

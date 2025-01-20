@@ -39,11 +39,11 @@ export const CheckBoxQuestionTemplate: FC<{
     const { id, checked } = event.target;
 
     const currentQuestion: QuizQuestionType = quizCreationInfo.questions?.find(
-      (question) => question.id.toString() === questionFormId!
+      (question) => question.id!.toString() === questionFormId!,
     )!;
     const targetSelectOption: SelectOptionType =
       currentQuestion.selectOptions.find(
-        (option) => id === option.id.toString()
+        (option) => id === option.id.toString(),
       )!;
     const currentAnswer: string = targetSelectOption.answerIndex.toString();
 
@@ -55,14 +55,14 @@ export const CheckBoxQuestionTemplate: FC<{
     });
 
     const updatedQuestions = quizCreationInfo.questions!.map((question) =>
-      question.id.toString() === questionFormId
+      question.id!.toString() === questionFormId
         ? {
-            ...question,
-            answers: checked
-              ? [...question.answers, currentAnswer]
-              : question.answers.filter((answer) => answer !== currentAnswer),
-          }
-        : question
+          ...question,
+          answers: checked
+            ? [...question.answers, currentAnswer]
+            : question.answers.filter((answer) => answer !== currentAnswer),
+        }
+        : question,
     );
     updateQuizCreationInfo("questions", updatedQuestions);
   };
@@ -75,7 +75,7 @@ export const CheckBoxQuestionTemplate: FC<{
   }, [questionFormMode]);
 
   const initializeCheckedOptions = (
-    question: QuizQuestionType
+    question: QuizQuestionType,
   ): { [key: string]: boolean } => {
     const checkedOptions: { [key: string]: boolean } = {};
     question.selectOptions.forEach(({ id, value }) => {

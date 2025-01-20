@@ -12,7 +12,7 @@ import {
 // 책 목록, 책 상세정보 가져오기
 class BookService {
   fetchBooks = async (
-    params: FetchBooksParams = {}
+    params: FetchBooksParams = {},
   ): Promise<{ data: BookType[]; endPageNumber: number } | void> => {
     const {
       title,
@@ -45,7 +45,7 @@ class BookService {
   };
   // 책 통합검색
   fetchSearchBooks = async (
-    params?: SearchBooksParams
+    params?: SearchBooksParams,
   ): Promise<BookType[]> => {
     const { keyword, lastId = null, size = 20 } = params || {};
 
@@ -82,12 +82,12 @@ class BookService {
   };
 
   fetchBookQuizzes = async (
-    params: FetchQuizzesParams
+    params: FetchQuizzesParams,
   ): Promise<BookQuizzesType> => {
     try {
       const { page, size, sort, direction, bookId } = params;
       const { data } = await axiosInstance.get(
-        `/book-quizzes?page=${page}&size=${size}&sort=${sort}&direction=${direction}&bookId=${bookId}`
+        `/book-quizzes?page=${page}&size=${size}&sort=${sort}&direction=${direction}&bookId=${bookId}`,
       );
       return data;
     } catch (error) {

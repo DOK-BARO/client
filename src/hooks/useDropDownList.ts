@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-export function useDropDownList () {
+export function useDropDownList() {
   const [isOpenDropDownList, setIsOpenDropDownList] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLButtonElement>(null);
 
@@ -10,7 +10,11 @@ export function useDropDownList () {
   useEffect(() => {
     const outSideClick = (e: MouseEvent) => {
       const { target } = e;
-      if (isOpenDropDownList && dropDownListRef.current && !dropDownListRef.current.contains(target as Node)) {
+      if (
+        isOpenDropDownList &&
+        dropDownListRef.current &&
+        !dropDownListRef.current.contains(target as Node)
+      ) {
         setIsOpenDropDownList(false);
       }
     };
@@ -29,5 +33,11 @@ export function useDropDownList () {
     setIsOpenDropDownList(false);
   };
 
-  return { isOpenDropDownList,anchorEl, openDropDownList,closeDropDownList, dropDownListRef };
+  return {
+    isOpenDropDownList,
+    anchorEl,
+    openDropDownList,
+    closeDropDownList,
+    dropDownListRef,
+  };
 }

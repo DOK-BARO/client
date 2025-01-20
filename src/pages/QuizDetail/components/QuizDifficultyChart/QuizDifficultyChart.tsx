@@ -11,17 +11,17 @@ export default function QuizDifficultyChart({ difficulty }: Props) {
     <div className={styles.container}>
       {difficulty
         ? Object.entries(difficulty)
-            .reverse()
-            .map(([level, data]) => (
-              <DifficultyLevelItem key={level} level={level} data={data} />
-            ))
+          .reverse()
+          .map(([level, data]) => (
+            <DifficultyLevelItem key={level} level={level} data={data} />
+          ))
         : [1, 2, 3].map((level) => (
-            <DifficultyLevelItem
-              key={level}
-              level={level.toString()}
-              data={{ selectCount: 0, selectRate: 0 }}
-            />
-          ))}
+          <DifficultyLevelItem
+            key={level}
+            level={level.toString()}
+            data={{ selectCount: 0, selectRate: 0 }}
+          />
+        ))}
     </div>
   );
 }

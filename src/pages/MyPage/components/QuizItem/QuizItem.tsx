@@ -21,7 +21,7 @@ interface Prop {
 export default function QuizItem({ quizData, isSolved, studyGroupId }: Prop) {
   const navigate = useNavigate();
   const handleGoToSolveQuiz = () => {
-		navigate(ROUTES.SOLVING_QUIZ(quizData.quiz.id));
+    navigate(ROUTES.SOLVING_QUIZ(quizData.quiz.id));
   };
   const { openModal, closeModal, isModalOpen } = useModal();
 
@@ -30,9 +30,9 @@ export default function QuizItem({ quizData, isSolved, studyGroupId }: Prop) {
     queryFn: () =>
       studyGroupId
         ? studyGroupService.fetchQuizStudyGroupGradeResult({
-            studyGroupId,
-            quizId: quizData.quiz.id,
-          })
+          studyGroupId,
+          quizId: quizData.quiz.id,
+        })
         : null,
     enabled: !!studyGroupId,
   });
@@ -46,43 +46,43 @@ export default function QuizItem({ quizData, isSolved, studyGroupId }: Prop) {
           contents={
             !isGradeResultLoading
               ? [
-                  {
-                    title: "제출한 스터디원",
-                    content: gradeResult?.solvedMember ? (
-                      <>
-                        {gradeResult?.solvedMember.map((memberData) => (
-                          <GradeResultItem
-                            member={memberData.member}
-                            isActive={false}
-                            score={10}
-                            grade={1}
-                          />
-                        ))}
-                      </>
-                    ) : (
-                      <></>
-                    ),
-                  },
-                  {
-                    title: "미제출 스터디원",
-                    content: gradeResult?.unSolvedMember ? (
-                      <>
-                        {gradeResult?.unSolvedMember.map((member) => (
-                          <GradeResultItem
-                            key={member.id}
-                            member={member}
-                            isActive={false}
-                            score={10}
-                            grade={1}
-                            isSubmitted={false}
-                          />
-                        ))}
-                      </>
-                    ) : (
-                      <></>
-                    ),
-                  },
-                ]
+                {
+                  title: "제출한 스터디원",
+                  content: gradeResult?.solvedMember ? (
+                    <>
+                      {gradeResult?.solvedMember.map((memberData) => (
+                        <GradeResultItem
+                          member={memberData.member}
+                          isActive={false}
+                          score={10}
+                          grade={1}
+                        />
+                      ))}
+                    </>
+                  ) : (
+                    <></>
+                  ),
+                },
+                {
+                  title: "미제출 스터디원",
+                  content: gradeResult?.unSolvedMember ? (
+                    <>
+                      {gradeResult?.unSolvedMember.map((member) => (
+                        <GradeResultItem
+                          key={member.id}
+                          member={member}
+                          isActive={false}
+                          score={10}
+                          grade={1}
+                          isSubmitted={false}
+                        />
+                      ))}
+                    </>
+                  ) : (
+                    <></>
+                  ),
+                },
+              ]
               : []
           }
           bottomButtons={[
@@ -123,7 +123,7 @@ export default function QuizItem({ quizData, isSolved, studyGroupId }: Prop) {
                         styles[`z-index-${index + 1}`]
                       }`}
                     />
-                  )
+                  ),
                 )}
               </div>
             ) : (

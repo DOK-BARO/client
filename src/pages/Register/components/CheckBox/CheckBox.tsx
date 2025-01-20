@@ -52,8 +52,8 @@ export default function CheckBox({
                   ? gray0
                   : gray40
                 : checked
-                ? primary
-                : gray40
+                  ? primary
+                  : gray40
             }
           />
         </div>

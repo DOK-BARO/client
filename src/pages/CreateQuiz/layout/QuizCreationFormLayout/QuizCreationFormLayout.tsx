@@ -95,8 +95,6 @@ export default function QuizCreationFormLayout({
   const setRequestQuestion = async (): Promise<
     QuizQuestionRequestApiType[]
   > => {
-
-    console.log("*********3");
     const uploadedImgQuestions = quizCreationInfo.questions!.map(
       async (question) => {
         const { id, ...rest } = question;
@@ -146,7 +144,6 @@ export default function QuizCreationFormLayout({
   });
 
   const requestQuiz = async () => {
-    console.log("*************start: %o", quizCreationInfo);
 
     if (
       quizCreationInfo.viewScope === null
@@ -168,7 +165,6 @@ export default function QuizCreationFormLayout({
     ) {
       return;
     }
-    console.log("*************3:");
 
     const quiz: QuizRequestType = {
       title: quizCreationInfo.title,
@@ -179,11 +175,10 @@ export default function QuizCreationFormLayout({
       studyGroupId: quizCreationInfo.studyGroup?.id || undefined,
       questions: await setRequestQuestion(),
     };
-    console.log("*************end: %o", quiz);
-    //TODO: 구현 완료 후 주석풀기
-    // isEditMode
-    //   ? requestModifyQuiz({ editQuizId: editQuizId!, quiz })
-    //   : createQuiz(quiz);
+
+    isEditMode
+      ? requestModifyQuiz({ editQuizId: editQuizId!, quiz })
+      : createQuiz(quiz);
     return;
   };
   const endStep = steps.length - 1;

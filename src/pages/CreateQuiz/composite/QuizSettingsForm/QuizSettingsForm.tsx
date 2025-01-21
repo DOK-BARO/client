@@ -49,8 +49,6 @@ export default function QuizSettingsForm() {
       [settingName]: label,
     }));
 
-    console.log(settingName, label);
-
     const updateMapping: { [key: string]: keyof QuizCreationType } = {
       "view-access": "viewScope",
       // "edit-access": "editScope",

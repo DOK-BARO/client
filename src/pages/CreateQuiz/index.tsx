@@ -82,7 +82,6 @@ export default function Index() {
           categories: prevBook?.categories ?? [],
           authors: prevBook?.authors ?? [],
         };
-        console.log("FormattedBook: %o", formattedBook);
 
         let formattedStudyGroup: StudyGroupType | undefined = undefined;
         if (studyGroupDetail != undefined) {
@@ -141,7 +140,6 @@ export default function Index() {
           studyGroup: formattedStudyGroup,
           questions: prevQuestions,
         };
-        console.log("real: %o", quiz);
         setQuizCreationInfoAtom(quiz);
       }
     }

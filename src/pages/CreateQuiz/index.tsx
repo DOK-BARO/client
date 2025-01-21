@@ -209,13 +209,13 @@ export default function Index() {
 
   useEffect(() => {
     // 퀴즈 상태 초기화
-    setCurrentStep(0);
+    isEditMode ? setCurrentStep(2) : setCurrentStep(0);
     resetQuizState();
-    return () => { 
-      if(isEditMode){
+    return () => {
+      if (isEditMode) {
         resetBookState();
       }
-     };
+    };
   }, []);
 
   useEffect(() => {

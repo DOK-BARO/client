@@ -29,6 +29,7 @@ import { studyGroupService } from "@/services/server/studyGroupService.ts";
 import { StudyGroupType } from "@/types/StudyGroupType.ts";
 import { SelectOptionType } from "@/types/QuizType.ts";
 import { QuizQuestionType } from "@/types/QuizType.ts";
+import { resetQuizCreationBookStateAtom } from "@/store/quizAtom.ts";
 
 export default function Index() {
   const { id } = useParams();
@@ -83,11 +84,16 @@ export default function Index() {
         };
         console.log("FormattedBook: %o", formattedBook);
 
-        const formattedStudyGroup: StudyGroupType = {
-          id: studyGroupDetail?.id ?? -1,
-          name: studyGroupDetail?.name ?? "",
-          profileImageUrl: studyGroupDetail?.profileImageUrl,
-        };
+        let formattedStudyGroup: StudyGroupType | undefined = undefined;
+        if (studyGroupDetail != undefined) {
+          formattedStudyGroup = {
+            id: studyGroupDetail?.id,
+            name: studyGroupDetail?.name ?? "",
+            profileImageUrl: studyGroupDetail?.profileImageUrl,
+          };
+        }
+
+
 
         let selectOptions: SelectOptionType[];
         prevQuiz?.questions.forEach((question) => {
@@ -140,7 +146,7 @@ export default function Index() {
       }
     }
     initializeQuiz();
-  }, [prevQuiz, isEditMode]);
+  }, [prevQuiz, isEditMode, prevBook?.isbn, studyGroupDetail?.name]);
 
   // TODO: 외부 파일로 옮기기
   const steps: Step[] = useMemo(
@@ -199,11 +205,17 @@ export default function Index() {
   const { isModalOpen, openModal, closeModal } = useModal();
   const [, setOpenErrorModal] = useAtom(openErrorModalAtom);
   const resetQuizState = useSetAtom(resetQuizCreationStateAtom);
+  const resetBookState = useSetAtom(resetQuizCreationBookStateAtom);
 
   useEffect(() => {
     // 퀴즈 상태 초기화
     setCurrentStep(0);
     resetQuizState();
+    return () => { 
+      if(isEditMode){
+        resetBookState();
+      }
+     };
   }, []);
 
   useEffect(() => {

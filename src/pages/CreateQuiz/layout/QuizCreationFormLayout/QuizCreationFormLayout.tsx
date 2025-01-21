@@ -109,6 +109,7 @@ export default function QuizCreationFormLayout({
           selectOptions: question.selectOptions.map(
             (option) => option.option,
           ),
+          answerExplanationContent: question.answerExplanationContent,
         };
       },
     );
@@ -179,9 +180,10 @@ export default function QuizCreationFormLayout({
       questions: await setRequestQuestion(),
     };
     console.log("*************end: %o", quiz);
-    isEditMode
-      ? requestModifyQuiz({ editQuizId: editQuizId!, quiz })
-      : createQuiz(quiz);
+    //TODO: 구현 완료 후 주석풀기
+    // isEditMode
+    //   ? requestModifyQuiz({ editQuizId: editQuizId!, quiz })
+    //   : createQuiz(quiz);
     return;
   };
   const endStep = steps.length - 1;

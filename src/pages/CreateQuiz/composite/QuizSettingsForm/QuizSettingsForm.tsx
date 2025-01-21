@@ -91,25 +91,25 @@ const getQuizSettings = (isStudyGroupSelected: boolean): QuizSettingType[] => [
     name: "view-access",
     options: isStudyGroupSelected
       ? [
-          {
-            label: "스터디원만",
-            description: "스터디원이 이 퀴즈를 보고 풀 수 있습니다.",
-          },
-          {
-            label: "나만",
-            description: "나만 이 퀴즈를 보고 풀 수 있습니다.",
-          },
-        ]
+        {
+          label: "스터디원만",
+          description: "스터디원이 이 퀴즈를 보고 풀 수 있습니다.",
+        },
+        {
+          label: "나만",
+          description: "나만 이 퀴즈를 보고 풀 수 있습니다.",
+        },
+      ]
       : [
-          {
-            label: "모두",
-            description: "모든 사용자가 이 퀴즈를 보고 풀 수 있습니다.",
-          },
-          {
-            label: "나만",
-            description: "나만 이 퀴즈를 보고 풀 수 있습니다.",
-          },
-        ],
+        {
+          label: "모두",
+          description: "모든 사용자가 이 퀴즈를 보고 풀 수 있습니다.",
+        },
+        {
+          label: "나만",
+          description: "나만 이 퀴즈를 보고 풀 수 있습니다.",
+        },
+      ],
 
     icon: "/assets/svg/quizSettingForm/view.svg",
   },

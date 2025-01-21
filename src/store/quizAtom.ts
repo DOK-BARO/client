@@ -57,7 +57,7 @@ export const isQuestionsWrittenAtom = atom(
 export const isSetAtom = atom(
   (get) =>
     get(quizCreationInfoAtom).viewScope !== null,
-    //&& get(quizCreationInfoAtom).editScope !== null,
+  //&& get(quizCreationInfoAtom).editScope !== null,
   (get, set, update: boolean) => {
     const quizCreationInfo = get(quizCreationInfoAtom);
     set(quizCreationInfoAtom, {
@@ -90,6 +90,13 @@ export const resetQuizCreationStateAtom = atom(null, (get, set) => {
   set(errorModalTitleAtom, initialErrorModalTitle);
   set(selectedOptionsAtom, initialSelectedOptions);
   set(createdQuizIdAtom, initialQuizId);
+});
+
+export const resetQuizCreationBookStateAtom = atom(null, (_, set) => {
+  set(quizCreationInfoAtom, {
+    ...initialQuizCreationInfo,
+    book: null,
+  });
 });
 
 export const quizzesLengthAtom = atom(0);

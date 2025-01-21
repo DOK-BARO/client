@@ -35,7 +35,7 @@ export default function Index() {
       authors: data!.authors,
     };
     updateQuizCreationInfo("book", book);
-    navigate(ROUTES.CREATE_QUIZ);
+    navigate(ROUTES.CREATE_QUIZ());
   };
 
   if (isLoading) {

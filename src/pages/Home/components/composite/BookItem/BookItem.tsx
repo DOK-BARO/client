@@ -9,7 +9,9 @@ export default function BookItem({ book }: { book: BookType }) {
   return (
     <article className={styles["book-item"]}>
       <figure>
-        <img className={styles.img} src={book.imageUrl} alt={book.title} />
+        <div className={styles["img-container"]}>
+          <img className={styles.img} src={book.imageUrl} alt={book.title} />
+        </div>
         <figcaption className={styles["sr-only"]}>{book.title}</figcaption>
       </figure>
       <div className={styles["book-item-info"]}>

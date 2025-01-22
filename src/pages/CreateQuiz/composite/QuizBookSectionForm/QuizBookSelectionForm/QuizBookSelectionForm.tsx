@@ -20,7 +20,7 @@ import useOutsideClick from "@/hooks/useOutsideClick";
 export default function QuizBookSelectionForm() {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const inputRef = useRef<HTMLDivElement>(null);
-  const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
+  const [isQuizNextButtonEnabled, setIsQuizNextButtonEnabled] = useAtom(
     isQuizNextButtonEnabledAtom,
   );
   const {
@@ -29,7 +29,9 @@ export default function QuizBookSelectionForm() {
     resetInput: resetSearchValueInput,
   } = useInput("");
   const debouncedSearchValue = useDebounce(searchValue, 500);
-
+  useEffect(() => {
+    console.log("isQuizNextButtonEnabled", isQuizNextButtonEnabled);
+  }, []);
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
 
@@ -41,6 +43,13 @@ export default function QuizBookSelectionForm() {
   const [selectedBook, setSelectedBook] = useState<BookType | null>(
     tempSelectedBook,
   );
+  useEffect(() => {
+    if (selectedBook) {
+      setIsQuizNextButtonEnabled((prev) => ({ ...prev, 2: true }));
+    } else {
+      setIsQuizNextButtonEnabled((prev) => ({ ...prev, 2: false }));
+    }
+  }, [selectedBook]);
 
   const {
     data: searchedBooks,
@@ -62,11 +71,11 @@ export default function QuizBookSelectionForm() {
 
   const isActuallyLoading = isLoading || isFetching;
 
-  useEffect(() => {
-    if (!selectedBook) {
-      setIsQuizNextButtonEnabled(false);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!selectedBook) {
+  //     setIsQuizNextButtonEnabled({ 2: false });
+  //   }
+  // }, []);
 
   useOutsideClick([inputRef], () => setIsClicked(false));
 
@@ -84,7 +93,7 @@ export default function QuizBookSelectionForm() {
     updateQuizCreationInfo("book", book);
 
     // 책이 선택되면 버튼 enabled
-    setIsQuizNextButtonEnabled(true);
+    // setIsQuizNextButtonEnabled({ 2: true });
   };
 
   // 인풋창 클릭

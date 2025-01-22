@@ -58,14 +58,20 @@ export default function QuizSettingStudyGroupForm() {
 
   const [isNewStudyGroupAdded, setNewStudyGroupAdded] =
     useState<boolean>(false);
-  const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
+  const [isQuizNextButtonEnabled, setIsQuizNextButtonEnabled] = useAtom(
     isQuizNextButtonEnabledAtom,
   );
 
   useEffect(() => {
-    // TODO: 다음 버튼 누를 때 초록불 들어오게 하기
-    setIsQuizNextButtonEnabled(true);
-  }, [quizCreationInfo.studyGroup]);
+    console.log("isQuizNextButtonEnabled", isQuizNextButtonEnabled);
+  }, []);
+
+  // useEffect(() => {
+  //   // TODO: 다음 버튼 누를 때 초록불 들어오게 하기
+  //   if (quizCreationInfo.studyGroup) {
+  //     setIsQuizNextButtonEnabled({ 1: true });
+  //   }
+  // }, [quizCreationInfo.studyGroup]);
 
   // 모달 안 인풋
   const {
@@ -204,25 +210,25 @@ export default function QuizSettingStudyGroupForm() {
 
       newStudyGroup
         ? {
-          title: "스터디 그룹 초대코드",
-          content: (
-            <div className={styles["email-invite"]}>
-              <Button
-                fullWidth
-                color="secondary"
-                icon={
-                  <Copy width={20} stroke={primary} alt="초대 코드 복사" />
-                }
-                iconPosition="left"
-                onClick={handleClickCopyCode}
-              >
-                <span id="invite-code" aria-label="스터디 그룹 초대 코드">
-                  {!isStudyGroupDetailLoading && studyGroupDetail?.inviteCode}
-                </span>
-              </Button>
-            </div>
-          ),
-        }
+            title: "스터디 그룹 초대코드",
+            content: (
+              <div className={styles["email-invite"]}>
+                <Button
+                  fullWidth
+                  color="secondary"
+                  icon={
+                    <Copy width={20} stroke={primary} alt="초대 코드 복사" />
+                  }
+                  iconPosition="left"
+                  onClick={handleClickCopyCode}
+                >
+                  <span id="invite-code" aria-label="스터디 그룹 초대 코드">
+                    {!isStudyGroupDetailLoading && studyGroupDetail?.inviteCode}
+                  </span>
+                </Button>
+              </div>
+            ),
+          }
         : null,
     ];
     return contents.filter(
@@ -286,12 +292,12 @@ export default function QuizSettingStudyGroupForm() {
           bottomButtons={
             newStudyGroup
               ? [
-                {
-                  text: "완료",
-                  color: "primary",
-                  onClick: done,
-                },
-              ]
+                  {
+                    text: "완료",
+                    color: "primary",
+                    onClick: done,
+                  },
+                ]
               : undefined
           }
           closeModal={closeModal}

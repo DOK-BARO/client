@@ -17,17 +17,48 @@ const initialQuizCreationInfo: QuizCreationType = {
 const initialSelectedOptions: string[] = [];
 const initialQuizId: number | undefined = undefined;
 const initialErrorModalTitle = "";
-const initialIsQuizNextButtonEnabled = false; // 퀴즈 생성 단계 다음 버튼의 enabled 여부를 저장
 
+// 퀴즈 생성 단계 다음 버튼의 enabled 여부를 저장
+
+const initialIsStep1ButtonEnabledAtom = true;
+const initialIsStep2ButtonEnabledAtom = false;
+const initialIsStep3_1ButtonEnabledAtom = false;
+const initialIsStep3_2ButtonEnabledAtom = false;
+
+const initialIsStep4ButtonEnabledAtom = false;
+
+const initialIsQuizNextButtonEnabled = {
+  1: initialIsStep1ButtonEnabledAtom,
+  2: initialIsStep2ButtonEnabledAtom,
+  3.1: initialIsStep3_1ButtonEnabledAtom,
+  3.2: initialIsStep3_2ButtonEnabledAtom,
+  4: initialIsStep4ButtonEnabledAtom,
+};
+export const isQuizNextButtonEnabledAtom = atom<{ [key: number]: boolean }>(
+  initialIsQuizNextButtonEnabled,
+);
+
+// const
 {
   /* Atom 정의 */
 }
 export const quizCreationInfoAtom = atom<QuizCreationType>(
   initialQuizCreationInfo,
 );
-export const isQuizNextButtonEnabledAtom = atom<boolean>(
-  initialIsQuizNextButtonEnabled,
-);
+
+// export const isStep1ButtonEnabledAtom = atom<boolean>(
+//   initialIsStep1ButtonEnabledAtom,
+// );
+// export const isStep2ButtonEnabledAtom = atom<boolean>(
+//   initialIsStep2ButtonEnabledAtom,
+// );
+// export const isStep3ButtonEnabledAtom = atom<boolean>(
+//   initialIsStep3ButtonEnabledAtom,
+// );
+// export const isStep4ButtonEnabledAtom = atom<boolean>(
+//   initialIsStep4ButtonEnabledAtom,
+// );
+
 export const errorModalTitleAtom = atom<string>(initialErrorModalTitle);
 export const openErrorModalAtom = atom<() => void>();
 export const selectedOptionsAtom = atom<string[]>(initialSelectedOptions);
@@ -55,8 +86,7 @@ export const isQuestionsWrittenAtom = atom(
 
 // 공유 설정 단계 완료 여부 Atom
 export const isSetAtom = atom(
-  (get) =>
-    get(quizCreationInfoAtom).viewScope !== null,
+  (get) => get(quizCreationInfoAtom).viewScope !== null,
   //&& get(quizCreationInfoAtom).editScope !== null,
   (get, set, update: boolean) => {
     const quizCreationInfo = get(quizCreationInfoAtom);

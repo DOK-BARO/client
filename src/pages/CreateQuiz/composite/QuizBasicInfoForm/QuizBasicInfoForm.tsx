@@ -11,7 +11,7 @@ import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 function QuizBasicInfoForm() {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
-  const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
+  const [isQuizNextButtonEnabled, setIsQuizNextButtonEnabled] = useAtom(
     isQuizNextButtonEnabledAtom,
   );
 
@@ -29,7 +29,9 @@ function QuizBasicInfoForm() {
   useEffect(() => {
     const disable =
       titleInputValue.trim() === "" || descriptionTextareaValue.trim() === "";
-    setIsQuizNextButtonEnabled(!disable);
+    console.log("disabled", disable);
+    setIsQuizNextButtonEnabled((prev) => ({ ...prev, 3.1: !disable }));
+    console.log(isQuizNextButtonEnabled);
   }, [titleInputValue, descriptionTextareaValue]);
 
   const handleDescriptionChange = (

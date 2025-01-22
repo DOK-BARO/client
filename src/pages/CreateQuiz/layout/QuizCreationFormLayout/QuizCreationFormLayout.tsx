@@ -21,10 +21,9 @@ import { quizService } from "@/services/server/quizService";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 import ROUTES from "@/data/routes";
 import { invalidQuestionFormIdAtom } from "@/store/quizAtom";
-import React from "react";
+import React, { useEffect } from "react";
 
 export default function QuizCreationFormLayout({
   isEditMode,
@@ -40,20 +39,28 @@ export default function QuizCreationFormLayout({
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const navigate = useNavigate();
-  const [isQuizNextButtonEnabled, setIsQuizNextButtonEnabled] =
-    useAtom<boolean>(isQuizNextButtonEnabledAtom);
+  const [isQuizNextButtonEnabled, setIsQuizNextButtonEnabled] = useAtom(
+    isQuizNextButtonEnabledAtom,
+  );
   const [quizCreationInfo] = useAtom<QuizCreationType>(quizCreationInfoAtom);
   const [, setErrorModalTitle] = useAtom(errorModalTitleAtom);
   const [openModal] = useAtom(openErrorModalAtom);
   const [, setInvalidQuestionFormId] = useAtom(invalidQuestionFormIdAtom);
 
   useEffect(() => {
-    if (!quizCreationInfo?.questions?.length) {
-      setIsQuizNextButtonEnabled(false);
-    } else {
-      setIsQuizNextButtonEnabled(true);
+    if (currentStep === 2) {
+      setCurrentStep(2.1);
     }
-  }, [quizCreationInfo.questions?.length, currentStep]);
+  }, [currentStep]);
+
+  // 뭐지..
+  // useEffect(() => {
+  //   if (!quizCreationInfo?.questions?.length) {
+  //     setIsQuizNextButtonEnabled(false);
+  //   } else {
+  //     setIsQuizNextButtonEnabled(true);
+  //   }
+  // }, [quizCreationInfo.questions?.length, currentStep]);
 
   const getCurrentStep = (): Step => {
     const step = steps[currentStep];
@@ -79,9 +86,9 @@ export default function QuizCreationFormLayout({
       const paramObj: {
         image: File;
         imageTarget:
-        | "MEMBER_PROFILE"
-        | "STUDY_GROUP_PROFILE"
-        | "BOOK_QUIZ_ANSWER";
+          | "MEMBER_PROFILE"
+          | "STUDY_GROUP_PROFILE"
+          | "BOOK_QUIZ_ANSWER";
       } = {
         image: img,
         imageTarget: "BOOK_QUIZ_ANSWER",
@@ -104,9 +111,7 @@ export default function QuizCreationFormLayout({
           answerExplanationImages: await requestUploadExplanationImages(
             question.answerExplanationImages,
           ),
-          selectOptions: question.selectOptions.map(
-            (option) => option.option,
-          ),
+          selectOptions: question.selectOptions.map((option) => option.option),
           answerExplanationContent: question.answerExplanationContent,
         };
       },
@@ -144,7 +149,6 @@ export default function QuizCreationFormLayout({
   });
 
   const requestQuiz = async () => {
-
     if (
       quizCreationInfo.viewScope === null
       //|| quizCreationInfo.editScope === null
@@ -154,8 +158,10 @@ export default function QuizCreationFormLayout({
 
     // 한글을 영어로 바꾸는 함수.
     // 수정할 땐 영어가 들어온다
-    const viewScopeKey = isEditMode ? quizCreationInfo.viewScope : getScopeKeyByTranslation(quizCreationInfo.viewScope); 
-   
+    const viewScopeKey = isEditMode
+      ? quizCreationInfo.viewScope
+      : getScopeKeyByTranslation(quizCreationInfo.viewScope);
+
     if (
       quizCreationInfo.title === null ||
       quizCreationInfo.description === null ||
@@ -256,6 +262,11 @@ export default function QuizCreationFormLayout({
       ? step.subSteps[0].formComponent
       : null;
 
+  useEffect(() => {
+    console.log(currentStep);
+    console.log("check", isQuizNextButtonEnabled[currentStep + 1]);
+  }, [currentStep]);
+
   return (
     <section className={styles["container"]}>
       <h3 className={styles["title"]}>{title}</h3>
@@ -264,7 +275,7 @@ export default function QuizCreationFormLayout({
       <div className={styles["next-container"]}>
         <Button
           className={styles["next"]}
-          disabled={!isQuizNextButtonEnabled}
+          disabled={!isQuizNextButtonEnabled[currentStep + 1]}
           onClick={goToNextStep}
           size="medium"
           color="primary"
@@ -274,7 +285,7 @@ export default function QuizCreationFormLayout({
             alt="다음 버튼"
             width={20}
             height={20}
-            stroke={isQuizNextButtonEnabled ? gray0 : gray60}
+            stroke={isQuizNextButtonEnabled[currentStep + 1] ? gray0 : gray60}
           />
         </Button>
       </div>

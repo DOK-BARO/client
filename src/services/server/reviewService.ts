@@ -75,6 +75,8 @@ class ReviewService {
     }
   };
 
+  
+
   deleteQuizReview = async (id: number): Promise<void> => {
     try {
       await axiosInstance.delete(`/quiz-reviews/${id}`);

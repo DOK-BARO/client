@@ -9,6 +9,8 @@ interface Props {
   isMatch: boolean;
   onCodeChange: (e: React.ChangeEvent<HTMLInputElement>, i: number) => void;
   onKeyDown: (e: React.KeyboardEvent<HTMLInputElement>, i: number) => void;
+  onPaste: (e: React.ClipboardEvent<HTMLInputElement>) => void;
+
   borderColor: "default" | "black";
   errorMessage: string;
 }
@@ -17,6 +19,7 @@ export default function CodeInput({
   isMatch,
   onCodeChange,
   onKeyDown,
+  onPaste,
   borderColor,
   errorMessage,
 }: Props) {
@@ -32,6 +35,7 @@ export default function CodeInput({
             value={digit}
             onChange={(e) => onCodeChange(e, i)}
             onKeyDown={(e) => onKeyDown(e, i)}
+            onPaste={onPaste}
             maxLength={2}
             color={borderColor}
             isError={!isMatch}

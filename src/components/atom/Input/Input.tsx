@@ -8,6 +8,7 @@ interface InputProps {
   type?: "text" | "number" | "password";
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  onPaste?: (e: React.ClipboardEvent<HTMLInputElement>) => void;
   placeholder?: string;
   size?: "large" | "medium" | "small";
   isError?: boolean;
@@ -29,6 +30,7 @@ const Input: React.FC<InputProps> = ({
   value,
   onChange,
   onKeyDown,
+  onPaste,
   className: customClassName,
   type = "text",
   placeholder,
@@ -51,8 +53,8 @@ const Input: React.FC<InputProps> = ({
   } ${isSuccess ? styles["input--success"] : ""}
   ${styles[`input--${color}`]} ${fullWidth ? styles.full : ""} 
     ${leftIcon ? styles[`input--left-icon-${size}`] : ""} ${
-  rightIcon ? styles[`input--right-icon-${size}`] : ""
-} ${customClassName || ""}`;
+      rightIcon ? styles[`input--right-icon-${size}`] : ""
+    } ${customClassName || ""}`;
 
   return (
     <div className={`${styles.container} ${fullWidth ? styles.full : ""}`}>
@@ -75,6 +77,7 @@ const Input: React.FC<InputProps> = ({
           value={value}
           onChange={onChange}
           onKeyDown={onKeyDown}
+          onPaste={onPaste}
           placeholder={placeholder}
           className={className}
           maxLength={maxLength}

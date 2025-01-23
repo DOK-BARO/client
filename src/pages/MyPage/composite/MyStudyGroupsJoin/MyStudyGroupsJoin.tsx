@@ -26,8 +26,13 @@ export default function MyStudyGroupsJoin() {
   }, []);
 
   const { openModal, closeModal, isModalOpen } = useModal();
-  const { handleCodeChange, handleKeyDown, codeList, combinedCode } =
-    useCodeInput();
+  const {
+    handleCodeChange,
+    handleKeyDown,
+    handlePaste,
+    codeList,
+    combinedCode,
+  } = useCodeInput();
   const { mutate: joinStudyGroup } = useMutation<void, ErrorType, string>({
     mutationFn: (inviteCode) => studyGroupService.joinStudyGroup(inviteCode),
     onError: () => {
@@ -91,6 +96,7 @@ export default function MyStudyGroupsJoin() {
           borderColor={"default"}
           onCodeChange={handleCodeChange}
           onKeyDown={handleKeyDown}
+          onPaste={handlePaste}
           isMatch={isMatch ?? true}
           errorMessage="올바르지 않은 그룹 코드입니다."
         />

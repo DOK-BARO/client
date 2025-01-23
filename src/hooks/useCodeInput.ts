@@ -9,9 +9,7 @@ const useCodeInput = () => {
     index: number,
   ) => {
     // setIsMatch(undefined);
-    console.log("?d");
     let { value } = e.target;
-    console.log("code change", value);
     value = value.toUpperCase();
     const newCodeList = [...codeList];
 
@@ -73,7 +71,36 @@ const useCodeInput = () => {
     }
   };
 
-  // const handl
-  return { handleCodeChange, handleKeyDown, combinedCode, codeList };
+  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    const pasteCode = e.clipboardData.getData("text").toUpperCase();
+    const newCodeList = [...codeList];
+
+    const pasteArr = pasteCode.slice(0, 6).split("");
+    pasteArr.forEach((char, i) => {
+      newCodeList[i] = char;
+    });
+
+    setCodeList(newCodeList);
+
+    setTimeout(() => {
+      const nextInput = document.getElementById(
+        `code-input-${pasteArr.length - 1}`,
+      );
+      if (nextInput) {
+        (nextInput as HTMLInputElement).focus();
+      }
+    }, 0);
+
+    // 기본 붙여넣기 동작 방지
+    e.preventDefault();
+  };
+
+  return {
+    handleCodeChange,
+    handleKeyDown,
+    handlePaste,
+    combinedCode,
+    codeList,
+  };
 };
 export default useCodeInput;

@@ -47,8 +47,8 @@ export default function Index() {
 
   const categoryList = bookDetail
     ? extractCategoryList(
-      bookDetail?.categories[bookDetail?.categories.length - 1],
-    )
+        bookDetail?.categories[bookDetail?.categories.length - 1],
+      )
     : [];
 
   const reviewCount = Object.values(reviewsTotalScore?.difficulty || {}).reduce(
@@ -60,13 +60,13 @@ export default function Index() {
     : 0;
   const averageDifficulty = reviewsTotalScore.difficulty
     ? Math.round(
-      Object.entries(reviewsTotalScore.difficulty).reduce(
-        (acc, [difficulty, data]) => {
-          return acc + Number(difficulty) * data.selectRate;
-        },
-        0,
-      ),
-    )
+        Object.entries(reviewsTotalScore.difficulty).reduce(
+          (acc, [difficulty, data]) => {
+            return acc + Number(difficulty) * data.selectRate;
+          },
+          0,
+        ),
+      )
     : 0;
 
   return (

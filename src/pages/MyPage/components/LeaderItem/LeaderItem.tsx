@@ -5,11 +5,11 @@ import { Leader } from "@/svg/Leader";
 import { primary } from "@/styles/abstracts/colors";
 import { StudyMemberType } from "@/types/StudyGroupType";
 
-interface Prop {
+interface Props {
   member: StudyMemberType;
   onDeleteStudyGroupClick: () => void;
 }
-export default function LeaderItem({ member, onDeleteStudyGroupClick }: Prop) {
+export default function LeaderItem({ member, onDeleteStudyGroupClick }: Props) {
   return (
     <div className={styles.container}>
       <span className={styles["profile-container"]}>

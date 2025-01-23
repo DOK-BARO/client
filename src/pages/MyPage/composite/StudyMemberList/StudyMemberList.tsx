@@ -11,7 +11,7 @@ import useModal from "@/hooks/useModal";
 import Modal from "@/components/atom/Modal/Modal";
 import { Fragment } from "react/jsx-runtime";
 
-export interface Prop {
+export interface Props {
   studyGroupId?: number;
   onDeleteStudyGroupClick: () => void;
 }
@@ -19,7 +19,7 @@ export interface Prop {
 export default function StudyMemberList({
   studyGroupId,
   onDeleteStudyGroupClick,
-}: Prop) {
+}: Props) {
   const {
     openModal: openChangeStudyGroupLeaderModal,
     closeModal: closeChangeStudyGroupLeaderModal,

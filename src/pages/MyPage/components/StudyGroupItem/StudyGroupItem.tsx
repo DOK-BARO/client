@@ -9,11 +9,11 @@ import { Leader } from "@/svg/Leader";
 import { primary } from "@/styles/abstracts/colors";
 import ROUTES from "@/data/routes";
 import { currentUserAtom } from "@/store/userAtom";
-interface Prop {
+interface Props {
   studyGroup: StudyGroupType;
 }
 
-export default function StudyGroupItem({ studyGroup }: Prop) {
+export default function StudyGroupItem({ studyGroup }: Props) {
   const navigate = useNavigate();
   const [, setStudyGroup] = useAtom(studyGroupAtom);
   const [currentUser] = useAtom(currentUserAtom);

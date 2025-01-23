@@ -164,7 +164,7 @@ export default function StudyGroupSetting() {
     mutationFn: (id) => studyGroupService.deleteStudyGroup(id),
     onSuccess: () => {
       toast.success("스터디를 삭제했습니다.");
-      navigate(ROUTES.MY_STUDY_GROUPS);
+      navigate(`${ROUTES.MY_PAGE}/${ROUTES.MY_STUDY_GROUPS}`);
     },
   });
 

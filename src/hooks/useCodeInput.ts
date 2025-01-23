@@ -9,12 +9,25 @@ const useCodeInput = () => {
     index: number,
   ) => {
     // setIsMatch(undefined);
+    console.log("?d");
     let { value } = e.target;
-    if (value.length > 1) return;
-
+    console.log("code change", value);
     value = value.toUpperCase();
-
     const newCodeList = [...codeList];
+
+    if (value.length > 1) {
+      // 다음 인풋 포커스
+      newCodeList[index + 1] = value[1];
+      setCodeList(newCodeList);
+      setTimeout(() => {
+        const nextInput = document.getElementById(`code-input-${index + 2}`);
+        if (nextInput) {
+          (nextInput as HTMLInputElement).focus();
+        }
+      }, 0);
+
+      return;
+    }
 
     if (value) {
       newCodeList[index] = value;
@@ -59,6 +72,8 @@ const useCodeInput = () => {
       }
     }
   };
+
+  // const handl
   return { handleCodeChange, handleKeyDown, combinedCode, codeList };
 };
 export default useCodeInput;

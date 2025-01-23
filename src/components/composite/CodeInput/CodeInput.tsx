@@ -32,7 +32,7 @@ export default function CodeInput({
             value={digit}
             onChange={(e) => onCodeChange(e, i)}
             onKeyDown={(e) => onKeyDown(e, i)}
-            maxLength={1}
+            maxLength={2}
             color={borderColor}
             isError={!isMatch}
             className={styles["code-input"]}

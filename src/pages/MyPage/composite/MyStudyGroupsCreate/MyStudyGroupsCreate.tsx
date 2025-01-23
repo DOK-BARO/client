@@ -22,14 +22,14 @@ import useModal from "@/hooks/useModal";
 import Modal from "@/components/atom/Modal/Modal";
 import { Copy } from "@/svg/Copy";
 import { primary } from "@/styles/abstracts/colors";
+import defaultImage from "/public/assets/image/default-profile.png";
 
 export default function MyStudyGroupsCreate() {
-  const defaultImagePath = "/public/assets/image/default-profile.png";
   const { isModalOpen, closeModal, openModal } = useModal();
 
   const [, setMyPageTitle] = useAtom(myPageTitleAtom);
   const defaultProfileState: ProfileImageState = {
-    url: defaultImagePath,
+    url: defaultImage,
     file: null,
   };
   const [profileImage, setProfileImage] =

@@ -9,16 +9,16 @@ export default function ProfileUpload({
   email,
   profileImage,
   setProfileImage,
-  defaultImagePath,
+  defaultImageUrl,
 }: {
   email: string;
   profileImage: ProfileImageState;
   setProfileImage: React.Dispatch<React.SetStateAction<ProfileImageState>>;
-  defaultImagePath: string;
+  defaultImageUrl: string;
 }) {
   const onDeleteProfileImage = () => {
     setProfileImage({
-      url: defaultImagePath,
+      url: defaultImageUrl,
       file: null,
     });
   };

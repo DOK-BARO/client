@@ -26,7 +26,7 @@ import { queryClient } from "@/services/server/queryClient";
 import ROUTES from "@/data/routes";
 import useOutsideClick from "@/hooks/useOutsideClick";
 import useUploadImageToStorage from "@/hooks/mutate/useUploadImage";
-
+import defaultImage from "/public/assets/image/default-profile.png";
 // 스터디 그룹 관리
 export default function StudyGroupSetting() {
   // TODO: 타이틀 세팅하는 로직 훅으로 분리하기
@@ -45,7 +45,6 @@ export default function StudyGroupSetting() {
 
   const [, setMyPageTitle] = useAtom(myPageTitleAtom);
   const [, setStudyGroup] = useAtom(studyGroupAtom);
-  const defaultImagePath = "/public/assets/image/default-profile.png";
   const [isInputChanged, setIsInputChanged] = useState<boolean>(false);
   const {
     isModalOpen: isSmallModalOpen,
@@ -87,12 +86,12 @@ export default function StudyGroupSetting() {
   const initialProfileImage = useRef(studyGroupDetail?.profileImageUrl ?? "");
 
   const defaultProfileState: ProfileImageState = {
-    url: defaultImagePath,
+    url: defaultImage,
     file: null,
   };
 
   const initialProfileState: ProfileImageState = {
-    url: studyGroupDetail?.profileImageUrl ?? defaultImagePath,
+    url: studyGroupDetail?.profileImageUrl ?? defaultImage,
     file: null,
   };
 
@@ -121,25 +120,6 @@ export default function StudyGroupSetting() {
       }
     }
   }, [name, introduction, profileImage.url]);
-
-  // 이미지 업로드
-  // TODO: 훅 사용으로 변경하기
-  // const { mutate: uploadImage } = useMutation<
-  //   string,
-  //   ErrorType,
-  //   UploadImageArgType
-  // >({
-  //   mutationFn: (uploadImageArg) => imageService.uploadImage(uploadImageArg),
-  //   onSuccess: (imageUrl) => {
-  //     const newStudy: StudyGroupPostType = {
-  //       name,
-  //       introduction,
-  //       profileImageUrl: imageUrl,
-  //     };
-
-  //     updateStudyGroup({ id: studyGroupIdNumber!, studyGroup: newStudy });
-  //   },
-  // });
 
   const { uploadImage } = useUploadImageToStorage((imageUrl: string) => {
     const newStudy: StudyGroupPostType = {

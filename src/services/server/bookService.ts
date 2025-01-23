@@ -19,10 +19,10 @@ class BookService {
       authorName,
       description,
       category,
-      page = 1,
+      page,
       size,
-      sort = "QUIZ_COUNT",
-      direction = "ASC",
+      sort,
+      direction,
     } = params || {};
 
     try {

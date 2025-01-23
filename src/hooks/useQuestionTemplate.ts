@@ -21,14 +21,13 @@ export const useQuestionTemplate = (
     questionFormType: AnswerType,
   ): (CheckBoxOption | RadioOptionType)[] => {
     const question: QuizQuestionType = getQuestion();
-    console.log("in template: %o:", question.selectOptions);
+
     const initialOptions =
       question?.selectOptions.map((option) => ({
         id: option.id,
         value: option.value,
         label: option.option,
       })) ?? [];
-    console.log("initi: %o", initialOptions);
 
     return questionFormType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER"
       ? (initialOptions as CheckBoxOption[])

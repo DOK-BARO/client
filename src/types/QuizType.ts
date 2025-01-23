@@ -73,7 +73,7 @@ export interface MySolvedQuizDataType {
   title: string;
   solvedAt: string;
   studyGroup?: MyQuizStudyGroupType;
-  quiz?: SolvedQuizType;
+  quiz: SolvedQuizType;
 }
 
 interface MyQuizStudyGroupType {

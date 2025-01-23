@@ -39,8 +39,12 @@ export default function QuizListLayout<
   const [quizId, setQuizId] = useState<string>();
 
   const { deleteQuiz } = useDeleteQuiz();
-  const handleReSolveQuiz = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleReSolveQuiz = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    quizId: number,
+  ) => {
     e.preventDefault();
+    navigate(ROUTES.SOLVING_QUIZ(quizId));
   };
 
   const handleModifyQuiz = (
@@ -48,8 +52,6 @@ export default function QuizListLayout<
     quizId: string,
   ) => {
     e.preventDefault();
-    // TODO: 엑셀문서 확인하고 해당페이지로 이동하면 될듯
-    // 퀴즈 작성으로 이동하여 스터디 그룹 선택, 도서 선택 disble처리..
     navigate(ROUTES.CREATE_QUIZ(quizId));
   };
 

@@ -14,7 +14,7 @@ export default function SolvedQuizItem({
   index: number;
   myQuiz: MySolvedQuizDataType;
   formattedDate: string;
-  onReSolveQuiz: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onReSolveQuiz: (e: React.MouseEvent<HTMLButtonElement>, id: number) => void;
 }) {
   return (
     <li className={styles.quiz} key={index}>
@@ -27,7 +27,7 @@ export default function SolvedQuizItem({
             <span className={styles.label}>최종 제출일</span>
             <span className={styles["quiz-updated-at"]}>{formattedDate}</span>
           </div>
-          <span className={styles["quiz-name"]}>{myQuiz.quiz?.title}</span>
+          <span className={styles["quiz-name"]}>{myQuiz.quiz.title}</span>
           <img
             src={myQuiz.studyGroup?.profileImageUrl}
             width={32}
@@ -39,7 +39,7 @@ export default function SolvedQuizItem({
           fullWidth
           color="primary"
           size="small"
-          onClick={onReSolveQuiz}
+          onClick={(e) => onReSolveQuiz(e, myQuiz.quiz.id)}
           className={styles.resolve}
         >
           다시 풀기

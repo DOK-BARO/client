@@ -306,7 +306,9 @@ export default function SolvingQuizForm({
               )}
             </div>
           )}
-          <h2>{question.content.toString()}</h2>
+          <p className={styles["question-title"]}>
+            {question.content.toString()}
+          </p>
         </div>
       </div>
       <div className={styles["options-area"]}>

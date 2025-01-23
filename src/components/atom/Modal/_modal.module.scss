@@ -27,6 +27,7 @@
   .title {
     font-size: $font-size-large;
     font-weight: $font-weight-regular;
+    line-height: 1.5;
   }
 
   button {
@@ -39,6 +40,7 @@
   flex-direction: column;
   width: 100%;
   gap: 40px;
+  line-height: 1.5;
 
   .line {
     position: relative;
@@ -50,6 +52,8 @@
 }
 
 .content {
+  line-height: 1.5;
+
   &-title {
     font-size: $font-size-large; // xlarge
     font-weight: 500;
@@ -64,6 +68,7 @@
 .modal-footer {
   width: 100%;
   margin-top: 24px;
+  line-height: 1.5;
 
   .button-container {
     display: flex;

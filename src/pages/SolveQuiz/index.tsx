@@ -410,7 +410,7 @@ export default function Index() {
             >
               해설
             </Button>
-            <div className={` ${styles["markdown-content"]}`}>
+            <div className={styles["markdown-content"]}>
               <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
                 {questionCheckedResult?.answerExplanationContent}
               </ReactMarkdown>

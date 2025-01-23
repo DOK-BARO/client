@@ -2,7 +2,7 @@
 type DirectionType = "ASC" | "DESC";
 
 // 책 정렬 기준
-export type BooksSortType = "PUBLISHED_AT" | "TITLE" | "QUIZ_COUNT";
+export type BooksSortType = "PUBLISHED_AT" | "TITLE" | "QUIZ_COUNT"; // 현재 published_at은 안쓰임
 // 리뷰 정렬 기준 (최신순, 별점 높은 순, 별점 낮은 순)
 export type ReviewsSortType = "CREATED_AT" | "STAR_RATING";
 // 스터디그룹 정렬 기준

@@ -23,10 +23,17 @@
   .left-container {
     width: 140px;
 
-    .quiz-image {
+    .img-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       height: 208px;
-      width: 140px;
-      border-radius: 6px;
+
+      .img {
+        max-width: 140px;
+        height: auto;
+        border-radius: 6px;
+      }
     }
     .date-container {
       @include flex(row, center);

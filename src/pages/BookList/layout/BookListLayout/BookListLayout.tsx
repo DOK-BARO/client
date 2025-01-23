@@ -89,6 +89,8 @@ export default function BookListLayout() {
       ),
   });
 
+  const bookListTitle = title ? `'${title}'에 대한 검색 결과` : "전체 책 목록";
+
   const books = booksData?.data;
   const endPageNumber = booksData?.endPageNumber;
 
@@ -134,7 +136,7 @@ export default function BookListLayout() {
 
       <div className={styles["book-list-container"]}>
         <h2 className={styles.title}>
-          {topParentCategoryInfo?.name || "전체 책 목록"}
+          {topParentCategoryInfo?.name || bookListTitle}
         </h2>
         <div className={styles["breadcrumb-filter-container"]}>
           {currentCategoryInfo ? (

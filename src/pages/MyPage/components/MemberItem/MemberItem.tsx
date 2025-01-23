@@ -3,7 +3,7 @@ import styles from "./_member_item.module.scss";
 import trashCan from "/public/assets/svg/myPage/trash-can.svg";
 import memberCircle from "/public/assets/svg/myPage/member-circle.svg";
 import { StudyMemberType } from "@/types/StudyGroupType";
-interface Prop {
+interface Props {
   member: StudyMemberType;
   onChangeLeaderClick: () => void;
   onWithdrawMemberClick: () => void;
@@ -13,7 +13,7 @@ export default function MemberItem({
   member,
   onChangeLeaderClick,
   onWithdrawMemberClick,
-}: Prop) {
+}: Props) {
   return (
     <div className={styles.container} key={member.id}>
       <span className={styles["profile-container"]}>

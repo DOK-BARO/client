@@ -33,7 +33,7 @@ export default function QuizSettingStudyGroupForm() {
       page: 1,
       size: 50,
       sort: "CREATED_AT",
-      direction: "ASC",
+      direction: "DESC",
     }),
     queryFn: () =>
       studyGroupService.fetchStudyGroups({
@@ -204,25 +204,25 @@ export default function QuizSettingStudyGroupForm() {
 
       newStudyGroup
         ? {
-          title: "스터디 그룹 초대코드",
-          content: (
-            <div className={styles["email-invite"]}>
-              <Button
-                fullWidth
-                color="secondary"
-                icon={
-                  <Copy width={20} stroke={primary} alt="초대 코드 복사" />
-                }
-                iconPosition="left"
-                onClick={handleClickCopyCode}
-              >
-                <span id="invite-code" aria-label="스터디 그룹 초대 코드">
-                  {!isStudyGroupDetailLoading && studyGroupDetail?.inviteCode}
-                </span>
-              </Button>
-            </div>
-          ),
-        }
+            title: "스터디 그룹 초대코드",
+            content: (
+              <div className={styles["email-invite"]}>
+                <Button
+                  fullWidth
+                  color="secondary"
+                  icon={
+                    <Copy width={20} stroke={primary} alt="초대 코드 복사" />
+                  }
+                  iconPosition="left"
+                  onClick={handleClickCopyCode}
+                >
+                  <span id="invite-code" aria-label="스터디 그룹 초대 코드">
+                    {!isStudyGroupDetailLoading && studyGroupDetail?.inviteCode}
+                  </span>
+                </Button>
+              </div>
+            ),
+          }
         : null,
     ];
     return contents.filter(
@@ -286,12 +286,12 @@ export default function QuizSettingStudyGroupForm() {
           bottomButtons={
             newStudyGroup
               ? [
-                {
-                  text: "완료",
-                  color: "primary",
-                  onClick: done,
-                },
-              ]
+                  {
+                    text: "완료",
+                    color: "primary",
+                    onClick: done,
+                  },
+                ]
               : undefined
           }
           closeModal={closeModal}

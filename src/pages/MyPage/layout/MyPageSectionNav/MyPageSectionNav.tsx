@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 import { isNumberString } from "@/utils/isNumberString";
 import { useAtom } from "jotai";
 import { currentUserAtom } from "@/store/userAtom";
-interface Prop {
+
+interface Props {
   sectionNavList: SectionNavType[];
 }
 
@@ -20,7 +21,7 @@ const calculateActiveLink = (pathname: string): string | null => {
     : `${basePath}/${subPath}`;
 };
 
-export default function MyPageSectionNav({ sectionNavList }: Prop) {
+export default function MyPageSectionNav({ sectionNavList }: Props) {
   const navigate = useNavigate();
   const location = useLocation();
   const [currentUser] = useAtom(currentUserAtom);

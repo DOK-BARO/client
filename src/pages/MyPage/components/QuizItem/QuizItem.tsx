@@ -12,13 +12,13 @@ import { studyGroupService } from "@/services/server/studyGroupService";
 import GradeResultItem from "../GradeResultItem/GradeResultItem";
 import ROUTES from "@/data/routes";
 
-interface Prop {
+interface Props {
   quizData: StudyGroupMyUnSolvedQuizType;
   isSolved: boolean;
   studyGroupId: number | undefined;
 }
 
-export default function QuizItem({ quizData, isSolved, studyGroupId }: Prop) {
+export default function QuizItem({ quizData, isSolved, studyGroupId }: Props) {
   const navigate = useNavigate();
   const handleGoToSolveQuiz = () => {
     navigate(ROUTES.SOLVING_QUIZ(quizData.quiz.id));

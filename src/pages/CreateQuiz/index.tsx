@@ -52,7 +52,8 @@ export default function Index() {
 
   const { data: studyGroupDetail, isLoading: isStudyGroupLoading } = useQuery({
     queryKey: ["studyGroupDetail", prevQuiz?.studyGroupId],
-    queryFn: () => studyGroupService.fetchStudyGroup(prevQuiz?.studyGroupId ?? -1),
+    queryFn: () =>
+      studyGroupService.fetchStudyGroup(prevQuiz?.studyGroupId ?? -1),
     enabled: isEditMode && !!prevQuiz?.studyGroupId,
   });
 
@@ -91,8 +92,6 @@ export default function Index() {
             profileImageUrl: studyGroupDetail?.profileImageUrl,
           };
         }
-
-
 
         let selectOptions: SelectOptionType[];
         prevQuiz?.questions.forEach((question) => {
@@ -210,9 +209,9 @@ export default function Index() {
     isEditMode ? setCurrentStep(2) : setCurrentStep(0);
     resetQuizState();
     return () => {
-      if (isEditMode) {
-        resetBookState();
-      }
+      // if (isEditMode) {
+      resetBookState();
+      // }
     };
   }, []);
 

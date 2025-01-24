@@ -3,7 +3,7 @@ import styles from "./_quiz_settings_container.module.scss";
 import Button from "@/components/atom/Button/Button";
 import { QuizSettingOptionType, QuizSettingType } from "@/types/QuizType";
 import { useEffect, useState } from "react";
-import { ArrowDown2 } from "@/svg/ArrowDown2";
+import { ArrowDown2 } from "@/svg/ArrowDown";
 
 export const QuizSettingContainer = ({
   quizSetting,

@@ -2,12 +2,7 @@ import { useEffect, useState } from "react";
 import { isQuizNextButtonEnabledAtom } from "@/store/quizAtom";
 import { useAtom } from "jotai";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
-import {
-  editScopeTranslations,
-  QuizCreationType,
-  QuizSettingType,
-  viewScopeTranslations,
-} from "@/types/QuizType";
+import { QuizCreationType, QuizSettingType } from "@/types/QuizType";
 import { QuizSettingContainer } from "./QuizSettingContainer/QuizSettingContainer";
 
 interface SelectedOptions {
@@ -26,34 +21,48 @@ export default function QuizSettingsForm() {
     setIsQuizNextButtonEnabled(false);
   }, []);
 
-  const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>(
-    () => ({
-      "view-access": quizCreationInfo.viewScope
-        ? viewScopeTranslations[quizCreationInfo.viewScope]
-        : null,
-      "edit-access": quizCreationInfo.editScope
-        ? editScopeTranslations[quizCreationInfo.editScope]
-        : null,
-    }),
-  );
+  // const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>(
+  //   () => ({
+  //     "view-access": quizCreationInfo.viewScope
+  //       ? viewScopeTranslations[quizCreationInfo.viewScope]
+  //       : null,
+  //     "edit-access": quizCreationInfo.editScope
+  //       ? editScopeTranslations[quizCreationInfo.editScope]
+  //       : null,
+  //   }),
+  // );
 
-  const [quizSettings, setQuizSettings] = useState<QuizSettingType[]>();
+  const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>({
+    "view-access": null,
+    "edit-access": null,
+  });
 
   useEffect(() => {
-    setQuizSettings(getQuizSettings(!!quizCreationInfo.studyGroup));
-  }, []);
+    if (quizCreationInfo) {
+      const options: SelectedOptions = {
+        "view-access": quizCreationInfo.viewScope
+          ? quizCreationInfo.viewScope
+          : null,
+        "edit-access": quizCreationInfo.editScope
+          ? quizCreationInfo.editScope
+          : null,
+      };
+
+      setSelectedOptions(options);
+    }
+  }, [quizCreationInfo]);
+
+  const quizSettings: QuizSettingType[] = getQuizSettings(
+    !!quizCreationInfo.studyGroup,
+  );
 
   const handleOptionSelect = (settingName: string, label: string) => {
-    setSelectedOptions((prev) => ({
-      ...prev,
-      [settingName]: label,
-    }));
-
     const updateMapping: { [key: string]: keyof QuizCreationType } = {
       "view-access": "viewScope",
       // "edit-access": "editScope",
     };
-    const updateKey: keyof QuizCreationType = updateMapping[settingName]!;
+    const updateKey: keyof QuizCreationType = updateMapping[settingName];
+
     updateQuizCreationInfo(updateKey, label);
   };
 
@@ -89,25 +98,25 @@ const getQuizSettings = (isStudyGroupSelected: boolean): QuizSettingType[] => [
     name: "view-access",
     options: isStudyGroupSelected
       ? [
-        {
-          label: "스터디원만",
-          description: "스터디원이 이 퀴즈를 보고 풀 수 있습니다.",
-        },
-        {
-          label: "나만",
-          description: "나만 이 퀴즈를 보고 풀 수 있습니다.",
-        },
-      ]
+          {
+            label: "스터디원만",
+            description: "스터디원이 이 퀴즈를 보고 풀 수 있습니다.",
+          },
+          {
+            label: "나만",
+            description: "나만 이 퀴즈를 보고 풀 수 있습니다.",
+          },
+        ]
       : [
-        {
-          label: "모두",
-          description: "모든 사용자가 이 퀴즈를 보고 풀 수 있습니다.",
-        },
-        {
-          label: "나만",
-          description: "나만 이 퀴즈를 보고 풀 수 있습니다.",
-        },
-      ],
+          {
+            label: "모두",
+            description: "모든 사용자가 이 퀴즈를 보고 풀 수 있습니다.",
+          },
+          {
+            label: "나만",
+            description: "나만 이 퀴즈를 보고 풀 수 있습니다.",
+          },
+        ],
 
     icon: "/assets/svg/quizSettingForm/view.svg",
   },

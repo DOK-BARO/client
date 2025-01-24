@@ -25,7 +25,8 @@ import { useEffect } from "react";
 import ROUTES from "@/data/routes";
 import { invalidQuestionFormIdAtom } from "@/store/quizAtom";
 import React from "react";
-import { QuestionMarkOutlined } from "@mui/icons-material";
+import { queryClient } from "@/services/server/queryClient";
+import { studyGroupKeys } from "@/data/queryKeys";
 
 export default function QuizCreationFormLayout({
   isEditMode,
@@ -128,6 +129,13 @@ export default function QuizCreationFormLayout({
       if (!data) {
         return;
       }
+      queryClient.invalidateQueries({
+        queryKey: studyGroupKeys.myUnsolvedQuizList(
+          quizCreationInfo.studyGroup?.id,
+          {},
+        ),
+        exact: true,
+      });
       setCreatedQuizId(data.id);
       // 완료 페이지로 이동
       navigate(ROUTES.CREATE_QUIZ_COMPLETE);

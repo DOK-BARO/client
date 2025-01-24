@@ -104,6 +104,10 @@ export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Props) {
 
   const handleOptionClick = (filter: MyStudyUnSolvedQuizzesFilterType) => {
     setFilterCriteria(filter);
+    setPaginationState({
+      ...paginationState,
+      currentPage: 1,
+    });
   };
   const { data: studyGroup } = useQuery({
     queryKey: studyGroupKeys.detail(studyGroupId),

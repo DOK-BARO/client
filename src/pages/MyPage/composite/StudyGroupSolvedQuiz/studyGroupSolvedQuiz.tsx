@@ -97,6 +97,10 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Props) {
   }, [endPageNumber]);
 
   const handleOptionClick = (filter: MyStudySolvedQuizzesFilterType) => {
+    setPaginationState({
+      ...paginationState,
+      currentPage: 1,
+    });
     setFilterCriteria(filter);
   };
 
@@ -127,7 +131,7 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Props) {
         <NoDataSection
           title="아직 제출한 퀴즈가 없어요 😔"
           buttonName="퀴즈 풀기"
-          // TODO:
+          // TODO: 동작 추가하기
           onClick={() => {}}
         />
       )}

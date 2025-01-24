@@ -27,7 +27,6 @@ export default function MyPageLayout() {
   };
 
   useEffect(() => {
-    console.log("!");
     if (studyGroupId && location.pathname.split("/").includes("setting")) {
       setIsStudyGroupSettingPage(true);
     } else {

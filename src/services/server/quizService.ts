@@ -5,8 +5,8 @@ import { axiosInstance } from "@/config/axiosConfig";
 import { QuestionCheckedResult } from "@/types/QuizType";
 import { handleAxiosError } from "@/utils/errorHandler";
 import { FetchQuizzesParams } from "@/types/ParamsType";
-import { SolvingQuizGradeReuslt } from "@/types/QuizType";
-import { SolvingQuizStudyGroupGradeReuslt } from "@/types/QuizType";
+import { SolvingQuizGradeResult } from "@/types/QuizType";
+import { SolvingQuizStudyGroupGradeResult } from "@/types/QuizType";
 import { FetchMyQuizzesParams } from "@/types/ParamsType";
 class QuizService {
   fetchQuizzes = async (
@@ -143,7 +143,7 @@ class QuizService {
 
   fetchGradeResult = async (
     solvingQuizId: string,
-  ): Promise<SolvingQuizGradeReuslt> => {
+  ): Promise<SolvingQuizGradeResult> => {
     try {
       const { data } = await axiosInstance.get(
         `/solving-quiz/${solvingQuizId}/grade-result`,
@@ -157,7 +157,7 @@ class QuizService {
   fetchStudyGradeResult = async (
     studyGroupId: string,
     quizId: string,
-  ): Promise<SolvingQuizStudyGroupGradeReuslt> => {
+  ): Promise<SolvingQuizStudyGroupGradeResult> => {
     try {
       const { data } = await axiosInstance.get(
         `/solving-quiz/study-groups-grade-result?studyGroupId=${studyGroupId}&quizId=${quizId}`,

@@ -186,7 +186,7 @@ export interface QuizSettingType {
   icon: string; // path
 }
 
-export interface SolvingQuizGradeReuslt {
+export interface SolvingQuizGradeResult {
   solvingQuizId: number;
   quizId: number;
   playerId: number;
@@ -194,7 +194,7 @@ export interface SolvingQuizGradeReuslt {
   correctCount: number;
 }
 
-export interface SolvingQuizStudyGroupGradeReuslt {
+export interface SolvingQuizStudyGroupGradeResult {
   quizId: number;
   studyGroupId: number;
   totalQuestionCount: number;

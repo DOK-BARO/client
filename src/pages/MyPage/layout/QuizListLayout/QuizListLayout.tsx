@@ -103,14 +103,14 @@ export default function QuizListLayout<
 
               return "quiz" in myQuiz ? (
                 <SolvedQuizItem
-                  index={index}
+                  key={index}
                   myQuiz={myQuiz as MySolvedQuizDataType}
                   onReSolveQuiz={handleReSolveQuiz}
                   formattedDate={formattedDate}
                 />
               ) : (
                 <MyMadeQuizItem
-                  index={index}
+                  key={index}
                   myQuiz={myQuiz as MyQuizDataType}
                   onModifyQuiz={handleModifyQuiz}
                   formattedDate={formattedDate}

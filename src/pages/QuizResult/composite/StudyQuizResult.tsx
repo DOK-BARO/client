@@ -59,7 +59,7 @@ export default function StudyQuizResult({
   return (
     <section className={styles["study-group-container"]}>
       <h2 className={styles["title"]}>
-        <span>{studyGroupData?.name}</span>멤버들 중에 <span>{ranking}</span>
+        <span>{studyGroupData?.name}</span> 멤버들 중에 <span>{ranking}</span>
         위를 했어요!
       </h2>
       {ranking === 1 && (

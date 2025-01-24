@@ -79,7 +79,6 @@ export default function StudyGroupSetting() {
 
   useEffect(() => {
     if (studyGroupDetail) {
-      console.log("있당", studyGroupDetail.name);
       resetNameInput(studyGroupDetail.name);
       ResetIntroductionTextarea(studyGroupDetail.introduction);
 

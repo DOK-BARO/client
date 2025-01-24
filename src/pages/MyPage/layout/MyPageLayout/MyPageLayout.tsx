@@ -1,6 +1,6 @@
 import { useAtom } from "jotai";
 import styles from "./_my_page_layout.module.scss";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
+import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   isStudyGroupMainPageAtom,
   myPageTitleAtom,
@@ -9,17 +9,31 @@ import {
 import Button from "@/components/atom/Button/Button";
 import ROUTES from "@/data/routes";
 import pencilLine from "/public/assets/svg/myPage/pencil-line.svg";
+import { useEffect, useState } from "react";
 export default function MyPageLayout() {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const [myPageTitle] = useAtom(myPageTitleAtom);
   const [studyGroup] = useAtom(studyGroupAtom);
 
   const [isStudyGroupMainPage] = useAtom(isStudyGroupMainPageAtom);
   const { studyGroupId } = useParams();
 
+  const [isStudyGroupSettingPage, setIsStudyGroupSettingPage] =
+    useState<boolean>(false);
+
   const handleGoToStudyGroupSetting = () => {
     navigate(ROUTES.STUDY_GROUP_SETTING(studyGroup?.id));
   };
+
+  useEffect(() => {
+    console.log("!");
+    if (studyGroupId && location.pathname.split("/").includes("setting")) {
+      setIsStudyGroupSettingPage(true);
+    } else {
+      setIsStudyGroupSettingPage(false);
+    }
+  }, [pathname, studyGroupId]);
 
   const handleGoToBack = () => {
     navigate(-1);
@@ -37,7 +51,7 @@ export default function MyPageLayout() {
         ) : null}
         <h2 className={styles.title}>{myPageTitle}</h2>
         {/* TODO: 관리 권한 있는지 확인 로직 추가 */}
-        {studyGroupId ? (
+        {!isStudyGroupMainPage && !isStudyGroupSettingPage ? (
           <Button
             onClick={handleGoToStudyGroupSetting}
             color="secondary"

@@ -1,10 +1,16 @@
-import { Star } from "@mui/icons-material";
 import styles from "./_quiz_item.module.scss";
-import { QuizLevelBarChart } from "@/svg/QuizLevelBarChart";
 import Button from "@/components/atom/Button/Button";
 import { BookQuizzesDataType } from "@/types/BookType";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "@/data/routes";
+import { StarFilled } from "@/svg/StarFilled";
+import { systemWarning } from "@/styles/abstracts/colors";
+import { BarChart } from "@/svg/BarChart";
+import {
+  levelMapping,
+  LevelType,
+} from "@/pages/QuizDetail/components/DifficultyLevelItem/DifficultyLevelItem";
+import IconTextLabel from "@/components/composite/IconTextLabel/IconTextLabel";
 
 interface Props {
   quiz: BookQuizzesDataType;
@@ -20,34 +26,38 @@ export default function QuizItem({ quiz, onClick }: Props) {
     navigate(ROUTES.SOLVING_QUIZ(quiz.id));
   };
 
-  const renderQuizDifficultyLevel = (): string => {
-    if (quiz.averageDifficultyLevel === 0) {
-      return "쉬움";
-    } else if (quiz.averageDifficultyLevel === 1) {
-      return "보통";
-    } else {
-      return "어려움";
-    }
-  };
+  const averageDifficultyLabel =
+    levelMapping[quiz.averageDifficultyLevel.toString() as LevelType];
+
+  const roundedAverageRating = quiz.averageStarRating
+    ? parseFloat(quiz.averageStarRating.toFixed(1))
+    : 0;
+
+  console.log(quiz);
 
   return (
-    <div className={styles["container"]} onClick={onClick}>
-      <div className={styles["content"]}>
-        <div className={styles["header"]}>
-          <div className={styles["review"]}>
-            <Star className={styles["review-icon"]} />
-            <span>{quiz.averageStarRating}</span>
-            <span>{`/5 (${quiz.reviewCount}개의 후기)`}</span>
-          </div>
-
-          <div className={styles["quiz-level"]}>
-            <QuizLevelBarChart
-              level={Math.round(quiz.averageDifficultyLevel)}
-              width={24}
-              height={24}
-            />
-            <span>{renderQuizDifficultyLevel()}</span>
-          </div>
+    <div className={styles.container} onClick={onClick}>
+      <div className={styles.content}>
+        <div className={styles.header}>
+          <IconTextLabel
+            icon={<StarFilled width={20} height={20} fill={systemWarning} />}
+            labelText={
+              <p className={styles.review}>
+                <b>{roundedAverageRating}</b>
+                /5 ({quiz.reviewCount}개의 후기)
+              </p>
+            }
+          />
+          <IconTextLabel
+            icon={
+              <BarChart alt="어려움 레벨" level={quiz.averageDifficultyLevel} />
+            }
+            labelText={
+              <p className={styles["difficulty-level"]}>
+                {averageDifficultyLabel}
+              </p>
+            }
+          />
         </div>
 
         <div className={styles["quiz-title"]}>{quiz.title}</div>
@@ -67,7 +77,7 @@ export default function QuizItem({ quiz, onClick }: Props) {
         <Button
           size="small"
           color="primary"
-          className={styles["take-quiz-button"]}
+          className={styles["play-quiz-button"]}
           onClick={goToPlayQuiz}
         >
           풀기

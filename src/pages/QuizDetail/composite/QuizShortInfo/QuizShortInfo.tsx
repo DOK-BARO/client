@@ -263,15 +263,19 @@ export default function QuizShortInfo({
           icon={<StarFilled width={20} height={20} fill={systemWarning} />}
           labelText={
             <p className={styles["rating-text"]}>
-              {roundedAverageRating}
-              <b>/5 ({reviewCount}개의 후기)</b>
+              <b>{roundedAverageRating}</b>
+              /5 ({reviewCount}개의 후기)
             </p>
           }
         />
         <span className={styles.divider} />
         <IconTextLabel
           icon={<BarChart alt="어려움 레벨" level={averageDifficulty} />}
-          labelText={averageDifficultyLabel}
+          labelText={
+            <p className={styles["difficulty-level"]}>
+              {averageDifficultyLabel}
+            </p>
+          }
         />
         <span className={styles.divider} />
         <IconTextLabel
@@ -284,7 +288,11 @@ export default function QuizShortInfo({
               />
             </div>
           }
-          labelText={quizExplanation.creator.nickname}
+          labelText={
+            <p className={styles["creator-nickname"]}>
+              {quizExplanation.creator.nickname}
+            </p>
+          }
         />
       </span>
       <p className={styles.description}>{quizExplanation.description}</p>

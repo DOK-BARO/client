@@ -23,13 +23,27 @@ export default function Index() {
     quizTitle: string;
   }>();
 
-  const { mutate: createQuizReview } = useMutation<
+  const { data: myReview } = useQuery({
+    queryKey: reviewKeys.myReview(Number(quizId)),
+    queryFn: () => reviewService.fetchMyReview(Number(quizId)),
+    enabled: !!quizId,
+  });
+
+  const { mutate: submitQuizReview } = useMutation<
     void,
     ErrorType,
     ReviewPostType
   >({
     mutationFn: async (newQuizReview) => {
-      await reviewService.createQuizReview(newQuizReview);
+      if (myReview) {
+        // 이미 퀴즈에 대한 리뷰가 있다면 업데이트
+        await reviewService.updateQuizReview({
+          id: myReview.id,
+          review: newQuizReview,
+        });
+      } else {
+        await reviewService.createQuizReview(newQuizReview);
+      }
     },
     onSuccess: () => {
       toast.success("후기 작성이 완료되었습니다");
@@ -37,18 +51,12 @@ export default function Index() {
     },
   });
 
-  const { data: myReview } = useQuery({
-    queryKey: reviewKeys.myReview(Number(quizId)),
-    queryFn: () => reviewService.fetchMyReview(Number(quizId)),
-    enabled: !!quizId,
-  });
-
   const [rating, setStarRating] = useState<number>(0);
   const [difficultyLevel, setDifficultyLevel] = useState<DifficultyType>();
   const { value, onChange, textareaRef, resetTextarea } = useAutoResizeTextarea(
     "",
     48,
-    3
+    3,
   );
 
   useEffect(() => {
@@ -77,7 +85,7 @@ export default function Index() {
       comment: value,
       quizId: parseInt(quizId),
     };
-    createQuizReview(review);
+    submitQuizReview(review);
   };
 
   const handleSkip = () => {

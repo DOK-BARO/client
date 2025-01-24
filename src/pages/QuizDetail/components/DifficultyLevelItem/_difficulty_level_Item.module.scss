@@ -5,9 +5,7 @@
   @include flex(row);
   align-items: center;
   gap: 20px;
-  line-height: 1.5;
   @mixin label {
-    line-height: inherit;
     font-weight: $font-weight-medium;
     font-size: $font-size-medium;
   }

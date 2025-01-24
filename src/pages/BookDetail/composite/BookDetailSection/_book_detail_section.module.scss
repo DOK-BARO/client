@@ -1,14 +1,6 @@
 @import "../../../../styles/abstracts/variables";
 @import "../../../../styles/abstracts/mixins";
 
-.category-depth-list {
-  display: flex;
-  font-size: $font-size-small;
-  color: $gray-90;
-  padding: 6px;
-  margin-bottom: 40px;
-}
-
 .book-detail-section-container {
   display: flex;
   flex-direction: row;
@@ -32,14 +24,11 @@
 .book-detail-title {
   font-size: 32px; //TODO: 변경 필요
   font-weight: bold;
-  color: $gray-90;
   margin-bottom: 16px;
 }
 
 .book-description {
-  color: $gray-90;
   font-size: $font-size-medium;
-  line-height: 1.5;
 }
 
 .book-detail-sub-container {
@@ -53,7 +42,6 @@
   flex: 1;
   flex-direction: column;
   gap: 8px;
-  color: $gray-90;
   font-size: $font-size-large;
 }
 
@@ -76,7 +64,6 @@
   flex: 1;
   flex-direction: column;
   gap: 8px;
-  color: $gray-90;
   font-size: $font-size-large;
 }
 

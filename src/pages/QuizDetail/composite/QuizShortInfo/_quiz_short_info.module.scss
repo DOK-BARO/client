@@ -2,7 +2,6 @@
 @import "../../../../styles/abstracts/variables";
 
 .container {
-  line-height: 1.5;
   position: relative;
 
   .title-container {
@@ -12,8 +11,6 @@
     // 제목 스타일 믹스인으로 묶기
     .title {
       font-size: 32px;
-      color: $gray-90;
-      line-height: inherit;
       font-weight: $font-weight-bold;
       margin-bottom: 8px;
     }
@@ -48,10 +45,8 @@
 
   .description {
     margin-top: 16px;
-    line-height: inherit;
     font-size: $font-size-small;
     font-weight: $font-weight-regular;
-    color: $gray-90;
   }
 
   .small-modal-container {

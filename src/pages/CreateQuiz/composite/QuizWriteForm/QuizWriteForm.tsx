@@ -14,6 +14,9 @@ import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { QuizPlus } from "@/svg/QuizPlus";
 import { AnswerType } from "@/types/QuizType";
 import React from "react";
+import { useAtom } from "jotai";
+import { QuizCreationType } from "@/types/QuizType";
+import { quizCreationInfoAtom } from "@/store/quizAtom";
 
 //TODO: 아이콘 정리 필요
 
@@ -21,17 +24,29 @@ const QuizWriteForm = React.memo(() => {
   {
     const { quizCreationInfo, updateQuizCreationInfo } =
       useUpdateQuizCreationInfo();
+    const [, setQuizCreationInfo] =
+      useAtom<QuizCreationType>(quizCreationInfoAtom);
     const defaultAnswerType: AnswerType = "MULTIPLE_CHOICE_SINGLE_ANSWER";
 
-    const deleteQuestion = (targetId: number) => {
+    const deleteQuestion = async (targetId: number) => {
+
       setQuestionForms((prevQuizList) =>
         prevQuizList.filter(({ id }) => id !== targetId),
       );
 
-      const updatedQuestions = quizCreationInfo.questions?.filter(
-        (question) => question.id !== targetId,
+      // TODO: useUpdateQuizCreationInfo 로직 확인 후 반영 필요
+      await new Promise((resolve) =>
+        setQuizCreationInfo((prev) => {
+          const updatedQuestions = prev.questions?.filter(
+            (question) => question.id !== targetId,
+          ) ?? [];
+          resolve(updatedQuestions);
+          return {
+            ...prev,
+            questions: updatedQuestions,
+          };
+        }),
       );
-      updateQuizCreationInfo("questions", updatedQuestions);
     };
 
     const setInitialForms = (): QuestionFormType[] => {

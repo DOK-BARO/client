@@ -122,7 +122,7 @@ export default function Index() {
       <h2 className={styles["sr-only"]}>퀴즈 후기 남기기</h2>
       <p
         className={styles["title"]}
-      >{`방금 푼 퀴즈(${quizTitle})에 소중한 후기를 남겨주세요.`}</p>
+      >{`방금 푼 퀴즈(${quizTitle})에\n소중한 후기를 남겨주세요.`}</p>
       <div className={styles["review-star-container"]}>
         <div className={styles["request-text"]}>평점을 남겨주세요</div>
         <div className={styles["request-sub-text"]}>

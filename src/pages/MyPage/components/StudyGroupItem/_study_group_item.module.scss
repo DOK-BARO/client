@@ -26,9 +26,10 @@
       align-items: center;
       gap: 8px;
       .name {
-        line-height: inherit;
         font-weight: $font-weight-semibold;
         font-size: $font-size-large;
+        @include text-ellipsis;
+        max-width: 100px;
       }
       .member-setting {
         height: 26px;

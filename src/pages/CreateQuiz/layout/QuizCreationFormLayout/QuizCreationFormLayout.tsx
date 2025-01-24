@@ -2,7 +2,7 @@ import styles from "./_quiz_creation_form_layout.module.scss";
 import { Step } from "@/types/StepType";
 import Button from "@/components/atom/Button/Button";
 import RightArrow from "@/svg/RightArrow";
-import { gray0, gray60 } from "@/styles/abstracts/colors.ts";
+import { gray00, gray60 } from "@/styles/abstracts/colors.ts";
 import { useAtom } from "jotai";
 import {
   createdQuizIdAtom,
@@ -79,9 +79,9 @@ export default function QuizCreationFormLayout({
       const paramObj: {
         image: File;
         imageTarget:
-        | "MEMBER_PROFILE"
-        | "STUDY_GROUP_PROFILE"
-        | "BOOK_QUIZ_ANSWER";
+          | "MEMBER_PROFILE"
+          | "STUDY_GROUP_PROFILE"
+          | "BOOK_QUIZ_ANSWER";
       } = {
         image: img,
         imageTarget: "BOOK_QUIZ_ANSWER",
@@ -104,9 +104,7 @@ export default function QuizCreationFormLayout({
           answerExplanationImages: await requestUploadExplanationImages(
             question.answerExplanationImages,
           ),
-          selectOptions: question.selectOptions.map(
-            (option) => option.option,
-          ),
+          selectOptions: question.selectOptions.map((option) => option.option),
           answerExplanationContent: question.answerExplanationContent,
         };
       },
@@ -144,7 +142,6 @@ export default function QuizCreationFormLayout({
   });
 
   const requestQuiz = async () => {
-
     if (
       quizCreationInfo.viewScope === null
       //|| quizCreationInfo.editScope === null
@@ -154,8 +151,10 @@ export default function QuizCreationFormLayout({
 
     // 한글을 영어로 바꾸는 함수.
     // 수정할 땐 영어가 들어온다
-    const viewScopeKey = isEditMode ? quizCreationInfo.viewScope : getScopeKeyByTranslation(quizCreationInfo.viewScope); 
-   
+    const viewScopeKey = isEditMode
+      ? quizCreationInfo.viewScope
+      : getScopeKeyByTranslation(quizCreationInfo.viewScope);
+
     if (
       quizCreationInfo.title === null ||
       quizCreationInfo.description === null ||
@@ -274,7 +273,7 @@ export default function QuizCreationFormLayout({
             alt="다음 버튼"
             width={20}
             height={20}
-            stroke={isQuizNextButtonEnabled ? gray0 : gray60}
+            stroke={isQuizNextButtonEnabled ? gray00 : gray60}
           />
         </Button>
       </div>

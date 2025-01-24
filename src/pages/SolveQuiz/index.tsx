@@ -8,7 +8,7 @@ import { quizService } from "@/services/server/quizService";
 import { useEffect, useState } from "react";
 import Button from "@/components/atom/Button/Button";
 import { ArrowRight } from "@/svg/ArrowRight";
-import { gray0 } from "@/styles/abstracts/colors";
+import { gray00 } from "@/styles/abstracts/colors";
 import { useAtom } from "jotai";
 import { selectedOptionsAtom } from "@/store/quizAtom";
 import { QuestionCheckedResult } from "@/types/QuizType";
@@ -440,7 +440,7 @@ export default function Index() {
           onClick={handleQuestionSubmit}
           disabled={submitDisabled}
           color="primary"
-          icon={<ArrowRight stroke={gray0} width={20} height={20} />}
+          icon={<ArrowRight stroke={gray00} width={20} height={20} />}
           className={styles["footer-btn"]}
           ableAnimation
         >
@@ -468,7 +468,7 @@ export default function Index() {
             <Button
               onClick={handleNextQuestionBtn}
               color="primary"
-              icon={<ArrowRight stroke={gray0} width={20} height={20} />}
+              icon={<ArrowRight stroke={gray00} width={20} height={20} />}
               className={styles["footer-btn"]}
             >
               {currentStep === quiz!.questions.length

@@ -25,6 +25,16 @@ export default function EditMyInfo() {
 
   const [profileImage, setProfileImage] =
     useState<ProfileImageState>(defaultProfileState);
+
+  useEffect(() => {
+    const profileImgState: ProfileImageState = {
+      url: currentUser?.profileImage ?? defaultImage,
+      file: null,
+    };
+    setProfileImage(profileImgState);
+  }, [currentUser?.profileImage]);
+
+
   const {
     value,
     onChange,
@@ -70,6 +80,9 @@ export default function EditMyInfo() {
       uploadImage(arg);
     }
   }, [profileImage.file]);
+
+
+
 
   return (
     <>

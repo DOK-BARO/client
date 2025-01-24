@@ -33,13 +33,12 @@ export default function MyPageSectionNav({ sectionNavList }: Props) {
     setActiveLink(calculateActiveLink(location.pathname));
   }, [location.pathname]);
 
-  // activeLink 업데이트 및 navigate
+  //  navigate
   const handleSectionChange = (
     e: React.MouseEvent<HTMLButtonElement>,
     isSubNavItem: boolean = false,
   ) => {
     const { value } = e.currentTarget;
-    setActiveLink(calculateActiveLink(value));
     navigate(value);
     setIsSubNavItemClicked(isSubNavItem);
   };

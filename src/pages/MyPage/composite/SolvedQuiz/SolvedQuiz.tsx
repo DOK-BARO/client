@@ -71,30 +71,31 @@ export default function SolvedQuiz() {
   };
 
   const myQuizzes = myQuizzesData?.data;
-  if (isLoading || !myQuizzes) {
-    return <>로딩</>;
-  }
+  console.log(myQuizzes);
 
   return (
-    <div>
-      <QuizListLayout
-        title="푼 퀴즈"
-        quizzes={myQuizzes}
-        titleWhenNoData="아직 내가 푼 퀴즈가 없어요. 😞"
-        buttonNameWhenNoData="퀴즈 풀러 가기"
-        onClickBtnWhenNoData={handleClickWhenNoData}
-        handleOptionClick={handleOptionClick}
-        filterCriteria={filterCriteria}
-        filterOptions={filterOptions}
-      />
-      {totalPagesLength && totalPagesLength > 0 && (
-        <Pagination
-          type="queryString"
-          parentPage={"my/solved-quiz"}
-          paginationState={paginationState}
-          setPaginationState={setPaginationState}
+    !isLoading &&
+    myQuizzes && (
+      <div>
+        <QuizListLayout
+          title="푼 퀴즈"
+          quizzes={myQuizzes}
+          titleWhenNoData="아직 내가 푼 퀴즈가 없어요. 😞"
+          buttonNameWhenNoData="퀴즈 풀러 가기"
+          onClickBtnWhenNoData={handleClickWhenNoData}
+          handleOptionClick={handleOptionClick}
+          filterCriteria={filterCriteria}
+          filterOptions={filterOptions}
         />
-      )}
-    </div>
+        {totalPagesLength && totalPagesLength > 0 && (
+          <Pagination
+            type="queryString"
+            parentPage="my/solved-quiz"
+            paginationState={paginationState}
+            setPaginationState={setPaginationState}
+          />
+        )}
+      </div>
+    )
   );
 }

@@ -46,8 +46,13 @@ export default function AddStudyGroupModal({ closeModal, currentPage }: Props) {
 
   const [profileImage, setProfileImage] =
     useState<ProfileImageState>(defaultProfileState);
-  const { handleCodeChange, handleKeyDown, codeList, combinedCode } =
-    useCodeInput();
+  const {
+    handleCodeChange,
+    handleKeyDown,
+    handlePaste,
+    codeList,
+    combinedCode,
+  } = useCodeInput();
 
   // 코드로 스터디 그룹 참여
   const [isJoinByCode, setIsJoinByCode] = useState<boolean>(false);
@@ -284,6 +289,7 @@ export default function AddStudyGroupModal({ closeModal, currentPage }: Props) {
                           borderColor={"default"}
                           onCodeChange={handleCodeChange}
                           onKeyDown={handleKeyDown}
+                          onPaste={handlePaste}
                           isMatch={isMatch ?? true}
                           errorMessage="올바르지 않은 그룹 코드입니다."
                         />

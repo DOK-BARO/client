@@ -11,8 +11,11 @@ import { ErrorType } from "@/types/ErrorType";
 import useModal from "@/hooks/useModal";
 import Modal from "@/components/atom/Modal/Modal";
 import { studyGroupKeys } from "@/data/queryKeys";
+import { useNavigate } from "react-router-dom";
+import ROUTES from "@/data/routes";
 
 export default function MyStudyGroupsJoin() {
+  const navigate = useNavigate();
   const [, setMyPageTitle] = useAtom(myPageTitleAtom);
   const [isMatch, setIsMatch] = useState<boolean | undefined>(undefined);
 
@@ -26,8 +29,13 @@ export default function MyStudyGroupsJoin() {
   }, []);
 
   const { openModal, closeModal, isModalOpen } = useModal();
-  const { handleCodeChange, handleKeyDown, codeList, combinedCode } =
-    useCodeInput();
+  const {
+    handleCodeChange,
+    handleKeyDown,
+    handlePaste,
+    codeList,
+    combinedCode,
+  } = useCodeInput();
   const { mutate: joinStudyGroup } = useMutation<void, ErrorType, string>({
     mutationFn: (inviteCode) => studyGroupService.joinStudyGroup(inviteCode),
     onError: () => {
@@ -60,6 +68,11 @@ export default function MyStudyGroupsJoin() {
     setIsMatch(undefined);
   }, [codeList]);
 
+  const handleGoToStudyGroupPage = () => {
+    closeModal();
+    navigate(ROUTES.STUDY_GROUP(studyGroupDetail?.id));
+  };
+
   return (
     <div className={styles.container}>
       {isModalOpen ? (
@@ -77,7 +90,7 @@ export default function MyStudyGroupsJoin() {
             {
               text: "스터디 그룹 페이지 가기",
               color: "primary",
-              onClick: () => {},
+              onClick: handleGoToStudyGroupPage,
             },
           ]}
         />
@@ -91,6 +104,7 @@ export default function MyStudyGroupsJoin() {
           borderColor={"default"}
           onCodeChange={handleCodeChange}
           onKeyDown={handleKeyDown}
+          onPaste={handlePaste}
           isMatch={isMatch ?? true}
           errorMessage="올바르지 않은 그룹 코드입니다."
         />

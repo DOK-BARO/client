@@ -46,14 +46,16 @@ export default function StudyGroupItem({ studyGroup }: Props) {
       <div className={styles.info}>
         <div className={styles["name-button-container"]}>
           <p className={styles.name}>{studyGroup.name || "\u00A0"}</p>
-          <Button
-            size="xsmall"
-            color="secondary"
-            className={styles["member-setting"]}
-            onClick={handleGoToMemberSetting}
-          >
-            스터디원 관리
-          </Button>
+          {currentUser?.id === studyGroup.leader?.id ? (
+            <Button
+              size="xsmall"
+              color="secondary"
+              className={styles["member-setting"]}
+              onClick={handleGoToMemberSetting}
+            >
+              스터디원 관리
+            </Button>
+          ) : null}
         </div>
         <span className={styles["icon-text-label"]}>
           <img src={member} width={16} height={16} alt="스터디 멤버" />

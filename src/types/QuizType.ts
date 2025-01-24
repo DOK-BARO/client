@@ -148,7 +148,7 @@ export interface QuizRequestType {
 }
 
 export type QuizQuestionRequestApiType = {
-  id?:number; // 수정하기 api 요청 시 id가 없으면 create, 있으면 modify
+  id?: number; // 수정하기 api 요청 시 id가 없으면 create, 있으면 modify
   content: string;
   selectOptions: string[];
   answerExplanationContent: string;

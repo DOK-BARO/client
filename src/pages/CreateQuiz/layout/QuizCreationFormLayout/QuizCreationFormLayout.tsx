@@ -80,9 +80,9 @@ export default function QuizCreationFormLayout({
       const paramObj: {
         image: File;
         imageTarget:
-        | "MEMBER_PROFILE"
-        | "STUDY_GROUP_PROFILE"
-        | "BOOK_QUIZ_ANSWER";
+          | "MEMBER_PROFILE"
+          | "STUDY_GROUP_PROFILE"
+          | "BOOK_QUIZ_ANSWER";
       } = {
         image: img,
         imageTarget: "BOOK_QUIZ_ANSWER",
@@ -104,14 +104,12 @@ export default function QuizCreationFormLayout({
           // 기존 퀴즈 id의 경우 선택옵션 순서대로 0,1,2... 이런식으로 생성됨
           // 새로 추가된 퀴즈 id의 경우 timemillis 값이므로 무조건 1000 이상의 수 이다.
           // 질문 수정의 경우 기존 id, 질문을 새로 create하는 경우 undefined값으로 set
-          id: (id) > 1000 ? (void id) : id,
+          id: id > 1000 ? void id : id,
           ...rest,
           answerExplanationImages: await requestUploadExplanationImages(
             question.answerExplanationImages,
           ),
-          selectOptions: question.selectOptions.map(
-            (option) => option.option,
-          ),
+          selectOptions: question.selectOptions.map((option) => option.option),
           answerExplanationContent: question.answerExplanationContent,
         };
       },
@@ -149,7 +147,6 @@ export default function QuizCreationFormLayout({
   });
 
   const requestQuiz = async () => {
-
     if (
       quizCreationInfo.viewScope === null
       //|| quizCreationInfo.editScope === null
@@ -158,7 +155,9 @@ export default function QuizCreationFormLayout({
     }
 
     // 한글을 영어로 바꾸는 함수. 결과가 null이면 viewScope 값 그대로 사용
-    const viewScopeKey: ViewScope = getScopeKeyByTranslation(quizCreationInfo.viewScope) ?? quizCreationInfo.viewScope;
+    const viewScopeKey: ViewScope =
+      getScopeKeyByTranslation(quizCreationInfo.viewScope) ??
+      quizCreationInfo.viewScope;
 
     if (
       quizCreationInfo.title === null ||

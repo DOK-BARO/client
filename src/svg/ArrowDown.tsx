@@ -1,7 +1,7 @@
 import React from "react";
 import { SVGProps } from "@/types/SVGProps";
 
-export const ArrowDown2: React.FC<SVGProps> = ({ alt, ...props }) => {
+export const ArrowDown: React.FC<SVGProps> = ({ alt, ...props }) => {
   return (
     <svg
       width={props.width}

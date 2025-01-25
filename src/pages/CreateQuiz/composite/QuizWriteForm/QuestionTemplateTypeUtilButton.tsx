@@ -7,7 +7,6 @@ import Button from "@/components/atom/Button/Button";
 import { QuestionTemplateType } from "@/types/QuestionTemplateType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { QuizQuestionType } from "@/types/QuizType";
-import { gray100 } from "@/styles/abstracts/colors";
 //TODO: 변수명 직관적으로 변경 필요
 function QuestionTemplateTypeUtilButton({
   quizId,
@@ -58,15 +57,11 @@ function QuestionTemplateTypeUtilButton({
         color="white"
         onClick={openDropDownList}
         iconPosition={"left"}
-        icon={<selectedOption.Icon width={20} height={20} stroke={gray100} />}
+        className={styles["button"]}
+        icon={<selectedOption.Icon width={18} height={18} stroke={gray60} />}
       >
         <h3>{selectedOption.text}</h3>
-        <ArrowDown
-          width={20}
-          height={20}
-          className={styles["quiz-write-form-type-util-icon"]}
-          stroke={gray100}
-        />
+        <ArrowDown width={20} height={20} stroke={"0A090B"} />
       </Button>
       {isOpenDropDownList && anchorEl && (
         <QuestionTemplateUtilList list={list} onClick={onClick} />

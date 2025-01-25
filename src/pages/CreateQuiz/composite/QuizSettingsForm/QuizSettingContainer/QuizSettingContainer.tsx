@@ -3,7 +3,7 @@ import styles from "./_quiz_settings_container.module.scss";
 import Button from "@/components/atom/Button/Button";
 import { QuizSettingOptionType, QuizSettingType } from "@/types/QuizType";
 import { useEffect, useState } from "react";
-import { ArrowDown2 } from "@/svg/ArrowDown2";
+import { ArrowDown } from "@/svg/ArrowDown";
 
 export const QuizSettingContainer = ({
   quizSetting,
@@ -15,7 +15,6 @@ export const QuizSettingContainer = ({
   selectedOptionLabel: string | null;
 }) => {
   const options = quizSetting.options;
-  // console.log(options);
 
   const [description, setDescription] = useState<string>("");
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
@@ -58,7 +57,7 @@ export const QuizSettingContainer = ({
         className={styles.select}
         size="medium"
         icon={
-          <ArrowDown2
+          <ArrowDown
             stroke={options.length > 1 ? gray90 : gray50}
             width={20}
             height={20}

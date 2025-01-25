@@ -14,7 +14,6 @@ import {
   QuizQuestionRequestApiType,
   QuizRequestType,
 } from "@/types/QuizType";
-import { ViewScope, viewScopeTranslations } from "@/types/QuizType";
 import { imageService } from "@/services/server/imageService";
 import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
 import { quizService } from "@/services/server/quizService";
@@ -25,7 +24,8 @@ import { useEffect } from "react";
 import ROUTES from "@/data/routes";
 import { invalidQuestionFormIdAtom } from "@/store/quizAtom";
 import React from "react";
-import { QuestionMarkOutlined } from "@mui/icons-material";
+import { queryClient } from "@/services/server/queryClient";
+import { studyGroupKeys } from "@/data/queryKeys";
 
 export default function QuizCreationFormLayout({
   isEditMode,
@@ -66,12 +66,12 @@ export default function QuizCreationFormLayout({
     )!;
   };
 
-  const getScopeKeyByTranslation = (translation: string): ViewScope | null => {
-    const entry = Object.entries(viewScopeTranslations).find(
-      ([, value]) => value === translation,
-    );
-    return entry ? (entry[0] as ViewScope) : null;
-  };
+  // const getScopeKeyByTranslation = (translation: string): ViewScope | null => {
+  //   const entry = Object.entries(scopeTranslations).find(
+  //     ([, value]) => value === translation,
+  //   );
+  //   return entry ? (entry[0] as ViewScope) : null;
+  // };
 
   const requestUploadExplanationImages = async (
     uploadTargetImgs: File[],
@@ -128,6 +128,13 @@ export default function QuizCreationFormLayout({
       if (!data) {
         return;
       }
+      queryClient.invalidateQueries({
+        queryKey: studyGroupKeys.myUnsolvedQuizList(
+          quizCreationInfo.studyGroup?.id,
+          {},
+        ),
+        exact: true,
+      });
       setCreatedQuizId(data.id);
       // 완료 페이지로 이동
       navigate(ROUTES.CREATE_QUIZ_COMPLETE);
@@ -154,17 +161,17 @@ export default function QuizCreationFormLayout({
       return;
     }
 
-    // 한글을 영어로 바꾸는 함수.
-    // 수정할 땐 영어가 들어온다
-    const viewScopeKey = isEditMode
-      ? quizCreationInfo.viewScope
-      : getScopeKeyByTranslation(quizCreationInfo.viewScope);
+    // // 한글을 영어로 바꾸는 함수. 결과가 null이면 viewScope 값 그대로 사용
+    // const viewScopeKey: ViewScope =
+    //   getScopeKeyByTranslation(quizCreationInfo.viewScope) ??
+    //   quizCreationInfo.viewScope;
+
 
     if (
       quizCreationInfo.title === null ||
       quizCreationInfo.description === null ||
       quizCreationInfo.book === null ||
-      viewScopeKey === null ||
+      quizCreationInfo.viewScope === null ||
       quizCreationInfo.questions === null
     ) {
       return;
@@ -173,12 +180,13 @@ export default function QuizCreationFormLayout({
     const quiz: QuizRequestType = {
       title: quizCreationInfo.title,
       description: quizCreationInfo.description,
-      viewScope: viewScopeKey,
+      viewScope: quizCreationInfo.viewScope,
       editScope: "CREATOR",
       bookId: quizCreationInfo.book.id,
       studyGroupId: quizCreationInfo.studyGroup?.id || undefined,
       questions: await setRequestQuestion(),
     };
+    console.log("quiz!!", quiz);
 
     isEditMode
       ? requestModifyQuiz({ editQuizId: editQuizId!, quiz })

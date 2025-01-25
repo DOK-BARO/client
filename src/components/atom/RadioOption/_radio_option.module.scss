@@ -9,13 +9,13 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     flex-shrink: 0;
     border-radius: 24px;
     outline: none;
     cursor: pointer;
-    border: 2px solid $default-border-color; // 체크되지 않았을 때의 테두리 색상
+    border: 1.5px solid $default-border-color; // 체크되지 않았을 때의 테두리 색상
     position: relative;
   }
 }
@@ -130,10 +130,10 @@
 }
 
 .option-label-textarea {
-  display: flex;
-  border: none;
-  border-radius: 0;
-  font-size: $font-size-large;
+  font-size: $font-size-medium;
+  font-weight: $font-weight-regular;
+  line-height: 150%;
+  border:none;
 
   &:focus {
     background-color: $background;
@@ -153,7 +153,7 @@
   flex: 1;
   word-break: break-word;
   white-space: pre-line;
-  padding: 10px 16px;
+  padding: 10px 8px;
 }
 
 .option-label-value {

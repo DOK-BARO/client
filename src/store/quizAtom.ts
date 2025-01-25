@@ -78,11 +78,13 @@ export const stepsCompletionStatusAtom = atom((get) => ({
 // 초기화
 export const resetQuizCreationStateAtom = atom(null, (get, set) => {
   const currentBook = get(quizCreationInfoAtom).book;
+  const currentStudyGroup = get(quizCreationInfoAtom).studyGroup;
 
-  // book은 유지
+  // book, studyGroup 있으면 유지
   set(quizCreationInfoAtom, {
     ...initialQuizCreationInfo,
     ...(currentBook ? { book: currentBook } : {}),
+    ...(currentStudyGroup ? { studyGroup: currentStudyGroup } : {}),
   });
   set(isQuizNextButtonEnabledAtom, initialIsQuizNextButtonEnabled);
   set(errorModalTitleAtom, initialErrorModalTitle);

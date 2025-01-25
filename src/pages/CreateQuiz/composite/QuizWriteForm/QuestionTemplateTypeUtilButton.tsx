@@ -27,11 +27,11 @@ function QuestionTemplateTypeUtilButton({
       quizCreationInfo.questions?.map((question) =>
         question.id === quizId
           ? {
-            ...question,
-            selectOptions: [],
-            answerType: option.answerType,
-            answers: [],
-          }
+              ...question,
+              selectOptions: [],
+              answerType: option.answerType,
+              answers: [],
+            }
           : question,
       ) ?? [];
     updateQuizCreationInfo("questions", updatedQuestions);
@@ -57,15 +57,11 @@ function QuestionTemplateTypeUtilButton({
         color="white"
         onClick={openDropDownList}
         iconPosition={"left"}
-        icon={<selectedOption.Icon width={20} height={20} stroke={"black"} />}
+        className={styles["button"]}
+        icon={<selectedOption.Icon width={18} height={18} stroke={gray60} />}
       >
         <h3>{selectedOption.text}</h3>
-        <ArrowDown
-          width={20}
-          height={20}
-          className={styles["quiz-write-form-type-util-icon"]}
-          stroke={"black"}
-        />
+        <ArrowDown width={20} height={20} stroke={"0A090B"} />
       </Button>
       {isOpenDropDownList && anchorEl && (
         <QuestionTemplateUtilList list={list} onClick={onClick} />

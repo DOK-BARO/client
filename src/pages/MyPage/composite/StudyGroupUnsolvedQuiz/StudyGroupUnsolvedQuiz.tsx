@@ -19,6 +19,11 @@ import {
   MyStudyUnSolvedQuizzesFilterType,
   MyStudyUnSolvedQuizzesSortType,
 } from "@/types/FilterType";
+import useLoginAction from "@/hooks/useLoginAction";
+import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
+import ROUTES from "@/data/routes";
+import { useNavigate } from "react-router-dom";
+import { StudyGroupType } from "@/types/StudyGroupType";
 
 const filterOptions: FilterOptionType<MyStudyUnSolvedQuizzesFilterType>[] = [
   {
@@ -41,10 +46,12 @@ interface Props {
   studyGroupId: number | undefined;
 }
 export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Props) {
+  const navigate = useNavigate();
   const [filterCriteria, setFilterCriteria] = useAtom(
     myStudyUnsolvedQuizFilterAtom,
   );
   useFilter<MyStudyUnSolvedQuizzesFilterType>(setFilterCriteria);
+  const { handleAuthenticatedAction } = useLoginAction();
 
   const [paginationState, setPaginationState] = useAtom(
     myStudyUnsolvedQuizPaginationAtom,
@@ -86,7 +93,6 @@ export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Props) {
   });
   const unsolvedQuizzes = unsolvedQuizData?.data;
   const endPageNumber = unsolvedQuizData?.endPageNumber;
-  // console.log(unsolvedQuizzes);
 
   // 마지막 페이지 번호 저장
   useEffect(() => {
@@ -98,6 +104,29 @@ export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Props) {
 
   const handleOptionClick = (filter: MyStudyUnSolvedQuizzesFilterType) => {
     setFilterCriteria(filter);
+    setPaginationState({
+      ...paginationState,
+      currentPage: 1,
+    });
+  };
+  const { data: studyGroup } = useQuery({
+    queryKey: studyGroupKeys.detail(studyGroupId),
+    queryFn: () => studyGroupService.fetchStudyGroup(Number(studyGroupId)),
+    enabled: !!studyGroupId,
+  });
+  const { updateQuizCreationInfo } = useUpdateQuizCreationInfo();
+
+  // 퀴즈 만들기
+  const handleGoToCreateQuiz = () => {
+    if (studyGroup) {
+      const currentStudyGroup: StudyGroupType = {
+        id: studyGroup?.id,
+        name: studyGroup?.name,
+        profileImageUrl: studyGroup?.profileImageUrl,
+      };
+      updateQuizCreationInfo("studyGroup", currentStudyGroup);
+    }
+    navigate(ROUTES.CREATE_QUIZ());
   };
 
   const isQuizzesExist = unsolvedQuizzes && unsolvedQuizzes.length > 0;
@@ -128,8 +157,7 @@ export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Props) {
         <NoDataSection
           title="아직 풀어야 할 퀴즈가 없어요 😔"
           buttonName="퀴즈 만들기"
-          // TODO:
-          onClick={() => {}}
+          onClick={() => handleAuthenticatedAction(handleGoToCreateQuiz)}
         />
       )}
       {totalPagesLength && isQuizzesExist ? (

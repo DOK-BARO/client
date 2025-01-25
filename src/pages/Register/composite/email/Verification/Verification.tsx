@@ -134,7 +134,7 @@ export default function Verification({
 
   return (
     <section className={styles["verification"]}>
-      <h3>로그인 이메일 입력</h3>
+      <h3 className={styles["sr-only"]}>로그인 이메일 입력</h3>
       <p className={styles["description"]}>
         {!isEmailSent ? (
           <>

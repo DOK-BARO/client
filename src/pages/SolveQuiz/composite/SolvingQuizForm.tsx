@@ -10,7 +10,7 @@ import { selectedOptionsAtom } from "@/store/quizAtom";
 import { OptionStatusType } from "@/components/atom/RadioOption/RadioOption";
 import { Check } from "@/svg/Check";
 import { Close } from "@/svg/Close";
-import { gray0 } from "@/styles/abstracts/colors";
+import { gray00 } from "@/styles/abstracts/colors";
 import CheckBox from "@/components/atom/Checkbox/Checkbox";
 import { CheckboxStatusType } from "@/components/atom/Checkbox/Checkbox";
 import { CheckBoxOption } from "@/types/CheckBoxTypes";
@@ -64,6 +64,7 @@ export default function SolvingQuizForm({
 
   useEffect(() => {
     setSelectedValue("");
+    setCheckedOptions({});
   }, [question]);
 
   const handleSelectOptions = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -119,8 +120,8 @@ export default function SolvingQuizForm({
             value: index.toString(),
             label: option.content,
           };
-          let isChecked: boolean = false;
-          let isCorrect: boolean = false;
+          let isChecked = false;
+          let isCorrect = false;
           let typeName: OptionStatusType = "option-default";
           if (selectedRadioOption) {
             const selectedOptionIdx: number = parseInt(selectedRadioOption);
@@ -176,8 +177,8 @@ export default function SolvingQuizForm({
             value: index.toString(),
             label: option.content,
           };
-          let isChecked: boolean = false;
-          let isCorrect: boolean = false;
+          let isChecked = false;
+          let isCorrect = false;
           let typeName: CheckboxStatusType = "checkbox-default";
           if (JSON.stringify(checkedOptions) !== "{}") {
             isChecked = checkedOptions[checkBoxOption.id];
@@ -239,8 +240,8 @@ export default function SolvingQuizForm({
     return (
       <>
         {options.map((option) => {
-          let isChecked: boolean = false;
-          let isCorrect: boolean = false;
+          let isChecked = false;
+          let isCorrect = false;
           let typeName: OptionStatusType = "option-default";
           if (selectedRadioOption) {
             isChecked = selectedRadioOption === option.value;
@@ -295,10 +296,10 @@ export default function SolvingQuizForm({
               }
             >
               {isCorrect ? (
-                <Check stroke={gray0} width={26} height={26} />
+                <Check stroke={gray00} width={26} height={26} />
               ) : (
                 <Close
-                  stroke={gray0}
+                  stroke={gray00}
                   width={26}
                   height={26}
                   strokeWidth={2.1}
@@ -306,7 +307,9 @@ export default function SolvingQuizForm({
               )}
             </div>
           )}
-          <h2>{question.content.toString()}</h2>
+          <p className={styles["question-title"]}>
+            {question.content.toString()}
+          </p>
         </div>
       </div>
       <div className={styles["options-area"]}>

@@ -30,12 +30,13 @@
   .setting-container {
     display: flex;
     width: 100%;
-    gap: 12px;
+    gap: 8px;
 
     textArea.title {
       border: none;
-      color: $gray-90;
       font-size: $font-size-large;
+      font-weight: $font-weight-semibold;
+      line-height: 150%;
       padding: 12px 0;
     }
   }
@@ -64,27 +65,31 @@
 
 .option-add-button {
   @include flex(row);
-  width: 100%;
-  background: transparent;
-  border: none;
-  padding: 0;
+  align-items: center;
+  flex:1;
+  // padding: 0;
   color: $gray-50;
   font-size: $font-size-large;
 
   &-container {
-    align-items: center;
-    height: 48px;
     @include flex(row);
-
+    align-items: center;
     width: 100%;
-    padding: 0 16px;
+    padding: 10px 8px;
+
+    span {
+      font-size: $font-size-medium;
+      font-weight: $font-weight-regular;
+      line-height: 150%;
+      color: $gray-50;
+    }
   }
 
   &-check-circle {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
-    border: 2px solid $gray-50;
+    border: 1.5px solid $gray-50;
     margin-right: 8px;
   }
 
@@ -124,12 +129,11 @@
     background-color: transparent;
     font-size: $font-size-large;
     font-weight: $font-weight-regular;
-    line-height: 1.5;
 
     &::placeholder {
-      line-height: 1.5;
       font-size: $font-size-large;
     }
+
     color: $gray-70;
     padding: 0;
   }
@@ -222,9 +226,7 @@
 
 .question-options {
   @include flex(column);
-  align-items: start;
-  gap: 13px;
-  // max-width:100%;
+  gap: 8px;
 }
 
 .option-container {
@@ -238,10 +240,25 @@
   &-button-container {
     position: relative;
     @include flex(row);
+
+    .button {
+      display: flex;
+      justify-content: start;
+      width: 164px;
+    }
+
+    h3 {
+      display: flex;
+      flex: 1;
+      text-align: start;
+      font-size: $font-size-medium;
+      line-height: 150%;
+      font-weight: $font-weight-regular;
+    }
   }
 
   &-list {
-    width: 200px;
+    width: 164px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
     background-color: white;
     padding: 8px;
@@ -254,21 +271,18 @@
     &-item {
       display: flex;
       align-items: center;
-      justify-content: center;
       height: 48px;
       padding: 10px 16px;
       border-radius: 6px;
-      gap: 5px;
+      gap: 8px;
 
       &:hover {
         background-color: $gray-10;
       }
 
       span {
-        width: 100%;
-        font-size: $font-size-large;
-        color: $gray-90;
-        margin-left: 8px;
+        font-size: $font-size-medium;
+        line-height: 150%;
       }
     }
   }

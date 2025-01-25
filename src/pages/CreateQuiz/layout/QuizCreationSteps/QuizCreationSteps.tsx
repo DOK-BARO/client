@@ -3,7 +3,7 @@ import { Step } from "@/types/StepType";
 import Button from "@/components/atom/Button/Button";
 
 import {
-  gray0,
+  gray00,
   gray20,
   gray50,
   systemSuccess,
@@ -62,7 +62,7 @@ export default function QuizCreationSteps({
               </span>
               <CheckEllipse
                 fillOut={step.isDone ? systemSuccess : gray20}
-                fillIn={step.isDone ? gray0 : gray50}
+                fillIn={step.isDone ? gray00 : gray50}
                 width={20}
                 height={20}
               />

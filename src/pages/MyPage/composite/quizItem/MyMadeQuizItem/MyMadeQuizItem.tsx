@@ -6,7 +6,6 @@ import { Link } from "react-router-dom";
 
 // 만든 퀴즈 아이템
 export default function MyMadeQuizItem({
-  index,
   myQuiz,
   formattedDate,
   onModifyQuiz,
@@ -25,7 +24,7 @@ export default function MyMadeQuizItem({
   ) => void;
 }) {
   return (
-    <li className={styles.quiz} key={index}>
+    <li className={styles.quiz}>
       <Link to={ROUTES.QUIZ_DETAIL(myQuiz.id)}>
         <div className={styles.info}>
           <div className={styles["img-container"]}>

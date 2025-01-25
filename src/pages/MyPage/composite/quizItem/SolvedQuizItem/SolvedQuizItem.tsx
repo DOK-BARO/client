@@ -6,18 +6,16 @@ import { Link } from "react-router-dom";
 
 // 푼 퀴즈 아이템
 export default function SolvedQuizItem({
-  index,
   myQuiz,
   formattedDate,
   onReSolveQuiz,
 }: {
-  index: number;
   myQuiz: MySolvedQuizDataType;
   formattedDate: string;
   onReSolveQuiz: (e: React.MouseEvent<HTMLButtonElement>, id: number) => void;
 }) {
   return (
-    <li className={styles.quiz} key={index}>
+    <li className={styles.quiz}>
       <Link to={ROUTES.QUIZ_DETAIL(myQuiz.quiz?.id)}>
         <div className={styles.info}>
           <div className={styles["img-container"]}>

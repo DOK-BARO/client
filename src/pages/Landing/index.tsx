@@ -20,7 +20,8 @@ export default function Index() {
         <Button
           onClick={() =>
             handleAuthenticatedAction(() => {
-              navigate(ROUTES.CREATE_QUIZ);
+              navigate(ROUTES.CREATE_QUIZ());
+
             })
           }
           color="primary"

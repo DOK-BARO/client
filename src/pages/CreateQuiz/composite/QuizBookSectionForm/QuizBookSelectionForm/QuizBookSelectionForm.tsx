@@ -15,6 +15,7 @@ import { bookService } from "@/services/server/bookService";
 import { BookListItem } from "../BookListItem/BookListItem";
 import loadingIndicator from "/public/assets/svg/quizBookSelectionForm/loading.gif";
 import useOutsideClick from "@/hooks/useOutsideClick";
+import searchNotFound from "/public/assets/image/search-not-found.png";
 
 // 2. 도서 선택
 export default function QuizBookSelectionForm() {
@@ -33,8 +34,6 @@ export default function QuizBookSelectionForm() {
 
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
-
-  // console.log("quizCreationInfo", quizCreationInfo);
 
   const [tempSelectedBook, setTempSelectedBook] = useState<BookType | null>(
     quizCreationInfo.book,
@@ -119,7 +118,7 @@ export default function QuizBookSelectionForm() {
 
       {searchedBooks && searchedBooks.length > 0 ? (
         <ul
-          className={styles["selection-list"]}
+          className={`${styles["selection-list"]}`}
           role="listbox"
           aria-label="도서 선택 상자"
         >
@@ -146,15 +145,24 @@ export default function QuizBookSelectionForm() {
           )}
 
           {/* 검색 결과가 없고, 검색어가 있는 경우 */}
-          {searchValue && (
+          {searchValue && !isBookSearching && searchedBooks?.length === 0 ? (
             <ul
-              className={styles["selection-list"]}
+              className={styles["selection-list-not-found"]}
               role="listbox"
               aria-label="도서 선택 상자"
             >
-              {!isBookSearching ? <li>검색 결과가 없습니다.</li> : null}
+              <li className={styles["not-found"]}>
+                <img
+                  src={searchNotFound}
+                  width={100}
+                  alt="검색 결과가 없습니다."
+                />
+                <p className={styles["not-found-text"]}>
+                  검색 결과가 없습니다.
+                </p>
+              </li>
             </ul>
-          )}
+          ) : null}
         </>
       )}
     </div>

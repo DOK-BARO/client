@@ -10,11 +10,22 @@ const useCodeInput = () => {
   ) => {
     // setIsMatch(undefined);
     let { value } = e.target;
-    if (value.length > 1) return;
-
     value = value.toUpperCase();
-
     const newCodeList = [...codeList];
+
+    if (value.length > 1) {
+      // 다음 인풋 포커스
+      newCodeList[index + 1] = value[1];
+      setCodeList(newCodeList);
+      setTimeout(() => {
+        const nextInput = document.getElementById(`code-input-${index + 2}`);
+        if (nextInput) {
+          (nextInput as HTMLInputElement).focus();
+        }
+      }, 0);
+
+      return;
+    }
 
     if (value) {
       newCodeList[index] = value;
@@ -59,6 +70,37 @@ const useCodeInput = () => {
       }
     }
   };
-  return { handleCodeChange, handleKeyDown, combinedCode, codeList };
+
+  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    const pasteCode = e.clipboardData.getData("text").toUpperCase();
+    const newCodeList = [...codeList];
+
+    const pasteArr = pasteCode.slice(0, 6).split("");
+    pasteArr.forEach((char, i) => {
+      newCodeList[i] = char;
+    });
+
+    setCodeList(newCodeList);
+
+    setTimeout(() => {
+      const nextInput = document.getElementById(
+        `code-input-${pasteArr.length - 1}`,
+      );
+      if (nextInput) {
+        (nextInput as HTMLInputElement).focus();
+      }
+    }, 0);
+
+    // 기본 붙여넣기 동작 방지
+    e.preventDefault();
+  };
+
+  return {
+    handleCodeChange,
+    handleKeyDown,
+    handlePaste,
+    combinedCode,
+    codeList,
+  };
 };
 export default useCodeInput;

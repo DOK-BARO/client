@@ -11,21 +11,23 @@ import { studyGroupKeys } from "@/data/queryKeys";
 import { studyGroupService } from "@/services/server/studyGroupService";
 import GradeResultItem from "../GradeResultItem/GradeResultItem";
 import ROUTES from "@/data/routes";
+import { useAtom } from "jotai";
+import { currentUserAtom } from "@/store/userAtom";
 
-interface Prop {
+interface Props {
   quizData: StudyGroupMyUnSolvedQuizType;
   isSolved: boolean;
   studyGroupId: number | undefined;
 }
 
-export default function QuizItem({ quizData, isSolved, studyGroupId }: Prop) {
+export default function QuizItem({ quizData, isSolved, studyGroupId }: Props) {
   const navigate = useNavigate();
   const handleGoToSolveQuiz = () => {
     navigate(ROUTES.SOLVING_QUIZ(quizData.quiz.id));
   };
   const { openModal, closeModal, isModalOpen } = useModal();
 
-  console.log(quizData);
+  const [currentUser] = useAtom(currentUserAtom);
   const { data: gradeResult, isLoading: isGradeResultLoading } = useQuery({
     queryKey: studyGroupKeys.quizGradeResult(studyGroupId!, quizData.quiz.id),
     queryFn: () =>
@@ -54,7 +56,7 @@ export default function QuizItem({ quizData, isSolved, studyGroupId }: Prop) {
                         {gradeResult?.solvedMember.map((memberData) => (
                           <GradeResultItem
                             member={memberData.member}
-                            isActive={false}
+                            isActive={memberData.member.id == currentUser?.id}
                             score={10}
                             grade={1}
                           />

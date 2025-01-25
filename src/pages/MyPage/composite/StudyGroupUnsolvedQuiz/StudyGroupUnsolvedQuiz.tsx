@@ -37,10 +37,10 @@ const filterOptions: FilterOptionType<MyStudyUnSolvedQuizzesFilterType>[] = [
   },
 ];
 
-interface Prop {
+interface Props {
   studyGroupId: number | undefined;
 }
-export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Prop) {
+export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Props) {
   const [filterCriteria, setFilterCriteria] = useAtom(
     myStudyUnsolvedQuizFilterAtom,
   );
@@ -70,8 +70,8 @@ export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Prop) {
     queryFn: () =>
       studyGroupId
         ? studyGroupService.fetchStudyGroupMyUnsolvedQuizzes(
-          studyGroupId,
-          parseQueryParams<
+            studyGroupId,
+            parseQueryParams<
               MyStudyUnSolvedQuizzesSortType,
               FetchStudyGroupsParams
             >({
@@ -80,7 +80,7 @@ export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Prop) {
               page,
               size,
             }),
-        )
+          )
         : null,
     enabled: !!studyGroupId,
   });

@@ -21,6 +21,8 @@ import { primary } from "@/styles/abstracts/colors";
 import Textarea from "@/components/atom/Textarea/Textarea";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
 import { queryClient } from "@/services/server/queryClient";
+import defaultImage from "/public/assets/image/default-profile.png";
+
 interface Props {
   closeModal: () => void;
   currentPage: number;
@@ -36,17 +38,21 @@ export default function AddStudyGroupModal({ closeModal, currentPage }: Props) {
   } = useAutoResizeTextarea("", 48);
 
   // TODO: 이미지 업로드하기
-  const defaultImagePath = "/public/assets/image/default-profile.png";
 
   const defaultProfileState: ProfileImageState = {
-    url: defaultImagePath,
+    url: defaultImage,
     file: null,
   };
 
   const [profileImage, setProfileImage] =
     useState<ProfileImageState>(defaultProfileState);
-  const { handleCodeChange, handleKeyDown, codeList, combinedCode } =
-    useCodeInput();
+  const {
+    handleCodeChange,
+    handleKeyDown,
+    handlePaste,
+    codeList,
+    combinedCode,
+  } = useCodeInput();
 
   // 코드로 스터디 그룹 참여
   const [isJoinByCode, setIsJoinByCode] = useState<boolean>(false);
@@ -160,10 +166,10 @@ export default function AddStudyGroupModal({ closeModal, currentPage }: Props) {
     const bottomButtons = [
       !isStudyCreated
         ? {
-          text: !isJoinByCode ? "코드로 참여하기" : "스터디 새로 만들기",
-          color: "primary-border" as ButtonColorProps,
-          onClick: () => setIsJoinByCode((prev) => !prev),
-        }
+            text: !isJoinByCode ? "코드로 참여하기" : "스터디 새로 만들기",
+            color: "primary-border" as ButtonColorProps,
+            onClick: () => setIsJoinByCode((prev) => !prev),
+          }
         : null,
       {
         disabled: !isInvitedByCode
@@ -203,97 +209,98 @@ export default function AddStudyGroupModal({ closeModal, currentPage }: Props) {
         !isJoinByCode
           ? !isStudyCreated
             ? [
-              {
-                title: "스터디 그룹 사진",
-                content: (
-                  <ProfileImageEditor
-                    width={150}
-                    profileImage={profileImage}
-                    setProfileImage={setProfileImage}
-                    initialImageState={defaultProfileState}
-                    isDeletable
-                  />
-                ),
-              },
-              {
-                title: "스터디 그룹 이름",
-                content: (
-                  <Input
-                    id="study-group-name"
-                    placeholder="스터디 그룹 이름을 입력해주세요."
-                    value={name}
-                    onChange={onNameChange}
-                    maxLength={20}
-                    maxLengthShow
-                  />
-                ),
-              },
-              {
-                title: "스터디 그룹 소개",
-                content: (
-                  <Textarea
-                    id="study-group-introduction"
-                    placeholder="짧은 소개를 써주세요."
-                    value={introduction}
-                    onChange={onIntroductionChange}
-                    maxLength={50}
-                    className={styles["introduction"]}
-                    size="medium"
-                    maxLengthShow
-                    textAreaRef={textareaRef}
-                  />
-                ),
-              },
-            ]
-            : [
-              {
-                title:
-                    "스터디 그룹 초대코드를 초대하고 싶은 친구에게 보내세요.",
-                content: (
-                  <Button
-                    fullWidth
-                    className={styles["new-study-invite-code"]}
-                    icon={
-                      <Copy
-                        stroke={primary}
-                        width={20}
-                        height={20}
-                        alt="초대 코드 복사"
-                      />
-                    }
-                    iconPosition="right"
-                    onClick={handleClickCopyCode}
-                  >
-                    <span id="invite-code" aria-label="스터디 그룹 초대 코드">
-                      {!isStudyGroupDetailLoading &&
-                          studyGroupDetail?.inviteCode}
-                    </span>
-                  </Button>
-                ),
-              },
-            ]
-          : [
-            !isInvitedByCode
-              ? {
-                title: "초대 코드를 입력해 주세요.",
-                content: (
-                  <div className={styles["code-input-container"]}>
-                    <CodeInput
-                      codeList={codeList}
-                      borderColor={"default"}
-                      onCodeChange={handleCodeChange}
-                      onKeyDown={handleKeyDown}
-                      isMatch={isMatch ?? true}
-                      errorMessage="올바르지 않은 그룹 코드입니다."
+                {
+                  title: "스터디 그룹 사진",
+                  content: (
+                    <ProfileImageEditor
+                      width={150}
+                      profileImage={profileImage}
+                      setProfileImage={setProfileImage}
+                      initialImageState={defaultProfileState}
+                      isDeletable
                     />
-                  </div>
-                ),
-              }
-              : {
-                title: `${joinedStudyGroupName}에 가입하신 걸 환영해요!`,
-                content: <></>,
-              },
-          ]
+                  ),
+                },
+                {
+                  title: "스터디 그룹 이름",
+                  content: (
+                    <Input
+                      id="study-group-name"
+                      placeholder="스터디 그룹 이름을 입력해주세요."
+                      value={name}
+                      onChange={onNameChange}
+                      maxLength={20}
+                      maxLengthShow
+                    />
+                  ),
+                },
+                {
+                  title: "스터디 그룹 소개",
+                  content: (
+                    <Textarea
+                      id="study-group-introduction"
+                      placeholder="짧은 소개를 써주세요."
+                      value={introduction}
+                      onChange={onIntroductionChange}
+                      maxLength={50}
+                      className={styles["introduction"]}
+                      size="medium"
+                      maxLengthShow
+                      textAreaRef={textareaRef}
+                    />
+                  ),
+                },
+              ]
+            : [
+                {
+                  title:
+                    "스터디 그룹 초대코드를 초대하고 싶은 친구에게 보내세요.",
+                  content: (
+                    <Button
+                      fullWidth
+                      className={styles["new-study-invite-code"]}
+                      icon={
+                        <Copy
+                          stroke={primary}
+                          width={20}
+                          height={20}
+                          alt="초대 코드 복사"
+                        />
+                      }
+                      iconPosition="right"
+                      onClick={handleClickCopyCode}
+                    >
+                      <span id="invite-code" aria-label="스터디 그룹 초대 코드">
+                        {!isStudyGroupDetailLoading &&
+                          studyGroupDetail?.inviteCode}
+                      </span>
+                    </Button>
+                  ),
+                },
+              ]
+          : [
+              !isInvitedByCode
+                ? {
+                    title: "초대 코드를 입력해 주세요.",
+                    content: (
+                      <div className={styles["code-input-container"]}>
+                        <CodeInput
+                          codeList={codeList}
+                          borderColor={"default"}
+                          onCodeChange={handleCodeChange}
+                          onKeyDown={handleKeyDown}
+                          onPaste={handlePaste}
+                          isMatch={isMatch ?? true}
+                          errorMessage="올바르지 않은 그룹 코드입니다."
+                        />
+                      </div>
+                    ),
+                  }
+                : {
+                    title: `${joinedStudyGroupName}에 가입하신 걸 환영해요!`,
+                    content: <></>,
+                  },
+            ]
       }
       bottomButtons={getBottomButtons()}
     />

@@ -1,13 +1,13 @@
 import Button from "../Button/Button";
 import styles from "./_small_modal.module.scss";
 
-interface Prop {
+interface Props {
   icon?: JSX.Element;
   label: string;
   onLabelClick: () => void;
 }
 
-export default function SmallModal({ icon, label, onLabelClick }: Prop) {
+export default function SmallModal({ icon, label, onLabelClick }: Props) {
   return (
     <div className={styles["small-modal"]}>
       <Button

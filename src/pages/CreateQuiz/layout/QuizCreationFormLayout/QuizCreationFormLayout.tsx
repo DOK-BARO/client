@@ -25,6 +25,7 @@ import { useEffect } from "react";
 import ROUTES from "@/data/routes";
 import { invalidQuestionFormIdAtom } from "@/store/quizAtom";
 import React from "react";
+import { QuestionMarkOutlined } from "@mui/icons-material";
 
 export default function QuizCreationFormLayout({
   isEditMode,
@@ -98,8 +99,12 @@ export default function QuizCreationFormLayout({
     const uploadedImgQuestions = quizCreationInfo.questions!.map(
       async (question) => {
         const { id, ...rest } = question;
-        void id;
+
         return {
+          // 기존 퀴즈 id의 경우 선택옵션 순서대로 0,1,2... 이런식으로 생성됨
+          // 새로 추가된 퀴즈 id의 경우 timemillis 값이므로 무조건 1000 이상의 수 이다.
+          // 질문 수정의 경우 기존 id, 질문을 새로 create하는 경우 undefined값으로 set
+          id: id > 1000 ? void id : id,
           ...rest,
           answerExplanationImages: await requestUploadExplanationImages(
             question.answerExplanationImages,

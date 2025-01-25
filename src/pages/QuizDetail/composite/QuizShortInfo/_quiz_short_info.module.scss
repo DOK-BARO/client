@@ -20,12 +20,20 @@
     @include flex(row);
     align-items: center;
     gap: 20px;
-
     height: 30px;
 
+    .rating-text,
+    .difficulty-level,
+    .creator-nickname {
+      color: $gray-70;
+      font-size: $font-size-medium;
+    }
+
     .rating-text {
+      font-size: $font-size-medium;
+      color: $gray-60;
       b {
-        color: $gray-60;
+        color: $gray-70;
       }
     }
 

@@ -209,9 +209,9 @@ export default function Index() {
     isEditMode ? setCurrentStep(2) : setCurrentStep(0);
     resetQuizState();
     return () => {
-      if (isEditMode) {
-        resetBookState();
-      }
+      // if (isEditMode) {
+      resetBookState();
+      // }
     };
   }, []);
 

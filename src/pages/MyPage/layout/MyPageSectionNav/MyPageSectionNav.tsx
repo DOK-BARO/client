@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 import { isNumberString } from "@/utils/isNumberString";
 import { useAtom } from "jotai";
 import { currentUserAtom } from "@/store/userAtom";
-interface Prop {
+
+interface Props {
   sectionNavList: SectionNavType[];
 }
 
@@ -20,7 +21,7 @@ const calculateActiveLink = (pathname: string): string | null => {
     : `${basePath}/${subPath}`;
 };
 
-export default function MyPageSectionNav({ sectionNavList }: Prop) {
+export default function MyPageSectionNav({ sectionNavList }: Props) {
   const navigate = useNavigate();
   const location = useLocation();
   const [currentUser] = useAtom(currentUserAtom);
@@ -32,13 +33,12 @@ export default function MyPageSectionNav({ sectionNavList }: Prop) {
     setActiveLink(calculateActiveLink(location.pathname));
   }, [location.pathname]);
 
-  // activeLink 업데이트 및 navigate
+  //  navigate
   const handleSectionChange = (
     e: React.MouseEvent<HTMLButtonElement>,
     isSubNavItem: boolean = false,
   ) => {
     const { value } = e.currentTarget;
-    setActiveLink(calculateActiveLink(value));
     navigate(value);
     setIsSubNavItemClicked(isSubNavItem);
   };

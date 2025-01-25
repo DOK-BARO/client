@@ -13,13 +13,7 @@ class QuizService {
     params: FetchQuizzesParams,
   ): Promise<{ data: QuizType[]; endPageNumber: number } | null> => {
     try {
-      const {
-        page = 0,
-        size = 10,
-        bookId,
-        sort = "CREATED_AT",
-        direction = "ASC",
-      } = params;
+      const { page, size, bookId, sort, direction } = params;
 
       const { data } = await axiosInstance.get("/book-quizzes", {
         params: { page, size, bookId, sort, direction },

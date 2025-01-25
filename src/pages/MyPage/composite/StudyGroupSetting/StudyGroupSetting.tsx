@@ -26,26 +26,27 @@ import { queryClient } from "@/services/server/queryClient";
 import ROUTES from "@/data/routes";
 import useOutsideClick from "@/hooks/useOutsideClick";
 import useUploadImageToStorage from "@/hooks/mutate/useUploadImage";
-
+import defaultImage from "/public/assets/image/default-profile.png";
 // 스터디 그룹 관리
 export default function StudyGroupSetting() {
   // TODO: 타이틀 세팅하는 로직 훅으로 분리하기
+
   const navigate = useNavigate();
   const { studyGroupId } = useParams();
   const studyGroupIdNumber = studyGroupId ? Number(studyGroupId) : undefined;
 
-  const { data: studyGroupDetail } = useQuery({
-    queryKey: studyGroupKeys.detail(studyGroupIdNumber),
-    queryFn: () =>
-      studyGroupIdNumber
-        ? studyGroupService.fetchStudyGroup(studyGroupIdNumber)
-        : null,
-    enabled: !!studyGroupIdNumber,
-  });
+  const { data: studyGroupDetail, isLoading: isStudyGroupDetailLoading } =
+    useQuery({
+      queryKey: studyGroupKeys.detail(studyGroupIdNumber),
+      queryFn: () =>
+        studyGroupIdNumber
+          ? studyGroupService.fetchStudyGroup(studyGroupIdNumber)
+          : null,
+      enabled: !!studyGroupIdNumber,
+    });
 
   const [, setMyPageTitle] = useAtom(myPageTitleAtom);
   const [, setStudyGroup] = useAtom(studyGroupAtom);
-  const defaultImagePath = "/public/assets/image/default-profile.png";
   const [isInputChanged, setIsInputChanged] = useState<boolean>(false);
   const {
     isModalOpen: isSmallModalOpen,
@@ -63,36 +64,38 @@ export default function StudyGroupSetting() {
   const modalRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const { value: name, onChange: onNameChange } = useInput(
-    studyGroupDetail?.name ?? "",
-  );
-  const { value: introduction, onChange: onIntroductionChange } = useTextarea(
-    studyGroupDetail?.introduction ?? "",
-  );
+  const {
+    value: name,
+    onChange: onNameChange,
+    resetInput: resetNameInput,
+  } = useInput(studyGroupDetail?.name ?? "");
+  const {
+    value: introduction,
+    onChange: onIntroductionChange,
+    resetTextarea: ResetIntroductionTextarea,
+  } = useTextarea(studyGroupDetail?.introduction ?? "");
+
+  console.log("studyGroupDetail", studyGroupDetail);
 
   useEffect(() => {
     if (studyGroupDetail) {
-      initialName.current = studyGroupDetail.name ?? "";
-      initialIntroduction.current = studyGroupDetail.introduction ?? "";
+      resetNameInput(studyGroupDetail.name);
+      ResetIntroductionTextarea(studyGroupDetail.introduction);
 
-      if (studyGroupDetail.profileImageUrl) {
-        const fileName = studyGroupDetail.profileImageUrl.split("/").pop();
-        initialProfileImage.current = fileName ?? "";
-      }
+      setProfileImage({
+        url: studyGroupDetail.profileImageUrl ?? defaultImage,
+        file: null,
+      });
     }
   }, [studyGroupDetail]);
 
-  const initialName = useRef(studyGroupDetail?.name ?? "");
-  const initialIntroduction = useRef(studyGroupDetail?.introduction ?? "");
-  const initialProfileImage = useRef(studyGroupDetail?.profileImageUrl ?? "");
-
   const defaultProfileState: ProfileImageState = {
-    url: defaultImagePath,
+    url: defaultImage,
     file: null,
   };
 
   const initialProfileState: ProfileImageState = {
-    url: studyGroupDetail?.profileImageUrl ?? defaultImagePath,
+    url: studyGroupDetail?.profileImageUrl ?? defaultImage,
     file: null,
   };
 
@@ -101,8 +104,8 @@ export default function StudyGroupSetting() {
 
   useEffect(() => {
     if (
-      name !== initialName.current ||
-      introduction !== initialIntroduction.current
+      name !== studyGroupDetail?.name ||
+      introduction !== studyGroupDetail?.introduction
     ) {
       setIsInputChanged(true);
     } else {
@@ -111,35 +114,13 @@ export default function StudyGroupSetting() {
     if (profileImage.file) {
       // console.log(profileImage.url, initialProfileImage.current);
 
-      if (
-        profileImage.url.split("/").pop() !==
-        initialProfileImage.current.split("/").pop()
-      ) {
+      if (profileImage.url !== studyGroupDetail?.profileImageUrl) {
         setIsInputChanged(true);
       } else {
         setIsInputChanged(false);
       }
     }
   }, [name, introduction, profileImage.url]);
-
-  // 이미지 업로드
-  // TODO: 훅 사용으로 변경하기
-  // const { mutate: uploadImage } = useMutation<
-  //   string,
-  //   ErrorType,
-  //   UploadImageArgType
-  // >({
-  //   mutationFn: (uploadImageArg) => imageService.uploadImage(uploadImageArg),
-  //   onSuccess: (imageUrl) => {
-  //     const newStudy: StudyGroupPostType = {
-  //       name,
-  //       introduction,
-  //       profileImageUrl: imageUrl,
-  //     };
-
-  //     updateStudyGroup({ id: studyGroupIdNumber!, studyGroup: newStudy });
-  //   },
-  // });
 
   const { uploadImage } = useUploadImageToStorage((imageUrl: string) => {
     const newStudy: StudyGroupPostType = {
@@ -182,7 +163,7 @@ export default function StudyGroupSetting() {
     mutationFn: (id) => studyGroupService.deleteStudyGroup(id),
     onSuccess: () => {
       toast.success("스터디를 삭제했습니다.");
-      navigate(ROUTES.MY_STUDY_GROUPS);
+      navigate(`${ROUTES.MY_PAGE}/${ROUTES.MY_STUDY_GROUPS}`);
     },
   });
 
@@ -284,40 +265,42 @@ export default function StudyGroupSetting() {
           ) : null}
         </div>
 
-        <div className={styles["edit-profile-container"]}>
-          <div className={styles["edit-image-container"]}>
-            <p className={styles["sub-title"]}>스터디 그룹 사진</p>
-            <ProfileImageEditor
-              width={150}
-              profileImage={profileImage}
-              setProfileImage={setProfileImage}
-              initialImageState={defaultProfileState}
-              isDeletable
-            />
+        {!isStudyGroupDetailLoading && studyGroupDetail !== undefined ? (
+          <div className={styles["edit-profile-container"]}>
+            <div className={styles["edit-image-container"]}>
+              <p className={styles["sub-title"]}>스터디 그룹 사진</p>
+              <ProfileImageEditor
+                width={150}
+                profileImage={profileImage}
+                setProfileImage={setProfileImage}
+                initialImageState={defaultProfileState}
+                isDeletable
+              />
+            </div>
+            <div className={styles["edit-info-container"]}>
+              <p className={styles["sub-title"]}>스터디 그룹 이름</p>
+              <Input
+                id="study-group-name"
+                value={name}
+                onChange={onNameChange}
+                placeholder="스터디 그룹 이름을 입력해주세요."
+                fullWidth
+                maxLength={20}
+                maxLengthShow
+              />
+              <p className={styles["sub-title"]}>스터디 그룹 소개</p>
+              <Textarea
+                id="study-group-introduction"
+                value={introduction}
+                onChange={onIntroductionChange}
+                placeholder="스터디 그룹 소개를 입력해주세요."
+                fullWidth
+                maxLength={50}
+                maxLengthShow
+              />
+            </div>
           </div>
-          <div className={styles["edit-info-container"]}>
-            <p className={styles["sub-title"]}>스터디 그룹 이름</p>
-            <Input
-              id="study-group-name"
-              value={name}
-              onChange={onNameChange}
-              placeholder="스터디 그룹 이름을 입력해주세요."
-              fullWidth
-              maxLength={20}
-              maxLengthShow
-            />
-            <p className={styles["sub-title"]}>스터디 그룹 소개</p>
-            <Textarea
-              id="study-group-introduction"
-              value={introduction}
-              onChange={onIntroductionChange}
-              placeholder="스터디 그룹 소개를 입력해주세요."
-              fullWidth
-              maxLength={50}
-              maxLengthShow
-            />
-          </div>
-        </div>
+        ) : null}
         {isInputChanged ? (
           <Button
             className={styles.save}

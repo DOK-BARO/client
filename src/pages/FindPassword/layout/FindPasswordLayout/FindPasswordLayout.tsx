@@ -15,12 +15,12 @@ export default function FindPasswordLayout() {
 
   const renderStepComponent = () => {
     switch (step) {
-    case 1:
-      return <SendTemporaryPassword setStep={setStep} />;
-    case 2:
-      return <Complete />;
-    default:
-      return <div>404</div>;
+      case 1:
+        return <SendTemporaryPassword setStep={setStep} />;
+      case 2:
+        return <Complete />;
+      default:
+        return <div>404</div>;
     }
   };
 

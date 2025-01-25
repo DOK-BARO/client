@@ -64,6 +64,7 @@ export default function SolvingQuizForm({
 
   useEffect(() => {
     setSelectedValue("");
+    setCheckedOptions({});
   }, [question]);
 
   const handleSelectOptions = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -119,8 +120,8 @@ export default function SolvingQuizForm({
             value: index.toString(),
             label: option.content,
           };
-          let isChecked: boolean = false;
-          let isCorrect: boolean = false;
+          let isChecked = false;
+          let isCorrect = false;
           let typeName: OptionStatusType = "option-default";
           if (selectedRadioOption) {
             const selectedOptionIdx: number = parseInt(selectedRadioOption);
@@ -176,8 +177,8 @@ export default function SolvingQuizForm({
             value: index.toString(),
             label: option.content,
           };
-          let isChecked: boolean = false;
-          let isCorrect: boolean = false;
+          let isChecked = false;
+          let isCorrect = false;
           let typeName: CheckboxStatusType = "checkbox-default";
           if (JSON.stringify(checkedOptions) !== "{}") {
             isChecked = checkedOptions[checkBoxOption.id];
@@ -239,8 +240,8 @@ export default function SolvingQuizForm({
     return (
       <>
         {options.map((option) => {
-          let isChecked: boolean = false;
-          let isCorrect: boolean = false;
+          let isChecked = false;
+          let isCorrect = false;
           let typeName: OptionStatusType = "option-default";
           if (selectedRadioOption) {
             isChecked = selectedRadioOption === option.value;

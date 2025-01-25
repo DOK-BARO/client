@@ -1,6 +1,6 @@
 import styles from "./_checkbox.module.scss";
 import React, { ReactNode } from "react";
-import { gray0, gray40, primary } from "@/styles/abstracts/colors.ts";
+import { gray00, gray40, primary } from "@/styles/abstracts/colors.ts";
 import { Check } from "@/svg/Check";
 
 interface CheckBoxProps {
@@ -49,7 +49,7 @@ export default function CheckBox({
             stroke={
               isOutLined
                 ? checked
-                  ? gray0
+                  ? gray00
                   : gray40
                 : checked
                   ? primary

@@ -62,7 +62,7 @@ export default function PasswordSet({
 
   return (
     <section className={styles["password-set"]}>
-      <h3>비밀번호 입력</h3>
+      <h3 className={styles["sr-only"]}>비밀번호 입력</h3>
       <p className={styles["description"]}>
         로그인에 사용할
         <br />

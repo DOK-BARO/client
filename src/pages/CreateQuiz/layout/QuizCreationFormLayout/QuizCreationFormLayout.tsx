@@ -2,7 +2,7 @@ import styles from "./_quiz_creation_form_layout.module.scss";
 import { Step } from "@/types/StepType";
 import Button from "@/components/atom/Button/Button";
 import RightArrow from "@/svg/RightArrow";
-import { gray0, gray60 } from "@/styles/abstracts/colors.ts";
+import { gray00, gray60 } from "@/styles/abstracts/colors.ts";
 import { useAtom } from "jotai";
 import {
   createdQuizIdAtom,
@@ -154,10 +154,11 @@ export default function QuizCreationFormLayout({
       return;
     }
 
-    // 한글을 영어로 바꾸는 함수. 결과가 null이면 viewScope 값 그대로 사용
-    const viewScopeKey: ViewScope =
-      getScopeKeyByTranslation(quizCreationInfo.viewScope) ??
-      quizCreationInfo.viewScope;
+    // 한글을 영어로 바꾸는 함수.
+    // 수정할 땐 영어가 들어온다
+    const viewScopeKey = isEditMode
+      ? quizCreationInfo.viewScope
+      : getScopeKeyByTranslation(quizCreationInfo.viewScope);
 
     if (
       quizCreationInfo.title === null ||
@@ -277,7 +278,7 @@ export default function QuizCreationFormLayout({
             alt="다음 버튼"
             width={20}
             height={20}
-            stroke={isQuizNextButtonEnabled ? gray0 : gray60}
+            stroke={isQuizNextButtonEnabled ? gray00 : gray60}
           />
         </Button>
       </div>

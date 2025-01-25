@@ -5,7 +5,7 @@ import styles from "../_quiz_result.module.scss";
 import Lottie from "lottie-react";
 import studyGroupResult from "@/animation/study-group-result.json";
 import { StudyRank } from "@/svg/studyQuizResult/StudyRank";
-import { gray0, gray30 } from "@/styles/abstracts/colors";
+import { gray00, gray30 } from "@/styles/abstracts/colors";
 import { currentUserAtom } from "@/store/userAtom";
 import { useAtom } from "jotai";
 import Button from "@/components/atom/Button/Button";
@@ -86,7 +86,7 @@ export default function StudyQuizResult({
                       className={styles["rank-badge"]}
                       width={20}
                       height={20}
-                      fill={myRank ? gray0 : gray30}
+                      fill={myRank ? gray00 : gray30}
                     />
                     <span
                       className={styles[myRank ? "rank-num--me" : "rank-num"]}

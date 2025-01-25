@@ -2,7 +2,6 @@
 @import "../../../../styles/abstracts/variables";
 
 .container {
-  line-height: 1.5;
   position: relative;
 
   &:not(:first-child) {
@@ -18,7 +17,6 @@
   .title {
     font-size: 20px;
     font-weight: $font-weight-semibold;
-    line-height: inherit;
   }
 
   .sub-title {

@@ -1,7 +1,7 @@
 import { SolvingQuizQuestionType } from "@/types/QuizType";
 import styles from "./_progress_bar.module.scss";
 import { Check } from "@/svg/Check";
-import { gray0 } from "@/styles/abstracts/colors";
+import { gray00 } from "@/styles/abstracts/colors";
 import { Close } from "@/svg/Close";
 
 export default function ProgressBar({
@@ -37,10 +37,10 @@ export default function ProgressBar({
             <div className={className}>
               {isCheckedAnswer &&
                 (isCorrect ? (
-                  <Check stroke={gray0} width={26} height={26} />
+                  <Check stroke={gray00} width={26} height={26} />
                 ) : (
                   <Close
-                    stroke={gray0}
+                    stroke={gray00}
                     width={26}
                     height={26}
                     strokeWidth={2.1}

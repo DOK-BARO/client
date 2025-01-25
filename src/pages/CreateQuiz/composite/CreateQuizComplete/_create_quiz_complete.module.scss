@@ -3,17 +3,14 @@
 
 .create-quiz-complete {
   @include flex(column, center);
-  line-height: 1.5;
   .title {
     font-size: 32px;
     font-weight: $font-weight-bold;
-    line-height: inherit;
   }
   .description {
     font-size: $font-size-large;
     font-weight: $font-weight-regular;
     margin-top: 8px;
-    line-height: inherit;
   }
   .image {
     margin-top: 20px;

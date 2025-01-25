@@ -2,7 +2,7 @@ import styles from "./_quiz_creation_form_layout.module.scss";
 import { Step } from "@/types/StepType";
 import Button from "@/components/atom/Button/Button";
 import RightArrow from "@/svg/RightArrow";
-import { gray0, gray60 } from "@/styles/abstracts/colors.ts";
+import { gray00, gray60 } from "@/styles/abstracts/colors.ts";
 import { useAtom } from "jotai";
 import {
   createdQuizIdAtom,
@@ -166,6 +166,7 @@ export default function QuizCreationFormLayout({
     //   getScopeKeyByTranslation(quizCreationInfo.viewScope) ??
     //   quizCreationInfo.viewScope;
 
+
     if (
       quizCreationInfo.title === null ||
       quizCreationInfo.description === null ||
@@ -285,7 +286,7 @@ export default function QuizCreationFormLayout({
             alt="다음 버튼"
             width={20}
             height={20}
-            stroke={isQuizNextButtonEnabled ? gray0 : gray60}
+            stroke={isQuizNextButtonEnabled ? gray00 : gray60}
           />
         </Button>
       </div>

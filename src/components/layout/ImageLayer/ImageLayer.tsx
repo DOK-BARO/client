@@ -2,7 +2,7 @@ import { AnswerImageType } from "@/pages/SolveQuiz";
 import styles from "./_image_layer.module.scss";
 import Button from "@/components/atom/Button/Button";
 import { Close } from "@/svg/Close";
-import { black } from "@/styles/abstracts/colors";
+import { gray100 } from "@/styles/abstracts/colors";
 import leftArrow from "/public/assets/svg/imageLayer/left-arrow.svg";
 import rightArrow from "/public/assets/svg/imageLayer/right-arrow.svg";
 import { useEffect } from "react";
@@ -33,7 +33,7 @@ export default function ImageLayer({
         onClick={onCloseLayer}
         icon={
           <div className={styles["close-button-container"]}>
-            <Close width={22} height={22} stroke={black} strokeWidth={2.5} />
+            <Close width={22} height={22} stroke={gray100} strokeWidth={2.5} />
           </div>
         }
       />

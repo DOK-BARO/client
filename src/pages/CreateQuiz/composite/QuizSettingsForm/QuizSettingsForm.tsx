@@ -2,7 +2,12 @@ import { useEffect, useState } from "react";
 import { isQuizNextButtonEnabledAtom } from "@/store/quizAtom";
 import { useAtom } from "jotai";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
-import { QuizCreationType, QuizSettingType } from "@/types/QuizType";
+import {
+  QuizCreationType,
+  QuizSettingType,
+  scopeReverseTranslations,
+  scopeTranslations,
+} from "@/types/QuizType";
 import { QuizSettingContainer } from "./QuizSettingContainer/QuizSettingContainer";
 
 interface SelectedOptions {
@@ -21,49 +26,36 @@ export default function QuizSettingsForm() {
     setIsQuizNextButtonEnabled(false);
   }, []);
 
-  // const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>(
-  //   () => ({
-  //     "view-access": quizCreationInfo.viewScope
-  //       ? viewScopeTranslations[quizCreationInfo.viewScope]
-  //       : null,
-  //     "edit-access": quizCreationInfo.editScope
-  //       ? editScopeTranslations[quizCreationInfo.editScope]
-  //       : null,
-  //   }),
-  // );
-
   const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>({
-    "view-access": null,
-    "edit-access": null,
+    "view-access": quizCreationInfo.viewScope
+      ? scopeReverseTranslations[quizCreationInfo.viewScope]
+      : null,
+    "edit-access": quizCreationInfo.editScope
+      ? scopeReverseTranslations[quizCreationInfo.editScope]
+      : null,
   });
 
   useEffect(() => {
-    if (quizCreationInfo) {
-      const options: SelectedOptions = {
-        "view-access": quizCreationInfo.viewScope
-          ? quizCreationInfo.viewScope
-          : null,
-        "edit-access": quizCreationInfo.editScope
-          ? quizCreationInfo.editScope
-          : null,
-      };
-
-      setSelectedOptions(options);
-    }
-  }, [quizCreationInfo]);
+    Object.entries(selectedOptions).forEach(([key, value]) => {
+      if (value) {
+        const scopeKey = key === "view-access" ? "viewScope" : "editScope";
+        updateQuizCreationInfo(
+          scopeKey as keyof QuizCreationType,
+          scopeTranslations[value],
+        );
+      }
+    });
+  }, [selectedOptions]);
 
   const quizSettings: QuizSettingType[] = getQuizSettings(
     !!quizCreationInfo.studyGroup,
   );
 
   const handleOptionSelect = (settingName: string, label: string) => {
-    const updateMapping: { [key: string]: keyof QuizCreationType } = {
-      "view-access": "viewScope",
-      // "edit-access": "editScope",
-    };
-    const updateKey: keyof QuizCreationType = updateMapping[settingName];
-
-    updateQuizCreationInfo(updateKey, label);
+    setSelectedOptions({
+      ...selectedOptions,
+      [settingName]: label,
+    });
   };
 
   // 모든 항목이 선택되었는지 체크

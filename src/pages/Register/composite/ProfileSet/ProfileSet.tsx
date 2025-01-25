@@ -147,7 +147,7 @@ export default function ProfileSet() {
 
   return (
     <section className={styles["profile-set"]}>
-      <h3>프로필 설정</h3>
+      <h3 className={styles["sr-only"]}>프로필 설정</h3>
       <p className={styles.description} data-for="profile-image">
         프로필을 설정해 주세요.
       </p>

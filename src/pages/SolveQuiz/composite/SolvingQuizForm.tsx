@@ -10,7 +10,7 @@ import { selectedOptionsAtom } from "@/store/quizAtom";
 import { OptionStatusType } from "@/components/atom/RadioOption/RadioOption";
 import { Check } from "@/svg/Check";
 import { Close } from "@/svg/Close";
-import { gray0 } from "@/styles/abstracts/colors";
+import { gray00 } from "@/styles/abstracts/colors";
 import CheckBox from "@/components/atom/Checkbox/Checkbox";
 import { CheckboxStatusType } from "@/components/atom/Checkbox/Checkbox";
 import { CheckBoxOption } from "@/types/CheckBoxTypes";
@@ -295,10 +295,10 @@ export default function SolvingQuizForm({
               }
             >
               {isCorrect ? (
-                <Check stroke={gray0} width={26} height={26} />
+                <Check stroke={gray00} width={26} height={26} />
               ) : (
                 <Close
-                  stroke={gray0}
+                  stroke={gray00}
                   width={26}
                   height={26}
                   strokeWidth={2.1}
@@ -306,7 +306,9 @@ export default function SolvingQuizForm({
               )}
             </div>
           )}
-          <h2>{question.content.toString()}</h2>
+          <p className={styles["question-title"]}>
+            {question.content.toString()}
+          </p>
         </div>
       </div>
       <div className={styles["options-area"]}>

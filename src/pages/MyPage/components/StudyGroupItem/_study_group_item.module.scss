@@ -17,7 +17,6 @@
   .info {
     display: flex;
     flex-direction: column;
-    line-height: 1.5;
     flex: 1;
     gap: 4px;
 
@@ -26,7 +25,6 @@
       align-items: center;
       gap: 8px;
       .name {
-        line-height: inherit;
         font-weight: $font-weight-semibold;
         font-size: $font-size-large;
       }

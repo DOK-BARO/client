@@ -54,7 +54,7 @@ const EmailRegisterLayout = () => {
     <section className={styles["register-baseLayout"]}>
       <div className={styles["inner-container"]}>
         <header>
-          <h2>이메일 계정으로 회원가입</h2>
+          <h2 className={styles["sr-only"]}>이메일 계정으로 회원가입</h2>
           <p className={styles["title"]}>{title}</p>
           <ProgressBar ratio={Number(step) / Object.keys(titles).length} />
         </header>

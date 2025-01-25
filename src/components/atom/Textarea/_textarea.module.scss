@@ -14,7 +14,6 @@
 .textarea {
   @include input-base;
   @include textarea-base;
-  line-height: 1.5;
 
   &--error {
     box-shadow: 0 0 0 2px $system-danger;

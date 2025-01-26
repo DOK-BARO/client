@@ -61,6 +61,10 @@
   &::placeholder {
     font-family: "Pretendard", sans-serif !important;
   }
+
+  &:disabled{
+  background-color: $gray-00;
+  }
 }
 
 .option-writing,
@@ -166,4 +170,8 @@
 .empty-icon {
   width: 20px;
   height: 20px;
+}
+
+.ox-option{
+  height: 26px;
 }

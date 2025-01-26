@@ -20,12 +20,14 @@ interface RadioOptionProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   radioGroupName: string;
   disabled: boolean;
+  textareaDisabled?: boolean;
   labelValue: string;
   onLabelValueChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   deleteOption?: (id: number) => void;
   textAreaRef?: React.RefObject<HTMLTextAreaElement>;
   onFocus?: () => void;
   onBlur?: () => void;
+  customClassName?: string;
   fullWidth?: boolean;
 }
 
@@ -37,6 +39,8 @@ const RadioOption: React.FC<RadioOptionProps> = ({
   radioGroupName,
   disabled,
   labelValue,
+  textareaDisabled = false,
+  customClassName = "",
   onLabelValueChange = () => { },
   deleteOption = () => { },
   onFocus = () => { },
@@ -72,8 +76,9 @@ const RadioOption: React.FC<RadioOptionProps> = ({
           id={`${option.id}`}
           value={labelValue}
           onChange={onLabelValueChange}
-          className={styles["option-label-textarea"]}
+          className={`${styles["option-label-textarea"]} ${styles[customClassName]}`}
           maxLength={optionMaxLength}
+          disabled={textareaDisabled}
           textAreaRef={textAreaRef}
           type="option-label"
           autoFocus

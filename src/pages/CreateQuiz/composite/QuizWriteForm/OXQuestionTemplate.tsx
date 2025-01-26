@@ -68,15 +68,9 @@ export const OXQuestionTemplate: FC<{
     <fieldset className={styles["question-options"]}>
       <legend className={styles["sr-only"]}>답안 선택지</legend>
       {options.map((option) => {
-        // TODO: 동작 확인 필요
         const isChecked = selectedRadioGroupValue === option.label;
-
         return (
-          <div
-            key={option.id}
-            className={`${styles["option-container"]} 
-            ${selectedRadioGroupValue === option.label ? styles["checked"] : styles["notchecked"]}`}
-          >
+          <div key={option.id} className={styles["option-container"]}>
             <RadioOption
               radioGroupName={questionFormId?.toString()!}
               option={option}
@@ -85,6 +79,8 @@ export const OXQuestionTemplate: FC<{
               disabled={false}
               labelValue={option.value}
               type={isChecked ? "option-correct" : "option-written"}
+              customClassName={"ox-option"}
+              textareaDisabled
             />
           </div>
         );

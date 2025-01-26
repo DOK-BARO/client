@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { CheckBoxOption } from "@/types/CheckBoxTypes";
 import styles from "./_question_form.module.scss";
 import CheckBox from "@/components/atom/Checkbox/Checkbox";
-import { QuestionFormMode } from "@/data/constants";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { AnswerType, QuizQuestionType } from "@/types/QuizType";
 import { RadioOptionType } from "@/types/RadioTypes";
@@ -15,11 +14,9 @@ interface SelectOptionProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   setText: (optionId: number, value: string) => void;
   questionFormId: string;
-  quizMode: string;
   answerType: AnswerType;
   checked?: boolean;
 }
-// TODO: quizmode -> questionFormMode
 
 const SelectOption: React.FC<SelectOptionProps> = ({
   option,
@@ -28,7 +25,6 @@ const SelectOption: React.FC<SelectOptionProps> = ({
   onChange,
   setText,
   questionFormId,
-  quizMode,
   answerType,
   checked,
 }) => {
@@ -69,26 +65,36 @@ const SelectOption: React.FC<SelectOptionProps> = ({
       : selectedValue
         ? selectedValue[option.id]
         : false;
-
+  const [currentWritingOptionId, setCurrentWritingOptionId] = useState<number>();
+  const handleFocus = () => {
+    setCurrentWritingOptionId(option.id);
+  };
+  const handleBlur = () => {
+    setCurrentWritingOptionId(undefined);
+  };
+  const isCurrentWriting = currentWritingOptionId === option.id;
+  console.log(option.id.toString() + ":" + isCurrentWriting);
   return (
     <div key={option.id} className={styles["option-container"]}>
       {answerType === "MULTIPLE_CHOICE_SINGLE_ANSWER" ? (
         <RadioOption
           radioGroupName={questionFormId}
           option={option as RadioOptionType}
-          checked={selectedValue === option.value}
+          checked={isChecked}
           onChange={onChange}
-          disabled={quizMode === QuestionFormMode.QUESTION}
+          disabled={false}
           labelValue={optionText}
           onLabelValueChange={handleTextAreaChange}
           type={
-            quizMode === QuestionFormMode.QUESTION
-              ? "option-writing"
-              : isChecked
-                ? "option-correct"
+            isChecked
+              ? "option-correct"
+              : isCurrentWriting
+                ? "option-writing"
                 : "option-written"
           }
           deleteOption={deleteOption}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
           textAreaRef={textareaRef}
         />
       ) : (
@@ -96,11 +102,11 @@ const SelectOption: React.FC<SelectOptionProps> = ({
           id={option.id.toString()}
           checked={checked!}
           onChange={onChange}
-          disabled={quizMode === QuestionFormMode.QUESTION}
+          disabled={false}
           value={optionText}
           onLabelValueChange={handleTextAreaChange}
           type={
-            quizMode === QuestionFormMode.QUESTION
+            isCurrentWriting
               ? "checkbox-writing"
               : isChecked
                 ? "checkbox-correct"

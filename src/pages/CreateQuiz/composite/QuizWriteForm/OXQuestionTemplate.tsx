@@ -1,4 +1,3 @@
-import { QuestionFormMode } from "@/data/constants.ts";
 import RadioOption from "@/components/atom/RadioOption/RadioOption";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
 import { RadioOptionType } from "@/types/RadioTypes.ts";
@@ -27,7 +26,6 @@ export const OXQuestionTemplate: FC<{
 
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
-  // TODO: 선택지를 1개이상 추가해주세요 에러남
   const { getQuestion } = useQuestionTemplate("OX", questionFormId!);
 
   const setInitialAnswer = (): string => {
@@ -39,17 +37,13 @@ export const OXQuestionTemplate: FC<{
     selectedValue: selectedRadioGroupValue,
     handleChange: onRadioGroupChange,
   } = useRadioGroup(setInitialAnswer());
-  const disabled: boolean = questionFormMode === QuestionFormMode.QUESTION;
 
   useEffect(() => {
     const question = getQuestion();
     // ChangeEvent 객체 생성
     const event: ChangeEvent<HTMLInputElement> = {
       target: {
-        value:
-          questionFormMode === QuestionFormMode.QUESTION
-            ? ""
-            : question.answers[0],
+        value: question.answers[0],
       },
     } as ChangeEvent<HTMLInputElement>;
     onRadioGroupChange(event);
@@ -75,21 +69,20 @@ export const OXQuestionTemplate: FC<{
       <legend className={styles["sr-only"]}>답안 선택지</legend>
       {options.map((option) => {
         // TODO: 동작 확인 필요
-        let isChecked;
-        isChecked = selectedRadioGroupValue === option.label;
+        const isChecked = selectedRadioGroupValue === option.label;
 
         return (
           <div
             key={option.id}
             className={`${styles["option-container"]} 
-            ${selectedRadioGroupValue === option.label && questionFormMode === QuestionFormMode.ANSWER ? styles["checked"] : styles["notchecked"]}`}
+            ${selectedRadioGroupValue === option.label ? styles["checked"] : styles["notchecked"]}`}
           >
             <RadioOption
               radioGroupName={questionFormId?.toString()!}
               option={option}
               checked={isChecked}
               onChange={handleRadioGroupChange}
-              disabled={disabled}
+              disabled={false}
               labelValue={option.value}
               type={isChecked ? "option-correct" : "option-written"}
             />

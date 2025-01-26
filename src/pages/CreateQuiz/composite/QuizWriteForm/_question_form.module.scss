@@ -22,11 +22,6 @@
     border: 1.5px solid $primary;
   }
 
-  &-mode-button-area {
-    display: flex;
-    gap: 2px;
-  }
-
   .setting-container {
     display: flex;
     width: 100%;
@@ -50,23 +45,10 @@
   }
 }
 
-.util-button-area {
-  display: flex;
-  gap: 16px;
-
-  button.move-quiz {
-    all: unset;
-  }
-
-  button.delete-quiz {
-    all: unset;
-  }
-}
-
 .option-add-button {
   @include flex(row);
   align-items: center;
-  flex:1;
+  flex: 1;
   // padding: 0;
   color: $gray-50;
   font-size: $font-size-large;
@@ -75,7 +57,7 @@
     @include flex(row);
     align-items: center;
     width: 100%;
-    padding: 10px 8px;
+    padding: 11.5px 8px;
 
     span {
       font-size: $font-size-medium;
@@ -117,6 +99,10 @@
     font-weight: $font-weight-semibold;
     border: none;
 
+    span {
+      font-size: 14px;
+    }
+
     .image-add-button {
       background: transparent;
       border: none;
@@ -127,11 +113,11 @@
   textArea.answer {
     border: none;
     background-color: transparent;
-    font-size: $font-size-large;
+    font-size: $font-size-medium;
     font-weight: $font-weight-regular;
 
     &::placeholder {
-      font-size: $font-size-large;
+      font-size: $font-size-medium;
     }
 
     color: $gray-70;

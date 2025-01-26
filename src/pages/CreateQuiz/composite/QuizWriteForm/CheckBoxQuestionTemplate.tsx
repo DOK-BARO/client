@@ -1,6 +1,5 @@
 import { FC, useState, useEffect } from "react";
 import styles from "./_question_form.module.scss";
-import { QuestionFormMode } from "@/data/constants.ts";
 import { QuizQuestionType } from "@/types/QuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { useQuestionTemplate } from "@/hooks/useQuestionTemplate";
@@ -79,10 +78,7 @@ export const CheckBoxQuestionTemplate: FC<{
   ): { [key: string]: boolean } => {
     const checkedOptions: { [key: string]: boolean } = {};
     question.selectOptions.forEach(({ id, value }) => {
-      checkedOptions[id] =
-        questionFormMode === QuestionFormMode.QUESTION
-          ? false
-          : question.answers.includes(value);
+      checkedOptions[id] = question.answers.includes(value);
     });
 
     return checkedOptions;
@@ -111,13 +107,10 @@ export const CheckBoxQuestionTemplate: FC<{
           setText={setText}
           questionFormId={questionFormId!.toString()}
           selectedValue={checkedOptions}
-          quizMode={questionFormMode!}
           answerType={"MULTIPLE_CHOICE_MULTIPLE_ANSWER"}
         />
       ))}
-      {questionFormMode == QuestionFormMode.QUESTION && (
-        <AddOptionButton onAdd={handleAddQuizOptionItemBtn} />
-      )}
+      <AddOptionButton onAdd={handleAddQuizOptionItemBtn} />
     </fieldset>
   );
 };

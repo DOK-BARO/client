@@ -12,8 +12,9 @@
   border-radius: 8px;
 
   p {
-    font-weight: $font-weight-medium;
-    font-size: 22px;
+    font-weight: $font-weight-regular;
+    font-size: $font-size-large;
+    color: $gray-70;
   }
 
   button {

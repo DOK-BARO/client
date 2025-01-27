@@ -128,12 +128,7 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Props) {
           ))}
         </ol>
       ) : (
-        <NoDataSection
-          title="아직 제출한 퀴즈가 없어요 😔"
-          buttonName="퀴즈 풀기"
-          // TODO: 동작 추가하기
-          onClick={() => {}}
-        />
+        <NoDataSection title="아직 제출한 퀴즈가 없어요 😔" />
       )}
       {totalPagesLength && isQuizzesExist ? (
         <Pagination

@@ -1,20 +1,41 @@
 @import "../../../../../styles/abstracts/variables";
 @import "../../../../../styles/abstracts/mixins";
 
+@mixin selection-list {
+  margin-top: 10px;
+  max-height: 400px;
+  width: 100%;
+  border: 1.5px solid $gray-40;
+  background-color: $gray-00;
+  border-radius: $border-radius-medium;
+  overflow-y: scroll;
+  padding: 8px;
+  padding-right: 0;
+  display: flex;
+  flex-direction: column;
+  @include scroll-bar;
+}
+
 .search-book {
   .selection-list {
-    margin-top: 10px;
-    height: 400px;
-    width: 100%;
-    border: 1.5px solid $gray-40;
-    background-color: $gray-00;
-    border-radius: $border-radius-medium;
-    overflow-y: scroll;
-    padding: 8px;
-    padding-right: 0;
-    display: flex;
-    flex-direction: column;
-    @include scroll-bar;
+    @include selection-list;
+
+    &-not-found {
+      @include selection-list;
+      height: fit-content;
+
+      .not-found {
+        @include flex(column, center);
+        gap: 16px;
+        padding: 20px 0;
+
+        &-text {
+          color: $gray-60;
+          font-size: $font-size-large;
+          font-weight: $font-weight-regular;
+        }
+      }
+    }
   }
 }
 

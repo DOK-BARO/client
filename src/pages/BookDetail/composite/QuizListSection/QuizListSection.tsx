@@ -123,13 +123,7 @@ export default function QuizListSection({
       </div>
 
       {!quizzes ||
-        (!quizzes.data?.length && (
-          <NoDataSection
-            title={titleWhenNoData}
-            buttonName={buttonNameWhenNoData}
-            onClick={() => handleAuthenticatedAction(onGoToMakeQuiz)}
-          />
-        ))}
+        (!quizzes.data?.length && <NoDataSection title={titleWhenNoData} />)}
       <div className={styles["list-container"]}>
         {quizzes &&
           quizzes?.data.map((quiz) => (

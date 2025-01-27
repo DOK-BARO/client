@@ -7,15 +7,17 @@ export const NoDataSection = ({
   onClick,
 }: {
   title: string;
-  buttonName: string;
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  buttonName?: string;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }) => {
   return (
     <div className={styles["no-data"]}>
       <p>{title}</p>
-      <Button onClick={onClick} color="primary">
-        {buttonName}
-      </Button>
+      {buttonName ? (
+        <Button onClick={onClick} color="primary">
+          {buttonName}
+        </Button>
+      ) : null}
     </div>
   );
 };

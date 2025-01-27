@@ -21,7 +21,6 @@ export default function Index() {
           onClick={() =>
             handleAuthenticatedAction(() => {
               navigate(ROUTES.CREATE_QUIZ());
-
             })
           }
           color="primary"

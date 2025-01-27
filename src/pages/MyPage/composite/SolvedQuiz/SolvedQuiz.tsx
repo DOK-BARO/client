@@ -30,6 +30,7 @@ const filterOptions: FilterOptionType<MySolvedQuizzesFilterType>[] = [
     label: "가나다순",
   },
 ];
+
 export default function SolvedQuiz() {
   const navigate = useNavigate();
   const [filterCriteria, setFilterCriteria] = useAtom(mySolvedQuizFilterAtom);

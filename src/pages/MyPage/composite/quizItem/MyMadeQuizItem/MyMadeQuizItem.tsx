@@ -11,7 +11,6 @@ export default function MyMadeQuizItem({
   onModifyQuiz,
   onClickDelete,
 }: {
-  index: number;
   myQuiz: MyQuizDataType;
   formattedDate: string;
   onModifyQuiz: (

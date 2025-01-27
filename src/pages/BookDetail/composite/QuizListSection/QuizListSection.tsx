@@ -20,13 +20,7 @@ import { quizzesFilterAtom } from "@/store/filterAtom.ts";
 import { FetchQuizzesParams } from "@/types/ParamsType.ts";
 import { QuizzesFilterType } from "@/types/FilterType.ts";
 
-export default function QuizListSection({
-  bookId,
-  onGoToMakeQuiz,
-}: {
-  bookId: string;
-  onGoToMakeQuiz: () => void;
-}) {
+export default function QuizListSection({ bookId }: { bookId: string }) {
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
   const navigator = useNavigate();
@@ -34,7 +28,6 @@ export default function QuizListSection({
   const [filterCriteria, setFilterCriteria] = useAtom(quizzesFilterAtom);
   useFilter<QuizzesFilterType>(setFilterCriteria);
   const titleWhenNoData = "아직 만들어진 퀴즈가 없어요 😔";
-  const buttonNameWhenNoData = "퀴즈 만들기";
   const { handleAuthenticatedAction } = useLoginAction();
   const [, setQuizLength] = useAtom(quizzesLengthAtom);
 

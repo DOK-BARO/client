@@ -59,7 +59,7 @@ export default function Index() {
         />
         <QuizListSection
           bookId={id ?? "0"}
-          onGoToMakeQuiz={handleGoToMakeQuiz}
+          // onGoToMakeQuiz={handleGoToMakeQuiz}
         />
       </div>
     </section>

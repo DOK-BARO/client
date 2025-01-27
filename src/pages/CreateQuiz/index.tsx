@@ -93,18 +93,18 @@ export default function Index() {
           };
         }
 
-        let selectOptions: SelectOptionType[];
-        prevQuiz?.questions.forEach((question) => {
-          selectOptions = question.selectOptions.map((optionText, index) => {
-            const option: SelectOptionType = {
-              id: index,
-              option: optionText,
-              value: index.toString(),
-              answerIndex: index + 1,
-            };
-            return option;
-          });
-        });
+        // let selectOptions: SelectOptionType[];
+        // prevQuiz?.questions.forEach((question) => {
+        //   selectOptions = question.selectOptions.map((optionText, index) => {
+        //     const option: SelectOptionType = {
+        //       id: index,
+        //       option: optionText,
+        //       value: index.toString(),
+        //       answerIndex: index + 1,
+        //     };
+        //     return option;
+        //   });
+        // });
 
         const prevQuestions: QuizQuestionType[] = await Promise.all(
           prevQuiz?.questions.map(async (q, index) => {

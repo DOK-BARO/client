@@ -73,7 +73,7 @@ const SelectOption: React.FC<SelectOptionProps> = ({
     setCurrentWritingOptionId(undefined);
   };
   const isCurrentWriting = currentWritingOptionId === option.id;
-  console.log(option.id.toString() + ":" + isCurrentWriting);
+  console.log(option.id.toString() + ":" + isChecked);
   return (
     <div key={option.id} className={styles["option-container"]}>
       {answerType === "MULTIPLE_CHOICE_SINGLE_ANSWER" ? (
@@ -106,13 +106,15 @@ const SelectOption: React.FC<SelectOptionProps> = ({
           value={optionText}
           onLabelValueChange={handleTextAreaChange}
           type={
-            isCurrentWriting
-              ? "checkbox-writing"
-              : isChecked
-                ? "checkbox-correct"
+            isChecked
+              ? "checkbox-correct"
+              : isCurrentWriting
+                ? "checkbox-writing"
                 : "checkbox-written"
           }
           deleteOption={deleteOption}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
           textAreaRef={textareaRef}
         />
       )}

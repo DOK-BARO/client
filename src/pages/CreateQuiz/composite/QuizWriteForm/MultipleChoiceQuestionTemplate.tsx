@@ -71,8 +71,8 @@ export const MultipleChoiceQuestionTemplate: FC<{
       {options.map((item) => (
         <SelectOption
           key={item.id}
-          questionFormId={questionFormId!}
           option={item}
+          questionFormId={questionFormId!}
           deleteOption={deleteOption}
           onChange={handleRadioGroupChange}
           setText={setText}

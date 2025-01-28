@@ -1,16 +1,14 @@
 import RadioOption from "@/components/atom/RadioOption/RadioOption";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
 import { RadioOptionType } from "@/types/RadioTypes.ts";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import styles from "./_question_form.module.scss";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { useQuestionTemplate } from "@/hooks/useQuestionTemplate";
-import { ChangeEvent } from "react";
 
 export const OXQuestionTemplate: FC<{
-  questionFormMode?: string;
   questionFormId?: string;
-}> = ({ questionFormMode, questionFormId }) => {
+}> = ({ questionFormId }) => {
   const options: RadioOptionType[] = [
     {
       id: 1,
@@ -37,17 +35,6 @@ export const OXQuestionTemplate: FC<{
     selectedValue: selectedRadioGroupValue,
     handleChange: onRadioGroupChange,
   } = useRadioGroup(setInitialAnswer());
-
-  useEffect(() => {
-    const question = getQuestion();
-    // ChangeEvent 객체 생성
-    const event: ChangeEvent<HTMLInputElement> = {
-      target: {
-        value: question.answers[0],
-      },
-    } as ChangeEvent<HTMLInputElement>;
-    onRadioGroupChange(event);
-  }, [questionFormMode]);
 
   const handleRadioGroupChange = (
     event: React.ChangeEvent<HTMLInputElement>,

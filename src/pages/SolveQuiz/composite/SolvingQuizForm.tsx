@@ -160,6 +160,7 @@ export default function SolvingQuizForm({
               onChange={handleSelectOptions}
               disabled={optionDisabled}
               labelValue={option.content}
+              textareaDisabled={true}
               type={typeName}
             />
           );

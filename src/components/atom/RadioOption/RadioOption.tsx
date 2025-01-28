@@ -9,6 +9,7 @@ import "highlight.js/styles/xcode.css";
 export type OptionStatusType =
   | "option-writing" // '퀴즈 작성'화면에서 텍스트를 작성 중인 경우
   | "option-written" // '퀴즈 작성'화면에서 텍스트를 작성하지 않는 경우
+  | "option-default" // '문제풀기'화면에서 기본
   | "option-correct" // '퀴즈 작성'화면에서 정답으로 선택된 경우
   | "option-selected" // '문제풀기'화면에서 선택된 경우
   | "solving-correct" // '문제풀기'화면에서 채점시 정답
@@ -71,19 +72,37 @@ const RadioOption: React.FC<RadioOptionProps> = ({
         onChange={onChange}
         disabled={disabled}
       />
-      <label className={styles["option-label"]}>
-        <Textarea
-          id={`${option.id}`}
-          value={labelValue}
-          onChange={onLabelValueChange}
-          className={`${styles["option-label-textarea"]} ${styles[customClassName]}`}
-          maxLength={optionMaxLength}
-          disabled={textareaDisabled}
-          textAreaRef={textAreaRef}
-          type="option-label"
-          autoFocus
-          fullWidth
-        />
+      <label
+        className={styles["option-label"]}
+        htmlFor={
+          type === "option-default" || type === "option-selected"
+            ? option.id.toString()
+            : undefined
+        }
+      >
+        {(type === "option-writing" ||
+          type === "option-written" ||
+          type === "option-correct") && (
+            <Textarea
+              id={`${option.id}`}
+              value={labelValue}
+              onChange={onLabelValueChange}
+              className={`${styles["option-label-textarea"]} ${styles[customClassName]}`}
+              maxLength={optionMaxLength}
+              disabled={textareaDisabled}
+              textAreaRef={textAreaRef}
+              type="option-label"
+              autoFocus
+              fullWidth
+            />
+          )
+        }
+
+        {(type === "option-default" ||
+          type === "option-selected" ||
+          type === "solving-correct" ||
+          type === "solving-incorrect") && (
+            <div className={styles["option-label-value"]}>{labelValue}</div>)}
         {type === "option-writing" && (
           <button
             className={styles["delete-option-button"]}
@@ -94,7 +113,7 @@ const RadioOption: React.FC<RadioOptionProps> = ({
             <Close width={20} height={20} stroke={gray90} strokeWidth={2} />
           </button>
         )}
-        {type === "option-written" && (
+        {type !== "option-writing" && (
           <div className={styles["empty-icon"]}></div>
         )}
       </label>

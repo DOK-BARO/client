@@ -1,15 +1,15 @@
-import { FC, useState, useEffect } from "react";
+import { FC, useState } from "react";
 import styles from "./_question_form.module.scss";
 import { QuizQuestionType } from "@/types/QuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { useQuestionTemplate } from "@/hooks/useQuestionTemplate";
 import SelectOption from "./SelectOption";
 import { SelectOptionType } from "@/types/QuizType";
+import { BOOK_QUIZ_OPTION_MAX_LENGTH } from "@/data/constants";
 
 export const CheckBoxQuestionTemplate: FC<{
-  questionFormMode?: string;
   questionFormId?: string;
-}> = ({ questionFormMode, questionFormId }) => {
+}> = ({ questionFormId }) => {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
   const {
@@ -36,7 +36,7 @@ export const CheckBoxQuestionTemplate: FC<{
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, checked } = event.target;
-
+    
     const currentQuestion: QuizQuestionType = quizCreationInfo.questions?.find(
       (question) => question.id!.toString() === questionFormId!,
     )!;
@@ -66,24 +66,6 @@ export const CheckBoxQuestionTemplate: FC<{
     updateQuizCreationInfo("questions", updatedQuestions);
   };
 
-  useEffect(() => {
-    const question = getQuestion();
-    const initCheckedOptions = initializeCheckedOptions(question);
-
-    setCheckedOptions(initCheckedOptions);
-  }, [questionFormMode]);
-
-  const initializeCheckedOptions = (
-    question: QuizQuestionType,
-  ): { [key: string]: boolean } => {
-    const checkedOptions: { [key: string]: boolean } = {};
-    question.selectOptions.forEach(({ id, value }) => {
-      checkedOptions[id] = question.answers.includes(value);
-    });
-
-    return checkedOptions;
-  };
-
   const setText = (optionId: number, label: string) => {
     const updatedOptions = options.map((option) => {
       if (option.id === optionId) {
@@ -110,7 +92,9 @@ export const CheckBoxQuestionTemplate: FC<{
           answerType={"MULTIPLE_CHOICE_MULTIPLE_ANSWER"}
         />
       ))}
-      <AddOptionButton onAdd={handleAddQuizOptionItemBtn} />
+      {options.length < BOOK_QUIZ_OPTION_MAX_LENGTH && (
+        <AddOptionButton onAdd={handleAddQuizOptionItemBtn} />
+      )}
     </fieldset>
   );
 };

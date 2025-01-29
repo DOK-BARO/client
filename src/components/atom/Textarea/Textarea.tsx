@@ -17,6 +17,8 @@ interface TextareaProps {
   textAreaRef?: React.RefObject<HTMLTextAreaElement>;
   autoFocus?: boolean;
   fullWidth?: boolean;
+  onFocus?: () => void;
+  onBlur?: () => void;
   size?: "large" | "medium" | "small";
   type?: "option-label";
 }
@@ -36,13 +38,14 @@ const Textarea: React.FC<TextareaProps> = ({
   rows,
   textAreaRef,
   autoFocus,
+  onFocus = () => { },
+  onBlur = () => { },
   fullWidth = false,
   size = "medium",
   type = "",
 }) => {
-  const className = `${styles.textarea} ${styles[type]} ${styles[`textarea--${size}`]} ${
-    isError ? styles["textarea--error"] : ""
-  } ${customClassName}  ${fullWidth ? styles["full"] : ""}`;
+  const className = `${styles.textarea} ${styles[type]} ${styles[`textarea--${size}`]} ${isError ? styles["textarea--error"] : ""
+    } ${customClassName}  ${fullWidth ? styles["full"] : ""}`;
 
   return (
     <div
@@ -65,33 +68,35 @@ const Textarea: React.FC<TextareaProps> = ({
         rows={rows}
         maxLength={maxLength}
         ref={textAreaRef}
+        onFocus={onFocus}
+        onBlur={onBlur}
         autoFocus={autoFocus}
       />
       {message ||
-      (maxLength && maxLengthShow) ||
-      (maxLength && maxLength <= value.length) ? (
-          <div className={styles["message-container"]}>
-            {
-              <span className={styles[`message${isError ? "--error" : ""}`]}>
-                {message}
-              </span>
-            }
-            <span className={styles["char-count"]}>
-              <em
-                className={
-                  maxLength && value.length >= maxLength
-                    ? styles["char-count-max-length"]
-                    : ""
-                }
-              >
-                {value.length}
-              </em>
-            /{maxLength}
+        (maxLength && maxLengthShow) ||
+        (maxLength && maxLength <= value.length) ? (
+        <div className={styles["message-container"]}>
+          {
+            <span className={styles[`message${isError ? "--error" : ""}`]}>
+              {message}
             </span>
-          </div>
-        ) : (
-          <></>
-        )}
+          }
+          <span className={styles["char-count"]}>
+            <em
+              className={
+                maxLength && value.length >= maxLength
+                  ? styles["char-count-max-length"]
+                  : ""
+              }
+            >
+              {value.length}
+            </em>
+            /{maxLength}
+          </span>
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

@@ -3,23 +3,17 @@ import styles from "./_radio_option.module.scss";
 import { RadioOptionType } from "@/types/RadioTypes";
 import { Close } from "@/svg/Close";
 import { gray90 } from "@/styles/abstracts/colors";
-import correctIcon from "/assets/svg/common/correct.svg";
-import incorrectIcon from "/assets/svg/common/incorrect.svg";
 import Textarea from "@/components/atom/Textarea/Textarea";
-import ReactMarkdown from "react-markdown";
-import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/xcode.css";
 
 export type OptionStatusType =
-  | "option-writing"
-  | "option-written"
-  | "option-default"
-  | "option-correct"
-  | "option-incorrect"
-  | "option-selected"
-  | "option-add"
-  | "solving-correct"
-  | "solving-incorrect";
+  | "option-writing" // '퀴즈 작성'화면에서 텍스트를 작성 중인 경우
+  | "option-written" // '퀴즈 작성'화면에서 텍스트를 작성하지 않는 경우
+  | "option-default" // '문제풀기'화면에서 기본
+  | "option-correct" // '퀴즈 작성'화면에서 정답으로 선택된 경우
+  | "option-selected" // '문제풀기'화면에서 선택된 경우
+  | "solving-correct" // '문제풀기'화면에서 채점시 정답
+  | "solving-incorrect"; // '문제풀기'화면에서 채점시 오답
 interface RadioOptionProps {
   option: RadioOptionType;
   type?: OptionStatusType;
@@ -27,80 +21,88 @@ interface RadioOptionProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   radioGroupName: string;
   disabled: boolean;
+  textareaDisabled?: boolean;
   labelValue: string;
   onLabelValueChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   deleteOption?: (id: number) => void;
   textAreaRef?: React.RefObject<HTMLTextAreaElement>;
+  onFocus?: () => void;
+  onBlur?: () => void;
+  customClassName?: string;
   fullWidth?: boolean;
 }
 
 const RadioOption: React.FC<RadioOptionProps> = ({
   option,
-  type = "option-default",
+  type = "option-writing",
   checked,
   onChange,
   radioGroupName,
   disabled,
   labelValue,
-  onLabelValueChange = () => {},
-  deleteOption = () => {},
+  textareaDisabled = false,
+  customClassName = "",
+  onLabelValueChange = () => { },
+  deleteOption = () => { },
+  onFocus = () => { },
+  onBlur = () => { },
   textAreaRef,
   fullWidth = false,
 }) => {
   const optionMaxLength = 500;
-
   const containerClassName = `
 			${styles["option-container"]}
 			${fullWidth ? styles["full"] : ""}
-			${styles[type]}
+      ${styles[type]}
+      ${checked ? styles["checked-focused-color"] : styles["focused-color"]}
 			`;
-
-  const icon = () => {
-    if (type) {
-      if (type === "option-correct") {
-        return <img src={correctIcon} alt="정답인 선지입니다" />;
-      } else if (type === "option-incorrect") {
-        return <img src={incorrectIcon} alt="오답인 선지입니다" />;
-      } else {
-        return null;
-      }
-    }
-  };
-
   return (
-    <div key={option.id} className={containerClassName}>
-      <label className={styles["option-label"]}>
-        <input
-          id={option.id.toString()}
-          type="radio"
-          name={radioGroupName}
-          value={option.value}
-          checked={checked}
-          onChange={onChange}
-          disabled={disabled}
-        />
-        {type === "option-writing" ? (
-          <Textarea
-            id={`${option.id}`}
-            value={labelValue}
-            onChange={onLabelValueChange}
-            className={styles["option-label-textarea"]}
-            maxLength={optionMaxLength}
-            textAreaRef={textAreaRef}
-            type="option-label"
-            autoFocus
-            fullWidth
-          />
-        ) : (
-          <div
-            className={`${styles["option-label-value"]} ${styles["markdown-content"]}`}
-          >
-            <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
-              {labelValue}
-            </ReactMarkdown>
-          </div>
-        )}
+    <div
+      key={option.id}
+      className={containerClassName}
+      onFocus={onFocus}
+      onBlur={onBlur}
+    >
+      <input
+        id={option.id.toString()}
+        type="radio"
+        name={radioGroupName}
+        value={option.value}
+        checked={checked}
+        onChange={onChange}
+        disabled={disabled}
+      />
+      <label
+        className={styles["option-label"]}
+        htmlFor={
+          type === "option-default" || type === "option-selected"
+            ? option.id.toString()
+            : undefined
+        }
+      >
+        {(type === "option-writing" ||
+          type === "option-written" ||
+          type === "option-correct") && (
+            <Textarea
+              id={`${option.id}`}
+              value={labelValue}
+              onChange={onLabelValueChange}
+              className={`${styles["option-label-textarea"]} ${styles[customClassName]}`}
+              maxLength={optionMaxLength}
+              disabled={textareaDisabled}
+              textAreaRef={textAreaRef}
+              type="option-label"
+              autoFocus
+              fullWidth
+            />
+          )
+        }
 
+        {(type === "option-default" ||
+          type === "option-selected" ||
+          type === "solving-correct" ||
+          type === "solving-incorrect") && (
+            <div className={styles["option-label-value"]}>{labelValue}</div>)}
         {type === "option-writing" && (
           <button
             className={styles["delete-option-button"]}
@@ -111,8 +113,7 @@ const RadioOption: React.FC<RadioOptionProps> = ({
             <Close width={20} height={20} stroke={gray90} strokeWidth={2} />
           </button>
         )}
-        {icon() && <div>{icon()}</div>}
-        {type === "option-written" && (
+        {type !== "option-writing" && (
           <div className={styles["empty-icon"]}></div>
         )}
       </label>

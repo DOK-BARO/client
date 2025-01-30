@@ -20,8 +20,7 @@ export default function CreateQuizComplete() {
   const handleGoToQuiz = () => {
     navigate(quizPath);
   };
-  const handleCopyQuizLink = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const { value: quizLink } = e.target as HTMLButtonElement;
+  const handleCopyQuizLink = (quizLink: string) => {
     navigator.clipboard.writeText(quizLink).then(() => {
       toast.success("복사되었습니다.");
     });
@@ -43,8 +42,7 @@ export default function CreateQuizComplete() {
         <Button
           className={styles["copy-link"]}
           color="secondary"
-          value={quizLink}
-          onClick={handleCopyQuizLink}
+          onClick={() => handleCopyQuizLink(quizLink)}
           size="medium"
           icon={<Copy width={20} stroke={primary} alt="퀴즈 링크 복사" />}
           iconPosition="right"

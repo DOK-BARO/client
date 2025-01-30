@@ -46,9 +46,14 @@ export const MultipleChoiceQuestionTemplate: FC<{
     const { id } = event.target;
     onRadioGroupChange(event);
 
-    const currentQuestion: QuizQuestionType = quizCreationInfo.questions?.find(
-      (question) => question.id!.toString() === questionFormId!,
-    )!;
+    const currentQuestion: QuizQuestionType | undefined =
+      quizCreationInfo.questions?.find(
+        (question) => question.id!.toString() === questionFormId!,
+      );
+
+    if (!currentQuestion) {
+      return;
+    }
     const targetSelectOption: SelectOptionType =
       currentQuestion.selectOptions.find(
         (option) => id === option.id.toString(),

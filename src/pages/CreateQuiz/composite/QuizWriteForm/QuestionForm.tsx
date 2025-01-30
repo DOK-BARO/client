@@ -25,6 +25,10 @@ interface QuizWriteFormItemProps {
   questionFormId: number;
   deleteQuestion: (id: number) => void;
   answerType: string;
+  dragHandleProps?: {
+    attributes?: unknown;
+    listeners?: unknown;
+  };
 }
 
 const questionTemplates: QuestionTemplateType[] = [
@@ -64,6 +68,7 @@ export default function QuestionForm({
   questionFormId,
   deleteQuestion,
   answerType,
+  dragHandleProps,
 }: QuizWriteFormItemProps) {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
@@ -298,6 +303,7 @@ export default function QuestionForm({
         id={questionFormId}
         deleteQuizWriteForm={deleteQuestion}
         checkValidation={checkValidation}
+        dragHandleProps={dragHandleProps}
       />
 
       <div className={styles["question-form-content"]}>

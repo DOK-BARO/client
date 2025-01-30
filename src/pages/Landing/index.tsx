@@ -28,10 +28,20 @@ export default function Index() {
           퀴즈 만들기
         </Button>
         <Button
-          onClick={() => window.open(EXTERNAL_SERVICE_INTRODUCTION_PAGE)}
-          color="white"
+          onClick={() => {
+            navigate(ROUTES.BOOK_LIST);
+          }}
+          color="primary-border"
         >
-          상세기능 보기 ↗
+          퀴즈 풀기
+        </Button>
+        <Button
+          onClick={() => window.open(EXTERNAL_SERVICE_INTRODUCTION_PAGE)}
+          color="primary-border"
+          icon={<span>↗</span>}
+          iconPosition="right"
+        >
+          상세기능 보기
         </Button>
       </div>
       <img src="/assets/image/landingimage.svg" />

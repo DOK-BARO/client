@@ -22,6 +22,7 @@ import Textarea from "@/components/atom/Textarea/Textarea";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
 import { queryClient } from "@/services/server/queryClient";
 import defaultImage from "/public/assets/image/default-profile.png";
+import { copyText } from "@/utils/copyText";
 
 interface Props {
   closeModal: () => void;
@@ -147,18 +148,11 @@ export default function AddStudyGroupModal({ closeModal, currentPage }: Props) {
     joinStudyGroup(combinedCode);
   };
 
-  // 코드 복사하기
-  const copyCode = (code: string) => {
-    navigator.clipboard.writeText(code).then(() => {
-      toast.success("복사되었습니다.");
-    });
-  };
-
   const handleClickCopyCode = (e: React.MouseEvent<HTMLButtonElement>) => {
     const buttonText =
       e.currentTarget.querySelector("#invite-code")?.textContent;
     if (buttonText) {
-      copyCode(buttonText);
+      copyText(buttonText);
     }
   };
 

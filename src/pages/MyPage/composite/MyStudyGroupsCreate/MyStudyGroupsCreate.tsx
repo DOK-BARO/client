@@ -24,6 +24,7 @@ import { Copy } from "@/svg/Copy";
 import { primary } from "@/styles/abstracts/colors";
 import defaultImage from "/public/assets/image/default-profile.png";
 import { useNavigate } from "react-router-dom";
+import { copyText } from "@/utils/copyText";
 
 export default function MyStudyGroupsCreate() {
   const navigate = useNavigate();
@@ -118,17 +119,11 @@ export default function MyStudyGroupsCreate() {
     }
   };
 
-  // 코드 복사하기
-  const copyCode = (code: string) => {
-    navigator.clipboard.writeText(code).then(() => {
-      toast.success("복사되었습니다.");
-    });
-  };
   const handleClickCopyCode = (e: React.MouseEvent<HTMLButtonElement>) => {
     const buttonText =
       e.currentTarget.querySelector("#invite-code")?.textContent;
     if (buttonText) {
-      copyCode(buttonText);
+      copyText(buttonText);
     }
   };
 

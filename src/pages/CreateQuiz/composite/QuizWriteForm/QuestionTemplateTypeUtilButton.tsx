@@ -7,6 +7,7 @@ import Button from "@/components/atom/Button/Button";
 import { QuestionTemplateType } from "@/types/QuestionTemplateType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { QuizQuestionType } from "@/types/QuizType";
+
 //TODO: 변수명 직관적으로 변경 필요
 function QuestionTemplateTypeUtilButton({
   quizId,

@@ -18,6 +18,7 @@ import toast from "react-hot-toast";
 import { studyGroupKeys } from "@/data/queryKeys";
 import { useAtom } from "jotai";
 import { isQuizNextButtonEnabledAtom, isSetAtom } from "@/store/quizAtom";
+import { copyText } from "@/utils/copyText";
 
 // TODO: 컴포넌트 분리
 // 1.스터디 선택
@@ -111,18 +112,11 @@ export default function QuizSettingStudyGroupForm() {
     resetStudyNameInput("");
   };
 
-  // 코드 복사하기
-  const copyCode = (code: string) => {
-    navigator.clipboard.writeText(code).then(() => {
-      toast.success("복사되었습니다.");
-    });
-  };
-
   const handleClickCopyCode = (e: React.MouseEvent<HTMLButtonElement>) => {
     const buttonText =
       e.currentTarget.querySelector("#invite-code")?.textContent;
     if (buttonText) {
-      copyCode(buttonText);
+      copyText(buttonText);
     }
   };
 

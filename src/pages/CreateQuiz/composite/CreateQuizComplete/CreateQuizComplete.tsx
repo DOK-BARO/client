@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { useAtom } from "jotai";
 import { createdQuizIdAtom } from "@/store/quizAtom";
 import ROUTES from "@/data/routes";
+import { copyText } from "@/utils/copyText";
 
 export default function CreateQuizComplete() {
   const [createdQuizId] = useAtom(createdQuizIdAtom);
@@ -19,12 +20,6 @@ export default function CreateQuizComplete() {
 
   const handleGoToQuiz = () => {
     navigate(quizPath);
-  };
-  const handleCopyQuizLink = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const { value: quizLink } = e.target as HTMLButtonElement;
-    navigator.clipboard.writeText(quizLink).then(() => {
-      toast.success("복사되었습니다.");
-    });
   };
 
   return (
@@ -43,8 +38,7 @@ export default function CreateQuizComplete() {
         <Button
           className={styles["copy-link"]}
           color="secondary"
-          value={quizLink}
-          onClick={handleCopyQuizLink}
+          onClick={() => copyText(quizLink)}
           size="medium"
           icon={<Copy width={20} stroke={primary} alt="퀴즈 링크 복사" />}
           iconPosition="right"

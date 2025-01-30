@@ -97,7 +97,7 @@ function AddOptionButton({ onAdd }: { onAdd: () => void }) {
     <div className={styles["option-add-button-container"]}>
       <button className={styles["option-add-button"]} onClick={onAdd}>
         <div className={styles["option-add-button-check-circle"]} />
-        <span>옵션 추가하기</span>
+        <span data-no-dnd="true">옵션 추가하기</span>
       </button>
     </div>
   );

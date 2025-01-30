@@ -25,10 +25,6 @@ interface QuizWriteFormItemProps {
   questionFormId: number;
   deleteQuestion: (id: number) => void;
   answerType: string;
-  dragHandleProps?: {
-    attributes?: unknown;
-    listeners?: unknown;
-  };
 }
 
 const questionTemplates: QuestionTemplateType[] = [
@@ -68,7 +64,6 @@ export default function QuestionForm({
   questionFormId,
   deleteQuestion,
   answerType,
-  dragHandleProps,
 }: QuizWriteFormItemProps) {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
@@ -292,6 +287,7 @@ export default function QuestionForm({
   const handleRef = (id: string) => (element: HTMLDivElement | null) => {
     formRefs.current[id] = element;
   };
+
   return (
     <section
       ref={handleRef(questionFormId.toString())}
@@ -299,11 +295,11 @@ export default function QuestionForm({
       ${styles[isInvalidForm ? "invalid" : ""]}`}
     >
       <h2 className={styles["sr-only"]}>퀴즈 문제 작성 폼</h2>
+
       <QuestionFormHeader
         id={questionFormId}
         deleteQuizWriteForm={deleteQuestion}
         checkValidation={checkValidation}
-        dragHandleProps={dragHandleProps}
       />
 
       <div className={styles["question-form-content"]}>
@@ -383,6 +379,7 @@ export default function QuestionForm({
           </section>
         )}
       </div>
+      {/* </div> */}
     </section>
   );
 }

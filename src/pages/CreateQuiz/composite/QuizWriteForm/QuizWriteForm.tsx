@@ -1,4 +1,4 @@
-import { forwardRef, useState } from "react";
+import { useState } from "react";
 import Button from "@/components/atom/Button/Button";
 import QuestionForm from "@/pages/CreateQuiz/composite/QuizWriteForm/QuestionForm";
 import { primary } from "@/styles/abstracts/colors.ts";
@@ -18,7 +18,6 @@ import {
   DragStartEvent,
   DragOverlay,
   KeyboardSensor,
-  PointerSensor,
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
@@ -26,10 +25,11 @@ import {
   arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
-  useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
+import { SortableItem } from "./dnd/SortableItem";
+import { Item } from "./dnd/Item";
+import { DndPermissionPointerSensor } from "./dnd/DndPermissionPointerSensor";
 
 //TODO: 아이콘 정리 필요
 const QuizWriteForm = React.memo(() => {
@@ -60,7 +60,7 @@ const QuizWriteForm = React.memo(() => {
     const [activeFormId, setActiveFormId] = useState<string | null>(null);
 
     const sensors = useSensors(
-      useSensor(PointerSensor),
+      useSensor(DndPermissionPointerSensor),
       useSensor(KeyboardSensor, {
         coordinateGetter: sortableKeyboardCoordinates,
       }),
@@ -134,8 +134,10 @@ const QuizWriteForm = React.memo(() => {
 
       setActiveFormId(null);
     };
+
     const [, setQuizCreationInfo] =
       useAtom<QuizCreationType>(quizCreationInfoAtom);
+
     const defaultAnswerType: AnswerType = "MULTIPLE_CHOICE_SINGLE_ANSWER";
 
     const createNewQuestion = (id: number): QuizQuestionType => ({
@@ -222,42 +224,3 @@ const QuizWriteForm = React.memo(() => {
 });
 
 export default QuizWriteForm;
-
-export const SortableItem = ({ item }: { item: QuestionFormType }) => {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: item.id });
-
-  const style: React.CSSProperties = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
-  const formItemComponent = React.cloneElement(
-    item.component as React.ReactElement,
-    {
-      dragHandleProps: {
-        attributes,
-        listeners,
-      },
-    },
-  );
-
-  return (
-    <div ref={setNodeRef} style={style}>
-      {formItemComponent}
-    </div>
-  );
-};
-
-interface ItemProps extends React.HTMLAttributes<HTMLDivElement> {
-  item: QuestionFormType;
-}
-
-const Item = forwardRef<HTMLDivElement, ItemProps>(
-  ({ item, ...props }, ref) => {
-    return (
-      <div {...props} ref={ref}>
-        {item.component}
-      </div>
-    );
-  },
-);

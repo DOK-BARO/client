@@ -74,7 +74,7 @@ export default function Index() {
             onChange={handleChange}
             disabled={false}
             labelValue={option.label}
-            type="option-incorrect"
+            type="option-correct"
           />
         );
       })}

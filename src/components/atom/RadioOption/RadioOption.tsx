@@ -42,10 +42,10 @@ const RadioOption: React.FC<RadioOptionProps> = ({
   labelValue,
   textareaDisabled = false,
   customClassName = "",
-  onLabelValueChange = () => { },
-  deleteOption = () => { },
-  onFocus = () => { },
-  onBlur = () => { },
+  onLabelValueChange = () => {},
+  deleteOption = () => {},
+  onFocus = () => {},
+  onBlur = () => {},
   textAreaRef,
   fullWidth = false,
 }) => {
@@ -83,26 +83,26 @@ const RadioOption: React.FC<RadioOptionProps> = ({
         {(type === "option-writing" ||
           type === "option-written" ||
           type === "option-correct") && (
-            <Textarea
-              id={`${option.id}`}
-              value={labelValue}
-              onChange={onLabelValueChange}
-              className={`${styles["option-label-textarea"]} ${styles[customClassName]}`}
-              maxLength={optionMaxLength}
-              disabled={textareaDisabled}
-              textAreaRef={textAreaRef}
-              type="option-label"
-              autoFocus
-              fullWidth
-            />
-          )
-        }
+          <Textarea
+            id={`${option.id}`}
+            value={labelValue}
+            onChange={onLabelValueChange}
+            className={`${styles["option-label-textarea"]} ${styles[customClassName]}`}
+            maxLength={optionMaxLength}
+            disabled={textareaDisabled}
+            textAreaRef={textAreaRef}
+            type="option-label"
+            autoFocus
+            fullWidth
+          />
+        )}
 
         {(type === "option-default" ||
           type === "option-selected" ||
           type === "solving-correct" ||
           type === "solving-incorrect") && (
-            <div className={styles["option-label-value"]}>{labelValue}</div>)}
+          <div className={styles["option-label-value"]}>{labelValue}</div>
+        )}
         {type === "option-writing" && (
           <button
             className={styles["delete-option-button"]}

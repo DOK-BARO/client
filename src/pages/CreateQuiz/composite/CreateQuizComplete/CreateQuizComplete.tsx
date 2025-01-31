@@ -5,7 +5,6 @@ import createQuizCompleteImage from "/assets/image/create-quiz-complete.png";
 import { primary } from "@/styles/abstracts/colors";
 import { Copy } from "@/svg/Copy";
 import { useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
 import { useAtom } from "jotai";
 import { createdQuizIdAtom } from "@/store/quizAtom";
 import ROUTES from "@/data/routes";

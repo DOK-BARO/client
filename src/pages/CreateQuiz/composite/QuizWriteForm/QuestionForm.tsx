@@ -15,7 +15,6 @@ import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
 import { useAtom } from "jotai";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import deleteIcon from "/assets/svg/quizWriteForm/delete_ellipse.svg";
-import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
 import { AnswerType, QuizQuestionType } from "@/types/QuizType";
 import QuestionTemplateTypeUtilButton from "./QuestionTemplateTypeUtilButton";
 import { OxQuiz } from "@/svg/QuizWriteForm/OXQuiz";

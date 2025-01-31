@@ -74,8 +74,6 @@ export default function Index() {
     return files;
   }
 
-  const [isTemporaryExist, setIsTemporaryExist] = useState<boolean>(false);
-
   useEffect(() => {
     async function initializeQuiz() {
       if (isEditMode) {
@@ -134,7 +132,6 @@ export default function Index() {
         setQuizCreationInfo(quiz);
       }
     }
-    console.log("퀴즈 초기화");
     initializeQuiz();
   }, [prevQuiz, isEditMode, prevBook?.isbn, studyGroupDetail?.name]);
 
@@ -217,7 +214,6 @@ export default function Index() {
           )
         ) {
           setQuizCreationInfo(parsedQuizInfo);
-          setIsTemporaryExist(true);
           return;
         }
       }

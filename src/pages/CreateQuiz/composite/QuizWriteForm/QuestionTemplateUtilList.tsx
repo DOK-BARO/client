@@ -9,7 +9,10 @@ type Props = {
 
 export default function QuestionTemplateUtilList({ list, onClick }: Props) {
   return (
-    <ul className={styles["question-template-type-util-list"]}>
+    <ul
+      className={styles["question-template-type-util-list"]}
+      data-no-dnd="true"
+    >
       {list.map((item) => (
         <QuestionTemplateUtilListItem
           key={item.text}

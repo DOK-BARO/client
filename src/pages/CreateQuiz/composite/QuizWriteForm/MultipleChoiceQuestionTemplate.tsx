@@ -46,9 +46,14 @@ export const MultipleChoiceQuestionTemplate: FC<{
     const { id } = event.target;
     onRadioGroupChange(event);
 
-    const currentQuestion: QuizQuestionType = quizCreationInfo.questions?.find(
-      (question) => question.id!.toString() === questionFormId!,
-    )!;
+    const currentQuestion: QuizQuestionType | undefined =
+      quizCreationInfo.questions?.find(
+        (question) => question.id!.toString() === questionFormId!,
+      );
+
+    if (!currentQuestion) {
+      return;
+    }
     const targetSelectOption: SelectOptionType =
       currentQuestion.selectOptions.find(
         (option) => id === option.id.toString(),
@@ -92,7 +97,7 @@ function AddOptionButton({ onAdd }: { onAdd: () => void }) {
     <div className={styles["option-add-button-container"]}>
       <button className={styles["option-add-button"]} onClick={onAdd}>
         <div className={styles["option-add-button-check-circle"]} />
-        <span>옵션 추가하기</span>
+        <span data-no-dnd="true">옵션 추가하기</span>
       </button>
     </div>
   );

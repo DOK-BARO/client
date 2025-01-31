@@ -2,6 +2,7 @@ import styles from "./_question_form.module.scss";
 import { Move } from "@/svg/QuizWriteForm/Move";
 import { gray70 } from "@/styles/abstracts/colors.ts";
 import { Trash } from "@/svg/QuizWriteForm/Trash";
+import Button from "@/components/atom/Button/Button";
 
 interface QuizWriteFormItemHeaderProps {
   id: number;
@@ -15,13 +16,19 @@ export default function QuestionFormHeader({
 }: QuizWriteFormItemHeaderProps) {
   return (
     <div className={styles["question-form-header"]}>
-      <Move width={24} height={24} stroke={gray70} />
-      <button
-        className={styles["delete-quiz"]}
-        onClick={() => deleteQuizWriteForm(id)}
-      >
-        <Trash width={24} height={24} stroke={gray70} />
-      </button>
+      <div data-allow-dnd="true">
+        <Button
+          iconOnly
+          icon={<Move width={24} height={24} stroke={gray70} />}
+        />
+      </div>
+      <Button
+        iconOnly
+        onClick={() => {
+          deleteQuizWriteForm(id);
+        }}
+        icon={<Trash width={24} height={24} stroke={gray70} />}
+      />
     </div>
   );
 }

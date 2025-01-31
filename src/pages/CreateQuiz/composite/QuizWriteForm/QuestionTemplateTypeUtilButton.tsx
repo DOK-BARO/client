@@ -6,19 +6,24 @@ import { gray60 } from "@/styles/abstracts/colors";
 import Button from "@/components/atom/Button/Button";
 import { QuestionTemplateType } from "@/types/QuestionTemplateType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
-import { QuizQuestionType } from "@/types/QuizType";
+import { AnswerType, QuizQuestionType } from "@/types/QuizType";
 
 //TODO: 변수명 직관적으로 변경 필요
 function QuestionTemplateTypeUtilButton({
-  quizId,
+  questionId,
   selectedOption,
   setSelectedOption,
   list,
+  onUpdateQuestionFormsWithAnswerType,
 }: {
-  quizId: number;
+  questionId: number;
   list: QuestionTemplateType[];
   selectedOption: QuestionTemplateType;
   setSelectedOption: (option: QuestionTemplateType) => void;
+  onUpdateQuestionFormsWithAnswerType: (
+    questionId: number,
+    newAnswerType: AnswerType,
+  ) => void;
 }) {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
@@ -26,7 +31,7 @@ function QuestionTemplateTypeUtilButton({
   const onClick = (option: QuestionTemplateType) => {
     const updatedQuestions: QuizQuestionType[] =
       quizCreationInfo.questions?.map((question) =>
-        question.id === quizId
+        question.id === questionId
           ? {
               ...question,
               selectOptions: [],
@@ -36,6 +41,7 @@ function QuestionTemplateTypeUtilButton({
           : question,
       ) ?? [];
     updateQuizCreationInfo("questions", updatedQuestions);
+    onUpdateQuestionFormsWithAnswerType(questionId, option.answerType);
 
     setSelectedOption(option);
     closeDropDownList();

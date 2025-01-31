@@ -25,7 +25,7 @@ import Textarea from "@/components/atom/Textarea/Textarea";
 import Modal from "@/components/atom/Modal/Modal";
 import CheckBox from "@/components/atom/Checkbox/Checkbox";
 import ImageLayer from "@/components/layout/ImageLayer/ImageLayer";
-
+import warning from "/public/assets/svg/solvingQuizFormLayout/warning.svg";
 export interface AnswerImageType {
   index: number;
   src: string;
@@ -33,7 +33,6 @@ export interface AnswerImageType {
 
 // TODO: 신고하기 모달 컴포넌트 분리 (중복 사용됨)
 export default function Index() {
-  const warning = "/assets/svg/solvingQuizFormLayout/warning.svg";
   const [solvingQuizId, setSolvingQuizId] = useState<number>();
   const { quizId } = useParams<{
     quizId: string;
@@ -48,10 +47,31 @@ export default function Index() {
     setClickedImage(image);
   };
 
+  const { mutate: startSolvingQuiz } = useMutation<
+    { id: number } | null,
+    ErrorType,
+    string
+  >({
+    mutationFn: (quizId) => quizService.startSolvingQuiz(quizId),
+    onError: (error) => {
+      if (error.code === 403) {
+        toast.error(error.message);
+        navigate(ROUTES.ROOT); // TODO: 수정
+      }
+    },
+    onSuccess: (data) => {
+      console.log(data);
+      if (data) {
+        console.log("퀴즈 아이디", data.id);
+        setSolvingQuizId(data.id);
+      }
+    },
+  });
+
   useEffect(() => {
-    quizService.startSolvingQuiz(quizId!).then(({ id }) => {
-      setSolvingQuizId(id!);
-    });
+    if (quizId) {
+      startSolvingQuiz(quizId);
+    }
   }, []);
 
   // 퀴즈 개별 신고

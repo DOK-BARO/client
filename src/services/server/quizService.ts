@@ -111,14 +111,15 @@ class QuizService {
   };
 
   // 북 퀴즈 풀기 시작 요청 함수. 백엔드 쪽에서 정답을 적을 omr카드 만드는 개념이라고 함..
-  startSolvingQuiz = async (quizId: string) => {
+  startSolvingQuiz = async (quizId: string): Promise<{ id: number } | null> => {
     try {
       const { data } = await axiosInstance.post("/solving-quiz/start", {
         quizId: quizId,
       });
       return data;
     } catch (error) {
-      throw new Error(`북 퀴즈 풀기 시작 실패: ${error}`);
+      handleAxiosError(error);
+      return null;
     }
   };
 

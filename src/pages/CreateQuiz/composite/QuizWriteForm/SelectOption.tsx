@@ -65,7 +65,8 @@ const SelectOption: React.FC<SelectOptionProps> = ({
       : selectedValue
         ? selectedValue[option.id]
         : false;
-  const [currentWritingOptionId, setCurrentWritingOptionId] = useState<number>();
+  const [currentWritingOptionId, setCurrentWritingOptionId] =
+    useState<number>();
   const handleFocus = () => {
     setCurrentWritingOptionId(option.id);
   };
@@ -73,7 +74,7 @@ const SelectOption: React.FC<SelectOptionProps> = ({
     setCurrentWritingOptionId(undefined);
   };
   const isCurrentWriting = currentWritingOptionId === option.id;
-  console.log(option.id.toString() + ":" + isChecked);
+
   return (
     <div key={option.id} className={styles["option-container"]}>
       {answerType === "MULTIPLE_CHOICE_SINGLE_ANSWER" ? (

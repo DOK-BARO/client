@@ -186,7 +186,7 @@ const QuizWriteForm = React.memo(() => {
             strategy={verticalListSortingStrategy}
           >
             {questionForms.map((item) => (
-              <SortableItem item={item} />
+              <SortableItem key={item.id} item={item} />
             ))}
           </SortableContext>
           <DragOverlay>

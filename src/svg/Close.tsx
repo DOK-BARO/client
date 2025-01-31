@@ -15,7 +15,7 @@ export const Close: React.FC<SVGProps> = ({ alt, ...props }) => {
         d="M19.3099 7.58325L8.47656 18.4166M19.3099 18.4166L8.47656 7.58325"
         stroke={props.stroke}
         strokeWidth={props.strokeWidth}
-        stroke-linecap="round"
+        strokeLinecap="round"
       />
     </svg>
   );

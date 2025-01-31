@@ -79,6 +79,7 @@ const SelectOption: React.FC<SelectOptionProps> = ({
     <div key={option.id} className={styles["option-container"]}>
       {answerType === "MULTIPLE_CHOICE_SINGLE_ANSWER" ? (
         <RadioOption
+          data-no-dnd="true"
           radioGroupName={questionFormId}
           option={option as RadioOptionType}
           checked={isChecked}

@@ -4,6 +4,7 @@ import { SVGProps } from "@/types/SVGProps";
 export const Close: React.FC<SVGProps> = ({ alt, ...props }) => {
   return (
     <svg
+      data-no-dnd="true"
       width={props.width}
       height={props.height}
       viewBox={"0 0 27 26"}
@@ -12,6 +13,7 @@ export const Close: React.FC<SVGProps> = ({ alt, ...props }) => {
     >
       <title id="svgTitle">{alt}</title>
       <path
+        data-no-dnd="true"
         d="M19.3099 7.58325L8.47656 18.4166M19.3099 18.4166L8.47656 7.58325"
         stroke={props.stroke}
         strokeWidth={props.strokeWidth}

@@ -3,6 +3,7 @@ import styles from "./_checkbox.module.scss";
 import { Close } from "@/svg/Close";
 import { gray90 } from "@/styles/abstracts/colors";
 import Textarea from "../Textarea/Textarea";
+import Button from "../Button/Button";
 
 export type CheckboxStatusType =
   | "checkbox-writing" // '퀴즈 작성'화면에서 텍스트를 작성 중인 경우
@@ -35,12 +36,12 @@ export default function CheckBox({
   type = "checkbox-default",
   onChange,
   value,
-  onLabelValueChange = () => { },
-  deleteOption = () => { },
+  onLabelValueChange = () => {},
+  deleteOption = () => {},
   fullWidth,
   textAreaRef,
-  onFocus = () => { },
-  onBlur = () => { },
+  onFocus = () => {},
+  onBlur = () => {},
   disabled,
 }: CheckBoxProps) {
   const optionMaxLength = 500;
@@ -78,34 +79,43 @@ export default function CheckBox({
         {(type === "checkbox-writing" ||
           type === "checkbox-written" ||
           type === "checkbox-correct") && (
-            <Textarea
-              id={id}
-              value={value}
-              onChange={onLabelValueChange}
-              className={styles["option-label-textarea"]}
-              maxLength={optionMaxLength}
-              textAreaRef={textAreaRef}
-              type={"option-label"}
-              autoFocus
-              fullWidth
-            />
-          )
-        }
+          <Textarea
+            id={id}
+            value={value}
+            onChange={onLabelValueChange}
+            className={styles["option-label-textarea"]}
+            maxLength={optionMaxLength}
+            textAreaRef={textAreaRef}
+            type={"option-label"}
+            autoFocus
+            fullWidth
+          />
+        )}
         {(type === "checkbox-default" ||
           type === "checkbox-selected" ||
           type === "solving-correct" ||
           type === "solving-incorrect") && (
-            <div className={styles["option-label-value"]}>{value}</div>)}
-        {type === "checkbox-writing" && (
-          <button
-            className={styles["delete-option-button"]}
-            onClick={() => {
-              deleteOption(parseInt(id));
-            }}
-          >
-            <Close width={20} height={20} stroke={gray90} strokeWidth={2} />
-          </button>
+          <div className={styles["option-label-value"]}>{value}</div>
         )}
+        <Button
+          className={
+            styles[type === "checkbox-writing" ? "visible" : "invisible"]
+          }
+          onClick={() => {
+            deleteOption(parseInt(id));
+          }}
+          icon={
+            <Close
+              width={20}
+              height={20}
+              stroke={gray90}
+              strokeWidth={2}
+              alt="옵션 삭제하기"
+            />
+          }
+          iconOnly
+        />
+
         {type !== "checkbox-writing" && (
           <div className={styles["empty-icon"]}></div>
         )}

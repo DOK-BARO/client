@@ -65,6 +65,22 @@ const QuizWriteForm = React.memo(() => {
         coordinateGetter: sortableKeyboardCoordinates,
       }),
     );
+    const handleUpdateQuestionFormsWithAnswerType = (
+      questionId: number,
+      newAnswerType: AnswerType,
+    ) => {
+      setQuestionForms((prevForms) =>
+        prevForms.map((form) =>
+          form.id === questionId
+            ? {
+                ...form,
+                answerType: newAnswerType,
+                component: createQuestionFormComponent(form.id, newAnswerType),
+              }
+            : form,
+        ),
+      );
+    };
 
     const createQuestionFormComponent = (
       id: number,
@@ -75,6 +91,9 @@ const QuizWriteForm = React.memo(() => {
         questionFormId={id}
         deleteQuestion={deleteQuestion}
         answerType={answerType}
+        onUpdateQuestionFormsWithAnswerType={
+          handleUpdateQuestionFormsWithAnswerType
+        }
       />
     );
 
@@ -186,7 +205,7 @@ const QuizWriteForm = React.memo(() => {
             strategy={verticalListSortingStrategy}
           >
             {questionForms.map((item) => (
-              <SortableItem item={item} />
+              <SortableItem key={item.id} item={item} />
             ))}
           </SortableContext>
           <DragOverlay>

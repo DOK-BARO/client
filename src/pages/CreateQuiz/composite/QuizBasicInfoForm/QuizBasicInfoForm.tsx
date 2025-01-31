@@ -11,6 +11,9 @@ import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 function QuizBasicInfoForm() {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
+  console.log(quizCreationInfo);
+  console.log(quizCreationInfo.title);
+
   const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
     isQuizNextButtonEnabledAtom,
   );

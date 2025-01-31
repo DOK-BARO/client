@@ -37,7 +37,8 @@ export default function Index() {
   const quizId = id && id !== ":id" ? id : null;
   const [isEditMode] = useState<boolean>(!!quizId);
   const [completionStatus] = useAtom(stepsCompletionStatusAtom);
-  const [, setQuizCreationInfoAtom] = useAtom(quizCreationInfoAtom);
+
+  const [, setQuizCreationInfo] = useAtom(quizCreationInfoAtom);
   const blocker = useBlocker(true);
   const { closeModal: closePreventLeaveModal } = useModal();
   usePreventLeave();
@@ -72,6 +73,8 @@ export default function Index() {
     );
     return files;
   }
+
+  const [isTemporaryExist, setIsTemporaryExist] = useState<boolean>(false);
 
   useEffect(() => {
     async function initializeQuiz() {
@@ -128,9 +131,10 @@ export default function Index() {
           studyGroup: formattedStudyGroup,
           questions: prevQuestions,
         };
-        setQuizCreationInfoAtom(quiz);
+        setQuizCreationInfo(quiz);
       }
     }
+    console.log("퀴즈 초기화");
     initializeQuiz();
   }, [prevQuiz, isEditMode, prevBook?.isbn, studyGroupDetail?.name]);
 
@@ -194,9 +198,41 @@ export default function Index() {
   const resetBookState = useSetAtom(resetQuizCreationBookStateAtom);
 
   useEffect(() => {
+    // 임시 저장된 퀴즈가 있을 경우
+    const storedQuizCreationInfo = localStorage.getItem("quizCreationInfo");
+    if (storedQuizCreationInfo) {
+      const parsedQuizInfo = JSON.parse(storedQuizCreationInfo);
+
+      if (
+        parsedQuizInfo.book !== null ||
+        parsedQuizInfo.description !== null ||
+        parsedQuizInfo.editScope !== null ||
+        parsedQuizInfo.questions !== null ||
+        parsedQuizInfo.title !== null ||
+        parsedQuizInfo.viewScope !== null
+      ) {
+        if (
+          confirm(
+            "이전에 작성중이던 퀴즈가 있습니다. 해당 퀴즈를 이어서 작성하시겠습니까?",
+          )
+        ) {
+          setQuizCreationInfo(parsedQuizInfo);
+          setIsTemporaryExist(true);
+          return;
+        }
+      }
+    }
+
     // 퀴즈 상태 초기화
-    isEditMode ? setCurrentStep(2) : setCurrentStep(0);
+    if (isEditMode) {
+      setCurrentStep(2);
+    } else {
+      setCurrentStep(0);
+    }
+
     resetQuizState();
+    console.log("퀴즈 상태 초기화");
+
     return () => {
       resetBookState();
     };

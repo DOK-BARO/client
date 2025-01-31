@@ -16,7 +16,7 @@ import { useAtom } from "jotai";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import deleteIcon from "/assets/svg/quizWriteForm/delete_ellipse.svg";
 import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
-import { QuizQuestionType } from "@/types/QuizType";
+import { AnswerType, QuizQuestionType } from "@/types/QuizType";
 import QuestionTemplateTypeUtilButton from "./QuestionTemplateTypeUtilButton";
 import { SelectOptionType } from "@/types/QuizType";
 import { OxQuiz } from "@/svg/QuizWriteForm/OXQuiz";
@@ -25,6 +25,10 @@ interface QuizWriteFormItemProps {
   questionFormId: number;
   deleteQuestion: (id: number) => void;
   answerType: string;
+  onUpdateQuestionFormsWithAnswerType: (
+    questionId: number,
+    newAnswerType: AnswerType,
+  ) => void;
 }
 
 const questionTemplates: QuestionTemplateType[] = [
@@ -64,6 +68,7 @@ export default function QuestionForm({
   questionFormId,
   deleteQuestion,
   answerType,
+  onUpdateQuestionFormsWithAnswerType,
 }: QuizWriteFormItemProps) {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
@@ -305,10 +310,13 @@ export default function QuestionForm({
       <div className={styles["question-form-content"]}>
         <div className={styles["setting-container"]}>
           <QuestionTemplateTypeUtilButton
-            quizId={questionFormId}
+            questionId={questionFormId}
             list={questionTemplates}
             selectedOption={questionFormType}
             setSelectedOption={setQuestionFormType}
+            onUpdateQuestionFormsWithAnswerType={
+              onUpdateQuestionFormsWithAnswerType
+            }
           />
           <Textarea
             maxLength={titleMaxLength}

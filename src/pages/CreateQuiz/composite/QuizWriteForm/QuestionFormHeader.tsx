@@ -7,7 +7,6 @@ import Button from "@/components/atom/Button/Button";
 interface QuizWriteFormItemHeaderProps {
   id: number;
   deleteQuizWriteForm: (id: number) => void;
-  checkValidation: () => void;
 }
 
 export default function QuestionFormHeader({

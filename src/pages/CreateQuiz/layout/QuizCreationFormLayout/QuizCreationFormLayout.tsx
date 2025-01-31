@@ -26,6 +26,7 @@ import { invalidQuestionFormIdAtom } from "@/store/quizAtom";
 import React from "react";
 import { queryClient } from "@/services/server/queryClient";
 import { studyGroupKeys } from "@/data/queryKeys";
+import { SelectOptionType } from "@/types/QuizType";
 
 export default function QuizCreationFormLayout({
   isEditMode,
@@ -93,13 +94,6 @@ export default function QuizCreationFormLayout({
     )!;
   };
 
-  // const getScopeKeyByTranslation = (translation: string): ViewScope | null => {
-  //   const entry = Object.entries(scopeTranslations).find(
-  //     ([, value]) => value === translation,
-  //   );
-  //   return entry ? (entry[0] as ViewScope) : null;
-  // };
-
   const requestUploadExplanationImages = async (
     uploadTargetImgs: File[],
   ): Promise<string[]> => {
@@ -107,9 +101,9 @@ export default function QuizCreationFormLayout({
       const paramObj: {
         image: File;
         imageTarget:
-          | "MEMBER_PROFILE"
-          | "STUDY_GROUP_PROFILE"
-          | "BOOK_QUIZ_ANSWER";
+        | "MEMBER_PROFILE"
+        | "STUDY_GROUP_PROFILE"
+        | "BOOK_QUIZ_ANSWER";
       } = {
         image: img,
         imageTarget: "BOOK_QUIZ_ANSWER",
@@ -183,7 +177,6 @@ export default function QuizCreationFormLayout({
   });
 
   const requestQuiz = async () => {
-    // isTemporary: 임시 저장 여부
     if (
       quizCreationInfo.title === null ||
       quizCreationInfo.description === null ||
@@ -215,9 +208,22 @@ export default function QuizCreationFormLayout({
 
   const endStep = steps.length - 1;
 
+  const hasDuplicate = (arr: SelectOptionType[]) => {
+    const options: string[] = arr.map(({ option }) => option);
+    return new Set(options).size !== options.length;
+  };
+
   const goToNextStep = async () => {
     if (currentStep === 2.2) {
       for (const question of quizCreationInfo.questions ?? []) {
+        // - 질문 입력 안 했을 때: 질문을 입력해 주세요.
+        if (question.content.length === 0) {
+          setErrorModalTitle("질문을 입력해 주세요");
+          setInvalidQuestionFormId(question.id);
+          openModal!();
+          return;
+        }
+
         if (!question.answers?.length) {
           setErrorModalTitle("답안이 선택되었는지 확인하세요.");
           openModal!();
@@ -231,6 +237,26 @@ export default function QuizCreationFormLayout({
             openModal!();
             return;
           }
+        }
+        // - 옵션 하나도 없을 때: 선택지를 1개 이상 추가해 주세요.
+        if (
+          question.answerType !== "OX" &&
+          question.selectOptions.length === 0
+        ) {
+          setErrorModalTitle("선택지를 1개 이상 추가해 주세요");
+          setInvalidQuestionFormId(question.id);
+          openModal!();
+          return;
+        }
+
+        // -  중복된 옵션이 있을 때: 중복된 옵션입니다. 다시 입력해 주세요.
+        const selectOptions: SelectOptionType[] = question.selectOptions;
+        const duplicated: boolean = hasDuplicate(selectOptions);
+        if (duplicated) {
+          setErrorModalTitle("중복된 옵션입니다. 다시 입력해 주세요.");
+          setInvalidQuestionFormId(question.id);
+          openModal!();
+          return;
         }
         setInvalidQuestionFormId(undefined);
       }

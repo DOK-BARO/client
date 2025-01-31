@@ -33,18 +33,17 @@
   }
 }
 
-.focused-color{
+.focused-color {
   &:focus-within {
     background-color: $background;
   }
 }
 
-.checked-focused-color{
+.checked-focused-color {
   &:focus-within {
     background-color: $secondary;
   }
 }
-
 
 .option-label-textarea {
   font-size: $font-size-medium;
@@ -61,8 +60,8 @@
     font-family: "Pretendard", sans-serif !important;
   }
 
-  &:disabled{
-  background-color: $gray-00;
+  &:disabled {
+    background-color: $gray-00;
   }
 }
 
@@ -100,12 +99,13 @@
       left: -4px;
       width: 20px;
       height: 20px;
-      background: url("/public/assets/svg/solvingQuizFormLayout/correct.svg") no-repeat;
+      background: url("/public/assets/svg/solvingQuizFormLayout/correct.svg")
+        no-repeat;
     }
   }
 }
 
-.option-default{
+.option-default {
   @include basic-radio-button($default-border-color: $gray-60);
 }
 
@@ -126,11 +126,11 @@
       left: -4px;
       width: 20px;
       height: 20px;
-      background: url("/public/assets/svg/solvingQuizFormLayout/incorrect.svg") no-repeat;
+      background: url("/public/assets/svg/solvingQuizFormLayout/incorrect.svg")
+        no-repeat;
     }
   }
 }
-
 
 .option-correct {
   background-color: $secondary;
@@ -166,17 +166,12 @@
   white-space: pre-line;
 }
 
-.delete-option-button {
-  width: 20px;
-  height: 20px;
-}
-
 .empty-icon {
   width: 20px;
   height: 20px;
 }
 
-.ox-option{
+.ox-option {
   height: 26px;
 }
 

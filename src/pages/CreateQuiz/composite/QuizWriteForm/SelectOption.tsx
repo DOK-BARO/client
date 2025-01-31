@@ -65,7 +65,8 @@ const SelectOption: React.FC<SelectOptionProps> = ({
       : selectedValue
         ? selectedValue[option.id]
         : false;
-  const [currentWritingOptionId, setCurrentWritingOptionId] = useState<number>();
+  const [currentWritingOptionId, setCurrentWritingOptionId] =
+    useState<number>();
   const handleFocus = () => {
     setCurrentWritingOptionId(option.id);
   };
@@ -78,6 +79,7 @@ const SelectOption: React.FC<SelectOptionProps> = ({
     <div key={option.id} className={styles["option-container"]}>
       {answerType === "MULTIPLE_CHOICE_SINGLE_ANSWER" ? (
         <RadioOption
+          data-no-dnd="true"
           radioGroupName={questionFormId}
           option={option as RadioOptionType}
           checked={isChecked}

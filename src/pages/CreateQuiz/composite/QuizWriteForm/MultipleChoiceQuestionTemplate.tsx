@@ -94,7 +94,7 @@ export const MultipleChoiceQuestionTemplate: FC<{
 
 function AddOptionButton({ onAdd }: { onAdd: () => void }) {
   return (
-    <div className={styles["option-add-button-container"]}>
+    <div data-no-dnd="true" className={styles["option-add-button-container"]}>
       <button className={styles["option-add-button"]} onClick={onAdd}>
         <div className={styles["option-add-button-check-circle"]} />
         <span data-no-dnd="true">옵션 추가하기</span>

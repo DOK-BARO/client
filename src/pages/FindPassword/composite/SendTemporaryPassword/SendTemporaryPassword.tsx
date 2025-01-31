@@ -43,7 +43,7 @@ export default function SendTemporaryPassword({
 
   return (
     <section className={styles["send-temporary-password"]}>
-      <h3>임시 비밀번호 발송</h3>
+      <h3 className={styles["sr-only"]}>임시 비밀번호 발송</h3>
       <p className={styles.description}>
         가입 시 등록한 이메일 주소를 입력해 주세요.
         <br />

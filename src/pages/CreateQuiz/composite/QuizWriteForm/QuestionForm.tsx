@@ -15,16 +15,18 @@ import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
 import { useAtom } from "jotai";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import deleteIcon from "/assets/svg/quizWriteForm/delete_ellipse.svg";
-import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
-import { QuizQuestionType } from "@/types/QuizType";
+import { AnswerType, QuizQuestionType } from "@/types/QuizType";
 import QuestionTemplateTypeUtilButton from "./QuestionTemplateTypeUtilButton";
-import { SelectOptionType } from "@/types/QuizType";
 import { OxQuiz } from "@/svg/QuizWriteForm/OXQuiz";
 import { invalidQuestionFormIdAtom } from "@/store/quizAtom";
 interface QuizWriteFormItemProps {
   questionFormId: number;
   deleteQuestion: (id: number) => void;
   answerType: string;
+  onUpdateQuestionFormsWithAnswerType: (
+    questionId: number,
+    newAnswerType: AnswerType,
+  ) => void;
 }
 
 const questionTemplates: QuestionTemplateType[] = [
@@ -64,6 +66,7 @@ export default function QuestionForm({
   questionFormId,
   deleteQuestion,
   answerType,
+  onUpdateQuestionFormsWithAnswerType,
 }: QuizWriteFormItemProps) {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
@@ -109,9 +112,6 @@ export default function QuestionForm({
   );
   const [imagePreview, setImagePreview] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  const [, setErrorModalTitle] = useAtom(errorModalTitleAtom);
-  const [openModal] = useAtom(openErrorModalAtom);
 
   const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onAnswerTextAreaChange(e);
@@ -160,47 +160,6 @@ export default function QuestionForm({
       }) ?? [];
 
     updateQuizCreationInfo("questions", updatedQuestions);
-  };
-
-  const hasDuplicate = (arr: SelectOptionType[]) => {
-    const options: string[] = arr.map(({ option }) => option);
-    return new Set(options).size !== options.length;
-  };
-  const checkValidation = () => {
-    const questionForm = quizCreationInfo.questions?.find(
-      ({ id }) => id === questionFormId,
-    );
-
-    if (!questionForm) {
-      setErrorModalTitle("질문을 찾을 수 없습니다.");
-      openModal!();
-      return;
-    }
-    const selectOptions: SelectOptionType[] = questionForm.selectOptions;
-
-    // - 질문 입력 안 했을 때: 질문을 입력해 주세요.
-    if (questionForm.content.length === 0) {
-      setErrorModalTitle("질문을 입력해 주세요");
-      openModal!();
-      return;
-    }
-    // - 옵션 하나도 없을 때: 선택지를 1개 이상 추가해 주세요.
-    if (
-      questionForm.answerType !== "OX" &&
-      questionForm.selectOptions.length === 0
-    ) {
-      setErrorModalTitle("선택지를 1개 이상 추가해 주세요");
-      openModal!();
-      return;
-    }
-
-    // -  중복된 옵션이 있을 때: 중복된 옵션입니다. 다시 입력해 주세요.
-    const duplicated: boolean = hasDuplicate(selectOptions);
-    if (duplicated) {
-      setErrorModalTitle("중복된 옵션입니다. 다시 입력해 주세요.");
-      openModal!();
-      return;
-    }
   };
 
   const fileInputRef = useRef<HTMLInputElement | null>(null); // 파일 입력 참조
@@ -299,16 +258,18 @@ export default function QuestionForm({
       <QuestionFormHeader
         id={questionFormId}
         deleteQuizWriteForm={deleteQuestion}
-        checkValidation={checkValidation}
       />
 
       <div className={styles["question-form-content"]}>
         <div className={styles["setting-container"]}>
           <QuestionTemplateTypeUtilButton
-            quizId={questionFormId}
+            questionId={questionFormId}
             list={questionTemplates}
             selectedOption={questionFormType}
             setSelectedOption={setQuestionFormType}
+            onUpdateQuestionFormsWithAnswerType={
+              onUpdateQuestionFormsWithAnswerType
+            }
           />
           <Textarea
             maxLength={titleMaxLength}
@@ -319,6 +280,9 @@ export default function QuestionForm({
             placeholder="질문을 입력해주세요."
             textAreaRef={questionTextAreaRef}
             fullWidth
+            onKeyDown={(e) => {
+              e.stopPropagation();
+            }}
           />
         </div>
         {React.cloneElement(questionFormType.FormComponent, {
@@ -354,6 +318,9 @@ export default function QuestionForm({
           textAreaRef={descriptionTextAreaRef}
           maxLengthShow
           fullWidth
+          onKeyDown={(e) => {
+            e.stopPropagation();
+          }}
         />
 
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}

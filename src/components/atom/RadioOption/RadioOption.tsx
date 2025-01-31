@@ -5,6 +5,7 @@ import { Close } from "@/svg/Close";
 import { gray90 } from "@/styles/abstracts/colors";
 import Textarea from "@/components/atom/Textarea/Textarea";
 import "highlight.js/styles/xcode.css";
+import Button from "../Button/Button";
 
 export type OptionStatusType =
   | "option-writing" // '퀴즈 작성'화면에서 텍스트를 작성 중인 경우
@@ -56,6 +57,7 @@ const RadioOption: React.FC<RadioOptionProps> = ({
       ${styles[type]}
       ${checked ? styles["checked-focused-color"] : styles["focused-color"]}
 			`;
+
   return (
     <div
       key={option.id}
@@ -94,6 +96,9 @@ const RadioOption: React.FC<RadioOptionProps> = ({
             type="option-label"
             autoFocus
             fullWidth
+            onKeyDown={(e) => {
+              e.stopPropagation();
+            }}
           />
         )}
 
@@ -103,16 +108,26 @@ const RadioOption: React.FC<RadioOptionProps> = ({
           type === "solving-incorrect") && (
           <div className={styles["option-label-value"]}>{labelValue}</div>
         )}
-        {type === "option-writing" && (
-          <button
-            className={styles["delete-option-button"]}
-            onClick={() => {
-              deleteOption(option.id);
-            }}
-          >
-            <Close width={20} height={20} stroke={gray90} strokeWidth={2} />
-          </button>
-        )}
+
+        <Button
+          iconOnly
+          className={
+            styles[type === "option-writing" ? "visible" : "invisible"]
+          }
+          icon={
+            <Close
+              alt="옵션 삭제하기"
+              width={20}
+              height={20}
+              stroke={gray90}
+              strokeWidth={2}
+            />
+          }
+          onClick={() => {
+            deleteOption(option.id);
+          }}
+        />
+
         {type !== "option-writing" && (
           <div className={styles["empty-icon"]}></div>
         )}

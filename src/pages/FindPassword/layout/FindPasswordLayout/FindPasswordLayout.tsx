@@ -28,7 +28,7 @@ export default function FindPasswordLayout() {
     <section className={styles["register-baseLayout"]}>
       <div className={styles["inner-container"]}>
         <header>
-          <h2>비밀번호 찾기</h2>
+          <h2 className={styles["sr-only"]}>비밀번호 찾기</h2>
           <p className={styles["title"]}>{title}</p>
         </header>
         {renderStepComponent()}

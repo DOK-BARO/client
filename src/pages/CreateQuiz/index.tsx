@@ -18,7 +18,7 @@ import Modal from "@/components/atom/Modal/Modal.tsx";
 import useModal from "@/hooks/useModal.ts";
 import { Step } from "@/types/StepType.ts";
 import QuizBookSelectionForm from "./composite/QuizBookSectionForm/QuizBookSelectionForm/QuizBookSelectionForm.tsx";
-import { useParams } from "react-router-dom";
+import { useBlocker, useParams } from "react-router-dom";
 import { quizKeys } from "@/data/queryKeys.ts";
 import { quizService } from "@/services/server/quizService.ts";
 import { useQuery } from "@tanstack/react-query";
@@ -30,14 +30,18 @@ import { StudyGroupType } from "@/types/StudyGroupType.ts";
 import { SelectOptionType } from "@/types/QuizType.ts";
 import { QuizQuestionType } from "@/types/QuizType.ts";
 import { resetQuizCreationBookStateAtom } from "@/store/quizAtom.ts";
+import usePreventLeave from "@/hooks/usePreventLeave.ts";
 
 export default function Index() {
   const { id } = useParams();
   const quizId = id && id !== ":id" ? id : null;
   const [isEditMode] = useState<boolean>(!!quizId);
   const [completionStatus] = useAtom(stepsCompletionStatusAtom);
-  const [, setQuizCreationInfoAtom] = useAtom(quizCreationInfoAtom);
 
+  const [, setQuizCreationInfo] = useAtom(quizCreationInfoAtom);
+  const blocker = useBlocker(true);
+  const { closeModal: closePreventLeaveModal } = useModal();
+  usePreventLeave();
   const { data: prevQuiz, isLoading: isPrevQuizLoading } = useQuery({
     queryKey: quizKeys.prevDetail(quizId!),
     queryFn: () => (quizId ? quizService.fetchQuizzesDetail(quizId) : null),
@@ -92,20 +96,6 @@ export default function Index() {
             profileImageUrl: studyGroupDetail?.profileImageUrl,
           };
         }
-
-        // let selectOptions: SelectOptionType[];
-        // prevQuiz?.questions.forEach((question) => {
-        //   selectOptions = question.selectOptions.map((optionText, index) => {
-        //     const option: SelectOptionType = {
-        //       id: index,
-        //       option: optionText,
-        //       value: index.toString(),
-        //       answerIndex: index + 1,
-        //     };
-        //     return option;
-        //   });
-        // });
-
         const prevQuestions: QuizQuestionType[] = await Promise.all(
           prevQuiz?.questions.map(async (q, index) => {
             const images = await convertUrlsToFiles(q.answerExplanationImages);
@@ -139,7 +129,7 @@ export default function Index() {
           studyGroup: formattedStudyGroup,
           questions: prevQuestions,
         };
-        setQuizCreationInfoAtom(quiz);
+        setQuizCreationInfo(quiz);
       }
     }
     initializeQuiz();
@@ -205,13 +195,42 @@ export default function Index() {
   const resetBookState = useSetAtom(resetQuizCreationBookStateAtom);
 
   useEffect(() => {
+    // 임시 저장된 퀴즈가 있을 경우
+    const storedQuizCreationInfo = localStorage.getItem("quizCreationInfo");
+    if (storedQuizCreationInfo) {
+      const parsedQuizInfo = JSON.parse(storedQuizCreationInfo);
+
+      if (
+        parsedQuizInfo.book !== null ||
+        parsedQuizInfo.description !== null ||
+        parsedQuizInfo.editScope !== null ||
+        parsedQuizInfo.questions !== null ||
+        parsedQuizInfo.title !== null ||
+        parsedQuizInfo.viewScope !== null
+      ) {
+        if (
+          confirm(
+            "이전에 작성중이던 퀴즈가 있습니다. 해당 퀴즈를 이어서 작성하시겠습니까?",
+          )
+        ) {
+          setQuizCreationInfo(parsedQuizInfo);
+          return;
+        }
+      }
+    }
+
     // 퀴즈 상태 초기화
-    isEditMode ? setCurrentStep(2) : setCurrentStep(0);
+    if (isEditMode) {
+      setCurrentStep(2);
+    } else {
+      setCurrentStep(0);
+    }
+
     resetQuizState();
+    console.log("퀴즈 상태 초기화");
+
     return () => {
-      // if (isEditMode) {
       resetBookState();
-      // }
     };
   }, []);
 
@@ -250,6 +269,47 @@ export default function Index() {
           ]}
           showHeaderCloseButton={false}
           contents={[]}
+        />
+      )}
+
+      {blocker.state === "blocked" && (
+        <Modal
+          contents={[
+            {
+              title: isEditMode
+                ? " 수정 내용이 저장되지 않았어요."
+                : "정말 페이지를 나가시겠어요?",
+              content: isEditMode ? (
+                <p className={styles["prevent-leave-modal-content"]}>
+                  {`수정하기 버튼을 누르지 않고 나가면 변경한 내용이 저장되지 않습니다.
+                  저장하지 않고 나가시겠습니까?`}
+                </p>
+              ) : (
+                <p className={styles["prevent-leave-modal-content"]}>
+                  {`만들기 버튼을 누르지 않고 나가면 변경한 내용이 저장되지 않습니다.
+                  저장하지 않고 나가시겠습니까?`}
+                </p>
+              ),
+            },
+          ]}
+          closeModal={closePreventLeaveModal}
+          showHeaderCloseButton={false}
+          bottomButtons={[
+            {
+              text: "나가기",
+              color: "secondary",
+              onClick: () => {
+                blocker.proceed();
+              },
+            },
+            {
+              text: isEditMode ? "수정 계속하기" : "계속 만들기",
+              color: "primary",
+              onClick: () => {
+                blocker.reset();
+              },
+            },
+          ]}
         />
       )}
     </section>

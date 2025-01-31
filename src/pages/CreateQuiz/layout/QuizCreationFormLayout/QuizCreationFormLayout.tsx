@@ -26,6 +26,7 @@ import { invalidQuestionFormIdAtom } from "@/store/quizAtom";
 import React from "react";
 import { queryClient } from "@/services/server/queryClient";
 import { studyGroupKeys } from "@/data/queryKeys";
+import { SelectOptionType } from "@/types/QuizType";
 
 export default function QuizCreationFormLayout({
   isEditMode,
@@ -48,6 +49,33 @@ export default function QuizCreationFormLayout({
   const [openModal] = useAtom(openErrorModalAtom);
   const [, setInvalidQuestionFormId] = useAtom(invalidQuestionFormIdAtom);
 
+  // localStorage에 임시저장
+  useEffect(() => {
+    // const intervalId = setInterval(() => {
+    //   localStorage.setItem(
+    //     "quizCreationInfo",
+    //     JSON.stringify(quizCreationInfo),
+    //   );
+    // }, 5000); // 5초마다 실행
+    // return () => clearInterval(intervalId);
+    if (quizCreationInfo.questions) {
+      localStorage.setItem(
+        "quizCreationInfo",
+        JSON.stringify(quizCreationInfo),
+      );
+    }
+  }, [quizCreationInfo.questions]);
+
+  // 퀴즈 불러오기
+  useEffect(() => {}, []);
+
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     requestQuiz();
+  //   }, 60000);
+  //   return () => clearInterval(intervalId);
+  // }, []);
+
   useEffect(() => {
     if (!quizCreationInfo?.questions?.length) {
       setIsQuizNextButtonEnabled(false);
@@ -66,13 +94,6 @@ export default function QuizCreationFormLayout({
     )!;
   };
 
-  // const getScopeKeyByTranslation = (translation: string): ViewScope | null => {
-  //   const entry = Object.entries(scopeTranslations).find(
-  //     ([, value]) => value === translation,
-  //   );
-  //   return entry ? (entry[0] as ViewScope) : null;
-  // };
-
   const requestUploadExplanationImages = async (
     uploadTargetImgs: File[],
   ): Promise<string[]> => {
@@ -80,9 +101,9 @@ export default function QuizCreationFormLayout({
       const paramObj: {
         image: File;
         imageTarget:
-          | "MEMBER_PROFILE"
-          | "STUDY_GROUP_PROFILE"
-          | "BOOK_QUIZ_ANSWER";
+        | "MEMBER_PROFILE"
+        | "STUDY_GROUP_PROFILE"
+        | "BOOK_QUIZ_ANSWER";
       } = {
         image: img,
         imageTarget: "BOOK_QUIZ_ANSWER",
@@ -137,6 +158,7 @@ export default function QuizCreationFormLayout({
       });
       setCreatedQuizId(data.id);
       // 완료 페이지로 이동
+      localStorage.removeItem("quizCreationInfo");
       navigate(ROUTES.CREATE_QUIZ_COMPLETE);
     },
   });
@@ -150,23 +172,11 @@ export default function QuizCreationFormLayout({
       quizService.modifyQuiz({ editQuizId, quiz }),
     onSuccess: () => {
       //navigate(ROUTES.ROOT);
+      localStorage.removeItem("quizCreationInfo");
     },
   });
 
   const requestQuiz = async () => {
-    if (
-      quizCreationInfo.viewScope === null
-      //|| quizCreationInfo.editScope === null
-    ) {
-      return;
-    }
-
-    // // 한글을 영어로 바꾸는 함수. 결과가 null이면 viewScope 값 그대로 사용
-    // const viewScopeKey: ViewScope =
-    //   getScopeKeyByTranslation(quizCreationInfo.viewScope) ??
-    //   quizCreationInfo.viewScope;
-
-
     if (
       quizCreationInfo.title === null ||
       quizCreationInfo.description === null ||
@@ -185,19 +195,35 @@ export default function QuizCreationFormLayout({
       bookId: quizCreationInfo.book.id,
       studyGroupId: quizCreationInfo.studyGroup?.id || undefined,
       questions: await setRequestQuestion(),
+      // temporary: isTemporary,
     };
     console.log("quiz!!", quiz);
 
     isEditMode
       ? requestModifyQuiz({ editQuizId: editQuizId!, quiz })
       : createQuiz(quiz);
+
     return;
   };
+
   const endStep = steps.length - 1;
+
+  const hasDuplicate = (arr: SelectOptionType[]) => {
+    const options: string[] = arr.map(({ option }) => option);
+    return new Set(options).size !== options.length;
+  };
 
   const goToNextStep = async () => {
     if (currentStep === 2.2) {
       for (const question of quizCreationInfo.questions ?? []) {
+        // - 질문 입력 안 했을 때: 질문을 입력해 주세요.
+        if (question.content.length === 0) {
+          setErrorModalTitle("질문을 입력해 주세요");
+          setInvalidQuestionFormId(question.id);
+          openModal!();
+          return;
+        }
+
         if (!question.answers?.length) {
           setErrorModalTitle("답안이 선택되었는지 확인하세요.");
           openModal!();
@@ -211,6 +237,26 @@ export default function QuizCreationFormLayout({
             openModal!();
             return;
           }
+        }
+        // - 옵션 하나도 없을 때: 선택지를 1개 이상 추가해 주세요.
+        if (
+          question.answerType !== "OX" &&
+          question.selectOptions.length === 0
+        ) {
+          setErrorModalTitle("선택지를 1개 이상 추가해 주세요");
+          setInvalidQuestionFormId(question.id);
+          openModal!();
+          return;
+        }
+
+        // -  중복된 옵션이 있을 때: 중복된 옵션입니다. 다시 입력해 주세요.
+        const selectOptions: SelectOptionType[] = question.selectOptions;
+        const duplicated: boolean = hasDuplicate(selectOptions);
+        if (duplicated) {
+          setErrorModalTitle("중복된 옵션입니다. 다시 입력해 주세요.");
+          setInvalidQuestionFormId(question.id);
+          openModal!();
+          return;
         }
         setInvalidQuestionFormId(undefined);
       }

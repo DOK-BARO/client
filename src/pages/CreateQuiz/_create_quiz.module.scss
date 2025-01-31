@@ -5,3 +5,8 @@
   @include flex(row);
   gap: 40px;
 }
+
+.prevent-leave-modal-content {
+  justify-self: start;
+  white-space: pre-line;
+}

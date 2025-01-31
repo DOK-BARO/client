@@ -242,7 +242,24 @@ export default function Index() {
 
       {blocker.state === "blocked" && (
         <Modal
-          title="정말 페이지를 나가시겠어요?"
+          contents={[
+            {
+              title: isEditMode
+                ? " 수정 내용이 저장되지 않았어요."
+                : "정말 페이지를 나가시겠어요?",
+              content: isEditMode ? (
+                <p className={styles["prevent-leave-modal-content"]}>
+                  {`수정하기 버튼을 누르지 않고 나가면 변경한 내용이 저장되지 않습니다.
+                  저장하지 않고 나가시겠습니까?`}
+                </p>
+              ) : (
+                <p className={styles["prevent-leave-modal-content"]}>
+                  {`만들기 버튼을 누르지 않고 나가면 변경한 내용이 저장되지 않습니다.
+                  저장하지 않고 나가시겠습니까?`}
+                </p>
+              ),
+            },
+          ]}
           closeModal={closePreventLeaveModal}
           showHeaderCloseButton={false}
           bottomButtons={[
@@ -254,7 +271,7 @@ export default function Index() {
               },
             },
             {
-              text: "계속 만들기",
+              text: isEditMode ? "수정 계속하기" : "계속 만들기",
               color: "primary",
               onClick: () => {
                 blocker.reset();

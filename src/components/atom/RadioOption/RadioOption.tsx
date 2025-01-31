@@ -57,6 +57,7 @@ const RadioOption: React.FC<RadioOptionProps> = ({
       ${styles[type]}
       ${checked ? styles["checked-focused-color"] : styles["focused-color"]}
 			`;
+
   return (
     <div
       key={option.id}
@@ -107,31 +108,26 @@ const RadioOption: React.FC<RadioOptionProps> = ({
           type === "solving-incorrect") && (
           <div className={styles["option-label-value"]}>{labelValue}</div>
         )}
-        <div data-no-dnd="true">
-          <button onClick={() => alert("잉")}>잉</button>
 
-          {type === "option-writing" && (
-            <div data-no-dnd="true">
-              <Button
-                data-no-dnd="true"
-                iconOnly
-                icon={
-                  <Close
-                    alt="옵션 삭제하기"
-                    width={20}
-                    height={20}
-                    stroke={gray90}
-                    strokeWidth={2}
-                  />
-                }
-                onClick={() => {
-                  console.log("옵션 삭제하기");
-                  deleteOption(option.id);
-                }}
-              />
-            </div>
-          )}
-        </div>
+        <Button
+          iconOnly
+          className={
+            styles[type === "option-writing" ? "visible" : "invisible"]
+          }
+          icon={
+            <Close
+              alt="옵션 삭제하기"
+              width={20}
+              height={20}
+              stroke={gray90}
+              strokeWidth={2}
+            />
+          }
+          onClick={() => {
+            deleteOption(option.id);
+          }}
+        />
+
         {type !== "option-writing" && (
           <div className={styles["empty-icon"]}></div>
         )}

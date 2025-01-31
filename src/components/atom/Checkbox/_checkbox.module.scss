@@ -45,6 +45,12 @@
   }
 }
 
+.visible {
+  opacity: 1;
+}
+.invisible {
+  opacity: 0;
+}
 
 .option-label-textarea {
   font-size: $font-size-medium;
@@ -61,7 +67,6 @@
     font-family: "Pretendard", sans-serif !important;
   }
 
-
   &:disabled {
     background-color: $gray-00;
   }
@@ -74,7 +79,6 @@
 
 .checkbox-default {
   @include basic-checkbox-button($default-color: $gray-60);
-
 }
 
 .checkbox-selected {
@@ -85,7 +89,7 @@
     border: 2px solid $primary;
   }
 
-  //체크된 체크박스 안에 네모 
+  //체크된 체크박스 안에 네모
   input[type="checkbox"]:checked::after {
     content: "";
     position: absolute;
@@ -116,7 +120,8 @@
       left: 0px;
       width: 18px;
       height: 18px;
-      background: url("/public/assets/svg/quizWriteForm/checkboxAnswer.svg") no-repeat;
+      background: url("/public/assets/svg/quizWriteForm/checkboxAnswer.svg")
+        no-repeat;
       transition: all 0.5s;
     }
   }
@@ -126,7 +131,6 @@
   }
 }
 
-
 .checkbox-black {
   @include basic-checkbox-button($default-color: $gray-60);
 
@@ -134,7 +138,7 @@
     border: 2px solid $gray-90;
   }
 
-  //체크된 체크박스 안에 네모 
+  //체크된 체크박스 안에 네모
   input[type="checkbox"]:checked::after {
     content: "";
     position: absolute;
@@ -164,7 +168,8 @@
       top: -4px;
       left: -4px;
       border-radius: 50%;
-      background: url("/public/assets/svg/solvingQuizFormLayout/correct.svg") no-repeat;
+      background: url("/public/assets/svg/solvingQuizFormLayout/correct.svg")
+        no-repeat;
     }
   }
 }
@@ -183,7 +188,8 @@
       height: 20px;
       top: -4px;
       left: -4px;
-      background: url("/public/assets/svg/solvingQuizFormLayout/incorrect.svg") no-repeat;
+      background: url("/public/assets/svg/solvingQuizFormLayout/incorrect.svg")
+        no-repeat;
     }
   }
 }

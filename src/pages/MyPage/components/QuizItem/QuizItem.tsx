@@ -11,30 +11,33 @@ import { studyGroupKeys } from "@/data/queryKeys";
 import { studyGroupService } from "@/services/server/studyGroupService";
 import GradeResultItem from "../GradeResultItem/GradeResultItem";
 import ROUTES from "@/data/routes";
+import { useAtom } from "jotai";
+import { currentUserAtom } from "@/store/userAtom";
 
-interface Prop {
+interface Props {
   quizData: StudyGroupMyUnSolvedQuizType;
   isSolved: boolean;
   studyGroupId: number | undefined;
 }
 
-export default function QuizItem({ quizData, isSolved, studyGroupId }: Prop) {
+export default function QuizItem({ quizData, isSolved, studyGroupId }: Props) {
   const navigate = useNavigate();
   const handleGoToSolveQuiz = () => {
     navigate(ROUTES.SOLVING_QUIZ(quizData.quiz.id));
   };
   const { openModal, closeModal, isModalOpen } = useModal();
 
+  const [currentUser] = useAtom(currentUserAtom);
   const { data: gradeResult, isLoading: isGradeResultLoading } = useQuery({
     queryKey: studyGroupKeys.quizGradeResult(studyGroupId!, quizData.quiz.id),
     queryFn: () =>
       studyGroupId
         ? studyGroupService.fetchQuizStudyGroupGradeResult({
-          studyGroupId,
-          quizId: quizData.quiz.id,
-        })
+            studyGroupId,
+            quizId: quizData.quiz.id,
+          })
         : null,
-    enabled: !!studyGroupId,
+    enabled: isModalOpen,
   });
 
   return (
@@ -46,43 +49,43 @@ export default function QuizItem({ quizData, isSolved, studyGroupId }: Prop) {
           contents={
             !isGradeResultLoading
               ? [
-                {
-                  title: "제출한 스터디원",
-                  content: gradeResult?.solvedMember ? (
-                    <>
-                      {gradeResult?.solvedMember.map((memberData) => (
-                        <GradeResultItem
-                          member={memberData.member}
-                          isActive={false}
-                          score={10}
-                          grade={1}
-                        />
-                      ))}
-                    </>
-                  ) : (
-                    <></>
-                  ),
-                },
-                {
-                  title: "미제출 스터디원",
-                  content: gradeResult?.unSolvedMember ? (
-                    <>
-                      {gradeResult?.unSolvedMember.map((member) => (
-                        <GradeResultItem
-                          key={member.id}
-                          member={member}
-                          isActive={false}
-                          score={10}
-                          grade={1}
-                          isSubmitted={false}
-                        />
-                      ))}
-                    </>
-                  ) : (
-                    <></>
-                  ),
-                },
-              ]
+                  {
+                    title: "제출한 스터디원",
+                    content: gradeResult?.solvedMember ? (
+                      <>
+                        {gradeResult?.solvedMember.map((memberData) => (
+                          <GradeResultItem
+                            member={memberData.member}
+                            isActive={memberData.member.id == currentUser?.id}
+                            score={10}
+                            grade={1}
+                          />
+                        ))}
+                      </>
+                    ) : (
+                      <></>
+                    ),
+                  },
+                  {
+                    title: "미제출 스터디원",
+                    content: gradeResult?.unSolvedMember ? (
+                      <>
+                        {gradeResult?.unSolvedMember.map((member) => (
+                          <GradeResultItem
+                            key={member.id}
+                            member={member}
+                            isActive={false}
+                            score={10}
+                            grade={1}
+                            isSubmitted={false}
+                          />
+                        ))}
+                      </>
+                    ) : (
+                      <></>
+                    ),
+                  },
+                ]
               : []
           }
           bottomButtons={[
@@ -92,11 +95,13 @@ export default function QuizItem({ quizData, isSolved, studyGroupId }: Prop) {
       ) : null}
       <div className={styles["left-container"]}>
         <Link to={`/book/${quizData.book.id}`}>
-          <img
-            src={quizData.book.imageUrl}
-            alt={quizData.book.title}
-            className={styles["quiz-image"]}
-          />
+          <div className={styles["img-container"]}>
+            <img
+              src={quizData.book.imageUrl}
+              alt={quizData.book.title}
+              className={styles.img}
+            />
+          </div>
         </Link>
         {/* TODO: 클래스 이름 변경 */}
         <span className={styles["date-container"]}>

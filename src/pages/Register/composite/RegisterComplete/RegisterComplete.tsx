@@ -33,7 +33,7 @@ export default function RegisterComplete() {
 
   return (
     <section className={styles["register-complete"]}>
-      <h3>회원가입 완료</h3>
+      <h3 className={styles["sr-only"]}>회원가입 완료</h3>
       <div className={styles["container"]}>
         <img
           src={registerCompleteImage}
@@ -48,7 +48,7 @@ export default function RegisterComplete() {
             {APP_NAME}와 함께 퀴즈를 풀어보세요.
           </p>
           <section className={styles["invite-code"]}>
-            <h4>초대 코드 입력</h4>
+            <h4 className={styles["sr-only"]}>초대 코드 입력</h4>
             <p>초대받은 스터디가 있나요?</p>
             <div className={styles["invite-code-input-container"]}>
               <Input
@@ -71,7 +71,7 @@ export default function RegisterComplete() {
             </div>
           </section>
           <section className={styles["new-quiz"]}>
-            <h4>이번주 신규 퀴즈</h4>
+            <h4 className={styles["sr-only"]}>이번주 신규 퀴즈</h4>
             <p>이번주 신규 퀴즈들이에요, 구경해보세요!</p>
             <div className={styles["new-quiz-container"]}>신규 퀴즈 리스트</div>
           </section>

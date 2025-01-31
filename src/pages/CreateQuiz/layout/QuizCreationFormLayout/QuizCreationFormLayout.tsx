@@ -2,7 +2,7 @@ import styles from "./_quiz_creation_form_layout.module.scss";
 import { Step } from "@/types/StepType";
 import Button from "@/components/atom/Button/Button";
 import RightArrow from "@/svg/RightArrow";
-import { gray0, gray60 } from "@/styles/abstracts/colors.ts";
+import { gray00, gray60 } from "@/styles/abstracts/colors.ts";
 import { useAtom } from "jotai";
 import {
   createdQuizIdAtom,
@@ -14,7 +14,6 @@ import {
   QuizQuestionRequestApiType,
   QuizRequestType,
 } from "@/types/QuizType";
-import { ViewScope, viewScopeTranslations } from "@/types/QuizType";
 import { imageService } from "@/services/server/imageService";
 import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
 import { quizService } from "@/services/server/quizService";
@@ -25,6 +24,8 @@ import { useEffect } from "react";
 import ROUTES from "@/data/routes";
 import { invalidQuestionFormIdAtom } from "@/store/quizAtom";
 import React from "react";
+import { queryClient } from "@/services/server/queryClient";
+import { studyGroupKeys } from "@/data/queryKeys";
 
 export default function QuizCreationFormLayout({
   isEditMode,
@@ -65,12 +66,12 @@ export default function QuizCreationFormLayout({
     )!;
   };
 
-  const getScopeKeyByTranslation = (translation: string): ViewScope | null => {
-    const entry = Object.entries(viewScopeTranslations).find(
-      ([, value]) => value === translation,
-    );
-    return entry ? (entry[0] as ViewScope) : null;
-  };
+  // const getScopeKeyByTranslation = (translation: string): ViewScope | null => {
+  //   const entry = Object.entries(scopeTranslations).find(
+  //     ([, value]) => value === translation,
+  //   );
+  //   return entry ? (entry[0] as ViewScope) : null;
+  // };
 
   const requestUploadExplanationImages = async (
     uploadTargetImgs: File[],
@@ -95,27 +96,25 @@ export default function QuizCreationFormLayout({
   const setRequestQuestion = async (): Promise<
     QuizQuestionRequestApiType[]
   > => {
-    try {
-      console.log("*********3");
-      const uploadedImgQuestions = quizCreationInfo.questions!.map(
-        async (question) => {
-          const { id, ...rest } = question;
-          void id;
-          return {
-            ...rest,
-            answerExplanationImages: await requestUploadExplanationImages(
-              question.answerExplanationImages,
-            ),
-            selectOptions: question.selectOptions.map(
-              (option) => option.option,
-            ),
-          };
-        },
-      );
-      return await Promise.all(uploadedImgQuestions);
-    } catch (error) {
-      throw error;
-    }
+    const uploadedImgQuestions = quizCreationInfo.questions!.map(
+      async (question) => {
+        const { id, ...rest } = question;
+
+        return {
+          // 기존 퀴즈 id의 경우 선택옵션 순서대로 0,1,2... 이런식으로 생성됨
+          // 새로 추가된 퀴즈 id의 경우 timemillis 값이므로 무조건 1000 이상의 수 이다.
+          // 질문 수정의 경우 기존 id, 질문을 새로 create하는 경우 undefined값으로 set
+          id: id > 1000 ? void id : id,
+          ...rest,
+          answerExplanationImages: await requestUploadExplanationImages(
+            question.answerExplanationImages,
+          ),
+          selectOptions: question.selectOptions.map((option) => option.option),
+          answerExplanationContent: question.answerExplanationContent,
+        };
+      },
+    );
+    return await Promise.all(uploadedImgQuestions);
   };
 
   const [, setCreatedQuizId] = useAtom(createdQuizIdAtom);
@@ -129,6 +128,13 @@ export default function QuizCreationFormLayout({
       if (!data) {
         return;
       }
+      queryClient.invalidateQueries({
+        queryKey: studyGroupKeys.myUnsolvedQuizList(
+          quizCreationInfo.studyGroup?.id,
+          {},
+        ),
+        exact: true,
+      });
       setCreatedQuizId(data.id);
       // 완료 페이지로 이동
       navigate(ROUTES.CREATE_QUIZ_COMPLETE);
@@ -148,8 +154,6 @@ export default function QuizCreationFormLayout({
   });
 
   const requestQuiz = async () => {
-    console.log("*************start: %o", quizCreationInfo);
-
     if (
       quizCreationInfo.viewScope === null
       //|| quizCreationInfo.editScope === null
@@ -157,29 +161,33 @@ export default function QuizCreationFormLayout({
       return;
     }
 
-    const viewScopeKey = getScopeKeyByTranslation(quizCreationInfo.viewScope);
+    // // 한글을 영어로 바꾸는 함수. 결과가 null이면 viewScope 값 그대로 사용
+    // const viewScopeKey: ViewScope =
+    //   getScopeKeyByTranslation(quizCreationInfo.viewScope) ??
+    //   quizCreationInfo.viewScope;
+
 
     if (
       quizCreationInfo.title === null ||
       quizCreationInfo.description === null ||
       quizCreationInfo.book === null ||
-      viewScopeKey === null ||
+      quizCreationInfo.viewScope === null ||
       quizCreationInfo.questions === null
     ) {
       return;
     }
-    console.log("*************3:");
 
     const quiz: QuizRequestType = {
       title: quizCreationInfo.title,
       description: quizCreationInfo.description,
-      viewScope: viewScopeKey,
+      viewScope: quizCreationInfo.viewScope,
       editScope: "CREATOR",
       bookId: quizCreationInfo.book.id,
       studyGroupId: quizCreationInfo.studyGroup?.id || undefined,
       questions: await setRequestQuestion(),
     };
-    console.log("*************end: %o", quiz);
+    console.log("quiz!!", quiz);
+
     isEditMode
       ? requestModifyQuiz({ editQuizId: editQuizId!, quiz })
       : createQuiz(quiz);
@@ -278,7 +286,7 @@ export default function QuizCreationFormLayout({
             alt="다음 버튼"
             width={20}
             height={20}
-            stroke={isQuizNextButtonEnabled ? gray0 : gray60}
+            stroke={isQuizNextButtonEnabled ? gray00 : gray60}
           />
         </Button>
       </div>

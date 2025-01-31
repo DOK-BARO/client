@@ -55,9 +55,8 @@ export const isQuestionsWrittenAtom = atom(
 
 // 공유 설정 단계 완료 여부 Atom
 export const isSetAtom = atom(
-  (get) =>
-    get(quizCreationInfoAtom).viewScope !== null,
-    //&& get(quizCreationInfoAtom).editScope !== null,
+  (get) => get(quizCreationInfoAtom).viewScope !== null,
+  //&& get(quizCreationInfoAtom).editScope !== null,
   (get, set, update: boolean) => {
     const quizCreationInfo = get(quizCreationInfoAtom);
     set(quizCreationInfoAtom, {
@@ -79,17 +78,25 @@ export const stepsCompletionStatusAtom = atom((get) => ({
 // 초기화
 export const resetQuizCreationStateAtom = atom(null, (get, set) => {
   const currentBook = get(quizCreationInfoAtom).book;
+  const currentStudyGroup = get(quizCreationInfoAtom).studyGroup;
 
-  // book은 유지
+  // book, studyGroup 있으면 유지
   set(quizCreationInfoAtom, {
     ...initialQuizCreationInfo,
-    book: currentBook,
+    ...(currentBook ? { book: currentBook } : {}),
+    ...(currentStudyGroup ? { studyGroup: currentStudyGroup } : {}),
   });
-
   set(isQuizNextButtonEnabledAtom, initialIsQuizNextButtonEnabled);
   set(errorModalTitleAtom, initialErrorModalTitle);
   set(selectedOptionsAtom, initialSelectedOptions);
   set(createdQuizIdAtom, initialQuizId);
+});
+
+export const resetQuizCreationBookStateAtom = atom(null, (_, set) => {
+  set(quizCreationInfoAtom, {
+    ...initialQuizCreationInfo,
+    book: null,
+  });
 });
 
 export const quizzesLengthAtom = atom(0);

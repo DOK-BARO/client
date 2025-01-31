@@ -3,24 +3,16 @@ import styles from "./_checkbox.module.scss";
 import { Close } from "@/svg/Close";
 import { gray90 } from "@/styles/abstracts/colors";
 import Textarea from "../Textarea/Textarea";
-import correctIcon from "/assets/svg/common/correct.svg";
-import inCorrectIcon from "/assets/svg/common/incorrect.svg";
-import ReactMarkdown from "react-markdown";
-import rehypeHighlight from "rehype-highlight";
-import "highlight.js/styles/xcode.css";
 
 export type CheckboxStatusType =
-  | "checkbox-writing"
-  | "checkbox-written"
-  | "checkbox-default"
-  | "checkbox-correct"
-  | "checkbox-incorrect"
-  | "checkbox-selected"
-  | "checkbox-add"
-  | "solving-correct"
-  | "solving-incorrect"
-  | "checkbox-black";
-
+  | "checkbox-writing" // '퀴즈 작성'화면에서 텍스트를 작성 중인 경우
+  | "checkbox-written" // '퀴즈 작성'화면에서 텍스트를 작성하지 않는 경우
+  | "checkbox-default" // '문제풀기'화면에서 기본
+  | "checkbox-correct" // '퀴즈 작성'화면에서 정답으로 선택된 경우
+  | "checkbox-selected" // '문제풀기'화면에서 선택된 경우
+  | "solving-correct" // '문제풀기'화면에서 채점시 정답
+  | "solving-incorrect" // '문제풀기'화면에서 채점시 오답
+  | "checkbox-black"; // 퀴즈 신고하기
 interface CheckBoxProps {
   id: string;
   checked: boolean;
@@ -32,6 +24,8 @@ interface CheckBoxProps {
   onLabelValueChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   deleteOption?: (id: number) => void;
   textAreaRef?: React.RefObject<HTMLTextAreaElement>;
+  onFocus?: () => void;
+  onBlur?: () => void;
   fullWidth?: boolean;
 }
 
@@ -41,10 +35,12 @@ export default function CheckBox({
   type = "checkbox-default",
   onChange,
   value,
-  onLabelValueChange = () => {},
-  deleteOption = () => {},
+  onLabelValueChange = () => { },
+  deleteOption = () => { },
   fullWidth,
   textAreaRef,
+  onFocus = () => { },
+  onBlur = () => { },
   disabled,
 }: CheckBoxProps) {
   const optionMaxLength = 500;
@@ -53,54 +49,53 @@ export default function CheckBox({
 	${styles["option-container"]}
 	${fullWidth ? styles["full"] : ""}
 	${styles[type]}
+  ${checked ? styles["checked-focused-color"] : styles["focused-color"]}
 	`;
 
-  const icon = () => {
-    if (type) {
-      if (type === "checkbox-correct") {
-        return <img src={correctIcon} alt="정답인 선지입니다" />;
-      } else if (type === "checkbox-incorrect") {
-        return <img src={inCorrectIcon} alt="오답인 선지입니다" />;
-      } else {
-        return null;
-      }
-    }
-  };
-
   return (
-    <div className={containerClassName}>
-      <label className={`${styles["option-label"]}`}>
-        <input
-          id={id}
-          type="checkbox"
-          checked={checked}
-          onChange={onChange}
-          disabled={disabled}
-          value={value}
-        />
-        <div className={styles["checkbox"]}></div>
-        {type === "checkbox-writing" ? (
-          <Textarea
-            id={id}
-            value={value}
-            onChange={onLabelValueChange}
-            className={styles["option-label-textarea"]}
-            maxLength={optionMaxLength}
-            textAreaRef={textAreaRef}
-            type={"option-label"}
-            autoFocus
-            fullWidth
-          />
-        ) : (
-          <div
-            className={`${styles["option-label-value"]} ${styles["markdown-content"]}`}
-          >
-            <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
-              {value}
-            </ReactMarkdown>
-          </div>
-        )}
-
+    <div
+      key={id}
+      className={containerClassName}
+      onFocus={onFocus}
+      onBlur={onBlur}
+    >
+      <input
+        id={id}
+        type="checkbox"
+        checked={checked}
+        onChange={onChange}
+        disabled={disabled}
+        value={value}
+      />
+      <label
+        className={styles["option-label"]}
+        htmlFor={
+          type === "checkbox-default" || type === "checkbox-selected"
+            ? id.toString()
+            : undefined
+        }
+      >
+        {(type === "checkbox-writing" ||
+          type === "checkbox-written" ||
+          type === "checkbox-correct") && (
+            <Textarea
+              id={id}
+              value={value}
+              onChange={onLabelValueChange}
+              className={styles["option-label-textarea"]}
+              maxLength={optionMaxLength}
+              textAreaRef={textAreaRef}
+              type={"option-label"}
+              autoFocus
+              fullWidth
+            />
+          )
+        }
+        {(type === "checkbox-default" ||
+          type === "checkbox-selected" ||
+          type === "solving-correct" ||
+          type === "solving-incorrect") && (
+            <div className={styles["option-label-value"]}>{value}</div>)}
         {type === "checkbox-writing" && (
           <button
             className={styles["delete-option-button"]}
@@ -111,8 +106,7 @@ export default function CheckBox({
             <Close width={20} height={20} stroke={gray90} strokeWidth={2} />
           </button>
         )}
-        {icon() && <div>{icon()}</div>}
-        {type === "checkbox-written" && (
+        {type !== "checkbox-writing" && (
           <div className={styles["empty-icon"]}></div>
         )}
       </label>

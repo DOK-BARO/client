@@ -142,8 +142,8 @@ export default function TermsAgreement({
   // 필수 항목에 동의했을 때
   const isSubmitAble: boolean = terms
     ? Object.values(agreements).every(
-      (agreement) => agreement.checked || !agreement.isRequired,
-    )
+        (agreement) => agreement.checked || !agreement.isRequired,
+      )
     : false;
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -169,7 +169,7 @@ export default function TermsAgreement({
 
   return (
     <section className={styles["terms-agreement"]}>
-      <h3>서비스 이용약관 동의</h3>
+      <h3 className={styles["sr-only"]}>서비스 이용약관 동의</h3>
       <p className={styles["description"]}>
         {APP_NAME}의 서비스 이용약관에
         <br />
@@ -200,7 +200,9 @@ export default function TermsAgreement({
                 key={index}
                 className={styles["terms-agreement-item-fieldset"]}
               >
-                <legend>{service.primary ? "필수 약관" : "선택 약관"}</legend>
+                <legend className={styles["sr-only"]}>
+                  {service.primary ? "필수 약관" : "선택 약관"}
+                </legend>
                 <span className={styles["checkbox-label-button-container"]}>
                   <label htmlFor={service.title} className={styles.label}>
                     <CheckBox

@@ -37,10 +37,10 @@ const filterOptions: FilterOptionType<MyStudySolvedQuizzesFilterType>[] = [
   },
 ];
 
-interface Prop {
+interface Props {
   studyGroupId: number | undefined;
 }
-export default function StudyGroupSolvedQuiz({ studyGroupId }: Prop) {
+export default function StudyGroupSolvedQuiz({ studyGroupId }: Props) {
   const [filterCriteria, setFilterCriteria] = useAtom(
     myStudySolvedQuizFilterAtom,
   );
@@ -70,8 +70,8 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Prop) {
     queryFn: () =>
       studyGroupId
         ? studyGroupService.fetchStudyGroupMySolvedQuizzes(
-          studyGroupId,
-          parseQueryParams<
+            studyGroupId,
+            parseQueryParams<
               MyStudySolvedQuizzesSortType,
               FetchStudyGroupsParams
             >({
@@ -80,7 +80,7 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Prop) {
               page,
               size,
             }),
-        )
+          )
         : null,
     enabled: !!studyGroupId,
   });
@@ -97,6 +97,10 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Prop) {
   }, [endPageNumber]);
 
   const handleOptionClick = (filter: MyStudySolvedQuizzesFilterType) => {
+    setPaginationState({
+      ...paginationState,
+      currentPage: 1,
+    });
     setFilterCriteria(filter);
   };
 
@@ -124,12 +128,7 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Prop) {
           ))}
         </ol>
       ) : (
-        <NoDataSection
-          title="아직 제출한 퀴즈가 없어요 😔"
-          buttonName="퀴즈 풀기"
-          // TODO:
-          onClick={() => {}}
-        />
+        <NoDataSection title="아직 제출한 퀴즈가 없어요 😔" />
       )}
       {totalPagesLength && isQuizzesExist ? (
         <Pagination

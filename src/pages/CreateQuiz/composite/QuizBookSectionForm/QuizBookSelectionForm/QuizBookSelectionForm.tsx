@@ -5,7 +5,7 @@ import useInput from "@/hooks/useInput.ts";
 import { bookKeys } from "@/data/queryKeys.ts";
 import Input from "@/components/atom/Input/Input";
 import { Search } from "@/svg/Search";
-import { gray60 } from "@/styles/abstracts/colors";
+import { gray60, gray90 } from "@/styles/abstracts/colors";
 import useDebounce from "@/hooks/useDebounce";
 import { BookType } from "@/types/BookType";
 import { useAtom } from "jotai";
@@ -15,10 +15,12 @@ import { bookService } from "@/services/server/bookService";
 import { BookListItem } from "../BookListItem/BookListItem";
 import loadingIndicator from "/public/assets/svg/quizBookSelectionForm/loading.gif";
 import useOutsideClick from "@/hooks/useOutsideClick";
+import searchNotFound from "/public/assets/image/search-not-found.png";
 
 // 2. 도서 선택
 export default function QuizBookSelectionForm() {
-  const [isClicked, setIsClicked] = useState<boolean>(false);
+  const [isSearchInputClicked, setIsSearchInputClicked] =
+    useState<boolean>(false);
   const inputRef = useRef<HTMLDivElement>(null);
   const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
     isQuizNextButtonEnabledAtom,
@@ -32,8 +34,6 @@ export default function QuizBookSelectionForm() {
 
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
-
-  // console.log("quizCreationInfo", quizCreationInfo);
 
   const [tempSelectedBook, setTempSelectedBook] = useState<BookType | null>(
     quizCreationInfo.book,
@@ -60,7 +60,7 @@ export default function QuizBookSelectionForm() {
     }
   }, [debouncedSearchValue, refetch]);
 
-  const isActuallyLoading = isLoading || isFetching;
+  const isBookSearching = isLoading || isFetching;
 
   useEffect(() => {
     if (!selectedBook) {
@@ -68,7 +68,7 @@ export default function QuizBookSelectionForm() {
     }
   }, []);
 
-  useOutsideClick([inputRef], () => setIsClicked(false));
+  useOutsideClick([inputRef], () => setIsSearchInputClicked(false));
 
   const handleSearchBook = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChangeSearchValue(e);
@@ -89,7 +89,7 @@ export default function QuizBookSelectionForm() {
 
   // 인풋창 클릭
   const handleClickInput = () => {
-    setIsClicked(true);
+    setIsSearchInputClicked(true);
   };
 
   return (
@@ -99,9 +99,11 @@ export default function QuizBookSelectionForm() {
       onClick={handleClickInput}
     >
       <Input
-        leftIcon={<Search width={20} stroke={gray60} />}
+        leftIcon={
+          <Search width={20} stroke={isSearchInputClicked ? gray90 : gray60} />
+        }
         rightIcon={
-          isActuallyLoading ? (
+          isBookSearching ? (
             <img src={loadingIndicator} width={24} />
           ) : undefined
         }
@@ -109,14 +111,14 @@ export default function QuizBookSelectionForm() {
         value={searchValue}
         id="book-name"
         placeholder="책이나 저자로 검색해보세요."
-        color={isClicked ? "black" : "default"}
+        color={isSearchInputClicked ? "black" : "default"}
         size="large"
         fullWidth
       />
 
       {searchedBooks && searchedBooks.length > 0 ? (
         <ul
-          className={styles["selection-list"]}
+          className={`${styles["selection-list"]}`}
           role="listbox"
           aria-label="도서 선택 상자"
         >
@@ -143,15 +145,24 @@ export default function QuizBookSelectionForm() {
           )}
 
           {/* 검색 결과가 없고, 검색어가 있는 경우 */}
-          {searchValue && (
+          {searchValue && !isBookSearching && searchedBooks?.length === 0 ? (
             <ul
-              className={styles["selection-list"]}
+              className={styles["selection-list-not-found"]}
               role="listbox"
               aria-label="도서 선택 상자"
             >
-              {!isActuallyLoading ? <li>검색 결과가 없습니다.</li> : null}
+              <li className={styles["not-found"]}>
+                <img
+                  src={searchNotFound}
+                  width={100}
+                  alt="검색 결과가 없습니다."
+                />
+                <p className={styles["not-found-text"]}>
+                  검색 결과가 없습니다.
+                </p>
+              </li>
             </ul>
-          )}
+          ) : null}
         </>
       )}
     </div>

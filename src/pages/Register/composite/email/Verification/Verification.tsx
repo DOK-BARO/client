@@ -29,8 +29,13 @@ export default function Verification({
     isValid: isEmailValid,
   } = useInput(user.email, emailValidation);
 
-  const { handleCodeChange, handleKeyDown, codeList, combinedCode } =
-    useCodeInput();
+  const {
+    handleCodeChange,
+    handleKeyDown,
+    handlePaste,
+    codeList,
+    combinedCode,
+  } = useCodeInput();
 
   const [isMatch, setIsMatch] = useState<boolean | undefined>(undefined);
   const [isEmailSent, setIsEmailSent] = useState<boolean>(false);
@@ -129,7 +134,7 @@ export default function Verification({
 
   return (
     <section className={styles["verification"]}>
-      <h3>로그인 이메일 입력</h3>
+      <h3 className={styles["sr-only"]}>로그인 이메일 입력</h3>
       <p className={styles["description"]}>
         {!isEmailSent ? (
           <>
@@ -175,6 +180,7 @@ export default function Verification({
           borderColor={combinedCode.length !== 6 ? "default" : "black"}
           onCodeChange={handleCodeChange}
           onKeyDown={handleKeyDown}
+          onPaste={handlePaste}
           isMatch={isMatch ?? true}
           errorMessage="인증 코드가 일치하지 않습니다."
         />

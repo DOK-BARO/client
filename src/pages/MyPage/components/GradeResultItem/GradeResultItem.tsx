@@ -1,6 +1,6 @@
 import { ScoreBadge } from "@/svg/ScoreBadge";
 import styles from "./_grade_result_item.module.scss";
-import { gray0, gray30 } from "@/styles/abstracts/colors";
+import { gray00, gray30 } from "@/styles/abstracts/colors";
 import memberCircle from "/public/assets/svg/myPage/member-circle.svg";
 import { StudyGroupMemberType } from "@/types/StudyGroupType";
 interface Props {
@@ -25,7 +25,7 @@ export default function GradeResultItem({
             <ScoreBadge
               width={16}
               height={16}
-              fill={isActive ? gray0 : gray30}
+              fill={isActive ? gray00 : gray30}
               alt={`${score.toString()}등`}
             />
             <p className={styles.grade}>{grade}</p>

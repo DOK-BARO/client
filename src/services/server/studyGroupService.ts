@@ -162,12 +162,9 @@ class StudyGroupService {
     newLeaderId: number;
   }): Promise<void> => {
     try {
-      await axiosInstance.post(
-        `/study-groups/${studyGroupId}/change-leader`,
-        {
-          newLeaderId,
-        },
-      );
+      await axiosInstance.post(`/study-groups/${studyGroupId}/change-leader`, {
+        newLeaderId,
+      });
       // console.log(response);
     } catch (error) {
       handleAxiosError(error);
@@ -183,12 +180,9 @@ class StudyGroupService {
     memberId: number;
   }): Promise<void> => {
     try {
-      await axiosInstance.post(
-        `/study-groups/${studyGroupId}/withdraw`,
-        {
-          memberId,
-        },
-      );
+      await axiosInstance.post(`/study-groups/${studyGroupId}/withdraw`, {
+        memberId,
+      });
       // console.log(response);
     } catch (error) {
       handleAxiosError(error);

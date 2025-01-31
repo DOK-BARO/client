@@ -3,7 +3,6 @@ import styles from "./_question_form.module.scss";
 import Textarea from "@/components/atom/Textarea/Textarea";
 import { ImageAdd } from "@/svg/QuizWriteForm/ImageAdd";
 import QuestionFormHeader from "./QuestionFormHeader";
-import { QuestionFormMode } from "@/data/constants.ts";
 import { QuestionTemplateType as QuestionTemplateType } from "@/types/QuestionTemplateType";
 import { UlList } from "@/svg/QuizWriteForm/UlList";
 import { OlList } from "@/svg/QuizWriteForm/OlList";
@@ -81,9 +80,6 @@ export default function QuestionForm({
 
   const [questionFormType, setQuestionFormType] =
     useState<QuestionTemplateType>(setInitialFormType());
-  const [questionFormMode, setQuestionFormMode] = useState<string>(
-    QuestionFormMode.QUESTION,
-  );
   const titleMaxLength = 25000;
   const descriptionMaxLength = 500;
 
@@ -126,10 +122,6 @@ export default function QuestionForm({
           : question,
       ) ?? [];
     updateQuizCreationInfo("questions", updatedQuestions);
-  };
-
-  const onQuizModeSelect = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setQuestionFormMode(e.currentTarget.value);
   };
 
   useEffect(() => {
@@ -295,18 +287,17 @@ export default function QuestionForm({
   const handleRef = (id: string) => (element: HTMLDivElement | null) => {
     formRefs.current[id] = element;
   };
+
   return (
     <section
       ref={handleRef(questionFormId.toString())}
-      className={`${styles["question-form"]} ${
-        styles[isInvalidForm ? "invalid" : ""]
-      }`}
+      className={`${styles["question-form"]} 
+      ${styles[isInvalidForm ? "invalid" : ""]}`}
     >
       <h2 className={styles["sr-only"]}>퀴즈 문제 작성 폼</h2>
+
       <QuestionFormHeader
         id={questionFormId}
-        quizMode={questionFormMode}
-        onQuizModeSelect={onQuizModeSelect}
         deleteQuizWriteForm={deleteQuestion}
         checkValidation={checkValidation}
       />
@@ -332,65 +323,63 @@ export default function QuestionForm({
         </div>
         {React.cloneElement(questionFormType.FormComponent, {
           questionFormId: questionFormId.toString(),
-          questionFormMode: questionFormMode,
         })}
       </div>
 
-      {questionFormMode === QuestionFormMode.ANSWER && (
-        <div className={styles["answer-area"]}>
-          <div className={styles["answer-area-header"]}>
-            <span>답안 설명</span>
-            <input
-              className={styles["sr-only"]}
-              type="file"
-              accept="image/*"
-              ref={fileInputRef}
-              onChange={handleImageChange}
-              multiple
-            />
-            <button
-              onClick={handleButtonClick}
-              className={styles["image-add-button"]}
-            >
-              <ImageAdd width={24} height={24} />
-            </button>
-          </div>
-          <Textarea
-            className={styles["answer"]}
-            id={QuestionFormMode.ANSWER}
-            onChange={handleAnswerChange}
-            value={answerTextAreaValue}
-            maxLength={descriptionMaxLength}
-            placeholder={"답안에 대한 설명을 입력해주세요"}
-            textAreaRef={descriptionTextAreaRef}
-            maxLengthShow
-            fullWidth
+      <div className={styles["answer-area"]}>
+        <div className={styles["answer-area-header"]}>
+          <span>해설</span>
+          <input
+            className={styles["sr-only"]}
+            type="file"
+            accept="image/*"
+            ref={fileInputRef}
+            onChange={handleImageChange}
+            multiple
           />
-
-          {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
-          {/* TODO: refactor 퀴즈 풀기 해설과 같은 컴포넌트 */}
-          {imagePreview.length > 0 && (
-            <section className={styles["image-area"]}>
-              {imagePreview.map((image, index) => (
-                <div className={styles["image-item-container"]} key={index}>
-                  <img
-                    key={index}
-                    src={image}
-                    alt={`이미지 미리보기 ${index + 1}`}
-                    className={styles["image"]}
-                  />
-                  <button
-                    className={styles["delete-button"]}
-                    onClick={() => handleDeleteImage(index)}
-                  >
-                    <img src={deleteIcon} />
-                  </button>
-                </div>
-              ))}
-            </section>
-          )}
+          <button
+            onClick={handleButtonClick}
+            className={styles["image-add-button"]}
+          >
+            <ImageAdd width={24} height={24} />
+          </button>
         </div>
-      )}
+        <Textarea
+          className={styles["answer"]}
+          id={questionFormId.toString()}
+          onChange={handleAnswerChange}
+          value={answerTextAreaValue}
+          maxLength={descriptionMaxLength}
+          placeholder={"답안에 대한 설명을 입력해주세요"}
+          textAreaRef={descriptionTextAreaRef}
+          maxLengthShow
+          fullWidth
+        />
+
+        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+        {/* TODO: refactor 퀴즈 풀기 해설과 같은 컴포넌트 */}
+        {imagePreview.length > 0 && (
+          <section className={styles["image-area"]}>
+            {imagePreview.map((image, index) => (
+              <div className={styles["image-item-container"]} key={index}>
+                <img
+                  key={index}
+                  src={image}
+                  alt={`이미지 미리보기 ${index + 1}`}
+                  className={styles["image"]}
+                />
+                <button
+                  className={styles["delete-button"]}
+                  onClick={() => handleDeleteImage(index)}
+                >
+                  <img src={deleteIcon} />
+                </button>
+              </div>
+            ))}
+          </section>
+        )}
+      </div>
+      {/* </div> */}
     </section>
   );
 }

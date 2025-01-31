@@ -1,19 +1,18 @@
 import React from "react";
 import { SVGProps } from "@/types/SVGProps";
 
-// 살짝 더 작음
 export const ArrowDown: React.FC<SVGProps> = ({ alt, ...props }) => {
   return (
     <svg
       width={props.width}
       height={props.height}
-      viewBox={"0 0 24 24"}
+      viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
       <title id="svgTitle">{alt}</title>
       <path
-        d="M7 10L12.0008 14.58L17 10"
+        d="M5 8L10.0008 12.58L15 8"
         stroke={props.stroke}
         strokeWidth="2"
         strokeLinecap="round"

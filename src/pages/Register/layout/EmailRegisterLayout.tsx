@@ -19,16 +19,16 @@ const EmailRegisterLayout = () => {
 
   const renderStepComponent = () => {
     switch (step) {
-    case 1:
-      return <TermsAgreement setStep={setStep} />;
-    case 2:
-      return <Verification setStep={setStep} />;
-    case 3:
-      return <PasswordSet setStep={setStep} />;
-    case 4:
-      return <ProfileSet />;
-    default:
-      return <div>404</div>;
+      case 1:
+        return <TermsAgreement setStep={setStep} />;
+      case 2:
+        return <Verification setStep={setStep} />;
+      case 3:
+        return <PasswordSet setStep={setStep} />;
+      case 4:
+        return <ProfileSet />;
+      default:
+        return <div>404</div>;
     }
   };
 
@@ -54,7 +54,7 @@ const EmailRegisterLayout = () => {
     <section className={styles["register-baseLayout"]}>
       <div className={styles["inner-container"]}>
         <header>
-          <h2>이메일 계정으로 회원가입</h2>
+          <h2 className={styles["sr-only"]}>이메일 계정으로 회원가입</h2>
           <p className={styles["title"]}>{title}</p>
           <ProgressBar ratio={Number(step) / Object.keys(titles).length} />
         </header>

@@ -16,6 +16,7 @@ import { ErrorType } from "@/types/ErrorType";
 import { UploadImageArgType } from "@/types/UploadImageType";
 import ProfileUploader from "../../components/ProfileUploader/ProfileUploader";
 import ROUTES from "@/data/routes";
+import defaultImage from "/public/assets/image/default-profile.png";
 
 export interface ProfileImageState {
   url: string;
@@ -28,9 +29,8 @@ export default function ProfileSet() {
   const navigate = useNavigate();
   const [, setCurrentUser] = useAtom(currentUserAtom);
 
-  const defaultImagePath = "/public/assets/image/default-profile.png";
   const [profileImage, setProfileImage] = useState<ProfileImageState>({
-    url: defaultImagePath,
+    url: defaultImage,
     file: null,
   });
   const [user, setUser] = useAtom<RegisterInfoType>(registerInfoAtom);
@@ -147,7 +147,7 @@ export default function ProfileSet() {
 
   return (
     <section className={styles["profile-set"]}>
-      <h3>프로필 설정</h3>
+      <h3 className={styles["sr-only"]}>프로필 설정</h3>
       <p className={styles.description} data-for="profile-image">
         프로필을 설정해 주세요.
       </p>
@@ -156,7 +156,7 @@ export default function ProfileSet() {
           email={user.email}
           profileImage={profileImage}
           setProfileImage={setProfileImage}
-          defaultImagePath={defaultImagePath}
+          defaultImageUrl={defaultImage}
           // handleUploadImage={handleUploadImage}
         />
         <p className={styles.description} data-for="nickname">

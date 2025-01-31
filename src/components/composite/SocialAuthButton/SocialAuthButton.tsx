@@ -34,28 +34,28 @@ const SocialAuthButton: React.FC<{
     let socialTypeText = "";
     let socialTypeImg: ReactElement = <></>;
     switch (socialType) {
-    case SocialLoginType.KAKAO:
-      socialTypeText = "카카오계정으로";
-      socialTypeImg = <Kakao alt="카카오 로고" />;
-      break;
-    case SocialLoginType.GOOGLE:
-      socialTypeText = "구글계정으로";
-      socialTypeImg = <Google alt="구글 로고" />;
-      break;
-    case SocialLoginType.NAVER:
-      socialTypeText = "네이버계정으로";
-      socialTypeImg = <Naver alt="네이버 로고" />;
-      break;
-    case SocialLoginType.GITHUB:
-      socialTypeText = "깃허브계정으로";
-      socialTypeImg = <Github alt="깃허브 로고" />;
-      break;
-    case SocialLoginType.EMAIL:
-      socialTypeText = "이메일로";
-      socialTypeImg = <Email alt="이메일 아이콘" />;
-      break;
-    default:
-      throw new Error("존재하지 않는 Auth Type입니다.");
+      case SocialLoginType.KAKAO:
+        socialTypeText = "카카오계정으로";
+        socialTypeImg = <Kakao alt="카카오 로고" />;
+        break;
+      case SocialLoginType.GOOGLE:
+        socialTypeText = "구글계정으로";
+        socialTypeImg = <Google alt="구글 로고" />;
+        break;
+      case SocialLoginType.NAVER:
+        socialTypeText = "네이버계정으로";
+        socialTypeImg = <Naver alt="네이버 로고" />;
+        break;
+      case SocialLoginType.GITHUB:
+        socialTypeText = "깃허브계정으로";
+        socialTypeImg = <Github alt="깃허브 로고" />;
+        break;
+      case SocialLoginType.EMAIL:
+        socialTypeText = "이메일로";
+        socialTypeImg = <Email alt="이메일 아이콘" />;
+        break;
+      default:
+        throw new Error("존재하지 않는 Auth Type입니다.");
     }
 
     return { socialTypeText, socialTypeImg };

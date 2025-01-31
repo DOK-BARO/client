@@ -35,7 +35,7 @@ export default function Index() {
       authors: data!.authors,
     };
     updateQuizCreationInfo("book", book);
-    navigate(ROUTES.CREATE_QUIZ);
+    navigate(ROUTES.CREATE_QUIZ());
   };
 
   if (isLoading) {
@@ -59,7 +59,7 @@ export default function Index() {
         />
         <QuizListSection
           bookId={id ?? "0"}
-          onGoToMakeQuiz={handleGoToMakeQuiz}
+          // onGoToMakeQuiz={handleGoToMakeQuiz}
         />
       </div>
     </section>

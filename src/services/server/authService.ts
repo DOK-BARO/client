@@ -15,8 +15,9 @@ class AuthService {
     socialType: SocialLoginType;
     redirectUrl: string;
   }): void => {
-    window.location.href = `${import.meta.env.VITE_API_URL
-      }/auth/login/oauth2/${socialType.toLocaleLowerCase()}?redirect-url=${redirectUrl}`;
+    window.location.href = `${
+      import.meta.env.VITE_API_URL
+    }/auth/login/oauth2/${socialType.toLocaleLowerCase()}?redirect-url=${redirectUrl}`;
   };
 
   // 이메일 회원가입
@@ -160,12 +161,9 @@ class AuthService {
 
   resendEmailCode = async (email: string): Promise<void> => {
     try {
-      await axiosInstance.post(
-        "/email-authentications/recreate",
-        {
-          email: email,
-        },
-      );
+      await axiosInstance.post("/email-authentications/recreate", {
+        email: email,
+      });
       // 204
       // console.log(response);
     } catch (error) {
@@ -200,12 +198,9 @@ class AuthService {
   // 임시 비밀번호 발급
   issueTempPassword = async (email: string): Promise<void> => {
     try {
-      await axiosInstance.post(
-        "/accounts/email/issue-temporary-password",
-        {
-          email: email,
-        },
-      );
+      await axiosInstance.post("/accounts/email/issue-temporary-password", {
+        email: email,
+      });
       // console.log(response);
     } catch (error) {
       handleAxiosError(error);

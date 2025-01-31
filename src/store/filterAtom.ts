@@ -38,14 +38,14 @@ const DEFAULT_MY_STUDY_SOLVED_QUIZ_FILTER: MyStudySolvedQuizzesFilterType = {
 
 // 메인페이지 > 책 목록
 const DEFAULT_BOOK_FILTER: BooksFilterType = {
-  sort: "TITLE",
-  direction: "ASC",
+  sort: "QUIZ_COUNT",
+  direction: "DESC",
 };
 
 // 책 상세 페이지 > 퀴즈 목록
 const DEFAULT_QUIZZES_FILTER: QuizzesFilterType = {
   sort: "STAR_RATING",
-  direction: "ASC",
+  direction: "DESC",
 };
 
 // 마이 페이지 > 내가 만든 퀴즈
@@ -57,7 +57,7 @@ const DEFAULT_MY_MADE_QUIZZES_FILTER: MyMadeQuizzesFilterType = {
 // 퀴즈 상세 페이지 > 리뷰
 const DEFAULT_REVIEW_FILTER: ReviewsFilterType = {
   sort: "STAR_RATING",
-  direction: "ASC",
+  direction: "DESC",
 };
 
 // Atom 정의

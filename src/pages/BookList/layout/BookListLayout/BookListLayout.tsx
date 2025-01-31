@@ -66,8 +66,8 @@ export default function BookListLayout() {
 
   // URL로부터 queryParams 값 가져옴
   const category = queryParams.get("category") || undefined; // 기본값: 없음 (모든 책 목록)
-  const sort = queryParams.get("sort") || "TITLE"; // 기본값: 가나다
-  const direction = queryParams.get("direction") || "ASC"; // 기본값: ASC
+  const sort = queryParams.get("sort") || "QUIZ_COUNT"; // 기본값: 퀴즈순
+  const direction = queryParams.get("direction") || "DESC"; // 기본값: DESC
   const page = queryParams.get("page") || undefined; // parseQueryParams함수 안에서 기본값 1로 설정
   const size = 10; // 한번에 불러올 최대 길이: 책 목록에서는 10 고정값.
   const title = queryParams.get("title") || undefined;
@@ -88,6 +88,8 @@ export default function BookListLayout() {
         parseQueryParams({ title, category, sort, direction, page, size }),
       ),
   });
+
+  const bookListTitle = title ? `'${title}'에 대한 검색 결과` : "전체 책 목록";
 
   const books = booksData?.data;
   const endPageNumber = booksData?.endPageNumber;
@@ -134,7 +136,7 @@ export default function BookListLayout() {
 
       <div className={styles["book-list-container"]}>
         <h2 className={styles.title}>
-          {topParentCategoryInfo?.name || "전체 책 목록"}
+          {topParentCategoryInfo?.name || bookListTitle}
         </h2>
         <div className={styles["breadcrumb-filter-container"]}>
           {currentCategoryInfo ? (

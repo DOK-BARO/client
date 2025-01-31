@@ -5,11 +5,17 @@
   cursor: pointer;
   display: flex;
   flex-direction: column;
-  line-height: 1.5;
 
-  .img {
-    width: 100%;
+  .img-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 220px;
+
+    .img {
+      max-width: 160px;
+      height: auto;
+    }
   }
 
   &-info {

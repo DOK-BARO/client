@@ -2,7 +2,6 @@
 @import "../../../../styles/abstracts/mixins";
 
 .container {
-  line-height: 1.5;
   .review-info {
     display: flex;
     align-items: center;
@@ -22,7 +21,6 @@
       font-size: $font-size-medium;
       padding: 0.5px 8px;
       border-radius: 4px;
-      line-height: 1.5;
     }
   }
   .review-short-container {
@@ -36,8 +34,6 @@
     .review-short {
       display: flex;
       align-content: center;
-
-      line-height: inherit;
       gap: 6px;
       color: $gray-60;
       font-size: $font-size-large;
@@ -56,7 +52,6 @@
   }
   .comment {
     margin: 16px 0;
-    line-height: inherit;
   }
 
   .report-container {
@@ -67,7 +62,6 @@
       text-decoration: underline;
       font-size: 14px;
       font-weight: $font-weight-medium;
-      line-height: inherit;
       padding: 0;
       margin-left: auto;
     }

@@ -8,9 +8,11 @@
 }
 
 .title {
+  text-align: center;
   font-size: 32px;
   font-weight: $font-weight-bold;
   line-height: 150%;
+  white-space: pre-wrap;
 }
 
 .review-star-container {
@@ -19,7 +21,6 @@
 
 .request-text {
   font-size: 20px;
-  line-height: 150%;
 }
 
 .request-sub-text {

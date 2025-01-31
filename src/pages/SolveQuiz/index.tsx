@@ -8,7 +8,7 @@ import { quizService } from "@/services/server/quizService";
 import { useEffect, useState } from "react";
 import Button from "@/components/atom/Button/Button";
 import { ArrowRight } from "@/svg/ArrowRight";
-import { gray0 } from "@/styles/abstracts/colors";
+import { gray00, gray60 } from "@/styles/abstracts/colors";
 import { useAtom } from "jotai";
 import { selectedOptionsAtom } from "@/store/quizAtom";
 import { QuestionCheckedResult } from "@/types/QuizType";
@@ -24,6 +24,12 @@ import useModal from "@/hooks/useModal";
 import Textarea from "@/components/atom/Textarea/Textarea";
 import Modal from "@/components/atom/Modal/Modal";
 import CheckBox from "@/components/atom/Checkbox/Checkbox";
+import ImageLayer from "@/components/layout/ImageLayer/ImageLayer";
+
+export interface AnswerImageType {
+  index: number;
+  src: string;
+}
 
 // TODO: 신고하기 모달 컴포넌트 분리 (중복 사용됨)
 export default function Index() {
@@ -32,6 +38,15 @@ export default function Index() {
   const { quizId } = useParams<{
     quizId: string;
   }>();
+
+  const [clickedImage, setClickedImage] = useState<AnswerImageType | undefined>(
+    undefined,
+  );
+
+  // 해설 이미지 클릭 시 확대 보기
+  const handleImageClicked = (image: AnswerImageType) => {
+    setClickedImage(image);
+  };
 
   useEffect(() => {
     quizService.startSolvingQuiz(quizId!).then(({ id }) => {
@@ -105,7 +120,7 @@ export default function Index() {
     resetTextarea: resetOtherGrounds,
   } = useAutoResizeTextarea("", 40, 3); // TODO: Textarea 미세한 높이 차이 22.5 -> 23
   const [selectedReportReason, setSelectedReportReason] = useState<string[]>(
-    []
+    [],
   );
 
   useEffect(() => {
@@ -116,7 +131,7 @@ export default function Index() {
 
   useEffect(() => {
     const reportReasonTextList = reportReasons.filter(
-      (reason) => reason.checked
+      (reason) => reason.checked,
     );
     setSelectedReportReason(reportReasonTextList.map((item) => item.text));
   }, [reportReasons]);
@@ -228,14 +243,14 @@ export default function Index() {
       reportReasons.map((reason) =>
         reason.id === Number(id)
           ? { ...reason, checked: !reason.checked }
-          : reason
-      )
+          : reason,
+      ),
     );
   };
 
   const handleReportQuiz = () => {
     const selectedReportReasonFiltered = selectedReportReason.map((reason) =>
-      reason === "기타" ? OtherGrounds : reason
+      reason === "기타" ? OtherGrounds : reason,
     );
 
     reportQuiz({
@@ -248,8 +263,42 @@ export default function Index() {
     navigate(ROUTES.QUIZ_DETAIL(quiz.id));
   };
 
+  // 화살표 클릭 시
+  const handleArrowClick = (direction: "left" | "right") => {
+    setClickedImage((prev) => {
+      if (!prev || !questionCheckedResult?.answerExplanationImages)
+        return undefined;
+
+      const newIndex = direction === "left" ? prev.index - 1 : prev.index + 1;
+
+      if (
+        newIndex < 0 ||
+        newIndex >= questionCheckedResult.answerExplanationImages.length
+      ) {
+        return prev;
+      }
+
+      return {
+        index: newIndex,
+        src: questionCheckedResult.answerExplanationImages[newIndex],
+      };
+    });
+  };
+
+  const handleCloseLayer = () => {
+    setClickedImage(undefined);
+  };
+
   return (
     <section className={styles["container"]}>
+      {clickedImage !== undefined ? (
+        <ImageLayer
+          onCloseLayer={handleCloseLayer}
+          image={clickedImage}
+          onLeftArrowClick={() => handleArrowClick("left")}
+          onRightArrowClick={() => handleArrowClick("right")}
+        />
+      ) : null}
       {isReportConfirmModalOpen ? (
         <Modal
           title="신고하기"
@@ -318,7 +367,7 @@ export default function Index() {
               disabled:
                 selectedReportReason.length < 1 ||
                 selectedReportReason.some(
-                  (reason) => reason === "기타" && OtherGrounds === ""
+                  (reason) => reason === "기타" && OtherGrounds === "",
                 ),
             },
           ]}
@@ -361,7 +410,7 @@ export default function Index() {
             >
               해설
             </Button>
-            <div className={` ${styles["markdown-content"]}`}>
+            <div className={styles["markdown-content"]}>
               <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
                 {questionCheckedResult?.answerExplanationContent}
               </ReactMarkdown>
@@ -375,6 +424,9 @@ export default function Index() {
                       src={image}
                       alt={`해설 이미지 ${index + 1}`}
                       className={styles["image"]}
+                      onClick={() => {
+                        handleImageClicked({ index, src: image });
+                      }}
                     />
                   ),
                 )}
@@ -388,7 +440,13 @@ export default function Index() {
           onClick={handleQuestionSubmit}
           disabled={submitDisabled}
           color="primary"
-          icon={<ArrowRight stroke={gray0} width={20} height={20} />}
+          icon={
+            <ArrowRight
+              stroke={submitDisabled ? gray60 : gray00}
+              width={20}
+              height={20}
+            />
+          }
           className={styles["footer-btn"]}
           ableAnimation
         >
@@ -416,7 +474,7 @@ export default function Index() {
             <Button
               onClick={handleNextQuestionBtn}
               color="primary"
-              icon={<ArrowRight stroke={gray0} width={20} height={20} />}
+              icon={<ArrowRight stroke={gray00} width={20} height={20} />}
               className={styles["footer-btn"]}
             >
               {currentStep === quiz!.questions.length

@@ -28,11 +28,6 @@ export const ICON_SIZE = 20;
 
 export const APP_NAME = "DOKBARO";
 
-export const QuestionFormMode = {
-  QUESTION: "question",
-  ANSWER: "answer",
-} as const;
-
 export const BOOK_QUIZ_OPTION_MAX_LENGTH = 5;
 
 export const EXTERNAL_SERVICE_INTRODUCTION_PAGE =

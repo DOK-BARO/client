@@ -35,8 +35,6 @@
 
   &::placeholder {
     color: $gray-60;
-    font-family: inherit;
-    line-height: inherit;
   }
 
   &:focus {
@@ -45,15 +43,10 @@
 }
 
 @mixin textarea-base {
-  line-height: 1.5;
   overflow: hidden;
 
   & {
     resize: none;
-  }
-
-  &::placeholder {
-    line-height: 1.5;
   }
 }
 
@@ -191,4 +184,14 @@
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: 0;
+}
+.no-scroll {
+  overflow: hidden;
+  height: 100%;
+}
+
+@mixin text-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

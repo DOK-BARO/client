@@ -14,17 +14,27 @@ import incorrect from "/public/assets/svg/common/incorrect.svg";
 import useUpdateUser from "@/hooks/mutate/useUpdateUser";
 import useUploadImageToStorage from "@/hooks/mutate/useUploadImage";
 import { UploadImageArgType } from "@/types/UploadImageType";
+import defaultImage from "/public/assets/image/default-profile.png";
 
 export default function EditMyInfo() {
   const [currentUser] = useAtom(currentUserAtom);
-  const defaultImagePath = "/public/assets/image/default-profile.png";
   const defaultProfileState: ProfileImageState = {
-    url: currentUser?.profileImage ?? defaultImagePath,
+    url: currentUser?.profileImage ?? defaultImage,
     file: null,
   };
 
   const [profileImage, setProfileImage] =
     useState<ProfileImageState>(defaultProfileState);
+
+  useEffect(() => {
+    const profileImgState: ProfileImageState = {
+      url: currentUser?.profileImage ?? defaultImage,
+      file: null,
+    };
+    setProfileImage(profileImgState);
+  }, [currentUser?.profileImage]);
+
+
   const {
     value,
     onChange,
@@ -70,6 +80,9 @@ export default function EditMyInfo() {
       uploadImage(arg);
     }
   }, [profileImage.file]);
+
+
+
 
   return (
     <>

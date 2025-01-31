@@ -29,6 +29,7 @@ import { studyGroupService } from "@/services/server/studyGroupService.ts";
 import { StudyGroupType } from "@/types/StudyGroupType.ts";
 import { SelectOptionType } from "@/types/QuizType.ts";
 import { QuizQuestionType } from "@/types/QuizType.ts";
+import { resetQuizCreationBookStateAtom } from "@/store/quizAtom.ts";
 
 export default function Index() {
   const { id } = useParams();
@@ -45,13 +46,14 @@ export default function Index() {
 
   const { data: prevBook, isLoading: isBookLoading } = useQuery({
     queryKey: ["bookDetail", prevQuiz?.bookId],
-    queryFn: () => bookService.fetchBook(prevQuiz?.bookId.toString()!),
+    queryFn: () => bookService.fetchBook(prevQuiz?.bookId.toString() ?? ""),
     enabled: isEditMode && !!prevQuiz?.bookId,
   });
 
   const { data: studyGroupDetail, isLoading: isStudyGroupLoading } = useQuery({
     queryKey: ["studyGroupDetail", prevQuiz?.studyGroupId],
-    queryFn: () => studyGroupService.fetchStudyGroup(prevQuiz?.studyGroupId!),
+    queryFn: () =>
+      studyGroupService.fetchStudyGroup(prevQuiz?.studyGroupId ?? -1),
     enabled: isEditMode && !!prevQuiz?.studyGroupId,
   });
 
@@ -72,35 +74,37 @@ export default function Index() {
     async function initializeQuiz() {
       if (isEditMode) {
         const formattedBook: BookType = {
-          id: prevBook?.id!,
-          isbn: prevBook?.isbn!,
-          title: prevBook?.title!,
-          publisher: prevBook?.publisher!,
-          publishedAt: prevBook?.publishedAt!,
-          imageUrl: prevBook?.imageUrl!,
-          categories: prevBook?.categories!,
-          authors: prevBook?.authors!,
-        };
-        console.log("FormattedBook: %o", formattedBook);
-
-        const formattedStudyGroup: StudyGroupType = {
-          id: studyGroupDetail?.id!,
-          name: studyGroupDetail?.name!,
-          profileImageUrl: studyGroupDetail?.profileImageUrl,
+          id: prevBook?.id ?? -1,
+          isbn: prevBook?.isbn ?? "",
+          title: prevBook?.title ?? "",
+          publisher: prevBook?.publisher ?? "",
+          publishedAt: prevBook?.publishedAt ?? "",
+          imageUrl: prevBook?.imageUrl ?? "",
+          categories: prevBook?.categories ?? [],
+          authors: prevBook?.authors ?? [],
         };
 
-        let selectOptions: SelectOptionType[];
-        prevQuiz?.questions.forEach((question) => {
-          selectOptions = question.selectOptions.map((optionText, index) => {
-            const option: SelectOptionType = {
-              id: index,
-              option: optionText,
-              value: index.toString(),
-              answerIndex: index + 1,
-            };
-            return option;
-          });
-        });
+        let formattedStudyGroup: StudyGroupType | undefined = undefined;
+        if (studyGroupDetail != undefined) {
+          formattedStudyGroup = {
+            id: studyGroupDetail?.id,
+            name: studyGroupDetail?.name ?? "",
+            profileImageUrl: studyGroupDetail?.profileImageUrl,
+          };
+        }
+
+        // let selectOptions: SelectOptionType[];
+        // prevQuiz?.questions.forEach((question) => {
+        //   selectOptions = question.selectOptions.map((optionText, index) => {
+        //     const option: SelectOptionType = {
+        //       id: index,
+        //       option: optionText,
+        //       value: index.toString(),
+        //       answerIndex: index + 1,
+        //     };
+        //     return option;
+        //   });
+        // });
 
         const prevQuestions: QuizQuestionType[] = await Promise.all(
           prevQuiz?.questions.map(async (q, index) => {
@@ -123,24 +127,23 @@ export default function Index() {
               answerType: q.answerType,
               answers: q.answers,
             };
-          })!,
+          }) ?? [],
         );
 
         const quiz: QuizCreationType = {
-          title: prevQuiz?.title!,
-          description: prevQuiz?.description!,
+          title: prevQuiz?.title ?? "",
+          description: prevQuiz?.description ?? "",
           book: formattedBook,
-          viewScope: prevQuiz?.viewScope! as ViewScope,
+          viewScope: prevQuiz?.viewScope as ViewScope,
           editScope: "CREATOR" as EditScope,
           studyGroup: formattedStudyGroup,
           questions: prevQuestions,
         };
-        console.log("real: %o", quiz);
         setQuizCreationInfoAtom(quiz);
       }
     }
     initializeQuiz();
-  }, [prevQuiz, isEditMode]);
+  }, [prevQuiz, isEditMode, prevBook?.isbn, studyGroupDetail?.name]);
 
   // TODO: 외부 파일로 옮기기
   const steps: Step[] = useMemo(
@@ -199,11 +202,17 @@ export default function Index() {
   const { isModalOpen, openModal, closeModal } = useModal();
   const [, setOpenErrorModal] = useAtom(openErrorModalAtom);
   const resetQuizState = useSetAtom(resetQuizCreationStateAtom);
+  const resetBookState = useSetAtom(resetQuizCreationBookStateAtom);
 
   useEffect(() => {
     // 퀴즈 상태 초기화
-    setCurrentStep(0);
+    isEditMode ? setCurrentStep(2) : setCurrentStep(0);
     resetQuizState();
+    return () => {
+      // if (isEditMode) {
+      resetBookState();
+      // }
+    };
   }, []);
 
   useEffect(() => {

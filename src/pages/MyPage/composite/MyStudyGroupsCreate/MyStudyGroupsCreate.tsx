@@ -22,14 +22,17 @@ import useModal from "@/hooks/useModal";
 import Modal from "@/components/atom/Modal/Modal";
 import { Copy } from "@/svg/Copy";
 import { primary } from "@/styles/abstracts/colors";
+import defaultImage from "/public/assets/image/default-profile.png";
+import { useNavigate } from "react-router-dom";
+import { copyText } from "@/utils/copyText";
 
 export default function MyStudyGroupsCreate() {
-  const defaultImagePath = "/public/assets/image/default-profile.png";
+  const navigate = useNavigate();
   const { isModalOpen, closeModal, openModal } = useModal();
 
   const [, setMyPageTitle] = useAtom(myPageTitleAtom);
   const defaultProfileState: ProfileImageState = {
-    url: defaultImagePath,
+    url: defaultImage,
     file: null,
   };
   const [profileImage, setProfileImage] =
@@ -52,6 +55,11 @@ export default function MyStudyGroupsCreate() {
     setMyPageTitle("스터디 그룹 만들기");
     return () => setMyPageTitle("마이페이지");
   }, []);
+
+  const handleDoneClick = () => {
+    closeModal();
+    navigate(-1);
+  };
 
   // 새롭게 생성된 스터디그룹 아이디
   const [newStudyGroupId, setNewStudyGroupId] = useState<number>();
@@ -111,17 +119,11 @@ export default function MyStudyGroupsCreate() {
     }
   };
 
-  // 코드 복사하기
-  const copyCode = (code: string) => {
-    navigator.clipboard.writeText(code).then(() => {
-      toast.success("복사되었습니다.");
-    });
-  };
   const handleClickCopyCode = (e: React.MouseEvent<HTMLButtonElement>) => {
     const buttonText =
       e.currentTarget.querySelector("#invite-code")?.textContent;
     if (buttonText) {
-      copyCode(buttonText);
+      copyText(buttonText);
     }
   };
 
@@ -160,7 +162,7 @@ export default function MyStudyGroupsCreate() {
             {
               text: "완료",
               color: "primary",
-              onClick: closeModal,
+              onClick: handleDoneClick,
             },
           ]}
         />

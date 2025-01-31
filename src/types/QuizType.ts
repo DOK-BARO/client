@@ -73,7 +73,7 @@ export interface MySolvedQuizDataType {
   title: string;
   solvedAt: string;
   studyGroup?: MyQuizStudyGroupType;
-  quiz?: SolvedQuizType;
+  quiz: SolvedQuizType;
 }
 
 interface MyQuizStudyGroupType {
@@ -89,12 +89,12 @@ interface SolvedQuizType {
 
 export type ViewScope = "EVERYONE" | "STUDY_GROUP" | "CREATOR";
 export type EditScope = "EVERYONE" | "STUDY_GROUP" | "CREATOR";
-export const viewScopeTranslations: Record<ViewScope, string> = {
-  EVERYONE: "모두",
-  STUDY_GROUP: "스터디원만",
-  CREATOR: "나만",
+export const scopeTranslations: Record<string, ViewScope | EditScope> = {
+  모두: "EVERYONE",
+  스터디원만: "STUDY_GROUP",
+  나만: "CREATOR",
 };
-export const editScopeTranslations: Record<EditScope, string> = {
+export const scopeReverseTranslations: Record<ViewScope | EditScope, string> = {
   EVERYONE: "모두",
   STUDY_GROUP: "스터디원만",
   CREATOR: "나만",
@@ -148,6 +148,7 @@ export interface QuizRequestType {
 }
 
 export type QuizQuestionRequestApiType = {
+  id?: number; // 수정하기 api 요청 시 id가 없으면 create, 있으면 modify
   content: string;
   selectOptions: string[];
   answerExplanationContent: string;
@@ -185,7 +186,7 @@ export interface QuizSettingType {
   icon: string; // path
 }
 
-export interface SolvingQuizGradeReuslt {
+export interface SolvingQuizGradeResult {
   solvingQuizId: number;
   quizId: number;
   playerId: number;
@@ -193,7 +194,7 @@ export interface SolvingQuizGradeReuslt {
   correctCount: number;
 }
 
-export interface SolvingQuizStudyGroupGradeReuslt {
+export interface SolvingQuizStudyGroupGradeResult {
   quizId: number;
   studyGroupId: number;
   totalQuestionCount: number;

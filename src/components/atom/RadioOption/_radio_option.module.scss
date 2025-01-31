@@ -48,7 +48,8 @@
 .option-label-textarea {
   font-size: $font-size-medium;
   font-weight: $font-weight-regular;
-  line-height: 150%;
+  line-height: 1.5;
+  border-radius: 0;
 
   &:focus {
     background-color: $background;

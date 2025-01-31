@@ -48,6 +48,33 @@ export default function QuizCreationFormLayout({
   const [openModal] = useAtom(openErrorModalAtom);
   const [, setInvalidQuestionFormId] = useAtom(invalidQuestionFormIdAtom);
 
+  // localStorage에 임시저장
+  useEffect(() => {
+    // const intervalId = setInterval(() => {
+    //   localStorage.setItem(
+    //     "quizCreationInfo",
+    //     JSON.stringify(quizCreationInfo),
+    //   );
+    // }, 5000); // 5초마다 실행
+    // return () => clearInterval(intervalId);
+    if (quizCreationInfo.questions) {
+      localStorage.setItem(
+        "quizCreationInfo",
+        JSON.stringify(quizCreationInfo),
+      );
+    }
+  }, [quizCreationInfo.questions]);
+
+  // 퀴즈 불러오기
+  useEffect(() => {}, []);
+
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     requestQuiz();
+  //   }, 60000);
+  //   return () => clearInterval(intervalId);
+  // }, []);
+
   useEffect(() => {
     if (!quizCreationInfo?.questions?.length) {
       setIsQuizNextButtonEnabled(false);
@@ -137,6 +164,7 @@ export default function QuizCreationFormLayout({
       });
       setCreatedQuizId(data.id);
       // 완료 페이지로 이동
+      localStorage.removeItem("quizCreationInfo");
       navigate(ROUTES.CREATE_QUIZ_COMPLETE);
     },
   });
@@ -150,23 +178,12 @@ export default function QuizCreationFormLayout({
       quizService.modifyQuiz({ editQuizId, quiz }),
     onSuccess: () => {
       //navigate(ROUTES.ROOT);
+      localStorage.removeItem("quizCreationInfo");
     },
   });
 
   const requestQuiz = async () => {
-    if (
-      quizCreationInfo.viewScope === null
-      //|| quizCreationInfo.editScope === null
-    ) {
-      return;
-    }
-
-    // // 한글을 영어로 바꾸는 함수. 결과가 null이면 viewScope 값 그대로 사용
-    // const viewScopeKey: ViewScope =
-    //   getScopeKeyByTranslation(quizCreationInfo.viewScope) ??
-    //   quizCreationInfo.viewScope;
-
-
+    // isTemporary: 임시 저장 여부
     if (
       quizCreationInfo.title === null ||
       quizCreationInfo.description === null ||
@@ -185,14 +202,17 @@ export default function QuizCreationFormLayout({
       bookId: quizCreationInfo.book.id,
       studyGroupId: quizCreationInfo.studyGroup?.id || undefined,
       questions: await setRequestQuestion(),
+      // temporary: isTemporary,
     };
     console.log("quiz!!", quiz);
 
     isEditMode
       ? requestModifyQuiz({ editQuizId: editQuizId!, quiz })
       : createQuiz(quiz);
+
     return;
   };
+
   const endStep = steps.length - 1;
 
   const goToNextStep = async () => {

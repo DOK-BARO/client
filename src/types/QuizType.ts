@@ -145,6 +145,7 @@ export interface QuizRequestType {
   editScope: EditScope;
   studyGroupId?: number | null;
   questions: QuizQuestionRequestApiType[];
+  // temporary: boolean; // 임시 저장 여부
 }
 
 export type QuizQuestionRequestApiType = {

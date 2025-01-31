@@ -19,6 +19,9 @@ interface TextareaProps {
   fullWidth?: boolean;
   onFocus?: () => void;
   onBlur?: () => void;
+  onKeyDown?: (
+    e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => void;
   size?: "large" | "medium" | "small";
   type?: "option-label";
 }
@@ -38,14 +41,16 @@ const Textarea: React.FC<TextareaProps> = ({
   rows,
   textAreaRef,
   autoFocus,
-  onFocus = () => { },
-  onBlur = () => { },
+  onFocus = () => {},
+  onBlur = () => {},
+  onKeyDown = () => {},
   fullWidth = false,
   size = "medium",
   type = "",
 }) => {
-  const className = `${styles.textarea} ${styles[type]} ${styles[`textarea--${size}`]} ${isError ? styles["textarea--error"] : ""
-    } ${customClassName}  ${fullWidth ? styles["full"] : ""}`;
+  const className = `${styles.textarea} ${styles[type]} ${styles[`textarea--${size}`]} ${
+    isError ? styles["textarea--error"] : ""
+  } ${customClassName}  ${fullWidth ? styles["full"] : ""}`;
 
   return (
     <div
@@ -71,10 +76,11 @@ const Textarea: React.FC<TextareaProps> = ({
         onFocus={onFocus}
         onBlur={onBlur}
         autoFocus={autoFocus}
+        onKeyDown={onKeyDown}
       />
       {message ||
-        (maxLength && maxLengthShow) ||
-        (maxLength && maxLength <= value.length) ? (
+      (maxLength && maxLengthShow) ||
+      (maxLength && maxLength <= value.length) ? (
         <div className={styles["message-container"]}>
           {
             <span className={styles[`message${isError ? "--error" : ""}`]}>

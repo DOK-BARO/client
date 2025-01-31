@@ -36,7 +36,7 @@ export const CheckBoxQuestionTemplate: FC<{
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, checked } = event.target;
-    
+
     const currentQuestion: QuizQuestionType = quizCreationInfo.questions?.find(
       (question) => question.id!.toString() === questionFormId!,
     )!;
@@ -56,11 +56,11 @@ export const CheckBoxQuestionTemplate: FC<{
     const updatedQuestions = quizCreationInfo.questions!.map((question) =>
       question.id!.toString() === questionFormId
         ? {
-          ...question,
-          answers: checked
-            ? [...question.answers, currentAnswer]
-            : question.answers.filter((answer) => answer !== currentAnswer),
-        }
+            ...question,
+            answers: checked
+              ? [...question.answers, currentAnswer]
+              : question.answers.filter((answer) => answer !== currentAnswer),
+          }
         : question,
     );
     updateQuizCreationInfo("questions", updatedQuestions);
@@ -104,7 +104,7 @@ function AddOptionButton({ onAdd }: { onAdd: () => void }) {
     <div className={styles["option-add-button-container"]}>
       <button className={styles["option-add-button"]} onClick={onAdd}>
         <div className={styles["option-add-button-check-square"]} />
-        <span>옵션 추가하기</span>
+        <span data-no-dnd="true">옵션 추가하기</span>
       </button>
     </div>
   );

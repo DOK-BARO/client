@@ -319,6 +319,9 @@ export default function QuestionForm({
             placeholder="질문을 입력해주세요."
             textAreaRef={questionTextAreaRef}
             fullWidth
+            onKeyDown={(e) => {
+              e.stopPropagation();
+            }}
           />
         </div>
         {React.cloneElement(questionFormType.FormComponent, {
@@ -354,6 +357,9 @@ export default function QuestionForm({
           textAreaRef={descriptionTextAreaRef}
           maxLengthShow
           fullWidth
+          onKeyDown={(e) => {
+            e.stopPropagation();
+          }}
         />
 
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}

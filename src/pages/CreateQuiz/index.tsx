@@ -18,7 +18,7 @@ import Modal from "@/components/atom/Modal/Modal.tsx";
 import useModal from "@/hooks/useModal.ts";
 import { Step } from "@/types/StepType.ts";
 import QuizBookSelectionForm from "./composite/QuizBookSectionForm/QuizBookSelectionForm/QuizBookSelectionForm.tsx";
-import { useBlocker, useParams } from "react-router-dom";
+import { useBlocker, useNavigate, useParams } from "react-router-dom";
 import { quizKeys } from "@/data/queryKeys.ts";
 import { quizService } from "@/services/server/quizService.ts";
 import { useQuery } from "@tanstack/react-query";
@@ -31,14 +31,20 @@ import { SelectOptionType } from "@/types/QuizType.ts";
 import { QuizQuestionType } from "@/types/QuizType.ts";
 import { resetQuizCreationBookStateAtom } from "@/store/quizAtom.ts";
 import usePreventLeave from "@/hooks/usePreventLeave.ts";
+import { currentUserAtom } from "@/store/userAtom.ts";
+import ROUTES from "@/data/routes.ts";
+import { preventLeaveModalAtom } from "@/store/quizAtom.ts";
 
 export default function Index() {
   const { id } = useParams();
   const quizId = id && id !== ":id" ? id : null;
+  const navigate = useNavigate();
   const [isEditMode] = useState<boolean>(!!quizId);
   const [completionStatus] = useAtom(stepsCompletionStatusAtom);
 
   const [, setQuizCreationInfo] = useAtom(quizCreationInfoAtom);
+  const [preventLeaveModal] = useAtom(preventLeaveModalAtom);
+  const [currentUser] = useAtom(currentUserAtom);
   const blocker = useBlocker(true);
   const { closeModal: closePreventLeaveModal } = useModal();
   usePreventLeave();
@@ -60,6 +66,15 @@ export default function Index() {
       studyGroupService.fetchStudyGroup(prevQuiz?.studyGroupId ?? -1),
     enabled: isEditMode && !!prevQuiz?.studyGroupId,
   });
+
+  useEffect(() => {
+    if (!currentUser) {
+      navigate(ROUTES.ROOT);
+      if (blocker.proceed) {
+        blocker.proceed();
+      }
+    }
+  }, [currentUser]);
 
   async function convertUrlsToFiles(urls: string[]): Promise<File[]> {
     const files = await Promise.all(
@@ -257,6 +272,7 @@ export default function Index() {
         steps={steps}
         currentStep={currentStep}
         setCurrentStep={setCurrentStep}
+        blocker={blocker}
       />
       {/* TODO: 컴포넌트 분리 */}
 
@@ -272,7 +288,7 @@ export default function Index() {
         />
       )}
 
-      {blocker.state === "blocked" && (
+      {currentUser && preventLeaveModal && blocker.state === "blocked" && (
         <Modal
           contents={[
             {

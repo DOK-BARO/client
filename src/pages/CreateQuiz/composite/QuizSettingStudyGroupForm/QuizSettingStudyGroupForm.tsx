@@ -17,7 +17,7 @@ import { ErrorType } from "@/types/ErrorType";
 import toast from "react-hot-toast";
 import { studyGroupKeys } from "@/data/queryKeys";
 import { useAtom } from "jotai";
-import { isQuizNextButtonEnabledAtom, isSetAtom } from "@/store/quizAtom";
+import { isSetAtom } from "@/store/quizAtom";
 import { copyText } from "@/utils/copyText";
 
 // TODO: 컴포넌트 분리
@@ -59,15 +59,6 @@ export default function QuizSettingStudyGroupForm() {
 
   const [isNewStudyGroupAdded, setNewStudyGroupAdded] =
     useState<boolean>(false);
-  const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
-    isQuizNextButtonEnabledAtom,
-  );
-
-  useEffect(() => {
-    // TODO: 다음 버튼 누를 때 초록불 들어오게 하기
-    setIsQuizNextButtonEnabled(true);
-  }, [quizCreationInfo.studyGroup]);
-
   // 모달 안 인풋
   const {
     value: studyName,

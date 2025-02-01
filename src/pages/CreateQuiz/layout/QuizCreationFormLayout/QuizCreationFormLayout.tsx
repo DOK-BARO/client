@@ -101,9 +101,9 @@ export default function QuizCreationFormLayout({
       const paramObj: {
         image: File;
         imageTarget:
-        | "MEMBER_PROFILE"
-        | "STUDY_GROUP_PROFILE"
-        | "BOOK_QUIZ_ANSWER";
+          | "MEMBER_PROFILE"
+          | "STUDY_GROUP_PROFILE"
+          | "BOOK_QUIZ_ANSWER";
       } = {
         image: img,
         imageTarget: "BOOK_QUIZ_ANSWER",

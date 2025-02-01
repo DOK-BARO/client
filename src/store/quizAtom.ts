@@ -17,7 +17,7 @@ const initialQuizCreationInfo: QuizCreationType = {
 const initialSelectedOptions: string[] = [];
 const initialQuizId: number | undefined = undefined;
 const initialErrorModalTitle = "";
-const initialIsQuizNextButtonEnabled = false; // 퀴즈 생성 단계 다음 버튼의 enabled 여부를 저장
+const initialIsQuizNextButtonEnabled = true; // 퀴즈 생성 단계 다음 버튼의 enabled 여부를 저장
 
 {
   /* Atom 정의 */

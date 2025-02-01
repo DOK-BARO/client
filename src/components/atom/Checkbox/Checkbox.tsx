@@ -89,6 +89,9 @@ export default function CheckBox({
             type={"option-label"}
             autoFocus
             fullWidth
+            onKeyDown={(e) => {
+              e.stopPropagation();
+            }}
           />
         )}
         {(type === "checkbox-default" ||

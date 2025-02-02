@@ -126,7 +126,7 @@ export default function Index() {
         startSolvingQuiz(quizId);
       }
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, quizId, isUserLoading]);
 
   // 퀴즈 개별 신고
   const { mutate: reportQuiz } = useMutation<

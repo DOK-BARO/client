@@ -5,20 +5,38 @@ import StudyGroupSolvedQuiz from "../StudyGroupSolvedQuiz/studyGroupSolvedQuiz";
 import { useEffect } from "react";
 import { myPageTitleAtom, studyGroupAtom } from "@/store/myPageAtom";
 import { useAtom } from "jotai";
+import { studyGroupKeys } from "@/data/queryKeys";
+import { studyGroupService } from "@/services/server/studyGroupService";
+import { useQuery } from "@tanstack/react-query";
 
 export default function StudyGroup() {
   const { studyGroupId } = useParams();
   const id = studyGroupId ? Number(studyGroupId) : undefined;
 
+  // TODO: 중복. 훅으로 분리
+  const { data: studyGroupDetail, isLoading: isStudyGroupDetailLoading } =
+    useQuery({
+      queryKey: studyGroupKeys.detail(id),
+      queryFn: () => (id ? studyGroupService.fetchStudyGroup(id) : null),
+      enabled: !!id,
+    });
+
   const [, setMyPageTitle] = useAtom(myPageTitleAtom);
-  const [studyGroup] = useAtom(studyGroupAtom);
+  const [, setStudyGroup] = useAtom(studyGroupAtom);
 
   useEffect(() => {
-    if (studyGroup) {
-      setMyPageTitle(studyGroup.name);
+    if (!isStudyGroupDetailLoading && studyGroupDetail) {
+      setMyPageTitle(studyGroupDetail.name);
+      setStudyGroup({
+        id: studyGroupDetail.id,
+        name: studyGroupDetail.name,
+      });
     }
-    return () => setMyPageTitle("마이페이지");
-  }, [studyGroup]);
+    return () => {
+      setMyPageTitle("마이페이지");
+      setStudyGroup(undefined);
+    };
+  }, [studyGroupDetail]);
 
   return (
     <section className={styles.container}>

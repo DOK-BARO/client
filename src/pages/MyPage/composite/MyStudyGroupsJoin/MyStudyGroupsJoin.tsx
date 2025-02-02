@@ -29,6 +29,7 @@ export default function MyStudyGroupsJoin() {
   }, []);
 
   const { openModal, closeModal, isModalOpen } = useModal();
+  // TODO: 훅으로 분리하기 (중복 사용)
   const {
     handleCodeChange,
     handleKeyDown,
@@ -36,6 +37,7 @@ export default function MyStudyGroupsJoin() {
     codeList,
     combinedCode,
   } = useCodeInput();
+
   const { mutate: joinStudyGroup } = useMutation<void, ErrorType, string>({
     mutationFn: (inviteCode) => studyGroupService.joinStudyGroup(inviteCode),
     onError: () => {
@@ -48,6 +50,7 @@ export default function MyStudyGroupsJoin() {
     },
   });
 
+  // TODO: 중복 로직
   const { data: studyGroupDetail } = useQuery({
     queryKey: studyGroupKeys.detailByInviteCode(joinedStudyGroupInviteCode),
     queryFn: ({ queryKey }) => {
@@ -101,7 +104,7 @@ export default function MyStudyGroupsJoin() {
       <div className={styles["code-input-container"]}>
         <CodeInput
           codeList={codeList}
-          borderColor={"default"}
+          borderColor="default"
           onCodeChange={handleCodeChange}
           onKeyDown={handleKeyDown}
           onPaste={handlePaste}

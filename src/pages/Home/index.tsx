@@ -1,24 +1,24 @@
 import BookList from "@/pages/Home/components/composite/BookList/BookList";
-import useModal from "@/hooks/useModal.ts";
 import LoginModal from "@/components/composite/LoginModal/LoginModal";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import styles from "./_home.module.scss";
+import useLoginModal from "@/hooks/useLoginModal";
 
 export default function Index() {
-  const { isModalOpen, openModal, closeModal } = useModal();
+  const { isLoginModalOpen, openLoginModal, closeLoginModal } = useLoginModal();
   const location = useLocation();
 
   useEffect(() => {
     if (location.state?.openModal) {
-      openModal();
+      openLoginModal();
     }
   }, [location.state]);
 
   return (
     <section className={styles.container}>
       <BookList />
-      {isModalOpen && <LoginModal closeModal={closeModal} />}
+      {isLoginModalOpen && <LoginModal closeModal={closeLoginModal} />}
     </section>
   );
 }

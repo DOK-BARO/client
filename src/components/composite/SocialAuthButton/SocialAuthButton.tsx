@@ -7,7 +7,10 @@ import { Naver } from "@/svg/auth/Naver";
 import { Github } from "@/svg/auth/Github";
 import { Email } from "@/svg/auth/Email";
 import Button from "@/components/atom/Button/Button";
-import { isEmailLoginPageAtom } from "@/store/authModalAtom";
+import {
+  isEmailLoginPageAtom,
+  socialLoginRedirectUrlAtom,
+} from "@/store/authModalAtom";
 import { useAtom } from "jotai";
 import { authService } from "@/services/server/authService";
 
@@ -15,16 +18,22 @@ const SocialAuthButton: React.FC<{
   socialType: SocialLoginType;
 }> = ({ socialType }) => {
   const [, setIsEmailLoginPage] = useAtom(isEmailLoginPageAtom);
+  const [socialLoginRedirectUrl] = useAtom(socialLoginRedirectUrlAtom);
 
-  const handleAuth = async () => {
+  const handleAuth = () => {
     if (socialType === SocialLoginType.EMAIL) {
-      // 이메일 회원가입
-      // 이메일로 계속하기 누르면 로그인 창 뜨고 사용자가 선택해서 회원가입할 수 있도록 하기
+      // 이메일 회원가입: 로그인 창 뜬 후 사용자가 회원가입 클릭
       setIsEmailLoginPage(true);
     } else {
       // 소셜 회원가입
-      const redirectUrl = import.meta.env.VITE_DEFAULT_URL;
-      authService.socialSignupOrLogin({ socialType, redirectUrl });
+      sessionStorage.setItem("social-login-pending", "true");
+
+      const redirectUrl = socialLoginRedirectUrl;
+
+      authService.socialSignupOrLogin({
+        socialType,
+        redirectUrl,
+      });
     }
   };
 

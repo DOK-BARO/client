@@ -14,6 +14,7 @@ const useLoginModal = () => {
   const handleGoToLogin = () => {
     navigate(ROUTES.ROOT); //TODO: 랜딩페이지로 이동
     openLoginModal();
+    // 상태 초기화
   };
 
   return {

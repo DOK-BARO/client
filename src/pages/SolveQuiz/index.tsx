@@ -40,8 +40,6 @@ export interface AnswerImageType {
 }
 // TODO: 리팩토링 필요
 
-// TODO: 링크로 접속했을 때만 모달 뜨게 해야됨.. 클릭해서 들어갈 경우 안떠야함..하하하하ㅏㅠㅠㅠㅠ
-
 // TODO: 신고하기 모달 컴포넌트 분리 (중복 사용됨)
 export default function Index() {
   const [solvingQuizId, setSolvingQuizId] = useState<number>();

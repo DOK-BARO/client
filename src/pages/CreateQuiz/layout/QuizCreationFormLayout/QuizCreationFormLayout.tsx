@@ -20,13 +20,15 @@ import { quizService } from "@/services/server/quizService";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ROUTES from "@/data/routes";
 import { invalidQuestionFormIdAtom } from "@/store/quizAtom";
 import React from "react";
 import { queryClient } from "@/services/server/queryClient";
 import { studyGroupKeys } from "@/data/queryKeys";
 import { SelectOptionType } from "@/types/QuizType";
+import { preventLeaveModalAtom } from "@/store/quizAtom";
+import { Blocker } from "react-router-dom";
 
 export default function QuizCreationFormLayout({
   isEditMode,
@@ -34,12 +36,14 @@ export default function QuizCreationFormLayout({
   steps,
   currentStep,
   setCurrentStep,
+  blocker,
 }: {
   isEditMode: boolean;
   editQuizId?: string;
   steps: Step[];
   currentStep: number;
   setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
+  blocker: Blocker;
 }) {
   const navigate = useNavigate();
   const [isQuizNextButtonEnabled, setIsQuizNextButtonEnabled] =
@@ -48,6 +52,8 @@ export default function QuizCreationFormLayout({
   const [, setErrorModalTitle] = useAtom(errorModalTitleAtom);
   const [openModal] = useAtom(openErrorModalAtom);
   const [, setInvalidQuestionFormId] = useAtom(invalidQuestionFormIdAtom);
+  const [, setPreventLeaveModal] = useAtom(preventLeaveModalAtom);
+  const [isComplete, setIsComplete] = useState(false);
 
   // localStorage에 임시저장
   useEffect(() => {
@@ -139,6 +145,7 @@ export default function QuizCreationFormLayout({
   };
 
   const [, setCreatedQuizId] = useAtom(createdQuizIdAtom);
+
   const { mutate: createQuiz } = useMutation<
     { id: number } | null,
     ErrorType,
@@ -157,11 +164,22 @@ export default function QuizCreationFormLayout({
         exact: true,
       });
       setCreatedQuizId(data.id);
-      // 완료 페이지로 이동
       localStorage.removeItem("quizCreationInfo");
-      navigate(ROUTES.CREATE_QUIZ_COMPLETE);
+      // blocker사용떄문에 아래 useEFfect에서 페이지 이동
     },
   });
+
+  useEffect(() => {
+    // TODO: 페이지 이탈을 막는 모달을 예외처리하는 로직이 이상함
+    if (isComplete) {
+      navigate(ROUTES.CREATE_QUIZ_COMPLETE);
+      if (blocker.proceed && blocker.state === "blocked") {
+        blocker.proceed();
+        setIsComplete(false);
+        setPreventLeaveModal(true);
+      }
+    }
+  }, [blocker, isComplete]);
 
   const { mutate: requestModifyQuiz } = useMutation<
     void,
@@ -171,8 +189,8 @@ export default function QuizCreationFormLayout({
     mutationFn: ({ editQuizId, quiz }) =>
       quizService.modifyQuiz({ editQuizId, quiz }),
     onSuccess: () => {
-      //navigate(ROUTES.ROOT);
       localStorage.removeItem("quizCreationInfo");
+      // blocker사용떄문에 아래 useEFfect에서 페이지 이동
     },
   });
 
@@ -198,7 +216,7 @@ export default function QuizCreationFormLayout({
       // temporary: isTemporary,
     };
     console.log("quiz!!", quiz);
-
+    setIsComplete(true);
     isEditMode
       ? requestModifyQuiz({ editQuizId: editQuizId!, quiz })
       : createQuiz(quiz);
@@ -261,6 +279,8 @@ export default function QuizCreationFormLayout({
         setInvalidQuestionFormId(undefined);
       }
     } else if (currentStep == endStep) {
+      setPreventLeaveModal(false);
+
       await requestQuiz(); //TODO: 리팩토링 필요: 퀴즈 수정과 생성을 이 함수에서 같이 하고있음
       return;
     }

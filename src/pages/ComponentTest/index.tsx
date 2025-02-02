@@ -86,7 +86,6 @@ export default function Index() {
               <SocialAuthButton
                 key={`${socialType}-${authType}`}
                 socialType={socialType}
-                redirectUrl=""
               />
             ))}
           </div>

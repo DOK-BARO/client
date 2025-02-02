@@ -81,7 +81,7 @@ export default function StudyGroupSetting() {
   useEffect(() => {
     if (studyGroupDetail) {
       resetNameInput(studyGroupDetail.name);
-      ResetIntroductionTextarea(studyGroupDetail.introduction);
+      ResetIntroductionTextarea(studyGroupDetail.introduction ?? "");
 
       setProfileImage({
         url: studyGroupDetail.profileImageUrl ?? defaultImage,

@@ -23,7 +23,9 @@ interface Props {
 export default function QuizItem({ quizData, isSolved, studyGroupId }: Props) {
   const navigate = useNavigate();
   const handleGoToSolveQuiz = () => {
-    navigate(ROUTES.SOLVING_QUIZ(quizData.quiz.id));
+    navigate(ROUTES.SOLVING_QUIZ(quizData.quiz.id), {
+      state: { fromInternal: true },
+    });
   };
   const { openModal, closeModal, isModalOpen } = useModal();
 

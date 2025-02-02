@@ -13,6 +13,8 @@ export const registerInfoAtom = atom<RegisterInfoType>({
 
 // 현재 로그인한 사용자
 export const currentUserAtom = atom<UserType | null>(null);
+// 현재 로그인한 사용자 받아오는 로직 로딩중 여부
+export const isUserLoadingAtom = atom<boolean>(true);
 
 // 로그인 여부
 export const isLoggedInAtom = atom((get) => {

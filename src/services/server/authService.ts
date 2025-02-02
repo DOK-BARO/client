@@ -17,7 +17,8 @@ class AuthService {
   }): void => {
     window.location.href = `${
       import.meta.env.VITE_API_URL
-    }/auth/login/oauth2/${socialType.toLocaleLowerCase()}?redirect-url=${redirectUrl}`;
+    }/auth/login/oauth2/${socialType.toLocaleLowerCase()}?redirect-url=${redirectUrl}
+    `;
   };
 
   // 이메일 회원가입
@@ -75,7 +76,6 @@ class AuthService {
   fetchUser = async (isMainPage: boolean = false): Promise<UserType | null> => {
     try {
       const { data } = await axiosInstance.get("/members/login-user");
-      // console.log("FETchUser", data);
       return data;
     } catch (error) {
       if (isMainPage) {

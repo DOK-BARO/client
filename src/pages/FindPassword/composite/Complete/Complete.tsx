@@ -2,22 +2,22 @@ import Button from "@/components/atom/Button/Button";
 import styles from "./_complete.module.scss";
 import { useAtom } from "jotai";
 import { isEmailLoginPageAtom } from "@/store/authModalAtom";
-import useModal from "@/hooks/useModal";
 import LoginModal from "@/components/composite/LoginModal/LoginModal";
+import useLoginModal from "@/hooks/useLoginModal";
 
 export default function Complete() {
   const emailAddress = "dokbaro@gmail.com";
   const [, setIsEmailLoginPage] = useAtom(isEmailLoginPageAtom);
-  const { isModalOpen, openModal, closeModal } = useModal();
+  const { isLoginModalOpen, openLoginModal, closeLoginModal } = useLoginModal();
 
   const handleLoginClick = () => {
     setIsEmailLoginPage(true);
-    openModal();
+    openLoginModal();
   };
   const handleResendEmail = () => {};
   return (
     <section className={styles.complete}>
-      {isModalOpen ? <LoginModal closeModal={closeModal} /> : null}
+      {isLoginModalOpen ? <LoginModal closeModal={closeLoginModal} /> : null}
       <h3>임시 비밀번호 발송 완료</h3>
       <p className={styles.description}>
         {emailAddress}s

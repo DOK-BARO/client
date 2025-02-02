@@ -52,7 +52,7 @@ export default function QuizItem({ quizData, isSolved, studyGroupId }: Props) {
                   {
                     title: "제출한 스터디원",
                     content: gradeResult?.solvedMember ? (
-                      <>
+                      <div className={styles["grade-result-container"]}>
                         {gradeResult?.solvedMember.map((memberData) => (
                           <GradeResultItem
                             member={memberData.member}
@@ -61,7 +61,7 @@ export default function QuizItem({ quizData, isSolved, studyGroupId }: Props) {
                             grade={1}
                           />
                         ))}
-                      </>
+                      </div>
                     ) : (
                       <></>
                     ),
@@ -69,18 +69,18 @@ export default function QuizItem({ quizData, isSolved, studyGroupId }: Props) {
                   {
                     title: "미제출 스터디원",
                     content: gradeResult?.unSolvedMember ? (
-                      <>
+                      <div className={styles["grade-result-container"]}>
                         {gradeResult?.unSolvedMember.map((member) => (
                           <GradeResultItem
                             key={member.id}
                             member={member}
-                            isActive={false}
+                            isActive={member.id == currentUser?.id}
                             score={10}
                             grade={1}
                             isSubmitted={false}
                           />
                         ))}
-                      </>
+                      </div>
                     ) : (
                       <></>
                     ),

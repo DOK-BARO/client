@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "@/components/atom/Button/Button";
 import QuestionForm from "@/pages/CreateQuiz/composite/QuizWriteForm/QuestionForm";
 import { primary } from "@/styles/abstracts/colors.ts";
@@ -118,6 +118,16 @@ const QuizWriteForm = React.memo(() => {
     const [questionForms, setQuestionForms] =
       useState<QuestionFormType[]>(setInitialForms());
 
+    const [isInitialized, setIsInitialized] = useState<boolean>(false);
+    useEffect(() => {
+      if (isInitialized) {
+        return;
+      }
+      // 초기화
+      setQuestionForms([]);
+      setIsInitialized(true);
+    }, [quizCreationInfo, isInitialized]);
+
     const handleDragStart = (event: DragStartEvent) => {
       const { active } = event;
       setActiveFormId(active.id.toString());
@@ -192,7 +202,7 @@ const QuizWriteForm = React.memo(() => {
       ]);
     };
 
-    return (
+    return isInitialized ? (
       <section>
         <DndContext
           sensors={sensors}
@@ -238,6 +248,8 @@ const QuizWriteForm = React.memo(() => {
           문제 추가하기
         </Button>
       </section>
+    ) : (
+      <div>됴잉</div>
     );
   }
 });

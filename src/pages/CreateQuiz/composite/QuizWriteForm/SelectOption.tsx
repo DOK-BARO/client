@@ -7,6 +7,8 @@ import { AnswerType, QuizQuestionType } from "@/types/QuizType";
 import { RadioOptionType } from "@/types/RadioTypes";
 import RadioOption from "@/components/atom/RadioOption/RadioOption";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
+import { isFirstVisitAtom, quizGuideStepAtom } from "@/store/quizAtom";
+import { useAtom } from "jotai";
 interface SelectOptionProps {
   option: RadioOptionType | CheckBoxOption;
   deleteOption: (id: number) => void;
@@ -28,6 +30,7 @@ const SelectOption: React.FC<SelectOptionProps> = ({
   answerType,
   checked,
 }) => {
+  const [isFirstVisit] = useAtom(isFirstVisitAtom);
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
   const {
@@ -65,6 +68,10 @@ const SelectOption: React.FC<SelectOptionProps> = ({
       : selectedValue
         ? selectedValue[option.id]
         : false;
+  const [currentQuizGuideStep] = useAtom(quizGuideStepAtom);
+  const isEditMode =
+    localStorage.getItem("isEditMode") == "true" ? true : false;
+
   const [currentWritingOptionId, setCurrentWritingOptionId] =
     useState<number>();
   const handleFocus = () => {
@@ -76,7 +83,15 @@ const SelectOption: React.FC<SelectOptionProps> = ({
   const isCurrentWriting = currentWritingOptionId === option.id;
 
   return (
-    <div key={option.id} className={styles["option-container"]}>
+    <div
+      key={option.id}
+      className={styles["option-container"]}
+      style={
+        isFirstVisit && !isEditMode && currentQuizGuideStep == 2
+          ? { position: "relative", zIndex: 999 }
+          : {}
+      }
+    >
       {answerType === "MULTIPLE_CHOICE_SINGLE_ANSWER" ? (
         <RadioOption
           data-no-dnd="true"

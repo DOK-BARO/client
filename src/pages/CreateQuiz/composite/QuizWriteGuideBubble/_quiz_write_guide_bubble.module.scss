@@ -1,0 +1,50 @@
+@import "../../../../styles/abstracts/variables";
+@import "../../../../styles/abstracts/mixins";
+.guide-bubble {
+  position: absolute;
+  z-index: 999;
+  left: 50%;
+  transform: translateX(-50%);
+  // top: -85px;
+  // top: -150px;
+  .guide {
+    position: relative;
+    background-color: $gray-00;
+    font-weight: $font-weight-medium;
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    .inner-container {
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+    &-step {
+      background-color: $gray-20;
+      color: $gray-60;
+      font-size: $font-size-medium;
+      margin-right: 8px;
+      height: 32px;
+      width: 44px;
+      border-radius: 6px;
+      @include flex(row, center);
+      em {
+        color: $primary;
+      }
+    }
+    em {
+      color: $primary;
+    }
+  }
+  .down-arrow {
+    width: 14px;
+    height: 10px;
+    background-color: $gray-00;
+    clip-path: polygon(50% 100%, 0 0, 100% 0);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}

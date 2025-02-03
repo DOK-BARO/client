@@ -18,12 +18,17 @@ import deleteIcon from "/assets/svg/quizWriteForm/delete_ellipse.svg";
 import { AnswerType, QuizQuestionType } from "@/types/QuizType";
 import QuestionTemplateTypeUtilButton from "./QuestionTemplateTypeUtilButton";
 import { OxQuiz } from "@/svg/QuizWriteForm/OXQuiz";
-import { invalidQuestionFormIdAtom } from "@/store/quizAtom";
+import {
+  invalidQuestionFormIdAtom,
+  isFirstVisitAtom,
+  quizGuideStepAtom,
+} from "@/store/quizAtom";
+import QuizWriteGuideBubble from "../QuizWriteGuideBubble/QuizWriteGuideBubble";
 interface QuizWriteFormItemProps {
   questionFormId: number;
   deleteQuestion: (id: number) => void;
   answerType: string;
-  onUpdateQuestionFormsWithAnswerType: (
+  onUpdateQuestionFormsWithAnswerType?: (
     questionId: number,
     newAnswerType: AnswerType,
   ) => void;
@@ -246,6 +251,10 @@ export default function QuestionForm({
   const handleRef = (id: string) => (element: HTMLDivElement | null) => {
     formRefs.current[id] = element;
   };
+  const [isFirstVisit] = useAtom(isFirstVisitAtom);
+  const [currentQuizGuideStep] = useAtom(quizGuideStepAtom);
+  const isEditMode =
+    localStorage.getItem("isEditMode") == "true" ? true : false;
 
   return (
     <section
@@ -290,7 +299,23 @@ export default function QuestionForm({
         })}
       </div>
 
-      <div className={styles["answer-area"]}>
+      <div
+        className={styles["answer-area"]}
+        style={
+          isFirstVisit && !isEditMode && currentQuizGuideStep == 1
+            ? { position: "relative", zIndex: 999 }
+            : {}
+        }
+      >
+        <QuizWriteGuideBubble
+          marginTop={-95}
+          text={
+            <p>
+              해설은 <em>선택</em>이에요.
+            </p>
+          }
+          guideStep={1}
+        />
         <div className={styles["answer-area-header"]}>
           <span>해설</span>
           <input
@@ -308,6 +333,7 @@ export default function QuestionForm({
             <ImageAdd width={24} height={24} />
           </button>
         </div>
+
         <Textarea
           className={styles["answer"]}
           id={questionFormId.toString()}
@@ -321,6 +347,7 @@ export default function QuestionForm({
           onKeyDown={(e) => {
             e.stopPropagation();
           }}
+          disabled={isFirstVisit && !isEditMode && currentQuizGuideStep == 1}
         />
 
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}

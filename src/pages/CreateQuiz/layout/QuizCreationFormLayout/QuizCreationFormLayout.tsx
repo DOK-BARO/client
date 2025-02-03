@@ -55,22 +55,22 @@ export default function QuizCreationFormLayout({
   const [, setPreventLeaveModal] = useAtom(preventLeaveModalAtom);
   const [isComplete, setIsComplete] = useState(false);
 
-  // localStorage에 임시저장
-  useEffect(() => {
-    // const intervalId = setInterval(() => {
-    //   localStorage.setItem(
-    //     "quizCreationInfo",
-    //     JSON.stringify(quizCreationInfo),
-    //   );
-    // }, 5000); // 5초마다 실행
-    // return () => clearInterval(intervalId);
-    if (quizCreationInfo.questions) {
-      localStorage.setItem(
-        "quizCreationInfo",
-        JSON.stringify(quizCreationInfo),
-      );
-    }
-  }, [quizCreationInfo.questions]);
+  // // localStorage에 임시저장
+  // useEffect(() => {
+  //   // const intervalId = setInterval(() => {
+  //   //   localStorage.setItem(
+  //   //     "quizCreationInfo",
+  //   //     JSON.stringify(quizCreationInfo),
+  //   //   );
+  //   // }, 5000); // 5초마다 실행
+  //   // return () => clearInterval(intervalId);
+  //   if (quizCreationInfo.questions) {
+  //     localStorage.setItem(
+  //       "quizCreationInfo",
+  //       JSON.stringify(quizCreationInfo),
+  //     );
+  //   }
+  // }, [quizCreationInfo.questions]);
 
   // 퀴즈 불러오기
   useEffect(() => {}, []);
@@ -164,7 +164,7 @@ export default function QuizCreationFormLayout({
         exact: true,
       });
       setCreatedQuizId(data.id);
-      localStorage.removeItem("quizCreationInfo");
+      // localStorage.removeItem("quizCreationInfo");
       // blocker사용떄문에 아래 useEFfect에서 페이지 이동
     },
   });
@@ -189,7 +189,7 @@ export default function QuizCreationFormLayout({
     mutationFn: ({ editQuizId, quiz }) =>
       quizService.modifyQuiz({ editQuizId, quiz }),
     onSuccess: () => {
-      localStorage.removeItem("quizCreationInfo");
+      // localStorage.removeItem("quizCreationInfo");
       // blocker사용떄문에 아래 useEFfect에서 페이지 이동
     },
   });

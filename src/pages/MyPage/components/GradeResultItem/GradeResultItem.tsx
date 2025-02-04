@@ -6,27 +6,31 @@ import { StudyGroupMemberType } from "@/types/StudyGroupType";
 interface Props {
   isActive: boolean; // isMe
   member: StudyGroupMemberType;
-  score: number;
-  grade: number;
-  isSubmitted?: boolean;
+  totalQuestionCount: number;
+  isSolved: boolean;
+
+  // 푼 사람
+  correctCount?: number;
+  grade?: number;
 }
 export default function GradeResultItem({
   isActive = false,
   member,
-  score,
-  grade = 1,
-  isSubmitted = true,
+  correctCount,
+  grade,
+  isSolved,
+  totalQuestionCount,
 }: Props) {
   return (
     <div className={`${styles.container} ${isActive ? styles.active : ""}`}>
       <span className={styles["nickname-container"]}>
-        {isSubmitted ? (
+        {isSolved && grade ? (
           <div className={styles["grade-container"]}>
             <ScoreBadge
               width={16}
               height={16}
               fill={isActive ? gray00 : gray30}
-              alt={`${score.toString()}등`}
+              alt={`${grade.toString()}등`}
             />
             <p className={styles.grade}>{grade}</p>
           </div>
@@ -41,10 +45,10 @@ export default function GradeResultItem({
         <p className={styles.nickname}>{member.nickname}</p>
       </span>
       <span className={styles["score-container"]}>
-        {isSubmitted ? (
+        {isSolved ? (
           <>
-            <p className={styles.score}>{score}</p>
-            <p>/10</p>
+            <p className={styles.score}>{correctCount}</p>
+            <p>/{totalQuestionCount}</p>
           </>
         ) : (
           <p>-</p>

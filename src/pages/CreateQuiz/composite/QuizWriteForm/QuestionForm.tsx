@@ -28,7 +28,7 @@ interface QuizWriteFormItemProps {
   questionFormId: number;
   deleteQuestion: (id: number) => void;
   answerType: string;
-  onUpdateQuestionFormsWithAnswerType?: (
+  onUpdateQuestionFormsWithAnswerType: (
     questionId: number,
     newAnswerType: AnswerType,
   ) => void;

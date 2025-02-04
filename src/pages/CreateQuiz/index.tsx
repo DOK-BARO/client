@@ -156,8 +156,7 @@ export default function Index() {
   }, [prevQuiz, isEditMode, prevBook?.isbn, studyGroupDetail?.name]);
 
   const [isFirstVisit, setIsFirstVisit] = useAtom(isFirstVisitAtom);
-  const { quizCreationInfo, updateQuizCreationInfo } =
-    useUpdateQuizCreationInfo();
+  const { updateQuizCreationInfo } = useUpdateQuizCreationInfo();
   useEffect(() => {
     const firstVisit = localStorage.getItem("firstVisit");
     if (firstVisit === undefined) {

@@ -99,6 +99,11 @@ export const resetQuizCreationBookStateAtom = atom(null, (_, set) => {
   });
 });
 
-export const quizzesLengthAtom = atom(0);
+export const quizzesLengthAtom = atom<number>(0);
 export const invalidQuestionFormIdAtom = atom<number>();
 export const preventLeaveModalAtom = atom<boolean>(true); // 퀴즈 작성시 페이지 이탈 방지 모달을 띄워도 되는지 확인하는 atom (퀴즈 작성완료, 로그아웃시에만 false)
+
+// 퀴즈 문제 작성 페이지 첫 방문 여부 확인
+export const isFirstVisitAtom = atom<boolean>(true);
+// 1부터 시작
+export const quizGuideStepAtom = atom<number>(1);

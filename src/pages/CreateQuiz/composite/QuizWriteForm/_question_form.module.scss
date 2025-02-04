@@ -18,6 +18,14 @@
     justify-content: space-between;
   }
 
+  .move-quiz-button {
+    background-color: $gray-00;
+    width: 40px;
+    height: 40px;
+    @include flex(row, center);
+    border-radius: 50%;
+  }
+
   &:focus-within {
     border: 1.5px solid $primary;
   }

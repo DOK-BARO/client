@@ -10,27 +10,33 @@ import Button from "@/components/atom/Button/Button";
 import ROUTES from "@/data/routes";
 import pencilLine from "/public/assets/svg/myPage/pencil-line.svg";
 import { useEffect, useState } from "react";
+import { currentUserAtom } from "@/store/userAtom";
 export default function MyPageLayout() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [myPageTitle] = useAtom(myPageTitleAtom);
   const [studyGroup] = useAtom(studyGroupAtom);
+  const [currentUser] = useAtom(currentUserAtom);
 
   const [isStudyGroupMainPage] = useAtom(isStudyGroupMainPageAtom);
   const { studyGroupId } = useParams();
 
-  const [isStudyGroupSettingPage, setIsStudyGroupSettingPage] =
-    useState<boolean>(false);
+  const [isSettingPage, setIsSettingPage] = useState<boolean>(false);
+  const isCurrentUserIsLeaderOfStudyGroup =
+    currentUser?.id === studyGroup?.leaderId;
 
   const handleGoToStudyGroupSetting = () => {
     navigate(ROUTES.STUDY_GROUP_SETTING(studyGroup?.id));
   };
 
   useEffect(() => {
-    if (studyGroupId && location.pathname.split("/").includes("setting")) {
-      setIsStudyGroupSettingPage(true);
+    const isStudyGroupSettingPage =
+      studyGroupId && location.pathname.split("/").includes("setting");
+    const isMySettingPage = location.pathname.split("/").includes("settings");
+    if (isStudyGroupSettingPage || isMySettingPage) {
+      setIsSettingPage(true);
     } else {
-      setIsStudyGroupSettingPage(false);
+      setIsSettingPage(false);
     }
   }, [pathname, studyGroupId]);
 
@@ -50,7 +56,9 @@ export default function MyPageLayout() {
         ) : null}
         <h2 className={styles.title}>{myPageTitle}</h2>
         {/* TODO: 관리 권한 있는지 확인 로직 추가 */}
-        {!isStudyGroupMainPage && !isStudyGroupSettingPage ? (
+        {isCurrentUserIsLeaderOfStudyGroup &&
+        !isStudyGroupMainPage &&
+        !isSettingPage ? (
           <Button
             onClick={handleGoToStudyGroupSetting}
             color="secondary"

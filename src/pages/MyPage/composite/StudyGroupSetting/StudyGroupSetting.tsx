@@ -35,6 +35,7 @@ export default function StudyGroupSetting() {
   const { studyGroupId } = useParams();
   const studyGroupIdNumber = studyGroupId ? Number(studyGroupId) : undefined;
 
+  // TODO: 중복. 훅으로 분리
   const { data: studyGroupDetail, isLoading: isStudyGroupDetailLoading } =
     useQuery({
       queryKey: studyGroupKeys.detail(studyGroupIdNumber),
@@ -80,7 +81,7 @@ export default function StudyGroupSetting() {
   useEffect(() => {
     if (studyGroupDetail) {
       resetNameInput(studyGroupDetail.name);
-      ResetIntroductionTextarea(studyGroupDetail.introduction);
+      ResetIntroductionTextarea(studyGroupDetail.introduction ?? "");
 
       setProfileImage({
         url: studyGroupDetail.profileImageUrl ?? defaultImage,

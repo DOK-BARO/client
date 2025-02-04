@@ -6,6 +6,8 @@ import { gray90 } from "@/styles/abstracts/colors";
 import Textarea from "@/components/atom/Textarea/Textarea";
 import "highlight.js/styles/xcode.css";
 import Button from "../Button/Button";
+import { isFirstVisitAtom, quizGuideStepAtom } from "@/store/quizAtom";
+import { useAtom } from "jotai";
 
 export type OptionStatusType =
   | "option-writing" // '퀴즈 작성'화면에서 텍스트를 작성 중인 경우
@@ -57,7 +59,10 @@ const RadioOption: React.FC<RadioOptionProps> = ({
       ${styles[type]}
       ${checked ? styles["checked-focused-color"] : styles["focused-color"]}
 			`;
-
+  const [isFirstVisit] = useAtom(isFirstVisitAtom);
+  const [currentQuizGuideStep] = useAtom(quizGuideStepAtom);
+  const isEditMode =
+    localStorage.getItem("isEditMode") == "true" ? true : false;
   return (
     <div
       key={option.id}
@@ -91,7 +96,10 @@ const RadioOption: React.FC<RadioOptionProps> = ({
             onChange={onLabelValueChange}
             className={`${styles["option-label-textarea"]} ${styles[customClassName]}`}
             maxLength={optionMaxLength}
-            disabled={textareaDisabled}
+            disabled={
+              (isFirstVisit && !isEditMode && currentQuizGuideStep == 2) ||
+              textareaDisabled
+            }
             textAreaRef={textAreaRef}
             type="option-label"
             autoFocus
@@ -126,6 +134,7 @@ const RadioOption: React.FC<RadioOptionProps> = ({
           onClick={() => {
             deleteOption(option.id);
           }}
+          disabled={isFirstVisit && !isEditMode && currentQuizGuideStep == 2}
         />
 
         {type !== "option-writing" && (

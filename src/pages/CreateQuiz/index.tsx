@@ -8,8 +8,10 @@ import QuizCreationSteps from "./layout/QuizCreationSteps/QuizCreationSteps";
 import MemoizedQuizBasicInfoForm from "@/pages/CreateQuiz/composite/QuizBasicInfoForm/QuizBasicInfoForm";
 import {
   errorModalTitleAtom,
+  isFirstVisitAtom,
   openErrorModalAtom,
   quizCreationInfoAtom,
+  quizGuideStepAtom,
   resetQuizCreationStateAtom,
   stepsCompletionStatusAtom,
 } from "@/store/quizAtom.ts";
@@ -34,11 +36,14 @@ import usePreventLeave from "@/hooks/usePreventLeave.ts";
 import { currentUserAtom } from "@/store/userAtom.ts";
 import ROUTES from "@/data/routes.ts";
 import { preventLeaveModalAtom } from "@/store/quizAtom.ts";
+import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo.ts";
+import QuizWriteGuideForm from "./composite/QuizWriteForm/QuizWriteGuideForm.tsx";
 
 export default function Index() {
   const { id } = useParams();
   const quizId = id && id !== ":id" ? id : null;
   const navigate = useNavigate();
+
   const [isEditMode] = useState<boolean>(!!quizId);
   const [completionStatus] = useAtom(stepsCompletionStatusAtom);
 
@@ -150,6 +155,23 @@ export default function Index() {
     initializeQuiz();
   }, [prevQuiz, isEditMode, prevBook?.isbn, studyGroupDetail?.name]);
 
+  const [isFirstVisit, setIsFirstVisit] = useAtom(isFirstVisitAtom);
+  const { quizCreationInfo, updateQuizCreationInfo } =
+    useUpdateQuizCreationInfo();
+  useEffect(() => {
+    const firstVisit = localStorage.getItem("firstVisit");
+    if (firstVisit === undefined) {
+      setIsFirstVisit(true);
+    } else if (firstVisit && firstVisit === "false") {
+      setIsFirstVisit(false);
+      updateQuizCreationInfo("questions", null);
+    }
+  }, [isFirstVisit, isEditMode]);
+
+  useEffect(() => {
+    localStorage.setItem("isEditMode", isEditMode ? "true" : "false");
+  }, [isEditMode]);
+
   // TODO: 외부 파일로 옮기기
   const steps: Step[] = useMemo(
     () => [
@@ -183,8 +205,14 @@ export default function Index() {
           {
             order: 2.2,
             title: "문제 작성",
-            description: "퀴즈의 질문과 답안을 설정해주세요.",
-            formComponent: () => <QuizWriteForm />,
+            description:
+              "퀴즈의 질문을 작성한 후, 답안을 클릭하여 설정해주세요.",
+            formComponent: () =>
+              isFirstVisit && !isEditMode ? (
+                <QuizWriteGuideForm />
+              ) : (
+                <QuizWriteForm />
+              ),
           },
         ],
         isDone: completionStatus.isQuestionsWritten,
@@ -199,7 +227,7 @@ export default function Index() {
         isDone: completionStatus.isSet,
       },
     ],
-    [completionStatus],
+    [completionStatus, isFirstVisit, isEditMode],
   );
 
   const [currentStep, setCurrentStep] = useState<number>(0);
@@ -210,29 +238,31 @@ export default function Index() {
   const resetBookState = useSetAtom(resetQuizCreationBookStateAtom);
 
   useEffect(() => {
-    // 임시 저장된 퀴즈가 있을 경우
-    const storedQuizCreationInfo = localStorage.getItem("quizCreationInfo");
-    if (storedQuizCreationInfo) {
-      const parsedQuizInfo = JSON.parse(storedQuizCreationInfo);
+    // // 임시 저장된 퀴즈가 있을 경우
+    // const storedQuizCreationInfo = localStorage.getItem("quizCreationInfo");
+    // if (storedQuizCreationInfo) {
+    //   const parsedQuizInfo = JSON.parse(storedQuizCreationInfo);
 
-      if (
-        parsedQuizInfo.book !== null ||
-        parsedQuizInfo.description !== null ||
-        parsedQuizInfo.editScope !== null ||
-        parsedQuizInfo.questions !== null ||
-        parsedQuizInfo.title !== null ||
-        parsedQuizInfo.viewScope !== null
-      ) {
-        if (
-          confirm(
-            "이전에 작성중이던 퀴즈가 있습니다. 해당 퀴즈를 이어서 작성하시겠습니까?",
-          )
-        ) {
-          setQuizCreationInfo(parsedQuizInfo);
-          return;
-        }
-      }
-    }
+    //   if (
+    //     !(
+    //       parsedQuizInfo.book === null ||
+    //       parsedQuizInfo.description === null ||
+    //       parsedQuizInfo.editScope === null ||
+    //       parsedQuizInfo.questions === null ||
+    //       parsedQuizInfo.title === null ||
+    //       parsedQuizInfo.viewScope === null
+    //     )
+    //   ) {
+    //     if (
+    //       confirm(
+    //         "이전에 작성중이던 퀴즈가 있습니다. 해당 퀴즈를 이어서 작성하시겠습니까?",
+    //       )
+    //     ) {
+    //       setQuizCreationInfo(parsedQuizInfo);
+    //       return;
+    //     }
+    //   }
+    // }
 
     // 퀴즈 상태 초기화
     if (isEditMode) {
@@ -253,12 +283,23 @@ export default function Index() {
     setOpenErrorModal(() => openModal);
   }, [setOpenErrorModal]);
 
+  // 퀴즈 문제 작성 가이드 스텝 초기화
+  const [, setQuizGuideStepAtom] = useAtom(quizGuideStepAtom);
+  useEffect(() => {
+    if (isFirstVisit) {
+      setQuizGuideStepAtom(1);
+    }
+  }, [isFirstVisit]);
+
   if (isPrevQuizLoading || isBookLoading || isStudyGroupLoading) {
     return <div>로딩중</div>;
   }
 
   return (
     <section className={styles["container"]}>
+      {isFirstVisit && !isEditMode && currentStep == 2.2 ? (
+        <div className={styles.layer} />
+      ) : null}
       <h2 className={styles["sr-only"]}>퀴즈 등록</h2>
       <QuizCreationSteps
         isEditMode={isEditMode}

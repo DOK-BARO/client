@@ -8,65 +8,59 @@ const useCodeInput = () => {
     e: React.ChangeEvent<HTMLInputElement>,
     index: number,
   ) => {
-    // setIsMatch(undefined);
     let { value } = e.target;
     value = value.toUpperCase();
     const newCodeList = [...codeList];
 
     if (value.length > 1) {
-      // 다음 인풋 포커스
-      newCodeList[index + 1] = value[1];
-      setCodeList(newCodeList);
+      // 현재 칸과 다음 칸을 채움
+      newCodeList[index] = value[0];
+      if (index + 1 < newCodeList.length) {
+        newCodeList[index + 1] = value[1];
+      }
+    } else {
+      newCodeList[index] = value;
+    }
+
+    setCodeList(newCodeList);
+
+    // 다음 칸으로 포커스 이동
+    if (value.length === 1 && index < 5) {
       setTimeout(() => {
-        const nextInput = document.getElementById(`code-input-${index + 2}`);
+        const nextInput = document.getElementById(`code-input-${index + 1}`);
         if (nextInput) {
           (nextInput as HTMLInputElement).focus();
         }
       }, 0);
-
-      return;
-    }
-
-    if (value) {
-      newCodeList[index] = value;
-      setCodeList(newCodeList);
-
-      // 다음 인풋으로 포커스
-      if (index < 5) {
-        setTimeout(() => {
-          const nextInput = document.getElementById(`code-input-${index + 1}`);
-          if (nextInput) {
-            (nextInput as HTMLInputElement).focus();
-          }
-        }, 0);
-      }
-    } else {
-      newCodeList[index] = "";
-      setCodeList(newCodeList);
-
-      // 이전 인풋으로 포커스
-      if (index > 0) {
-        setTimeout(() => {
-          const prevInput = document.getElementById(`code-input-${index - 1}`);
-          if (prevInput) {
-            (prevInput as HTMLInputElement).focus();
-          }
-        }, 0);
-      }
     }
   };
+
   const handleKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
     index: number,
   ) => {
-    if (e.key === "Backspace" && codeList[index] === "") {
-      if (index > 0) {
-        setTimeout(() => {
-          const prevInput = document.getElementById(`code-input-${index - 1}`);
-          if (prevInput) {
-            (prevInput as HTMLInputElement).focus();
-          }
-        }, 0);
+    if (e.key === "Backspace") {
+      const newCodeList = [...codeList];
+
+      if (newCodeList[index] === "") {
+        // 현재 칸이 비어있으면 이전 칸도 같이 삭제
+        if (index > 0) {
+          newCodeList[index - 1] = "";
+          setCodeList(newCodeList);
+
+          setTimeout(() => {
+            const prevInput = document.getElementById(
+              `code-input-${index - 1}`,
+            );
+            if (prevInput) {
+              (prevInput as HTMLInputElement).focus();
+            }
+          }, 0);
+        }
+      } else {
+        // 현재 칸만 삭제
+        newCodeList[index] = "";
+        setCodeList(newCodeList);
       }
     }
   };

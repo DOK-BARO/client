@@ -66,15 +66,19 @@ export interface StudyGroupMemberType {
   profileImageUrl: string;
 }
 
+export interface UnSolvedMemberType extends StudyGroupMemberType {}
+
+export interface SolvedMemberType {
+  member: StudyGroupMemberType;
+  solvingQuizId: number;
+  correctCount: number;
+}
+
 // 스터디 그룹 내 랭킹 조회
 export interface QuizStudyGroupGradeResult {
   quizId: number;
   studyGroupId: number;
   totalQuestionCount: number;
-  solvedMember: {
-    member: StudyGroupMemberType;
-    solvingQuizId: number;
-    correctCount: number;
-  }[];
-  unSolvedMember: StudyGroupMemberType[];
+  solvedMember: SolvedMemberType[];
+  unSolvedMember: UnSolvedMemberType[];
 }

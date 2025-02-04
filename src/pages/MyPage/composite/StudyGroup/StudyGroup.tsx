@@ -26,10 +26,14 @@ export default function StudyGroup() {
 
   useEffect(() => {
     if (!isStudyGroupDetailLoading && studyGroupDetail) {
+      const studyGroupLeaderId = studyGroupDetail.studyMembers?.find(
+        (studyMember) => studyMember.role === "LEADER",
+      )?.id;
       setMyPageTitle(studyGroupDetail.name);
       setStudyGroup({
         id: studyGroupDetail.id,
         name: studyGroupDetail.name,
+        leaderId: studyGroupLeaderId!,
       });
     }
     return () => {

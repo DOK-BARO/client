@@ -42,6 +42,10 @@ export default function QuizItem({ quizData, isSolved, studyGroupId }: Props) {
     enabled: isModalOpen,
   });
 
+  console.log(gradeResult);
+  console.log(gradeResult?.solvedMember);
+  console.log(gradeResult?.unSolvedMember);
+
   return (
     <li className={styles.container}>
       {isModalOpen ? (
@@ -54,16 +58,18 @@ export default function QuizItem({ quizData, isSolved, studyGroupId }: Props) {
                   {
                     title: "제출한 스터디원",
                     content: gradeResult?.solvedMember ? (
-                      <>
-                        {gradeResult?.solvedMember.map((memberData) => (
+                      <div className={styles["grade-result-container"]}>
+                        {gradeResult?.solvedMember.map((memberData, index) => (
                           <GradeResultItem
+                            isSolved
                             member={memberData.member}
                             isActive={memberData.member.id == currentUser?.id}
-                            score={10}
-                            grade={1}
+                            grade={index + 1}
+                            correctCount={memberData.correctCount}
+                            totalQuestionCount={gradeResult.totalQuestionCount}
                           />
                         ))}
-                      </>
+                      </div>
                     ) : (
                       <></>
                     ),
@@ -71,18 +77,17 @@ export default function QuizItem({ quizData, isSolved, studyGroupId }: Props) {
                   {
                     title: "미제출 스터디원",
                     content: gradeResult?.unSolvedMember ? (
-                      <>
+                      <div className={styles["grade-result-container"]}>
                         {gradeResult?.unSolvedMember.map((member) => (
                           <GradeResultItem
                             key={member.id}
                             member={member}
-                            isActive={false}
-                            score={10}
-                            grade={1}
-                            isSubmitted={false}
+                            isActive={member.id == currentUser?.id}
+                            isSolved={false}
+                            totalQuestionCount={gradeResult.totalQuestionCount}
                           />
                         ))}
-                      </>
+                      </div>
                     ) : (
                       <></>
                     ),

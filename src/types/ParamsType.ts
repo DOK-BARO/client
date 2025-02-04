@@ -67,7 +67,7 @@ export interface FetchStudyGroupsParams {
 
 export interface UpdateUserParams {
   nickname?: string;
-  email?: string;
+  // email?: string;
   profileImage?: string | null;
 }
 

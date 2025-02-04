@@ -1,5 +1,5 @@
 import styles from "./_profile_set.module.scss";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import { useAtom } from "jotai";
 import useInput from "@/hooks/useInput.ts";
 import Input from "@/components/atom/Input/Input";
@@ -7,7 +7,7 @@ import { XCircle } from "@/svg/XCircle";
 import { gray30, gray60 } from "@/styles/abstracts/colors.ts";
 import Button from "@/components/atom/Button/Button";
 import { RegisterInfoType } from "@/types/UserType";
-import { currentUserAtom, registerInfoAtom } from "@/store/userAtom";
+import { registerInfoAtom } from "@/store/userAtom";
 import { useNavigate, useParams } from "react-router-dom";
 import { authService } from "@/services/server/authService";
 import { imageService } from "@/services/server/imageService";
@@ -27,14 +27,12 @@ export interface ProfileImageState {
 export default function ProfileSet() {
   const { method } = useParams();
   const navigate = useNavigate();
-  const [, setCurrentUser] = useAtom(currentUserAtom);
 
   const [profileImage, setProfileImage] = useState<ProfileImageState>({
     url: defaultImage,
     file: null,
   });
-  const [user, setUser] = useAtom<RegisterInfoType>(registerInfoAtom);
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
+  const [userInfo, setUserInfo] = useAtom<RegisterInfoType>(registerInfoAtom);
 
   const {
     value: nickname,
@@ -44,16 +42,6 @@ export default function ProfileSet() {
 
   const isSubmitAble: boolean = !!nickname;
 
-  // TODO: 공통 로직 분리
-  // const handleUploadImage = async (image: File): Promise<string> => {
-  //   const uploadImgArg: UploadImageArgType = {
-  //     image,
-  //     imageTarget: "MEMBER_PROFILE",
-  //   };
-
-  //   const imageUrl = await imageService.uploadImage(uploadImgArg);
-  //   return imageUrl;
-  // };
   const { mutate: uploadImage } = useMutation<
     string,
     ErrorType,
@@ -61,15 +49,21 @@ export default function ProfileSet() {
   >({
     mutationFn: (uploadImageArg) => imageService.uploadImage(uploadImageArg),
     onSuccess: (imageUrl) => {
-      setUser({
-        ...user,
+      setUserInfo({
+        ...userInfo,
+        nickname,
+        profileImage: imageUrl,
+      });
+
+      handleSignUp({
+        ...userInfo,
         nickname,
         profileImage: imageUrl,
       });
     },
   });
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     // 프로필 사진 등록
@@ -81,14 +75,17 @@ export default function ProfileSet() {
       });
     } else {
       // 프로필 사진 없는 경우
-      setUser({
-        ...user,
+      setUserInfo({
+        ...userInfo,
+        nickname,
+      });
+      handleSignUp({
+        ...userInfo,
         nickname,
       });
     }
-
-    setIsSubmitted(true);
   };
+
   const { mutate: sendAgreement } = useMutation<void, ErrorType, number[]>({
     mutationFn: (termsAgreements) =>
       authService.sendTermsAgreement(termsAgreements),
@@ -107,17 +104,27 @@ export default function ProfileSet() {
     }
   >({
     mutationFn: (emailUserInfo) => authService.emailSignup(emailUserInfo),
-    onSuccess: async () => {
-      const currentUser = await authService.fetchUser();
-      if (currentUser) {
-        setCurrentUser(currentUser);
-      }
+    onSuccess: () => {
       // 2. 회원가입 성공하면 약관 동의
-      sendAgreement(user.termsAgreements);
+      sendAgreement(userInfo.termsAgreements);
     },
   });
 
-  const handleSignUp = async () => {
+  const { mutate: updateUser } = useMutation<
+    void,
+    ErrorType,
+    {
+      nickname: string;
+      profileImage: string | null | undefined;
+    }
+  >({
+    mutationFn: (socialUserInfo) => authService.updateUser(socialUserInfo),
+    onSuccess: () => {
+      navigate(ROUTES.REGISTER_COMPLETE);
+    },
+  });
+
+  const handleSignUp = async (user: RegisterInfoType) => {
     const { id, ...userInfo } = user;
 
     if (method === "email") {
@@ -129,21 +136,16 @@ export default function ProfileSet() {
       emailSignup(emailUserInfo);
     } else {
       // 소셜 회원가입
-      const { password, ...rest } = userInfo;
+      const { nickname, profileImage } = userInfo;
+
       const socialUserInfo = {
-        ...rest,
+        nickname,
+        profileImage,
       };
       // 프로필 업데이트
-      await authService.updateUser(socialUserInfo);
+      updateUser(socialUserInfo);
     }
   };
-
-  useEffect(() => {
-    if (!isSubmitted) {
-      return;
-    }
-    handleSignUp();
-  }, [isSubmitted]);
 
   return (
     <section className={styles["profile-set"]}>
@@ -153,7 +155,7 @@ export default function ProfileSet() {
       </p>
       <form onSubmit={handleSubmit}>
         <ProfileUploader
-          email={user.email}
+          email={userInfo.email}
           profileImage={profileImage}
           setProfileImage={setProfileImage}
           defaultImageUrl={defaultImage}

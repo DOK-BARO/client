@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import styles from "./_base_layout.module.scss";
 import HeaderLayout from "../HeaderLayout/HeaderLayout";
 import { useAtom } from "jotai";
@@ -7,14 +7,38 @@ import { authService } from "@/services/server/authService.ts";
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { userKeys } from "@/data/queryKeys";
+import ROUTES from "@/data/routes";
 
 export default function BaseLayout({
   showHeader = true,
 }: {
   showHeader?: boolean;
 }) {
-  const [, setCurrentUser] = useAtom(currentUserAtom);
-  const [, setIsUserLoading] = useAtom(isUserLoadingAtom);
+  const [currentUser, setCurrentUser] = useAtom(currentUserAtom);
+  const [isUserLoading, setIsUserLoading] = useAtom(isUserLoadingAtom);
+  const navigate = useNavigate();
+
+  const handleCheckIsTermAllAgreed = async () => {
+    const isAgreedAll = await authService.fetchIsTermsAgreed();
+    if (isAgreedAll) {
+      console.log("회원가입 절차 완료");
+      return;
+    }
+
+    console.log("회원가입 절차 남음");
+    // 약관 동의 되어있지 않으면
+    const loggedInSocialType = localStorage.getItem("social");
+    if (loggedInSocialType) {
+      navigate(ROUTES.REGISTER(loggedInSocialType));
+    }
+  };
+
+  useEffect(() => {
+    if (!isUserLoading && currentUser) {
+      // 사용자 패칭 후
+      handleCheckIsTermAllAgreed();
+    }
+  }, [currentUser, isUserLoading]);
 
   const { data, isLoading } = useQuery({
     queryKey: userKeys.user(),

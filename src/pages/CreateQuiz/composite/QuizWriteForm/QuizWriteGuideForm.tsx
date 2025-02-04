@@ -47,6 +47,7 @@ export default function QuizWriteGuideForm() {
             <QuestionForm
               questionFormId={question.id!}
               deleteQuestion={() => {}}
+              onUpdateQuestionFormsWithAnswerType={() => {}}
               answerType={question.answerType}
             />
           ),

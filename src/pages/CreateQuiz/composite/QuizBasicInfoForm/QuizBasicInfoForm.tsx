@@ -1,23 +1,14 @@
-import React, { useEffect } from "react";
-import { useAtom } from "jotai";
+import React from "react";
 import Input from "@/components/atom/Input/Input";
 import Textarea from "@/components/atom/Textarea/Textarea";
 import styles from "./_quiz_basic_info_form.module.scss";
 import useInput from "@/hooks/useInput.ts";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
-import { isQuizNextButtonEnabledAtom } from "@/store/quizAtom";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 
 function QuizBasicInfoForm() {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
-  console.log(quizCreationInfo);
-  console.log(quizCreationInfo.title);
-
-  const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
-    isQuizNextButtonEnabledAtom,
-  );
-
   const titleMaxLength = 127;
   const descriptionMaxLength = 150;
   const { value: titleInputValue, onChange: onTitleChange } = useInput(
@@ -28,12 +19,6 @@ function QuizBasicInfoForm() {
     onChange: onDescriptionChange,
     textareaRef,
   } = useAutoResizeTextarea(quizCreationInfo.description ?? "", 56, 3);
-
-  useEffect(() => {
-    const disable =
-      titleInputValue.trim() === "" || descriptionTextareaValue.trim() === "";
-    setIsQuizNextButtonEnabled(!disable);
-  }, [titleInputValue, descriptionTextareaValue]);
 
   const handleDescriptionChange = (
     e: React.ChangeEvent<HTMLTextAreaElement>,
@@ -66,7 +51,6 @@ function QuizBasicInfoForm() {
           placeholder="퀴즈 설명"
           maxLength={descriptionMaxLength}
           textAreaRef={textareaRef}
-          // className={styles["quiz-basic-info-description-text-area"]}
           maxLengthShow
           fullWidth
           size="large"

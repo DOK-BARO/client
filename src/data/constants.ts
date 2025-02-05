@@ -32,3 +32,12 @@ export const BOOK_QUIZ_OPTION_MAX_LENGTH = 5;
 
 export const EXTERNAL_SERVICE_INTRODUCTION_PAGE =
   "https://maddening-radar-044.notion.site/a13ecec47e8c4d789b6939c01733749e?pvs=4";
+
+export const QUIZ_CREATION_STEP = {
+  STUDY_GROUP_SELECT: 0,
+  BOOK_SELECT: 1,
+  QUIZ_BASIC_INFO: 2,
+  QUIZ_BASIC_INFO_FORM: 2.1,
+  QUIZ_WRITE_FORM: 2.2,
+  SETTING: 3,
+};

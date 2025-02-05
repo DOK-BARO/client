@@ -8,6 +8,7 @@ import {
   createdQuizIdAtom,
   isQuizNextButtonEnabledAtom,
   quizCreationInfoAtom,
+  quizCreationStepAtom,
 } from "@/store/quizAtom";
 import {
   QuizCreationType,
@@ -23,7 +24,6 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ROUTES from "@/data/routes";
 import { invalidQuestionFormIdAtom } from "@/store/quizAtom";
-import React from "react";
 import { queryClient } from "@/services/server/queryClient";
 import { studyGroupKeys } from "@/data/queryKeys";
 import { SelectOptionType } from "@/types/QuizType";
@@ -34,20 +34,18 @@ export default function QuizCreationFormLayout({
   isEditMode,
   editQuizId,
   steps,
-  currentStep,
-  setCurrentStep,
   blocker,
 }: {
   isEditMode: boolean;
   editQuizId?: string;
   steps: Step[];
-  currentStep: number;
-  setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
   blocker: Blocker;
 }) {
   const navigate = useNavigate();
-  const [isQuizNextButtonEnabled, setIsQuizNextButtonEnabled] =
-    useAtom<boolean>(isQuizNextButtonEnabledAtom);
+  const [currentStep, setCurrentStep] = useAtom(quizCreationStepAtom);
+  const [isQuizNextButtonEnabled] = useAtom<boolean>(
+    isQuizNextButtonEnabledAtom,
+  );
   const [quizCreationInfo] = useAtom<QuizCreationType>(quizCreationInfoAtom);
   const [, setErrorModalTitle] = useAtom(errorModalTitleAtom);
   const [openModal] = useAtom(openErrorModalAtom);
@@ -81,14 +79,6 @@ export default function QuizCreationFormLayout({
   //   }, 60000);
   //   return () => clearInterval(intervalId);
   // }, []);
-
-  useEffect(() => {
-    if (!quizCreationInfo?.questions?.length) {
-      setIsQuizNextButtonEnabled(false);
-    } else {
-      setIsQuizNextButtonEnabled(true);
-    }
-  }, [quizCreationInfo.questions?.length, currentStep]);
 
   const getCurrentStep = (): Step => {
     const step = steps[currentStep];

@@ -10,13 +10,12 @@ import { RegisterInfoType } from "@/types/UserType";
 import { registerInfoAtom } from "@/store/userAtom";
 import { useNavigate, useParams } from "react-router-dom";
 import { authService } from "@/services/server/authService";
-import { imageService } from "@/services/server/imageService";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";
-import { UploadImageArgType } from "@/types/UploadImageType";
-import ProfileUploader from "../../components/ProfileUploader/ProfileUploader";
 import ROUTES from "@/data/routes";
 import defaultImage from "/public/assets/image/default-profile.png";
+import useUploadImageToStorage from "@/hooks/mutate/useUploadImage";
+import ProfileUploader from "../../components/ProfileUploader/ProfileUploader";
 
 export interface ProfileImageState {
   url: string;
@@ -42,26 +41,56 @@ export default function ProfileSet() {
 
   const isSubmitAble: boolean = !!nickname;
 
-  const { mutate: uploadImage } = useMutation<
-    string,
-    ErrorType,
-    UploadImageArgType
-  >({
-    mutationFn: (uploadImageArg) => imageService.uploadImage(uploadImageArg),
-    onSuccess: (imageUrl) => {
+  const { uploadImage } = useUploadImageToStorage(
+    (imageUrl: string) => {
       setUserInfo({
         ...userInfo,
         nickname,
         profileImage: imageUrl,
       });
-
       handleSignUp({
         ...userInfo,
         nickname,
         profileImage: imageUrl,
       });
     },
-  });
+    () => {
+      // 이미지 업로드 실패시
+      setProfileImage((prev) => ({
+        ...prev,
+        url: defaultImage,
+      }));
+    },
+  );
+
+  // TODO: 이미지 업로드 훅 사용하기
+  // const { mutate: uploadImage } = useMutation<
+  //   string,
+  //   ErrorType,
+  //   UploadImageArgType
+  // >({
+  //   mutationFn: (uploadImageArg) => imageService.uploadImage(uploadImageArg),
+  //   onSuccess: (imageUrl) => {
+  //     setUserInfo({
+  //       ...userInfo,
+  //       nickname,
+  //       profileImage: imageUrl,
+  //     });
+
+  //     handleSignUp({
+  //       ...userInfo,
+  //       nickname,
+  //       profileImage: imageUrl,
+  //     });
+  //   },
+  //   onError: () => {
+  //     toast.error("사진을 업로드할 수 없습니다. 다른 이미지를 선택해 주세요.");
+  //     setProfileImage((prev) => ({
+  //       ...prev,
+  //       url: defaultImage,
+  //     }));
+  //   },
+  // });
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -159,7 +188,6 @@ export default function ProfileSet() {
           profileImage={profileImage}
           setProfileImage={setProfileImage}
           defaultImageUrl={defaultImage}
-          // handleUploadImage={handleUploadImage}
         />
         <p className={styles.description} data-for="nickname">
           사용할 닉네임을 입력해주세요.

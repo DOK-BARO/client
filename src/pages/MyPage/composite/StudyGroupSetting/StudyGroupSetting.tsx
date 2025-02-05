@@ -123,14 +123,23 @@ export default function StudyGroupSetting() {
     }
   }, [name, introduction, profileImage.url]);
 
-  const { uploadImage } = useUploadImageToStorage((imageUrl: string) => {
-    const newStudy: StudyGroupPostType = {
-      name,
-      introduction,
-      profileImageUrl: imageUrl,
-    };
-    updateStudyGroup({ id: studyGroupIdNumber!, studyGroup: newStudy });
-  });
+  const { uploadImage, isPending } = useUploadImageToStorage(
+    (imageUrl: string) => {
+      const newStudy: StudyGroupPostType = {
+        name,
+        introduction,
+        profileImageUrl: imageUrl,
+      };
+      updateStudyGroup({ id: studyGroupIdNumber!, studyGroup: newStudy });
+    },
+    () => {
+      // 이미지 업로드 실패시
+      setProfileImage((prev) => ({
+        ...prev,
+        url: studyGroupDetail?.profileImageUrl ?? defaultImage,
+      }));
+    },
+  );
 
   useEffect(() => {
     if (studyGroupDetail) {
@@ -271,6 +280,7 @@ export default function StudyGroupSetting() {
             <div className={styles["edit-image-container"]}>
               <p className={styles["sub-title"]}>스터디 그룹 사진</p>
               <ProfileImageEditor
+                isLoading={isPending}
                 width={150}
                 profileImage={profileImage}
                 setProfileImage={setProfileImage}

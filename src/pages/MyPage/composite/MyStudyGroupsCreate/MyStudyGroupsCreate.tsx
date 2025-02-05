@@ -41,15 +41,24 @@ export default function MyStudyGroupsCreate() {
   const { value: introduction, onChange: onIntroductionChange } =
     useTextarea("");
 
-  const { uploadImage } = useUploadImageToStorage((imageUrl: string) => {
-    // 스터디 생성
-    const newStudy = {
-      name,
-      introduction,
-      profileImageUrl: imageUrl,
-    };
-    createStudyGroup(newStudy);
-  });
+  const { uploadImage, isPending } = useUploadImageToStorage(
+    (imageUrl: string) => {
+      // 스터디 생성
+      const newStudy = {
+        name,
+        introduction,
+        profileImageUrl: imageUrl,
+      };
+      createStudyGroup(newStudy);
+    },
+    () => {
+      // 이미지 업로드 실패시
+      setProfileImage((prev) => ({
+        ...prev,
+        url: defaultImage,
+      }));
+    },
+  );
 
   useEffect(() => {
     setMyPageTitle("스터디 그룹 만들기");
@@ -170,6 +179,7 @@ export default function MyStudyGroupsCreate() {
       <div className={styles["sub-container"]}>
         <p className={styles["sub-title"]}>스터디 그룹 사진</p>
         <ProfileImageEditor
+          isLoading={isPending}
           width={150}
           profileImage={profileImage}
           setProfileImage={setProfileImage}

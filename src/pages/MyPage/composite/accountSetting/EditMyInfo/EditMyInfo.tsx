@@ -34,7 +34,6 @@ export default function EditMyInfo() {
     setProfileImage(profileImgState);
   }, [currentUser?.profileImage]);
 
-
   const {
     value,
     onChange,
@@ -57,12 +56,21 @@ export default function EditMyInfo() {
   const { value: nicknameValue, onChange: onNicknameChange } = useInput("");
   const showNicknameDanger = nicknameValue.length >= 8;
 
-  const { uploadImage } = useUploadImageToStorage((imageUrl: string) => {
-    updateUser({
-      user: { profileImage: imageUrl },
-      toastMessage: "프로필 이미지가 변경되었습니다.",
-    });
-  });
+  const { uploadImage, isPending } = useUploadImageToStorage(
+    (imageUrl: string) => {
+      updateUser({
+        user: { profileImage: imageUrl },
+        toastMessage: "프로필 이미지가 변경되었습니다.",
+      });
+    },
+    () => {
+      // 이미지 업로드 실패시
+      setProfileImage((prev) => ({
+        ...prev,
+        url: currentUser?.profileImage ?? defaultImage,
+      }));
+    },
+  );
 
   const handleClickChangeEmail = () => {
     setIsChangeEmailMode(!isChangeEmailMode);
@@ -72,17 +80,15 @@ export default function EditMyInfo() {
   };
 
   useEffect(() => {
-    if (profileImage.file) {
-      const arg: UploadImageArgType = {
-        image: profileImage.file,
-        imageTarget: "MEMBER_PROFILE",
-      };
-      uploadImage(arg);
+    if (!profileImage.file) {
+      return;
     }
+    const arg: UploadImageArgType = {
+      image: profileImage.file,
+      imageTarget: "MEMBER_PROFILE",
+    };
+    uploadImage(arg);
   }, [profileImage.file]);
-
-
-
 
   return (
     <>
@@ -93,6 +99,7 @@ export default function EditMyInfo() {
           profileImage={profileImage}
           setProfileImage={setProfileImage}
           initialImageState={defaultProfileState}
+          isLoading={isPending}
         />
       </section>
 

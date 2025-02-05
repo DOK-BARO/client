@@ -71,6 +71,15 @@
     }
   }
 
+  .loading-img-bg {
+    display: block;
+    background-color: #ffffff80;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    @include flex(row, center);
+  }
+
   .delete {
     margin-top: 8px;
   }

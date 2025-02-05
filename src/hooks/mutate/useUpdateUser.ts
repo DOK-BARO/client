@@ -6,7 +6,7 @@ import { UpdateUserParams } from "@/types/ParamsType";
 import { useAtom } from "jotai";
 import { currentUserAtom } from "@/store/userAtom";
 
-function useUpdateUser() {
+const useUpdateUser = () => {
   const [, setCurrentUser] = useAtom(currentUserAtom);
   const { mutate: updateUser } = useMutation<
     { toastMessage: string; needToReload?: boolean },
@@ -22,6 +22,7 @@ function useUpdateUser() {
       setCurrentUser(currentUser);
       toast.success(toastMessage);
 
+      // TODO: reload 대신 쿼리 무효화 방식으로 변경
       if (needToReload) {
         window.location.reload();
       }
@@ -29,6 +30,6 @@ function useUpdateUser() {
   });
 
   return { updateUser };
-}
+};
 
 export default useUpdateUser;

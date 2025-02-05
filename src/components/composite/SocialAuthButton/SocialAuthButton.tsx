@@ -30,6 +30,7 @@ const SocialAuthButton: React.FC<{
 
       const redirectUrl = socialLoginRedirectUrl;
 
+      localStorage.setItem("social", socialType.toLocaleLowerCase());
       authService.socialSignupOrLogin({
         socialType,
         redirectUrl,

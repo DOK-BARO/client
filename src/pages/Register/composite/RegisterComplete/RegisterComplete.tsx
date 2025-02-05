@@ -13,7 +13,7 @@ import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";
 
 export default function RegisterComplete() {
-  const [user] = useAtom<RegisterInfoType>(registerInfoAtom);
+  const [userInfo] = useAtom<RegisterInfoType>(registerInfoAtom);
 
   const { value: inviteCode, onChange: handleInviteCodeChange } = useInput("");
 
@@ -28,6 +28,7 @@ export default function RegisterComplete() {
 
   // 초기화
   useEffect(() => {
+    localStorage.removeItem("social");
     localStorage.removeItem("registerStep");
   }, []);
 
@@ -42,7 +43,7 @@ export default function RegisterComplete() {
         />
         <div className={styles["welcome-text"]}>
           <p className={styles.greeting}>
-            반갑습니다 <em>{user.nickname}</em> 님!
+            반갑습니다 <em>{userInfo.nickname}</em> 님!
           </p>
           <p className={styles.description}>
             {APP_NAME}와 함께 퀴즈를 풀어보세요.

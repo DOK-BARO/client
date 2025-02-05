@@ -21,6 +21,20 @@ class AuthService {
     `;
   };
 
+  // 필수 동의 여부 전체 동의 여부 조회
+  fetchIsTermsAgreed = async (): Promise<{ agreeAll: boolean } | null> => {
+    try {
+      const {
+        data: { agreeAll },
+      } = await axiosInstance.get("/terms-of-services/member-agree/required");
+      console.log("agreed all", agreeAll);
+      return agreeAll;
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  };
+
   // 이메일 회원가입
   emailSignup = async (userInfo: {
     email: string;
@@ -87,19 +101,6 @@ class AuthService {
     return null;
   };
 
-  // getUserIfAuthenticated = async (): Promise<UserProfileType | null> => {
-  //   const certificationId = !!localApi.getUserCertificationId();
-
-  //   if (!certificationId) {
-  //     return null;
-  //   }
-
-  //   return await this.fetchUser();
-  // };
-
-  // logout = () => {
-  //   localApi.removeCertification();
-  // };
   logout = async (): Promise<void> => {
     try {
       await axiosInstance.post("/auth/logout");

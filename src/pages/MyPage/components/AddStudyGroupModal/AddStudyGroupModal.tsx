@@ -95,7 +95,7 @@ export default function AddStudyGroupModal({ closeModal, currentPage }: Props) {
     setIsMatch(undefined);
   }, [codeList]);
 
-  const { mutate: uploadImage } = useMutation<
+  const { mutate: uploadImage, isPending } = useMutation<
     string,
     ErrorType,
     UploadImageArgType
@@ -207,6 +207,7 @@ export default function AddStudyGroupModal({ closeModal, currentPage }: Props) {
                   title: "스터디 그룹 사진",
                   content: (
                     <ProfileImageEditor
+                      isLoading={isPending}
                       width={150}
                       profileImage={profileImage}
                       setProfileImage={setProfileImage}

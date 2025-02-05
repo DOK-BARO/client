@@ -15,7 +15,6 @@ import useUpdateUser from "@/hooks/mutate/useUpdateUser";
 import useUploadImageToStorage from "@/hooks/mutate/useUploadImage";
 import { UploadImageArgType } from "@/types/UploadImageType";
 import defaultImage from "/public/assets/image/default-profile.png";
-import toast from "react-hot-toast";
 
 export default function EditMyInfo() {
   const [currentUser] = useAtom(currentUserAtom);
@@ -57,7 +56,7 @@ export default function EditMyInfo() {
   const { value: nicknameValue, onChange: onNicknameChange } = useInput("");
   const showNicknameDanger = nicknameValue.length >= 8;
 
-  const { uploadImage } = useUploadImageToStorage(
+  const { uploadImage, isPending } = useUploadImageToStorage(
     (imageUrl: string) => {
       updateUser({
         user: { profileImage: imageUrl },
@@ -100,6 +99,7 @@ export default function EditMyInfo() {
           profileImage={profileImage}
           setProfileImage={setProfileImage}
           initialImageState={defaultProfileState}
+          isLoading={isPending}
         />
       </section>
 

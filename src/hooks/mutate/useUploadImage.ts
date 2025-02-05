@@ -8,7 +8,7 @@ const useUploadImageToStorage = (
   onSuccessCallback: (imageUrl: string) => void,
   onErrorCallback?: () => void,
 ) => {
-  const { mutate: uploadImage } = useMutation<
+  const { mutate: uploadImage, isPending } = useMutation<
     string,
     ErrorType,
     UploadImageArgType
@@ -22,6 +22,6 @@ const useUploadImageToStorage = (
       onErrorCallback?.(); // 실패 시 콜백 (기존 이미지로 복구)
     },
   });
-  return { uploadImage };
+  return { uploadImage, isPending };
 };
 export default useUploadImageToStorage;

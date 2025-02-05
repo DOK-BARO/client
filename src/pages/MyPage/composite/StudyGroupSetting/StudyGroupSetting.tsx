@@ -123,7 +123,7 @@ export default function StudyGroupSetting() {
     }
   }, [name, introduction, profileImage.url]);
 
-  const { uploadImage } = useUploadImageToStorage(
+  const { uploadImage, isPending } = useUploadImageToStorage(
     (imageUrl: string) => {
       const newStudy: StudyGroupPostType = {
         name,
@@ -280,6 +280,7 @@ export default function StudyGroupSetting() {
             <div className={styles["edit-image-container"]}>
               <p className={styles["sub-title"]}>스터디 그룹 사진</p>
               <ProfileImageEditor
+                isLoading={isPending}
                 width={150}
                 profileImage={profileImage}
                 setProfileImage={setProfileImage}

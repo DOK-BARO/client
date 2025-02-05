@@ -16,11 +16,12 @@ export default function QuizWriteGuideBubble({
   const [currentQuizGuideStep, setCurrentQuizGuideStep] =
     useAtom(quizGuideStepAtom);
   const totalStep = 3;
+
   const handleNextButtonClick = () => {
     setCurrentQuizGuideStep((prev) => prev + 1);
     if (currentQuizGuideStep == totalStep) {
       // 방문한 사용자로 표시
-      localStorage.setItem("firstVisit", "false");
+      // localStorage.setItem("firstVisit", "false");
       setIsFirstVisit(false);
     }
   };

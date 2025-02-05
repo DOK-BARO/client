@@ -12,10 +12,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { authService } from "@/services/server/authService";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";
-import ProfileUploader from "../../components/ProfileUploader/ProfileUploader";
 import ROUTES from "@/data/routes";
 import defaultImage from "/public/assets/image/default-profile.png";
 import useUploadImageToStorage from "@/hooks/mutate/useUploadImage";
+import ProfileUploader from "../../components/ProfileUploader/ProfileUploader";
 
 export interface ProfileImageState {
   url: string;

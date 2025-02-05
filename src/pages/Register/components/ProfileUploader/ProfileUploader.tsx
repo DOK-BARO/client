@@ -5,7 +5,7 @@ import { gray40, gray60 } from "@/styles/abstracts/colors.ts";
 import Button from "@/components/atom/Button/Button";
 import { ProfileImageState } from "../../composite/ProfileSet/ProfileSet";
 
-export default function ProfileUpload({
+export default function ProfileUploader({
   email,
   profileImage,
   setProfileImage,

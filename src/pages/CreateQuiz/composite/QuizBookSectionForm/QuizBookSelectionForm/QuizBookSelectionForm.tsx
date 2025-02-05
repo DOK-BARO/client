@@ -8,8 +8,6 @@ import { Search } from "@/svg/Search";
 import { gray60, gray90 } from "@/styles/abstracts/colors";
 import useDebounce from "@/hooks/useDebounce";
 import { BookType } from "@/types/BookType";
-import { useAtom } from "jotai";
-import { isQuizNextButtonEnabledAtom } from "@/store/quizAtom";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { bookService } from "@/services/server/bookService";
 import { BookListItem } from "../BookListItem/BookListItem";
@@ -22,9 +20,6 @@ export default function QuizBookSelectionForm() {
   const [isSearchInputClicked, setIsSearchInputClicked] =
     useState<boolean>(false);
   const inputRef = useRef<HTMLDivElement>(null);
-  const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
-    isQuizNextButtonEnabledAtom,
-  );
   const {
     value: searchValue,
     onChange: onChangeSearchValue,
@@ -61,13 +56,6 @@ export default function QuizBookSelectionForm() {
   }, [debouncedSearchValue, refetch]);
 
   const isBookSearching = isLoading || isFetching;
-
-  useEffect(() => {
-    if (!selectedBook) {
-      setIsQuizNextButtonEnabled(false);
-    }
-  }, []);
-
   useOutsideClick([inputRef], () => setIsSearchInputClicked(false));
 
   const handleSearchBook = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,9 +70,6 @@ export default function QuizBookSelectionForm() {
     setSelectedBook(book);
     resetSearchValueInput();
     updateQuizCreationInfo("book", book);
-
-    // 책이 선택되면 버튼 enabled
-    setIsQuizNextButtonEnabled(true);
   };
 
   // 인풋창 클릭

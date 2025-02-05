@@ -1,3 +1,4 @@
+import { QUIZ_CREATION_STEP } from "@/data/constants";
 import { QuizCreationType } from "@/types/QuizType";
 import { atom } from "jotai";
 
@@ -17,7 +18,6 @@ const initialQuizCreationInfo: QuizCreationType = {
 const initialSelectedOptions: string[] = [];
 const initialQuizId: number | undefined = undefined;
 const initialErrorModalTitle = "";
-const initialIsQuizNextButtonEnabled = true; // 퀴즈 생성 단계 다음 버튼의 enabled 여부를 저장
 
 {
   /* Atom 정의 */
@@ -25,15 +25,43 @@ const initialIsQuizNextButtonEnabled = true; // 퀴즈 생성 단계 다음 버�
 export const quizCreationInfoAtom = atom<QuizCreationType>(
   initialQuizCreationInfo,
 );
-export const isQuizNextButtonEnabledAtom = atom<boolean>(
-  initialIsQuizNextButtonEnabled,
-);
+
+// 퀴즈 다음 버튼 활성화 여부 Atom
+export const isQuizNextButtonEnabledAtom = atom<boolean>((get) => {
+  const step = get(quizCreationStepAtom);
+  const quizInfo = get(quizCreationInfoAtom);
+  console.log(quizInfo);
+
+  switch (step) {
+    case QUIZ_CREATION_STEP.STUDY_GROUP_SELECT:
+      return true;
+    case QUIZ_CREATION_STEP.BOOK_SELECT:
+      return quizInfo.book !== null;
+    case QUIZ_CREATION_STEP.QUIZ_BASIC_INFO:
+    case QUIZ_CREATION_STEP.QUIZ_BASIC_INFO_FORM:
+      return (
+        quizInfo.title !== null &&
+        quizInfo.description !== null &&
+        !!quizInfo.title?.length &&
+        !!quizInfo?.description.length
+      );
+    case QUIZ_CREATION_STEP.QUIZ_WRITE_FORM:
+      return quizInfo.questions !== null && quizInfo.questions.length > 0;
+    case QUIZ_CREATION_STEP.SETTING:
+      return quizInfo.viewScope !== null;
+    default:
+      return true;
+  }
+});
+
+export const quizCreationStepAtom = atom<number>(0); // 퀴즈 작성 단계
+
 export const errorModalTitleAtom = atom<string>(initialErrorModalTitle);
 export const openErrorModalAtom = atom<() => void>();
 export const selectedOptionsAtom = atom<string[]>(initialSelectedOptions);
 export const createdQuizIdAtom = atom<number | undefined>(initialQuizId);
 
-// 스터디 선택 단계 완료 여부 Atom
+// 스터디 선택 단계 완료 여부 Atom (진행단계 체크UI)
 export const isStudyGroupSelectedAtom = atom(
   (get) => get(quizCreationInfoAtom).studyGroup !== null,
 );
@@ -56,7 +84,6 @@ export const isQuestionsWrittenAtom = atom(
 // 공유 설정 단계 완료 여부 Atom
 export const isSetAtom = atom(
   (get) => get(quizCreationInfoAtom).viewScope !== null,
-  //&& get(quizCreationInfoAtom).editScope !== null,
   (get, set, update: boolean) => {
     const quizCreationInfo = get(quizCreationInfoAtom);
     set(quizCreationInfoAtom, {
@@ -86,7 +113,6 @@ export const resetQuizCreationStateAtom = atom(null, (get, set) => {
     ...(currentBook ? { book: currentBook } : {}),
     ...(currentStudyGroup ? { studyGroup: currentStudyGroup } : {}),
   });
-  set(isQuizNextButtonEnabledAtom, initialIsQuizNextButtonEnabled);
   set(errorModalTitleAtom, initialErrorModalTitle);
   set(selectedOptionsAtom, initialSelectedOptions);
   set(createdQuizIdAtom, initialQuizId);

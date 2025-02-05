@@ -9,18 +9,17 @@ import {
   systemSuccess,
 } from "@/styles/abstracts/colors.ts";
 import { CheckEllipse } from "@/svg/CheckEllipse";
+import { useAtom } from "jotai";
+import { quizCreationStepAtom } from "@/store/quizAtom";
 
 export default function QuizCreationSteps({
   isEditMode,
   steps,
-  currentStep,
-  setCurrentStep,
 }: {
   isEditMode: boolean;
   steps: Step[];
-  currentStep: number;
-  setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
 }) {
+  const [currentStep, setCurrentStep] = useAtom(quizCreationStepAtom);
   const onChangeStep = (e: React.MouseEvent<HTMLButtonElement>) => {
     const currentStepButtonValue = e.currentTarget.value;
     steps.forEach((step) => {

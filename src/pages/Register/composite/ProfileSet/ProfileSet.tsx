@@ -17,6 +17,7 @@ import { UploadImageArgType } from "@/types/UploadImageType";
 import ProfileUploader from "../../components/ProfileUploader/ProfileUploader";
 import ROUTES from "@/data/routes";
 import defaultImage from "/public/assets/image/default-profile.png";
+import toast from "react-hot-toast";
 
 export interface ProfileImageState {
   url: string;
@@ -42,6 +43,7 @@ export default function ProfileSet() {
 
   const isSubmitAble: boolean = !!nickname;
 
+  // TODO: 이미지 업로드 훅 사용하기
   const { mutate: uploadImage } = useMutation<
     string,
     ErrorType,
@@ -60,6 +62,13 @@ export default function ProfileSet() {
         nickname,
         profileImage: imageUrl,
       });
+    },
+    onError: () => {
+      toast.error("사진을 업로드할 수 없습니다. 다른 이미지를 선택해 주세요.");
+      setProfileImage((prev) => ({
+        ...prev,
+        url: defaultImage,
+      }));
     },
   });
 

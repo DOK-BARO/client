@@ -22,9 +22,7 @@ export default function ProfileImageEditor({
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // console.log("on file change");
     const file = event.target.files?.[0];
-    // console.log(file);
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
@@ -37,6 +35,7 @@ export default function ProfileImageEditor({
     }
     event.target.value = "";
   };
+
   const handleFileDelete = () => {
     setProfileImage(initialImageState);
   };
@@ -56,7 +55,6 @@ export default function ProfileImageEditor({
         className={`${styles["edit-img-btn"]} ${styles[`width-${width}`]}`}
       >
         {/* 프로필 이미지 */}
-
         <img
           className={`${styles["profile-img"]} ${styles[`width-${width}`]}`}
           src={profileImage.url ?? initialImageState.url}

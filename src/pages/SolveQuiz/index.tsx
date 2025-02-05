@@ -693,7 +693,7 @@ export default function Index() {
               color="primary-border"
               className={styles["footer-btn"]}
             >
-              해설보기
+              {toggleAnswerDescription ? "해설닫기" : "해설보기"}
             </Button>
             <Button
               onClick={handleNextQuestionBtn}

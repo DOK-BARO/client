@@ -55,6 +55,7 @@ export default function HeaderMenuList({ closeDropDownList }: Props) {
           className={styles["user-info"]}
           onClick={() => {
             navigate(ROUTES.MY_PAGE);
+            closeDropDownList();
           }}
         >
           <span className={styles["user-name"]}>

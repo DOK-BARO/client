@@ -2,7 +2,7 @@
 
 .header-menu-list {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
-  background-color: white;
+  background-color: $gray-00;
   padding: 8px;
   border-radius: 8px;
   border: 1px solid #d8d8d8;
@@ -20,7 +20,7 @@
     z-index: 1;
     display: block;
     border-right: 8px solid transparent;
-    border-bottom: 12px solid #ffffff;
+    border-bottom: 12px solid $gray-00;
     border-left: 8px solid transparent;
   }
 
@@ -39,9 +39,8 @@
   }
 
   li {
+    cursor: pointer;
     white-space: nowrap;
-    font-size: $font-size-medium;
-    font-family: Pretendard, serif;
     &:hover {
       background-color: $gray-10;
     }
@@ -71,7 +70,6 @@
 .user-email {
   display: flex;
   padding: 0 16px 16px 16px;
-  font-size: $font-size-medium;
   color: $gray-70;
 }
 
@@ -81,8 +79,8 @@
   align-items: center;
   height: 48px;
   font-size: $font-size-large;
-  font-weight: 500;
-  padding: 8px 16px 0 16px;
+  font-weight: $font-weight-regular;
+  padding: 6px 16px 0 16px;
   border-radius: 0 0 6px 6px;
   border-top: 1px solid $gray-40;
 }
@@ -93,13 +91,10 @@
 
 .header-menu-list-item {
   display: flex;
+  align-items: center;
+  gap: 8px;
   height: 48px;
-  padding: 15px 16px;
+  padding: 0 16px;
   border-radius: 6px;
-
-  span {
-    font-size: $font-size-large;
-    color: $gray-90;
-    margin-left: 8px;
-  }
+  font-size: $font-size-large;
 }

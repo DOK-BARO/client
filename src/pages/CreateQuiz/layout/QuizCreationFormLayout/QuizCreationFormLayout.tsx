@@ -3,7 +3,7 @@ import { Step } from "@/types/StepType";
 import Button from "@/components/atom/Button/Button";
 import RightArrow from "@/svg/RightArrow";
 import { gray00, gray60 } from "@/styles/abstracts/colors.ts";
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import {
   createdQuizIdAtom,
   isQuizNextButtonEnabledAtom,
@@ -26,9 +26,10 @@ import ROUTES from "@/data/routes";
 import { invalidQuestionFormIdAtom } from "@/store/quizAtom";
 import { queryClient } from "@/services/server/queryClient";
 import { studyGroupKeys } from "@/data/queryKeys";
-import { SelectOptionType } from "@/types/QuizType";
 import { preventLeaveModalAtom } from "@/store/quizAtom";
 import { Blocker } from "react-router-dom";
+import { useValidateQuizForm } from "@/hooks/useValidateQuizForm";
+import { QUIZ_CREATION_STEP } from "@/data/constants";
 
 export default function QuizCreationFormLayout({
   isEditMode,
@@ -50,8 +51,9 @@ export default function QuizCreationFormLayout({
   const [, setErrorModalTitle] = useAtom(errorModalTitleAtom);
   const [openModal] = useAtom(openErrorModalAtom);
   const [, setInvalidQuestionFormId] = useAtom(invalidQuestionFormIdAtom);
-  const [, setPreventLeaveModal] = useAtom(preventLeaveModalAtom);
+  const setPreventLeaveModal = useSetAtom(preventLeaveModalAtom);
   const [isComplete, setIsComplete] = useState(false);
+  const validateQuizForm = useValidateQuizForm;
 
   // // localStorage에 임시저장
   // useEffect(() => {
@@ -79,7 +81,11 @@ export default function QuizCreationFormLayout({
   //   }, 60000);
   //   return () => clearInterval(intervalId);
   // }, []);
-
+  const notValidCallBack = (errorTitle: string, questionId: number) => {
+    setErrorModalTitle(errorTitle);
+    setInvalidQuestionFormId(questionId);
+    openModal!();
+  };
   const getCurrentStep = (): Step => {
     const step = steps[currentStep];
     if (step) return step;
@@ -216,58 +222,14 @@ export default function QuizCreationFormLayout({
 
   const endStep = steps.length - 1;
 
-  const hasDuplicate = (arr: SelectOptionType[]) => {
-    const options: string[] = arr.map(({ option }) => option);
-    return new Set(options).size !== options.length;
-  };
-
   const goToNextStep = async () => {
-    if (currentStep === 2.2) {
-      for (const question of quizCreationInfo.questions ?? []) {
-        // - 질문 입력 안 했을 때: 질문을 입력해 주세요.
-        if (question.content.length === 0) {
-          setErrorModalTitle("질문을 입력해 주세요");
-          setInvalidQuestionFormId(question.id);
-          openModal!();
-          return;
-        }
-
-        if (!question.answers?.length) {
-          setErrorModalTitle("답안이 선택되었는지 확인하세요.");
-          openModal!();
-          setInvalidQuestionFormId(question.id);
-          return;
-        }
-        if (question.answerType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER") {
-          if (question.answers.length <= 1) {
-            setErrorModalTitle("복수정답은 답안을 2개이상 선택해야 합니다");
-            setInvalidQuestionFormId(question.id);
-            openModal!();
-            return;
-          }
-        }
-        // - 옵션 하나도 없을 때: 선택지를 1개 이상 추가해 주세요.
-        if (
-          question.answerType !== "OX" &&
-          question.selectOptions.length === 0
-        ) {
-          setErrorModalTitle("선택지를 1개 이상 추가해 주세요");
-          setInvalidQuestionFormId(question.id);
-          openModal!();
-          return;
-        }
-
-        // -  중복된 옵션이 있을 때: 중복된 옵션입니다. 다시 입력해 주세요.
-        const selectOptions: SelectOptionType[] = question.selectOptions;
-        const duplicated: boolean = hasDuplicate(selectOptions);
-        if (duplicated) {
-          setErrorModalTitle("중복된 옵션입니다. 다시 입력해 주세요.");
-          setInvalidQuestionFormId(question.id);
-          openModal!();
-          return;
-        }
-        setInvalidQuestionFormId(undefined);
-      }
+    if (currentStep === QUIZ_CREATION_STEP.QUIZ_WRITE_FORM) {
+      const isValid = validateQuizForm(
+        quizCreationInfo.questions ?? [],
+        notValidCallBack,
+        setInvalidQuestionFormId,
+      );
+      if (!isValid) return;
     } else if (currentStep == endStep) {
       setPreventLeaveModal(false);
 

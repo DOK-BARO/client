@@ -9,13 +9,17 @@ import {
   systemSuccess,
 } from "@/styles/abstracts/colors.ts";
 import { CheckEllipse } from "@/svg/CheckEllipse";
-import { useAtom } from "jotai";
-import { quizCreationStepAtom } from "@/store/quizAtom";
+import { useAtom, useSetAtom } from "jotai";
+import { errorModalTitleAtom, quizCreationStepAtom } from "@/store/quizAtom";
 import { QUIZ_CREATION_STEP } from "@/data/constants";
 import { quizCreationInfoAtom } from "@/store/quizAtom";
 import { useAtomValue } from "jotai";
 import { useIsQuizStepEnabled } from "@/hooks/useIsQuizStepEnabled";
-
+import {
+  invalidQuestionFormIdAtom,
+  openErrorModalAtom,
+} from "@/store/quizAtom";
+import { useValidateQuizForm } from "@/hooks/useValidateQuizForm";
 export default function QuizCreationSteps({
   isEditMode,
   steps,
@@ -25,8 +29,30 @@ export default function QuizCreationSteps({
 }) {
   const [currentStep, setCurrentStep] = useAtom(quizCreationStepAtom);
   const quizInfo = useAtomValue(quizCreationInfoAtom);
+  const setInvalidQuestionFormId = useSetAtom(invalidQuestionFormIdAtom);
+  const setErrorModalTitle = useSetAtom(errorModalTitleAtom);
+  const [openModal] = useAtom(openErrorModalAtom);
+  const validateQuizForm = useValidateQuizForm;
   const isStepEnabled = useIsQuizStepEnabled;
-  const onChangeStep = (e: React.MouseEvent<HTMLButtonElement>) => {
+
+  const notValidCallBack = (errorTitle: string, questionId: number) => {
+    setErrorModalTitle(errorTitle);
+    setInvalidQuestionFormId(questionId);
+    openModal!();
+  };
+  const handleStepClick = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    isLastStep?: boolean,
+  ) => {
+    if (isLastStep) {
+      //유효성 검사
+      const isValid = validateQuizForm(
+        quizInfo.questions ?? [],
+        notValidCallBack,
+        setInvalidQuestionFormId,
+      );
+      if (!isValid) return;
+    }
     const currentStepButtonValue = e.currentTarget.value;
     steps.forEach((step) => {
       if (step.title === currentStepButtonValue) {
@@ -67,14 +93,14 @@ export default function QuizCreationSteps({
         const isAnySubStepActive = step.subSteps?.some(
           (subStep) => subStep.order === currentStep,
         );
-        const firstSubStepOrder = step.subSteps?.[0]?.order;
 
+        const firstSubStepOrder = step.subSteps?.[0]?.order;
         const isEditModeDisabledStep =
           isEditMode &&
           (step.order === QUIZ_CREATION_STEP.STUDY_GROUP_SELECT ||
             step.order === QUIZ_CREATION_STEP.BOOK_SELECT);
-
         const isValidPreviousSteps = isAllPreviousStepsValid(index, steps);
+        const isLastStep = index === steps.length - 1;
 
         return (
           <div key={step.order}>
@@ -82,7 +108,7 @@ export default function QuizCreationSteps({
               color={
                 isActiveStep || isAnySubStepActive ? "white" : "transparent"
               }
-              onClick={(e) => onChangeStep(e)}
+              onClick={(e) => handleStepClick(e, isLastStep)}
               value={step.title}
               className={styles.steps}
               disabled={isEditModeDisabledStep || !isValidPreviousSteps}
@@ -102,7 +128,7 @@ export default function QuizCreationSteps({
             {step.subSteps &&
               step.subSteps.map((subStep, idx) => (
                 <Button
-                  onClick={(e) => onChangeStep(e)}
+                  onClick={(e) => handleStepClick(e)}
                   key={subStep.order}
                   value={subStep.title}
                   color={

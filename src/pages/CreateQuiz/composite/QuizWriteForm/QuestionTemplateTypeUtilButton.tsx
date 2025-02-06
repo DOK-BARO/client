@@ -60,7 +60,7 @@ function QuestionTemplateTypeUtilButton({
       ref={dropDownListRef}
     >
       <Button
-        size="medium"
+        // size="medium"
         color="white"
         onClick={openDropDownList}
         iconPosition={"left"}

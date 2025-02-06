@@ -55,7 +55,13 @@ export default function MyMadeQuizItem({
           {/* </Link> */}
           <span className={styles["date-container"]}>
             <p className={styles.date}>{formattedDate}</p>
-            <img src={infoFilled} alt="" height={14} width={14} />
+            <img
+              src={infoFilled}
+              alt="만든 날짜"
+              title="만든 날짜"
+              height={14}
+              width={14}
+            />
           </span>
         </div>
         <div className={styles["right-container"]}>

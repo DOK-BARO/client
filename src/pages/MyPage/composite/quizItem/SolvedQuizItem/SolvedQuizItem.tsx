@@ -63,7 +63,13 @@ export default function SolvedQuizItem({
             <div className={styles["right-container-header"]}>
               <span className={styles["date-container"]}>
                 <p className={styles.date}>{formattedDate}</p>
-                <img src={infoFilled} alt="" height={14} width={14} />
+                <img
+                  title="푼 날짜"
+                  alt="푼 날짜"
+                  src={infoFilled}
+                  height={14}
+                  width={14}
+                />
               </span>
 
               <Button

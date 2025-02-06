@@ -121,7 +121,13 @@ export default function QuizItem({
           <p className={styles.date}>
             {formatDate(quizData.quiz.createdAt, true)}
           </p>
-          <img src={infoFilled} alt="" height={14} width={14} />
+          <img
+            src={infoFilled}
+            alt={isSolved ? "최종 제출일" : "만든 날짜"}
+            title={isSolved ? "최종 제출일" : "만든 날짜"}
+            height={14}
+            width={14}
+          />
         </span>
       </div>
       <div className={styles["right-container"]}>

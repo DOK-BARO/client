@@ -53,7 +53,8 @@ const useNavigateWithParams = (parentPage: ParentPage) => {
 
   const navigateWithParams = ({
     filter,
-    title,
+    // title,
+    keyword,
     page,
     category,
     parentPage, // 현재 어떤 페이지에 있는지
@@ -65,13 +66,15 @@ const useNavigateWithParams = (parentPage: ParentPage) => {
       | ReviewsFilterType
       | QuizzesFilterType
       | MyMadeQuizzesFilterType;
-    title?: string;
+    keyword?: string;
+    // title?: string;
     page?: number;
     category?: string;
     parentPage: ParentPage;
     excludeParams?: FetchBooksKeyType[];
     itemId?: number;
   }) => {
+    console.log("keyword", keyword);
     const queryParams = new URLSearchParams(window.location.search);
 
     if (filter) {
@@ -83,13 +86,21 @@ const useNavigateWithParams = (parentPage: ParentPage) => {
       queryParams.set("sort", sort);
       queryParams.set("direction", direction);
     }
-    if (title) {
-      if (!excludeParams.includes("title")) {
+    // if (title) {
+    //   if (!excludeParams.includes("title")) {
+    //     if (excludeParams.includes("page")) queryParams.delete("page");
+    //     queryParams.set("title", title);
+    //     initializePaginationState();
+    //   }
+    // }
+    if (keyword) {
+      if (!excludeParams.includes("keyword")) {
         if (excludeParams.includes("page")) queryParams.delete("page");
-        queryParams.set("title", title);
+        queryParams.set("keyword", keyword);
         initializePaginationState();
       }
     }
+
     if (page) {
       // 페이지 파라미터 처리 (exclude 옵션 고려)
       if (!excludeParams.includes("page")) {

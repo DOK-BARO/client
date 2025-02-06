@@ -70,26 +70,50 @@ export default function BookListLayout() {
   const direction = queryParams.get("direction") || "DESC"; // 기본값: DESC
   const page = queryParams.get("page") || undefined; // parseQueryParams함수 안에서 기본값 1로 설정
   const size = 10; // 한번에 불러올 최대 길이: 책 목록에서는 10 고정값.
-  const title = queryParams.get("title") || undefined;
+  // const title = queryParams.get("title") || undefined;
+  const keyword = queryParams.get("keyword") || undefined;
+
   // 책 목록 가져오기
   const { data: booksData, isLoading: isBooksLoading } = useQuery({
-    queryKey: bookKeys.list(
-      parseQueryParams<BooksSortType, FetchBooksParams>({
-        title,
-        category,
-        sort,
-        direction,
-        page,
-        size,
-      }),
-    ),
-    queryFn: () =>
-      bookService.fetchBooks(
-        parseQueryParams({ title, category, sort, direction, page, size }),
-      ),
+    queryKey: !keyword
+      ? bookKeys.list(
+          parseQueryParams<BooksSortType, FetchBooksParams>({
+            category,
+            sort,
+            direction,
+            page,
+            size,
+          }),
+        )
+      : bookKeys.search({ keyword }),
+    queryFn: async () => {
+      if (!keyword) {
+        console.log("키워드 없음");
+        return bookService.fetchBooks(
+          parseQueryParams({ category, sort, direction, page, size }),
+        );
+      } else {
+        console.log("키워드 있음");
+        return {
+          data: await bookService.fetchSearchBooks({ keyword }),
+          endPageNumber: 1, // ?
+        };
+      }
+    },
   });
 
-  const bookListTitle = title ? `'${title}'에 대한 검색 결과` : "전체 책 목록";
+  // // 책 목록 가져오기 (검색)
+  // const { data: searchedBooksData, isLoading: isSearchedBooksLoading } =
+  //   useQuery({
+  //     queryKey: bookKeys.search({ keyword }),
+  //     queryFn: () =>
+  //       keyword ? bookService.fetchSearchBooks({ keyword }) : null,
+  //     enabled: !!keyword,
+  //   });
+
+  const bookListTitle = keyword
+    ? `'${keyword}'에 대한 검색 결과`
+    : "전체 책 목록";
 
   const books = booksData?.data;
   const endPageNumber = booksData?.endPageNumber;

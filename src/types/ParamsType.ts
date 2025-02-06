@@ -8,6 +8,7 @@ import {
 export interface FetchBooksParams {
   title?: string;
   authorName?: string;
+  keyword?: string;
   description?: string;
   category?: number;
   page?: number;

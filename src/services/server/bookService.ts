@@ -46,7 +46,7 @@ class BookService {
   // 책 통합검색
   fetchSearchBooks = async (
     params?: SearchBooksParams,
-  ): Promise<BookType[]> => {
+  ): Promise<BookType[] | null> => {
     const { keyword, lastId = null, size = 20 } = params || {};
 
     try {
@@ -59,7 +59,8 @@ class BookService {
       });
       return data;
     } catch (error) {
-      throw new Error(`책 통합검색 실패: ${error}`);
+      handleAxiosError(error);
+      return null;
     }
   };
 

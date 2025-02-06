@@ -86,7 +86,6 @@ export default function Index() {
     retry: false,
     onError: (error) => {
       if (error.code === 403) {
-        console.log("스터디원이 아님.");
         // 스터디원이 아닌 경우
         setIsCodeInputStep(false); // 첫 페이지 (모달) (초기화)
         openStudyGroupCodeModal();
@@ -109,7 +108,11 @@ export default function Index() {
   const isInternalNavigation = location.state?.fromInternal ?? false;
 
   useEffect(() => {
-    if (isInternalNavigation) return;
+    if (isInternalNavigation && quizId) {
+      // 바로 퀴즈 시작
+      setSolvingQuizId(Number(quizId));
+      return;
+    }
 
     // 외부 링크로 직접 접근했을 경우에만
     setSkipGlobalErrorHandling(true);
@@ -254,6 +257,7 @@ export default function Index() {
     }
 
     if (!solvingQuizId) {
+      toast.error("알 수 없는 오류가 발생했습니다. 다시 시도해 주세요.");
       return;
     }
 

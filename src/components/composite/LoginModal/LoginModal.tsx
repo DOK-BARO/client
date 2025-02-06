@@ -17,7 +17,10 @@ import { XSmall } from "@/svg/XSmall.tsx";
 import { Invisible } from "@/svg/Invisible.tsx";
 import { useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
-import { isEmailLoginPageAtom } from "@/store/authModalAtom.ts";
+import {
+  isEmailLoginPageAtom,
+  socialLoginRedirectUrlAtom,
+} from "@/store/authModalAtom.ts";
 import { authService } from "@/services/server/authService.ts";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType.ts";
@@ -29,15 +32,28 @@ interface Props {
 }
 
 const socialLoginMethodButtonImage = [
-  <Github width={32} height={32} alt="깃허브" key="github" />,
-  <Google width={32} height={32} alt="구글" key="google" />,
-  <Kakao width={32} height={32} alt="카카오" key="kakao" />,
-  <Naver width={32} height={32} alt="네이버" key="naver" />,
+  {
+    type: SocialLoginType.GITHUB,
+    icon: <Github width={32} height={32} alt="깃허브" key="GITHUB" />,
+  },
+  {
+    type: SocialLoginType.GOOGLE,
+    icon: <Google width={32} height={32} alt="구글" key="GOOGLE" />,
+  },
+  {
+    type: SocialLoginType.KAKAO,
+    icon: <Kakao width={32} height={32} alt="카카오" key="KAKAO" />,
+  },
+  {
+    type: SocialLoginType.NAVER,
+    icon: <Naver width={32} height={32} alt="네이버" key="NAVER" />,
+  },
 ];
 
 const LoginModal = ({ closeModal }: Props) => {
   // TODO: 전역으로 상태 변경할 수 있도록 해야함
   // const [isEmailSelected, setIsEmailSelected] = useState<boolean>(false);
+  const [socialLoginRedirectUrl] = useAtom(socialLoginRedirectUrlAtom);
 
   const [isEmailLoginPage] = useAtom(isEmailLoginPageAtom);
   const navigate = useNavigate();
@@ -97,6 +113,19 @@ const LoginModal = ({ closeModal }: Props) => {
   const handleFindPasswordClick = () => {
     closeModal();
     navigate(ROUTES.FIND_PASSWORD);
+  };
+
+  const handleSocialAuth = (e: React.MouseEvent<HTMLButtonElement>) => {
+    sessionStorage.setItem("social-login-pending", "true");
+    const socialType = e.currentTarget.value as SocialLoginType;
+
+    const redirectUrl = socialLoginRedirectUrl;
+
+    localStorage.setItem("social", socialType.toLowerCase());
+    authService.socialSignupOrLogin({
+      socialType,
+      redirectUrl,
+    });
   };
 
   return (
@@ -219,13 +248,19 @@ const LoginModal = ({ closeModal }: Props) => {
                       aria-label="소셜로 로그인하기"
                       className={styles["social-login-buttons"]}
                     >
-                      {socialLoginMethodButtonImage.map((socialImage) => (
+                      {socialLoginMethodButtonImage.map((socialItem) => (
                         <Button
                           iconOnly
-                          key={socialImage.type}
-                          className={styles[`${socialImage.key}-button`]}
+                          key={socialItem.type}
+                          className={
+                            styles[
+                              `${socialItem.type?.toLocaleLowerCase()}-button`
+                            ]
+                          }
+                          onClick={handleSocialAuth}
+                          value={socialItem.type}
                         >
-                          {socialImage}
+                          {socialItem.icon}
                         </Button>
                       ))}
                     </section>

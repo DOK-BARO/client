@@ -15,6 +15,7 @@ import { QUIZ_CREATION_STEP } from "@/data/constants";
 import { quizCreationInfoAtom } from "@/store/quizAtom";
 import { useAtomValue } from "jotai";
 import { useIsQuizStepEnabled } from "@/hooks/useIsQuizStepEnabled";
+
 export default function QuizCreationSteps({
   isEditMode,
   steps,
@@ -38,6 +39,26 @@ export default function QuizCreationSteps({
       });
     });
   };
+  const isAllPreviousStepsValid = (currentStepIndex: number, steps: Step[]) => {
+    for (let i = 0; i < currentStepIndex; i++) {
+      const step = steps[i];
+
+      // 서브스텝이 있다면 모든 서브스텝이 활성화되어 있어야 함
+      if (step.subSteps) {
+        for (const subStep of step.subSteps) {
+          if (!isStepEnabled(subStep.order!, quizInfo)) {
+            return false;
+          }
+        }
+      } else {
+        if (!isStepEnabled(step.order!, quizInfo)) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
   return (
     <section className={styles["container"]}>
       <h3 className={styles["sr-only"]}>퀴즈 생성 단계</h3>
@@ -53,19 +74,7 @@ export default function QuizCreationSteps({
           (step.order === QUIZ_CREATION_STEP.STUDY_GROUP_SELECT ||
             step.order === QUIZ_CREATION_STEP.BOOK_SELECT);
 
-        // 이전 단계 작성 여부 검사
-        const exStep: Step = steps[index - 1];
-        const exSubStepsLastStepOrder =
-          exStep &&
-          exStep.subSteps &&
-          exStep.subSteps[exStep.subSteps.length - 1].order;
-
-        // 전단계가 서브스텝이 있으면 전단계가 아닌 전단계의 마지막 서브스텝을 검사
-        const isValidExStep =
-          exStep &&
-          (exSubStepsLastStepOrder
-            ? !isStepEnabled(exSubStepsLastStepOrder, quizInfo)
-            : !isStepEnabled(exStep.order, quizInfo));
+        const isValidPreviousSteps = isAllPreviousStepsValid(index, steps);
 
         return (
           <div key={step.order}>
@@ -76,7 +85,7 @@ export default function QuizCreationSteps({
               onClick={(e) => onChangeStep(e)}
               value={step.title}
               className={styles.steps}
-              disabled={isEditModeDisabledStep || isValidExStep}
+              disabled={isEditModeDisabledStep || !isValidPreviousSteps}
               fullWidth
             >
               <span>

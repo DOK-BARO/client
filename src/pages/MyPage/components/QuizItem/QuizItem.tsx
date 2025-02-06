@@ -42,10 +42,6 @@ export default function QuizItem({ quizData, isSolved, studyGroupId }: Props) {
     enabled: isModalOpen,
   });
 
-  console.log(gradeResult);
-  console.log(gradeResult?.solvedMember);
-  console.log(gradeResult?.unSolvedMember);
-
   return (
     <li className={styles.container}>
       {isModalOpen ? (

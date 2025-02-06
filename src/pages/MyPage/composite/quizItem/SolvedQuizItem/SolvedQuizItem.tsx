@@ -1,5 +1,7 @@
 import { quizKeys } from "@/data/queryKeys";
 import styles from "../_quiz_item.module.scss";
+import infoFilled from "/public/assets/svg/myPage/info-filled.svg";
+import link from "/public/assets/svg/myPage/link.svg";
 import Button from "@/components/atom/Button/Button";
 import ROUTES from "@/data/routes";
 import { MySolvedQuizDataType } from "@/types/QuizType";
@@ -24,17 +26,15 @@ export default function SolvedQuizItem({
     enabled: !!myQuiz.quiz.id,
   });
   return (
-    <li className={styles.quiz}>
-      <Link to={ROUTES.QUIZ_DETAIL(myQuiz.quiz?.id)}>
-        <div className={styles.info}>
+    <li>
+      <Link
+        to={ROUTES.QUIZ_DETAIL(myQuiz.quiz?.id)}
+        className={styles.container}
+      >
+        <div className={styles["left-container"]}>
           <div className={styles["img-container"]}>
-            <img src={myQuiz.bookImageUrl} />
+            <img src={myQuiz.bookImageUrl} alt="" className={styles.img} />
           </div>
-          <div className={styles["sub-info"]}>
-            <span className={styles.label}>최종 제출일</span>
-            <span className={styles["quiz-updated-at"]}>{formattedDate}</span>
-          </div>
-          <span className={styles["quiz-name"]}>{myQuiz.quiz.title}</span>
           <div className={styles["creator-profile"]}>
             <img
               src={quizExplanation?.creator.profileImageUrl}
@@ -46,15 +46,34 @@ export default function SolvedQuizItem({
             <p>{quizExplanation?.creator.nickname}</p>
           </div>
         </div>
-        <Button
-          fullWidth
-          color="primary"
-          size="small"
-          onClick={(e) => onReSolveQuiz(e, myQuiz.quiz.id)}
-          className={styles.resolve}
-        >
-          다시 풀기
-        </Button>
+        <div className={styles["right-container"]}>
+          <div>
+            <div className={styles["right-container-header"]}>
+              <span className={styles["date-container"]}>
+                <p className={styles.date}>{formattedDate}</p>
+                <img src={infoFilled} alt="" height={14} width={14} />
+              </span>
+
+              <img
+                src={link}
+                width={20}
+                height={20}
+                alt="퀴즈 공유 링크 복사"
+              />
+            </div>
+            <p className={styles.title}>{myQuiz.quiz.title}</p>
+            <p className={styles.description}></p>
+          </div>
+          <Button
+            fullWidth
+            color="primary"
+            size="small"
+            onClick={(e) => onReSolveQuiz(e, myQuiz.quiz.id)}
+            className={styles.resolve}
+          >
+            다시 풀기
+          </Button>
+        </div>
       </Link>
     </li>
   );

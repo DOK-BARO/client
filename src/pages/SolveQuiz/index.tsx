@@ -95,7 +95,6 @@ export default function Index() {
       // 스터디원인 경우
       if (data) {
         openQuizStartModal();
-        setSolvingQuizId(data.id);
       }
     },
   });
@@ -431,6 +430,11 @@ export default function Index() {
     navigate(ROUTES.ROOT);
   };
 
+  const handleStartQuiz = () => {
+    setSolvingQuizId(Number(quizId));
+    closeQuizStartModal();
+  };
+
   const [isMatch, setIsMatch] = useState<boolean | undefined>(undefined);
 
   return (
@@ -491,7 +495,7 @@ export default function Index() {
             {
               text: "퀴즈 풀기",
               color: "primary",
-              onClick: closeQuizStartModal,
+              onClick: handleStartQuiz,
             },
           ]}
         />

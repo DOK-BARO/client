@@ -43,6 +43,7 @@ export interface AnswerImageType {
 // TODO: 신고하기 모달 컴포넌트 분리 (중복 사용됨)
 export default function Index() {
   const [solvingQuizId, setSolvingQuizId] = useState<number>();
+
   const { quizId } = useParams<{
     quizId: string;
   }>();
@@ -76,6 +77,10 @@ export default function Index() {
   const handleImageClicked = (image: AnswerImageType) => {
     setClickedImage(image);
   };
+  const [isUserLoading] = useAtom(isUserLoadingAtom);
+  const [isLoggedIn] = useAtom(isLoggedInAtom);
+  const location = useLocation();
+  const isInternalNavigation = location.state?.fromInternal ?? false;
 
   const { mutate: startSolvingQuiz } = useMutation<
     { id: number } | null,
@@ -92,25 +97,25 @@ export default function Index() {
       }
     },
     onSuccess: (data) => {
-      // 스터디원인 경우
       if (data) {
-        openQuizStartModal();
         setSolvingQuizId(data.id);
+        if (!isInternalNavigation) {
+          // 외부 공유 링크로 접근했을 시 -> 퀴즈 시작 확인 모달 오픈
+          // 스터디원인 경우
+          openQuizStartModal();
+        }
+        // 내부 버튼 클릭으로 접근했을 시 -> 바로 시작
       }
     },
   });
+
   const [, setSkipGlobalErrorHandling] = useAtom(skipGlobalErrorHandlingAtom);
   const [, setSocialLoginRedirectUrl] = useAtom(socialLoginRedirectUrlAtom);
-
-  const [isUserLoading] = useAtom(isUserLoadingAtom);
-  const [isLoggedIn] = useAtom(isLoggedInAtom);
-  const location = useLocation();
-  const isInternalNavigation = location.state?.fromInternal ?? false;
 
   useEffect(() => {
     if (isInternalNavigation && quizId) {
       // 바로 퀴즈 시작
-      setSolvingQuizId(Number(quizId));
+      startSolvingQuiz(quizId);
       return;
     }
 

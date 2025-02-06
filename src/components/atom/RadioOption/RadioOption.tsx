@@ -8,7 +8,7 @@ import "highlight.js/styles/xcode.css";
 import Button from "../Button/Button";
 import { isFirstVisitAtom, quizGuideStepAtom } from "@/store/quizAtom";
 import { useAtom } from "jotai";
-
+import { useState } from "react";
 export type OptionStatusType =
   | "option-writing" // '퀴즈 작성'화면에서 텍스트를 작성 중인 경우
   | "option-written" // '퀴즈 작성'화면에서 텍스트를 작성하지 않는 경우
@@ -53,14 +53,22 @@ const RadioOption: React.FC<RadioOptionProps> = ({
   fullWidth = false,
 }) => {
   const optionMaxLength = 500;
+  const [isTextAreaFocus, setIsTextAreaFocus] = useState(false);
   const containerClassName = `
 			${styles["option-container"]}
 			${fullWidth ? styles["full"] : ""}
       ${styles[type]}
-      ${checked ? styles["checked-focused-color"] : styles["focused-color"]}
+      ${checked ? styles["checked-focused-color"] : isTextAreaFocus ? styles["focused-color"] : ""}
 			`;
   const [isFirstVisit] = useAtom(isFirstVisitAtom);
   const [currentQuizGuideStep] = useAtom(quizGuideStepAtom);
+
+  const handleTextAreaFocus = () => {
+    setIsTextAreaFocus(true);
+  };
+  const handleTextAreaBlur = () => {
+    setIsTextAreaFocus(false);
+  };
   const isEditMode =
     localStorage.getItem("isEditMode") == "true" ? true : false;
   return (
@@ -101,6 +109,8 @@ const RadioOption: React.FC<RadioOptionProps> = ({
               textareaDisabled
             }
             textAreaRef={textAreaRef}
+            onFocus={handleTextAreaFocus}
+            onBlur={handleTextAreaBlur}
             type="option-label"
             autoFocus
             fullWidth

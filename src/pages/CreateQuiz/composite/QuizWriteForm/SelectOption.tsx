@@ -74,6 +74,7 @@ const SelectOption: React.FC<SelectOptionProps> = ({
 
   const [currentWritingOptionId, setCurrentWritingOptionId] =
     useState<number>();
+
   const handleFocus = () => {
     setCurrentWritingOptionId(option.id);
   };

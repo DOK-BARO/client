@@ -14,10 +14,18 @@ export default function SolvedQuizItem({
   myQuiz,
   formattedDate,
   onReSolveQuiz,
+  onCopyQuizLink,
 }: {
   myQuiz: MySolvedQuizDataType;
   formattedDate: string;
-  onReSolveQuiz: (e: React.MouseEvent<HTMLButtonElement>, id: number) => void;
+  onReSolveQuiz: (
+    e: React.MouseEvent<HTMLButtonElement>,
+    quizId: number,
+  ) => void;
+  onCopyQuizLink: (
+    e: React.MouseEvent<HTMLButtonElement>,
+    quizId: number,
+  ) => void;
 }) {
   const { data: quizExplanation } = useQuery({
     queryKey: quizKeys.explanation(myQuiz.quiz.id.toString()),
@@ -33,7 +41,11 @@ export default function SolvedQuizItem({
       >
         <div className={styles["left-container"]}>
           <div className={styles["img-container"]}>
-            <img src={myQuiz.bookImageUrl} alt="" className={styles.img} />
+            <img
+              src={myQuiz.bookImageUrl}
+              alt={quizExplanation?.book.title}
+              className={styles.img}
+            />
           </div>
           <div className={styles["creator-profile"]}>
             <img
@@ -54,15 +66,22 @@ export default function SolvedQuizItem({
                 <img src={infoFilled} alt="" height={14} width={14} />
               </span>
 
-              <img
-                src={link}
-                width={20}
-                height={20}
-                alt="퀴즈 공유 링크 복사"
+              <Button
+                className={styles["copy-link"]}
+                onClick={(e) => onCopyQuizLink(e, myQuiz.quiz.id)}
+                iconOnly
+                icon={
+                  <img
+                    src={link}
+                    width={20}
+                    height={20}
+                    alt="퀴즈 공유 링크 복사"
+                  />
+                }
               />
             </div>
             <p className={styles.title}>{myQuiz.quiz.title}</p>
-            <p className={styles.description}></p>
+            <p className={styles.description}>{quizExplanation?.book.title}</p>
           </div>
           <Button
             fullWidth

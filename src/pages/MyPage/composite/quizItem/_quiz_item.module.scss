@@ -3,19 +3,14 @@
 @import "../../components/QuizItem/quiz_item.module";
 
 .right-container {
-  &-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
-    .study-group-name {
-      background-color: $secondary;
-      width: fit-content;
-      color: $primary;
-      border-radius: 3.2px;
-      font-size: 13px;
-      font-weight: $font-weight-medium;
-      padding: 0 4.8px;
-    }
+  .study-group-name {
+    background-color: $secondary;
+    width: fit-content;
+    color: $primary;
+    border-radius: 3.2px;
+    font-size: 13px;
+    font-weight: $font-weight-medium;
+    padding: 0 4.8px;
   }
 }
 .button-container {

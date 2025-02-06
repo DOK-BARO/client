@@ -37,9 +37,19 @@
   }
 
   .right-container {
+    &-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
     .title {
       font-size: $font-size-large;
       font-weight: $font-weight-semibold;
+    }
+    .copy-link {
+      padding: 4px;
+      margin-top: -4px;
+      margin-right: -4px;
     }
 
     .profile {

@@ -13,14 +13,24 @@ import GradeResultItem from "../GradeResultItem/GradeResultItem";
 import ROUTES from "@/data/routes";
 import { useAtom } from "jotai";
 import { currentUserAtom } from "@/store/userAtom";
+import link from "/public/assets/svg/myPage/link.svg";
 
 interface Props {
   quizData: StudyGroupMyUnSolvedQuizType;
   isSolved: boolean;
   studyGroupId: number | undefined;
+  onCopyQuizLink: (
+    e: React.MouseEvent<HTMLButtonElement>,
+    quizId: number,
+  ) => void;
 }
 
-export default function QuizItem({ quizData, isSolved, studyGroupId }: Props) {
+export default function QuizItem({
+  quizData,
+  isSolved,
+  studyGroupId,
+  onCopyQuizLink,
+}: Props) {
   const navigate = useNavigate();
   const handleGoToSolveQuiz = () => {
     navigate(ROUTES.SOLVING_QUIZ(quizData.quiz.id), {
@@ -116,7 +126,22 @@ export default function QuizItem({ quizData, isSolved, studyGroupId }: Props) {
       </div>
       <div className={styles["right-container"]}>
         <div>
-          <p className={styles.title}>{quizData.quiz.title}</p>
+          <div className={styles["right-container-header"]}>
+            <p className={styles.title}>{quizData.quiz.title}</p>
+            <Button
+              className={styles["copy-link"]}
+              onClick={(e) => onCopyQuizLink(e, quizData.quiz.id)}
+              iconOnly
+              icon={
+                <img
+                  src={link}
+                  width={20}
+                  height={20}
+                  alt="퀴즈 공유 링크 복사"
+                />
+              }
+            />
+          </div>
           <span className={styles.profile}>
             {quizData.quiz.contributors.length > 0 ? (
               <div className={styles["profile-images-container"]}>

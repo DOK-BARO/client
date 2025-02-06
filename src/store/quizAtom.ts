@@ -1,4 +1,4 @@
-import { QUIZ_CREATION_STEP } from "@/data/constants";
+import { useIsQuizStepEnabled } from "@/hooks/useIsQuizStepEnabled";
 import { QuizCreationType } from "@/types/QuizType";
 import { atom } from "jotai";
 
@@ -30,28 +30,7 @@ export const quizCreationInfoAtom = atom<QuizCreationType>(
 export const isQuizNextButtonEnabledAtom = atom<boolean>((get) => {
   const step = get(quizCreationStepAtom);
   const quizInfo = get(quizCreationInfoAtom);
-  console.log(quizInfo);
-
-  switch (step) {
-    case QUIZ_CREATION_STEP.STUDY_GROUP_SELECT:
-      return true;
-    case QUIZ_CREATION_STEP.BOOK_SELECT:
-      return quizInfo.book !== null;
-    case QUIZ_CREATION_STEP.QUIZ_BASIC_INFO:
-    case QUIZ_CREATION_STEP.QUIZ_BASIC_INFO_FORM:
-      return (
-        quizInfo.title !== null &&
-        quizInfo.description !== null &&
-        !!quizInfo.title?.length &&
-        !!quizInfo?.description.length
-      );
-    case QUIZ_CREATION_STEP.QUIZ_WRITE_FORM:
-      return quizInfo.questions !== null && quizInfo.questions.length > 0;
-    case QUIZ_CREATION_STEP.SETTING:
-      return quizInfo.viewScope !== null;
-    default:
-      return true;
-  }
+  return useIsQuizStepEnabled(step, quizInfo);
 });
 
 export const quizCreationStepAtom = atom<number>(0); // 퀴즈 작성 단계

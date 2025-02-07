@@ -34,15 +34,11 @@
 }
 
 .focused-color {
-  &:focus-within {
-    background-color: $background;
-  }
+  background-color: $background;
 }
 
 .checked-focused-color {
-  &:focus-within {
-    background-color: $secondary;
-  }
+  background-color: $secondary;
 }
 
 .option-label-textarea {

@@ -4,7 +4,9 @@ import { SetStateAction } from "jotai";
 export const useValidateQuizForm = (
   questions: QuizQuestionType[],
   notValidCallBack: (errorTitle: string, questionId: number) => void,
-  setInvalidQuestionFormId: (value: SetStateAction<number | undefined>) => void,
+  setInvalidQuestionFormId?: (
+    value: SetStateAction<number | undefined>,
+  ) => void,
 ) => {
   const hasDuplicate = (arr: SelectOptionType[]) => {
     const options: string[] = arr.map(({ option }) => option);
@@ -53,7 +55,9 @@ export const useValidateQuizForm = (
       }
     }
 
-    setInvalidQuestionFormId(undefined);
+    if (setInvalidQuestionFormId) {
+      setInvalidQuestionFormId(undefined);
+    }
   }
   return true;
 };

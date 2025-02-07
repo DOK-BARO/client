@@ -13,6 +13,8 @@
   max-width: 792px;
   min-width: 560px;
 
+  border: 1.5px solid $gray-40;
+
   &-header {
     display: flex;
     justify-content: space-between;
@@ -24,10 +26,6 @@
     height: 40px;
     @include flex(row, center);
     border-radius: 50%;
-  }
-
-  &:focus-within {
-    border: 1.5px solid $primary;
   }
 
   .setting-container {
@@ -45,11 +43,10 @@
   }
 }
 
-.invalid {
-  border: 1.5px solid $system-danger;
-
+.border--invalid {
+  border: 1.5px solid $primary;
   &:focus-within {
-    border: 1.5px solid $system-danger;
+    border: 1.5px solid $primary;
   }
 }
 

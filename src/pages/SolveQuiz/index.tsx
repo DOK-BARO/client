@@ -34,6 +34,7 @@ import { skipGlobalErrorHandlingAtom } from "@/store/skipGlobalErrorHandlingAtom
 import { socialLoginRedirectUrlAtom } from "@/store/authModalAtom";
 import CodeInput from "@/components/composite/CodeInput/CodeInput";
 import useCodeInput from "@/hooks/useCodeInput";
+import usePreventPopState from "@/hooks/usePreventPopState";
 export interface AnswerImageType {
   index: number;
   src: string;
@@ -67,6 +68,12 @@ export default function Index() {
     openModal: openJoinWelcomeModal,
     closeModal: closeJoinWelcomeModal,
     isModalOpen: isJoinWelcomeModalOpen,
+  } = useModal();
+
+  const {
+    openModal: openPreventLeaveModal,
+    closeModal: closePreventLeaveModal,
+    isModalOpen: isPreventLeaveModalOpen,
   } = useModal();
 
   const [clickedImage, setClickedImage] = useState<AnswerImageType | undefined>(
@@ -326,6 +333,8 @@ export default function Index() {
       ),
     );
   };
+  const popStateCallback = openPreventLeaveModal;
+  usePreventPopState(popStateCallback);
 
   const handleReportQuiz = () => {
     if (!quiz) return;
@@ -716,6 +725,41 @@ export default function Index() {
             </Button>
           </div>
         </div>
+      )}
+      {isPreventLeaveModalOpen && (
+        <Modal
+          showHeaderCloseButton={false}
+          closeModal={closePreventLeaveModal}
+          contents={[
+            {
+              title: `이 페이지를 벗어나면 현재까지 입력한 답안이 채점돼요.
+                페이지를 이동하시겠어요?`,
+              content: <></>,
+            },
+          ]}
+          bottomButtons={[
+            {
+              text: "계속 풀기",
+              color: "secondary",
+              onClick: () => {
+                window.history.pushState(null, "", window.location.href);
+                closePreventLeaveModal();
+              },
+            },
+            {
+              text: "나가기",
+              color: "primary",
+              onClick: () => {
+                if (selectedOptions?.length) {
+                  handleQuestionSubmit(); // 채점 후 나가기
+                }
+
+                navigate(-1);
+                closePreventLeaveModal();
+              },
+            },
+          ]}
+        />
       )}
     </section>
   );

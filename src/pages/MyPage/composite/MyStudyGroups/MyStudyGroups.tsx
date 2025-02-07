@@ -167,7 +167,6 @@ export default function MyStudyGroups() {
         )
       )}
 
-      {/* TODO: 무한 스크롤 */}
       <div ref={observerRef}>{isFetchingNextPage && <div>로딩중...</div>}</div>
     </section>
   );

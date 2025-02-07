@@ -28,9 +28,6 @@ export default function BookList() {
     setPrevPaginationState(paginationState);
   };
 
-  if (!books) {
-    return <div>book list page error!!</div>;
-  }
   return (
     <ul className={styles["book-list-container"]}>
       {books?.map((book) => (

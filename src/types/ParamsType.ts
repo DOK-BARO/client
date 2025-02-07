@@ -20,7 +20,7 @@ export type FetchBooksKeyType = keyof FetchBooksParams;
 
 export interface SearchBooksParams {
   keyword?: string;
-  lastId?: number;
+  lastId?: number | null;
   size?: number;
 }
 

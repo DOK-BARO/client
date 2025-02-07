@@ -25,7 +25,7 @@
     .img-container {
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: start;
       height: 208px;
 
       .img {
@@ -34,26 +34,22 @@
         border-radius: 6px;
       }
     }
-    .date-container {
-      @include flex(row, center);
-      gap: 4px;
-
-      .date {
-        color: $gray-60;
-        font-size: 12px;
-        font-weight: $font-weight-regular;
-        text-align: center;
-        margin-top: 0;
-      }
-    }
   }
 
   .right-container {
-    padding: 3px 3px 3px 0;
-
+    &-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
     .title {
       font-size: $font-size-large;
       font-weight: $font-weight-semibold;
+    }
+    .copy-link {
+      padding: 4px;
+      margin-top: -4px;
+      margin-right: -4px;
     }
 
     .profile {
@@ -87,12 +83,15 @@
         font-weight: $font-weight-regular;
       }
     }
+
     .description {
       margin-top: 8px;
+      // margin-top: 4px;
       color: $gray-70;
       font-size: $font-size-small;
       font-weight: $font-weight-regular;
     }
+
     .button-container {
       display: flex;
       flex-direction: column;
@@ -105,4 +104,16 @@
   display: flex;
   flex-direction: column;
   gap: 7px;
+}
+.date-container {
+  @include flex(row, center);
+  gap: 4px;
+
+  .date {
+    color: $gray-60;
+    font-size: 12px;
+    font-weight: $font-weight-regular;
+    text-align: center;
+    margin-top: 0;
+  }
 }

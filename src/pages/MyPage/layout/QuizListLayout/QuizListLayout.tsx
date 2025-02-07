@@ -12,6 +12,7 @@ import Modal from "@/components/atom/Modal/Modal";
 import { useState } from "react";
 import SolvedQuizItem from "../../composite/quizItem/SolvedQuizItem/SolvedQuizItem";
 import MyMadeQuizItem from "../../composite/quizItem/MyMadeQuizItem/MyMadeQuizItem";
+import { copyText } from "@/utils/copyText";
 
 export default function QuizListLayout<
   T extends { sort: string; direction: string },
@@ -73,6 +74,17 @@ export default function QuizListLayout<
     }
   };
 
+  const handleCopyQuizLink = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    quizId: number,
+  ) => {
+    e.preventDefault();
+    copyText(
+      `${import.meta.env.VITE_DEFAULT_URL}${ROUTES.SOLVING_QUIZ(quizId)}`,
+      () => "퀴즈 공유 링크가 복사되었어요!",
+    );
+  };
+
   return (
     <section className={styles["list-section"]}>
       <ListHeader
@@ -109,6 +121,7 @@ export default function QuizListLayout<
                   myQuiz={myQuiz as MySolvedQuizDataType}
                   onReSolveQuiz={handleReSolveQuiz}
                   formattedDate={formattedDate}
+                  onCopyQuizLink={handleCopyQuizLink}
                 />
               ) : (
                 <MyMadeQuizItem
@@ -117,6 +130,7 @@ export default function QuizListLayout<
                   onModifyQuiz={handleModifyQuiz}
                   formattedDate={formattedDate}
                   onClickDelete={handleClickDelete}
+                  onCopyQuizLink={handleCopyQuizLink}
                 />
               );
             },

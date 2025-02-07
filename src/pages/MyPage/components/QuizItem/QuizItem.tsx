@@ -13,14 +13,24 @@ import GradeResultItem from "../GradeResultItem/GradeResultItem";
 import ROUTES from "@/data/routes";
 import { useAtom } from "jotai";
 import { currentUserAtom } from "@/store/userAtom";
+import link from "/public/assets/svg/myPage/link.svg";
 
 interface Props {
   quizData: StudyGroupMyUnSolvedQuizType;
   isSolved: boolean;
   studyGroupId: number | undefined;
+  onCopyQuizLink: (
+    e: React.MouseEvent<HTMLButtonElement>,
+    quizId: number,
+  ) => void;
 }
 
-export default function QuizItem({ quizData, isSolved, studyGroupId }: Props) {
+export default function QuizItem({
+  quizData,
+  isSolved,
+  studyGroupId,
+  onCopyQuizLink,
+}: Props) {
   const navigate = useNavigate();
   const handleGoToSolveQuiz = () => {
     navigate(ROUTES.SOLVING_QUIZ(quizData.quiz.id), {
@@ -41,10 +51,6 @@ export default function QuizItem({ quizData, isSolved, studyGroupId }: Props) {
         : null,
     enabled: isModalOpen,
   });
-
-  console.log(gradeResult);
-  console.log(gradeResult?.solvedMember);
-  console.log(gradeResult?.unSolvedMember);
 
   return (
     <li className={styles.container}>
@@ -115,12 +121,33 @@ export default function QuizItem({ quizData, isSolved, studyGroupId }: Props) {
           <p className={styles.date}>
             {formatDate(quizData.quiz.createdAt, true)}
           </p>
-          <img src={infoFilled} alt="" height={14} width={14} />
+          <img
+            src={infoFilled}
+            alt={isSolved ? "최종 제출일" : "만든 날짜"}
+            title={isSolved ? "최종 제출일" : "만든 날짜"}
+            height={14}
+            width={14}
+          />
         </span>
       </div>
       <div className={styles["right-container"]}>
         <div>
-          <p className={styles.title}>{quizData.quiz.title}</p>
+          <div className={styles["right-container-header"]}>
+            <p className={styles.title}>{quizData.quiz.title}</p>
+            <Button
+              className={styles["copy-link"]}
+              onClick={(e) => onCopyQuizLink(e, quizData.quiz.id)}
+              iconOnly
+              icon={
+                <img
+                  src={link}
+                  width={20}
+                  height={20}
+                  alt="퀴즈 공유 링크 복사"
+                />
+              }
+            />
+          </div>
           <span className={styles.profile}>
             {quizData.quiz.contributors.length > 0 ? (
               <div className={styles["profile-images-container"]}>

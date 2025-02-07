@@ -1,13 +1,10 @@
-import { quizKeys } from "@/data/queryKeys";
 import styles from "../_quiz_item.module.scss";
 import infoFilled from "/public/assets/svg/myPage/info-filled.svg";
 import link from "/public/assets/svg/myPage/link.svg";
 import Button from "@/components/atom/Button/Button";
 import ROUTES from "@/data/routes";
 import { MySolvedQuizDataType } from "@/types/QuizType";
-import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
-import { quizService } from "@/services/server/quizService";
 
 // 푼 퀴즈 아이템
 export default function SolvedQuizItem({
@@ -27,12 +24,6 @@ export default function SolvedQuizItem({
     quizId: number,
   ) => void;
 }) {
-  const { data: quizExplanation } = useQuery({
-    queryKey: quizKeys.explanation(myQuiz.quiz.id.toString()),
-    queryFn: async () =>
-      await quizService.fetchQuizExplanation(myQuiz.quiz.id.toString()),
-    enabled: !!myQuiz.quiz.id,
-  });
   return (
     <li>
       <Link
@@ -41,21 +32,17 @@ export default function SolvedQuizItem({
       >
         <div className={styles["left-container"]}>
           <div className={styles["img-container"]}>
-            <img
-              src={myQuiz.bookImageUrl}
-              alt={quizExplanation?.book.title}
-              className={styles.img}
-            />
+            <img src={myQuiz.bookImageUrl} alt={""} className={styles.img} />
           </div>
           <div className={styles["creator-profile"]}>
             <img
-              src={quizExplanation?.creator.profileImageUrl}
-              alt={`${quizExplanation?.creator.nickname}님의 프로필 이미지`}
+              src={myQuiz.quiz.creator.profileImageUrl ?? ""} // TODO: defaultImage 설정하기
+              alt={`${myQuiz.quiz.creator.nickname}님의 프로필 이미지`}
               width={32}
               height={32}
               className={styles.profile}
             />
-            <p>{quizExplanation?.creator.nickname}</p>
+            <p>{myQuiz.quiz.creator.nickname}</p>
           </div>
         </div>
         <div className={styles["right-container"]}>
@@ -87,7 +74,7 @@ export default function SolvedQuizItem({
               />
             </div>
             <p className={styles.title}>{myQuiz.quiz.title}</p>
-            <p className={styles.description}>{quizExplanation?.book.title}</p>
+            <p className={styles.description}>{""}</p>
           </div>
           <Button
             fullWidth

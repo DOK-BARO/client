@@ -44,7 +44,9 @@ export default function QuizListLayout<
     quizId: number,
   ) => {
     e.preventDefault();
-    navigate(ROUTES.SOLVING_QUIZ(quizId));
+    navigate(ROUTES.SOLVING_QUIZ(quizId), {
+      state: { fromInternal: true },
+    });
   };
 
   const handleModifyQuiz = (

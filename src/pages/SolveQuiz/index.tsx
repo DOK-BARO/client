@@ -43,6 +43,7 @@ export interface AnswerImageType {
 // TODO: 신고하기 모달 컴포넌트 분리 (중복 사용됨)
 export default function Index() {
   const [solvingQuizId, setSolvingQuizId] = useState<number>();
+
   const { quizId } = useParams<{
     quizId: string;
   }>();
@@ -76,6 +77,10 @@ export default function Index() {
   const handleImageClicked = (image: AnswerImageType) => {
     setClickedImage(image);
   };
+  const [isUserLoading] = useAtom(isUserLoadingAtom);
+  const [isLoggedIn] = useAtom(isLoggedInAtom);
+  const location = useLocation();
+  const isInternalNavigation = location.state?.fromInternal ?? false;
 
   const { mutate: startSolvingQuiz } = useMutation<
     { id: number } | null,
@@ -86,30 +91,33 @@ export default function Index() {
     retry: false,
     onError: (error) => {
       if (error.code === 403) {
-        console.log("스터디원이 아님.");
         // 스터디원이 아닌 경우
         setIsCodeInputStep(false); // 첫 페이지 (모달) (초기화)
         openStudyGroupCodeModal();
       }
     },
     onSuccess: (data) => {
-      // 스터디원인 경우
       if (data) {
-        openQuizStartModal();
         setSolvingQuizId(data.id);
+        if (!isInternalNavigation) {
+          // 외부 공유 링크로 접근했을 시 -> 퀴즈 시작 확인 모달 오픈
+          // 스터디원인 경우
+          openQuizStartModal();
+        }
+        // 내부 버튼 클릭으로 접근했을 시 -> 바로 시작
       }
     },
   });
+
   const [, setSkipGlobalErrorHandling] = useAtom(skipGlobalErrorHandlingAtom);
   const [, setSocialLoginRedirectUrl] = useAtom(socialLoginRedirectUrlAtom);
 
-  const [isUserLoading] = useAtom(isUserLoadingAtom);
-  const [isLoggedIn] = useAtom(isLoggedInAtom);
-  const location = useLocation();
-  const isInternalNavigation = location.state?.fromInternal ?? false;
-
   useEffect(() => {
-    if (isInternalNavigation) return;
+    if (isInternalNavigation && quizId) {
+      // 바로 퀴즈 시작
+      startSolvingQuiz(quizId);
+      return;
+    }
 
     // 외부 링크로 직접 접근했을 경우에만
     setSkipGlobalErrorHandling(true);
@@ -254,6 +262,7 @@ export default function Index() {
     }
 
     if (!solvingQuizId) {
+      toast.error("알 수 없는 오류가 발생했습니다. 다시 시도해 주세요.");
       return;
     }
 

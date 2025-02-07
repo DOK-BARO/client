@@ -23,7 +23,9 @@ export default function QuizItem({ quiz, onClick }: Props) {
   const goToPlayQuiz = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    navigate(ROUTES.SOLVING_QUIZ(quiz.id));
+    navigate(ROUTES.SOLVING_QUIZ(quiz.id), {
+      state: { fromInternal: true },
+    });
   };
 
   const averageDifficultyLabel =

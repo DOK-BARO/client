@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import { isQuizNextButtonEnabledAtom } from "@/store/quizAtom";
-import { useAtom } from "jotai";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import {
   QuizCreationType,
@@ -17,14 +15,6 @@ interface SelectedOptions {
 export default function QuizSettingsForm() {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
-  const [, setIsQuizNextButtonEnabled] = useAtom<boolean>(
-    isQuizNextButtonEnabledAtom,
-  );
-
-  // 다음 버튼 초기화
-  useEffect(() => {
-    setIsQuizNextButtonEnabled(false);
-  }, []);
 
   const [selectedOptions, setSelectedOptions] = useState<SelectedOptions>({
     "view-access": quizCreationInfo.viewScope
@@ -58,18 +48,6 @@ export default function QuizSettingsForm() {
     });
   };
 
-  // 모든 항목이 선택되었는지 체크
-  useEffect(() => {
-    if (!quizSettings) {
-      return;
-    }
-    const isAllSelected = quizSettings.every(
-      (setting) => selectedOptions[setting.name] !== null,
-    );
-
-    setIsQuizNextButtonEnabled(isAllSelected);
-  }, [Object.values(selectedOptions)]);
-
   return (
     <>
       {quizSettings?.map((quizSetting) => (
@@ -94,10 +72,6 @@ const getQuizSettings = (isStudyGroupSelected: boolean): QuizSettingType[] => [
             label: "스터디원만",
             description: "스터디원이 이 퀴즈를 보고 풀 수 있습니다.",
           },
-          {
-            label: "나만",
-            description: "나만 이 퀴즈를 보고 풀 수 있습니다.",
-          },
         ]
       : [
           {
@@ -112,27 +86,4 @@ const getQuizSettings = (isStudyGroupSelected: boolean): QuizSettingType[] => [
 
     icon: "/assets/svg/quizSettingForm/view.svg",
   },
-  // {
-  //   title: "편집 권한",
-  //   name: "edit-access",
-  //   options: isStudyGroupSelected
-  //     ? [
-  //         {
-  //           label: "스터디원만",
-  //           description: "스터디원이 이 퀴즈를 편집할 수 있습니다.",
-  //         },
-  //         {
-  //           label: "나만",
-  //           description: "나만 이 퀴즈를 편집할 수 있습니다.",
-  //         },
-  //       ]
-  //     : [
-  //         {
-  //           label: "나만",
-  //           description: "나만 이 퀴즈를 보고 풀 수 있습니다.",
-  //         },
-  //       ],
-
-  //   icon: "/assets/svg/quizSettingForm/edit.svg",
-  // },
 ];

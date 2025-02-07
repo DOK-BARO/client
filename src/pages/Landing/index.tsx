@@ -5,10 +5,25 @@ import useLoginAction from "@/hooks/useLoginAction";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "@/data/routes";
 import { EXTERNAL_SERVICE_INTRODUCTION_PAGE } from "@/data/constants";
+import { useEffect } from "react";
+import { useAtom } from "jotai";
+import useLoginModal from "@/hooks/useLoginModal";
+import { skipGlobalErrorHandlingAtom } from "@/store/skipGlobalErrorHandlingAtom";
 
 export default function Index() {
   const navigate = useNavigate();
   const { handleAuthenticatedAction } = useLoginAction();
+  const [, setSkipGlobalErrorHandling] = useAtom(skipGlobalErrorHandlingAtom);
+  const { closeLoginModal } = useLoginModal();
+
+  useEffect(() => {
+    if (sessionStorage.getItem("social-login-pending") === "true") {
+      setSkipGlobalErrorHandling(false);
+      closeLoginModal();
+      sessionStorage.removeItem("social-login-pending");
+    }
+  }, []);
+
   return (
     <section className={styles["container"]}>
       <h2 className={styles["title"]}>개발자 북퀴즈 플랫폼</h2>

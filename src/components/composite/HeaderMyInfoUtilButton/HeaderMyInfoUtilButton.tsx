@@ -1,12 +1,12 @@
 import styles from "./_header_menu_button.module.scss";
 import { useDropDownList } from "@/hooks/useDropDownList.ts";
 import Button from "@/components/atom/Button/Button.tsx";
-import HeaderMenuList from "../HeaderMenuList/HeaderMenuList.tsx";
 import { Person } from "@/svg/Person.tsx";
 import { useAtom } from "jotai";
 import { isLoggedInAtom } from "@/store/userAtom.ts";
 import { currentUserAtom } from "@/store/userAtom.ts";
 import defaultImage from "/public/assets/svg/header/default-profile.svg";
+import HeaderMenuList from "../headerMenu/HeaderMenuList";
 
 export default function HeaderMyInfoUtilButton() {
   const [isLoggedIn] = useAtom(isLoggedInAtom);

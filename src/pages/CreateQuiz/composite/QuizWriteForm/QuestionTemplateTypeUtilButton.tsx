@@ -29,17 +29,27 @@ function QuestionTemplateTypeUtilButton({
     useUpdateQuizCreationInfo();
 
   const onClick = (option: QuestionTemplateType) => {
+    // 현재 질문이 ox이거나 ox로 바꾸려고 하는거면
+    // 질문데이터 초기화
     const updatedQuestions: QuizQuestionType[] =
       quizCreationInfo.questions?.map((question) =>
         question.id === questionId
-          ? {
-              ...question,
-              selectOptions: [],
-              answerType: option.answerType,
-              answers: [],
-            }
+          ? question.answerType === "OX" || option.answerType === "OX"
+            ? {
+                ...question,
+                selectOptions: [],
+                answerType: option.answerType,
+                answers: [],
+              }
+            : {
+                ...question,
+                ...selectedOption,
+                answerType: option.answerType,
+                answers: [],
+              }
           : question,
       ) ?? [];
+
     updateQuizCreationInfo("questions", updatedQuestions);
     onUpdateQuestionFormsWithAnswerType(questionId, option.answerType);
 

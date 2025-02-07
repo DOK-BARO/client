@@ -5,7 +5,7 @@ import { gray40, gray60 } from "@/styles/abstracts/colors.ts";
 import Button from "@/components/atom/Button/Button";
 import { ProfileImageState } from "../../composite/ProfileSet/ProfileSet";
 
-export default function ProfileUpload({
+export default function ProfileUploader({
   email,
   profileImage,
   setProfileImage,
@@ -24,9 +24,7 @@ export default function ProfileUpload({
   };
 
   const onFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // console.log("on file change");
     const file = event.target.files?.[0];
-    // console.log(file);
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {

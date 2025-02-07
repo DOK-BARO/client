@@ -19,6 +19,8 @@ import ListFilter, {
 import QuizItem from "../../components/QuizItem/QuizItem";
 import Pagination from "@/components/composite/Pagination/Pagination";
 import { NoDataSection } from "@/components/composite/NoDataSection/NoDataSection";
+import { copyText } from "@/utils/copyText";
+import ROUTES from "@/data/routes";
 
 const filterOptions: FilterOptionType<MyStudySolvedQuizzesFilterType>[] = [
   {
@@ -104,6 +106,17 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Props) {
     setFilterCriteria(filter);
   };
 
+  const handleCopyQuizLink = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    quizId: number,
+  ) => {
+    e.preventDefault();
+    copyText(
+      `${import.meta.env.VITE_DEFAULT_URL}${ROUTES.SOLVING_QUIZ(quizId)}`,
+      () => "퀴즈 공유 링크가 복사되었어요!",
+    );
+  };
+
   return (
     <section className={styles.section}>
       <div className={styles["filter-container"]}>
@@ -124,6 +137,7 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Props) {
               isSolved
               quizData={quizData}
               studyGroupId={studyGroupId}
+              onCopyQuizLink={handleCopyQuizLink}
             />
           ))}
         </ol>

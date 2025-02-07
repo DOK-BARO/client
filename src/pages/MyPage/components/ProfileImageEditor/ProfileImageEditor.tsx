@@ -3,13 +3,14 @@ import styles from "./_profile_image_editor.module.scss";
 import editProfile from "/assets/svg/accountSetting/editProfile.svg";
 import { ProfileImageState } from "@/pages/Register/composite/ProfileSet/ProfileSet";
 import Button from "@/components/atom/Button/Button";
-
+import loadingIndicator from "/public/assets/svg/quizBookSelectionForm/loading.gif";
 interface Props {
   width: number;
   profileImage: ProfileImageState;
   setProfileImage: React.Dispatch<React.SetStateAction<ProfileImageState>>;
   isDeletable?: boolean;
   initialImageState: ProfileImageState;
+  isLoading: boolean;
 }
 
 export default function ProfileImageEditor({
@@ -18,13 +19,12 @@ export default function ProfileImageEditor({
   profileImage,
   setProfileImage,
   isDeletable,
+  isLoading,
 }: Props) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // console.log("on file change");
     const file = event.target.files?.[0];
-    // console.log(file);
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
@@ -37,6 +37,7 @@ export default function ProfileImageEditor({
     }
     event.target.value = "";
   };
+
   const handleFileDelete = () => {
     setProfileImage(initialImageState);
   };
@@ -56,12 +57,21 @@ export default function ProfileImageEditor({
         className={`${styles["edit-img-btn"]} ${styles[`width-${width}`]}`}
       >
         {/* 프로필 이미지 */}
-
         <img
           className={`${styles["profile-img"]} ${styles[`width-${width}`]}`}
           src={profileImage.url ?? initialImageState.url}
           alt="프로필 이미지"
         />
+        {isLoading ? (
+          <div className={styles["loading-img-bg"]}>
+            <img
+              src={loadingIndicator}
+              width={50}
+              height={50}
+              alt="이미지 업로드 로딩중"
+            />
+          </div>
+        ) : null}
         {/* 편집 아이콘 */}
         <div className={styles["edit-img-bg"]}>
           <div

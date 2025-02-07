@@ -8,8 +8,11 @@ import QuizCreationSteps from "./layout/QuizCreationSteps/QuizCreationSteps";
 import MemoizedQuizBasicInfoForm from "@/pages/CreateQuiz/composite/QuizBasicInfoForm/QuizBasicInfoForm";
 import {
   errorModalTitleAtom,
+  isFirstVisitAtom,
   openErrorModalAtom,
   quizCreationInfoAtom,
+  quizCreationStepAtom,
+  quizGuideStepAtom,
   resetQuizCreationStateAtom,
   stepsCompletionStatusAtom,
 } from "@/store/quizAtom.ts";
@@ -18,7 +21,7 @@ import Modal from "@/components/atom/Modal/Modal.tsx";
 import useModal from "@/hooks/useModal.ts";
 import { Step } from "@/types/StepType.ts";
 import QuizBookSelectionForm from "./composite/QuizBookSectionForm/QuizBookSelectionForm/QuizBookSelectionForm.tsx";
-import { useBlocker, useParams } from "react-router-dom";
+import { useBlocker, useNavigate, useParams } from "react-router-dom";
 import { quizKeys } from "@/data/queryKeys.ts";
 import { quizService } from "@/services/server/quizService.ts";
 import { useQuery } from "@tanstack/react-query";
@@ -31,14 +34,24 @@ import { SelectOptionType } from "@/types/QuizType.ts";
 import { QuizQuestionType } from "@/types/QuizType.ts";
 import { resetQuizCreationBookStateAtom } from "@/store/quizAtom.ts";
 import usePreventLeave from "@/hooks/usePreventLeave.ts";
+import { currentUserAtom } from "@/store/userAtom.ts";
+import ROUTES from "@/data/routes.ts";
+import { preventLeaveModalAtom } from "@/store/quizAtom.ts";
+import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo.ts";
+import QuizWriteGuideForm from "./composite/QuizWriteForm/QuizWriteGuideForm.tsx";
+import { QUIZ_CREATION_STEP } from "@/data/constants.ts";
 
 export default function Index() {
   const { id } = useParams();
   const quizId = id && id !== ":id" ? id : null;
+  const navigate = useNavigate();
+
   const [isEditMode] = useState<boolean>(!!quizId);
   const [completionStatus] = useAtom(stepsCompletionStatusAtom);
 
   const [, setQuizCreationInfo] = useAtom(quizCreationInfoAtom);
+  const [preventLeaveModal] = useAtom(preventLeaveModalAtom);
+  const [currentUser] = useAtom(currentUserAtom);
   const blocker = useBlocker(true);
   const { closeModal: closePreventLeaveModal } = useModal();
   usePreventLeave();
@@ -60,6 +73,15 @@ export default function Index() {
       studyGroupService.fetchStudyGroup(prevQuiz?.studyGroupId ?? -1),
     enabled: isEditMode && !!prevQuiz?.studyGroupId,
   });
+
+  useEffect(() => {
+    if (!currentUser) {
+      navigate(ROUTES.ROOT);
+      if (blocker.proceed) {
+        blocker.proceed();
+      }
+    }
+  }, [currentUser]);
 
   async function convertUrlsToFiles(urls: string[]): Promise<File[]> {
     const files = await Promise.all(
@@ -135,11 +157,27 @@ export default function Index() {
     initializeQuiz();
   }, [prevQuiz, isEditMode, prevBook?.isbn, studyGroupDetail?.name]);
 
+  const [isFirstVisit, setIsFirstVisit] = useAtom(isFirstVisitAtom);
+  const { updateQuizCreationInfo } = useUpdateQuizCreationInfo();
+  useEffect(() => {
+    const firstVisit = localStorage.getItem("firstVisit");
+    if (firstVisit === undefined) {
+      setIsFirstVisit(true);
+    } else if (firstVisit && firstVisit === "false") {
+      setIsFirstVisit(false);
+      updateQuizCreationInfo("questions", null);
+    }
+  }, [isFirstVisit, isEditMode]);
+
+  useEffect(() => {
+    localStorage.setItem("isEditMode", isEditMode ? "true" : "false");
+  }, [isEditMode]);
+
   // TODO: 외부 파일로 옮기기
   const steps: Step[] = useMemo(
     () => [
       {
-        order: 0,
+        order: QUIZ_CREATION_STEP.STUDY_GROUP_SELECT,
         icon: "👥",
         title: "스터디 그룹 선택",
         description: "퀴즈를 풀 스터디 그룹을 만들거나 선택해주세요.",
@@ -147,7 +185,7 @@ export default function Index() {
         isDone: completionStatus.isStudyGroupSelected,
       },
       {
-        order: 1,
+        order: QUIZ_CREATION_STEP.BOOK_SELECT,
         icon: "📚",
         title: "도서 선택",
         description: "퀴즈를 내고자 하는 도서를 선택해주세요.",
@@ -155,27 +193,33 @@ export default function Index() {
         isDone: completionStatus.isBookSelected,
       },
       {
-        order: 2,
+        order: QUIZ_CREATION_STEP.QUIZ_BASIC_INFO,
         icon: "🏆",
         title: "퀴즈 작성",
         subSteps: [
           {
-            order: 2.1,
+            order: QUIZ_CREATION_STEP.QUIZ_BASIC_INFO_FORM,
             title: "퀴즈 기본 정보",
             description: "퀴즈 이름과 설명을 작성해주세요.",
             formComponent: () => <MemoizedQuizBasicInfoForm />,
           },
           {
-            order: 2.2,
+            order: QUIZ_CREATION_STEP.QUIZ_WRITE_FORM,
             title: "문제 작성",
-            description: "퀴즈의 질문과 답안을 설정해주세요.",
-            formComponent: () => <QuizWriteForm />,
+            description:
+              "퀴즈의 질문을 작성한 후, 답안을 클릭하여 설정해주세요.",
+            formComponent: () =>
+              isFirstVisit && !isEditMode ? (
+                <QuizWriteGuideForm />
+              ) : (
+                <QuizWriteForm />
+              ),
           },
         ],
         isDone: completionStatus.isQuestionsWritten,
       },
       {
-        order: 3,
+        order: QUIZ_CREATION_STEP.SETTING,
         icon: "🔗",
         title: "퀴즈 공유 설정",
         // description: "퀴즈를 볼 수 있는 사람과 편집 권한을 설정해 주세요.",
@@ -184,10 +228,10 @@ export default function Index() {
         isDone: completionStatus.isSet,
       },
     ],
-    [completionStatus],
+    [completionStatus, isFirstVisit, isEditMode],
   );
 
-  const [currentStep, setCurrentStep] = useState<number>(0);
+  const [currentStep, setCurrentStep] = useAtom(quizCreationStepAtom);
   const [errorModalTitle] = useAtom(errorModalTitleAtom);
   const { isModalOpen, openModal, closeModal } = useModal();
   const [, setOpenErrorModal] = useAtom(openErrorModalAtom);
@@ -195,29 +239,31 @@ export default function Index() {
   const resetBookState = useSetAtom(resetQuizCreationBookStateAtom);
 
   useEffect(() => {
-    // 임시 저장된 퀴즈가 있을 경우
-    const storedQuizCreationInfo = localStorage.getItem("quizCreationInfo");
-    if (storedQuizCreationInfo) {
-      const parsedQuizInfo = JSON.parse(storedQuizCreationInfo);
+    // // 임시 저장된 퀴즈가 있을 경우
+    // const storedQuizCreationInfo = localStorage.getItem("quizCreationInfo");
+    // if (storedQuizCreationInfo) {
+    //   const parsedQuizInfo = JSON.parse(storedQuizCreationInfo);
 
-      if (
-        parsedQuizInfo.book !== null ||
-        parsedQuizInfo.description !== null ||
-        parsedQuizInfo.editScope !== null ||
-        parsedQuizInfo.questions !== null ||
-        parsedQuizInfo.title !== null ||
-        parsedQuizInfo.viewScope !== null
-      ) {
-        if (
-          confirm(
-            "이전에 작성중이던 퀴즈가 있습니다. 해당 퀴즈를 이어서 작성하시겠습니까?",
-          )
-        ) {
-          setQuizCreationInfo(parsedQuizInfo);
-          return;
-        }
-      }
-    }
+    //   if (
+    //     !(
+    //       parsedQuizInfo.book === null ||
+    //       parsedQuizInfo.description === null ||
+    //       parsedQuizInfo.editScope === null ||
+    //       parsedQuizInfo.questions === null ||
+    //       parsedQuizInfo.title === null ||
+    //       parsedQuizInfo.viewScope === null
+    //     )
+    //   ) {
+    //     if (
+    //       confirm(
+    //         "이전에 작성중이던 퀴즈가 있습니다. 해당 퀴즈를 이어서 작성하시겠습니까?",
+    //       )
+    //     ) {
+    //       setQuizCreationInfo(parsedQuizInfo);
+    //       return;
+    //     }
+    //   }
+    // }
 
     // 퀴즈 상태 초기화
     if (isEditMode) {
@@ -238,25 +284,30 @@ export default function Index() {
     setOpenErrorModal(() => openModal);
   }, [setOpenErrorModal]);
 
+  // 퀴즈 문제 작성 가이드 스텝 초기화
+  const [, setQuizGuideStepAtom] = useAtom(quizGuideStepAtom);
+  useEffect(() => {
+    if (isFirstVisit) {
+      setQuizGuideStepAtom(1);
+    }
+  }, [isFirstVisit]);
+
   if (isPrevQuizLoading || isBookLoading || isStudyGroupLoading) {
     return <div>로딩중</div>;
   }
 
   return (
     <section className={styles["container"]}>
+      {isFirstVisit && !isEditMode && currentStep == 2.2 ? (
+        <div className={styles.layer} />
+      ) : null}
       <h2 className={styles["sr-only"]}>퀴즈 등록</h2>
-      <QuizCreationSteps
-        isEditMode={isEditMode}
-        steps={steps}
-        currentStep={currentStep}
-        setCurrentStep={setCurrentStep}
-      />
+      <QuizCreationSteps isEditMode={isEditMode} steps={steps} />
       <QuizCreationFormLayout
         isEditMode={isEditMode}
         editQuizId={quizId ?? ""}
         steps={steps}
-        currentStep={currentStep}
-        setCurrentStep={setCurrentStep}
+        blocker={blocker}
       />
       {/* TODO: 컴포넌트 분리 */}
 
@@ -272,7 +323,7 @@ export default function Index() {
         />
       )}
 
-      {blocker.state === "blocked" && (
+      {currentUser && preventLeaveModal && blocker.state === "blocked" && (
         <Modal
           contents={[
             {

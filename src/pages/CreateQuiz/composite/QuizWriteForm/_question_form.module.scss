@@ -13,13 +13,19 @@
   max-width: 792px;
   min-width: 560px;
 
+  border: 1.5px solid $gray-40;
+
   &-header {
     display: flex;
     justify-content: space-between;
   }
 
-  &:focus-within {
-    border: 1.5px solid $primary;
+  .move-quiz-button {
+    background-color: $gray-00;
+    width: 40px;
+    height: 40px;
+    @include flex(row, center);
+    border-radius: 50%;
   }
 
   .setting-container {
@@ -37,11 +43,10 @@
   }
 }
 
-.invalid {
-  border: 1.5px solid $system-danger;
-
+.border--invalid {
+  border: 1.5px solid $primary;
   &:focus-within {
-    border: 1.5px solid $system-danger;
+    border: 1.5px solid $primary;
   }
 }
 

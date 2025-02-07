@@ -3,11 +3,12 @@ import { Step } from "@/types/StepType";
 import Button from "@/components/atom/Button/Button";
 import RightArrow from "@/svg/RightArrow";
 import { gray00, gray60 } from "@/styles/abstracts/colors.ts";
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import {
   createdQuizIdAtom,
   isQuizNextButtonEnabledAtom,
   quizCreationInfoAtom,
+  quizCreationStepAtom,
 } from "@/store/quizAtom";
 import {
   QuizCreationType,
@@ -20,51 +21,56 @@ import { quizService } from "@/services/server/quizService";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import ROUTES from "@/data/routes";
 import { invalidQuestionFormIdAtom } from "@/store/quizAtom";
-import React from "react";
 import { queryClient } from "@/services/server/queryClient";
 import { studyGroupKeys } from "@/data/queryKeys";
-import { SelectOptionType } from "@/types/QuizType";
+import { preventLeaveModalAtom } from "@/store/quizAtom";
+import { Blocker } from "react-router-dom";
+import { useValidateQuizForm } from "@/hooks/useValidateQuizForm";
+import { QUIZ_CREATION_STEP } from "@/data/constants";
 
 export default function QuizCreationFormLayout({
   isEditMode,
   editQuizId,
   steps,
-  currentStep,
-  setCurrentStep,
+  blocker,
 }: {
   isEditMode: boolean;
   editQuizId?: string;
   steps: Step[];
-  currentStep: number;
-  setCurrentStep: React.Dispatch<React.SetStateAction<number>>;
+  blocker: Blocker;
 }) {
   const navigate = useNavigate();
-  const [isQuizNextButtonEnabled, setIsQuizNextButtonEnabled] =
-    useAtom<boolean>(isQuizNextButtonEnabledAtom);
+  const [currentStep, setCurrentStep] = useAtom(quizCreationStepAtom);
+  const [isQuizNextButtonEnabled] = useAtom<boolean>(
+    isQuizNextButtonEnabledAtom,
+  );
   const [quizCreationInfo] = useAtom<QuizCreationType>(quizCreationInfoAtom);
   const [, setErrorModalTitle] = useAtom(errorModalTitleAtom);
   const [openModal] = useAtom(openErrorModalAtom);
   const [, setInvalidQuestionFormId] = useAtom(invalidQuestionFormIdAtom);
+  const setPreventLeaveModal = useSetAtom(preventLeaveModalAtom);
+  const [isComplete, setIsComplete] = useState(false);
+  const validateQuizForm = useValidateQuizForm;
 
-  // localStorage에 임시저장
-  useEffect(() => {
-    // const intervalId = setInterval(() => {
-    //   localStorage.setItem(
-    //     "quizCreationInfo",
-    //     JSON.stringify(quizCreationInfo),
-    //   );
-    // }, 5000); // 5초마다 실행
-    // return () => clearInterval(intervalId);
-    if (quizCreationInfo.questions) {
-      localStorage.setItem(
-        "quizCreationInfo",
-        JSON.stringify(quizCreationInfo),
-      );
-    }
-  }, [quizCreationInfo.questions]);
+  // // localStorage에 임시저장
+  // useEffect(() => {
+  //   // const intervalId = setInterval(() => {
+  //   //   localStorage.setItem(
+  //   //     "quizCreationInfo",
+  //   //     JSON.stringify(quizCreationInfo),
+  //   //   );
+  //   // }, 5000); // 5초마다 실행
+  //   // return () => clearInterval(intervalId);
+  //   if (quizCreationInfo.questions) {
+  //     localStorage.setItem(
+  //       "quizCreationInfo",
+  //       JSON.stringify(quizCreationInfo),
+  //     );
+  //   }
+  // }, [quizCreationInfo.questions]);
 
   // 퀴즈 불러오기
   useEffect(() => {}, []);
@@ -75,15 +81,11 @@ export default function QuizCreationFormLayout({
   //   }, 60000);
   //   return () => clearInterval(intervalId);
   // }, []);
-
-  useEffect(() => {
-    if (!quizCreationInfo?.questions?.length) {
-      setIsQuizNextButtonEnabled(false);
-    } else {
-      setIsQuizNextButtonEnabled(true);
-    }
-  }, [quizCreationInfo.questions?.length, currentStep]);
-
+  const notValidCallBack = (errorTitle: string, questionId: number) => {
+    setErrorModalTitle(errorTitle);
+    setInvalidQuestionFormId(questionId);
+    openModal!();
+  };
   const getCurrentStep = (): Step => {
     const step = steps[currentStep];
     if (step) return step;
@@ -101,9 +103,9 @@ export default function QuizCreationFormLayout({
       const paramObj: {
         image: File;
         imageTarget:
-        | "MEMBER_PROFILE"
-        | "STUDY_GROUP_PROFILE"
-        | "BOOK_QUIZ_ANSWER";
+          | "MEMBER_PROFILE"
+          | "STUDY_GROUP_PROFILE"
+          | "BOOK_QUIZ_ANSWER";
       } = {
         image: img,
         imageTarget: "BOOK_QUIZ_ANSWER",
@@ -139,6 +141,7 @@ export default function QuizCreationFormLayout({
   };
 
   const [, setCreatedQuizId] = useAtom(createdQuizIdAtom);
+
   const { mutate: createQuiz } = useMutation<
     { id: number } | null,
     ErrorType,
@@ -157,11 +160,22 @@ export default function QuizCreationFormLayout({
         exact: true,
       });
       setCreatedQuizId(data.id);
-      // 완료 페이지로 이동
-      localStorage.removeItem("quizCreationInfo");
-      navigate(ROUTES.CREATE_QUIZ_COMPLETE);
+      // localStorage.removeItem("quizCreationInfo");
+      // blocker사용떄문에 아래 useEFfect에서 페이지 이동
     },
   });
+
+  useEffect(() => {
+    // TODO: 페이지 이탈을 막는 모달을 예외처리하는 로직이 이상함
+    if (isComplete) {
+      navigate(ROUTES.CREATE_QUIZ_COMPLETE);
+      if (blocker.proceed && blocker.state === "blocked") {
+        blocker.proceed();
+        setIsComplete(false);
+        setPreventLeaveModal(true);
+      }
+    }
+  }, [blocker, isComplete]);
 
   const { mutate: requestModifyQuiz } = useMutation<
     void,
@@ -171,8 +185,8 @@ export default function QuizCreationFormLayout({
     mutationFn: ({ editQuizId, quiz }) =>
       quizService.modifyQuiz({ editQuizId, quiz }),
     onSuccess: () => {
-      //navigate(ROUTES.ROOT);
-      localStorage.removeItem("quizCreationInfo");
+      // localStorage.removeItem("quizCreationInfo");
+      // blocker사용떄문에 아래 useEFfect에서 페이지 이동
     },
   });
 
@@ -198,7 +212,7 @@ export default function QuizCreationFormLayout({
       // temporary: isTemporary,
     };
     console.log("quiz!!", quiz);
-
+    setIsComplete(true);
     isEditMode
       ? requestModifyQuiz({ editQuizId: editQuizId!, quiz })
       : createQuiz(quiz);
@@ -208,59 +222,17 @@ export default function QuizCreationFormLayout({
 
   const endStep = steps.length - 1;
 
-  const hasDuplicate = (arr: SelectOptionType[]) => {
-    const options: string[] = arr.map(({ option }) => option);
-    return new Set(options).size !== options.length;
-  };
-
   const goToNextStep = async () => {
-    if (currentStep === 2.2) {
-      for (const question of quizCreationInfo.questions ?? []) {
-        // - 질문 입력 안 했을 때: 질문을 입력해 주세요.
-        if (question.content.length === 0) {
-          setErrorModalTitle("질문을 입력해 주세요");
-          setInvalidQuestionFormId(question.id);
-          openModal!();
-          return;
-        }
-
-        if (!question.answers?.length) {
-          setErrorModalTitle("답안이 선택되었는지 확인하세요.");
-          openModal!();
-          setInvalidQuestionFormId(question.id);
-          return;
-        }
-        if (question.answerType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER") {
-          if (question.answers.length <= 1) {
-            setErrorModalTitle("복수정답은 답안을 2개이상 선택해야 합니다");
-            setInvalidQuestionFormId(question.id);
-            openModal!();
-            return;
-          }
-        }
-        // - 옵션 하나도 없을 때: 선택지를 1개 이상 추가해 주세요.
-        if (
-          question.answerType !== "OX" &&
-          question.selectOptions.length === 0
-        ) {
-          setErrorModalTitle("선택지를 1개 이상 추가해 주세요");
-          setInvalidQuestionFormId(question.id);
-          openModal!();
-          return;
-        }
-
-        // -  중복된 옵션이 있을 때: 중복된 옵션입니다. 다시 입력해 주세요.
-        const selectOptions: SelectOptionType[] = question.selectOptions;
-        const duplicated: boolean = hasDuplicate(selectOptions);
-        if (duplicated) {
-          setErrorModalTitle("중복된 옵션입니다. 다시 입력해 주세요.");
-          setInvalidQuestionFormId(question.id);
-          openModal!();
-          return;
-        }
-        setInvalidQuestionFormId(undefined);
-      }
+    if (currentStep === QUIZ_CREATION_STEP.QUIZ_WRITE_FORM) {
+      const isValid = validateQuizForm(
+        quizCreationInfo.questions ?? [],
+        notValidCallBack,
+        setInvalidQuestionFormId,
+      );
+      if (!isValid) return;
     } else if (currentStep == endStep) {
+      setPreventLeaveModal(false);
+
       await requestQuiz(); //TODO: 리팩토링 필요: 퀴즈 수정과 생성을 이 함수에서 같이 하고있음
       return;
     }

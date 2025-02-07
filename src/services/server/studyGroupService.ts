@@ -61,6 +61,7 @@ class StudyGroupService {
 
   // 초대코드로 스터디 그룹 참여
   joinStudyGroup = async (inviteCode: string): Promise<void> => {
+    console.log("입력된 초대코드", inviteCode);
     try {
       await axiosInstance.post("/study-groups/join", {
         inviteCode,

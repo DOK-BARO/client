@@ -35,6 +35,7 @@ export default function StudyGroupSetting() {
   const { studyGroupId } = useParams();
   const studyGroupIdNumber = studyGroupId ? Number(studyGroupId) : undefined;
 
+  // TODO: 중복. 훅으로 분리
   const { data: studyGroupDetail, isLoading: isStudyGroupDetailLoading } =
     useQuery({
       queryKey: studyGroupKeys.detail(studyGroupIdNumber),
@@ -80,7 +81,7 @@ export default function StudyGroupSetting() {
   useEffect(() => {
     if (studyGroupDetail) {
       resetNameInput(studyGroupDetail.name);
-      ResetIntroductionTextarea(studyGroupDetail.introduction);
+      ResetIntroductionTextarea(studyGroupDetail.introduction ?? "");
 
       setProfileImage({
         url: studyGroupDetail.profileImageUrl ?? defaultImage,
@@ -122,14 +123,23 @@ export default function StudyGroupSetting() {
     }
   }, [name, introduction, profileImage.url]);
 
-  const { uploadImage } = useUploadImageToStorage((imageUrl: string) => {
-    const newStudy: StudyGroupPostType = {
-      name,
-      introduction,
-      profileImageUrl: imageUrl,
-    };
-    updateStudyGroup({ id: studyGroupIdNumber!, studyGroup: newStudy });
-  });
+  const { uploadImage, isPending } = useUploadImageToStorage(
+    (imageUrl: string) => {
+      const newStudy: StudyGroupPostType = {
+        name,
+        introduction,
+        profileImageUrl: imageUrl,
+      };
+      updateStudyGroup({ id: studyGroupIdNumber!, studyGroup: newStudy });
+    },
+    () => {
+      // 이미지 업로드 실패시
+      setProfileImage((prev) => ({
+        ...prev,
+        url: studyGroupDetail?.profileImageUrl ?? defaultImage,
+      }));
+    },
+  );
 
   useEffect(() => {
     if (studyGroupDetail) {
@@ -162,7 +172,7 @@ export default function StudyGroupSetting() {
   const { mutate: deleteStudyGroup } = useMutation<void, ErrorType, number>({
     mutationFn: (id) => studyGroupService.deleteStudyGroup(id),
     onSuccess: () => {
-      toast.success("스터디를 삭제했습니다.");
+      toast.success("스터디가 삭제되었습니다.");
       navigate(`${ROUTES.MY_PAGE}/${ROUTES.MY_STUDY_GROUPS}`);
     },
   });
@@ -270,6 +280,7 @@ export default function StudyGroupSetting() {
             <div className={styles["edit-image-container"]}>
               <p className={styles["sub-title"]}>스터디 그룹 사진</p>
               <ProfileImageEditor
+                isLoading={isPending}
                 width={150}
                 profileImage={profileImage}
                 setProfileImage={setProfileImage}

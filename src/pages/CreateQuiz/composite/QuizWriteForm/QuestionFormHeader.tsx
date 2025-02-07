@@ -3,6 +3,9 @@ import { Move } from "@/svg/QuizWriteForm/Move";
 import { gray70 } from "@/styles/abstracts/colors.ts";
 import { Trash } from "@/svg/QuizWriteForm/Trash";
 import Button from "@/components/atom/Button/Button";
+import { isFirstVisitAtom, quizGuideStepAtom } from "@/store/quizAtom";
+import { useAtom } from "jotai";
+import QuizWriteGuideBubble from "../QuizWriteGuideBubble/QuizWriteGuideBubble";
 
 interface QuizWriteFormItemHeaderProps {
   id: number;
@@ -13,10 +16,31 @@ export default function QuestionFormHeader({
   id,
   deleteQuizWriteForm,
 }: QuizWriteFormItemHeaderProps) {
+  const [isFirstVisit] = useAtom(isFirstVisitAtom);
+  const [currentQuizGuideStep] = useAtom(quizGuideStepAtom);
+  const isEditMode =
+    localStorage.getItem("isEditMode") == "true" ? true : false;
   return (
     <div className={styles["question-form-header"]}>
-      <div data-allow-dnd="true">
+      <div
+        data-allow-dnd="true"
+        style={
+          isFirstVisit && !isEditMode && currentQuizGuideStep == 3
+            ? { position: "relative", zIndex: 999 }
+            : {}
+        }
+      >
+        <QuizWriteGuideBubble
+          marginTop={-80}
+          text={
+            <p>
+              <em>드래그로 순서</em>를 바꿀 수 있어요.
+            </p>
+          }
+          guideStep={3}
+        />
         <Button
+          className={styles["move-quiz-button"]}
           iconOnly
           icon={<Move width={24} height={24} stroke={gray70} />}
         />

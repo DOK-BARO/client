@@ -12,7 +12,9 @@ interface Props {
 export default function QuizLinkItem({ quizExplanation }: Props) {
   const navigate = useNavigate();
   const handlePlayQuiz = () => {
-    navigate(ROUTES.SOLVING_QUIZ(quizExplanation.id));
+    navigate(ROUTES.SOLVING_QUIZ(quizExplanation.id), {
+      state: { fromInternal: true },
+    });
   };
   return (
     <article className={styles.container}>

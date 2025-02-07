@@ -1,3 +1,4 @@
+import { useIsQuizStepEnabled } from "@/hooks/useIsQuizStepEnabled";
 import { QuizCreationType } from "@/types/QuizType";
 import { atom } from "jotai";
 
@@ -17,7 +18,6 @@ const initialQuizCreationInfo: QuizCreationType = {
 const initialSelectedOptions: string[] = [];
 const initialQuizId: number | undefined = undefined;
 const initialErrorModalTitle = "";
-const initialIsQuizNextButtonEnabled = false; // 퀴즈 생성 단계 다음 버튼의 enabled 여부를 저장
 
 {
   /* Atom 정의 */
@@ -25,15 +25,22 @@ const initialIsQuizNextButtonEnabled = false; // 퀴즈 생성 단계 다음 버
 export const quizCreationInfoAtom = atom<QuizCreationType>(
   initialQuizCreationInfo,
 );
-export const isQuizNextButtonEnabledAtom = atom<boolean>(
-  initialIsQuizNextButtonEnabled,
-);
+
+// 퀴즈 다음 버튼 활성화 여부 Atom
+export const isQuizNextButtonEnabledAtom = atom<boolean>((get) => {
+  const step = get(quizCreationStepAtom);
+  const quizInfo = get(quizCreationInfoAtom);
+  return useIsQuizStepEnabled(step, quizInfo);
+});
+
+export const quizCreationStepAtom = atom<number>(0); // 퀴즈 작성 단계
+
 export const errorModalTitleAtom = atom<string>(initialErrorModalTitle);
 export const openErrorModalAtom = atom<() => void>();
 export const selectedOptionsAtom = atom<string[]>(initialSelectedOptions);
 export const createdQuizIdAtom = atom<number | undefined>(initialQuizId);
 
-// 스터디 선택 단계 완료 여부 Atom
+// 스터디 선택 단계 완료 여부 Atom (진행단계 체크UI)
 export const isStudyGroupSelectedAtom = atom(
   (get) => get(quizCreationInfoAtom).studyGroup !== null,
 );
@@ -56,7 +63,6 @@ export const isQuestionsWrittenAtom = atom(
 // 공유 설정 단계 완료 여부 Atom
 export const isSetAtom = atom(
   (get) => get(quizCreationInfoAtom).viewScope !== null,
-  //&& get(quizCreationInfoAtom).editScope !== null,
   (get, set, update: boolean) => {
     const quizCreationInfo = get(quizCreationInfoAtom);
     set(quizCreationInfoAtom, {
@@ -86,7 +92,6 @@ export const resetQuizCreationStateAtom = atom(null, (get, set) => {
     ...(currentBook ? { book: currentBook } : {}),
     ...(currentStudyGroup ? { studyGroup: currentStudyGroup } : {}),
   });
-  set(isQuizNextButtonEnabledAtom, initialIsQuizNextButtonEnabled);
   set(errorModalTitleAtom, initialErrorModalTitle);
   set(selectedOptionsAtom, initialSelectedOptions);
   set(createdQuizIdAtom, initialQuizId);
@@ -99,5 +104,11 @@ export const resetQuizCreationBookStateAtom = atom(null, (_, set) => {
   });
 });
 
-export const quizzesLengthAtom = atom(0);
+export const quizzesLengthAtom = atom<number>(0);
 export const invalidQuestionFormIdAtom = atom<number>();
+export const preventLeaveModalAtom = atom<boolean>(true); // 퀴즈 작성시 페이지 이탈 방지 모달을 띄워도 되는지 확인하는 atom (퀴즈 작성완료, 로그아웃시에만 false)
+
+// 퀴즈 문제 작성 페이지 첫 방문 여부 확인
+export const isFirstVisitAtom = atom<boolean>(true);
+// 1부터 시작
+export const quizGuideStepAtom = atom<number>(1);

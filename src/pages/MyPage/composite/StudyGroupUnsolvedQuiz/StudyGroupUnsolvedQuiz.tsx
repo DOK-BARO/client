@@ -24,6 +24,7 @@ import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import ROUTES from "@/data/routes";
 import { useNavigate } from "react-router-dom";
 import { StudyGroupType } from "@/types/StudyGroupType";
+import { copyText } from "@/utils/copyText";
 
 const filterOptions: FilterOptionType<MyStudyUnSolvedQuizzesFilterType>[] = [
   {
@@ -129,6 +130,17 @@ export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Props) {
     navigate(ROUTES.CREATE_QUIZ());
   };
 
+  const handleCopyQuizLink = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    quizId: number,
+  ) => {
+    e.preventDefault();
+    copyText(
+      `${import.meta.env.VITE_DEFAULT_URL}${ROUTES.SOLVING_QUIZ(quizId)}`,
+      () => "퀴즈 공유 링크가 복사되었어요!",
+    );
+  };
+
   const isQuizzesExist = unsolvedQuizzes && unsolvedQuizzes.length > 0;
   return (
     <section>
@@ -150,6 +162,7 @@ export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Props) {
               isSolved={false}
               quizData={quizData}
               studyGroupId={studyGroupId}
+              onCopyQuizLink={handleCopyQuizLink}
             />
           ))}
         </ol>

@@ -2,6 +2,12 @@ import { ReactNode } from "react";
 import { BookType } from "./BookType";
 import { StudyGroupType } from "./StudyGroupType";
 import { SolvingQuizStudyGroupUser } from "./UserType";
+
+interface CreatorType {
+  id: number;
+  nickname: string;
+  profileImageUrl: string;
+}
 export interface QuizType {
   id: number;
   title: string;
@@ -12,7 +18,7 @@ export interface QuizType {
     // TODO: User타입이랑 연결시킬 수 있으면 연결하는게 좋을 것 같음
     id: number;
     nickname: string;
-    profileUrl: string;
+    profileUrl: string; // profileImageUrl (통일. 백엔드와도 고려해야함)
   };
 }
 
@@ -21,11 +27,7 @@ export interface QuizExplanationType {
   title: string;
   description: string;
   createdAt: string;
-  creator: {
-    id: number;
-    nickname: string;
-    profileImageUrl: string;
-  };
+  creator: CreatorType;
   book: {
     id: number;
     title: string;
@@ -58,6 +60,7 @@ export interface MyQuizDataType {
   id: number;
   bookImageUrl?: string;
   title: string;
+  description: string;
   updatedAt: string;
   studyGroup?: MyQuizStudyGroupType;
 }
@@ -85,6 +88,7 @@ interface MyQuizStudyGroupType {
 interface SolvedQuizType {
   id: number;
   title: string;
+  creator: CreatorType;
 }
 
 export type ViewScope = "EVERYONE" | "STUDY_GROUP" | "CREATOR";

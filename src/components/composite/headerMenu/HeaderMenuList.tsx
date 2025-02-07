@@ -1,25 +1,22 @@
-import styles from "./_header_menu_list.module.scss";
+import styles from "./_header_menu.module.scss";
 import React from "react";
 import { Quiz } from "@/svg/Quiz";
 import { Study } from "@/svg/Study";
 import { SVGProps } from "@/types/SVGProps.ts";
-import { ICON_SIZE } from "@/data/constants.ts";
-import { gray70 } from "@/styles/abstracts/colors.ts";
 import { useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
 import { currentUserAtom } from "@/store/userAtom";
 import ROUTES from "@/data/routes";
 import useLogout from "@/hooks/mutate/useLogout";
+import HeaderMenuListItem from "./HeaderMenuItem";
 
-type HeaderMenuListItem = {
+export interface HeaderMenuListItemType {
   Icon: React.FC<SVGProps>;
   content: string;
   link: string;
-};
+}
 
-const iconProps = { width: ICON_SIZE, height: ICON_SIZE, color: gray70 };
-
-const headerMenuListItems: HeaderMenuListItem[] = [
+const headerMenuListItems: HeaderMenuListItemType[] = [
   {
     Icon: Quiz,
     content: "내 퀴즈",
@@ -32,9 +29,9 @@ const headerMenuListItems: HeaderMenuListItem[] = [
   },
 ];
 
-type Props = {
+interface Props {
   closeDropDownList: () => void;
-};
+}
 
 export default function HeaderMenuList({ closeDropDownList }: Props) {
   const [currentUser] = useAtom(currentUserAtom);
@@ -58,6 +55,7 @@ export default function HeaderMenuList({ closeDropDownList }: Props) {
           className={styles["user-info"]}
           onClick={() => {
             navigate(ROUTES.MY_PAGE);
+            closeDropDownList();
           }}
         >
           <span className={styles["user-name"]}>
@@ -73,6 +71,7 @@ export default function HeaderMenuList({ closeDropDownList }: Props) {
             Icon={item.Icon}
             content={item.content}
             link={item.link}
+            closeDropDownList={closeDropDownList}
           />
         ))}
       </div>
@@ -80,23 +79,5 @@ export default function HeaderMenuList({ closeDropDownList }: Props) {
         로그아웃
       </li>
     </ul>
-  );
-}
-
-function HeaderMenuListItem({ Icon, content, link }: HeaderMenuListItem) {
-  const navigate = useNavigate();
-
-  const handleItemClick = (link: string) => {
-    navigate(`${ROUTES.MY_PAGE}/${link}`);
-  };
-
-  return (
-    <li
-      className={styles["header-menu-list-item"]}
-      onClick={() => handleItemClick(link)}
-    >
-      <Icon {...iconProps} />
-      <span>{content}</span>
-    </li>
   );
 }

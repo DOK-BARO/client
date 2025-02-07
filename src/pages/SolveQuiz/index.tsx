@@ -1,9 +1,9 @@
 import styles from "./_solve_quiz.module.scss";
 import SolvingQuizForm from "./composite/SolvingQuizForm";
 import ProgressBar from "./composite/ProgressBar";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { quizKeys } from "@/data/queryKeys";
+import { quizKeys, studyGroupKeys } from "@/data/queryKeys";
 import { quizService } from "@/services/server/quizService";
 import { useEffect, useState } from "react";
 import Button from "@/components/atom/Button/Button";
@@ -26,17 +26,55 @@ import Modal from "@/components/atom/Modal/Modal";
 import CheckBox from "@/components/atom/Checkbox/Checkbox";
 import ImageLayer from "@/components/layout/ImageLayer/ImageLayer";
 import warning from "/public/assets/svg/solvingQuizFormLayout/warning.svg";
+import { studyGroupService } from "@/services/server/studyGroupService";
+import useLoginModal from "@/hooks/useLoginModal";
+import LoginModal from "@/components/composite/LoginModal/LoginModal";
+import { isLoggedInAtom, isUserLoadingAtom } from "@/store/userAtom";
+import { skipGlobalErrorHandlingAtom } from "@/store/skipGlobalErrorHandlingAtom";
+import { socialLoginRedirectUrlAtom } from "@/store/authModalAtom";
+import CodeInput from "@/components/composite/CodeInput/CodeInput";
+import useCodeInput from "@/hooks/useCodeInput";
+import usePreventPopState from "@/hooks/usePreventPopState";
 export interface AnswerImageType {
   index: number;
   src: string;
 }
+// TODO: 리팩토링 필요
 
 // TODO: 신고하기 모달 컴포넌트 분리 (중복 사용됨)
 export default function Index() {
   const [solvingQuizId, setSolvingQuizId] = useState<number>();
+
   const { quizId } = useParams<{
     quizId: string;
   }>();
+  const {
+    closeModal: closeQuizStartModal,
+    openModal: openQuizStartModal,
+    isModalOpen: isQuizStartModalOpen,
+  } = useModal();
+
+  const { isLoginModalOpen, closeLoginModal, handleGoToLogin } =
+    useLoginModal();
+  const {
+    openModal: openStudyGroupCodeModal,
+    closeModal: closeStudyGroupCodeModal,
+    isModalOpen: isStudyGroupCodeModalOpen,
+  } = useModal();
+  // 초대코드 인풋 입력 페이지 (모달)
+  const [isCodeInputStep, setIsCodeInputStep] = useState<boolean>(false);
+
+  const {
+    openModal: openJoinWelcomeModal,
+    closeModal: closeJoinWelcomeModal,
+    isModalOpen: isJoinWelcomeModalOpen,
+  } = useModal();
+
+  const {
+    openModal: openPreventLeaveModal,
+    closeModal: closePreventLeaveModal,
+    isModalOpen: isPreventLeaveModalOpen,
+  } = useModal();
 
   const [clickedImage, setClickedImage] = useState<AnswerImageType | undefined>(
     undefined,
@@ -46,6 +84,10 @@ export default function Index() {
   const handleImageClicked = (image: AnswerImageType) => {
     setClickedImage(image);
   };
+  const [isUserLoading] = useAtom(isUserLoadingAtom);
+  const [isLoggedIn] = useAtom(isLoggedInAtom);
+  const location = useLocation();
+  const isInternalNavigation = location.state?.fromInternal ?? false;
 
   const { mutate: startSolvingQuiz } = useMutation<
     { id: number } | null,
@@ -53,26 +95,53 @@ export default function Index() {
     string
   >({
     mutationFn: (quizId) => quizService.startSolvingQuiz(quizId),
+    retry: false,
     onError: (error) => {
       if (error.code === 403) {
-        toast.error(error.message);
-        navigate(ROUTES.ROOT); // TODO: 수정
+        // 스터디원이 아닌 경우
+        setIsCodeInputStep(false); // 첫 페이지 (모달) (초기화)
+        openStudyGroupCodeModal();
       }
     },
     onSuccess: (data) => {
-      console.log(data);
       if (data) {
-        console.log("퀴즈 아이디", data.id);
         setSolvingQuizId(data.id);
+        if (!isInternalNavigation) {
+          // 외부 공유 링크로 접근했을 시 -> 퀴즈 시작 확인 모달 오픈
+          // 스터디원인 경우
+          openQuizStartModal();
+        }
+        // 내부 버튼 클릭으로 접근했을 시 -> 바로 시작
       }
     },
   });
 
+  const [, setSkipGlobalErrorHandling] = useAtom(skipGlobalErrorHandlingAtom);
+  const [, setSocialLoginRedirectUrl] = useAtom(socialLoginRedirectUrlAtom);
+
   useEffect(() => {
-    if (quizId) {
+    if (isInternalNavigation && quizId) {
+      // 바로 퀴즈 시작
       startSolvingQuiz(quizId);
+      return;
     }
-  }, []);
+
+    // 외부 링크로 직접 접근했을 경우에만
+    setSkipGlobalErrorHandling(true);
+    if (!isUserLoading && quizId) {
+      if (!isLoggedIn) {
+        // 1. 로그인 모달 띄우기
+        setSocialLoginRedirectUrl(
+          `${import.meta.env.VITE_DEFAULT_URL}/quiz/play/${quizId}`,
+        );
+
+        handleGoToLogin();
+      } else {
+        // 스터디원인 경우, 아닌 경우 분기
+        startSolvingQuiz(quizId);
+      }
+    }
+  }, [isLoggedIn, quizId, isUserLoading]);
 
   // 퀴즈 개별 신고
   const { mutate: reportQuiz } = useMutation<
@@ -122,16 +191,6 @@ export default function Index() {
     closeModal: closeReportConfirmModal,
   } = useModal();
 
-  // const [reportQuestionIndex, setReportQuestionIndex] = useState<number>();
-
-  // const handleOpenReportModal = (questionIndex: number) => {
-  //   setReportQuestionIndex(questionIndex); // 신고하기 누른 퀴즈 번호
-  //   openReportModal();
-  // };
-
-  // const modalRef = useRef<HTMLDivElement>(null);
-  // const buttonRef = useRef<HTMLButtonElement>(null);
-
   // 기타 사유
   const {
     value: OtherGrounds,
@@ -160,14 +219,30 @@ export default function Index() {
 
   const {
     data: quiz,
-    isLoading: isQuizLoading,
-    error,
+    // isLoading: isQuizLoading,
+    // error,
   } = useQuery({
     queryKey: quizKeys.detail(quizId),
     queryFn: () => (quizId ? quizService.fetchQuiz(quizId) : null),
     retry: false,
     enabled: !!quizId,
   });
+
+  const { data: studyGroup } = useQuery({
+    queryKey: studyGroupKeys.detail(quiz?.studyGroupId),
+    queryFn: () =>
+      quiz?.studyGroupId
+        ? studyGroupService.fetchStudyGroup(quiz.studyGroupId)
+        : null,
+    retry: false,
+    enabled: !!quiz?.studyGroupId,
+  });
+
+  const handleCloseQuizStartModal = () => {
+    closeQuizStartModal();
+    // 마이페이지 - 내 스터디 그룹으로 리다이렉팅
+    navigate(`${ROUTES.MY_PAGE}/${ROUTES.MY_STUDY_GROUPS}`);
+  };
 
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [submitDisabled, setSubmitDisabled] = useState<boolean>(true);
@@ -187,8 +262,6 @@ export default function Index() {
       "MULTIPLE_CHOICE_MULTIPLE_ANSWER";
     if (isMultipleAnswerType) {
       const selectedSingleAnswer: boolean = (selectedOptions.length ?? 0) <= 1;
-      // console.log(quiz?.questions[currentFormIndex].selectOptions.length);
-      // console.log(selectedSingleAnswer);
       if (selectedSingleAnswer) {
         toast.error("답안을 2개 이상 선택해주세요");
         return;
@@ -196,6 +269,7 @@ export default function Index() {
     }
 
     if (!solvingQuizId) {
+      toast.error("알 수 없는 오류가 발생했습니다. 다시 시도해 주세요.");
       return;
     }
 
@@ -248,14 +322,6 @@ export default function Index() {
     }
   };
 
-  if (isQuizLoading || !solvingQuizId) {
-    return <>로딩</>;
-  }
-  if (error || !quiz) {
-    toast.error("퀴즈를 불러오는데 실패했습니다.\n없는 퀴즈일 수 있습니다.");
-    navigate(ROUTES.ROOT);
-    return;
-  }
   const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id } = e.target;
 
@@ -267,8 +333,11 @@ export default function Index() {
       ),
     );
   };
+  const popStateCallback = openPreventLeaveModal;
+  usePreventPopState(popStateCallback);
 
   const handleReportQuiz = () => {
+    if (!quiz) return;
     const selectedReportReasonFiltered = selectedReportReason.map((reason) =>
       reason === "기타" ? OtherGrounds : reason,
     );
@@ -280,7 +349,9 @@ export default function Index() {
   };
 
   const handleGoBackToQuizDetail = () => {
-    navigate(ROUTES.QUIZ_DETAIL(quiz.id));
+    if (quiz) {
+      navigate(ROUTES.QUIZ_DETAIL(quiz.id));
+    }
   };
 
   // 화살표 클릭 시
@@ -308,9 +379,156 @@ export default function Index() {
   const handleCloseLayer = () => {
     setClickedImage(undefined);
   };
+  const {
+    handleCodeChange,
+    handleKeyDown,
+    handlePaste,
+    codeList,
+    combinedCode,
+  } = useCodeInput();
+
+  const [joinedStudyGroupInviteCode, setJoinedStudyGroupInviteCode] = useState<
+    string | undefined
+  >(undefined);
+
+  const {
+    data: studyGroupDetailByInviteCode,
+    isLoading: isStudyGroupDetailLoading,
+  } = useQuery({
+    queryKey: studyGroupKeys.detailByInviteCode(joinedStudyGroupInviteCode),
+    queryFn: ({ queryKey }) => {
+      const [, code] = queryKey;
+      if (code) {
+        return studyGroupService.fetchStudyGroupDetailByInviteCode(code);
+      }
+    },
+    enabled: !!joinedStudyGroupInviteCode,
+  });
+
+  // 훅 사용하기
+  const { mutate: joinStudyGroup } = useMutation<void, ErrorType, string>({
+    mutationFn: (inviteCode) => studyGroupService.joinStudyGroup(inviteCode),
+    onError: () => {
+      setIsMatch(false);
+    },
+    onSuccess: (_, inviteCode) => {
+      setJoinedStudyGroupInviteCode(inviteCode);
+    },
+  });
+
+  useEffect(() => {
+    if (
+      !isStudyGroupDetailLoading &&
+      studyGroupDetailByInviteCode &&
+      studyGroup
+    ) {
+      closeStudyGroupCodeModal();
+      // 초대코드로 가입한 스터디가 퀴즈 스터디가 같은 스터디일 경우
+      if (studyGroupDetailByInviteCode.id === studyGroup.id) {
+        // 퀴즈 시작 모달 열기
+        openQuizStartModal();
+      } else {
+        openJoinWelcomeModal();
+      }
+    }
+  }, [isStudyGroupDetailLoading]);
+
+  const handleJoinStudyGroupByCode = () => {
+    joinStudyGroup(combinedCode);
+  };
+
+  const handleGoToStudyGroupPage = () => {
+    navigate(ROUTES.STUDY_GROUP(studyGroupDetailByInviteCode?.id));
+  };
+
+  const handleStudyGroupCodeModal = () => {
+    navigate(ROUTES.ROOT);
+  };
+
+  const [isMatch, setIsMatch] = useState<boolean | undefined>(undefined);
 
   return (
     <section className={styles["container"]}>
+      {isLoginModalOpen && quizId ? (
+        <LoginModal closeModal={closeLoginModal} />
+      ) : null}
+      {isStudyGroupCodeModalOpen ? (
+        <Modal
+          closeModal={handleStudyGroupCodeModal}
+          title={!isCodeInputStep ? "" : "코드로 스터디 참여"}
+          contents={[
+            {
+              title: !isCodeInputStep
+                ? `${studyGroup?.name} 스터디원에게만 공개된 퀴즈예요.`
+                : "초대코드를 입력해주세요.",
+              content: !isCodeInputStep ? (
+                <></>
+              ) : (
+                <div className={styles["code-input-container"]}>
+                  <CodeInput
+                    codeList={codeList}
+                    isMatch={isMatch ?? true}
+                    onCodeChange={handleCodeChange}
+                    onKeyDown={handleKeyDown}
+                    onPaste={handlePaste}
+                    borderColor="default"
+                    errorMessage="올바르지 않은 그룹 코드입니다."
+                  />
+                </div>
+              ),
+            },
+          ]}
+          bottomButtons={[
+            {
+              text: !isCodeInputStep ? "코드 입력하기" : "완료",
+              color: "primary",
+              onClick: () => {
+                !isCodeInputStep
+                  ? setIsCodeInputStep(true)
+                  : handleJoinStudyGroupByCode();
+              },
+            },
+          ]}
+        />
+      ) : null}
+      {isQuizStartModalOpen ? (
+        <Modal
+          closeModal={handleCloseQuizStartModal}
+          title={studyGroup?.name}
+          contents={[
+            {
+              title: `${quiz?.title} 퀴즈를 시작하시겠어요?`,
+              content: <></>,
+            },
+          ]}
+          bottomButtons={[
+            {
+              text: "퀴즈 풀기",
+              color: "primary",
+              onClick: closeQuizStartModal,
+            },
+          ]}
+        />
+      ) : null}
+      {isJoinWelcomeModalOpen ? (
+        <Modal
+          closeModal={closeJoinWelcomeModal}
+          title="스터디 추가하기"
+          contents={[
+            {
+              title: `${studyGroupDetailByInviteCode?.name}에 가입하신 걸 환영해요!`,
+              content: <></>,
+            },
+          ]}
+          bottomButtons={[
+            {
+              text: "그룹 페이지 가기",
+              color: "primary",
+              onClick: handleGoToStudyGroupPage,
+            },
+          ]}
+        />
+      ) : null}
       {clickedImage !== undefined ? (
         <ImageLayer
           onCloseLayer={handleCloseLayer}
@@ -344,7 +562,7 @@ export default function Index() {
           closeModal={closeReportModal}
           contents={[
             {
-              title: `${quiz.title}의 문제 ${currentStep}번 신고 시, 검토 후 수정 요청이 안내됩니다.`,
+              title: `${quiz?.title}의 문제 ${currentStep}번 신고 시, 검토 후 수정 요청이 안내됩니다.`,
               content: (
                 <div>
                   {reportReasons.map((reason) => (
@@ -393,68 +611,72 @@ export default function Index() {
           ]}
         />
       ) : null}
-      <ProgressBar
-        questions={quiz.questions}
-        isAnswerCorrects={isAnswerCorrects}
-        currentStep={currentStep}
-      />
+      {quiz ? (
+        <ProgressBar
+          questions={quiz.questions}
+          isAnswerCorrects={isAnswerCorrects}
+          currentStep={currentStep}
+        />
+      ) : null}
 
-      <div className={styles["inner-container"]}>
-        <div className={styles["question-area"]}>
-          <SolvingQuizForm
-            formIndex={currentFormIndex}
-            optionDisabled={optionDisabled}
-            setSubmitDisabled={setSubmitDisabled}
-            question={quiz.questions[currentFormIndex]}
-            correctAnswer={questionCheckedResult?.correctAnswer ?? []}
-            isAnswerCorrects={isAnswerCorrects}
-            didAnswerChecked={didAnswerChecked}
-          />
-          <Button
-            size="xsmall"
-            color="transparent"
-            iconPosition="left"
-            icon={<img src={warning} />}
-            className={styles["report"]}
-            onClick={openReportModal}
-          >
-            신고하기
-          </Button>
-        </div>
-        {toggleAnswerDescription && (
-          <section className={styles["answer-description-area"]}>
+      {quiz ? (
+        <div className={styles["inner-container"]}>
+          <div className={styles["question-area"]}>
+            <SolvingQuizForm
+              formIndex={currentFormIndex}
+              optionDisabled={optionDisabled}
+              setSubmitDisabled={setSubmitDisabled}
+              question={quiz.questions[currentFormIndex]}
+              correctAnswer={questionCheckedResult?.correctAnswer ?? []}
+              isAnswerCorrects={isAnswerCorrects}
+              didAnswerChecked={didAnswerChecked}
+            />
             <Button
-              color="secondary"
               size="xsmall"
-              className={styles["answer-description"]}
+              color="transparent"
+              iconPosition="left"
+              icon={<img src={warning} />}
+              className={styles["report"]}
+              onClick={openReportModal}
             >
-              해설
+              신고하기
             </Button>
-            <div className={styles["markdown-content"]}>
-              <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
-                {questionCheckedResult?.answerExplanationContent}
-              </ReactMarkdown>
-            </div>
-            {questionCheckedResult?.answerExplanationImages[0] && (
-              <section className={styles["image-area"]}>
-                {questionCheckedResult?.answerExplanationImages.map(
-                  (image, index) => (
-                    <img
-                      key={index}
-                      src={image}
-                      alt={`해설 이미지 ${index + 1}`}
-                      className={styles["image"]}
-                      onClick={() => {
-                        handleImageClicked({ index, src: image });
-                      }}
-                    />
-                  ),
-                )}
-              </section>
-            )}
-          </section>
-        )}
-      </div>
+          </div>
+          {toggleAnswerDescription && (
+            <section className={styles["answer-description-area"]}>
+              <Button
+                color="secondary"
+                size="xsmall"
+                className={styles["answer-description"]}
+              >
+                해설
+              </Button>
+              <div className={styles["markdown-content"]}>
+                <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
+                  {questionCheckedResult?.answerExplanationContent}
+                </ReactMarkdown>
+              </div>
+              {questionCheckedResult?.answerExplanationImages[0] && (
+                <section className={styles["image-area"]}>
+                  {questionCheckedResult?.answerExplanationImages.map(
+                    (image, index) => (
+                      <img
+                        key={index}
+                        src={image}
+                        alt={`해설 이미지 ${index + 1}`}
+                        className={styles["image"]}
+                        onClick={() => {
+                          handleImageClicked({ index, src: image });
+                        }}
+                      />
+                    ),
+                  )}
+                </section>
+              )}
+            </section>
+          )}
+        </div>
+      ) : null}
       {!didAnswerChecked && (
         <Button
           onClick={handleQuestionSubmit}
@@ -489,7 +711,7 @@ export default function Index() {
               color="primary-border"
               className={styles["footer-btn"]}
             >
-              해설보기
+              {toggleAnswerDescription ? "해설닫기" : "해설보기"}
             </Button>
             <Button
               onClick={handleNextQuestionBtn}
@@ -503,6 +725,41 @@ export default function Index() {
             </Button>
           </div>
         </div>
+      )}
+      {isPreventLeaveModalOpen && (
+        <Modal
+          showHeaderCloseButton={false}
+          closeModal={closePreventLeaveModal}
+          contents={[
+            {
+              title: `이 페이지를 벗어나면 현재까지 입력한 답안이 채점돼요.
+                페이지를 이동하시겠어요?`,
+              content: <></>,
+            },
+          ]}
+          bottomButtons={[
+            {
+              text: "계속 풀기",
+              color: "secondary",
+              onClick: () => {
+                window.history.pushState(null, "", window.location.href);
+                closePreventLeaveModal();
+              },
+            },
+            {
+              text: "나가기",
+              color: "primary",
+              onClick: () => {
+                if (selectedOptions?.length) {
+                  handleQuestionSubmit(); // 채점 후 나가기
+                }
+
+                navigate(-1);
+                closePreventLeaveModal();
+              },
+            },
+          ]}
+        />
       )}
     </section>
   );

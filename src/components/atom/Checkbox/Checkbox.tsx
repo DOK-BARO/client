@@ -4,6 +4,7 @@ import { Close } from "@/svg/Close";
 import { gray90 } from "@/styles/abstracts/colors";
 import Textarea from "../Textarea/Textarea";
 import Button from "../Button/Button";
+import { useState } from "react";
 
 export type CheckboxStatusType =
   | "checkbox-writing" // '퀴즈 작성'화면에서 텍스트를 작성 중인 경우
@@ -45,13 +46,21 @@ export default function CheckBox({
   disabled,
 }: CheckBoxProps) {
   const optionMaxLength = 500;
+  const [isTextAreaFocus, setIsTextAreaFocus] = useState(false);
+
+  const handleTextAreaFocus = () => {
+    setIsTextAreaFocus(true);
+  };
+  const handleTextAreaBlur = () => {
+    setIsTextAreaFocus(false);
+  };
 
   const containerClassName = `
 	${styles["option-container"]}
 	${fullWidth ? styles["full"] : ""}
 	${styles[type]}
-  ${checked ? styles["checked-focused-color"] : styles["focused-color"]}
-	`;
+   ${checked ? styles["checked-focused-color"] : isTextAreaFocus ? styles["focused-color"] : ""}
+			`;
 
   return (
     <div
@@ -86,9 +95,14 @@ export default function CheckBox({
             className={styles["option-label-textarea"]}
             maxLength={optionMaxLength}
             textAreaRef={textAreaRef}
+            onFocus={handleTextAreaFocus}
+            onBlur={handleTextAreaBlur}
             type={"option-label"}
             autoFocus
             fullWidth
+            onKeyDown={(e) => {
+              e.stopPropagation();
+            }}
           />
         )}
         {(type === "checkbox-default" ||

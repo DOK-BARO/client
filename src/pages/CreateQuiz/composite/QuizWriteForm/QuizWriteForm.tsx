@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "@/components/atom/Button/Button";
 import QuestionForm from "@/pages/CreateQuiz/composite/QuizWriteForm/QuestionForm";
 import { primary } from "@/styles/abstracts/colors.ts";
@@ -10,7 +10,7 @@ import { AnswerType } from "@/types/QuizType";
 import React from "react";
 import { useAtom } from "jotai";
 import { QuizCreationType } from "@/types/QuizType";
-import { quizCreationInfoAtom } from "@/store/quizAtom";
+import { isFirstVisitAtom, quizCreationInfoAtom } from "@/store/quizAtom";
 import {
   closestCenter,
   DndContext,
@@ -117,6 +117,24 @@ const QuizWriteForm = React.memo(() => {
 
     const [questionForms, setQuestionForms] =
       useState<QuestionFormType[]>(setInitialForms());
+    const [isFirstVisit] = useAtom(isFirstVisitAtom);
+
+    const [isInitialized, setIsInitialized] = useState<boolean>(false);
+    useEffect(() => {
+      const isFirstVisitInLocalStorageState =
+        localStorage.getItem("firstVisit") !== "false";
+
+      if (isInitialized || !isFirstVisitInLocalStorageState) {
+        setIsInitialized(true);
+        return;
+      }
+
+      // 가이드라인 단계 완료(로컬 스토리지 첫 방문 여부가 아직 "true"일 경우) 후 퀴즈 질문폼 초기화
+      setQuestionForms([]);
+      setIsInitialized(true);
+      // 방문한 사용자로 표시
+      localStorage.setItem("firstVisit", "false");
+    }, [isFirstVisit]);
 
     const handleDragStart = (event: DragStartEvent) => {
       const { active } = event;
@@ -192,7 +210,7 @@ const QuizWriteForm = React.memo(() => {
       ]);
     };
 
-    return (
+    return isInitialized ? (
       <section>
         <DndContext
           sensors={sensors}
@@ -238,7 +256,7 @@ const QuizWriteForm = React.memo(() => {
           문제 추가하기
         </Button>
       </section>
-    );
+    ) : null;
   }
 });
 

@@ -18,7 +18,13 @@ import deleteIcon from "/assets/svg/quizWriteForm/delete_ellipse.svg";
 import { AnswerType, QuizQuestionType } from "@/types/QuizType";
 import QuestionTemplateTypeUtilButton from "./QuestionTemplateTypeUtilButton";
 import { OxQuiz } from "@/svg/QuizWriteForm/OXQuiz";
-import { invalidQuestionFormIdAtom } from "@/store/quizAtom";
+import {
+  invalidQuestionFormIdAtom,
+  isFirstVisitAtom,
+  quizGuideStepAtom,
+} from "@/store/quizAtom";
+import QuizWriteGuideBubble from "../QuizWriteGuideBubble/QuizWriteGuideBubble";
+import { useValidateQuizForm } from "@/hooks/useValidateQuizForm";
 interface QuizWriteFormItemProps {
   questionFormId: number;
   deleteQuestion: (id: number) => void;
@@ -28,6 +34,8 @@ interface QuizWriteFormItemProps {
     newAnswerType: AnswerType,
   ) => void;
 }
+
+const validateForm = useValidateQuizForm;
 
 const questionTemplates: QuestionTemplateType[] = [
   {
@@ -71,7 +79,27 @@ export default function QuestionForm({
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
   const [invalidQuestionFormId] = useAtom(invalidQuestionFormIdAtom);
-  const isInvalidForm = invalidQuestionFormId === questionFormId;
+  const [isSubmissionCheckInvalidForm, setIsSubmissionCheckInvalidForm] =
+    useState(invalidQuestionFormId === questionFormId);
+
+  const isWritingValid = validateForm(
+    quizCreationInfo.questions?.filter(
+      (question) => question.id === questionFormId,
+    ) ?? [],
+    () => {},
+  );
+
+  // "다음버튼"클릭 시 유효하지 않은 폼이 현재 폼인지 체크
+  useEffect(() => {
+    setIsSubmissionCheckInvalidForm(invalidQuestionFormId === questionFormId);
+  }, [invalidQuestionFormId, questionFormId]);
+
+  // 임시처리
+  // "다음버튼 클릭 후 에러 border가 적용된 다음,
+  // 해당입력 폼의 유효성 검사가 통과되면 에러 border를 없에는 처리"
+  useEffect(() => {
+    setIsSubmissionCheckInvalidForm(false);
+  }, [isWritingValid, isSubmissionCheckInvalidForm]);
 
   const setInitialFormType = (): QuestionTemplateType => {
     return (
@@ -237,21 +265,24 @@ export default function QuestionForm({
   useEffect(() => {
     if (invalidQuestionFormId && invalidQuestionFormId === questionFormId) {
       const targetElement = formRefs.current[invalidQuestionFormId];
-      // console.log("id!: " + invalidQuestionFormId);
       targetElement?.scrollIntoView({ behavior: "smooth", block: "center" });
-      console.log("scrolled!:d***");
     }
   }, [invalidQuestionFormId]);
 
   const handleRef = (id: string) => (element: HTMLDivElement | null) => {
     formRefs.current[id] = element;
   };
+  const [isFirstVisit] = useAtom(isFirstVisitAtom);
+  const [currentQuizGuideStep] = useAtom(quizGuideStepAtom);
+  const isEditMode =
+    localStorage.getItem("isEditMode") == "true" ? true : false;
 
   return (
     <section
       ref={handleRef(questionFormId.toString())}
       className={`${styles["question-form"]} 
-      ${styles[isInvalidForm ? "invalid" : ""]}`}
+      ${styles[isSubmissionCheckInvalidForm || !isWritingValid ? "border--invalid" : ""]}
+      `}
     >
       <h2 className={styles["sr-only"]}>퀴즈 문제 작성 폼</h2>
 
@@ -290,7 +321,23 @@ export default function QuestionForm({
         })}
       </div>
 
-      <div className={styles["answer-area"]}>
+      <div
+        className={styles["answer-area"]}
+        style={
+          isFirstVisit && !isEditMode && currentQuizGuideStep == 1
+            ? { position: "relative", zIndex: 999 }
+            : {}
+        }
+      >
+        <QuizWriteGuideBubble
+          marginTop={-95}
+          text={
+            <p>
+              해설은 <em>선택</em>이에요.
+            </p>
+          }
+          guideStep={1}
+        />
         <div className={styles["answer-area-header"]}>
           <span>해설</span>
           <input
@@ -308,6 +355,7 @@ export default function QuestionForm({
             <ImageAdd width={24} height={24} />
           </button>
         </div>
+
         <Textarea
           className={styles["answer"]}
           id={questionFormId.toString()}
@@ -321,6 +369,7 @@ export default function QuestionForm({
           onKeyDown={(e) => {
             e.stopPropagation();
           }}
+          disabled={isFirstVisit && !isEditMode && currentQuizGuideStep == 1}
         />
 
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}

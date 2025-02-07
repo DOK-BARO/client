@@ -34,15 +34,11 @@
 }
 
 .focused-color {
-  &:focus-within {
-    background-color: $background;
-  }
+  background-color: $background;
 }
 
 .checked-focused-color {
-  &:focus-within {
-    background-color: $secondary;
-  }
+  background-color: $secondary;
 }
 
 .option-label-textarea {
@@ -80,7 +76,12 @@
     background-color: $primary; // 체크 시 내부 원으로 표시될 색상
     box-shadow: 0 0 0 2px $primary; // 테두리
 
-    transition: all 0.5s;
+    transition:
+      background-color 0.5s,
+      border 0.5s,
+      box-shadow 0.5s;
+
+    // transition: all 0.5s;
   }
 }
 

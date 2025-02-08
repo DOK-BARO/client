@@ -61,7 +61,7 @@ export default function StudyMemberList({
     },
     onSuccess: (_, { member }) => {
       toast.success(`스터디장이 ${member.nickname}에게 위임되었습니다.`);
-      navigate(ROUTES.STUDY_GROUP(studyGroupId));
+      navigate(-1);
     },
     onError: (error) => {
       console.error(error);

@@ -10,6 +10,8 @@ import { StudyMemberType } from "@/types/StudyGroupType";
 import useModal from "@/hooks/useModal";
 import Modal from "@/components/atom/Modal/Modal";
 import { Fragment } from "react/jsx-runtime";
+import { useNavigate } from "react-router-dom";
+import ROUTES from "@/data/routes";
 
 export interface Props {
   studyGroupId?: number;
@@ -20,6 +22,7 @@ export default function StudyMemberList({
   studyGroupId,
   onDeleteStudyGroupClick,
 }: Props) {
+  const navigate = useNavigate();
   const {
     openModal: openChangeStudyGroupLeaderModal,
     closeModal: closeChangeStudyGroupLeaderModal,
@@ -31,6 +34,15 @@ export default function StudyMemberList({
       studyGroupId ? studyGroupService.fetchStudyGroup(studyGroupId) : null,
     enabled: !!studyGroupId,
   });
+
+  const leader = studyGroupDetail?.studyMembers?.find(
+    (member) => member.role === "LEADER",
+  );
+  const memberList = studyGroupDetail
+    ? studyGroupDetail.studyMembers?.filter(
+        (member) => member.role !== "LEADER",
+      )
+    : [];
 
   // 스터디장 위임
   const { mutate: changeLeader } = useMutation<
@@ -49,6 +61,7 @@ export default function StudyMemberList({
     },
     onSuccess: (_, { member }) => {
       toast.success(`스터디장이 ${member.nickname}에게 위임되었습니다.`);
+      navigate(ROUTES.STUDY_GROUP(studyGroupId));
     },
     onError: (error) => {
       console.error(error);
@@ -93,78 +106,80 @@ export default function StudyMemberList({
       <div className={styles["header-container"]}>
         <h3 className={styles.title}>스터디원 관리</h3>
       </div>
-      <ol className={styles["member-list"]}>
-        {studyGroupDetail?.studyMembers?.map((member) => (
-          <Fragment key={member.id}>
-            {/* 스터디장 위임 확인 모달 */}
-            {isChangeStudyGroupLeaderModalOpen && (
-              <Modal
-                title=""
-                contents={[
-                  {
-                    title: `${member.nickname}님을 ${studyGroupDetail.name} 스터디장으로 위임하시겠어요?`,
-                    content: (
-                      <p>
-                        위임 후{" "}
-                        {
-                          studyGroupDetail.studyMembers?.find(
-                            (member) => member.role === "LEADER",
-                          )?.nickname
-                        }
-                        님의 스터디장 권한이 없어집니다.
-                      </p>
-                    ),
-                  },
-                ]}
-                bottomButtons={[
-                  {
-                    color: "primary",
-                    text: "위임하기",
-                    onClick: () => changeLeader({ member }),
-                  },
-                ]}
-                closeModal={closeChangeStudyGroupLeaderModal}
-              />
-            )}
-            {/* 스터디원 내보내기 확인 모달 */}
-            {isWithdrawStudyGroupMemberModalOpen && (
-              <Modal
-                title=""
-                closeModal={closeWithdrawStudyGroupMemberModal}
-                contents={[
-                  {
-                    title: `${member.nickname}님을 ${studyGroupDetail.name}에서 내보내시겠어요?`,
-                    content: (
-                      <p>내보낸 스터디원은 스터디 그룹에 재가입할 수 있어요.</p>
-                    ),
-                  },
-                ]}
-                bottomButtons={[
-                  {
-                    color: "primary",
-                    text: "내보내기",
-                    onClick: () => {
-                      withdrawMember({ member });
+      {studyGroupDetail && leader ? (
+        <ol className={styles["member-list"]}>
+          <LeaderItem
+            member={leader}
+            onDeleteStudyGroupClick={onDeleteStudyGroupClick}
+          />
+          {memberList?.map((member) => (
+            <Fragment key={member.id}>
+              {/* 스터디장 위임 확인 모달 */}
+              {isChangeStudyGroupLeaderModalOpen && (
+                <Modal
+                  title=""
+                  contents={[
+                    {
+                      title: `${member.nickname}님을 ${studyGroupDetail.name} 스터디장으로 위임하시겠어요?`,
+                      content: (
+                        <p>
+                          위임 후{" "}
+                          {
+                            studyGroupDetail.studyMembers?.find(
+                              (member) => member.role === "LEADER",
+                            )?.nickname
+                          }
+                          님의 스터디장 권한이 없어집니다.
+                        </p>
+                      ),
                     },
-                  },
-                ]}
-              />
-            )}
-            {member.role === "LEADER" ? (
-              <LeaderItem
-                member={member}
-                onDeleteStudyGroupClick={onDeleteStudyGroupClick}
-              />
-            ) : (
+                  ]}
+                  bottomButtons={[
+                    {
+                      color: "primary",
+                      text: "위임하기",
+                      onClick: () => changeLeader({ member }),
+                    },
+                  ]}
+                  closeModal={closeChangeStudyGroupLeaderModal}
+                />
+              )}
+              {/* 스터디원 내보내기 확인 모달 */}
+              {isWithdrawStudyGroupMemberModalOpen && (
+                <Modal
+                  title=""
+                  closeModal={closeWithdrawStudyGroupMemberModal}
+                  contents={[
+                    {
+                      title: `${member.nickname}님을 ${studyGroupDetail.name}에서 내보내시겠어요?`,
+                      content: (
+                        <p>
+                          내보낸 스터디원은 스터디 그룹에 재가입할 수 있어요.
+                        </p>
+                      ),
+                    },
+                  ]}
+                  bottomButtons={[
+                    {
+                      color: "primary",
+                      text: "내보내기",
+                      onClick: () => {
+                        withdrawMember({ member });
+                      },
+                    },
+                  ]}
+                />
+              )}
+
               <MemberItem
                 member={member}
                 onChangeLeaderClick={openChangeStudyGroupLeaderModal}
                 onWithdrawMemberClick={openWithdrawStudyGroupMemberModal}
               />
-            )}
-          </Fragment>
-        ))}
-      </ol>
+            </Fragment>
+          ))}
+        </ol>
+      ) : null}
     </section>
   );
 }

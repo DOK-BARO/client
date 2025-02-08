@@ -544,12 +544,12 @@ export default function Index() {
           contents={[{ title: "신고가 완료되었습니다.", content: <></> }]}
           bottomButtons={[
             {
-              text: "퀴즈로 돌아가기",
+              text: "홈으로 가기",
               color: "primary-border",
               onClick: handleGoBackToQuizDetail,
             },
             {
-              text: "계속 풀기",
+              text: "퀴즈로 돌아가기",
               color: "primary",
               onClick: closeReportConfirmModal,
             },

@@ -26,7 +26,7 @@ export default function ImageLayer({
   }, []);
 
   return (
-    <div className={styles.background}>
+    <div className={styles.background} data-no-dnd="true">
       <Button
         className={styles.close}
         iconOnly

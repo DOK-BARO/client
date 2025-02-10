@@ -35,6 +35,7 @@ import { loginRedirectUrlAtom } from "@/store/authModalAtom";
 import CodeInput from "@/components/composite/CodeInput/CodeInput";
 import useCodeInput from "@/hooks/useCodeInput";
 import usePreventPopState from "@/hooks/usePreventPopState";
+import useImageLayer from "@/hooks/useImageLayer";
 export interface AnswerImageType {
   index: number;
   src: string;
@@ -76,14 +77,6 @@ export default function Index() {
     isModalOpen: isPreventLeaveModalOpen,
   } = useModal();
 
-  const [clickedImage, setClickedImage] = useState<AnswerImageType | undefined>(
-    undefined,
-  );
-
-  // 해설 이미지 클릭 시 확대 보기
-  const handleImageClicked = (image: AnswerImageType) => {
-    setClickedImage(image);
-  };
   const [isUserLoading] = useAtom(isUserLoadingAtom);
   const [isLoggedIn] = useAtom(isLoggedInAtom);
   const location = useLocation();
@@ -352,31 +345,6 @@ export default function Index() {
     }
   };
 
-  // 화살표 클릭 시
-  const handleArrowClick = (direction: "left" | "right") => {
-    setClickedImage((prev) => {
-      if (!prev || !questionCheckedResult?.answerExplanationImages)
-        return undefined;
-
-      const newIndex = direction === "left" ? prev.index - 1 : prev.index + 1;
-
-      if (
-        newIndex < 0 ||
-        newIndex >= questionCheckedResult.answerExplanationImages.length
-      ) {
-        return prev;
-      }
-
-      return {
-        index: newIndex,
-        src: questionCheckedResult.answerExplanationImages[newIndex],
-      };
-    });
-  };
-
-  const handleCloseLayer = () => {
-    setClickedImage(undefined);
-  };
   const {
     handleCodeChange,
     handleKeyDown,
@@ -444,6 +412,13 @@ export default function Index() {
   };
 
   const [isMatch, setIsMatch] = useState<boolean | undefined>(undefined);
+
+  const {
+    clickedImage,
+    handleCloseLayer,
+    handleArrowClick,
+    handleImageClicked,
+  } = useImageLayer(questionCheckedResult?.answerExplanationImages ?? []);
 
   return (
     <section className={styles["container"]}>

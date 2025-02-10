@@ -371,8 +371,11 @@ export default function QuestionForm({
           }}
           disabled={isFirstVisit && !isEditMode && currentQuizGuideStep == 1}
         />
-
-        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+        {errorMessage && (
+          <p data-no-dnd="true" style={{ color: "red" }}>
+            {errorMessage}
+          </p>
+        )}
         {/* TODO: refactor 퀴즈 풀기 해설과 같은 컴포넌트 */}
         {imagePreview.length > 0 && (
           <section className={styles["image-area"]}>

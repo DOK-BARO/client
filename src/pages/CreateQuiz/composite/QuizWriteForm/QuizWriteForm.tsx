@@ -43,18 +43,15 @@ const QuizWriteForm = React.memo(() => {
       );
 
       // TODO: useUpdateQuizCreationInfo 로직 확인 후 반영 필요
-      await new Promise((resolve) =>
-        setQuizCreationInfo((prev) => {
-          const updatedQuestions =
-            prev.questions?.filter((question) => question.id !== targetId) ??
-            [];
-          resolve(updatedQuestions);
-          return {
-            ...prev,
-            questions: updatedQuestions,
-          };
-        }),
-      );
+
+      setQuizCreationInfo((prev) => {
+        const updatedQuestions =
+          prev.questions?.filter((question) => question.id !== targetId) ?? [];
+        return {
+          ...prev,
+          questions: updatedQuestions,
+        };
+      });
     };
 
     const [activeFormId, setActiveFormId] = useState<string | null>(null);

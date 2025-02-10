@@ -127,28 +127,25 @@ const RadioOption: React.FC<RadioOptionProps> = ({
           <div className={styles["option-label-value"]}>{labelValue}</div>
         )}
 
-        <Button
-          iconOnly
-          className={
-            styles[type === "option-writing" ? "visible" : "invisible"]
-          }
-          icon={
-            <Close
-              alt="옵션 삭제하기"
-              width={20}
-              height={20}
-              stroke={gray90}
-              strokeWidth={2}
-            />
-          }
-          onClick={() => {
-            deleteOption(option.id);
-          }}
-          disabled={isFirstVisit && !isEditMode && currentQuizGuideStep == 2}
-        />
-
-        {type !== "option-writing" && (
-          <div className={styles["empty-icon"]}></div>
+        {(type === "option-writing" ||
+          type === "option-correct" ||
+          type === "option-written") && (
+          <Button
+            iconOnly
+            icon={
+              <Close
+                alt="옵션 삭제하기"
+                width={20}
+                height={20}
+                stroke={gray90}
+                strokeWidth={2}
+              />
+            }
+            onClick={() => {
+              deleteOption(option.id);
+            }}
+            disabled={isFirstVisit && !isEditMode && currentQuizGuideStep == 2}
+          />
         )}
       </label>
     </div>

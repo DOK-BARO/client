@@ -297,8 +297,8 @@ export default function QuestionForm({
         <ImageLayer
           onCloseLayer={handleCloseLayer}
           image={clickedImage}
-          onLeftArrowClick={() => handleArrowClick("left")}
-          onRightArrowClick={() => handleArrowClick("right")}
+          onLeftArrowClick={(e) => handleArrowClick(e, "left")}
+          onRightArrowClick={(e) => handleArrowClick(e, "right")}
         />
       ) : null}
 

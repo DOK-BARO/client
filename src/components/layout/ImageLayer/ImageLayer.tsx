@@ -14,8 +14,8 @@ export default function ImageLayer({
   onCloseLayer,
 }: {
   image: AnswerImageType;
-  onLeftArrowClick: () => void;
-  onRightArrowClick: () => void;
+  onLeftArrowClick: (e: React.MouseEvent) => void;
+  onRightArrowClick: (e: React.MouseEvent) => void;
   onCloseLayer: () => void;
 }) {
   useEffect(() => {
@@ -26,7 +26,11 @@ export default function ImageLayer({
   }, []);
 
   return (
-    <div className={styles.background} data-no-dnd="true">
+    <div
+      className={styles.background}
+      data-no-dnd="true"
+      onClick={onCloseLayer}
+    >
       <Button
         className={styles.close}
         iconOnly
@@ -38,7 +42,7 @@ export default function ImageLayer({
         }
       />
       <Button
-        onClick={onLeftArrowClick}
+        onClick={(e) => onLeftArrowClick(e)}
         iconOnly
         icon={<img src={leftArrow} width={40} height={40} />}
         className={styles["arrow-left"]}
@@ -49,7 +53,7 @@ export default function ImageLayer({
         alt={`해설 이미지 ${image.index + 1}`}
       />
       <Button
-        onClick={onRightArrowClick}
+        onClick={(e) => onRightArrowClick(e)}
         iconOnly
         icon={<img src={rightArrow} width={40} height={40} />}
         className={styles["arrow-right"]}

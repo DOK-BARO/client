@@ -21,14 +21,14 @@ import { FetchQuizzesParams } from "@/types/ParamsType.ts";
 import { QuizzesFilterType } from "@/types/FilterType.ts";
 
 export default function QuizListSection({ bookId }: { bookId: string }) {
-  const { search } = useLocation();
+  const { search, pathname } = useLocation();
   const queryParams = new URLSearchParams(search);
   const navigator = useNavigate();
 
   const [filterCriteria, setFilterCriteria] = useAtom(quizzesFilterAtom);
   useFilter<QuizzesFilterType>(setFilterCriteria);
   const titleWhenNoData = "아직 만들어진 퀴즈가 없어요 😔";
-  const { handleAuthenticatedAction } = useLoginAction();
+  const { handleAuthenticatedAction } = useLoginAction(pathname);
   const [, setQuizLength] = useAtom(quizzesLengthAtom);
 
   const [paginationState, setPaginationState] = useAtom(paginationAtom);

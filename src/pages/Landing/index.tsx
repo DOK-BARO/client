@@ -2,17 +2,18 @@ import { APP_NAME } from "@/data/constants";
 import styles from "./_landing.module.scss";
 import Button from "@/components/atom/Button/Button";
 import useLoginAction from "@/hooks/useLoginAction";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ROUTES from "@/data/routes";
 import { EXTERNAL_SERVICE_INTRODUCTION_PAGE } from "@/data/constants";
 import { useEffect } from "react";
 import { useAtom } from "jotai";
 import useLoginModal from "@/hooks/useLoginModal";
 import { skipGlobalErrorHandlingAtom } from "@/store/skipGlobalErrorHandlingAtom";
-
+import landing from "/public/assets/image/landing.png";
 export default function Index() {
   const navigate = useNavigate();
-  const { handleAuthenticatedAction } = useLoginAction();
+  const { pathname } = useLocation();
+  const { handleAuthenticatedAction } = useLoginAction(pathname);
   const [, setSkipGlobalErrorHandling] = useAtom(skipGlobalErrorHandlingAtom);
   const { closeLoginModal } = useLoginModal();
 
@@ -59,7 +60,7 @@ export default function Index() {
           상세기능 보기
         </Button>
       </div>
-      <img src="/assets/image/landingimage.svg" />
+      <img src={landing} width={868} height={482.37} />
     </section>
   );
 }

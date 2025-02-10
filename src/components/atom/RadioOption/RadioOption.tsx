@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./_radio_option.module.scss";
 import { RadioOptionType } from "@/types/RadioTypes";
 import { Close } from "@/svg/Close";
-import { gray90 } from "@/styles/abstracts/colors";
+import { gray40, gray70 } from "@/styles/abstracts/colors";
 import Textarea from "@/components/atom/Textarea/Textarea";
 import "highlight.js/styles/xcode.css";
 import Button from "../Button/Button";
@@ -137,7 +137,7 @@ const RadioOption: React.FC<RadioOptionProps> = ({
                 alt="옵션 삭제하기"
                 width={20}
                 height={20}
-                stroke={gray90}
+                stroke={type === "option-writing" ? gray70 : gray40}
                 strokeWidth={2}
               />
             }

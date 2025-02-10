@@ -31,7 +31,7 @@ import useLoginModal from "@/hooks/useLoginModal";
 import LoginModal from "@/components/composite/LoginModal/LoginModal";
 import { isLoggedInAtom, isUserLoadingAtom } from "@/store/userAtom";
 import { skipGlobalErrorHandlingAtom } from "@/store/skipGlobalErrorHandlingAtom";
-import { socialLoginRedirectUrlAtom } from "@/store/authModalAtom";
+import { loginRedirectUrlAtom } from "@/store/authModalAtom";
 import CodeInput from "@/components/composite/CodeInput/CodeInput";
 import useCodeInput from "@/hooks/useCodeInput";
 import usePreventPopState from "@/hooks/usePreventPopState";
@@ -54,8 +54,8 @@ export default function Index() {
     isModalOpen: isQuizStartModalOpen,
   } = useModal();
 
-  const { isLoginModalOpen, closeLoginModal, handleGoToLogin } =
-    useLoginModal();
+  const { pathname } = useLocation();
+  const { isLoginModalOpen, closeLoginModal, openLoginModal } = useLoginModal();
   const {
     openModal: openStudyGroupCodeModal,
     closeModal: closeStudyGroupCodeModal,
@@ -117,7 +117,7 @@ export default function Index() {
   });
 
   const [, setSkipGlobalErrorHandling] = useAtom(skipGlobalErrorHandlingAtom);
-  const [, setSocialLoginRedirectUrl] = useAtom(socialLoginRedirectUrlAtom);
+  const [, setLoginRedirectUrl] = useAtom(loginRedirectUrlAtom);
 
   useEffect(() => {
     if (isInternalNavigation && quizId) {
@@ -131,11 +131,9 @@ export default function Index() {
     if (!isUserLoading && quizId) {
       if (!isLoggedIn) {
         // 1. 로그인 모달 띄우기
-        setSocialLoginRedirectUrl(
-          `${import.meta.env.VITE_DEFAULT_URL}/quiz/play/${quizId}`,
-        );
+        setLoginRedirectUrl(pathname);
 
-        handleGoToLogin();
+        openLoginModal();
       } else {
         // 스터디원인 경우, 아닌 경우 분기
         startSolvingQuiz(quizId);
@@ -544,12 +542,12 @@ export default function Index() {
           contents={[{ title: "신고가 완료되었습니다.", content: <></> }]}
           bottomButtons={[
             {
-              text: "퀴즈로 돌아가기",
+              text: "홈으로 가기",
               color: "primary-border",
               onClick: handleGoBackToQuizDetail,
             },
             {
-              text: "계속 풀기",
+              text: "퀴즈로 돌아가기",
               color: "primary",
               onClick: closeReportConfirmModal,
             },

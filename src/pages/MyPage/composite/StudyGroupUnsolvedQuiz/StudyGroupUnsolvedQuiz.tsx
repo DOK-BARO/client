@@ -22,7 +22,7 @@ import {
 import useLoginAction from "@/hooks/useLoginAction";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import ROUTES from "@/data/routes";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { StudyGroupType } from "@/types/StudyGroupType";
 import { copyText } from "@/utils/copyText";
 
@@ -48,11 +48,12 @@ interface Props {
 }
 export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Props) {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const [filterCriteria, setFilterCriteria] = useAtom(
     myStudyUnsolvedQuizFilterAtom,
   );
   useFilter<MyStudyUnSolvedQuizzesFilterType>(setFilterCriteria);
-  const { handleAuthenticatedAction } = useLoginAction();
+  const { handleAuthenticatedAction } = useLoginAction(pathname);
 
   const [paginationState, setPaginationState] = useAtom(
     myStudyUnsolvedQuizPaginationAtom,

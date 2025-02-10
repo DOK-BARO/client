@@ -4,6 +4,7 @@ import Button from "@/components/atom/Button/Button";
 import { useAtom } from "jotai";
 import { quizzesLengthAtom } from "@/store/quizAtom.ts";
 import useLoginAction from "@/hooks/useLoginAction";
+import { useLocation } from "react-router-dom";
 
 export default function BookDetailContent({
   bookDetailContent,
@@ -13,7 +14,11 @@ export default function BookDetailContent({
   onGoToMakeQuiz: () => void;
 }) {
   const [quizLength] = useAtom(quizzesLengthAtom);
-  const { handleAuthenticatedAction } = useLoginAction();
+  const { pathname } = useLocation();
+
+  // TODO: 로그인 이후 바로 퀴즈 만들기 페이지로 넘어가질 것인지,
+  // 아니면 현재 페이지에 머물러 있을 것인지(한번 더 퀴즈 만들기 버튼 클릭하게 할 것인지) (현재 방식)
+  const { handleAuthenticatedAction } = useLoginAction(pathname);
 
   return (
     <section className={"container"}>

@@ -17,6 +17,7 @@ import { AnswerType, QuizQuestionType } from "@/types/QuizType";
 import QuestionTemplateTypeUtilButton from "./QuestionTemplateTypeUtilButton";
 import { OxQuiz } from "@/svg/QuizWriteForm/OXQuiz";
 import {
+  errorMessageAtomFamily,
   invalidQuestionFormIdAtom,
   isFirstVisitAtom,
   quizGuideStepAtom,
@@ -138,8 +139,12 @@ export default function QuestionForm({
       (question) => question.id === questionFormId,
     )?.answerExplanationImages ?? [],
   );
+  
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useAtom(
+    errorMessageAtomFamily(questionFormId),
+  );
+
 
   const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onAnswerTextAreaChange(e);
@@ -171,7 +176,12 @@ export default function QuestionForm({
   };
 
   const handleDeleteImage = (index: number) => {
+
+    if (errorMessage) {
+      setErrorMessage(null);
+    }
     setImagePreviews((prevImages) => prevImages.filter((_, i) => i !== index));
+
     setSelectedImages((prevImages) => prevImages.filter((_, i) => i !== index));
 
     const updatedQuestions: QuizQuestionType[] =
@@ -387,8 +397,11 @@ export default function QuestionForm({
           }}
           disabled={isFirstVisit && !isEditMode && currentQuizGuideStep == 1}
         />
-
-        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+        {errorMessage && (
+          <p data-no-dnd="true" style={{ color: "red" }}>
+            {errorMessage}
+          </p>
+        )}
         {/* TODO: refactor 퀴즈 풀기 해설과 같은 컴포넌트 */}
         {imagePreviews.length > 0 && (
           <section className={styles["image-area"]}>

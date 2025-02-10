@@ -11,7 +11,6 @@ import useModal from "@/hooks/useModal";
 import Modal from "@/components/atom/Modal/Modal";
 import { Fragment } from "react/jsx-runtime";
 import { useNavigate } from "react-router-dom";
-import ROUTES from "@/data/routes";
 
 export interface Props {
   studyGroupId?: number;

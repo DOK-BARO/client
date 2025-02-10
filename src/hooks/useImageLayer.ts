@@ -9,7 +9,7 @@ interface UseImageLayerReturn {
   clickedImage: ImageType | undefined;
   handleImageClicked: (image: ImageType) => void;
   handleCloseLayer: () => void;
-  handleArrowClick: (direction: "left" | "right") => void;
+  handleArrowClick: (e: React.MouseEvent, direction: "left" | "right") => void;
 }
 
 const useImageLayer = (imageList: string[]): UseImageLayerReturn => {
@@ -22,12 +22,17 @@ const useImageLayer = (imageList: string[]): UseImageLayerReturn => {
     setClickedImage(image);
   };
 
+  // 닫기
   const handleCloseLayer = () => {
     setClickedImage(undefined);
   };
 
   // 화살표 클릭 시
-  const handleArrowClick = (direction: "left" | "right") => {
+  const handleArrowClick = (
+    e: React.MouseEvent,
+    direction: "left" | "right",
+  ) => {
+    e.stopPropagation();
     setClickedImage((prev) => {
       if (!prev || !imageList) return undefined;
 

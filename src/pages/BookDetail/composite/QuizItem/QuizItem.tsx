@@ -11,6 +11,7 @@ import {
   LevelType,
 } from "@/pages/QuizDetail/components/DifficultyLevelItem/DifficultyLevelItem";
 import IconTextLabel from "@/components/composite/IconTextLabel/IconTextLabel";
+import useLoginAction from "@/hooks/useLoginAction";
 
 interface Props {
   quiz: BookQuizzesDataType;
@@ -19,12 +20,15 @@ interface Props {
 
 export default function QuizItem({ quiz, onClick }: Props) {
   const navigate = useNavigate();
+  const { handleAuthenticatedAction } = useLoginAction();
 
   const goToPlayQuiz = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    navigate(ROUTES.SOLVING_QUIZ(quiz.id), {
-      state: { fromInternal: true },
+    handleAuthenticatedAction(() => {
+      navigate(ROUTES.SOLVING_QUIZ(quiz.id), {
+        state: { fromInternal: true },
+      });
     });
   };
 

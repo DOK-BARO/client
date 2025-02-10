@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./_checkbox.module.scss";
 import { Close } from "@/svg/Close";
-import { gray90 } from "@/styles/abstracts/colors";
+import { gray40, gray70 } from "@/styles/abstracts/colors";
 import Textarea from "../Textarea/Textarea";
 import Button from "../Button/Button";
 import { useState } from "react";
@@ -115,9 +115,6 @@ export default function CheckBox({
           <div className={styles["option-label-value"]}>{value}</div>
         )}
         <Button
-          className={
-            styles[type === "checkbox-writing" ? "visible" : "invisible"]
-          }
           onClick={() => {
             deleteOption(parseInt(id));
           }}
@@ -125,17 +122,13 @@ export default function CheckBox({
             <Close
               width={20}
               height={20}
-              stroke={gray90}
+              stroke={type === "checkbox-writing" ? gray70 : gray40}
               strokeWidth={2}
               alt="옵션 삭제하기"
             />
           }
           iconOnly
         />
-
-        {type !== "checkbox-writing" && (
-          <div className={styles["empty-icon"]}></div>
-        )}
       </label>
     </div>
   );

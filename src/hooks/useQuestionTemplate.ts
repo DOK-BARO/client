@@ -58,7 +58,7 @@ export const useQuestionTemplate = (
     if (options.length < BOOK_QUIZ_OPTION_MAX_LENGTH) {
       const id: number = Date.now();
       const value: string = (options.length + 1).toString();
-      const answerIndex: number = options.length + 1;
+      const answerIndex: number = options.length + 1; // 옵션 생성 시 answerIndex 생성
 
       setOptions((prev) => [
         ...prev,

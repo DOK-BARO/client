@@ -1,7 +1,7 @@
 import styles from "./_quiz_item.module.scss";
 import Button from "@/components/atom/Button/Button";
 import { BookQuizzesDataType } from "@/types/BookType";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ROUTES from "@/data/routes";
 import { StarFilled } from "@/svg/StarFilled";
 import { systemWarning } from "@/styles/abstracts/colors";
@@ -20,7 +20,8 @@ interface Props {
 
 export default function QuizItem({ quiz, onClick }: Props) {
   const navigate = useNavigate();
-  const { handleAuthenticatedAction } = useLoginAction();
+  const { pathname } = useLocation();
+  const { handleAuthenticatedAction } = useLoginAction(pathname);
 
   const goToPlayQuiz = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

@@ -13,8 +13,8 @@ export default function HeaderQuizUtilList({
   closeDropDownList,
 }: HeaderQuizUtilListProps) {
   const navigate = useNavigate();
-  const location = useLocation();
-  const { handleAuthenticatedAction } = useLoginAction();
+  const { pathname } = useLocation();
+  const { handleAuthenticatedAction } = useLoginAction(pathname);
 
   const onClickMakeQuiz = () => {
     closeDropDownList();
@@ -23,7 +23,7 @@ export default function HeaderQuizUtilList({
 
   const onClickDoingQuiz = () => {
     closeDropDownList();
-    if (location.pathname === ROUTES.BOOK_LIST) {
+    if (pathname === ROUTES.BOOK_LIST) {
       toast("퀴즈를 풀 책을 선택해 주세요.", {
         icon: "🔍",
       });

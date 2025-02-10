@@ -1,5 +1,5 @@
 import styles from "./_profile_set.module.scss";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useAtom } from "jotai";
 import useInput from "@/hooks/useInput.ts";
 import Input from "@/components/atom/Input/Input";
@@ -7,7 +7,7 @@ import { XCircle } from "@/svg/XCircle";
 import { gray30, gray60 } from "@/styles/abstracts/colors.ts";
 import Button from "@/components/atom/Button/Button";
 import { RegisterInfoType } from "@/types/UserType";
-import { registerInfoAtom } from "@/store/userAtom";
+import { currentUserAtom, registerInfoAtom } from "@/store/userAtom";
 import { useNavigate, useParams } from "react-router-dom";
 import { authService } from "@/services/server/authService";
 import { useMutation } from "@tanstack/react-query";
@@ -26,18 +26,35 @@ export interface ProfileImageState {
 export default function ProfileSet() {
   const { method } = useParams();
   const navigate = useNavigate();
+  const [userInfo, setUserInfo] = useAtom<RegisterInfoType>(registerInfoAtom);
+  const [currentUser] = useAtom(currentUserAtom);
+
+  useEffect(() => {
+    console.log("currentUser", currentUser);
+  }, [currentUser]);
 
   const [profileImage, setProfileImage] = useState<ProfileImageState>({
-    url: defaultImage,
+    url: currentUser?.profileImage ?? defaultImage,
     file: null,
   });
-  const [userInfo, setUserInfo] = useAtom<RegisterInfoType>(registerInfoAtom);
 
   const {
     value: nickname,
     onChange: onNicknameChange,
     resetInput,
-  } = useInput("");
+  } = useInput(currentUser?.nickname ?? "");
+
+  useEffect(() => {
+    if (currentUser?.nickname) {
+      resetInput(currentUser.nickname);
+    }
+    if (currentUser?.profileImage) {
+      setProfileImage({
+        ...profileImage,
+        url: currentUser.profileImage,
+      });
+    }
+  }, [currentUser]);
 
   const isSubmitAble: boolean = !!nickname;
 

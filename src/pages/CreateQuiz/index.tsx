@@ -82,15 +82,10 @@ export default function Index() {
       }
     }
   }, [currentUser]);
-
-  async function convertUrlsToFiles(urls: string[]): Promise<File[]> {
+  async function convertUrlsToImg(urls: string[]): Promise<JSX.Element[]> {
     const files = await Promise.all(
-      urls.map(async (url, index) => {
-        const response = await fetch(url);
-        const blob = await response.blob();
-        return new File([blob], `file_${index + 1}.jpg`, {
-          type: blob.type,
-        });
+      urls.map(async (urls) => {
+        return <img className={styles["image"]} src={urls} />;
       }),
     );
     return files;
@@ -120,7 +115,7 @@ export default function Index() {
         }
         const prevQuestions: QuizQuestionType[] = await Promise.all(
           prevQuiz?.questions.map(async (q, index) => {
-            const images = await convertUrlsToFiles(q.answerExplanationImages);
+            const images = await convertUrlsToImg(q.answerExplanationImages);
             const selectOptions: SelectOptionType[] = q.selectOptions.map(
               (optionText, index) => ({
                 id: index,

@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./_checkbox.module.scss";
 import { Close } from "@/svg/Close";
-import { gray90 } from "@/styles/abstracts/colors";
+import { gray60, gray40 } from "@/styles/abstracts/colors";
 import Textarea from "../Textarea/Textarea";
 import Button from "../Button/Button";
 import { useState } from "react";
@@ -122,7 +122,7 @@ export default function CheckBox({
             <Close
               width={20}
               height={20}
-              stroke={gray90}
+              stroke={type === "checkbox-writing" ? gray60 : gray40}
               strokeWidth={2}
               alt="옵션 삭제하기"
             />

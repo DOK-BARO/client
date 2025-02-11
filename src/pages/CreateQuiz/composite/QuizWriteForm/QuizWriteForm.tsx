@@ -243,14 +243,7 @@ const QuizWriteForm = React.memo(() => {
           size="large"
           onClick={onClickAddQuestionForm}
           fullWidth
-          icon={
-            <QuizPlus
-              alt="스터디 그룹 추가 버튼"
-              width={20}
-              height={20}
-              stroke={primary}
-            />
-          }
+          icon={<QuizPlus alt="" width={20} height={20} stroke={primary} />}
           color="secondary"
         >
           문제 추가하기

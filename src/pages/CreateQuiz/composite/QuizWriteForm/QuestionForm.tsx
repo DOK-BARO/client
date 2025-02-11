@@ -25,6 +25,7 @@ import {
 } from "@/store/quizAtom";
 import QuizWriteGuideBubble from "../QuizWriteGuideBubble/QuizWriteGuideBubble";
 import { useValidateQuizForm } from "@/hooks/useValidateQuizForm";
+import { gray70 } from "@/styles/abstracts/colors";
 interface QuizWriteFormItemProps {
   questionFormId: number;
   deleteQuestion: (id: number) => void;
@@ -352,7 +353,7 @@ export default function QuestionForm({
             onClick={handleButtonClick}
             className={styles["image-add-button"]}
           >
-            <ImageAdd width={24} height={24} />
+            <ImageAdd width={20} height={20} stroke={gray70} />
           </button>
         </div>
 

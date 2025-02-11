@@ -72,7 +72,7 @@ export default function SolvedQuiz() {
   };
 
   const myQuizzes = myQuizzesData?.data;
-  console.log(myQuizzes);
+  // console.log(myQuizzes);
 
   return (
     !isLoading &&

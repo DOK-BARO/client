@@ -27,6 +27,7 @@ import ROUTES from "@/data/routes";
 import useOutsideClick from "@/hooks/useOutsideClick";
 import useUploadImageToStorage from "@/hooks/mutate/useUploadImage";
 import defaultImage from "/public/assets/image/default-profile.png";
+import { currentUserAtom } from "@/store/userAtom";
 // 스터디 그룹 관리
 export default function StudyGroupSetting() {
   // TODO: 타이틀 세팅하는 로직 훅으로 분리하기
@@ -34,6 +35,7 @@ export default function StudyGroupSetting() {
   const navigate = useNavigate();
   const { studyGroupId } = useParams();
   const studyGroupIdNumber = studyGroupId ? Number(studyGroupId) : undefined;
+  const [currentUser] = useAtom(currentUserAtom);
 
   // TODO: 중복. 훅으로 분리
   const { data: studyGroupDetail, isLoading: isStudyGroupDetailLoading } =
@@ -75,8 +77,6 @@ export default function StudyGroupSetting() {
     onChange: onIntroductionChange,
     resetTextarea: ResetIntroductionTextarea,
   } = useTextarea(studyGroupDetail?.introduction ?? "");
-
-  console.log("studyGroupDetail", studyGroupDetail);
 
   useEffect(() => {
     if (studyGroupDetail) {
@@ -225,6 +225,17 @@ export default function StudyGroupSetting() {
     openConfirmModal();
     closeSmallModal();
   };
+
+  const isStudyGroupLeader =
+    currentUser?.id !==
+    studyGroupDetail?.studyMembers?.find((member) => member.role === "LEADER");
+
+  useEffect(() => {
+    if (!isStudyGroupLeader) {
+      // TODO: 적절한 권한이 필요하다는 토스트 알람
+      navigate(-1);
+    }
+  }, [isStudyGroupLeader]);
 
   return (
     <section className={styles.container}>

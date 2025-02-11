@@ -27,7 +27,7 @@ class AuthService {
       const {
         data: { agreeAll },
       } = await axiosInstance.get("/terms-of-services/member-agree/required");
-      console.log("agreed all", agreeAll);
+      // console.log("agreed all", agreeAll);
       return agreeAll;
     } catch (error) {
       console.error(error);

@@ -36,6 +36,7 @@ interface RadioOptionProps {
   onBlur?: () => void;
   customClassName?: string;
   fullWidth?: boolean;
+  showDeleteBtn?: boolean;
 }
 
 const RadioOption: React.FC<RadioOptionProps> = ({
@@ -54,6 +55,7 @@ const RadioOption: React.FC<RadioOptionProps> = ({
   onBlur = () => {},
   textAreaRef,
   fullWidth = false,
+  showDeleteBtn = true,
 }) => {
   const optionMaxLength = 500;
   const [isTextAreaFocus, setIsTextAreaFocus] = useState(false);
@@ -138,24 +140,27 @@ const RadioOption: React.FC<RadioOptionProps> = ({
 
         {(type === "option-writing" ||
           type === "option-correct" ||
-          type === "option-written") && (
-          <Button
-            iconOnly
-            icon={
-              <Close
-                alt="옵션 삭제하기"
-                width={20}
-                height={20}
-                stroke={type === "option-writing" ? gray70 : gray40}
-                strokeWidth={2}
-              />
-            }
-            onClick={() => {
-              deleteOption(option.id);
-            }}
-            disabled={isFirstVisit && !isEditMode && currentQuizGuideStep == 2}
-          />
-        )}
+          type === "option-written") &&
+          showDeleteBtn && (
+            <Button
+              iconOnly
+              icon={
+                <Close
+                  alt="옵션 삭제하기"
+                  width={20}
+                  height={20}
+                  stroke={type === "option-writing" ? gray70 : gray40}
+                  strokeWidth={2}
+                />
+              }
+              onClick={() => {
+                deleteOption(option.id);
+              }}
+              disabled={
+                isFirstVisit && !isEditMode && currentQuizGuideStep == 2
+              }
+            />
+          )}
       </label>
     </div>
   );

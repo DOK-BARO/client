@@ -185,6 +185,17 @@ export default function QuizCreationFormLayout({
     mutationFn: ({ editQuizId, quiz }) =>
       quizService.modifyQuiz({ editQuizId, quiz }),
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: studyGroupKeys.myUnsolvedQuizList(
+          quizCreationInfo.studyGroup?.id,
+          {},
+        ),
+        exact: true,
+      });
+      if (!editQuizId) {
+        return;
+      }
+      setCreatedQuizId(parseInt(editQuizId));
       // localStorage.removeItem("quizCreationInfo");
       // blocker사용떄문에 아래 useEFfect에서 페이지 이동
     },

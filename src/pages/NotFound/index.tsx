@@ -5,6 +5,9 @@ import ROUTES from "@/data/routes";
 import errorImage from "/public/assets/image/404-error-image.png";
 
 export default function NotFound() {
+  // TODO: 수정
+  const errorImgPath = "/public/assets/svg/notFoundPage/404ErrorImage.svg";
+
   const navigate = useNavigate();
   const handleGoToHome = () => {
     navigate(ROUTES.ROOT);

@@ -24,7 +24,7 @@ const useDeviceType = () => {
       }
     };
 
-    let timeoutId: NodeJS.Timeout;
+    let timeoutId: ReturnType<typeof setTimeout>;
     const debouncedUpdateDevice = () => {
       clearTimeout(timeoutId);
       timeoutId = setTimeout(updateDevice, 100);

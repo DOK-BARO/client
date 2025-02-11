@@ -68,6 +68,7 @@ export const OXQuestionTemplate: FC<{
               type={isChecked ? "option-correct" : "option-written"}
               customClassName={"ox-option"}
               textareaDisabled
+              showDeleteBtn={false}
             />
           </div>
         );

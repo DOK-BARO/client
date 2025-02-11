@@ -26,6 +26,7 @@ import QuizWriteGuideBubble from "../QuizWriteGuideBubble/QuizWriteGuideBubble";
 import { useValidateQuizForm } from "@/hooks/useValidateQuizForm";
 import ImageLayer from "@/components/layout/ImageLayer/ImageLayer";
 import useImageLayer from "@/hooks/useImageLayer";
+import { gray70 } from "@/styles/abstracts/colors";
 interface QuizWriteFormItemProps {
   questionFormId: number;
   deleteQuestion: (id: number) => void;
@@ -139,12 +140,11 @@ export default function QuestionForm({
       (question) => question.id === questionFormId,
     )?.answerExplanationImages ?? [],
   );
-  
+
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [errorMessage, setErrorMessage] = useAtom(
     errorMessageAtomFamily(questionFormId),
   );
-
 
   const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onAnswerTextAreaChange(e);
@@ -176,7 +176,6 @@ export default function QuestionForm({
   };
 
   const handleDeleteImage = (index: number) => {
-
     if (errorMessage) {
       setErrorMessage(null);
     }
@@ -378,7 +377,7 @@ export default function QuestionForm({
             onClick={handleButtonClick}
             className={styles["image-add-button"]}
           >
-            <ImageAdd width={24} height={24} />
+            <ImageAdd width={20} height={20} stroke={gray70} />
           </button>
         </div>
 

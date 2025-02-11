@@ -133,7 +133,7 @@ export interface QuizQuestionType {
   content: string;
   selectOptions: SelectOptionType[];
   answerExplanationContent: string;
-  answerExplanationImages: File[];
+  answerExplanationImages: File[]; // 변경 예정
   answerType: AnswerType;
   answers: string[];
 }

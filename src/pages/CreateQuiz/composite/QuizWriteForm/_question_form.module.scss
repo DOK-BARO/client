@@ -1,6 +1,12 @@
 @import "../../../../styles/abstracts/variables";
 @import "../../../../styles/abstracts/mixins";
 
+@mixin option-button-text {
+  white-space: nowrap;
+  font-size: $font-size-medium;
+  font-weight: $font-weight-regular;
+}
+
 .question-form {
   @include flex(column);
   gap: 20px;
@@ -51,41 +57,22 @@
 }
 
 .option-add-button {
-  @include flex(row);
-  align-items: center;
-  flex: 1;
-  // padding: 0;
+  display: flex;
+  padding: 11.5px 8px;
+  width: 100%;
   color: $gray-50;
   font-size: $font-size-large;
+  @include option-button-text;
 
-  &-container {
-    @include flex(row);
-    align-items: center;
+  span:first-of-type {
     width: 100%;
-    padding: 11.5px 8px;
-
-    span {
-      font-size: $font-size-medium;
-      font-weight: $font-weight-regular;
-      line-height: 150%;
-      color: $gray-50;
-    }
+    text-align: start;
   }
-
-  &-check-circle {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    border: 1.5px solid $gray-50;
-    margin-right: 8px;
+  span {
+    color: $gray-60;
   }
-
-  &-check-square {
-    width: 18px;
-    height: 18px;
-    border-radius: 3px;
-    border: 2px solid $gray-50;
-    margin-right: 8px;
+  .current-option-length {
+    color: $system-danger;
   }
 }
 
@@ -278,6 +265,11 @@
       }
     }
   }
+}
+
+.btn--disabled {
+  color: $gray-50 !important;
+  font-size: $font-size-large;
 }
 
 // _quiz_write_form_type_util_button.module.scss 끝

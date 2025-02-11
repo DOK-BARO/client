@@ -15,7 +15,6 @@ import { authService } from "@/services/server/authService";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
-// TODO: 대소문자 규정 체크 필요 (현재 대문자 없어도 valid 처리됨)
 export default function ChangePassword() {
   const navigate = useNavigate();
   const { value: currentPassword, onChange: onCurrentPasswordChange } =

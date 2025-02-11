@@ -9,12 +9,12 @@ import { currentUserAtom } from "@/store/userAtom";
 import { useAtom } from "jotai";
 import useValidate from "@/hooks/useValidate";
 import { emailValidation } from "@/validation/emailValidation";
-import correct from "/public/assets/svg/common/correct.svg";
-import incorrect from "/public/assets/svg/common/incorrect.svg";
 import useUpdateUser from "@/hooks/mutate/useUpdateUser";
 import useUploadImageToStorage from "@/hooks/mutate/useUploadImage";
 import { UploadImageArgType } from "@/types/UploadImageType";
 import defaultImage from "/public/assets/image/default-profile.png";
+import { XSmall } from "@/svg/XSmall";
+import { systemDanger } from "@/styles/abstracts/colors";
 
 export default function EditMyInfo() {
   const [currentUser] = useAtom(currentUserAtom);
@@ -49,6 +49,7 @@ export default function EditMyInfo() {
     isMatch,
     isAlreadyUsed,
   } = useValidate({ value: value, isEmailValid: isEmailValid, code: code });
+  console.log("isAlreay", isAlreadyUsed);
   const { updateUser } = useUpdateUser();
   const [isChangeEmailMode, setIsChangeEmailMode] = useState<boolean>(false);
   const [isChangeNicknameMode, setIsChangeNicknameMode] =
@@ -123,24 +124,31 @@ export default function EditMyInfo() {
             <fieldset className={styles["form"]}>
               <legend className={styles["sr-only"]}>닉네임 변경</legend>
               <div className={styles["input-area"]}>
-                <Input
-                  id="nickname-change"
-                  value={nicknameValue}
-                  onChange={onNicknameChange}
-                  placeholder="새로운 닉네임을 입력해주세요"
-                  isError={showNicknameDanger}
-                  maxLength={8}
-                  fullWidth
-                />
-                <div className={styles["message-container"]}>
-                  <img src={showNicknameDanger ? incorrect : ""} />
-                  <span
-                    className={showNicknameDanger ? styles["not-match"] : ""}
-                  >
-                    {showNicknameDanger ? "8자 이내" : ""}
-                  </span>
+                <div className={styles["input-inner"]}>
+                  <Input
+                    id="nickname-change"
+                    value={nicknameValue}
+                    onChange={onNicknameChange}
+                    placeholder="새로운 닉네임을 입력해주세요"
+                    isError={showNicknameDanger}
+                    message={
+                      showNicknameDanger ? (
+                        <span className={styles["message-container"]}>
+                          <XSmall
+                            stroke={systemDanger}
+                            width={20}
+                            height={20}
+                          />
+                          {"8자 이내"}
+                        </span>
+                      ) : (
+                        ""
+                      )
+                    }
+                    maxLength={8}
+                    fullWidth
+                  />
                 </div>
-
                 <Button
                   color="primary"
                   onClick={() =>
@@ -187,13 +195,23 @@ export default function EditMyInfo() {
                   id="email-change"
                   value={value}
                   onChange={onChange}
+                  className={isError ? styles["error--input-text"] : ""}
                   placeholder="새로운 이메일을 입력해주세요"
-                  message={messageContent}
+                  message={
+                    isError ? (
+                      <span className={styles["message-container"]}>
+                        <XSmall stroke={systemDanger} width={20} height={20} />
+                        {messageContent}
+                      </span>
+                    ) : (
+                      ""
+                    )
+                  }
                   isError={isError}
                   fullWidth
                 />
                 <Button
-                  disabled={!isEmailValid && isAlreadyUsed}
+                  disabled={!isEmailValid || isAlreadyUsed}
                   color={"primary"}
                   onClick={
                     isEmailSent ? () => resendEmail() : () => firstSendEmail()
@@ -213,21 +231,24 @@ export default function EditMyInfo() {
                       onChange={onCodeChange}
                       placeholder="인증코드를 입력해주세요"
                       isError={!isMatch}
+                      message={
+                        isMatch ? (
+                          ""
+                        ) : (
+                          <span className={styles["message-container"]}>
+                            <XSmall
+                              stroke={systemDanger}
+                              width={20}
+                              height={20}
+                            />
+                            {isMatch
+                              ? "인증코드가 일치합니다."
+                              : "인증 코드가 일치하지 않습니다."}
+                          </span>
+                        )
+                      }
                       fullWidth
                     />
-
-                    <div className={styles["message-container"]}>
-                      <img src={isMatch ? correct : incorrect} />
-                      <span
-                        className={
-                          isMatch ? styles["match"] : styles["not-match"]
-                        }
-                      >
-                        {isMatch
-                          ? "인증코드가 일치합니다."
-                          : "인증 코드가 일치하지 않습니다."}
-                      </span>
-                    </div>
                   </div>
 
                   <Button

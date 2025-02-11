@@ -13,7 +13,7 @@ import mobileImage1 from "/public/assets/image/mobile/mobile-image1.png";
 import mobileImage2 from "/public/assets/image/mobile/mobile-image2.png";
 import mobileImage3 from "/public/assets/image/mobile/mobile-image3.png";
 import arrow from "/public/assets/image/mobile/arrow.png";
-import useTextOverlap from "@/hooks/useTextOverlap";
+// import useTextOverlap from "@/hooks/useTextOverlap";
 
 export default function BaseLayout({
   showHeader = true,
@@ -25,7 +25,7 @@ export default function BaseLayout({
   const navigate = useNavigate();
   const device = useDeviceType();
   const [mounted, setMounted] = useState(false);
-  const { isOverlapping, textRef1, textRef2 } = useTextOverlap();
+  // const { isOverlapping, textRef1, textRef2 } = useTextOverlap();
 
   const handleCheckIsTermAllAgreed = async () => {
     const isAgreedAll = await authService.fetchIsTermsAgreed();
@@ -106,7 +106,7 @@ export default function BaseLayout({
             alt=""
             width={700}
             className={styles["mobile-image"]}
-            style={{ marginTop: isOverlapping ? "-42px" : 0 }}
+            // style={{ marginTop: isOverlapping ? "-42px" : 0 }}
           />
         </picture>
 
@@ -115,12 +115,12 @@ export default function BaseLayout({
           <br />
           환경에서 접속해 주세요.
         </h2>
-        <p className={styles.description} ref={textRef1}>
+        <p className={styles.description}>
           모바일에서 이용하실 수 있도록 준비중이에요!
         </p>
       </main>
       <footer>
-        <div className={styles["note-container"]} ref={textRef2}>
+        <div className={styles["note-container"]}>
           <p className={styles.note}>
             편한 곳으로 공유하고
             <br />

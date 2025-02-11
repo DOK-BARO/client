@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./_checkbox.module.scss";
 import { Close } from "@/svg/Close";
-import { gray90 } from "@/styles/abstracts/colors";
+import { gray40, gray70 } from "@/styles/abstracts/colors";
 import Textarea from "../Textarea/Textarea";
 import Button from "../Button/Button";
 import { useState } from "react";

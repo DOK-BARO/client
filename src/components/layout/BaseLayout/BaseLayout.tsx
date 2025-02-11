@@ -13,7 +13,6 @@ import mobileImage1 from "/public/assets/image/mobile/mobile-image1.png";
 import mobileImage2 from "/public/assets/image/mobile/mobile-image2.png";
 import mobileImage3 from "/public/assets/image/mobile/mobile-image3.png";
 import arrow from "/public/assets/image/mobile/arrow.png";
-// import useTextOverlap from "@/hooks/useTextOverlap";
 
 export default function BaseLayout({
   showHeader = true,
@@ -106,7 +105,6 @@ export default function BaseLayout({
             alt=""
             width={700}
             className={styles["mobile-image"]}
-            // style={{ marginTop: isOverlapping ? "-42px" : 0 }}
           />
         </picture>
 

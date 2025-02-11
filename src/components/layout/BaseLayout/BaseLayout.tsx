@@ -4,7 +4,7 @@ import HeaderLayout from "../HeaderLayout/HeaderLayout";
 import { useAtom } from "jotai";
 import { currentUserAtom, isUserLoadingAtom } from "@/store/userAtom.ts";
 import { authService } from "@/services/server/authService.ts";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { userKeys } from "@/data/queryKeys";
 import ROUTES from "@/data/routes";
@@ -23,6 +23,7 @@ export default function BaseLayout({
   const [isUserLoading, setIsUserLoading] = useAtom(isUserLoadingAtom);
   const navigate = useNavigate();
   const device = useDeviceType();
+  const [mounted, setMounted] = useState(false);
 
   const handleCheckIsTermAllAgreed = async () => {
     const isAgreedAll = await authService.fetchIsTermsAgreed();
@@ -56,6 +57,12 @@ export default function BaseLayout({
       setIsUserLoading(false);
     }
   }, [data, isLoading]);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   return device === "pc" || device === "tablet" ? (
     <div className={styles["container"]}>

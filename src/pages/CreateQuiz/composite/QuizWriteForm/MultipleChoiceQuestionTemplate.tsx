@@ -29,11 +29,13 @@ export const MultipleChoiceQuestionTemplate: FC<{
   const currentOptionLength = options.length;
 
   const setInitialAnswer = (): string => {
+    // atom에 저장된 데이터 초기화
     const question = getQuestion();
-    return question?.answers[0] ?? "";
+    const matchAnswerIdx = question?.answers[0];
+    return matchAnswerIdx ?? "";
   };
   const {
-    selectedValue: selectedRadioGroupValue,
+    selectedValue: selectedAnswerRadioGroupValue,
     handleChange: onRadioGroupChange,
   } = useRadioGroup(setInitialAnswer());
 
@@ -64,11 +66,11 @@ export const MultipleChoiceQuestionTemplate: FC<{
     const targetSelectOption: SelectOptionType =
       currentQuestion.selectOptions.find(
         (option) => id === option.id.toString(),
-      )!;
+      )!; // 선택된 옵션의 id값으로 전역 데이터에서 해당하는 옵션 데이터 매칭
 
-    const currentAnswer: string = targetSelectOption.answerIndex.toString();
+    const currentAnswer: string = targetSelectOption.answerIndex.toString(); // 그 옵션의 정답 값을 현재 정답으로 저장
 
-    const updatedQuestions: QuizQuestionType[] =
+    const updatedQuestions: QuizQuestionType[] = // 전뎍 데이터 업데이트
       quizCreationInfo.questions!.map((question) =>
         question.id!.toString() === questionFormId
           ? { ...question, answers: [currentAnswer] }
@@ -116,7 +118,7 @@ export const MultipleChoiceQuestionTemplate: FC<{
           selectedValue={
             isFirstVisit && !isEditMode
               ? predefinedValue
-              : selectedRadioGroupValue
+              : selectedAnswerRadioGroupValue
           }
           answerType={"MULTIPLE_CHOICE_SINGLE_ANSWER"}
         />

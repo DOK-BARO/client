@@ -1,8 +1,11 @@
 import React from "react";
 import styles from "./_checkbox.module.scss";
 import { Close } from "@/svg/Close";
-import { gray60, gray40 } from "@/styles/abstracts/colors";
+import { gray40, gray70 } from "@/styles/abstracts/colors";
 import Textarea from "../Textarea/Textarea";
+import ReactMarkdown from "react-markdown";
+import rehypeHighlight from "rehype-highlight";
+import "highlight.js/styles/xcode.css";
 import Button from "../Button/Button";
 import { useState } from "react";
 
@@ -80,7 +83,9 @@ export default function CheckBox({
       <label
         className={styles["option-label"]}
         htmlFor={
-          type === "checkbox-default" || type === "checkbox-selected"
+          type === "checkbox-default" ||
+          type === "checkbox-selected" ||
+          type === "checkbox-black"
             ? id.toString()
             : undefined
         }
@@ -108,30 +113,34 @@ export default function CheckBox({
         {(type === "checkbox-default" ||
           type === "checkbox-selected" ||
           type === "solving-correct" ||
-          type === "solving-incorrect") && (
-          <div className={styles["option-label-value"]}>{value}</div>
+          type === "solving-incorrect" ||
+          type === "checkbox-black") && (
+          <div
+            className={`${styles["option-label-value"]} ${styles["markdown-content"]}`}
+          >
+            <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
+              {value}
+            </ReactMarkdown>
+          </div>
         )}
-        <Button
-          className={
-            styles[type === "checkbox-writing" ? "visible" : "invisible"]
-          }
-          onClick={() => {
-            deleteOption(parseInt(id));
-          }}
-          icon={
-            <Close
-              width={20}
-              height={20}
-              stroke={type === "checkbox-writing" ? gray60 : gray40}
-              strokeWidth={2}
-              alt="옵션 삭제하기"
-            />
-          }
-          iconOnly
-        />
-
-        {type !== "checkbox-writing" && (
-          <div className={styles["empty-icon"]}></div>
+        {(type === "checkbox-writing" ||
+          type === "checkbox-correct" ||
+          type === "checkbox-written") && (
+          <Button
+            iconOnly
+            icon={
+              <Close
+                width={20}
+                height={20}
+                stroke={type === "checkbox-writing" ? gray70 : gray40}
+                strokeWidth={2}
+                alt="옵션 삭제하기"
+              />
+            }
+            onClick={() => {
+              deleteOption(parseInt(id));
+            }}
+          />
         )}
       </label>
     </div>

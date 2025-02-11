@@ -3,6 +3,9 @@ import styles from "./_checkbox.module.scss";
 import { Close } from "@/svg/Close";
 import { gray40, gray70 } from "@/styles/abstracts/colors";
 import Textarea from "../Textarea/Textarea";
+import ReactMarkdown from "react-markdown";
+import rehypeHighlight from "rehype-highlight";
+import "highlight.js/styles/xcode.css";
 import Button from "../Button/Button";
 import { useState } from "react";
 
@@ -112,7 +115,13 @@ export default function CheckBox({
           type === "solving-correct" ||
           type === "solving-incorrect" ||
           type === "checkbox-black") && (
-          <div className={styles["option-label-value"]}>{value}</div>
+          <div
+            className={`${styles["option-label-value"]} ${styles["markdown-content"]}`}
+          >
+            <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
+              {value}
+            </ReactMarkdown>
+          </div>
         )}
         {(type === "checkbox-writing" ||
           type === "checkbox-correct" ||

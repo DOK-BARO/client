@@ -114,19 +114,20 @@ export default function Index() {
           };
         }
         const prevQuestions: QuizQuestionType[] = await Promise.all(
-          prevQuiz?.questions.map(async (q, index) => {
+          prevQuiz?.questions.map(async (q) => {
             const images = await convertUrlsToImg(q.answerExplanationImages);
+
+            // TODO: useQuestionTemplate의 옵션 생성 로직과 통일 필요
             const selectOptions: SelectOptionType[] = q.selectOptions.map(
               (optionText, index) => ({
-                id: index,
+                id: index, // TODO: index로 해도 되는지 확인 필요
                 option: optionText,
-                value: index.toString(),
-                answerIndex: index + 1,
+                value: (index + 1).toString(),
+                answerIndex: index + 1, // 퀴즈의 정답이 아닌 이 옵션의 고유 정답 번호 set
               }),
             );
-
             return {
-              id: index,
+              id: q.id!,
               content: q.content,
               selectOptions,
               answerExplanationContent: q.answerExplanationContent,
@@ -268,7 +269,7 @@ export default function Index() {
     }
 
     resetQuizState();
-    console.log("퀴즈 상태 초기화");
+    //console.log("퀴즈 상태 초기화");
 
     return () => {
       resetBookState();

@@ -7,7 +7,8 @@ export const QuizPlus: React.FC<SVGProps> = ({ alt, ...props }) => {
       width={props.width}
       height={props.height}
       viewBox="0 0 24 24"
-      fill="none"
+      stroke={props.stroke}
+      fill={props.fill}
       xmlns="http://www.w3.org/2000/svg"
     >
       <title id="svgTitle">{alt}</title>

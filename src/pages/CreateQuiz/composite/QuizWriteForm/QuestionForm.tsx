@@ -25,6 +25,7 @@ import {
 } from "@/store/quizAtom";
 import QuizWriteGuideBubble from "../QuizWriteGuideBubble/QuizWriteGuideBubble";
 import { useValidateQuizForm } from "@/hooks/useValidateQuizForm";
+import Button from "@/components/atom/Button/Button";
 interface QuizWriteFormItemProps {
   questionFormId: number;
   deleteQuestion: (id: number) => void;
@@ -133,12 +134,12 @@ export default function QuestionForm({
     )?.answerExplanationContent,
   );
 
-  const [selectedImages, setSelectedImages] = useState<File[]>(
+  const [selectedImages, setSelectedImages] = useState<JSX.Element[]>(
     quizCreationInfo.questions?.find(
       (question) => question.id === questionFormId,
     )?.answerExplanationImages ?? [],
   );
-  const [imagePreview, setImagePreview] = useState<string[]>([]);
+  const [imagePreviewEl, setImagePreviewEl] = useState<JSX.Element[]>([]);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -155,23 +156,22 @@ export default function QuestionForm({
   useEffect(() => {
     const fetchImagePreviews = async () => {
       const initialImages = await setInitialImgPreview();
-      setImagePreview(initialImages);
+      setImagePreviewEl(initialImages);
     };
     fetchImagePreviews();
   }, []);
 
-  const setInitialImgPreview = async (): Promise<string[]> => {
-    const answerExplanationImages: File[] =
+  const setInitialImgPreview = async (): Promise<JSX.Element[]> => {
+    const answerExplanationImages: JSX.Element[] =
       quizCreationInfo.questions?.find(
         (question) => question.id === questionFormId,
       )?.answerExplanationImages ?? [];
-    const newImages = await readFilesAsDataURL(answerExplanationImages);
 
-    return [...imagePreview, ...newImages];
+    return [...imagePreviewEl, ...answerExplanationImages];
   };
 
   const handleDeleteImage = (index: number) => {
-    setImagePreview((prevImages) => prevImages.filter((_, i) => i !== index));
+    setImagePreviewEl((prevImages) => prevImages.filter((_, i) => i !== index));
     setSelectedImages((prevImages) => prevImages.filter((_, i) => i !== index));
 
     const updatedQuestions: QuizQuestionType[] =
@@ -193,18 +193,6 @@ export default function QuestionForm({
   const fileInputRef = useRef<HTMLInputElement | null>(null); // 파일 입력 참조
   const maxImgFileCount = 3;
 
-  //TODO: hook으로 만들기
-  const readFilesAsDataURL = async (files: File[]): Promise<string[]> => {
-    const readerPromises: Promise<string>[] = files.map((file) => {
-      return new Promise<string>((resolve) => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result as string);
-        reader.readAsDataURL(file);
-      });
-    });
-    return Promise.all(readerPromises);
-  };
-
   const handleImageChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -219,10 +207,15 @@ export default function QuestionForm({
       }
 
       const newImagesFile: File[] = Array.from(files);
-      const newImages = await readFilesAsDataURL(newImagesFile);
+      const imgEls = newImagesFile.map((file) => {
+        const imgURL = URL.createObjectURL(file); // 미리보기용 URL
+        return (
+          <img className={styles["image"]} src={imgURL} data-file={file} />
+        );
+      });
 
-      setSelectedImages((prev) => [...prev, ...newImagesFile]);
-      setImagePreview((prev) => [...prev, ...newImages]);
+      setSelectedImages((prev) => [...prev, ...imgEls]);
+      setImagePreviewEl((prev) => [...prev, ...imgEls]);
 
       const updatedQuestions: QuizQuestionType[] =
         quizCreationInfo.questions?.map((question) => {
@@ -231,7 +224,7 @@ export default function QuestionForm({
               ...question,
               answerExplanationImages: [
                 ...question.answerExplanationImages,
-                ...newImagesFile,
+                ...imgEls,
               ],
             };
           }
@@ -374,22 +367,17 @@ export default function QuestionForm({
 
         {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
         {/* TODO: refactor 퀴즈 풀기 해설과 같은 컴포넌트 */}
-        {imagePreview.length > 0 && (
+        {imagePreviewEl.length > 0 && (
           <section className={styles["image-area"]}>
-            {imagePreview.map((image, index) => (
+            {imagePreviewEl.map((image, index) => (
               <div className={styles["image-item-container"]} key={index}>
-                <img
-                  key={index}
-                  src={image}
-                  alt={`이미지 미리보기 ${index + 1}`}
-                  className={styles["image"]}
-                />
-                <button
+                {image}
+                <Button
+                  iconOnly
+                  icon={<img src={deleteIcon} />}
                   className={styles["delete-button"]}
                   onClick={() => handleDeleteImage(index)}
-                >
-                  <img src={deleteIcon} />
-                </button>
+                />
               </div>
             ))}
           </section>

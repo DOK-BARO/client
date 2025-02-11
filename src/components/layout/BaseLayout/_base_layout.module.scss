@@ -60,6 +60,7 @@
     top: 0;
     max-width: 100%;
     height: auto;
+    justify-self: start;
   }
   .title {
     margin-top: 1.5rem;
@@ -75,17 +76,22 @@
 
   footer {
     background: linear-gradient(transparent, #e2dae5 100%);
-    margin-top: auto;
-    margin-bottom: 0;
+    bottom: 0;
+    position: relative;
     width: 100%;
     height: 14.5rem;
+    align-items: flex-end;
+    justify-self: flex-end;
 
     .note-container {
       display: flex;
       gap: 1.05rem;
+      margin-bottom: 0;
       position: absolute;
       right: 1.96rem;
+      // bottom: 30%;
       bottom: 6.13rem;
+
       .note {
         color: $gray-100;
         font-size: 0.875rem;

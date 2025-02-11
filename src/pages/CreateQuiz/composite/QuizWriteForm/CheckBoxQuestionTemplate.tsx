@@ -37,9 +37,13 @@ export const CheckBoxQuestionTemplate: FC<{
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, checked } = event.target;
 
-    const currentQuestion: QuizQuestionType = quizCreationInfo.questions?.find(
-      (question) => question.id!.toString() === questionFormId!,
-    )!;
+    const currentQuestion: QuizQuestionType | undefined =
+      quizCreationInfo.questions?.find(
+        (question) => question.id!.toString() === questionFormId!,
+      );
+    if (!currentQuestion) {
+      return;
+    }
     const targetSelectOption: SelectOptionType =
       currentQuestion.selectOptions.find(
         (option) => id === option.id.toString(),
@@ -101,11 +105,37 @@ export const CheckBoxQuestionTemplate: FC<{
 
 function AddOptionButton({ onAdd }: { onAdd: () => void }) {
   return (
-    <div data-no-dnd="true" className={styles["option-add-button-container"]}>
-      <button className={styles["option-add-button"]} onClick={onAdd}>
-        <div className={styles["option-add-button-check-square"]} />
-        <span data-no-dnd="true">옵션 추가하기</span>
-      </button>
-    </div>
+    <Button
+      className={styles["option-add-button"]}
+      iconPosition="left"
+      icon={
+        !isOverMaxOptionLength ? (
+          <QuizPlus
+            alt=""
+            width={20}
+            height={20}
+            stroke={gray60}
+            fill={gray60}
+          />
+        ) : (
+          <></>
+        )
+      }
+      onClick={onAdd}
+    >
+      <span data-no-dnd="true">
+        {isOverMaxOptionLength ? "선택지는 최대 5개입니다." : "선택지 추가하기"}
+      </span>
+      <span>
+        <span
+          className={
+            isOverMaxOptionLength ? styles["current-option-length"] : ""
+          }
+        >
+          {currentOptionLength}
+        </span>
+        <span>{`/${BOOK_QUIZ_OPTION_MAX_LENGTH}`}</span>
+      </span>
+    </Button>
   );
 }

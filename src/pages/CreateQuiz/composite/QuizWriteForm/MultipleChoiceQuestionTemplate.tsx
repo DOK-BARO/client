@@ -33,10 +33,6 @@ export const MultipleChoiceQuestionTemplate: FC<{
     handleChange: onRadioGroupChange,
   } = useRadioGroup(setInitialAnswer());
 
-  useEffect(() => {
-    console.log("selectedRadioGroupValue", selectedRadioGroupValue);
-  }, [selectedRadioGroupValue]);
-
   const setText = (optionId: number, label: string) => {
     const updatedOptions = options.map((option) => {
       if (option.id === optionId) {
@@ -84,7 +80,6 @@ export const MultipleChoiceQuestionTemplate: FC<{
 
   // 정해진 정답 자동 선택
   useEffect(() => {
-    console.log("currentQuizGuideStep", currentQuizGuideStep);
     if (isFirstVisit && !isEditMode && currentQuizGuideStep === 2) {
       const timer = setTimeout(() => {
         setPredefinedValue("1");
@@ -131,11 +126,37 @@ export const MultipleChoiceQuestionTemplate: FC<{
 
 function AddOptionButton({ onAdd }: { onAdd: () => void }) {
   return (
-    <div data-no-dnd="true" className={styles["option-add-button-container"]}>
-      <button className={styles["option-add-button"]} onClick={onAdd}>
-        <div className={styles["option-add-button-check-circle"]} />
-        <span data-no-dnd="true">옵션 추가하기</span>
-      </button>
-    </div>
+    <Button
+      className={styles["option-add-button"]}
+      iconPosition="left"
+      icon={
+        !isOverMaxOptionLength ? (
+          <QuizPlus
+            alt=""
+            width={20}
+            height={20}
+            stroke={gray60}
+            fill={gray60}
+          />
+        ) : (
+          <></>
+        )
+      }
+      onClick={onAdd}
+    >
+      <span data-no-dnd="true">
+        {isOverMaxOptionLength ? "선택지는 최대 5개입니다." : "선택지 추가하기"}
+      </span>
+      <span>
+        <span
+          className={
+            isOverMaxOptionLength ? styles["current-option-length"] : ""
+          }
+        >
+          {currentOptionLength}
+        </span>
+        <span>{`/${BOOK_QUIZ_OPTION_MAX_LENGTH}`}</span>
+      </span>
+    </Button>
   );
 }

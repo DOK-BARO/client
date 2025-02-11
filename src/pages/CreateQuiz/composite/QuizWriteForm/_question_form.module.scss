@@ -57,25 +57,22 @@
 }
 
 .option-add-button {
-  @include flex(row);
-  align-items: center;
-  flex: 1;
-  // padding: 0;
+  display: flex;
+  padding: 11.5px 8px;
+  width: 100%;
   color: $gray-50;
   font-size: $font-size-large;
-  @include option-button-text;
 
-  &-container {
-    @include flex(row);
-    align-items: center;
+  span:first-of-type {
     width: 100%;
-    padding: 11.5px 8px;
     text-align: start;
   }
   span {
+    @include option-button-text;
     color: $gray-60;
   }
   .current-option-length {
+    @include option-button-text;
     color: $system-danger;
   }
 }

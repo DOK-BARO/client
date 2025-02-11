@@ -6,6 +6,9 @@ import { useQuestionTemplate } from "@/hooks/useQuestionTemplate";
 import SelectOption from "./SelectOption";
 import { SelectOptionType } from "@/types/QuizType";
 import { BOOK_QUIZ_OPTION_MAX_LENGTH } from "@/data/constants";
+import Button from "@/components/atom/Button/Button";
+import { QuizPlus } from "@/svg/QuizPlus";
+import { gray60 } from "@/styles/abstracts/colors";
 
 export const CheckBoxQuestionTemplate: FC<{
   questionFormId?: string;
@@ -19,6 +22,7 @@ export const CheckBoxQuestionTemplate: FC<{
     handleAddQuizOptionItemBtn,
     getQuestion,
   } = useQuestionTemplate("MULTIPLE_CHOICE_MULTIPLE_ANSWER", questionFormId!);
+  const currentOptionLength = options.length;
 
   const setInitialAnswer = (): { [key: string]: boolean } => {
     const question: QuizQuestionType = getQuestion();
@@ -97,13 +101,24 @@ export const CheckBoxQuestionTemplate: FC<{
         />
       ))}
       {options.length < BOOK_QUIZ_OPTION_MAX_LENGTH && (
-        <AddOptionButton onAdd={handleAddQuizOptionItemBtn} />
+        <AddOptionButton
+          onAdd={handleAddQuizOptionItemBtn}
+          currentOptionLength={currentOptionLength}
+        />
       )}
     </fieldset>
   );
 };
 
-function AddOptionButton({ onAdd }: { onAdd: () => void }) {
+function AddOptionButton({
+  onAdd,
+  currentOptionLength,
+}: {
+  onAdd: () => void;
+  currentOptionLength: number;
+}) {
+  const isOverMaxOptionLength =
+    currentOptionLength >= BOOK_QUIZ_OPTION_MAX_LENGTH;
   return (
     <Button
       className={styles["option-add-button"]}

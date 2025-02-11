@@ -9,6 +9,9 @@ import { BOOK_QUIZ_OPTION_MAX_LENGTH } from "@/data/constants.ts";
 import { isFirstVisitAtom, quizGuideStepAtom } from "@/store/quizAtom";
 import { useAtom } from "jotai";
 import QuizWriteGuideBubble from "../QuizWriteGuideBubble/QuizWriteGuideBubble";
+import Button from "@/components/atom/Button/Button";
+import { QuizPlus } from "@/svg/QuizPlus";
+import { gray60 } from "@/styles/abstracts/colors";
 
 export const MultipleChoiceQuestionTemplate: FC<{
   questionFormId?: string;
@@ -23,6 +26,7 @@ export const MultipleChoiceQuestionTemplate: FC<{
     handleAddQuizOptionItemBtn,
     getQuestion,
   } = useQuestionTemplate("MULTIPLE_CHOICE_SINGLE_ANSWER", questionFormId!);
+  const currentOptionLength = options.length;
 
   const setInitialAnswer = (): string => {
     const question = getQuestion();
@@ -118,13 +122,24 @@ export const MultipleChoiceQuestionTemplate: FC<{
         />
       ))}
       {options.length < BOOK_QUIZ_OPTION_MAX_LENGTH && (
-        <AddOptionButton onAdd={handleAddQuizOptionItemBtn} />
+        <AddOptionButton
+          onAdd={handleAddQuizOptionItemBtn}
+          currentOptionLength={currentOptionLength}
+        />
       )}
     </fieldset>
   );
 };
 
-function AddOptionButton({ onAdd }: { onAdd: () => void }) {
+function AddOptionButton({
+  onAdd,
+  currentOptionLength,
+}: {
+  onAdd: () => void;
+  currentOptionLength: number;
+}) {
+  const isOverMaxOptionLength =
+    currentOptionLength >= BOOK_QUIZ_OPTION_MAX_LENGTH;
   return (
     <Button
       className={styles["option-add-button"]}

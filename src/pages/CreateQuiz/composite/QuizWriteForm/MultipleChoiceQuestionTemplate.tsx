@@ -37,10 +37,6 @@ export const MultipleChoiceQuestionTemplate: FC<{
     handleChange: onRadioGroupChange,
   } = useRadioGroup(setInitialAnswer());
 
-  useEffect(() => {
-    console.log("selectedRadioGroupValue", selectedRadioGroupValue);
-  }, [selectedRadioGroupValue]);
-
   const setText = (optionId: number, label: string) => {
     const updatedOptions = options.map((option) => {
       if (option.id === optionId) {
@@ -88,7 +84,6 @@ export const MultipleChoiceQuestionTemplate: FC<{
 
   // 정해진 정답 자동 선택
   useEffect(() => {
-    console.log("currentQuizGuideStep", currentQuizGuideStep);
     if (isFirstVisit && !isEditMode && currentQuizGuideStep === 2) {
       const timer = setTimeout(() => {
         setPredefinedValue("1");
@@ -167,7 +162,11 @@ function AddOptionButton({
         {isOverMaxOptionLength ? "선택지는 최대 5개입니다." : "선택지 추가하기"}
       </span>
       <span>
-        <span className={styles["current-option-length"]}>
+        <span
+          className={
+            isOverMaxOptionLength ? styles["current-option-length"] : ""
+          }
+        >
           {currentOptionLength}
         </span>
         <span>{`/${BOOK_QUIZ_OPTION_MAX_LENGTH}`}</span>

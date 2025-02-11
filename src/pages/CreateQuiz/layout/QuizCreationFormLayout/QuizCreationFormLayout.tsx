@@ -211,7 +211,6 @@ export default function QuizCreationFormLayout({
       questions: await setRequestQuestion(),
       // temporary: isTemporary,
     };
-    console.log("quiz!!", quiz);
     setIsComplete(true);
     isEditMode
       ? requestModifyQuiz({ editQuizId: editQuizId!, quiz })

@@ -76,8 +76,6 @@ export default function StudyGroupSetting() {
     resetTextarea: ResetIntroductionTextarea,
   } = useTextarea(studyGroupDetail?.introduction ?? "");
 
-  console.log("studyGroupDetail", studyGroupDetail);
-
   useEffect(() => {
     if (studyGroupDetail) {
       resetNameInput(studyGroupDetail.name);

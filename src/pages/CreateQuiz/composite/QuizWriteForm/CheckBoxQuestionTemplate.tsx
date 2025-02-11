@@ -41,9 +41,13 @@ export const CheckBoxQuestionTemplate: FC<{
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, checked } = event.target;
 
-    const currentQuestion: QuizQuestionType = quizCreationInfo.questions?.find(
-      (question) => question.id!.toString() === questionFormId!,
-    )!;
+    const currentQuestion: QuizQuestionType | undefined =
+      quizCreationInfo.questions?.find(
+        (question) => question.id!.toString() === questionFormId!,
+      );
+    if (!currentQuestion) {
+      return;
+    }
     const targetSelectOption: SelectOptionType =
       currentQuestion.selectOptions.find(
         (option) => id === option.id.toString(),
@@ -137,7 +141,11 @@ function AddOptionButton({
         {isOverMaxOptionLength ? "선택지는 최대 5개입니다." : "선택지 추가하기"}
       </span>
       <span>
-        <span className={styles["current-option-length"]}>
+        <span
+          className={
+            isOverMaxOptionLength ? styles["current-option-length"] : ""
+          }
+        >
           {currentOptionLength}
         </span>
         <span>{`/${BOOK_QUIZ_OPTION_MAX_LENGTH}`}</span>

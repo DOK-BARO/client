@@ -1,5 +1,6 @@
 @import "../../../styles/abstracts/mixins";
 @import "../../../styles/abstracts/variables";
+@import "../../../styles/abstracts/markdown";
 
 .container {
   @include flex(column);

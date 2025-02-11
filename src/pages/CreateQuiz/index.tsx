@@ -82,15 +82,10 @@ export default function Index() {
       }
     }
   }, [currentUser]);
-
-  async function convertUrlsToFiles(urls: string[]): Promise<File[]> {
+  async function convertUrlsToImg(urls: string[]): Promise<JSX.Element[]> {
     const files = await Promise.all(
-      urls.map(async (url, index) => {
-        const response = await fetch(url);
-        const blob = await response.blob();
-        return new File([blob], `file_${index + 1}.jpg`, {
-          type: blob.type,
-        });
+      urls.map(async (urls) => {
+        return <img className={styles["image"]} src={urls} />;
       }),
     );
     return files;
@@ -119,19 +114,20 @@ export default function Index() {
           };
         }
         const prevQuestions: QuizQuestionType[] = await Promise.all(
-          prevQuiz?.questions.map(async (q, index) => {
-            const images = await convertUrlsToFiles(q.answerExplanationImages);
+          prevQuiz?.questions.map(async (q) => {
+            const images = await convertUrlsToImg(q.answerExplanationImages);
+
+            // TODO: useQuestionTemplate의 옵션 생성 로직과 통일 필요
             const selectOptions: SelectOptionType[] = q.selectOptions.map(
               (optionText, index) => ({
-                id: index,
+                id: index, // TODO: index로 해도 되는지 확인 필요
                 option: optionText,
-                value: index.toString(),
-                answerIndex: index + 1,
+                value: (index + 1).toString(),
+                answerIndex: index + 1, // 퀴즈의 정답이 아닌 이 옵션의 고유 정답 번호 set
               }),
             );
-
             return {
-              id: index,
+              id: q.id!,
               content: q.content,
               selectOptions,
               answerExplanationContent: q.answerExplanationContent,
@@ -273,7 +269,7 @@ export default function Index() {
     }
 
     resetQuizState();
-    console.log("퀴즈 상태 초기화");
+    //console.log("퀴즈 상태 초기화");
 
     return () => {
       resetBookState();

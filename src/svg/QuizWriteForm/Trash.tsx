@@ -8,6 +8,7 @@ export const Trash: React.FC<SVGProps> = ({ alt, ...props }) => {
       height={props.height}
       viewBox={`0 0 ${props.width} ${props.height}`}
       fill="none"
+      stroke={props.stroke}
       xmlns="http://www.w3.org/2000/svg"
     >
       <title id="svgTitle">{alt}</title>

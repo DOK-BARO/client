@@ -48,6 +48,10 @@
   gap: 32px;
 }
 
+.input-inner {
+  width: 100%;
+}
+
 .disabled {
   color: $gray-60;
 }
@@ -67,16 +71,8 @@
 .message-container {
   display: flex;
   align-items: center;
+}
 
-  span {
-    font-size: $font-size-small;
-  }
-
-  .match {
-    color: $system-success;
-  }
-
-  .not-match {
-    color: $system-danger;
-  }
+.error--input-text {
+  color: $system-danger;
 }

@@ -280,4 +280,9 @@
   }
 }
 
+.btn--disabled {
+  color: $gray-50 !important;
+  font-size: $font-size-large;
+}
+
 // _quiz_write_form_type_util_button.module.scss 끝

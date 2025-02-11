@@ -5,6 +5,7 @@ import Button from "@/components/atom/Button/Button";
 import {
   gray00,
   gray20,
+  gray40,
   gray50,
   systemSuccess,
 } from "@/styles/abstracts/colors.ts";
@@ -119,8 +120,20 @@ export default function QuizCreationSteps({
                 {step.title}
               </span>
               <CheckEllipse
-                fillOut={step.isDone ? systemSuccess : gray20}
-                fillIn={step.isDone ? gray00 : gray50}
+                fillOut={
+                  isEditModeDisabledStep || !isValidPreviousSteps
+                    ? gray40
+                    : step.isDone
+                      ? systemSuccess
+                      : gray20
+                }
+                fillIn={
+                  isEditModeDisabledStep || !isValidPreviousSteps
+                    ? gray20
+                    : step.isDone
+                      ? gray00
+                      : gray50
+                }
                 width={20}
                 height={20}
               />
@@ -144,6 +157,7 @@ export default function QuizCreationSteps({
                       ? !isStepEnabled(steps[index - 1].order, quizInfo)
                       : !isStepEnabled(step.subSteps![idx - 1].order, quizInfo)
                   }
+                  size="small"
                 >
                   <div style={{ width: 20, height: 20 }} />
                   {subStep.title}

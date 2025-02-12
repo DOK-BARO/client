@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./_radio_option.module.scss";
 import { RadioOptionType } from "@/types/RadioTypes";
 import { Close } from "@/svg/Close";
-import { gray40, gray70 } from "@/styles/abstracts/colors";
+import { gray70, gray40 } from "@/styles/abstracts/colors";
 import Textarea from "@/components/atom/Textarea/Textarea";
 import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
@@ -36,6 +36,7 @@ interface RadioOptionProps {
   onBlur?: () => void;
   customClassName?: string;
   fullWidth?: boolean;
+  showDeleteBtn?: boolean;
 }
 
 const RadioOption: React.FC<RadioOptionProps> = ({
@@ -54,6 +55,7 @@ const RadioOption: React.FC<RadioOptionProps> = ({
   onBlur = () => {},
   textAreaRef,
   fullWidth = false,
+  showDeleteBtn = true,
 }) => {
   const optionMaxLength = 500;
   const [isTextAreaFocus, setIsTextAreaFocus] = useState(false);
@@ -135,26 +137,30 @@ const RadioOption: React.FC<RadioOptionProps> = ({
             </ReactMarkdown>
           </div>
         )}
+
         {(type === "option-writing" ||
           type === "option-correct" ||
-          type === "option-written") && (
-          <Button
-            iconOnly
-            icon={
-              <Close
-                alt="옵션 삭제하기"
-                width={20}
-                height={20}
-                stroke={type === "option-writing" ? gray70 : gray40}
-                strokeWidth={2}
-              />
-            }
-            onClick={() => {
-              deleteOption(option.id);
-            }}
-            disabled={isFirstVisit && !isEditMode && currentQuizGuideStep == 2}
-          />
-        )}
+          type === "option-written") &&
+          showDeleteBtn && (
+            <Button
+              iconOnly
+              icon={
+                <Close
+                  alt="옵션 삭제하기"
+                  width={20}
+                  height={20}
+                  stroke={type === "option-writing" ? gray70 : gray40}
+                  strokeWidth={2}
+                />
+              }
+              onClick={() => {
+                deleteOption(option.id);
+              }}
+              disabled={
+                isFirstVisit && !isEditMode && currentQuizGuideStep == 2
+              }
+            />
+          )}
       </label>
     </div>
   );

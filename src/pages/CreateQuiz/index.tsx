@@ -274,7 +274,7 @@ export default function Index() {
     }
 
     resetQuizState();
-    console.log("퀴즈 상태 초기화");
+    //console.log("퀴즈 상태 초기화");
 
     return () => {
       resetBookState();

@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles from "./_find_password_layout.module.scss";
 import SendTemporaryPassword from "@/pages/FindPassword/composite/SendTemporaryPassword/SendTemporaryPassword";
 import Complete from "@/pages/FindPassword/composite/Complete/Complete";
+import NotFound from "@/pages/NotFound";
 
 export default function FindPasswordLayout() {
   const [step, setStep] = useState<number>(1);
@@ -20,7 +21,7 @@ export default function FindPasswordLayout() {
       case 2:
         return <Complete />;
       default:
-        return <div>404</div>;
+        return <NotFound />;
     }
   };
 

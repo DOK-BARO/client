@@ -123,21 +123,25 @@ export default function CheckBox({
             </ReactMarkdown>
           </div>
         )}
-        <Button
-          onClick={() => {
-            deleteOption(parseInt(id));
-          }}
-          icon={
-            <Close
-              width={20}
-              height={20}
-              stroke={type === "checkbox-writing" ? gray70 : gray40}
-              strokeWidth={2}
-              alt="옵션 삭제하기"
-            />
-          }
-          iconOnly
-        />
+        {(type === "checkbox-writing" ||
+          type === "checkbox-correct" ||
+          type === "checkbox-written") && (
+          <Button
+            iconOnly
+            icon={
+              <Close
+                width={20}
+                height={20}
+                stroke={type === "checkbox-writing" ? gray70 : gray40}
+                strokeWidth={2}
+                alt="옵션 삭제하기"
+              />
+            }
+            onClick={() => {
+              deleteOption(parseInt(id));
+            }}
+          />
+        )}
       </label>
     </div>
   );

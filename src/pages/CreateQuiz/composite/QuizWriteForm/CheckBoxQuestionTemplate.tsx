@@ -37,9 +37,13 @@ export const CheckBoxQuestionTemplate: FC<{
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, checked } = event.target;
 
-    const currentQuestion: QuizQuestionType = quizCreationInfo.questions?.find(
-      (question) => question.id!.toString() === questionFormId!,
-    )!;
+    const currentQuestion: QuizQuestionType | undefined =
+      quizCreationInfo.questions?.find(
+        (question) => question.id!.toString() === questionFormId!,
+      );
+    if (!currentQuestion) {
+      return;
+    }
     const targetSelectOption: SelectOptionType =
       currentQuestion.selectOptions.find(
         (option) => id === option.id.toString(),
@@ -63,6 +67,7 @@ export const CheckBoxQuestionTemplate: FC<{
           }
         : question,
     );
+    console.log("Editied:%o", updatedQuestions);
     updateQuizCreationInfo("questions", updatedQuestions);
   };
 

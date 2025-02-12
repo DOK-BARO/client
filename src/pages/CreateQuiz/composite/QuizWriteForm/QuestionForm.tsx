@@ -6,8 +6,6 @@ import QuestionFormHeader from "./QuestionFormHeader";
 import { QuestionTemplateType as QuestionTemplateType } from "@/types/QuestionTemplateType";
 import { UlList } from "@/svg/QuizWriteForm/UlList";
 import { OlList } from "@/svg/QuizWriteForm/OlList";
-// import { BlankQuiz } from "@/svg/QuizWriteForm/BlankQuiz";
-// import { AlignJustify } from "@/svg/QuizWriteForm/AlignJustify";
 import { MultipleChoiceQuestionTemplate } from "@/pages/CreateQuiz/composite/QuizWriteForm/MultipleChoiceQuestionTemplate";
 import { CheckBoxQuestionTemplate } from "@/pages/CreateQuiz/composite/QuizWriteForm/CheckBoxQuestionTemplate";
 import { OXQuestionTemplate } from "@/pages/CreateQuiz/composite/QuizWriteForm/OXQuestionTemplate";
@@ -26,6 +24,8 @@ import {
 } from "@/store/quizAtom";
 import QuizWriteGuideBubble from "../QuizWriteGuideBubble/QuizWriteGuideBubble";
 import { useValidateQuizForm } from "@/hooks/useValidateQuizForm";
+import ImageLayer from "@/components/layout/ImageLayer/ImageLayer";
+import useImageLayer from "@/hooks/useImageLayer";
 interface QuizWriteFormItemProps {
   questionFormId: number;
   deleteQuestion: (id: number) => void;
@@ -139,10 +139,9 @@ export default function QuestionForm({
       (question) => question.id === questionFormId,
     )?.answerExplanationImages ?? [],
   );
-  const [imagePreview, setImagePreview] = useState<string[]>([]);
-  const [errorMessage, setErrorMessage] = useAtom(
-    errorMessageAtomFamily(questionFormId),
-  );
+
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onAnswerTextAreaChange(e);
@@ -158,7 +157,7 @@ export default function QuestionForm({
   useEffect(() => {
     const fetchImagePreviews = async () => {
       const initialImages = await setInitialImgPreview();
-      setImagePreview(initialImages);
+      setImagePreviews(initialImages);
     };
     fetchImagePreviews();
   }, []);
@@ -170,14 +169,15 @@ export default function QuestionForm({
       )?.answerExplanationImages ?? [];
     const newImages = await readFilesAsDataURL(answerExplanationImages);
 
-    return [...imagePreview, ...newImages];
+    return [...imagePreviews, ...newImages];
   };
 
   const handleDeleteImage = (index: number) => {
     if (errorMessage) {
       setErrorMessage(null);
     }
-    setImagePreview((prevImages) => prevImages.filter((_, i) => i !== index));
+
+    setImagePreviews((prevImages) => prevImages.filter((_, i) => i !== index));
     setSelectedImages((prevImages) => prevImages.filter((_, i) => i !== index));
 
     const updatedQuestions: QuizQuestionType[] =
@@ -228,7 +228,7 @@ export default function QuestionForm({
       const newImages = await readFilesAsDataURL(newImagesFile);
 
       setSelectedImages((prev) => [...prev, ...newImagesFile]);
-      setImagePreview((prev) => [...prev, ...newImages]);
+      setImagePreviews((prev) => [...prev, ...newImages]);
 
       const updatedQuestions: QuizQuestionType[] =
         quizCreationInfo.questions?.map((question) => {
@@ -283,6 +283,13 @@ export default function QuestionForm({
   const isEditMode =
     localStorage.getItem("isEditMode") == "true" ? true : false;
 
+  const {
+    clickedImage,
+    handleCloseLayer,
+    handleArrowClick,
+    handleImageClicked,
+  } = useImageLayer(imagePreviews);
+
   return (
     <section
       ref={handleRef(questionFormId.toString())}
@@ -291,6 +298,15 @@ export default function QuestionForm({
       `}
     >
       <h2 className={styles["sr-only"]}>퀴즈 문제 작성 폼</h2>
+
+      {clickedImage !== undefined ? (
+        <ImageLayer
+          onCloseLayer={handleCloseLayer}
+          image={clickedImage}
+          onLeftArrowClick={(e) => handleArrowClick(e, "left")}
+          onRightArrowClick={(e) => handleArrowClick(e, "right")}
+        />
+      ) : null}
 
       <QuestionFormHeader
         id={questionFormId}
@@ -383,15 +399,19 @@ export default function QuestionForm({
           </p>
         )}
         {/* TODO: refactor 퀴즈 풀기 해설과 같은 컴포넌트 */}
-        {imagePreview.length > 0 && (
+        {imagePreviews.length > 0 && (
           <section className={styles["image-area"]}>
-            {imagePreview.map((image, index) => (
+            {imagePreviews.map((image, index) => (
               <div className={styles["image-item-container"]} key={index}>
                 <img
                   key={index}
                   src={image}
                   alt={`이미지 미리보기 ${index + 1}`}
                   className={styles["image"]}
+                  onClick={() => {
+                    handleImageClicked({ index, src: image });
+                  }}
+                  data-no-dnd="true"
                 />
                 <button
                   className={styles["delete-button"]}

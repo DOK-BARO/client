@@ -4,6 +4,7 @@ import confetti from "@/animation/confetti.json";
 import { useQuery } from "@tanstack/react-query";
 import { quizService } from "@/services/server/quizService";
 import { quizKeys } from "@/data/queryKeys";
+import solvingQuizCompleteImage from "/public/assets/image/solving-quiz-complete.png";
 
 export default function CommonQuizResult({
   solvingQuizId,
@@ -26,7 +27,7 @@ export default function CommonQuizResult({
         맞혔어요!
       </p>
       <div className={styles["result-img"]}>
-        <img src="/assets/image/solving-quiz-complete.png" />
+        <img src={solvingQuizCompleteImage} width={492} height={420} alt="" />
         <Lottie className={styles["confetti"]} animationData={confetti} />
       </div>
     </section>

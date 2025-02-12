@@ -18,7 +18,9 @@ export default function CreateQuizComplete() {
   const navigate = useNavigate();
 
   const handleGoToQuiz = () => {
-    navigate(quizPath);
+    navigate(quizPath, {
+      state: { fromInternal: true },
+    });
   };
 
   return (

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import styles from "./_question_form.module.scss";
 import Button from "@/components/atom/Button/Button";
 import QuestionForm from "@/pages/CreateQuiz/composite/QuizWriteForm/QuestionForm";
 import { primary } from "@/styles/abstracts/colors.ts";
@@ -117,6 +118,8 @@ const QuizWriteForm = React.memo(() => {
 
     const [questionForms, setQuestionForms] =
       useState<QuestionFormType[]>(setInitialForms());
+    const MAX_QUESTION_LENGTH = 10;
+    const isOverMaxQuestionLength = questionForms.length >= MAX_QUESTION_LENGTH;
     const [isFirstVisit] = useAtom(isFirstVisitAtom);
 
     const [isInitialized, setIsInitialized] = useState<boolean>(false);
@@ -200,7 +203,7 @@ const QuizWriteForm = React.memo(() => {
     };
 
     // 문제 추가 버튼 클릭
-    const onClickAddQuestionForm = () => {
+    const handleClickAddQuestionForm = () => {
       const id = Date.now();
       const newQuestion: QuizQuestionType = createNewQuestion(id);
       addQuestionForm(id);
@@ -241,19 +244,27 @@ const QuizWriteForm = React.memo(() => {
 
         <Button
           size="large"
-          onClick={onClickAddQuestionForm}
+          onClick={handleClickAddQuestionForm}
           fullWidth
           icon={
-            <QuizPlus
-              alt="스터디 그룹 추가 버튼"
-              width={20}
-              height={20}
-              stroke={primary}
-            />
+            !isOverMaxQuestionLength ? (
+              <QuizPlus
+                alt="스터디 그룹 추가 버튼"
+                width={20}
+                height={20}
+                stroke={primary}
+              />
+            ) : (
+              <></>
+            )
           }
           color="secondary"
+          disabled={isOverMaxQuestionLength}
+          className={isOverMaxQuestionLength ? styles["btn--disabled"] : ""}
         >
-          문제 추가하기
+          {isOverMaxQuestionLength
+            ? "최대 문제수는 10개입니다"
+            : "문제 추가하기"}
         </Button>
       </section>
     ) : null;

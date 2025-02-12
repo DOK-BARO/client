@@ -83,7 +83,9 @@ export default function CheckBox({
       <label
         className={styles["option-label"]}
         htmlFor={
-          type === "checkbox-default" || type === "checkbox-selected"
+          type === "checkbox-default" ||
+          type === "checkbox-selected" ||
+          type === "checkbox-black"
             ? id.toString()
             : undefined
         }

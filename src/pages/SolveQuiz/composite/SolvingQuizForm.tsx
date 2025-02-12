@@ -14,6 +14,10 @@ import { gray00 } from "@/styles/abstracts/colors";
 import CheckBox from "@/components/atom/Checkbox/Checkbox";
 import { CheckboxStatusType } from "@/components/atom/Checkbox/Checkbox";
 import { CheckBoxOption } from "@/types/CheckBoxTypes";
+import ReactMarkdown from "react-markdown";
+import rehypeHighlight from "rehype-highlight";
+import "highlight.js/styles/xcode.css";
+
 //TODO: 중복함수 리팩토링 필요
 export default function SolvingQuizForm({
   formIndex,
@@ -308,8 +312,12 @@ export default function SolvingQuizForm({
               )}
             </div>
           )}
-          <p className={styles["question-title"]}>
-            {question.content.toString()}
+          <p
+            className={`${styles["question-title"]}  ${styles["markdown-content"]}`}
+          >
+            <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
+              {question.content.toString()}
+            </ReactMarkdown>
           </p>
         </div>
       </div>

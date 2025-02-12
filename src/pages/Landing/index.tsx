@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import { useAtom } from "jotai";
 import useLoginModal from "@/hooks/useLoginModal";
 import { skipGlobalErrorHandlingAtom } from "@/store/skipGlobalErrorHandlingAtom";
-
+import landing from "/public/assets/image/landing.png";
 export default function Index() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -60,7 +60,7 @@ export default function Index() {
           상세기능 보기
         </Button>
       </div>
-      <img src="/assets/image/landingimage.svg" />
+      <img src={landing} width={868} height={482.37} />
     </section>
   );
 }

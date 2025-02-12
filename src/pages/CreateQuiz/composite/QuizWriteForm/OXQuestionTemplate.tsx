@@ -59,7 +59,7 @@ export const OXQuestionTemplate: FC<{
         return (
           <div key={option.id} className={styles["option-container"]}>
             <RadioOption
-              radioGroupName={questionFormId?.toString()!}
+              radioGroupName={questionFormId!.toString()}
               option={option}
               checked={isChecked}
               onChange={handleRadioGroupChange}

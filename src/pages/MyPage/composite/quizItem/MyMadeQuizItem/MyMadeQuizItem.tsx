@@ -54,9 +54,13 @@ export default function MyMadeQuizItem({
         <div className={styles["right-container"]}>
           <div>
             <div className={styles["right-container-header"]}>
-              <p className={styles["study-group-name"]}>
-                {myQuiz.studyGroup?.name}
-              </p>
+              {myQuiz.studyGroup ? (
+                <p className={styles["study-group-name"]}>
+                  {myQuiz.studyGroup.name}
+                </p>
+              ) : (
+                <div />
+              )}
               <Button
                 onClick={(e) => onCopyQuizLink(e, myQuiz.id)}
                 iconOnly

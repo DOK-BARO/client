@@ -31,10 +31,11 @@ import useLoginModal from "@/hooks/useLoginModal";
 import LoginModal from "@/components/composite/LoginModal/LoginModal";
 import { isLoggedInAtom, isUserLoadingAtom } from "@/store/userAtom";
 import { skipGlobalErrorHandlingAtom } from "@/store/skipGlobalErrorHandlingAtom";
-import { socialLoginRedirectUrlAtom } from "@/store/authModalAtom";
+import { loginRedirectUrlAtom } from "@/store/authModalAtom";
 import CodeInput from "@/components/composite/CodeInput/CodeInput";
 import useCodeInput from "@/hooks/useCodeInput";
 import usePreventPopState from "@/hooks/usePreventPopState";
+import useImageLayer from "@/hooks/useImageLayer";
 export interface AnswerImageType {
   index: number;
   src: string;
@@ -54,8 +55,8 @@ export default function Index() {
     isModalOpen: isQuizStartModalOpen,
   } = useModal();
 
-  const { isLoginModalOpen, closeLoginModal, handleGoToLogin } =
-    useLoginModal();
+  const { pathname } = useLocation();
+  const { isLoginModalOpen, closeLoginModal, openLoginModal } = useLoginModal();
   const {
     openModal: openStudyGroupCodeModal,
     closeModal: closeStudyGroupCodeModal,
@@ -76,14 +77,6 @@ export default function Index() {
     isModalOpen: isPreventLeaveModalOpen,
   } = useModal();
 
-  const [clickedImage, setClickedImage] = useState<AnswerImageType | undefined>(
-    undefined,
-  );
-
-  // 해설 이미지 클릭 시 확대 보기
-  const handleImageClicked = (image: AnswerImageType) => {
-    setClickedImage(image);
-  };
   const [isUserLoading] = useAtom(isUserLoadingAtom);
   const [isLoggedIn] = useAtom(isLoggedInAtom);
   const location = useLocation();
@@ -117,7 +110,7 @@ export default function Index() {
   });
 
   const [, setSkipGlobalErrorHandling] = useAtom(skipGlobalErrorHandlingAtom);
-  const [, setSocialLoginRedirectUrl] = useAtom(socialLoginRedirectUrlAtom);
+  const [, setLoginRedirectUrl] = useAtom(loginRedirectUrlAtom);
 
   useEffect(() => {
     if (isInternalNavigation && quizId) {
@@ -131,11 +124,9 @@ export default function Index() {
     if (!isUserLoading && quizId) {
       if (!isLoggedIn) {
         // 1. 로그인 모달 띄우기
-        setSocialLoginRedirectUrl(
-          `${import.meta.env.VITE_DEFAULT_URL}/quiz/play/${quizId}`,
-        );
+        setLoginRedirectUrl(pathname);
 
-        handleGoToLogin();
+        openLoginModal();
       } else {
         // 스터디원인 경우, 아닌 경우 분기
         startSolvingQuiz(quizId);
@@ -354,31 +345,6 @@ export default function Index() {
     }
   };
 
-  // 화살표 클릭 시
-  const handleArrowClick = (direction: "left" | "right") => {
-    setClickedImage((prev) => {
-      if (!prev || !questionCheckedResult?.answerExplanationImages)
-        return undefined;
-
-      const newIndex = direction === "left" ? prev.index - 1 : prev.index + 1;
-
-      if (
-        newIndex < 0 ||
-        newIndex >= questionCheckedResult.answerExplanationImages.length
-      ) {
-        return prev;
-      }
-
-      return {
-        index: newIndex,
-        src: questionCheckedResult.answerExplanationImages[newIndex],
-      };
-    });
-  };
-
-  const handleCloseLayer = () => {
-    setClickedImage(undefined);
-  };
   const {
     handleCodeChange,
     handleKeyDown,
@@ -446,6 +412,13 @@ export default function Index() {
   };
 
   const [isMatch, setIsMatch] = useState<boolean | undefined>(undefined);
+
+  const {
+    clickedImage,
+    handleCloseLayer,
+    handleArrowClick,
+    handleImageClicked,
+  } = useImageLayer(questionCheckedResult?.answerExplanationImages ?? []);
 
   return (
     <section className={styles["container"]}>
@@ -533,8 +506,8 @@ export default function Index() {
         <ImageLayer
           onCloseLayer={handleCloseLayer}
           image={clickedImage}
-          onLeftArrowClick={() => handleArrowClick("left")}
-          onRightArrowClick={() => handleArrowClick("right")}
+          onLeftArrowClick={(e) => handleArrowClick(e, "left")}
+          onRightArrowClick={(e) => handleArrowClick(e, "right")}
         />
       ) : null}
       {isReportConfirmModalOpen ? (

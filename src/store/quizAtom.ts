@@ -1,6 +1,7 @@
 import { useIsQuizStepEnabled } from "@/hooks/useIsQuizStepEnabled";
 import { QuizCreationType } from "@/types/QuizType";
 import { atom } from "jotai";
+import { atomFamily } from "jotai/utils";
 
 {
   /* 초기값 정의 */
@@ -112,3 +113,8 @@ export const preventLeaveModalAtom = atom<boolean>(true); // 퀴즈 작성시 �
 export const isFirstVisitAtom = atom<boolean>(true);
 // 1부터 시작
 export const quizGuideStepAtom = atom<number>(1);
+
+// 각 폼마다의 에러 메시지 관리 (state 사용 시 dnd kit 드래그 시 상태 초기화)
+export const errorMessageAtomFamily = atomFamily(() =>
+  atom<string | null>(null),
+);

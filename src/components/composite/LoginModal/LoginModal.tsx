@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
 import {
   isEmailLoginPageAtom,
+  loginRedirectUrlAtom,
   socialLoginRedirectUrlAtom,
 } from "@/store/authModalAtom.ts";
 import { authService } from "@/services/server/authService.ts";
@@ -27,6 +28,8 @@ import { ErrorType } from "@/types/ErrorType.ts";
 import toast from "react-hot-toast";
 import ROUTES from "@/data/routes.ts";
 import { SocialLoginType } from "@/types/SocialLoginType.ts";
+import { queryClient } from "@/services/server/queryClient.ts";
+import { userKeys } from "@/data/queryKeys.ts";
 interface Props {
   closeModal: () => void;
 }
@@ -54,6 +57,7 @@ const LoginModal = ({ closeModal }: Props) => {
   // TODO: 전역으로 상태 변경할 수 있도록 해야함
   // const [isEmailSelected, setIsEmailSelected] = useState<boolean>(false);
   const [socialLoginRedirectUrl] = useAtom(socialLoginRedirectUrlAtom);
+  const [loginRedirectUrl] = useAtom(loginRedirectUrlAtom);
 
   const [isEmailLoginPage] = useAtom(isEmailLoginPageAtom);
   const navigate = useNavigate();
@@ -80,8 +84,11 @@ const LoginModal = ({ closeModal }: Props) => {
     onSuccess: () => {
       toast.success("로그인이 완료되었습니다.");
       closeModal();
-      navigate(ROUTES.ROOT);
-      navigate(0);
+      navigate(loginRedirectUrl);
+      queryClient.invalidateQueries({
+        queryKey: userKeys.user(),
+      });
+      // navigate(0); ?
     },
     onError: () => {
       setIsMatched(false);

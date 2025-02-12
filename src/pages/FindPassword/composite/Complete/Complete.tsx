@@ -4,9 +4,11 @@ import { useAtom } from "jotai";
 import { isEmailLoginPageAtom } from "@/store/authModalAtom";
 import LoginModal from "@/components/composite/LoginModal/LoginModal";
 import useLoginModal from "@/hooks/useLoginModal";
+import { findPasswordEmailAtom } from "@/store/userAtom";
 
 export default function Complete() {
-  const emailAddress = "dokbaro@gmail.com";
+  const [findPasswordEmail] = useAtom(findPasswordEmailAtom);
+
   const [, setIsEmailLoginPage] = useAtom(isEmailLoginPageAtom);
   const { isLoginModalOpen, openLoginModal, closeLoginModal } = useLoginModal();
 
@@ -15,12 +17,13 @@ export default function Complete() {
     openLoginModal();
   };
   const handleResendEmail = () => {};
+
   return (
     <section className={styles.complete}>
       {isLoginModalOpen ? <LoginModal closeModal={closeLoginModal} /> : null}
       <h3>임시 비밀번호 발송 완료</h3>
       <p className={styles.description}>
-        {emailAddress}s
+        {findPasswordEmail}
         <br />로 임시 비밀번호를 발송했어요.
       </p>
       <p className={styles["sub-description"]}>

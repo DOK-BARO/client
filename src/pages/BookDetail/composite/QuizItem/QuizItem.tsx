@@ -1,7 +1,7 @@
 import styles from "./_quiz_item.module.scss";
 import Button from "@/components/atom/Button/Button";
 import { BookQuizzesDataType } from "@/types/BookType";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ROUTES from "@/data/routes";
 import { StarFilled } from "@/svg/StarFilled";
 import { systemWarning } from "@/styles/abstracts/colors";
@@ -11,6 +11,7 @@ import {
   LevelType,
 } from "@/pages/QuizDetail/components/DifficultyLevelItem/DifficultyLevelItem";
 import IconTextLabel from "@/components/composite/IconTextLabel/IconTextLabel";
+import useLoginAction from "@/hooks/useLoginAction";
 
 interface Props {
   quiz: BookQuizzesDataType;
@@ -19,12 +20,16 @@ interface Props {
 
 export default function QuizItem({ quiz, onClick }: Props) {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const { handleAuthenticatedAction } = useLoginAction(pathname);
 
   const goToPlayQuiz = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     e.stopPropagation();
-    navigate(ROUTES.SOLVING_QUIZ(quiz.id), {
-      state: { fromInternal: true },
+    handleAuthenticatedAction(() => {
+      navigate(ROUTES.SOLVING_QUIZ(quiz.id), {
+        state: { fromInternal: true },
+      });
     });
   };
 

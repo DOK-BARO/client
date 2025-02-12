@@ -6,8 +6,6 @@ import QuestionFormHeader from "./QuestionFormHeader";
 import { QuestionTemplateType as QuestionTemplateType } from "@/types/QuestionTemplateType";
 import { UlList } from "@/svg/QuizWriteForm/UlList";
 import { OlList } from "@/svg/QuizWriteForm/OlList";
-// import { BlankQuiz } from "@/svg/QuizWriteForm/BlankQuiz";
-// import { AlignJustify } from "@/svg/QuizWriteForm/AlignJustify";
 import { MultipleChoiceQuestionTemplate } from "@/pages/CreateQuiz/composite/QuizWriteForm/MultipleChoiceQuestionTemplate";
 import { CheckBoxQuestionTemplate } from "@/pages/CreateQuiz/composite/QuizWriteForm/CheckBoxQuestionTemplate";
 import { OXQuestionTemplate } from "@/pages/CreateQuiz/composite/QuizWriteForm/OXQuestionTemplate";
@@ -18,13 +16,18 @@ import deleteIcon from "/assets/svg/quizWriteForm/delete_ellipse.svg";
 import { AnswerType, QuizQuestionType } from "@/types/QuizType";
 import QuestionTemplateTypeUtilButton from "./QuestionTemplateTypeUtilButton";
 import { OxQuiz } from "@/svg/QuizWriteForm/OXQuiz";
+import Button from "@/components/atom/Button/Button";
+
 import {
+  errorMessageAtomFamily,
   invalidQuestionFormIdAtom,
   isFirstVisitAtom,
   quizGuideStepAtom,
 } from "@/store/quizAtom";
 import QuizWriteGuideBubble from "../QuizWriteGuideBubble/QuizWriteGuideBubble";
 import { useValidateQuizForm } from "@/hooks/useValidateQuizForm";
+import ImageLayer from "@/components/layout/ImageLayer/ImageLayer";
+import useImageLayer from "@/hooks/useImageLayer";
 interface QuizWriteFormItemProps {
   questionFormId: number;
   deleteQuestion: (id: number) => void;
@@ -133,13 +136,15 @@ export default function QuestionForm({
     )?.answerExplanationContent,
   );
 
-  const [selectedImages, setSelectedImages] = useState<File[]>(
+  const [selectedImages, setSelectedImages] = useState<JSX.Element[]>(
     quizCreationInfo.questions?.find(
       (question) => question.id === questionFormId,
     )?.answerExplanationImages ?? [],
   );
-  const [imagePreview, setImagePreview] = useState<string[]>([]);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [imagePreviewEls, setImagePreviewEls] = useState<JSX.Element[]>([]);
+  const [errorMessage, setErrorMessage] = useAtom(
+    errorMessageAtomFamily(questionFormId),
+  );
 
   const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onAnswerTextAreaChange(e);
@@ -155,23 +160,28 @@ export default function QuestionForm({
   useEffect(() => {
     const fetchImagePreviews = async () => {
       const initialImages = await setInitialImgPreview();
-      setImagePreview(initialImages);
+      setImagePreviewEls(initialImages);
     };
     fetchImagePreviews();
   }, []);
 
-  const setInitialImgPreview = async (): Promise<string[]> => {
-    const answerExplanationImages: File[] =
+  const setInitialImgPreview = async (): Promise<JSX.Element[]> => {
+    const answerExplanationImages: JSX.Element[] =
       quizCreationInfo.questions?.find(
         (question) => question.id === questionFormId,
       )?.answerExplanationImages ?? [];
-    const newImages = await readFilesAsDataURL(answerExplanationImages);
 
-    return [...imagePreview, ...newImages];
+    return [...imagePreviewEls, ...answerExplanationImages];
   };
 
   const handleDeleteImage = (index: number) => {
-    setImagePreview((prevImages) => prevImages.filter((_, i) => i !== index));
+    if (errorMessage) {
+      setErrorMessage(null);
+    }
+    setImagePreviewEls((prevImages) =>
+      prevImages.filter((_, i) => i !== index),
+    );
+
     setSelectedImages((prevImages) => prevImages.filter((_, i) => i !== index));
 
     const updatedQuestions: QuizQuestionType[] =
@@ -193,18 +203,6 @@ export default function QuestionForm({
   const fileInputRef = useRef<HTMLInputElement | null>(null); // 파일 입력 참조
   const maxImgFileCount = 3;
 
-  //TODO: hook으로 만들기
-  const readFilesAsDataURL = async (files: File[]): Promise<string[]> => {
-    const readerPromises: Promise<string>[] = files.map((file) => {
-      return new Promise<string>((resolve) => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result as string);
-        reader.readAsDataURL(file);
-      });
-    });
-    return Promise.all(readerPromises);
-  };
-
   const handleImageChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -219,10 +217,15 @@ export default function QuestionForm({
       }
 
       const newImagesFile: File[] = Array.from(files);
-      const newImages = await readFilesAsDataURL(newImagesFile);
+      const imgEls = newImagesFile.map((file) => {
+        const imgURL = URL.createObjectURL(file); // 미리보기용 URL
+        return (
+          <img className={styles["image"]} src={imgURL} data-file={file} />
+        );
+      });
 
-      setSelectedImages((prev) => [...prev, ...newImagesFile]);
-      setImagePreview((prev) => [...prev, ...newImages]);
+      setSelectedImages((prev) => [...prev, ...imgEls]);
+      setImagePreviewEls((prev) => [...prev, ...imgEls]);
 
       const updatedQuestions: QuizQuestionType[] =
         quizCreationInfo.questions?.map((question) => {
@@ -231,7 +234,7 @@ export default function QuestionForm({
               ...question,
               answerExplanationImages: [
                 ...question.answerExplanationImages,
-                ...newImagesFile,
+                ...imgEls,
               ],
             };
           }
@@ -277,6 +280,88 @@ export default function QuestionForm({
   const isEditMode =
     localStorage.getItem("isEditMode") == "true" ? true : false;
 
+  // File을 Data URL로 변환
+  const convertFileToDataUrl = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        if (reader.result) {
+          resolve(reader.result as string); // Data URL 반환
+        } else {
+          reject("File conversion failed");
+        }
+      };
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(file); // 파일을 Data URL로 읽기
+    });
+  };
+  const setImgLayer = async () => {
+    const fileList: File[] = [];
+    const dataUrlList: string[] = [];
+    const alreadyUploadedList: string[] = [];
+
+    // img태그를 File형태로 변환
+    console.log("원본:", imagePreviewEls);
+    imagePreviewEls.forEach((img, idx) => {
+      const file = (img.props as { "data-file"?: File })["data-file"];
+      const src = (img.props as { src?: string }).src;
+
+      if (file instanceof File) {
+        fileList.push(file); // 새로 업로드할 이미지
+        console.log("filelist:", idx);
+      } else {
+        // 이미 업로드된 이미지 URL은 이미 중복 처리될 가능성이 있으므로 추가하지 않음
+        if (!alreadyUploadedList.includes(src!)) {
+          alreadyUploadedList.push(src!);
+        }
+        console.log("already:", idx);
+      }
+    });
+
+    for (const file of fileList) {
+      try {
+        const dataUrl = await convertFileToDataUrl(file);
+
+        if (!dataUrlList.includes(dataUrl)) {
+          // 변환된 Data URL을 배열에 추가
+          dataUrlList.push(dataUrl);
+        }
+      } catch (error) {
+        console.error("Error converting file to Data URL:", error);
+      }
+    }
+    return [...alreadyUploadedList, ...dataUrlList]; // 최종적으로 Data URL 배열 반환
+  };
+  const [imgLayer, setImgLayerState] = useState<string[]>([]); // imgLayer 초기값 설정
+
+  useEffect(() => {
+    const fetchImgLayer = async () => {
+      const result = await setImgLayer();
+      setImgLayerState(result); // 비동기 결과를 상태로 저장
+    };
+
+    fetchImgLayer();
+  }, [imagePreviewEls]);
+  useEffect(() => {
+    console.log("layer: ", imgLayer);
+  }, [imgLayer]);
+
+  const {
+    clickedImage,
+    handleCloseLayer,
+    handleArrowClick,
+    handleImageClicked,
+  } = useImageLayer(imgLayer);
+
+  const makeImgElToUrl = async (img: JSX.Element): Promise<string> => {
+    const file = (img.props as { "data-file"?: File })["data-file"]; // 새로 업로드 할 이미지는 data-file형태
+    const src = (img.props as { src?: string }).src;
+    if (file instanceof File) {
+      return await convertFileToDataUrl(file!); // 새로 업로드 할 이미지
+    }
+    return src!; // 이미 업로드 된 url형태
+  };
+
   return (
     <section
       ref={handleRef(questionFormId.toString())}
@@ -285,6 +370,15 @@ export default function QuestionForm({
       `}
     >
       <h2 className={styles["sr-only"]}>퀴즈 문제 작성 폼</h2>
+
+      {clickedImage !== undefined ? (
+        <ImageLayer
+          onCloseLayer={handleCloseLayer}
+          image={clickedImage}
+          onLeftArrowClick={(e) => handleArrowClick(e, "left")}
+          onRightArrowClick={(e) => handleArrowClick(e, "right")}
+        />
+      ) : null}
 
       <QuestionFormHeader
         id={questionFormId}
@@ -371,25 +465,44 @@ export default function QuestionForm({
           }}
           disabled={isFirstVisit && !isEditMode && currentQuizGuideStep == 1}
         />
-
-        {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
+        {errorMessage && (
+          <p data-no-dnd="true" style={{ color: "red" }}>
+            {errorMessage}
+          </p>
+        )}
         {/* TODO: refactor 퀴즈 풀기 해설과 같은 컴포넌트 */}
-        {imagePreview.length > 0 && (
+        {imagePreviewEls.length > 0 && (
           <section className={styles["image-area"]}>
-            {imagePreview.map((image, index) => (
+            {imagePreviewEls.map((image, index) => (
               <div className={styles["image-item-container"]} key={index}>
-                <img
+                <div
+                  onClick={async () => {
+                    handleImageClicked({
+                      index,
+                      src: await makeImgElToUrl(image),
+                    });
+                  }}
+                  data-no-dnd="true"
+                >
+                  {image}
+                </div>
+
+                {/* <img
                   key={index}
                   src={image}
                   alt={`이미지 미리보기 ${index + 1}`}
                   className={styles["image"]}
-                />
-                <button
+                  onClick={() => {
+                    handleImageClicked({ index, src: image });
+                  }}
+                  data-no-dnd="true"
+                /> */}
+                <Button
+                  iconOnly
+                  icon={<img src={deleteIcon} />}
                   className={styles["delete-button"]}
                   onClick={() => handleDeleteImage(index)}
-                >
-                  <img src={deleteIcon} />
-                </button>
+                />
               </div>
             ))}
           </section>

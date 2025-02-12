@@ -9,6 +9,9 @@ import { BOOK_QUIZ_OPTION_MAX_LENGTH } from "@/data/constants.ts";
 import { isFirstVisitAtom, quizGuideStepAtom } from "@/store/quizAtom";
 import { useAtom } from "jotai";
 import QuizWriteGuideBubble from "../QuizWriteGuideBubble/QuizWriteGuideBubble";
+import Button from "@/components/atom/Button/Button";
+import { QuizPlus } from "@/svg/QuizPlus";
+import { gray60 } from "@/styles/abstracts/colors";
 
 export const MultipleChoiceQuestionTemplate: FC<{
   questionFormId?: string;
@@ -23,19 +26,18 @@ export const MultipleChoiceQuestionTemplate: FC<{
     handleAddQuizOptionItemBtn,
     getQuestion,
   } = useQuestionTemplate("MULTIPLE_CHOICE_SINGLE_ANSWER", questionFormId!);
+  const currentOptionLength = options.length;
 
   const setInitialAnswer = (): string => {
+    // atom에 저장된 데이터 초기화
     const question = getQuestion();
-    return question?.answers[0] ?? "";
+    const matchAnswerIdx = question?.answers[0];
+    return matchAnswerIdx ?? "";
   };
   const {
-    selectedValue: selectedRadioGroupValue,
+    selectedValue: selectedAnswerRadioGroupValue,
     handleChange: onRadioGroupChange,
   } = useRadioGroup(setInitialAnswer());
-
-  useEffect(() => {
-    console.log("selectedRadioGroupValue", selectedRadioGroupValue);
-  }, [selectedRadioGroupValue]);
 
   const setText = (optionId: number, label: string) => {
     const updatedOptions = options.map((option) => {
@@ -64,11 +66,11 @@ export const MultipleChoiceQuestionTemplate: FC<{
     const targetSelectOption: SelectOptionType =
       currentQuestion.selectOptions.find(
         (option) => id === option.id.toString(),
-      )!;
+      )!; // 선택된 옵션의 id값으로 전역 데이터에서 해당하는 옵션 데이터 매칭
 
-    const currentAnswer: string = targetSelectOption.answerIndex.toString();
+    const currentAnswer: string = targetSelectOption.answerIndex.toString(); // 그 옵션의 정답 값을 현재 정답으로 저장
 
-    const updatedQuestions: QuizQuestionType[] =
+    const updatedQuestions: QuizQuestionType[] = // 전뎍 데이터 업데이트
       quizCreationInfo.questions!.map((question) =>
         question.id!.toString() === questionFormId
           ? { ...question, answers: [currentAnswer] }
@@ -84,7 +86,6 @@ export const MultipleChoiceQuestionTemplate: FC<{
 
   // 정해진 정답 자동 선택
   useEffect(() => {
-    console.log("currentQuizGuideStep", currentQuizGuideStep);
     if (isFirstVisit && !isEditMode && currentQuizGuideStep === 2) {
       const timer = setTimeout(() => {
         setPredefinedValue("1");
@@ -117,25 +118,62 @@ export const MultipleChoiceQuestionTemplate: FC<{
           selectedValue={
             isFirstVisit && !isEditMode
               ? predefinedValue
-              : selectedRadioGroupValue
+              : selectedAnswerRadioGroupValue
           }
           answerType={"MULTIPLE_CHOICE_SINGLE_ANSWER"}
         />
       ))}
       {options.length < BOOK_QUIZ_OPTION_MAX_LENGTH && (
-        <AddOptionButton onAdd={handleAddQuizOptionItemBtn} />
+        <AddOptionButton
+          onAdd={handleAddQuizOptionItemBtn}
+          currentOptionLength={currentOptionLength}
+        />
       )}
     </fieldset>
   );
 };
 
-function AddOptionButton({ onAdd }: { onAdd: () => void }) {
+function AddOptionButton({
+  onAdd,
+  currentOptionLength,
+}: {
+  onAdd: () => void;
+  currentOptionLength: number;
+}) {
+  const isOverMaxOptionLength =
+    currentOptionLength >= BOOK_QUIZ_OPTION_MAX_LENGTH;
   return (
-    <div data-no-dnd="true" className={styles["option-add-button-container"]}>
-      <button className={styles["option-add-button"]} onClick={onAdd}>
-        <div className={styles["option-add-button-check-circle"]} />
-        <span data-no-dnd="true">옵션 추가하기</span>
-      </button>
-    </div>
+    <Button
+      className={styles["option-add-button"]}
+      iconPosition="left"
+      icon={
+        !isOverMaxOptionLength ? (
+          <QuizPlus
+            alt=""
+            width={20}
+            height={20}
+            stroke={gray60}
+            fill={gray60}
+          />
+        ) : (
+          <></>
+        )
+      }
+      onClick={onAdd}
+    >
+      <span data-no-dnd="true">
+        {isOverMaxOptionLength ? "선택지는 최대 5개입니다." : "선택지 추가하기"}
+      </span>
+      <span>
+        <span
+          className={
+            isOverMaxOptionLength ? styles["current-option-length"] : ""
+          }
+        >
+          {currentOptionLength}
+        </span>
+        <span>{`/${BOOK_QUIZ_OPTION_MAX_LENGTH}`}</span>
+      </span>
+    </Button>
   );
 }

@@ -12,6 +12,14 @@
       padding-left: 24px;
     }
   }
+  .steps,
+  .sub-steps {
+    &:disabled {
+      background-color: transparent;
+      border: none;
+      color: $gray-50;
+    }
+  }
   button.steps {
     justify-content: space-between;
   }

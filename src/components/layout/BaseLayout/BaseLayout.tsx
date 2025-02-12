@@ -29,9 +29,11 @@ export default function BaseLayout({
   const handleCheckIsTermAllAgreed = async () => {
     const isAgreedAll = await authService.fetchIsTermsAgreed();
     if (isAgreedAll) {
+      //console.log("회원가입 절차 완료");
       return;
     }
 
+    //console.log("회원가입 절차 남음");
     // 약관 동의 되어있지 않으면
     const loggedInSocialType = localStorage.getItem("social");
     if (loggedInSocialType) {

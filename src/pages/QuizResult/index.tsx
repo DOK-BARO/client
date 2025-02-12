@@ -26,12 +26,7 @@ export default function Index() {
     {
       order: 1,
       component: (
-        <StudyQuizResult
-          studyGroupId={studyGroupId!}
-          solvingQuizId={solvingQuizId!}
-          quizTitle={quizTitle!}
-          quizId={quizId!}
-        />
+        <StudyQuizResult studyGroupId={studyGroupId!} quizId={quizId!} />
       ),
     },
   ];

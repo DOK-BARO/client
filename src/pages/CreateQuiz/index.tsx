@@ -114,7 +114,7 @@ export default function Index() {
           };
         }
         const prevQuestions: QuizQuestionType[] = await Promise.all(
-          prevQuiz?.questions.map(async (q, index) => {
+          prevQuiz?.questions.map(async (q) => {
             const images = await convertUrlsToImg(q.answerExplanationImages);
             const selectOptions: SelectOptionType[] = q.selectOptions.map(
               (optionText, index) => ({

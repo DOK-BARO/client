@@ -2,13 +2,16 @@ import React from "react";
 import styles from "./_radio_option.module.scss";
 import { RadioOptionType } from "@/types/RadioTypes";
 import { Close } from "@/svg/Close";
-import { gray90 } from "@/styles/abstracts/colors";
+import { gray70, gray40 } from "@/styles/abstracts/colors";
 import Textarea from "@/components/atom/Textarea/Textarea";
+import ReactMarkdown from "react-markdown";
+import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/xcode.css";
 import Button from "../Button/Button";
 import { isFirstVisitAtom, quizGuideStepAtom } from "@/store/quizAtom";
 import { useAtom } from "jotai";
 import { useState } from "react";
+
 export type OptionStatusType =
   | "option-writing" // '퀴즈 작성'화면에서 텍스트를 작성 중인 경우
   | "option-written" // '퀴즈 작성'화면에서 텍스트를 작성하지 않는 경우
@@ -33,6 +36,7 @@ interface RadioOptionProps {
   onBlur?: () => void;
   customClassName?: string;
   fullWidth?: boolean;
+  showDeleteBtn?: boolean;
 }
 
 const RadioOption: React.FC<RadioOptionProps> = ({
@@ -51,6 +55,7 @@ const RadioOption: React.FC<RadioOptionProps> = ({
   onBlur = () => {},
   textAreaRef,
   fullWidth = false,
+  showDeleteBtn = true,
 }) => {
   const optionMaxLength = 500;
   const [isTextAreaFocus, setIsTextAreaFocus] = useState(false);
@@ -124,32 +129,38 @@ const RadioOption: React.FC<RadioOptionProps> = ({
           type === "option-selected" ||
           type === "solving-correct" ||
           type === "solving-incorrect") && (
-          <div className={styles["option-label-value"]}>{labelValue}</div>
+          <div
+            className={`${styles["option-label-value"]} ${styles["markdown-content"]}`}
+          >
+            <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
+              {labelValue}
+            </ReactMarkdown>
+          </div>
         )}
 
-        <Button
-          iconOnly
-          className={
-            styles[type === "option-writing" ? "visible" : "invisible"]
-          }
-          icon={
-            <Close
-              alt="옵션 삭제하기"
-              width={20}
-              height={20}
-              stroke={gray90}
-              strokeWidth={2}
+        {(type === "option-writing" ||
+          type === "option-correct" ||
+          type === "option-written") &&
+          showDeleteBtn && (
+            <Button
+              iconOnly
+              icon={
+                <Close
+                  alt="옵션 삭제하기"
+                  width={20}
+                  height={20}
+                  stroke={type === "option-writing" ? gray70 : gray40}
+                  strokeWidth={2}
+                />
+              }
+              onClick={() => {
+                deleteOption(option.id);
+              }}
+              disabled={
+                isFirstVisit && !isEditMode && currentQuizGuideStep == 2
+              }
             />
-          }
-          onClick={() => {
-            deleteOption(option.id);
-          }}
-          disabled={isFirstVisit && !isEditMode && currentQuizGuideStep == 2}
-        />
-
-        {type !== "option-writing" && (
-          <div className={styles["empty-icon"]}></div>
-        )}
+          )}
       </label>
     </div>
   );

@@ -29,10 +29,10 @@ export default function MyPageLayout() {
     navigate(ROUTES.STUDY_GROUP_SETTING(studyGroup?.id));
   };
 
+  const isStudyGroupSettingPage =
+    studyGroupId && location.pathname.split("/").includes("setting");
+  const isMySettingPage = location.pathname.split("/").includes("settings");
   useEffect(() => {
-    const isStudyGroupSettingPage =
-      studyGroupId && location.pathname.split("/").includes("setting");
-    const isMySettingPage = location.pathname.split("/").includes("settings");
     if (isStudyGroupSettingPage || isMySettingPage) {
       setIsSettingPage(true);
     } else {
@@ -41,7 +41,11 @@ export default function MyPageLayout() {
   }, [pathname, studyGroupId]);
 
   const handleGoToBack = () => {
-    navigate(-1);
+    if (isStudyGroupSettingPage && studyGroupId) {
+      navigate(ROUTES.STUDY_GROUP(Number(studyGroupId)));
+    } else {
+      navigate(ROUTES.MY_STUDY_GROUPS);
+    }
   };
 
   return (

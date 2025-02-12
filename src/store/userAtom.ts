@@ -21,3 +21,5 @@ export const isLoggedInAtom = atom((get) => {
   const currentUser = get(currentUserAtom);
   return !!currentUser;
 });
+
+export const findPasswordEmailAtom = atom<string>("");

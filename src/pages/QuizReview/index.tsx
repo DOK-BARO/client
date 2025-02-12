@@ -47,7 +47,10 @@ export default function Index() {
     },
     onSuccess: () => {
       toast.success("후기 작성이 완료되었습니다");
-      navigate(ROUTES.QUIZ_DETAIL(parseInt(quizId!)));
+      if (quizId) {
+        // 전체 공개 퀴즈 -> 퀴즈 상세 페이지
+        navigate(ROUTES.QUIZ_DETAIL(parseInt(quizId)));
+      }
     },
   });
 

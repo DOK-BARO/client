@@ -13,7 +13,7 @@ import { bookService } from "@/services/server/bookService";
 import { BookListItem } from "../BookListItem/BookListItem";
 import loadingIndicator from "/public/assets/svg/quizBookSelectionForm/loading.gif";
 import useOutsideClick from "@/hooks/useOutsideClick";
-import searchNotFound from "/public/assets/image/search-not-found.png";
+import searchNotFoundImage from "/public/assets/image/search-not-found.png";
 
 // 2. 도서 선택
 export default function QuizBookSelectionForm() {
@@ -138,7 +138,7 @@ export default function QuizBookSelectionForm() {
             >
               <li className={styles["not-found"]}>
                 <img
-                  src={searchNotFound}
+                  src={searchNotFoundImage}
                   width={100}
                   alt="검색 결과가 없습니다."
                 />

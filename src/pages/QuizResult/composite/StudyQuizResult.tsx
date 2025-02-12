@@ -11,18 +11,13 @@ import { useAtom } from "jotai";
 import Button from "@/components/atom/Button/Button";
 import { studyGroupService } from "@/services/server/studyGroupService";
 import { useNavigate } from "react-router-dom";
-import { QuizReviewRouteParams } from "@/types/ParamsType";
 import ROUTES from "@/data/routes";
 
 export default function StudyQuizResult({
   studyGroupId,
-  solvingQuizId,
-  quizTitle,
   quizId,
 }: {
   studyGroupId: string;
-  solvingQuizId: string;
-  quizTitle: string;
   quizId: string;
 }) {
   const [currentUser] = useAtom(currentUserAtom);
@@ -44,13 +39,8 @@ export default function StudyQuizResult({
       (member) => member.member.id === currentUser?.id,
     ) ?? -1) + 1;
 
-  const handleNextClick = () => {
-    const params: QuizReviewRouteParams = {
-      quizId: parseInt(quizId),
-      solvingQuizId: parseInt(solvingQuizId),
-      quizTitle: quizTitle,
-    };
-    navigate(ROUTES.QUIZ_REVIEW(params), { replace: false });
+  const handleDoneClick = () => {
+    navigate(ROUTES.STUDY_GROUP(parseInt(studyGroupId)));
   };
 
   if (isQuizResultStudyLoading || isStudyGroupLoading) {
@@ -122,9 +112,9 @@ export default function StudyQuizResult({
           size="medium"
           color="primary"
           className={styles["btn-next"]}
-          onClick={handleNextClick}
+          onClick={handleDoneClick}
         >
-          다음
+          완료
         </Button>
       </div>
     </section>

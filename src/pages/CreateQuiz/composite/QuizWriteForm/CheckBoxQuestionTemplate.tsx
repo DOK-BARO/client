@@ -71,6 +71,7 @@ export const CheckBoxQuestionTemplate: FC<{
           }
         : question,
     );
+    console.log("Editied:%o", updatedQuestions);
     updateQuizCreationInfo("questions", updatedQuestions);
   };
 

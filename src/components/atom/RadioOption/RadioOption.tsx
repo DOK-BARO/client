@@ -135,7 +135,6 @@ const RadioOption: React.FC<RadioOptionProps> = ({
             </ReactMarkdown>
           </div>
         )}
-
         {(type === "option-writing" ||
           type === "option-correct" ||
           type === "option-written") && (
@@ -146,7 +145,7 @@ const RadioOption: React.FC<RadioOptionProps> = ({
                 alt="옵션 삭제하기"
                 width={20}
                 height={20}
-                stroke={gray90}
+                stroke={type === "option-writing" ? gray70 : gray40}
                 strokeWidth={2}
               />
             }

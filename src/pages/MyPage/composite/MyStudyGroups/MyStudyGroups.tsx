@@ -14,8 +14,8 @@ import { parseQueryParams } from "@/utils/parseQueryParams";
 import { FetchStudyGroupsParams } from "@/types/ParamsType";
 import { NoDataSection } from "@/components/composite/NoDataSection/NoDataSection";
 import StudyGroupButton from "../../components/StudyGroupButton/StudyGroupButton";
-import textBox from "/public/assets/svg/myPage/text-box.svg";
-import pencilUnderline from "/public/assets/svg/myPage/pencil-underline.svg";
+import textBox from "/public/assets/svg/myPage/textBox.svg";
+import pencilUnderline from "/public/assets/svg/myPage/pencilUnderline.svg";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "@/data/routes";
 import { myStudyGroupFilterAtom } from "@/store/filterAtom";
@@ -23,6 +23,7 @@ import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { StudyGroupType } from "@/types/StudyGroupType";
 import { ErrorType } from "@/types/ErrorType";
 import { isLoggedInAtom } from "@/store/userAtom";
+import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner";
 
 const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
   {
@@ -165,7 +166,11 @@ export default function MyStudyGroups() {
       )}
 
       {/* TODO: 무한 스크롤 */}
-      <div ref={observerRef}>{isFetchingNextPage && <div>로딩중...</div>}</div>
+      <div ref={observerRef}>
+        {isFetchingNextPage && (
+          <LoadingSpinner className={styles["loading-spinner"]} width={42} />
+        )}
+      </div>
     </section>
   );
 }

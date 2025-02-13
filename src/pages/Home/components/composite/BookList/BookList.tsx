@@ -29,7 +29,7 @@ export default function BookList() {
   };
 
   if (!books) {
-    return <div>book list page error!!</div>;
+    return <div>책 데이터가 존재하지 않습니다.</div>;
   }
   return (
     <ul className={styles["book-list-container"]}>

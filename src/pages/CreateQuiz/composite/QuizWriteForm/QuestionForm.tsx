@@ -17,7 +17,7 @@ import { AnswerType, QuizQuestionType } from "@/types/QuizType";
 import QuestionTemplateTypeUtilButton from "./QuestionTemplateTypeUtilButton";
 import { OxQuiz } from "@/svg/QuizWriteForm/OXQuiz";
 import Button from "@/components/atom/Button/Button";
-import { gray60, gray70 } from "@/styles/abstracts/colors";
+import { gray60, gray90 } from "@/styles/abstracts/colors";
 import {
   errorMessageAtomFamily,
   invalidQuestionFormIdAtom,
@@ -84,6 +84,7 @@ export default function QuestionForm({
   const [invalidQuestionFormId] = useAtom(invalidQuestionFormIdAtom);
   const [isSubmissionCheckInvalidForm, setIsSubmissionCheckInvalidForm] =
     useState(invalidQuestionFormId === questionFormId);
+  const IMAGE_MAX_ERROR_MSG = "*최대 3장까지만 업로드할 수 있습니다.";
 
   const isWritingValid = validateForm(
     quizCreationInfo.questions?.filter(
@@ -211,7 +212,7 @@ export default function QuestionForm({
     const files = event.target.files;
     if (files) {
       if (selectedImages.length + files.length > maxImgFileCount) {
-        setErrorMessage("최대 3장까지만 업로드할 수 있습니다.");
+        setErrorMessage(IMAGE_MAX_ERROR_MSG);
         return;
       } else {
         setErrorMessage(null); // 오류 메시지 초기화
@@ -259,7 +260,7 @@ export default function QuestionForm({
 
   const handleButtonClick = () => {
     if (selectedImages.length >= maxImgFileCount) {
-      setErrorMessage("최대 3장까지만 업로드할 수 있습니다.");
+      setErrorMessage(IMAGE_MAX_ERROR_MSG);
       return;
     }
     fileInputRef.current?.click();
@@ -460,7 +461,7 @@ export default function QuestionForm({
             className={styles["image-add-button"]}
           >
             <ImageAdd
-              stroke={gray70}
+              stroke={gray90}
               width={20}
               height={20}
               alt="해설 사진 추가하기"
@@ -476,18 +477,12 @@ export default function QuestionForm({
           maxLength={descriptionMaxLength}
           placeholder={"답안에 대한 설명을 입력해주세요"}
           textAreaRef={descriptionTextAreaRef}
-          maxLengthShow
           fullWidth
           onKeyDown={(e) => {
             e.stopPropagation();
           }}
           disabled={isFirstVisit && !isEditMode && currentQuizGuideStep == 1}
         />
-        {errorMessage && (
-          <p data-no-dnd="true" style={{ color: "red" }}>
-            {errorMessage}
-          </p>
-        )}
         {/* TODO: refactor 퀴즈 풀기 해설과 같은 컴포넌트 */}
         {imagePreviewEls.length > 0 && (
           <section className={styles["image-area"]}>
@@ -504,17 +499,6 @@ export default function QuestionForm({
                 >
                   {image}
                 </div>
-
-                {/* <img
-                  key={index}
-                  src={image}
-                  alt={`이미지 미리보기 ${index + 1}`}
-                  className={styles["image"]}
-                  onClick={() => {
-                    handleImageClicked({ index, src: image });
-                  }}
-                  data-no-dnd="true"
-                /> */}
                 <Button
                   iconOnly
                   icon={<img src={deleteIcon} />}
@@ -524,6 +508,11 @@ export default function QuestionForm({
               </div>
             ))}
           </section>
+        )}
+        {errorMessage && (
+          <p data-no-dnd="true" className={styles["error-text-max-img"]}>
+            {errorMessage}
+          </p>
         )}
       </div>
       {/* </div> */}

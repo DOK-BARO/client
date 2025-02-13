@@ -161,6 +161,11 @@
   }
 }
 
+.error-text-max-img {
+  font-size: $font-size-medium;
+  color: $system-danger;
+  line-height: 1.5;
+}
 // _quiz_write_form_option_item.module.scss 시작
 .option {
   &-label {

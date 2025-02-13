@@ -125,6 +125,7 @@ export default function QuestionForm({
     quizCreationInfo.questions?.find(
       (question) => question.id === questionFormId,
     )?.content,
+    43,
   );
   const {
     value: answerTextAreaValue,
@@ -387,6 +388,18 @@ export default function QuestionForm({
 
       <div className={styles["question-form-content"]}>
         <div className={styles["setting-container"]}>
+          <Button
+            icon={
+              <ImageAdd
+                width={24}
+                height={24}
+                alt="질문 사진 추가하기"
+                stroke={gray60}
+              />
+            }
+            iconOnly
+            className={styles["image-add-button"]}
+          />
           <QuestionTemplateTypeUtilButton
             questionId={questionFormId}
             list={questionTemplates}
@@ -446,7 +459,12 @@ export default function QuestionForm({
             onClick={handleButtonClick}
             className={styles["image-add-button"]}
           >
-            <ImageAdd width={24} height={24} />
+            <ImageAdd
+              stroke={gray70}
+              width={20}
+              height={20}
+              alt="해설 사진 추가하기"
+            />
           </button>
         </div>
 

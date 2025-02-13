@@ -30,6 +30,8 @@
     background-color: $gray-00;
     width: 40px;
     height: 40px;
+    margin-left: -8px;
+
     @include flex(row, center);
     border-radius: 50%;
   }
@@ -39,12 +41,19 @@
     width: 100%;
     gap: 8px;
 
+    .image-add-button {
+      border: 1.5px solid $gray-40;
+      width: 43px;
+      height: 43px;
+      border-radius: 8px;
+    }
+
     textArea.title {
       border: none;
       font-size: $font-size-large;
       font-weight: $font-weight-semibold;
-      line-height: 150%;
-      padding: 12px 0;
+      line-height: 1.5;
+      padding: 8.5px 0;
     }
   }
 }
@@ -216,11 +225,14 @@
   &-button-container {
     position: relative;
     @include flex(row);
+    height: fit-content;
+    width: fit-content;
 
     .button {
       display: flex;
       justify-content: start;
       width: 164px;
+      height: 43px;
     }
 
     h3 {

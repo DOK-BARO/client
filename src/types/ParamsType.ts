@@ -8,6 +8,7 @@ import {
 export interface FetchBooksParams {
   title?: string;
   authorName?: string;
+  keyword?: string;
   description?: string;
   category?: number;
   page?: number;
@@ -19,7 +20,7 @@ export type FetchBooksKeyType = keyof FetchBooksParams;
 
 export interface SearchBooksParams {
   keyword?: string;
-  lastId?: number;
+  lastId?: number | null;
   size?: number;
 }
 

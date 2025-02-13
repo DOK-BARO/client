@@ -1,11 +1,11 @@
 export interface BookType {
   id: number;
-  isbn: string;
+  isbn?: string;
   title: string;
   publisher: string;
-  publishedAt: string;
+  publishedAt?: string;
   imageUrl: string;
-  categories: BookCategories[];
+  categories?: BookCategories[];
   authors: string[];
   quizCount?: number;
 }

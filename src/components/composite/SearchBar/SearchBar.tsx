@@ -6,6 +6,7 @@ import useInput from "@/hooks/useInput.ts";
 import { FormEvent, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import useNavigateWithParams from "@/hooks/useNavigateWithParams";
+import { FetchBooksKeyType, FetchBooksParams } from "@/types/ParamsType";
 
 export default function SearchBar() {
   const { pathname } = useLocation();
@@ -23,11 +24,14 @@ export default function SearchBar() {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    // TODO: 확인
+    const excludeParams: FetchBooksKeyType[] = ["page"];
+    if (!searchWord) {
+      excludeParams.push("keyword");
+    }
     navigateWithParams({
-      title: searchWord,
+      keyword: searchWord,
       parentPage: "books",
-      excludeParams: ["page"],
+      excludeParams: excludeParams,
     });
   };
 

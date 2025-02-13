@@ -40,8 +40,6 @@ export default function QuizItem({ quiz, onClick }: Props) {
     ? parseFloat(quiz.averageStarRating.toFixed(1))
     : 0;
 
-  //console.log(quiz);
-
   return (
     <div className={styles.container} onClick={onClick}>
       <div className={styles.content}>

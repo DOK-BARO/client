@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { quizService } from "@/services/server/quizService";
 import { quizKeys } from "@/data/queryKeys";
 import solvingQuizCompleteImage from "/public/assets/image/solving-quiz-complete.png";
+import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner";
 
 export default function CommonQuizResult({
   solvingQuizId,
@@ -17,7 +18,7 @@ export default function CommonQuizResult({
   });
 
   if (isLoading) {
-    return <div>로딩</div>;
+    return <LoadingSpinner pageCenter width={40} />;
   }
 
   return (

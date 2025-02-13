@@ -1,6 +1,6 @@
 import React from "react";
 import { SVGProps } from "@/types/SVGProps";
-// TODO: props쓰는거 있는지 확인
+
 export const Check: React.FC<SVGProps> = ({ alt, ...props }) => {
   return (
     <svg

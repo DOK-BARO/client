@@ -101,12 +101,11 @@ export const CheckBoxQuestionTemplate: FC<{
           answerType={"MULTIPLE_CHOICE_MULTIPLE_ANSWER"}
         />
       ))}
-      {options.length < BOOK_QUIZ_OPTION_MAX_LENGTH && (
-        <AddOptionButton
-          onAdd={handleAddQuizOptionItemBtn}
-          currentOptionLength={currentOptionLength}
-        />
-      )}
+
+      <AddOptionButton
+        onAdd={handleAddQuizOptionItemBtn}
+        currentOptionLength={currentOptionLength}
+      />
     </fieldset>
   );
 };

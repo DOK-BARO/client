@@ -33,6 +33,7 @@ const filterOptions: FilterOptionType<MySolvedQuizzesFilterType>[] = [
 
 export default function SolvedQuiz() {
   const navigate = useNavigate();
+  // const [isLoggedIn]
   const [filterCriteria, setFilterCriteria] = useAtom(mySolvedQuizFilterAtom);
   useFilter<MySolvedQuizzesFilterType>(setFilterCriteria);
 

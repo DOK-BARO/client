@@ -5,7 +5,7 @@ import { Person } from "@/svg/Person.tsx";
 import { useAtom } from "jotai";
 import { isLoggedInAtom } from "@/store/userAtom.ts";
 import { currentUserAtom } from "@/store/userAtom.ts";
-import defaultImage from "/public/assets/svg/header/default-profile.svg";
+import defaultImage from "/public/assets/svg/header/defaultProfile.svg";
 import HeaderMenuList from "../headerMenu/HeaderMenuList";
 
 export default function HeaderMyInfoUtilButton() {

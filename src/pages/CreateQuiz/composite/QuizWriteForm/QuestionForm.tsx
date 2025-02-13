@@ -17,7 +17,7 @@ import { AnswerType, QuizQuestionType } from "@/types/QuizType";
 import QuestionTemplateTypeUtilButton from "./QuestionTemplateTypeUtilButton";
 import { OxQuiz } from "@/svg/QuizWriteForm/OXQuiz";
 import Button from "@/components/atom/Button/Button";
-
+import { gray60, gray70 } from "@/styles/abstracts/colors";
 import {
   errorMessageAtomFamily,
   invalidQuestionFormIdAtom,

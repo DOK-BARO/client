@@ -1,7 +1,7 @@
 import { ScoreBadge } from "@/svg/ScoreBadge";
 import styles from "./_grade_result_item.module.scss";
 import { gray00, gray30 } from "@/styles/abstracts/colors";
-import memberCircle from "/public/assets/svg/myPage/member-circle.svg";
+import memberCircle from "/public/assets/svg/myPage/memberCircle.svg";
 import { StudyGroupMemberType } from "@/types/StudyGroupType";
 interface Props {
   isActive: boolean; // isMe

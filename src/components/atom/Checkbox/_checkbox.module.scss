@@ -4,7 +4,7 @@
 
 @mixin basic-checkbox-button($default-color) {
   input[type="checkbox"] {
-    margin: 0;
+    margin-top: 2.5px;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -21,8 +21,7 @@
 
 .option-container {
   @include flex(row);
-  align-items: center;
-  justify-content: space-between;
+  align-items: start;
   border-radius: 8px;
   background-color: white;
   padding: 10px 8px;

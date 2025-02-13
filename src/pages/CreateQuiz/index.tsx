@@ -40,6 +40,7 @@ import { preventLeaveModalAtom } from "@/store/quizAtom.ts";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo.ts";
 import QuizWriteGuideForm from "./composite/QuizWriteForm/QuizWriteGuideForm.tsx";
 import { QUIZ_CREATION_STEP } from "@/data/constants.ts";
+import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner.tsx";
 
 export default function Index() {
   const { id } = useParams();
@@ -287,7 +288,7 @@ export default function Index() {
   }, [isFirstVisit]);
 
   if (isPrevQuizLoading || isBookLoading || isStudyGroupLoading) {
-    return <div>로딩중</div>;
+    return <LoadingSpinner pageCenter width={40} />;
   }
 
   return (

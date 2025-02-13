@@ -27,6 +27,8 @@ import NotFound from "@/pages/NotFound";
 import MyStudyGroupsCreate from "@/pages/MyPage/composite/MyStudyGroupsCreate/MyStudyGroupsCreate";
 import MyStudyGroupsJoin from "@/pages/MyPage/composite/MyStudyGroupsJoin/MyStudyGroupsJoin";
 import Landing from "@/pages/Landing";
+import AuthenticatedRoute from "@/components/layout/AuthenticatedRoute/AuthenticatedRoute";
+// import AuthenticatedRoute from "@/components/layout/AuthenticatedRoute/AuthenticatedRoute";
 
 const router = createBrowserRouter([
   {
@@ -48,9 +50,15 @@ const router = createBrowserRouter([
           },
         ],
       },
+
       {
-        path: ROUTES.BOOK_DETAIL_SECTION(),
-        element: <BookDetailSection />,
+        element: <AuthenticatedRoute />,
+        children: [
+          {
+            path: ROUTES.QUIZ_DETAIL(),
+            element: <QuizDetail />,
+          },
+        ],
       },
       {
         path: ROUTES.QUIZ_DETAIL(),
@@ -81,59 +89,64 @@ const router = createBrowserRouter([
         element: <RegisterComplete />,
       },
       {
-        path: ROUTES.MY_PAGE,
-        element: <MyPage />,
+        element: <AuthenticatedRoute />,
         children: [
           {
             path: ROUTES.MY_PAGE,
-            element: <Navigate to={ROUTES.MY_MADE_QUIZ} replace />,
-          },
-          {
-            path: ROUTES.MY_MADE_QUIZ,
-            element: <MyMadeQuiz />,
-          },
-          {
-            path: ROUTES.SOLVED_QUIZ,
-            element: <SolvedQuiz />,
-          },
-          {
-            path: ROUTES.MY_STUDY_GROUPS,
-            element: <MyStudyGroups />,
-          },
-          {
-            path: ROUTES.MY_STUDY_GROUPS_CREATE,
-            element: <MyStudyGroupsCreate />,
-          },
-          {
-            path: ROUTES.MY_STUDY_GROUPS_JOIN,
-            element: <MyStudyGroupsJoin />,
-          },
-          {
-            path: ROUTES.STUDY_GROUP(),
-            element: <StudyGroup />,
-          },
-          {
-            path: ROUTES.STUDY_GROUP_SETTING(),
-            element: <StudyGroupSetting />,
-          },
-          {
-            path: ROUTES.SETTINGS,
+            element: <MyPage />,
             children: [
               {
-                index: true,
-                element: <Navigate to={ROUTES.EDIT_PROFILE} replace />,
+                path: ROUTES.MY_PAGE,
+                element: <Navigate to={ROUTES.MY_MADE_QUIZ} replace />,
               },
               {
-                path: ROUTES.EDIT_PROFILE,
-                element: <EditMyInfo />,
+                path: ROUTES.MY_MADE_QUIZ,
+                element: <MyMadeQuiz />,
               },
               {
-                path: ROUTES.CHANGE_PASSWORD,
-                element: <ChangePassword></ChangePassword>,
+                path: ROUTES.SOLVED_QUIZ,
+                element: <SolvedQuiz />,
               },
               {
-                path: ROUTES.DELETE_ACCOUNT,
-                element: <DeleteAccount></DeleteAccount>,
+                path: ROUTES.MY_STUDY_GROUPS,
+                element: <MyStudyGroups />,
+              },
+              {
+                path: ROUTES.MY_STUDY_GROUPS_CREATE,
+                element: <MyStudyGroupsCreate />,
+              },
+              {
+                path: ROUTES.MY_STUDY_GROUPS_JOIN,
+                element: <MyStudyGroupsJoin />,
+              },
+              {
+                path: ROUTES.STUDY_GROUP(),
+                element: <StudyGroup />,
+              },
+              {
+                path: ROUTES.STUDY_GROUP_SETTING(),
+                element: <StudyGroupSetting />,
+              },
+              {
+                path: ROUTES.SETTINGS,
+                children: [
+                  {
+                    index: true,
+                    element: <Navigate to={ROUTES.EDIT_PROFILE} replace />,
+                  },
+                  {
+                    path: ROUTES.EDIT_PROFILE,
+                    element: <EditMyInfo />,
+                  },
+                  {
+                    path: ROUTES.CHANGE_PASSWORD,
+                    element: <ChangePassword />,
+                  },
+                  {
+                    path: ROUTES.DELETE_ACCOUNT,
+                    element: <DeleteAccount />,
+                  },
+                ],
               },
             ],
           },

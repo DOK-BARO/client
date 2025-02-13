@@ -1,8 +1,9 @@
 import Button from "@/components/atom/Button/Button";
 import styles from "./_member_item.module.scss";
-import trashCan from "/public/assets/svg/myPage/trash-can.svg";
-import memberCircle from "/public/assets/svg/myPage/member-circle.svg";
+import { TrashCan } from "@/svg/QuizWriteForm/TrashCan";
+import memberCircle from "/public/assets/svg/myPage/memberCircle.svg";
 import { StudyMemberType } from "@/types/StudyGroupType";
+import { gray60 } from "@/styles/abstracts/colors";
 interface Props {
   member: StudyMemberType;
   onChangeLeaderClick: () => void;
@@ -32,7 +33,7 @@ export default function MemberItem({
         </Button>
         <Button
           className={styles.button}
-          icon={<img src={trashCan} width={16} height={16} />}
+          icon={<TrashCan width={16} height={16} stroke={gray60} />}
           iconOnly
           onClick={onWithdrawMemberClick}
         />

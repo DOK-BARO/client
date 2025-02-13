@@ -17,7 +17,6 @@ import { AnswerType, QuizQuestionType } from "@/types/QuizType";
 import QuestionTemplateTypeUtilButton from "./QuestionTemplateTypeUtilButton";
 import { OxQuiz } from "@/svg/QuizWriteForm/OXQuiz";
 import Button from "@/components/atom/Button/Button";
-
 import {
   errorMessageAtomFamily,
   invalidQuestionFormIdAtom,
@@ -28,6 +27,7 @@ import QuizWriteGuideBubble from "../QuizWriteGuideBubble/QuizWriteGuideBubble";
 import { useValidateQuizForm } from "@/hooks/useValidateQuizForm";
 import ImageLayer from "@/components/layout/ImageLayer/ImageLayer";
 import useImageLayer from "@/hooks/useImageLayer";
+import { gray70 } from "@/styles/abstracts/colors";
 interface QuizWriteFormItemProps {
   questionFormId: number;
   deleteQuestion: (id: number) => void;
@@ -342,6 +342,7 @@ export default function QuestionForm({
 
     fetchImgLayer();
   }, [imagePreviewEls]);
+
   useEffect(() => {
     console.log("layer: ", imgLayer);
   }, [imgLayer]);
@@ -446,7 +447,7 @@ export default function QuestionForm({
             onClick={handleButtonClick}
             className={styles["image-add-button"]}
           >
-            <ImageAdd width={24} height={24} />
+            <ImageAdd width={20} height={20} stroke={gray70} />
           </button>
         </div>
 

@@ -11,7 +11,7 @@ export default function NotFound() {
   };
   return (
     <div className={styles["container"]}>
-      <img src={errorImage} alt="없는 페이지 입니다." />
+      <img src={errorImage} width={858} alt="없는 페이지 입니다." />
       <Button
         color="primary"
         size="medium"

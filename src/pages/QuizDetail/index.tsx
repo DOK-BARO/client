@@ -11,6 +11,8 @@ import { reviewService } from "@/services/server/reviewService";
 import QuizLinkItem from "./composite/QuizLinkItem/QuizLinkItem";
 import { bookService } from "@/services/server/bookService";
 import { extractCategoryList } from "@/utils/extractCategoryList";
+import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner";
+import NotFound from "../NotFound";
 
 export default function Index() {
   const { id } = useParams();
@@ -38,11 +40,11 @@ export default function Index() {
 
   // TODO:
   if (isLoading) {
-    return <div>loading</div>;
+    return <LoadingSpinner pageCenter width={40} />;
   }
 
   if (!explanation || !reviewsTotalScore) {
-    return <div>quiz explanation page error!!</div>;
+    return <div />;
   }
 
   const categoryList = bookDetail

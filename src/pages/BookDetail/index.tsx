@@ -11,6 +11,7 @@ import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { BookType } from "@/types/BookType";
 import { extractCategoryList } from "@/utils/extractCategoryList.ts";
 import ROUTES from "@/data/routes.ts";
+import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner.tsx";
 
 export default function Index() {
   const { id } = useParams();
@@ -39,11 +40,11 @@ export default function Index() {
   };
 
   if (isLoading) {
-    return <div>loading</div>;
+    return <LoadingSpinner className={styles["loading-spinner"]} width={40} />;
   }
 
   if (!data) {
-    return <div>book detail page error!!</div>;
+    return <div>책 데이터가 존재하지 않습니다.</div>;
   }
   // console.log(data.categories);
   const categoryList = data.categories

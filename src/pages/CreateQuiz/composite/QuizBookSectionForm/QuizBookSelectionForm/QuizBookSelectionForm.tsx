@@ -11,9 +11,9 @@ import { BookType } from "@/types/BookType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { bookService } from "@/services/server/bookService";
 import { BookListItem } from "../BookListItem/BookListItem";
-import loadingIndicator from "/public/assets/svg/quizBookSelectionForm/loading.gif";
 import useOutsideClick from "@/hooks/useOutsideClick";
 import searchNotFoundImage from "/public/assets/image/search-not-found.png";
+import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner";
 
 // 2. 도서 선택
 export default function QuizBookSelectionForm() {
@@ -87,11 +87,7 @@ export default function QuizBookSelectionForm() {
         leftIcon={
           <Search width={20} stroke={isSearchInputClicked ? gray90 : gray60} />
         }
-        rightIcon={
-          isBookSearching ? (
-            <img src={loadingIndicator} width={24} />
-          ) : undefined
-        }
+        rightIcon={isBookSearching ? <LoadingSpinner width={24} /> : undefined}
         onChange={handleSearchBook}
         value={searchValue}
         id="book-name"

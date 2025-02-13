@@ -3,7 +3,7 @@ import styles from "./_profile_image_editor.module.scss";
 import editProfile from "/assets/svg/accountSetting/editProfile.svg";
 import { ProfileImageState } from "@/pages/Register/composite/ProfileSet/ProfileSet";
 import Button from "@/components/atom/Button/Button";
-import loadingIndicator from "/public/assets/svg/quizBookSelectionForm/loading.gif";
+import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner";
 interface Props {
   width: number;
   profileImage: ProfileImageState;
@@ -64,12 +64,7 @@ export default function ProfileImageEditor({
         />
         {isLoading ? (
           <div className={styles["loading-img-bg"]}>
-            <img
-              src={loadingIndicator}
-              width={50}
-              height={50}
-              alt="이미지 업로드 로딩중"
-            />
+            <LoadingSpinner width={50} />
           </div>
         ) : null}
         {/* 편집 아이콘 */}

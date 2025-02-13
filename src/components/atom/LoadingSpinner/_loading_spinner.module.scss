@@ -1,0 +1,10 @@
+@import "../../../styles/abstracts/mixins";
+
+.container {
+  @include flex(row, center);
+  margin: 0 auto;
+}
+
+.page-center {
+  margin-top: 20%;
+}

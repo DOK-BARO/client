@@ -29,13 +29,6 @@ export default function GNB() {
   const { navigateWithParams } = useNavigateWithParams("books");
   const [, setPrevPaginationState] = useAtom(prevPaginationStateAtom);
 
-  if (isLoading) {
-    return <div>loading</div>;
-  }
-  if (!categories) {
-    return <div>book categories page error!!</div>;
-  }
-
   const handleClick = (id: string) => {
     sessionStorage.removeItem("prevPage");
     setPrevPaginationState(undefined);
@@ -64,7 +57,7 @@ export default function GNB() {
   };
 
   // TODO: heading 태그 다른 태그로 변경하기
-  return (
+  return !isLoading && categories ? (
     <nav
       className={`${styles.gnb} ${isGNBHidden ? styles.hidden : ""}`}
       onMouseLeave={handleMouseLeave}
@@ -146,5 +139,5 @@ export default function GNB() {
         ))}
       </div>
     </nav>
-  );
+  ) : null;
 }

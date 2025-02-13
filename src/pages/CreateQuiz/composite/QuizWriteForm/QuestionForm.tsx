@@ -136,6 +136,7 @@ export default function QuestionForm({
     quizCreationInfo.questions?.find(
       (question) => question.id === questionFormId,
     )?.answerExplanationContent,
+    23,
   );
 
   const [selectedImages, setSelectedImages] = useState<JSX.Element[]>(

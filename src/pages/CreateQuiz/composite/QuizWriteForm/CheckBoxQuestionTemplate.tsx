@@ -6,9 +6,9 @@ import { useQuestionTemplate } from "@/hooks/useQuestionTemplate";
 import SelectOption from "./SelectOption";
 import { SelectOptionType } from "@/types/QuizType";
 import { BOOK_QUIZ_OPTION_MAX_LENGTH } from "@/data/constants";
+import Button from "@/components/atom/Button/Button";
 import { QuizPlus } from "@/svg/QuizPlus";
 import { gray60 } from "@/styles/abstracts/colors";
-import Button from "@/components/atom/Button/Button";
 
 export const CheckBoxQuestionTemplate: FC<{
   questionFormId?: string;
@@ -101,11 +101,12 @@ export const CheckBoxQuestionTemplate: FC<{
           answerType={"MULTIPLE_CHOICE_MULTIPLE_ANSWER"}
         />
       ))}
-
-      <AddOptionButton
-        onAdd={handleAddQuizOptionItemBtn}
-        currentOptionLength={currentOptionLength}
-      />
+      {options.length < BOOK_QUIZ_OPTION_MAX_LENGTH && (
+        <AddOptionButton
+          onAdd={handleAddQuizOptionItemBtn}
+          currentOptionLength={currentOptionLength}
+        />
+      )}
     </fieldset>
   );
 };

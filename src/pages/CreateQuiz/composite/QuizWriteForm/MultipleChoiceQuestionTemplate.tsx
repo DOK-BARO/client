@@ -9,9 +9,9 @@ import { BOOK_QUIZ_OPTION_MAX_LENGTH } from "@/data/constants.ts";
 import { isFirstVisitAtom, quizGuideStepAtom } from "@/store/quizAtom";
 import { useAtom } from "jotai";
 import QuizWriteGuideBubble from "../QuizWriteGuideBubble/QuizWriteGuideBubble";
+import Button from "@/components/atom/Button/Button";
 import { QuizPlus } from "@/svg/QuizPlus";
 import { gray60 } from "@/styles/abstracts/colors";
-import Button from "@/components/atom/Button/Button";
 
 export const MultipleChoiceQuestionTemplate: FC<{
   questionFormId?: string;
@@ -123,11 +123,12 @@ export const MultipleChoiceQuestionTemplate: FC<{
           answerType={"MULTIPLE_CHOICE_SINGLE_ANSWER"}
         />
       ))}
-
-      <AddOptionButton
-        onAdd={handleAddQuizOptionItemBtn}
-        currentOptionLength={currentOptionLength}
-      />
+      {options.length < BOOK_QUIZ_OPTION_MAX_LENGTH && (
+        <AddOptionButton
+          onAdd={handleAddQuizOptionItemBtn}
+          currentOptionLength={currentOptionLength}
+        />
+      )}
     </fieldset>
   );
 };

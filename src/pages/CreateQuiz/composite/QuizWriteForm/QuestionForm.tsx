@@ -16,6 +16,7 @@ import deleteIcon from "/assets/svg/quizWriteForm/delete_ellipse.svg";
 import { AnswerType, QuizQuestionType } from "@/types/QuizType";
 import QuestionTemplateTypeUtilButton from "./QuestionTemplateTypeUtilButton";
 import { OxQuiz } from "@/svg/QuizWriteForm/OXQuiz";
+import Button from "@/components/atom/Button/Button";
 import {
   errorMessageAtomFamily,
   invalidQuestionFormIdAtom,
@@ -27,7 +28,6 @@ import { useValidateQuizForm } from "@/hooks/useValidateQuizForm";
 import ImageLayer from "@/components/layout/ImageLayer/ImageLayer";
 import useImageLayer from "@/hooks/useImageLayer";
 import { gray70 } from "@/styles/abstracts/colors";
-import Button from "@/components/atom/Button/Button";
 interface QuizWriteFormItemProps {
   questionFormId: number;
   deleteQuestion: (id: number) => void;
@@ -141,7 +141,6 @@ export default function QuestionForm({
       (question) => question.id === questionFormId,
     )?.answerExplanationImages ?? [],
   );
-
   const [imagePreviewEls, setImagePreviewEls] = useState<JSX.Element[]>([]);
   const [errorMessage, setErrorMessage] = useAtom(
     errorMessageAtomFamily(questionFormId),
@@ -347,6 +346,7 @@ export default function QuestionForm({
   useEffect(() => {
     console.log("layer: ", imgLayer);
   }, [imgLayer]);
+
   const {
     clickedImage,
     handleCloseLayer,

@@ -116,8 +116,6 @@ export default function Index() {
         const prevQuestions: QuizQuestionType[] = await Promise.all(
           prevQuiz?.questions.map(async (q) => {
             const images = await convertUrlsToImg(q.answerExplanationImages);
-
-            // TODO: useQuestionTemplate의 옵션 생성 로직과 통일 필요
             const selectOptions: SelectOptionType[] = q.selectOptions.map(
               (optionText, index) => ({
                 id: index, // TODO: index로 해도 되는지 확인 필요

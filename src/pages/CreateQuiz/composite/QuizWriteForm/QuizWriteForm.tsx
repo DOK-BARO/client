@@ -245,7 +245,12 @@ const QuizWriteForm = React.memo(() => {
           fullWidth
           icon={
             !isOverMaxQuestionLength ? (
-              <QuizPlus alt="" width={20} height={20} stroke={primary} />
+              <QuizPlus
+                alt="스터디 그룹 추가 버튼"
+                width={20}
+                height={20}
+                stroke={primary}
+              />
             ) : (
               <></>
             )

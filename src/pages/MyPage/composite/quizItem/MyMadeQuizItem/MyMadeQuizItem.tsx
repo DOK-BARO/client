@@ -2,7 +2,9 @@ import styles from "../_quiz_item.module.scss";
 import infoFilled from "/public/assets/svg/myPage/info-filled.svg";
 import link from "/public/assets/svg/myPage/link.svg";
 import Button from "@/components/atom/Button/Button";
+import Tooltip from "@/components/atom/Tooltip/Tooltip";
 import ROUTES from "@/data/routes";
+import useTooltip from "@/hooks/useTooltip";
 import { MyQuizDataType } from "@/types/QuizType";
 import { Link } from "react-router-dom";
 
@@ -29,6 +31,8 @@ export default function MyMadeQuizItem({
     quizId: number,
   ) => void;
 }) {
+  const { isTooltipVisible, showTooltip, hideTooltip } = useTooltip();
+
   return (
     <li>
       <Link to={ROUTES.QUIZ_DETAIL(myQuiz.id)} className={styles.container}>
@@ -43,12 +47,16 @@ export default function MyMadeQuizItem({
           <span className={styles["date-container"]}>
             <p className={styles.date}>{formattedDate}</p>
             <img
+              onMouseEnter={showTooltip}
+              onMouseLeave={hideTooltip}
               src={infoFilled}
               alt="만든 날짜"
-              title="만든 날짜"
               height={14}
               width={14}
             />
+            {isTooltipVisible && (
+              <Tooltip className={styles.tooltip} label="만든 날짜" />
+            )}
           </span>
         </div>
         <div className={styles["right-container"]}>

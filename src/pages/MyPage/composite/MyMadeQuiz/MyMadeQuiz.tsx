@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import ROUTES from "@/data/routes";
 import { MyMadeQuizzesFilterType } from "@/types/FilterType";
 import { myMadeQuizzesFilterAtom } from "@/store/filterAtom";
+import { isLoggedInAtom } from "@/store/userAtom";
 
 const filterOptions: FilterOptionType<MyMadeQuizzesFilterType>[] = [
   {
@@ -32,6 +33,7 @@ const filterOptions: FilterOptionType<MyMadeQuizzesFilterType>[] = [
 ];
 export default function MyMadeQuiz() {
   const navigate = useNavigate();
+  const [isLoggedIn] = useAtom(isLoggedInAtom);
   const [filterCriteria, setFilterCriteria] = useAtom(myMadeQuizzesFilterAtom);
   useFilter<MyMadeQuizzesFilterType>(setFilterCriteria);
 
@@ -50,6 +52,7 @@ export default function MyMadeQuiz() {
   const { isLoading, data: myQuizzesData } = useQuery({
     queryKey: quizKeys.myQuiz(params),
     queryFn: () => quizService.fetchMyMadeQuizzes(params),
+    enabled: isLoggedIn,
   });
 
   const handleClickWhenNoData = () => {

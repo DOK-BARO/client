@@ -21,6 +21,7 @@ import Pagination from "@/components/composite/Pagination/Pagination";
 import { NoDataSection } from "@/components/composite/NoDataSection/NoDataSection";
 import { copyText } from "@/utils/copyText";
 import ROUTES from "@/data/routes";
+import { isLoggedInAtom } from "@/store/userAtom";
 
 const filterOptions: FilterOptionType<MyStudySolvedQuizzesFilterType>[] = [
   {
@@ -46,6 +47,7 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Props) {
   const [filterCriteria, setFilterCriteria] = useAtom(
     myStudySolvedQuizFilterAtom,
   );
+  const [isLoggedIn] = useAtom(isLoggedInAtom);
   useFilter<MyStudySolvedQuizzesFilterType>(setFilterCriteria);
 
   const [paginationState, setPaginationState] = useAtom(
@@ -84,7 +86,7 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Props) {
             }),
           )
         : null,
-    enabled: !!studyGroupId,
+    enabled: isLoggedIn && !!studyGroupId,
   });
   const solvedQuizzes = solvedQuizData?.data;
   const endPageNumber = solvedQuizData?.endPageNumber;

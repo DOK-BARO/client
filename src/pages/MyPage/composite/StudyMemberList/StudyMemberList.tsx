@@ -11,6 +11,8 @@ import useModal from "@/hooks/useModal";
 import Modal from "@/components/atom/Modal/Modal";
 import { Fragment } from "react/jsx-runtime";
 import { useNavigate } from "react-router-dom";
+import { useAtom } from "jotai";
+import { isLoggedInAtom } from "@/store/userAtom";
 
 export interface Props {
   studyGroupId?: number;
@@ -22,6 +24,7 @@ export default function StudyMemberList({
   onDeleteStudyGroupClick,
 }: Props) {
   const navigate = useNavigate();
+  const [isLoggedIn] = useAtom(isLoggedInAtom);
   const {
     openModal: openChangeStudyGroupLeaderModal,
     closeModal: closeChangeStudyGroupLeaderModal,
@@ -31,7 +34,7 @@ export default function StudyMemberList({
     queryKey: studyGroupKeys.detail(studyGroupId),
     queryFn: () =>
       studyGroupId ? studyGroupService.fetchStudyGroup(studyGroupId) : null,
-    enabled: !!studyGroupId,
+    enabled: isLoggedIn && !!studyGroupId,
   });
 
   const leader = studyGroupDetail?.studyMembers?.find(

@@ -32,6 +32,7 @@
   font-family: inherit;
   color: $gray-90;
   width: 100%;
+  line-height: 1.5;
 
   &::placeholder {
     color: $gray-60;
@@ -194,4 +195,12 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+@mixin questionExplanationImage {
+  display: block;
+  object-fit: cover;
+  width: 9.75em;
+  height: 10.75em;
+  border-radius: 4px;
 }

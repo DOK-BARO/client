@@ -5,10 +5,11 @@ import useInput from "@/hooks/useInput";
 import { XSmall } from "@/svg/XSmall";
 import { systemDanger } from "@/styles/abstracts/colors";
 import { Dispatch, useEffect, useState } from "react";
-import { SetStateAction } from "jotai";
+import { SetStateAction, useAtom } from "jotai";
 import { authService } from "@/services/server/authService";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";
+import { findPasswordEmailAtom } from "@/store/userAtom";
 
 export default function SendTemporaryPassword({
   setStep,
@@ -17,11 +18,13 @@ export default function SendTemporaryPassword({
 }) {
   const { value: email, onChange: onEmailChange } = useInput("");
   const [isEmailReadyToSend, setIsEmailReadyToSend] = useState<boolean>(false);
+  const [, setFindPasswordEmail] = useAtom(findPasswordEmailAtom);
 
   const { mutate: issueTempPassword } = useMutation<void, ErrorType, string>({
     mutationFn: () => authService.issueTempPassword(email),
     onSuccess: () => {
       setStep((prev) => prev + 1);
+      setFindPasswordEmail(email);
     },
     onError: () => {
       // 전역 에러 토스트 안나게 하기 위함

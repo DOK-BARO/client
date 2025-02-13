@@ -97,9 +97,27 @@ export default function QuizCreationFormLayout({
   };
 
   const requestUploadExplanationImages = async (
-    uploadTargetImgs: File[],
+    uploadTargetImgs: JSX.Element[],
   ): Promise<string[]> => {
-    const promiseImgList = uploadTargetImgs.map(async (img) => {
+    // JSX.Element에서 data-file 속성의 File 객체 가져오기
+    const fileList: File[] = [];
+    const alreadyUploadedList: string[] = [];
+
+    // 파일이 아닌건 이미 업로드 된 이미지 이므로 업로드 x, url만 저장
+
+    uploadTargetImgs.forEach((img) => {
+      const file = (img.props as { "data-file"?: File })["data-file"];
+      const src = (img.props as { src?: string }).src;
+
+      if (file instanceof File) {
+        fileList.push(file); // 새로 업로드할 이미지
+      } else if (typeof src === "string") {
+        alreadyUploadedList.push(src); // 이미 업로드된 이미지 URL 저장
+      }
+    });
+
+    // Data URL을 Blob(File) 객체로 변환 후 업로드
+    const promiseImgList = fileList.map(async (file) => {
       const paramObj: {
         image: File;
         imageTarget:
@@ -107,13 +125,15 @@ export default function QuizCreationFormLayout({
           | "STUDY_GROUP_PROFILE"
           | "BOOK_QUIZ_ANSWER";
       } = {
-        image: img,
+        image: file,
         imageTarget: "BOOK_QUIZ_ANSWER",
       };
       return await imageService.uploadImage(paramObj);
     });
+
     const uploadedImgUrl: string[] = await Promise.all(promiseImgList);
-    return uploadedImgUrl;
+    // 기존 업로드된 이미지 URL과 새로 업로드한 URL을 합쳐서 반환
+    return [...alreadyUploadedList, ...uploadedImgUrl];
   };
 
   const setRequestQuestion = async (): Promise<
@@ -122,8 +142,8 @@ export default function QuizCreationFormLayout({
     const uploadedImgQuestions = quizCreationInfo.questions!.map(
       async (question) => {
         const { id, ...rest } = question;
-
         return {
+          // TODO: isEdit으로 체크해도 될듯
           // 기존 퀴즈 id의 경우 선택옵션 순서대로 0,1,2... 이런식으로 생성됨
           // 새로 추가된 퀴즈 id의 경우 timemillis 값이므로 무조건 1000 이상의 수 이다.
           // 질문 수정의 경우 기존 id, 질문을 새로 create하는 경우 undefined값으로 set
@@ -185,6 +205,17 @@ export default function QuizCreationFormLayout({
     mutationFn: ({ editQuizId, quiz }) =>
       quizService.modifyQuiz({ editQuizId, quiz }),
     onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: studyGroupKeys.myUnsolvedQuizList(
+          quizCreationInfo.studyGroup?.id,
+          {},
+        ),
+        exact: true,
+      });
+      if (!editQuizId) {
+        return;
+      }
+      setCreatedQuizId(parseInt(editQuizId));
       // localStorage.removeItem("quizCreationInfo");
       // blocker사용떄문에 아래 useEFfect에서 페이지 이동
     },
@@ -211,7 +242,6 @@ export default function QuizCreationFormLayout({
       questions: await setRequestQuestion(),
       // temporary: isTemporary,
     };
-    console.log("quiz!!", quiz);
     setIsComplete(true);
     isEditMode
       ? requestModifyQuiz({ editQuizId: editQuizId!, quiz })

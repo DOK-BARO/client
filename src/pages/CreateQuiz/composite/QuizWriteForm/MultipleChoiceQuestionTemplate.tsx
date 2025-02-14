@@ -123,12 +123,11 @@ export const MultipleChoiceQuestionTemplate: FC<{
           answerType={"MULTIPLE_CHOICE_SINGLE_ANSWER"}
         />
       ))}
-      {options.length < BOOK_QUIZ_OPTION_MAX_LENGTH && (
-        <AddOptionButton
-          onAdd={handleAddQuizOptionItemBtn}
-          currentOptionLength={currentOptionLength}
-        />
-      )}
+
+      <AddOptionButton
+        onAdd={handleAddQuizOptionItemBtn}
+        currentOptionLength={currentOptionLength}
+      />
     </fieldset>
   );
 };

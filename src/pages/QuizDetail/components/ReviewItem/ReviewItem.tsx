@@ -3,7 +3,8 @@ import styles from "./_review_item.module.scss";
 import FiveStar from "@/components/composite/FiveStar/FiveStar";
 import { formatDate } from "@/utils/formatDate";
 import edit from "/assets/svg/quizDetail/edit.svg";
-import trash from "/assets/svg/quizDetail/delete.svg";
+import { TrashCan } from "@/svg/QuizWriteForm/TrashCan";
+import { gray60 } from "@/styles/abstracts/colors";
 import Button from "@/components/atom/Button/Button";
 import Textarea from "@/components/atom/Textarea/Textarea";
 import { useState } from "react";
@@ -301,7 +302,14 @@ export default function ReviewItem({ review, isMyReview, quizTitle }: Props) {
               onClick={openEditModal}
             />
             <Button
-              icon={<img src={trash} alt="삭제하기" width={16} height={16} />}
+              icon={
+                <TrashCan
+                  alt="삭제하기"
+                  width={16}
+                  height={16}
+                  stroke={gray60}
+                />
+              }
               iconOnly
               onClick={openDeleteModal}
             />

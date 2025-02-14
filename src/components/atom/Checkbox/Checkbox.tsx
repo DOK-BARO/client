@@ -132,7 +132,7 @@ export default function CheckBox({
               <Close
                 width={20}
                 height={20}
-                stroke={type === "checkbox-writing" ? gray70 : gray40}
+                stroke={isTextAreaFocus ? gray70 : gray40}
                 strokeWidth={2}
                 alt="옵션 삭제하기"
               />

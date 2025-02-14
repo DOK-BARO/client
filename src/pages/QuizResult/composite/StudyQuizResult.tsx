@@ -12,6 +12,7 @@ import Button from "@/components/atom/Button/Button";
 import { studyGroupService } from "@/services/server/studyGroupService";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "@/data/routes";
+import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner";
 
 export default function StudyQuizResult({
   studyGroupId,
@@ -44,7 +45,7 @@ export default function StudyQuizResult({
   };
 
   if (isQuizResultStudyLoading || isStudyGroupLoading) {
-    return <div>로딩</div>;
+    return <LoadingSpinner pageCenter width={40} />;
   }
   return (
     <section className={styles["study-group-container"]}>

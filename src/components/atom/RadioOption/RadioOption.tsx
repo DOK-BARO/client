@@ -149,7 +149,7 @@ const RadioOption: React.FC<RadioOptionProps> = ({
                   alt="옵션 삭제하기"
                   width={20}
                   height={20}
-                  stroke={type === "option-writing" ? gray70 : gray40}
+                  stroke={isTextAreaFocus ? gray70 : gray40}
                   strokeWidth={2}
                 />
               }

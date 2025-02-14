@@ -24,7 +24,6 @@ export default function BaseLayout({
   const navigate = useNavigate();
   const device = useDeviceType();
   const [mounted, setMounted] = useState(false);
-  // const { isOverlapping, textRef1, textRef2 } = useTextOverlap();
 
   const handleCheckIsTermAllAgreed = async () => {
     const isAgreedAll = await authService.fetchIsTermsAgreed();

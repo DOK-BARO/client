@@ -10,9 +10,9 @@ import useInput from "@/hooks/useInput";
 import useTextarea from "@/hooks/useTextarea";
 import Button from "@/components/atom/Button/Button";
 import StudyMemberList from "../StudyMemberList/StudyMemberList";
-import threeDot from "/public/assets/svg/myPage/three-dot.svg";
+import threeDot from "/public/assets/svg/myPage/threeDot.svg";
 import useModal from "@/hooks/useModal";
-import trashCan from "/public/assets/svg/myPage/trash-can-bigger.svg";
+import { TrashCan } from "@/svg/QuizWriteForm/TrashCan";
 import SmallModal from "@/components/atom/SmallModal/SmallModal";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";
@@ -27,12 +27,15 @@ import ROUTES from "@/data/routes";
 import useOutsideClick from "@/hooks/useOutsideClick";
 import useUploadImageToStorage from "@/hooks/mutate/useUploadImage";
 import defaultImage from "/public/assets/image/default-profile.png";
-import { currentUserAtom } from "@/store/userAtom";
+import { currentUserAtom, isLoggedInAtom } from "@/store/userAtom";
+import { gray60 } from "@/styles/abstracts/colors";
 // 스터디 그룹 관리
 export default function StudyGroupSetting() {
   // TODO: 타이틀 세팅하는 로직 훅으로 분리하기
 
   const navigate = useNavigate();
+  const [isLoggedIn] = useAtom(isLoggedInAtom);
+
   const { studyGroupId } = useParams();
   const studyGroupIdNumber = studyGroupId ? Number(studyGroupId) : undefined;
   const [currentUser] = useAtom(currentUserAtom);
@@ -45,7 +48,7 @@ export default function StudyGroupSetting() {
         studyGroupIdNumber
           ? studyGroupService.fetchStudyGroup(studyGroupIdNumber)
           : null,
-      enabled: !!studyGroupIdNumber,
+      enabled: isLoggedIn && !!studyGroupIdNumber,
     });
 
   const [, setMyPageTitle] = useAtom(myPageTitleAtom);
@@ -279,7 +282,7 @@ export default function StudyGroupSetting() {
             <div className={styles["small-modal-container"]} ref={modalRef}>
               <SmallModal
                 onLabelClick={handleDeleteStudyGroupClick}
-                icon={<img src={trashCan} width={20} height={20} />}
+                icon={<TrashCan width={20} height={20} stroke={gray60} />}
                 label="스터디 삭제"
               />
             </div>

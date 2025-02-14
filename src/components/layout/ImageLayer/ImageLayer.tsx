@@ -3,8 +3,8 @@ import styles from "./_image_layer.module.scss";
 import Button from "@/components/atom/Button/Button";
 import { Close } from "@/svg/Close";
 import { gray100 } from "@/styles/abstracts/colors";
-import leftArrow from "/public/assets/svg/imageLayer/left-arrow.svg";
-import rightArrow from "/public/assets/svg/imageLayer/right-arrow.svg";
+import leftArrow from "/public/assets/svg/imageLayer/leftArrow.svg";
+import rightArrow from "/public/assets/svg/imageLayer/rightArrow.svg";
 import { useEffect } from "react";
 
 export default function ImageLayer({

@@ -25,6 +25,7 @@ import ROUTES from "@/data/routes";
 import { useLocation, useNavigate } from "react-router-dom";
 import { StudyGroupType } from "@/types/StudyGroupType";
 import { copyText } from "@/utils/copyText";
+import { isLoggedInAtom } from "@/store/userAtom";
 
 const filterOptions: FilterOptionType<MyStudyUnSolvedQuizzesFilterType>[] = [
   {
@@ -48,6 +49,7 @@ interface Props {
 }
 export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Props) {
   const navigate = useNavigate();
+  const [isLoggedIn] = useAtom(isLoggedInAtom);
   const { pathname } = useLocation();
   const [filterCriteria, setFilterCriteria] = useAtom(
     myStudyUnsolvedQuizFilterAtom,
@@ -91,7 +93,7 @@ export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Props) {
             }),
           )
         : null,
-    enabled: !!studyGroupId,
+    enabled: isLoggedIn && !!studyGroupId,
   });
   const unsolvedQuizzes = unsolvedQuizData?.data;
   const endPageNumber = unsolvedQuizData?.endPageNumber;
@@ -114,7 +116,7 @@ export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Props) {
   const { data: studyGroup } = useQuery({
     queryKey: studyGroupKeys.detail(studyGroupId),
     queryFn: () => studyGroupService.fetchStudyGroup(Number(studyGroupId)),
-    enabled: !!studyGroupId,
+    enabled: isLoggedIn && !!studyGroupId,
   });
   const { updateQuizCreationInfo } = useUpdateQuizCreationInfo();
 

@@ -12,7 +12,7 @@ import {
 // import Button from "@/components/atom/Button/Button";
 import useModal from "@/hooks/useModal";
 import SmallModal from "@/components/atom/SmallModal/SmallModal";
-import noticeCircle from "/public/assets/svg/myPage/notice-circle.svg";
+import noticeCircle from "/public/assets/svg/myPage/noticeCircle.svg";
 import { useEffect, useRef, useState } from "react";
 import Modal from "@/components/atom/Modal/Modal";
 import Textarea from "@/components/atom/Textarea/Textarea";

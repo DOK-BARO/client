@@ -142,6 +142,7 @@
 
   &-item-container {
     position: relative;
+    cursor: pointer;
 
     .image {
       @include questionExplanationImage;

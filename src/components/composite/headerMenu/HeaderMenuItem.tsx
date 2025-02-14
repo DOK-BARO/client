@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { HeaderMenuListItemType } from "./HeaderMenuList";
 import { ICON_SIZE } from "@/data/constants";
 import { gray70 } from "@/styles/abstracts/colors";
-
+import Button from "@/components/atom/Button/Button";
 interface Props extends HeaderMenuListItemType {
   closeDropDownList: () => void;
 }
@@ -25,12 +25,15 @@ export default function HeaderMenuListItem({
   };
 
   return (
-    <li
-      className={styles["header-menu-list-item"]}
-      onClick={() => handleItemClick(link)}
-    >
-      <Icon {...iconProps} />
-      <span>{content}</span>
+    <li>
+      <Button
+        className={styles["header-menu-list-item"]}
+        onClick={() => handleItemClick(link)}
+        iconPosition="left"
+        icon={<Icon {...iconProps} />}
+      >
+        {content}
+      </Button>
     </li>
   );
 }

@@ -80,8 +80,6 @@
       background-color 0.5s,
       border 0.5s,
       box-shadow 0.5s;
-
-    // transition: all 0.5s;
   }
 }
 
@@ -111,7 +109,6 @@
   @include basic-radio-button($default-border-color: $gray-60);
 }
 
-//TODO:background 있는 option mixin 정의 필요
 .solving-incorrect {
   background-color: #eb003b1a;
 

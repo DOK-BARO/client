@@ -1,7 +1,7 @@
 import styles from "./_header_logo.module.scss";
 import React from "react";
 import { APP_NAME } from "@/data/constants.ts";
-import { Logo } from "@/svg/Logo";
+import logo from "/public/assets/svg/logo.svg";
 import Button from "../Button/Button";
 import { useNavigate } from "react-router-dom";
 import { paginationAtom } from "@/store/paginationAtom";
@@ -27,14 +27,7 @@ const HeaderLogo: React.FC = () => {
         className={styles["logo-button"]}
         iconPosition="left"
         onClick={handleNavigateToMain}
-        icon={
-          <Logo
-            width={43}
-            height={43}
-            alt="로고 버튼"
-            className={styles["logo-icon"]}
-          />
-        }
+        icon={<img width={43} height={43} src={logo} />}
       >
         <h1>{APP_NAME}</h1>
       </Button>

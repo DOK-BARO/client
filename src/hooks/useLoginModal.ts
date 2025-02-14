@@ -12,7 +12,7 @@ const useLoginModal = () => {
   const navigate = useNavigate();
 
   const handleGoToLogin = () => {
-    navigate(ROUTES.ROOT); //TODO: 랜딩페이지로 이동
+    navigate(ROUTES.ROOT);
     openLoginModal();
   };
 

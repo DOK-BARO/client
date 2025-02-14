@@ -27,11 +27,7 @@ import ROUTES from "@/data/routes";
 import useOutsideClick from "@/hooks/useOutsideClick";
 import useUploadImageToStorage from "@/hooks/mutate/useUploadImage";
 import defaultImage from "/public/assets/image/default-profile.png";
-import {
-  currentUserAtom,
-  isLoggedInAtom,
-  isUserLoadingAtom,
-} from "@/store/userAtom";
+import { currentUserAtom, isLoggedInAtom } from "@/store/userAtom";
 // 스터디 그룹 관리
 export default function StudyGroupSetting() {
   // TODO: 타이틀 세팅하는 로직 훅으로 분리하기

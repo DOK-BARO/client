@@ -28,7 +28,6 @@ import MyStudyGroupsCreate from "@/pages/MyPage/composite/MyStudyGroupsCreate/My
 import MyStudyGroupsJoin from "@/pages/MyPage/composite/MyStudyGroupsJoin/MyStudyGroupsJoin";
 import Landing from "@/pages/Landing";
 import AuthenticatedRoute from "@/components/layout/AuthenticatedRoute/AuthenticatedRoute";
-// import AuthenticatedRoute from "@/components/layout/AuthenticatedRoute/AuthenticatedRoute";
 
 const router = createBrowserRouter([
   {
@@ -50,7 +49,10 @@ const router = createBrowserRouter([
           },
         ],
       },
-
+      {
+        path: ROUTES.BOOK_DETAIL_SECTION(),
+        element: <BookDetailSection />,
+      },
       {
         element: <AuthenticatedRoute />,
         children: [

@@ -342,7 +342,7 @@ export default function Index() {
           bottomButtons={[
             {
               text: "나가기",
-              color: "secondary",
+              color: "primary-border",
               onClick: () => {
                 blocker.proceed();
               },

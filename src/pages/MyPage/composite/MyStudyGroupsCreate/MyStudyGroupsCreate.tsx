@@ -25,10 +25,12 @@ import { primary } from "@/styles/abstracts/colors";
 import defaultImage from "/public/assets/image/default-profile.png";
 import { useNavigate } from "react-router-dom";
 import { copyText } from "@/utils/copyText";
+import { isLoggedInAtom } from "@/store/userAtom";
 
 export default function MyStudyGroupsCreate() {
   const navigate = useNavigate();
   const { isModalOpen, closeModal, openModal } = useModal();
+  const [isLoggedIn] = useAtom(isLoggedInAtom);
 
   const [, setMyPageTitle] = useAtom(myPageTitleAtom);
   const defaultProfileState: ProfileImageState = {
@@ -103,7 +105,7 @@ export default function MyStudyGroupsCreate() {
         newStudyGroupId
           ? studyGroupService.fetchStudyGroup(newStudyGroupId)
           : null,
-      enabled: !!newStudyGroupId,
+      enabled: isLoggedIn && !!newStudyGroupId,
     });
 
   const handleCreateStudyGroup = () => {

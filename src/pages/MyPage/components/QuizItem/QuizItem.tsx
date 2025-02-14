@@ -12,7 +12,7 @@ import { studyGroupService } from "@/services/server/studyGroupService";
 import GradeResultItem from "../GradeResultItem/GradeResultItem";
 import ROUTES from "@/data/routes";
 import { useAtom } from "jotai";
-import { currentUserAtom } from "@/store/userAtom";
+import { currentUserAtom, isLoggedInAtom } from "@/store/userAtom";
 import link from "/public/assets/svg/myPage/link.svg";
 
 interface Props {
@@ -32,6 +32,7 @@ export default function QuizItem({
   onCopyQuizLink,
 }: Props) {
   const navigate = useNavigate();
+  const [isLoggedIn] = useAtom(isLoggedInAtom);
   const handleGoToSolveQuiz = () => {
     navigate(ROUTES.SOLVING_QUIZ(quizData.quiz.id), {
       state: { fromInternal: true },
@@ -49,7 +50,7 @@ export default function QuizItem({
             quizId: quizData.quiz.id,
           })
         : null,
-    enabled: isModalOpen,
+    enabled: isLoggedIn && isModalOpen,
   });
 
   return (

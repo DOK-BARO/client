@@ -12,7 +12,6 @@ import QuizLinkItem from "./composite/QuizLinkItem/QuizLinkItem";
 import { bookService } from "@/services/server/bookService";
 import { extractCategoryList } from "@/utils/extractCategoryList";
 import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner";
-import NotFound from "../NotFound";
 
 export default function Index() {
   const { id } = useParams();

@@ -1,5 +1,5 @@
 import styles from "../_quiz_item.module.scss";
-import infoFilled from "/public/assets/svg/myPage/info-filled.svg";
+import infoFilled from "/public/assets/svg/myPage/infoFilled.svg";
 import link from "/public/assets/svg/myPage/link.svg";
 import Button from "@/components/atom/Button/Button";
 import Tooltip from "@/components/atom/Tooltip/Tooltip";

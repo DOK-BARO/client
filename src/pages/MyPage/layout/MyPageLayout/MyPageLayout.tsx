@@ -8,7 +8,7 @@ import {
 } from "@/store/myPageAtom";
 import Button from "@/components/atom/Button/Button";
 import ROUTES from "@/data/routes";
-import pencilLine from "/public/assets/svg/myPage/pencil-line.svg";
+import pencilLine from "/public/assets/svg/myPage/pencilLine.svg";
 import { useEffect, useState } from "react";
 import { currentUserAtom } from "@/store/userAtom";
 export default function MyPageLayout() {

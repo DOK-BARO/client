@@ -1,6 +1,6 @@
 import Button from "@/components/atom/Button/Button";
 import styles from "./_quiz_item.module.scss";
-import infoFilled from "/public/assets/svg/myPage/info-filled.svg";
+import infoFilled from "/public/assets/svg/myPage/infoFilled.svg";
 import { StudyGroupMyUnSolvedQuizType } from "@/types/StudyGroupType";
 import { formatDate } from "@/utils/formatDate";
 import { Link, useNavigate } from "react-router-dom";

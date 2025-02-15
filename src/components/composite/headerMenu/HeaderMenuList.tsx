@@ -9,6 +9,7 @@ import { currentUserAtom } from "@/store/userAtom";
 import ROUTES from "@/data/routes";
 import useLogout from "@/hooks/mutate/useLogout";
 import HeaderMenuListItem from "./HeaderMenuItem";
+import Button from "@/components/atom/Button/Button";
 
 export interface HeaderMenuListItemType {
   Icon: React.FC<SVGProps>;
@@ -43,25 +44,18 @@ export default function HeaderMenuList({ closeDropDownList }: Props) {
     logout();
   };
 
-  // const nickName =
-  //   (currentUser?.nickname.length ?? 0) > 5
-  //     ? `${currentUser?.nickname.slice(0, 6) + "..."}`
-  //     : currentUser?.nickname;
-
   return (
     <ul className={styles["header-menu-list"]}>
-      <li className={styles["user-info-container"]}>
+      <li>
         <button
-          className={styles["user-info"]}
+          className={styles["user-info-btn"]}
           onClick={() => {
             navigate(ROUTES.MY_PAGE);
             closeDropDownList();
           }}
         >
-          <span className={styles["user-name"]}>
-            {currentUser?.nickname} 님
-          </span>
-          <span className={styles["user-email"]}>{currentUser?.email}</span>
+          <div className={styles["user-name"]}>{currentUser?.nickname} 님</div>
+          <div className={styles["user-email"]}>{currentUser?.email}</div>
         </button>
       </li>
       <div className={styles["header-menu-list-item-container"]}>
@@ -75,8 +69,14 @@ export default function HeaderMenuList({ closeDropDownList }: Props) {
           />
         ))}
       </div>
-      <li className={styles["logout"]} onClick={handleLogout}>
-        로그아웃
+      <li>
+        <Button
+          size="medium"
+          onClick={handleLogout}
+          className={styles["logout"]}
+        >
+          로그아웃
+        </Button>
       </li>
     </ul>
   );

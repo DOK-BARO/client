@@ -8,9 +8,11 @@ import { useAtom } from "jotai";
 import { studyGroupKeys } from "@/data/queryKeys";
 import { studyGroupService } from "@/services/server/studyGroupService";
 import { useQuery } from "@tanstack/react-query";
+import { isLoggedInAtom } from "@/store/userAtom";
 
 export default function StudyGroup() {
   const { studyGroupId } = useParams();
+  const [isLoggedIn] = useAtom(isLoggedInAtom);
   const id = studyGroupId ? Number(studyGroupId) : undefined;
 
   // TODO: 중복. 훅으로 분리
@@ -18,7 +20,7 @@ export default function StudyGroup() {
     useQuery({
       queryKey: studyGroupKeys.detail(id),
       queryFn: () => (id ? studyGroupService.fetchStudyGroup(id) : null),
-      enabled: !!id,
+      enabled: isLoggedIn && !!id,
     });
 
   const [, setMyPageTitle] = useAtom(myPageTitleAtom);

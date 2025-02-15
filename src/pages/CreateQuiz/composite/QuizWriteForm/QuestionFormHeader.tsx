@@ -1,7 +1,7 @@
 import styles from "./_question_form.module.scss";
 import { Move } from "@/svg/QuizWriteForm/Move";
 import { gray70 } from "@/styles/abstracts/colors.ts";
-import { Trash } from "@/svg/QuizWriteForm/Trash";
+import { TrashCan } from "@/svg/QuizWriteForm/TrashCan";
 import Button from "@/components/atom/Button/Button";
 import { isFirstVisitAtom, quizGuideStepAtom } from "@/store/quizAtom";
 import { useAtom } from "jotai";
@@ -50,7 +50,7 @@ export default function QuestionFormHeader({
         onClick={() => {
           deleteQuizWriteForm(id);
         }}
-        icon={<Trash width={24} height={24} stroke={gray70} />}
+        icon={<TrashCan width={24} height={24} stroke={gray70} />}
       />
     </div>
   );

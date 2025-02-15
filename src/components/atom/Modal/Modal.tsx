@@ -54,7 +54,6 @@ const Modal: React.FC<ModalProps> = ({
               iconOnly
             />
           ) : null}
-          {/* TODO: 아이콘 변경하기 (Close -> X)*/}
         </header>
         <main className={styles["modal-main"]}>
           {contents?.map((content, index) => (

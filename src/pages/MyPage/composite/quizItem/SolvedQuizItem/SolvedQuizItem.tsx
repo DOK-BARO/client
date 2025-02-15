@@ -1,8 +1,10 @@
 import styles from "../_quiz_item.module.scss";
-import infoFilled from "/public/assets/svg/myPage/info-filled.svg";
+import infoFilled from "/public/assets/svg/myPage/infoFilled.svg";
 import link from "/public/assets/svg/myPage/link.svg";
 import Button from "@/components/atom/Button/Button";
+import Tooltip from "@/components/atom/Tooltip/Tooltip";
 import ROUTES from "@/data/routes";
+import useTooltip from "@/hooks/useTooltip";
 import { MySolvedQuizDataType } from "@/types/QuizType";
 import { Link } from "react-router-dom";
 
@@ -24,6 +26,8 @@ export default function SolvedQuizItem({
     quizId: number,
   ) => void;
 }) {
+  const { isTooltipVisible, showTooltip, hideTooltip } = useTooltip();
+
   return (
     <li>
       <Link
@@ -51,12 +55,16 @@ export default function SolvedQuizItem({
               <span className={styles["date-container"]}>
                 <p className={styles.date}>{formattedDate}</p>
                 <img
-                  title="푼 날짜"
+                  onMouseEnter={showTooltip}
+                  onMouseLeave={hideTooltip}
                   alt="푼 날짜"
                   src={infoFilled}
                   height={14}
                   width={14}
                 />
+                {isTooltipVisible && (
+                  <Tooltip className={styles.tooltip} label="푼 날짜" />
+                )}
               </span>
 
               <Button
@@ -74,6 +82,7 @@ export default function SolvedQuizItem({
               />
             </div>
             <p className={styles.title}>{myQuiz.quiz.title}</p>
+            {/* TODO: description 넣기 */}
             <p className={styles.description}>{""}</p>
           </div>
           <Button

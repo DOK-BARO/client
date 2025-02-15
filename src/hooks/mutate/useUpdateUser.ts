@@ -5,25 +5,29 @@ import toast from "react-hot-toast";
 import { UpdateUserParams } from "@/types/ParamsType";
 import { useAtom } from "jotai";
 import { currentUserAtom } from "@/store/userAtom";
+import { queryClient } from "@/services/server/queryClient";
+import { userKeys } from "@/data/queryKeys";
 
 const useUpdateUser = () => {
   const [, setCurrentUser] = useAtom(currentUserAtom);
   const { mutate: updateUser } = useMutation<
-    { toastMessage: string; needToReload?: boolean },
+    { toastMessage: string; needToInvalidateQuery?: boolean },
     ErrorType,
     { user: UpdateUserParams; toastMessage: string; needToReload?: boolean }
   >({
     mutationFn: async ({ user, toastMessage, needToReload }) => {
       await authService.updateUser(user);
-      return { toastMessage, needToReload };
+      return { toastMessage, needToInvalidateQuery: needToReload };
     },
-    onSuccess: async ({ toastMessage, needToReload }) => {
+    onSuccess: async ({ toastMessage, needToInvalidateQuery }) => {
       const currentUser = await authService.fetchUser();
       setCurrentUser(currentUser);
       toast.success(toastMessage);
 
-      // TODO: reload 대신 쿼리 무효화 방식으로 변경
-      if (needToReload) {
+      if (needToInvalidateQuery) {
+        queryClient.invalidateQueries({
+          queryKey: userKeys.user(),
+        });
         window.location.reload();
       }
     },

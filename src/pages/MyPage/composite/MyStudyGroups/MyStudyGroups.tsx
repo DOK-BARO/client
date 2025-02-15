@@ -14,14 +14,16 @@ import { parseQueryParams } from "@/utils/parseQueryParams";
 import { FetchStudyGroupsParams } from "@/types/ParamsType";
 import { NoDataSection } from "@/components/composite/NoDataSection/NoDataSection";
 import StudyGroupButton from "../../components/StudyGroupButton/StudyGroupButton";
-import textBox from "/public/assets/svg/myPage/text-box.svg";
-import pencilUnderline from "/public/assets/svg/myPage/pencil-underline.svg";
+import textBox from "/public/assets/svg/myPage/textBox.svg";
+import pencilUnderline from "/public/assets/svg/myPage/pencilUnderline.svg";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "@/data/routes";
 import { myStudyGroupFilterAtom } from "@/store/filterAtom";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { StudyGroupType } from "@/types/StudyGroupType";
 import { ErrorType } from "@/types/ErrorType";
+import { isLoggedInAtom } from "@/store/userAtom";
+import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner";
 
 const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
   {
@@ -42,10 +44,9 @@ const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
 
 export default function MyStudyGroups() {
   const navigate = useNavigate();
-
   const [filterCriteria, setFilterCriteria] = useAtom(myStudyGroupFilterAtom);
-  // console.log("filterCriteria", filterCriteria);
   const observerRef = useRef<HTMLDivElement | null>(null);
+  const [isLoggedIn] = useAtom(isLoggedInAtom);
 
   useFilter<StudyGroupsFilterType>(setFilterCriteria);
 
@@ -54,7 +55,6 @@ export default function MyStudyGroups() {
   const page = 1; // parseQueryParams함수 안에서 기본값 1로 설정
   const size = 10; // 한번에 불러올 최대 길이 // 임의
 
-  // console.log(sort, direction, size, page);
   const {
     data: myStudyGroupsData,
     fetchNextPage,
@@ -93,14 +93,12 @@ export default function MyStudyGroups() {
       }
       return undefined;
     },
+    enabled: isLoggedIn,
   });
 
   const handleOptionClick = (filter: StudyGroupsFilterType) => {
     setFilterCriteria(filter);
-    // console.log(filter);
   };
-
-  // console.log(myStudyGroupsData);
 
   const handleStudyGroupJoinClick = () => {
     navigate(ROUTES.MY_STUDY_GROUPS_JOIN);
@@ -168,7 +166,11 @@ export default function MyStudyGroups() {
       )}
 
       {/* TODO: 무한 스크롤 */}
-      <div ref={observerRef}>{isFetchingNextPage && <div>로딩중...</div>}</div>
+      <div ref={observerRef}>
+        {isFetchingNextPage && (
+          <LoadingSpinner className={styles["loading-spinner"]} width={42} />
+        )}
+      </div>
     </section>
   );
 }

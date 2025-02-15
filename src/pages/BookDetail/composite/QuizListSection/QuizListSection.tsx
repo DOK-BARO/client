@@ -24,7 +24,7 @@ import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner.tsx"
 export default function QuizListSection({ bookId }: { bookId: string }) {
   const { search, pathname } = useLocation();
   const queryParams = new URLSearchParams(search);
-  const navigator = useNavigate();
+  const navigate = useNavigate();
 
   const [filterCriteria, setFilterCriteria] = useAtom(quizzesFilterAtom);
   useFilter<QuizzesFilterType>(setFilterCriteria);
@@ -96,7 +96,7 @@ export default function QuizListSection({ bookId }: { bookId: string }) {
   ];
 
   const handleGoToQuizDetail = (quizId: number) => {
-    handleAuthenticatedAction(() => navigator(ROUTES.QUIZ_DETAIL(quizId)));
+    handleAuthenticatedAction(() => navigate(ROUTES.QUIZ_DETAIL(quizId)));
   };
 
   if (isLoading) {

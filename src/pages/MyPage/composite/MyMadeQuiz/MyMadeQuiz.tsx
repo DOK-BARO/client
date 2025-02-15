@@ -13,6 +13,8 @@ import { useEffect } from "react";
 import ROUTES from "@/data/routes";
 import { MyMadeQuizzesFilterType } from "@/types/FilterType";
 import { myMadeQuizzesFilterAtom } from "@/store/filterAtom";
+import { isLoggedInAtom } from "@/store/userAtom";
+import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner";
 
 const filterOptions: FilterOptionType<MyMadeQuizzesFilterType>[] = [
   {
@@ -32,6 +34,7 @@ const filterOptions: FilterOptionType<MyMadeQuizzesFilterType>[] = [
 ];
 export default function MyMadeQuiz() {
   const navigate = useNavigate();
+  const [isLoggedIn] = useAtom(isLoggedInAtom);
   const [filterCriteria, setFilterCriteria] = useAtom(myMadeQuizzesFilterAtom);
   useFilter<MyMadeQuizzesFilterType>(setFilterCriteria);
 
@@ -50,6 +53,7 @@ export default function MyMadeQuiz() {
   const { isLoading, data: myQuizzesData } = useQuery({
     queryKey: quizKeys.myQuiz(params),
     queryFn: () => quizService.fetchMyMadeQuizzes(params),
+    enabled: isLoggedIn,
   });
 
   const handleClickWhenNoData = () => {
@@ -73,11 +77,11 @@ export default function MyMadeQuiz() {
   const myQuizzes = myQuizzesData?.data;
 
   if (isLoading || !myQuizzes) {
-    return <>로딩</>;
+    return <LoadingSpinner pageCenter width={40} />;
   }
 
   return (
-    <div>
+    <>
       <QuizListLayout
         title="만든 퀴즈"
         quizzes={myQuizzes}
@@ -96,6 +100,6 @@ export default function MyMadeQuiz() {
           setPaginationState={setPaginationState}
         />
       )}
-    </div>
+    </>
   );
 }

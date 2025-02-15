@@ -19,6 +19,7 @@ import { ErrorType } from "@/types/ErrorType";
 import { useRef } from "react";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { reviewFilterAtom } from "@/store/filterAtom";
+import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner";
 
 // TODO: 분리하기
 const filterOptions: FilterOptionType<ReviewsFilterType>[] = [
@@ -149,7 +150,11 @@ export default function ReviewList({ quizId, quizTitle }: Props) {
           ))}
       </ul>
       {/* TODO: 무한 스크롤 */}
-      <div ref={observerRef}>{isFetchingNextPage && <div>로딩중...</div>}</div>
+      <div ref={observerRef}>
+        {isFetchingNextPage && (
+          <LoadingSpinner className={styles["loading-spinner"]} width={42} />
+        )}
+      </div>
     </section>
   );
 }

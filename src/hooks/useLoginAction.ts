@@ -11,7 +11,7 @@ const useLoginAction = (redirectUrl?: string) => {
     openLoginModal,
   } = useLoginModal();
 
-  // 로그인 끝나고 redirect될 경로. 소셜만 설정해주면 됨.
+  // 로그인 끝나고 redirect될 경로
   const [, setLoginRedirectUrl] = useAtom(loginRedirectUrlAtom);
 
   useEffect(() => {

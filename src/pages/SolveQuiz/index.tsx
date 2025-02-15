@@ -713,7 +713,7 @@ export default function Index() {
           bottomButtons={[
             {
               text: "계속 풀기",
-              color: "secondary",
+              color: "primary-border",
               onClick: () => {
                 window.history.pushState(null, "", window.location.href);
                 closePreventLeaveModal();

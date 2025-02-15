@@ -1,7 +1,7 @@
 import React from "react";
 import { SVGProps } from "@/types/SVGProps";
 
-export const Move: React.FC<SVGProps> = ({ alt, ...props }) => {
+export const Trash: React.FC<SVGProps> = ({ alt, ...props }) => {
   return (
     <svg
       width={props.width}
@@ -12,7 +12,7 @@ export const Move: React.FC<SVGProps> = ({ alt, ...props }) => {
     >
       <title id="svgTitle">{alt}</title>
       <path
-        d="M5.76158 15.363L2.39844 11.9999M2.39844 11.9999L5.76158 8.63676M2.39844 11.9999H21.5984M18.2353 15.363L21.5984 11.9999M21.5984 11.9999L18.2353 8.63676M8.63529 5.76304L11.9984 2.3999M11.9984 2.3999L15.3616 5.76304M11.9984 2.3999L11.9984 21.5999M8.63529 18.2368L11.9984 21.5999M11.9984 21.5999L15.3616 18.2368"
+        d="M4 6.17647H20M9 3H15M10 16.7647V10.4118M14 16.7647V10.4118M15.5 21H8.5C7.39543 21 6.5 20.0519 6.5 18.8824L6.0434 7.27937C6.01973 6.67783 6.47392 6.17647 7.04253 6.17647H16.9575C17.5261 6.17647 17.9803 6.67783 17.9566 7.27937L17.5 18.8824C17.5 20.0519 16.6046 21 15.5 21Z"
         stroke={props.stroke}
         strokeWidth="1.5"
         strokeLinecap="round"

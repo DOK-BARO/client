@@ -13,9 +13,11 @@ import Modal from "@/components/atom/Modal/Modal";
 import { studyGroupKeys } from "@/data/queryKeys";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "@/data/routes";
+import { isLoggedInAtom } from "@/store/userAtom";
 
 export default function MyStudyGroupsJoin() {
   const navigate = useNavigate();
+  const [isLoggedIn] = useAtom(isLoggedInAtom);
   const [, setMyPageTitle] = useAtom(myPageTitleAtom);
   const [isMatch, setIsMatch] = useState<boolean | undefined>(undefined);
 
@@ -59,11 +61,10 @@ export default function MyStudyGroupsJoin() {
         return studyGroupService.fetchStudyGroupDetailByInviteCode(code);
       }
     },
-    enabled: !!joinedStudyGroupInviteCode,
+    enabled: isLoggedIn && !!joinedStudyGroupInviteCode,
   });
 
   const handleJoinStudyGroupByCode = () => {
-    // console.log(codeList, combinedCode);
     joinStudyGroup(combinedCode);
   };
 

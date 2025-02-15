@@ -2,8 +2,9 @@ import Button from "@/components/atom/Button/Button";
 import styles from "./_quiz_link_item.module.scss";
 import { QuizExplanationType } from "@/types/QuizType";
 import { formatDate } from "@/utils/formatDate";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import ROUTES from "@/data/routes";
+import useLoginAction from "@/hooks/useLoginAction";
 
 interface Props {
   quizExplanation: QuizExplanationType;
@@ -11,9 +12,14 @@ interface Props {
 
 export default function QuizLinkItem({ quizExplanation }: Props) {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const { handleAuthenticatedAction } = useLoginAction(pathname);
+
   const handlePlayQuiz = () => {
-    navigate(ROUTES.SOLVING_QUIZ(quizExplanation.id), {
-      state: { fromInternal: true },
+    handleAuthenticatedAction(() => {
+      navigate(ROUTES.SOLVING_QUIZ(quizExplanation.id), {
+        state: { fromInternal: true },
+      });
     });
   };
   return (

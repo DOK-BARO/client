@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import ROUTES from "@/data/routes";
 import { MyMadeQuizzesFilterType } from "@/types/FilterType";
 import { myMadeQuizzesFilterAtom } from "@/store/filterAtom";
+import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner";
 
 const filterOptions: FilterOptionType<MyMadeQuizzesFilterType>[] = [
   {
@@ -73,11 +74,11 @@ export default function MyMadeQuiz() {
   const myQuizzes = myQuizzesData?.data;
 
   if (isLoading || !myQuizzes) {
-    return <>로딩</>;
+    return <LoadingSpinner pageCenter width={40} />;
   }
 
   return (
-    <div>
+    <>
       <QuizListLayout
         title="만든 퀴즈"
         quizzes={myQuizzes}
@@ -96,6 +97,6 @@ export default function MyMadeQuiz() {
           setPaginationState={setPaginationState}
         />
       )}
-    </div>
+    </>
   );
 }

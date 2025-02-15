@@ -19,6 +19,7 @@ import useLoginAction from "@/hooks/useLoginAction.ts";
 import { quizzesFilterAtom } from "@/store/filterAtom.ts";
 import { FetchQuizzesParams } from "@/types/ParamsType.ts";
 import { QuizzesFilterType } from "@/types/FilterType.ts";
+import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner.tsx";
 
 export default function QuizListSection({ bookId }: { bookId: string }) {
   const { search, pathname } = useLocation();
@@ -99,7 +100,7 @@ export default function QuizListSection({ bookId }: { bookId: string }) {
   };
 
   if (isLoading) {
-    return <div>loading</div>;
+    return <LoadingSpinner width={40} pageCenter />;
   }
 
   return (

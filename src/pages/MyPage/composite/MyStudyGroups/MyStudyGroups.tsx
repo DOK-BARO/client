@@ -23,6 +23,7 @@ import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { StudyGroupType } from "@/types/StudyGroupType";
 import { ErrorType } from "@/types/ErrorType";
 import { isLoggedInAtom } from "@/store/userAtom";
+import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner";
 
 const filterOptions: FilterOptionType<StudyGroupsFilterType>[] = [
   {
@@ -165,7 +166,11 @@ export default function MyStudyGroups() {
       )}
 
       {/* TODO: 무한 스크롤 */}
-      <div ref={observerRef}>{isFetchingNextPage && <div>로딩중...</div>}</div>
+      <div ref={observerRef}>
+        {isFetchingNextPage && (
+          <LoadingSpinner className={styles["loading-spinner"]} width={42} />
+        )}
+      </div>
     </section>
   );
 }

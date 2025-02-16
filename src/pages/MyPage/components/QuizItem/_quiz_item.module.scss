@@ -9,6 +9,7 @@
   flex-direction: row;
   gap: 16px;
   height: 280px;
+  width: 420px;
 
   .left-container,
   .right-container {
@@ -43,8 +44,11 @@
       margin-bottom: 8px;
     }
     .title {
+      @include text-ellipsis;
       font-size: $font-size-large;
       font-weight: $font-weight-semibold;
+      min-width: 0;
+      width: 220px;
     }
     .copy-link {
       padding: 4px;
@@ -90,6 +94,7 @@
       color: $gray-70;
       font-size: $font-size-small;
       font-weight: $font-weight-regular;
+      @include text-ellipsis(5);
     }
 
     .button-container {

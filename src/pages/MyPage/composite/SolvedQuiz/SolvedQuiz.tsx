@@ -81,6 +81,7 @@ export default function SolvedQuiz() {
     return (totalPagesLength ?? 0) > 0;
   }, [totalPagesLength]);
 
+
   return (
     shouldRenderDataList && (
       <>

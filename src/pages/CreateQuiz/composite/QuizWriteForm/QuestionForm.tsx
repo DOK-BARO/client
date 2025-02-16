@@ -17,7 +17,7 @@ import { AnswerType, QuizQuestionType } from "@/types/QuizType";
 import QuestionTemplateTypeUtilButton from "./QuestionTemplateTypeUtilButton";
 import { OxQuiz } from "@/svg/QuizWriteForm/OXQuiz";
 import Button from "@/components/atom/Button/Button";
-import { gray60, gray90 } from "@/styles/abstracts/colors";
+import { gray60 } from "@/styles/abstracts/colors";
 import {
   errorMessageAtomFamily,
   invalidQuestionFormIdAtom,
@@ -28,6 +28,7 @@ import QuizWriteGuideBubble from "../QuizWriteGuideBubble/QuizWriteGuideBubble";
 import { useValidateQuizForm } from "@/hooks/useValidateQuizForm";
 import ImageLayer from "@/components/layout/ImageLayer/ImageLayer";
 import useImageLayer from "@/hooks/useImageLayer";
+import { gray70 } from "@/styles/abstracts/colors";
 interface QuizWriteFormItemProps {
   questionFormId: number;
   deleteQuestion: (id: number) => void;
@@ -345,6 +346,7 @@ export default function QuestionForm({
 
     fetchImgLayer();
   }, [imagePreviewEls]);
+
   useEffect(() => {
     console.log("layer: ", imgLayer);
   }, [imgLayer]);
@@ -462,10 +464,10 @@ export default function QuestionForm({
             className={styles["image-add-button"]}
           >
             <ImageAdd
-              stroke={gray90}
               width={20}
               height={20}
               alt="해설 사진 추가하기"
+              stroke={gray70}
             />
           </button>
         </div>

@@ -26,7 +26,11 @@ export default function QuestionFormHeader({
         data-allow-dnd="true"
         style={
           isFirstVisit && !isEditMode && currentQuizGuideStep == 3
-            ? { position: "relative", zIndex: 999 }
+            ? {
+                position: "relative",
+                zIndex: 999,
+                marginLeft: "-8px",
+              }
             : {}
         }
       >

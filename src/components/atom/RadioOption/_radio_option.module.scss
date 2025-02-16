@@ -178,3 +178,10 @@
   font-weight: $font-weight-regular;
   line-height: 150%;
 }
+
+.guide-option-delete-button {
+  &:disabled {
+    background-color: transparent;
+    border: none;
+  }
+}

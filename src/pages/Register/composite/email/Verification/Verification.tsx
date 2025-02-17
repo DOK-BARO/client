@@ -16,12 +16,10 @@ import { ErrorType } from "@/types/ErrorType";
 import toast from "react-hot-toast";
 import CodeInput from "@/components/composite/CodeInput/CodeInput";
 import useCodeInput from "@/hooks/useCodeInput";
-
-export default function Verification({
-  setStep,
-}: {
+interface Props {
   setStep: Dispatch<SetStateAction<number>>;
-}) {
+}
+export default function Verification({ setStep }: Props) {
   const [user, setUser] = useAtom<RegisterInfoType>(registerInfoAtom);
   const {
     value: email,

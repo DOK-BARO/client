@@ -1,5 +1,5 @@
-export interface BookCategory {
+export interface BookCategoryType {
   id: number;
   name: string;
-  details?: BookCategory[];
+  details?: BookCategoryType[];
 }

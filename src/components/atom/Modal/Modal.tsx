@@ -1,31 +1,31 @@
 import React from "react";
 import styles from "./_modal.module.scss";
 import { gray80 } from "@/styles/abstracts/colors";
-import Button, { ButtonColorProps } from "../Button/Button";
+import Button, { ButtonColorType } from "../Button/Button";
 import { XMedium } from "@/svg/XMedium";
 
-export interface ModalContentProps {
+export interface ModalContentType {
   title: string;
   content: JSX.Element;
 }
 
-export interface BottomButtonProps {
-  color: ButtonColorProps;
+export interface BottomButtonType {
+  color: ButtonColorType;
   text: string;
   onClick: () => void;
   disabled?: boolean;
 }
 
-interface ModalProps {
+interface Props {
   width?: number;
   title?: string;
-  contents?: ModalContentProps[];
-  bottomButtons?: BottomButtonProps[];
+  contents?: ModalContentType[];
+  bottomButtons?: BottomButtonType[];
   closeModal: () => void;
   showHeaderCloseButton?: boolean;
 }
 
-const Modal: React.FC<ModalProps> = ({
+const Modal: React.FC<Props> = ({
   width = 560,
   title,
   contents,

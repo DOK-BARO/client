@@ -11,7 +11,7 @@ import ListFilter, {
 } from "@/components/composite/ListFilter/ListFilter";
 import { useRef } from "react";
 import { parseQueryParams } from "@/utils/parseQueryParams";
-import { FetchStudyGroupsParams } from "@/types/ParamsType";
+import { StudyGroupsFetchType } from "@/types/ParamsType";
 import { NoDataSection } from "@/components/composite/NoDataSection/NoDataSection";
 import StudyGroupButton from "../../components/StudyGroupButton/StudyGroupButton";
 import textBox from "/public/assets/svg/myPage/textBox.svg";
@@ -72,7 +72,7 @@ export default function MyStudyGroups() {
     }
   >({
     queryKey: studyGroupKeys.list(
-      parseQueryParams<StudyGroupsSortType, FetchStudyGroupsParams>({
+      parseQueryParams<StudyGroupsSortType, StudyGroupsFetchType>({
         sort,
         direction,
         page,

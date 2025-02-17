@@ -19,12 +19,10 @@ import { authService } from "@/services/server/authService";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { authKeys } from "@/data/queryKeys";
 import { ErrorType } from "@/types/ErrorType";
-
-export default function TermsAgreement({
-  setStep,
-}: {
+interface Props {
   setStep: Dispatch<SetStateAction<number>>;
-}) {
+}
+export default function TermsAgreement({ setStep }: Props) {
   const { method } = useParams();
 
   const { isModalOpen, openModal, closeModal } = useModal();

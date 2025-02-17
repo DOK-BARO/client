@@ -4,18 +4,18 @@ import { InfoFilled } from "@/svg/InfoFilled";
 import { gray40, gray60 } from "@/styles/abstracts/colors.ts";
 import Button from "@/components/atom/Button/Button";
 import { ProfileImageState } from "../../composite/ProfileSet/ProfileSet";
-
+interface Props {
+  email: string;
+  profileImage: ProfileImageState;
+  setProfileImage: React.Dispatch<React.SetStateAction<ProfileImageState>>;
+  defaultImageUrl: string;
+}
 export default function ProfileUploader({
   email,
   profileImage,
   setProfileImage,
   defaultImageUrl,
-}: {
-  email: string;
-  profileImage: ProfileImageState;
-  setProfileImage: React.Dispatch<React.SetStateAction<ProfileImageState>>;
-  defaultImageUrl: string;
-}) {
+}: Props) {
   const onDeleteProfileImage = () => {
     setProfileImage({
       url: defaultImageUrl,

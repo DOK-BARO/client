@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import StudyQuizResult from "./composite/StudyQuizResult";
 import { useState } from "react";
 import ROUTES from "@/data/routes";
-import { QuizReviewRouteParams } from "@/types/ParamsType";
+import { QuizReviewRouteType } from "@/types/ParamsType";
 
 export default function Index() {
   const [currentStep, setCurrentStep] = useState<number>(0);
@@ -32,7 +32,7 @@ export default function Index() {
   ];
 
   const goToReviewPage = () => {
-    const params: QuizReviewRouteParams = {
+    const params: QuizReviewRouteType = {
       quizId: parseInt(quizId!),
       solvingQuizId: parseInt(solvingQuizId!),
       quizTitle: quizTitle!,

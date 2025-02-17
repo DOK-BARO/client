@@ -6,16 +6,9 @@ import { gray60 } from "@/styles/abstracts/colors";
 import Button from "@/components/atom/Button/Button";
 import { QuestionTemplateType } from "@/types/QuestionTemplateType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
-import { AnswerType, QuizQuestionType } from "@/types/QuizType";
+import { AnswerType, QuizQuestionFormType } from "@/types/QuizType";
 
-//TODO: 변수명 직관적으로 변경 필요
-function QuestionTemplateTypeUtilButton({
-  questionId,
-  selectedOption,
-  setSelectedOption,
-  list,
-  onUpdateQuestionFormsWithAnswerType,
-}: {
+interface Props {
   questionId: number;
   list: QuestionTemplateType[];
   selectedOption: QuestionTemplateType;
@@ -24,14 +17,22 @@ function QuestionTemplateTypeUtilButton({
     questionId: number,
     newAnswerType: AnswerType,
   ) => void;
-}) {
+}
+//TODO: 변수명 직관적으로 변경 필요
+function QuestionTemplateTypeUtilButton({
+  questionId,
+  selectedOption,
+  setSelectedOption,
+  list,
+  onUpdateQuestionFormsWithAnswerType,
+}: Props) {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
 
   const onClick = (option: QuestionTemplateType) => {
     // 현재 질문이 ox이거나 ox로 바꾸려고 하는거면
     // 질문데이터 초기화
-    const updatedQuestions: QuizQuestionType[] =
+    const updatedQuestions: QuizQuestionFormType[] =
       quizCreationInfo.questions?.map((question) =>
         question.id === questionId
           ? question.answerType === "OX" || option.answerType === "OX"

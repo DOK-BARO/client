@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from "react";
 import styles from "./_textarea.module.scss";
 
-interface TextareaProps {
+interface Props {
   id: string;
   value: string;
   onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
@@ -26,7 +26,7 @@ interface TextareaProps {
   type?: "option-label";
 }
 
-const Textarea: React.FC<TextareaProps> = ({
+const Textarea: React.FC<Props> = ({
   id,
   value,
   onChange,

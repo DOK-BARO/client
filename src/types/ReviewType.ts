@@ -19,7 +19,7 @@ export interface MyReviewType
   > {}
 
 // 퀴즈 리뷰 생성 타입
-export interface ReviewPostType {
+export interface ReviewCreateType {
   starRating: number;
   difficultyLevel: number;
   comment: string;

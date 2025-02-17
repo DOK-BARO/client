@@ -2,7 +2,7 @@
 import styles from "./_lnb.module.scss";
 import Button from "@/components/atom/Button/Button";
 import { useNavigate } from "react-router-dom";
-import { BookCategory } from "@/types/GNBCategoryType";
+import { BookCategoryType } from "@/types/GNBCategoryType";
 import { findTopParentCategoryInfo } from "@/utils/findCategoryInfo";
 import { ArrowLeft } from "@/svg/ArrowLeft";
 import { gray90 } from "@/styles/abstracts/colors";
@@ -12,13 +12,13 @@ import { prevPaginationStateAtom } from "@/store/paginationAtom";
 import { useAtom } from "jotai";
 
 // Book Category GNB
-export default function LNB({
-  categories,
-  categoryId,
-}: {
-  categories: BookCategory[];
+
+interface Props {
+  categories: BookCategoryType[];
   categoryId?: number;
-}) {
+}
+
+export default function LNB({ categories, categoryId }: Props) {
   const navigate = useNavigate();
   const { navigateWithParams } = useNavigateWithParams("books");
   const [, setPrevPaginationState] = useAtom(prevPaginationStateAtom);

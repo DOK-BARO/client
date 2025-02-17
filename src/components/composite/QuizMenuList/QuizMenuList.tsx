@@ -6,13 +6,11 @@ import ROUTES from "@/data/routes";
 import useLoginAction from "@/hooks/useLoginAction";
 import toast from "react-hot-toast";
 import Button from "@/components/atom/Button/Button";
-interface HeaderQuizUtilListProps {
+interface Props {
   closeDropDownList: () => void;
 }
 
-export default function HeaderQuizUtilList({
-  closeDropDownList,
-}: HeaderQuizUtilListProps) {
+export default function HeaderQuizUtilList({ closeDropDownList }: Props) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { handleAuthenticatedAction } = useLoginAction(pathname);

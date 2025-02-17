@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./_input.module.scss";
 
-interface InputProps {
+interface Props {
   id: string;
   value: string | undefined;
   className?: string;
@@ -25,7 +25,7 @@ interface InputProps {
   maxLengthShow?: boolean;
 }
 
-const Input: React.FC<InputProps> = ({
+const Input: React.FC<Props> = ({
   id,
   value,
   onChange,

@@ -1,18 +1,19 @@
 import { FC, useState } from "react";
 import styles from "./_question_form.module.scss";
-import { QuizQuestionType } from "@/types/QuizType";
+import { QuizQuestionFormType } from "@/types/QuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { useQuestionTemplate } from "@/hooks/useQuestionTemplate";
 import SelectOption from "./SelectOption";
-import { SelectOptionType } from "@/types/QuizType";
+import { SelectOptionFormType } from "@/types/QuizType";
 import { BOOK_QUIZ_OPTION_MAX_LENGTH } from "@/data/constants";
 import Button from "@/components/atom/Button/Button";
 import { QuizPlus } from "@/svg/QuizPlus";
 import { gray60 } from "@/styles/abstracts/colors";
 
-export const CheckBoxQuestionTemplate: FC<{
+interface Props {
   questionFormId?: string;
-}> = ({ questionFormId }) => {
+}
+export const CheckBoxQuestionTemplate: FC<Props> = ({ questionFormId }) => {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
   const {
@@ -25,7 +26,7 @@ export const CheckBoxQuestionTemplate: FC<{
   const currentOptionLength = options.length;
 
   const setInitialAnswer = (): { [key: string]: boolean } => {
-    const question: QuizQuestionType = getQuestion();
+    const question: QuizQuestionFormType = getQuestion();
     const initCheckedOptions: { [key: string]: boolean } = {};
 
     question.selectOptions.forEach(({ id, value }) => {
@@ -41,14 +42,14 @@ export const CheckBoxQuestionTemplate: FC<{
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, checked } = event.target;
 
-    const currentQuestion: QuizQuestionType | undefined =
+    const currentQuestion: QuizQuestionFormType | undefined =
       quizCreationInfo.questions?.find(
         (question) => question.id!.toString() === questionFormId!,
       );
     if (!currentQuestion) {
       return;
     }
-    const targetSelectOption: SelectOptionType =
+    const targetSelectOption: SelectOptionFormType =
       currentQuestion.selectOptions.find(
         (option) => id === option.id.toString(),
       )!;

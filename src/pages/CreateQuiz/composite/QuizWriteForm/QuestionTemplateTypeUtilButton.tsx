@@ -8,14 +8,7 @@ import { QuestionTemplateType } from "@/types/QuestionTemplateType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { AnswerType, QuizQuestionType } from "@/types/QuizType";
 
-//TODO: 변수명 직관적으로 변경 필요
-function QuestionTemplateTypeUtilButton({
-  questionId,
-  selectedOption,
-  setSelectedOption,
-  list,
-  onUpdateQuestionFormsWithAnswerType,
-}: {
+interface Props {
   questionId: number;
   list: QuestionTemplateType[];
   selectedOption: QuestionTemplateType;
@@ -24,7 +17,15 @@ function QuestionTemplateTypeUtilButton({
     questionId: number,
     newAnswerType: AnswerType,
   ) => void;
-}) {
+}
+//TODO: 변수명 직관적으로 변경 필요
+function QuestionTemplateTypeUtilButton({
+  questionId,
+  selectedOption,
+  setSelectedOption,
+  list,
+  onUpdateQuestionFormsWithAnswerType,
+}: Props) {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
 

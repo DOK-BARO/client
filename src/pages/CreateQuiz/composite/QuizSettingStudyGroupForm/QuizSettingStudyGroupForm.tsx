@@ -4,7 +4,7 @@ import useModal from "@/hooks/useModal.ts";
 import useInput from "@/hooks/useInput.ts";
 import Button from "@/components/atom/Button/Button";
 import { primary } from "@/styles/abstracts/colors.ts";
-import Modal, { ModalContentProps } from "@/components/atom/Modal/Modal";
+import Modal, { ModalContentType } from "@/components/atom/Modal/Modal";
 import Input from "@/components/atom/Input/Input";
 import { QuizPlus } from "@/svg/QuizPlus";
 import { XMedium } from "@/svg/XMedium";
@@ -141,7 +141,7 @@ export default function QuizSettingStudyGroupForm() {
     //   studyGroup === selectedStudyGroup ? null : studyGroup
     // );
   };
-  const getContents = (): ModalContentProps[] => {
+  const getContents = (): ModalContentType[] => {
     const contents = [
       {
         title: "새로운 스터디 그룹 이름",
@@ -211,7 +211,7 @@ export default function QuizSettingStudyGroupForm() {
         : null,
     ];
     return contents.filter(
-      (content): content is ModalContentProps => content !== null,
+      (content): content is ModalContentType => content !== null,
     );
   };
 

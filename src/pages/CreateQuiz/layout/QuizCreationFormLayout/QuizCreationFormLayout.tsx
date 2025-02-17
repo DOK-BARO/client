@@ -30,18 +30,19 @@ import { preventLeaveModalAtom } from "@/store/quizAtom";
 import { Blocker } from "react-router-dom";
 import { useValidateQuizForm } from "@/hooks/useValidateQuizForm";
 import { QUIZ_CREATION_STEP } from "@/data/constants";
+interface Props {
+  isEditMode: boolean;
+  editQuizId?: string;
+  steps: Step[];
+  blocker: Blocker;
+}
 
 export default function QuizCreationFormLayout({
   isEditMode,
   editQuizId,
   steps,
   blocker,
-}: {
-  isEditMode: boolean;
-  editQuizId?: string;
-  steps: Step[];
-  blocker: Blocker;
-}) {
+}: Props) {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useAtom(quizCreationStepAtom);
   const [isQuizNextButtonEnabled] = useAtom<boolean>(

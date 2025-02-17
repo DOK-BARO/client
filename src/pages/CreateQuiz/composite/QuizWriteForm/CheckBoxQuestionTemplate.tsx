@@ -10,9 +10,10 @@ import Button from "@/components/atom/Button/Button";
 import { QuizPlus } from "@/svg/QuizPlus";
 import { gray60 } from "@/styles/abstracts/colors";
 
-export const CheckBoxQuestionTemplate: FC<{
+interface Props {
   questionFormId?: string;
-}> = ({ questionFormId }) => {
+}
+export const CheckBoxQuestionTemplate: FC<Props> = ({ questionFormId }) => {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
   const {

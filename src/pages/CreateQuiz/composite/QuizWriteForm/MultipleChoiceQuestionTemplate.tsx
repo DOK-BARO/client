@@ -12,10 +12,12 @@ import QuizWriteGuideBubble from "../QuizWriteGuideBubble/QuizWriteGuideBubble";
 import Button from "@/components/atom/Button/Button";
 import { QuizPlus } from "@/svg/QuizPlus";
 import { gray60 } from "@/styles/abstracts/colors";
-
-export const MultipleChoiceQuestionTemplate: FC<{
+interface Props {
   questionFormId?: string;
-}> = ({ questionFormId }) => {
+}
+export const MultipleChoiceQuestionTemplate: FC<Props> = ({
+  questionFormId,
+}) => {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
   const [currentQuizGuideStep] = useAtom(quizGuideStepAtom);

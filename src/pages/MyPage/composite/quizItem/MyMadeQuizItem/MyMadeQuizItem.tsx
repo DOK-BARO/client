@@ -9,13 +9,7 @@ import { MyQuizDataType } from "@/types/QuizType";
 import { Link } from "react-router-dom";
 
 // 만든 퀴즈 아이템
-export default function MyMadeQuizItem({
-  myQuiz,
-  formattedDate,
-  onModifyQuiz,
-  onClickDelete,
-  onCopyQuizLink,
-}: {
+interface Props {
   myQuiz: MyQuizDataType;
   formattedDate: string;
   onModifyQuiz: (
@@ -30,7 +24,14 @@ export default function MyMadeQuizItem({
     e: React.MouseEvent<HTMLButtonElement>,
     quizId: number,
   ) => void;
-}) {
+}
+export default function MyMadeQuizItem({
+  myQuiz,
+  formattedDate,
+  onModifyQuiz,
+  onClickDelete,
+  onCopyQuizLink,
+}: Props) {
   const { isTooltipVisible, showTooltip, hideTooltip } = useTooltip();
 
   return (

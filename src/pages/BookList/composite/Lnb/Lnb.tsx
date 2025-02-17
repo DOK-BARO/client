@@ -12,13 +12,13 @@ import { prevPaginationStateAtom } from "@/store/paginationAtom";
 import { useAtom } from "jotai";
 
 // Book Category GNB
-export default function LNB({
-  categories,
-  categoryId,
-}: {
+
+interface Props {
   categories: BookCategory[];
   categoryId?: number;
-}) {
+}
+
+export default function LNB({ categories, categoryId }: Props) {
   const navigate = useNavigate();
   const { navigateWithParams } = useNavigateWithParams("books");
   const [, setPrevPaginationState] = useAtom(prevPaginationStateAtom);
@@ -77,39 +77,39 @@ export default function LNB({
         <ul className={styles["category-list"]}>
           {!categoryId
             ? categories?.map((category) => (
-              <li key={category.id} className={styles["category-item"]}>
-                <Button
-                  color="transparent"
-                  size="xsmall"
-                  // fullWidth
-                  value={category.id.toString()}
-                  className={styles["category-item-button"]}
-                  onClick={() => handleClick(category.id.toString())}
-                >
-                  {category.name}
-                </Button>
-              </li>
-            ))
-            : categories
-              .find((item) => item.id === parentCategoryInfo?.id)
-              ?.details?.map((categoryDetail) => (
-                <li
-                  key={categoryDetail.id}
-                  className={styles["category-detail-item"]}
-                >
+                <li key={category.id} className={styles["category-item"]}>
                   <Button
-                    size="xsmall"
                     color="transparent"
-                    className={`${styles["category-detail-item-button"]} ${
-                      categoryId === categoryDetail.id ? styles.selected : ""
-                    }`}
-                    value={categoryDetail.id.toString()}
-                    onClick={() => handleClick(categoryDetail.id.toString())}
+                    size="xsmall"
+                    // fullWidth
+                    value={category.id.toString()}
+                    className={styles["category-item-button"]}
+                    onClick={() => handleClick(category.id.toString())}
                   >
-                    {categoryDetail.name}
+                    {category.name}
                   </Button>
                 </li>
-              ))}
+              ))
+            : categories
+                .find((item) => item.id === parentCategoryInfo?.id)
+                ?.details?.map((categoryDetail) => (
+                  <li
+                    key={categoryDetail.id}
+                    className={styles["category-detail-item"]}
+                  >
+                    <Button
+                      size="xsmall"
+                      color="transparent"
+                      className={`${styles["category-detail-item-button"]} ${
+                        categoryId === categoryDetail.id ? styles.selected : ""
+                      }`}
+                      value={categoryDetail.id.toString()}
+                      onClick={() => handleClick(categoryDetail.id.toString())}
+                    >
+                      {categoryDetail.name}
+                    </Button>
+                  </li>
+                ))}
         </ul>
       </div>
     </nav>

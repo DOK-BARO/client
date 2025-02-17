@@ -1,10 +1,10 @@
 import styles from "./_toggle.module.scss";
 
-interface ToggleProps {
+interface Props {
   onClick?: () => void;
   isActive?: boolean;
 }
-export default function Toggle({ onClick = () => {}, isActive }: ToggleProps) {
+export default function Toggle({ onClick = () => {}, isActive }: Props) {
   return (
     <div
       className={`${styles["toggle-container"]} ${

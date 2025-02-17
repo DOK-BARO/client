@@ -19,6 +19,15 @@ import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/xcode.css";
 
 //TODO: 중복함수 리팩토링 필요
+interface Props {
+  formIndex: number;
+  question: SolvingQuizQuestionType;
+  optionDisabled: boolean;
+  setSubmitDisabled: React.Dispatch<React.SetStateAction<boolean>>;
+  correctAnswer: string[];
+  isAnswerCorrects: boolean[];
+  didAnswerChecked: boolean;
+}
 export default function SolvingQuizForm({
   formIndex,
   question,
@@ -27,15 +36,7 @@ export default function SolvingQuizForm({
   optionDisabled,
   isAnswerCorrects,
   didAnswerChecked,
-}: {
-  formIndex: number;
-  question: SolvingQuizQuestionType;
-  optionDisabled: boolean;
-  setSubmitDisabled: React.Dispatch<React.SetStateAction<boolean>>;
-  correctAnswer: string[];
-  isAnswerCorrects: boolean[];
-  didAnswerChecked: boolean;
-}) {
+}: Props) {
   const [, setSelectedOptions] = useAtom(selectedOptionsAtom);
   const {
     selectedValue: selectedRadioOption,

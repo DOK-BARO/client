@@ -17,7 +17,7 @@ import ROUTES from "@/data/routes.ts";
 import { quizzesLengthAtom } from "@/store/quizAtom.ts";
 import useLoginAction from "@/hooks/useLoginAction.ts";
 import { quizzesFilterAtom } from "@/store/filterAtom.ts";
-import { FetchQuizzesParams } from "@/types/ParamsType.ts";
+import { QuizzesFetchType } from "@/types/ParamsType.ts";
 import { QuizzesFilterType } from "@/types/FilterType.ts";
 import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner.tsx";
 interface Props {
@@ -42,7 +42,7 @@ export default function QuizListSection({ bookId }: Props) {
   const page = queryParams.get("page");
   const pageSize = "6";
 
-  const params: FetchQuizzesParams = {
+  const params: QuizzesFetchType = {
     page: page ?? "1",
     bookId: bookId,
     sort: sort ?? "CREATED_AT",

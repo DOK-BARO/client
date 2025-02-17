@@ -11,7 +11,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";
 import { reviewService } from "@/services/server/reviewService";
 import { useParams } from "react-router-dom";
-import { ReviewPostType } from "@/types/ReviewType";
+import { ReviewCreateType } from "@/types/ReviewType";
 import ROUTES from "@/data/routes";
 import { reviewKeys } from "@/data/queryKeys";
 
@@ -32,7 +32,7 @@ export default function Index() {
   const { mutate: submitQuizReview } = useMutation<
     void,
     ErrorType,
-    ReviewPostType
+    ReviewCreateType
   >({
     mutationFn: async (newQuizReview) => {
       if (myReview) {
@@ -82,7 +82,7 @@ export default function Index() {
     if (!difficultyLevel?.difficultyValue || !quizId) {
       return;
     }
-    const review: ReviewPostType = {
+    const review: ReviewCreateType = {
       starRating: rating,
       difficultyLevel: difficultyLevel?.difficultyValue,
       comment: value,

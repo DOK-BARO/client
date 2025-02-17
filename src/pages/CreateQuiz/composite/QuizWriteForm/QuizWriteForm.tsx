@@ -3,14 +3,14 @@ import styles from "./_question_form.module.scss";
 import Button from "@/components/atom/Button/Button";
 import QuestionForm from "@/pages/CreateQuiz/composite/QuizWriteForm/QuestionForm";
 import { primary } from "@/styles/abstracts/colors.ts";
-import { QuizQuestionType } from "@/types/QuizType";
+import { QuizQuestionFormType } from "@/types/QuizType";
 import { QuestionFormType } from "@/types/QuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { QuizPlus } from "@/svg/QuizPlus";
 import { AnswerType } from "@/types/QuizType";
 import React from "react";
 import { useAtom } from "jotai";
-import { QuizCreationType } from "@/types/QuizType";
+import { QuizFormType } from "@/types/QuizType";
 import { isFirstVisitAtom, quizCreationInfoAtom } from "@/store/quizAtom";
 import {
   closestCenter,
@@ -171,12 +171,11 @@ const QuizWriteForm = React.memo(() => {
       setActiveFormId(null);
     };
 
-    const [, setQuizCreationInfo] =
-      useAtom<QuizCreationType>(quizCreationInfoAtom);
+    const [, setQuizCreationInfo] = useAtom<QuizFormType>(quizCreationInfoAtom);
 
     const defaultAnswerType: AnswerType = "MULTIPLE_CHOICE_SINGLE_ANSWER";
 
-    const createNewQuestion = (id: number): QuizQuestionType => ({
+    const createNewQuestion = (id: number): QuizQuestionFormType => ({
       id,
       content: "",
       selectOptions: [],
@@ -201,7 +200,7 @@ const QuizWriteForm = React.memo(() => {
     // 문제 추가 버튼 클릭
     const handleClickAddQuestionForm = () => {
       const id = Date.now();
-      const newQuestion: QuizQuestionType = createNewQuestion(id);
+      const newQuestion: QuizQuestionFormType = createNewQuestion(id);
       addQuestionForm(id);
       updateQuizCreationInfo("questions", [
         ...(quizCreationInfo.questions ?? []),

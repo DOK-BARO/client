@@ -1,8 +1,8 @@
 import { axiosInstance } from "@/config/axiosConfig";
-import { FetchReviewsParams } from "@/types/ParamsType";
+import { ReviewsFetchType } from "@/types/ParamsType";
 import {
-  MyReviewType,
-  ReviewPostType,
+  MyReviewType as MyReviewFetchType,
+  ReviewCreateType,
   ReviewsTotalScoreType,
   ReviewType,
 } from "@/types/ReviewType";
@@ -11,7 +11,7 @@ import { handleAxiosError } from "@/utils/errorHandler";
 class ReviewService {
   // 퀴즈 요약 목록 조회
   fetchReviews = async (
-    params: FetchReviewsParams,
+    params: ReviewsFetchType,
   ): Promise<{ endPageNumber: number; data: ReviewType[] } | null> => {
     const { page = 1, size = 10, quizId, sort, direction } = params;
     try {
@@ -49,7 +49,7 @@ class ReviewService {
   };
 
   // 내가 작성한 퀴즈 리뷰 조회
-  fetchMyReview = async (quizId: number): Promise<MyReviewType | null> => {
+  fetchMyReview = async (quizId: number): Promise<MyReviewFetchType | null> => {
     try {
       const { data } = await axiosInstance.get("/quiz-reviews/my", {
         params: {
@@ -64,7 +64,7 @@ class ReviewService {
   };
 
   createQuizReview = async (
-    review: ReviewPostType,
+    review: ReviewCreateType,
   ): Promise<{ id: string } | null> => {
     try {
       const { data } = await axiosInstance.post("/quiz-reviews", review);
@@ -88,7 +88,7 @@ class ReviewService {
     review,
   }: {
     id: number;
-    review: ReviewPostType;
+    review: ReviewCreateType;
   }): Promise<void> => {
     try {
       await axiosInstance.put(`/quiz-reviews/${id}`, review);

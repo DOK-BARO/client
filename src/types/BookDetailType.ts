@@ -7,12 +7,12 @@ export interface BookDetailType {
   price: number;
   description: string;
   imageUrl: string;
-  categories: BookCategories[];
+  categories: BookCategoriesType[];
   authors: string[];
 }
 
-export interface BookCategories {
+export interface BookCategoriesType {
   id: string;
   name: string;
-  parent: BookCategories | null;
+  parent: BookCategoriesType | null;
 }

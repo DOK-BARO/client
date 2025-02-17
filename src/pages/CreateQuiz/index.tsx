@@ -25,13 +25,17 @@ import { useBlocker, useNavigate, useParams } from "react-router-dom";
 import { quizKeys } from "@/data/queryKeys.ts";
 import { quizService } from "@/services/server/quizService.ts";
 import { useQuery } from "@tanstack/react-query";
-import { EditScope, QuizCreationType, ViewScope } from "@/types/QuizType.ts";
+import {
+  EditScopeType,
+  QuizFormType,
+  ViewScopeType,
+} from "@/types/QuizType.ts";
 import { BookType } from "@/types/BookType.ts";
 import { bookService } from "@/services/server/bookService.ts";
 import { studyGroupService } from "@/services/server/studyGroupService.ts";
 import { StudyGroupType } from "@/types/StudyGroupType.ts";
-import { SelectOptionType } from "@/types/QuizType.ts";
-import { QuizQuestionType } from "@/types/QuizType.ts";
+import { SelectOptionFormType } from "@/types/QuizType.ts";
+import { QuizQuestionFormType } from "@/types/QuizType.ts";
 import { resetQuizCreationBookStateAtom } from "@/store/quizAtom.ts";
 import usePreventLeave from "@/hooks/usePreventLeave.ts";
 import { currentUserAtom } from "@/store/userAtom.ts";
@@ -114,10 +118,10 @@ export default function Index() {
             profileImageUrl: studyGroupDetail?.profileImageUrl,
           };
         }
-        const prevQuestions: QuizQuestionType[] = await Promise.all(
+        const prevQuestions: QuizQuestionFormType[] = await Promise.all(
           prevQuiz?.questions.map(async (q) => {
             const images = await convertUrlsToImg(q.answerExplanationImages);
-            const selectOptions: SelectOptionType[] = q.selectOptions.map(
+            const selectOptions: SelectOptionFormType[] = q.selectOptions.map(
               (optionText, index) => ({
                 id: index, // TODO: index로 해도 되는지 확인 필요
                 option: optionText,
@@ -137,12 +141,12 @@ export default function Index() {
           }) ?? [],
         );
 
-        const quiz: QuizCreationType = {
+        const quiz: QuizFormType = {
           title: prevQuiz?.title ?? "",
           description: prevQuiz?.description ?? "",
           book: formattedBook,
-          viewScope: prevQuiz?.viewScope as ViewScope,
-          editScope: "CREATOR" as EditScope,
+          viewScope: prevQuiz?.viewScope as ViewScopeType,
+          editScope: "CREATOR" as EditScopeType,
           studyGroup: formattedStudyGroup,
           questions: prevQuestions,
         };

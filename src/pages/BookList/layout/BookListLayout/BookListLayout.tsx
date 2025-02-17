@@ -24,7 +24,7 @@ import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 import useFilter from "@/hooks/useFilter";
 import { BooksFilterType, BooksSortType } from "@/types/FilterType";
 import { parseQueryParams } from "@/utils/parseQueryParams";
-import { FetchBooksParams } from "@/types/ParamsType";
+import { BooksFetchType } from "@/types/ParamsType";
 import { bookFilterAtom, resetBooksFilter } from "@/store/filterAtom";
 
 // TODO: 외부 파일로 분리하기
@@ -74,7 +74,7 @@ export default function BookListLayout() {
   // 책 목록 가져오기
   const { data: booksData, isLoading: isBooksLoading } = useQuery({
     queryKey: bookKeys.list(
-      parseQueryParams<BooksSortType, FetchBooksParams>({
+      parseQueryParams<BooksSortType, BooksFetchType>({
         title,
         category,
         sort,

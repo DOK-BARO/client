@@ -5,12 +5,12 @@ export interface BookType {
   publisher: string;
   publishedAt: string;
   imageUrl: string;
-  categories: BookCategories[];
+  categories: BookCategoriesType[];
   authors: string[];
   quizCount?: number;
 }
 
-interface BookCategories {
+interface BookCategoriesType {
   id: string;
   name: string;
 }

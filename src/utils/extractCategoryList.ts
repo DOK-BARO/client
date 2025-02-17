@@ -1,8 +1,8 @@
 import { ListItemType } from "@/components/composite/Breadcrumb/Breadcrumb";
-import { BookCategories } from "@/types/BookDetailType";
+import { BookCategoriesType } from "@/types/BookDetailType";
 
 export const extractCategoryList = (
-  data: BookCategories,
+  data: BookCategoriesType,
   list: ListItemType[] = [],
 ): ListItemType[] => {
   if (data.parent) {

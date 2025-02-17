@@ -13,7 +13,7 @@ import { Close } from "@/svg/Close";
 import { gray00 } from "@/styles/abstracts/colors";
 import CheckBox from "@/components/atom/Checkbox/Checkbox";
 import { CheckboxStatusType } from "@/components/atom/Checkbox/Checkbox";
-import { CheckBoxOption } from "@/types/CheckBoxTypes";
+import { CheckBoxOptionType } from "@/types/CheckBoxTypes";
 import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/xcode.css";
@@ -178,7 +178,7 @@ export default function SolvingQuizForm({
     return (
       <>
         {question.selectOptions.map((option, index) => {
-          const checkBoxOption: CheckBoxOption = {
+          const checkBoxOption: CheckBoxOptionType = {
             id: index,
             value: index.toString(),
             label: option.content,

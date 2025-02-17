@@ -11,9 +11,9 @@ import {
   quizCreationStepAtom,
 } from "@/store/quizAtom";
 import {
-  QuizCreationType,
-  QuizQuestionRequestApiType,
-  QuizRequestType,
+  QuizFormType,
+  QuizQuestionCreateType,
+  QuizCreateType,
 } from "@/types/QuizType";
 import { imageService } from "@/services/server/imageService";
 import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
@@ -48,7 +48,7 @@ export default function QuizCreationFormLayout({
   const [isQuizNextButtonEnabled] = useAtom<boolean>(
     isQuizNextButtonEnabledAtom,
   );
-  const [quizCreationInfo] = useAtom<QuizCreationType>(quizCreationInfoAtom);
+  const [quizCreationInfo] = useAtom<QuizFormType>(quizCreationInfoAtom);
   const [, setErrorModalTitle] = useAtom(errorModalTitleAtom);
   const [openModal] = useAtom(openErrorModalAtom);
   const [, setInvalidQuestionFormId] = useAtom(invalidQuestionFormIdAtom);
@@ -137,9 +137,7 @@ export default function QuizCreationFormLayout({
     return [...alreadyUploadedList, ...uploadedImgUrl];
   };
 
-  const setRequestQuestion = async (): Promise<
-    QuizQuestionRequestApiType[]
-  > => {
+  const setRequestQuestion = async (): Promise<QuizQuestionCreateType[]> => {
     const uploadedImgQuestions = quizCreationInfo.questions!.map(
       async (question) => {
         const { id, ...rest } = question;
@@ -166,7 +164,7 @@ export default function QuizCreationFormLayout({
   const { mutate: createQuiz } = useMutation<
     { id: number } | null,
     ErrorType,
-    QuizRequestType
+    QuizCreateType
   >({
     mutationFn: (quiz) => quizService.createQuiz(quiz),
     onSuccess: (data) => {
@@ -201,7 +199,7 @@ export default function QuizCreationFormLayout({
   const { mutate: requestModifyQuiz } = useMutation<
     void,
     ErrorType,
-    { editQuizId: string; quiz: QuizRequestType }
+    { editQuizId: string; quiz: QuizCreateType }
   >({
     mutationFn: ({ editQuizId, quiz }) =>
       quizService.modifyQuiz({ editQuizId, quiz }),
@@ -233,7 +231,7 @@ export default function QuizCreationFormLayout({
       return;
     }
 
-    const quiz: QuizRequestType = {
+    const quiz: QuizCreateType = {
       title: quizCreationInfo.title,
       description: quizCreationInfo.description,
       viewScope: quizCreationInfo.viewScope,

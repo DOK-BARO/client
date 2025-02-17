@@ -1,5 +1,5 @@
 import { useIsQuizStepEnabled } from "@/hooks/useIsQuizStepEnabled";
-import { QuizCreationType } from "@/types/QuizType";
+import { QuizFormType } from "@/types/QuizType";
 import { atom } from "jotai";
 import { atomFamily } from "jotai/utils";
 
@@ -7,7 +7,7 @@ import { atomFamily } from "jotai/utils";
   /* 초기값 정의 */
 }
 
-const initialQuizCreationInfo: QuizCreationType = {
+const initialQuizCreationInfo: QuizFormType = {
   title: null,
   description: null,
   book: null,
@@ -23,9 +23,7 @@ const initialErrorModalTitle = "";
 {
   /* Atom 정의 */
 }
-export const quizCreationInfoAtom = atom<QuizCreationType>(
-  initialQuizCreationInfo,
-);
+export const quizCreationInfoAtom = atom<QuizFormType>(initialQuizCreationInfo);
 
 // 퀴즈 다음 버튼 활성화 여부 Atom
 export const isQuizNextButtonEnabledAtom = atom<boolean>((get) => {

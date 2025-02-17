@@ -7,12 +7,12 @@ import usePagination from "@/hooks/usePagination";
 import { useNavigate } from "react-router-dom";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { setQueryParam } from "@/utils/setQueryParam";
-import { PaginationType, ParentPage } from "@/types/PaginationType";
+import { PaginationType, ParentPageType } from "@/types/PaginationType";
 
 // TODO: 직관적으로 (변수명 등)
 interface QueryStringPaginationProps {
   type: "queryString";
-  parentPage: ParentPage;
+  parentPage: ParentPageType;
   itemId?: number;
   paginationState: PaginationType;
   setPaginationState: Dispatch<SetStateAction<PaginationType>>;

@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import { CheckBoxOption } from "@/types/CheckBoxTypes";
+import { CheckBoxOptionType } from "@/types/CheckBoxTypes";
 import styles from "./_question_form.module.scss";
 import CheckBox from "@/components/atom/Checkbox/Checkbox";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
-import { AnswerType, QuizQuestionType } from "@/types/QuizType";
+import { AnswerType, QuizQuestionFormType } from "@/types/QuizType";
 import { RadioOptionType } from "@/types/RadioTypes";
 import RadioOption from "@/components/atom/RadioOption/RadioOption";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
 import { isFirstVisitAtom, quizGuideStepAtom } from "@/store/quizAtom";
 import { useAtom } from "jotai";
 interface Props {
-  option: RadioOptionType | CheckBoxOption;
+  option: RadioOptionType | CheckBoxOptionType;
   deleteOption: (id: number) => void;
   selectedValue: string | null | { [key: string]: boolean };
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -43,7 +43,7 @@ const SelectOption: React.FC<Props> = ({
     onOptionChange(e);
     setText(option.id, e.target.value);
 
-    const updatedQuestions: QuizQuestionType[] =
+    const updatedQuestions: QuizQuestionFormType[] =
       quizCreationInfo.questions?.map((question) => {
         if (question.id!.toString() === questionFormId!) {
           return {

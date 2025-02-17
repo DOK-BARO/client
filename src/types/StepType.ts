@@ -1,7 +1,7 @@
 import { Dispatch } from "react";
 import { SetStateAction } from "jotai";
 
-export interface FormComponentProps {
+export interface FormComponentType {
   setCurrentStep: Dispatch<SetStateAction<number>>;
 }
 
@@ -10,7 +10,7 @@ export interface Step {
   icon?: string;
   title: string;
   description?: string;
-  formComponent?: (props?: FormComponentProps) => JSX.Element;
+  formComponent?: (props?: FormComponentType) => JSX.Element;
   subSteps?: Step[];
   isDone?: boolean;
   sectionId?: string;

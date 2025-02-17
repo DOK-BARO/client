@@ -2,7 +2,7 @@
 import styles from "./_lnb.module.scss";
 import Button from "@/components/atom/Button/Button";
 import { useNavigate } from "react-router-dom";
-import { BookCategory } from "@/types/GNBCategoryType";
+import { BookCategoryType } from "@/types/GNBCategoryType";
 import { findTopParentCategoryInfo } from "@/utils/findCategoryInfo";
 import { ArrowLeft } from "@/svg/ArrowLeft";
 import { gray90 } from "@/styles/abstracts/colors";
@@ -14,7 +14,7 @@ import { useAtom } from "jotai";
 // Book Category GNB
 
 interface Props {
-  categories: BookCategory[];
+  categories: BookCategoryType[];
   categoryId?: number;
 }
 

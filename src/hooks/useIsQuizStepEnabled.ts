@@ -1,9 +1,6 @@
 import { QUIZ_CREATION_STEP } from "@/data/constants";
-import { QuizCreationType } from "@/types/QuizType";
-export const useIsQuizStepEnabled = (
-  order: number,
-  quizInfo: QuizCreationType,
-) => {
+import { QuizFormType } from "@/types/QuizType";
+export const useIsQuizStepEnabled = (order: number, quizInfo: QuizFormType) => {
   switch (order) {
     case QUIZ_CREATION_STEP.STUDY_GROUP_SELECT:
       return true;

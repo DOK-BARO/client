@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import styles from "../StudyGroup/_study_group.module.scss";
 import { parseQueryParams } from "@/utils/parseQueryParams";
-import { FetchStudyGroupsParams } from "@/types/ParamsType";
+import { StudyGroupsFetchType } from "@/types/ParamsType";
 import { useAtom } from "jotai";
 import { myStudyUnsolvedQuizPaginationAtom } from "@/store/paginationAtom";
 import { myStudyUnsolvedQuizFilterAtom } from "@/store/filterAtom";
@@ -71,7 +71,7 @@ export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Props) {
   const { data: unsolvedQuizData } = useQuery({
     queryKey: studyGroupKeys.myUnsolvedQuizList(
       studyGroupId,
-      parseQueryParams<MyStudyUnSolvedQuizzesSortType, FetchStudyGroupsParams>({
+      parseQueryParams<MyStudyUnSolvedQuizzesSortType, StudyGroupsFetchType>({
         sort,
         direction,
         page,
@@ -84,7 +84,7 @@ export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Props) {
             studyGroupId,
             parseQueryParams<
               MyStudyUnSolvedQuizzesSortType,
-              FetchStudyGroupsParams
+              StudyGroupsFetchType
             >({
               sort,
               direction,

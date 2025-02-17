@@ -1,5 +1,4 @@
-@import "../../../../styles/abstracts/mixins";
-@import "../../../../styles/abstracts/variables";
+@use "/src/styles/abstracts/" as *;
 
 // TODO: 마이페이지 내 스타일 파일 공통으로 쓰기
 .container {

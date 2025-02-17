@@ -1,5 +1,5 @@
-@import "../../../styles/abstracts/variables";
-@import "../../../styles/abstracts/mixins";
+@use "/src/styles/abstracts/" as *;
+
 .header-menu-list {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
   background-color: $gray-00;

@@ -1,5 +1,5 @@
-@import "../../../../styles/abstracts/mixins";
-@import "../../../../styles/abstracts/variables";
+@use "/src/styles/abstracts/" as *;
+// TODO 코드 파악하고 use로 변경 필요
 @import "../../components/QuizItem/quiz_item.module";
 
 .right-container {

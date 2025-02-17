@@ -97,7 +97,14 @@ export const MultipleChoiceQuestionTemplate: FC<Props> = ({
   }, [isFirstVisit, isEditMode, currentQuizGuideStep]);
 
   return (
-    <fieldset className={styles["question-options"]}>
+    <fieldset
+      className={styles["question-options"]}
+      style={
+        isFirstVisit && !isEditMode && currentQuizGuideStep == 2
+          ? { position: "relative", zIndex: 999 }
+          : {}
+      }
+    >
       <QuizWriteGuideBubble
         marginTop={-85}
         text={

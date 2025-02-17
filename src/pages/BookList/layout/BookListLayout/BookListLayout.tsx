@@ -9,7 +9,7 @@ import {
   findTopParentCategoryInfo,
 } from "@/utils/findCategoryInfo";
 import Breadcrumb from "../../../../components/composite/Breadcrumb/Breadcrumb";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import Pagination from "@/components/composite/Pagination/Pagination";
 import { useAtom, useSetAtom } from "jotai";
 import {
@@ -93,10 +93,12 @@ export default function BookListLayout() {
 
   const books = booksData?.data;
   const endPageNumber = booksData?.endPageNumber;
+  const totalPagesLength = paginationState.totalPagesLength;
 
   // 마지막 페이지 번호 저장
   useEffect(() => {
-    if (endPageNumber && paginationState.totalPagesLength !== endPageNumber) {
+    if (endPageNumber && totalPagesLength !== endPageNumber) {
+      console.log(endPageNumber);
       setPaginationState((prev) => ({
         ...prev,
         totalPagesLength: endPageNumber,
@@ -128,6 +130,11 @@ export default function BookListLayout() {
     ? findCurrentCategoryInfo(categories, Number(category))
     : null;
 
+  const shouldRenderDataList = !isBooksLoading || booksData;
+  const shouldRenderPagination = useMemo(() => {
+    return (totalPagesLength ?? 0) > 0;
+  }, [totalPagesLength]);
+
   return (
     <section className={styles.container}>
       {isCategoriesLoading || !categories ? null : (
@@ -153,8 +160,8 @@ export default function BookListLayout() {
             filterOptions={filterOptions}
           />
         </div>
-        {isBooksLoading || !booksData ? null : <Outlet context={{ books }} />}
-        {paginationState.totalPagesLength ? (
+        {shouldRenderDataList ? <Outlet context={{ books }} /> : null}
+        {shouldRenderPagination ? (
           <Pagination
             type="queryString"
             parentPage="books"

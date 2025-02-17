@@ -9,7 +9,7 @@ import { myMadeQuizPaginationAtom } from "@/store/paginationAtom";
 import Pagination from "@/components/composite/Pagination/Pagination";
 import { FilterOptionType } from "@/components/composite/ListFilter/ListFilter";
 import { MyQuizzesFetchType } from "@/types/ParamsType";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import ROUTES from "@/data/routes";
 import { MyMadeQuizzesFilterType } from "@/types/FilterType";
 import { myMadeQuizzesFilterAtom } from "@/store/filterAtom";
@@ -76,6 +76,10 @@ export default function MyMadeQuiz() {
 
   const myQuizzes = myQuizzesData?.data;
 
+  const shouldRenderPagination = useMemo(() => {
+    return (totalPagesLength ?? 0) > 0;
+  }, [totalPagesLength]);
+
   if (isLoading || !myQuizzes) {
     return <LoadingSpinner pageCenter width={40} />;
   }
@@ -92,14 +96,14 @@ export default function MyMadeQuiz() {
         filterCriteria={filterCriteria}
         filterOptions={filterOptions}
       />
-      {totalPagesLength && totalPagesLength > 0 && (
+      {shouldRenderPagination ? (
         <Pagination
           type="queryString"
           parentPage={"my/made-quiz"}
           paginationState={paginationState}
           setPaginationState={setPaginationState}
         />
-      )}
+      ) : null}
     </>
   );
 }

@@ -59,7 +59,7 @@ export default function LNB({ categories, categoryId }: Props) {
                   />
                 }
                 iconOnly
-                onClick={() => navigate(ROUTES.ROOT)}
+                onClick={() => navigate(ROUTES.BOOK_LIST)}
               />
               <Button
                 size="xsmall"
@@ -81,7 +81,6 @@ export default function LNB({ categories, categoryId }: Props) {
                   <Button
                     color="transparent"
                     size="xsmall"
-                    // fullWidth
                     value={category.id.toString()}
                     className={styles["category-item-button"]}
                     onClick={() => handleClick(category.id.toString())}

@@ -159,6 +159,7 @@ const RadioOption: React.FC<Props> = ({
               disabled={
                 isFirstVisit && !isEditMode && currentQuizGuideStep == 2
               }
+              className={styles["guide-option-delete-button"]}
             />
           )}
       </label>

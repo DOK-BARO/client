@@ -10,6 +10,7 @@
   border-radius: 8px;
   gap: 40px;
   cursor: pointer;
+  min-width: 0;
 }
 .content {
   display: flex;
@@ -41,6 +42,7 @@
 }
 
 .quiz-title {
+  @include text-ellipsis;
   font-size: $font-size-xlarge;
   font-weight: $font-weight-bold;
 }

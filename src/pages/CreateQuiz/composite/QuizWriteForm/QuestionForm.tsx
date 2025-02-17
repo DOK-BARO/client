@@ -17,7 +17,7 @@ import { AnswerType, QuizQuestionFormType } from "@/types/QuizType";
 import QuestionTemplateTypeUtilButton from "./QuestionTemplateTypeUtilButton";
 import { OxQuiz } from "@/svg/QuizWriteForm/OXQuiz";
 import Button from "@/components/atom/Button/Button";
-import { gray60, gray90 } from "@/styles/abstracts/colors";
+import { gray90 } from "@/styles/abstracts/colors";
 import {
   errorMessageAtomFamily,
   invalidQuestionFormIdAtom,
@@ -390,7 +390,7 @@ export default function QuestionForm({
 
       <div className={styles["question-form-content"]}>
         <div className={styles["setting-container"]}>
-          <Button
+          {/* <Button
             icon={
               <ImageAdd
                 width={24}
@@ -401,7 +401,7 @@ export default function QuestionForm({
             }
             iconOnly
             className={styles["image-add-button"]}
-          />
+          /> */}
           <QuestionTemplateTypeUtilButton
             questionId={questionFormId}
             list={questionTemplates}

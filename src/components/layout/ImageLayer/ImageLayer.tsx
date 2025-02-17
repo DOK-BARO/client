@@ -7,17 +7,19 @@ import leftArrow from "/public/assets/svg/imageLayer/leftArrow.svg";
 import rightArrow from "/public/assets/svg/imageLayer/rightArrow.svg";
 import { useEffect } from "react";
 
+interface Props {
+  image: AnswerImageType;
+  onLeftArrowClick: (e: React.MouseEvent) => void;
+  onRightArrowClick: (e: React.MouseEvent) => void;
+  onCloseLayer: () => void;
+}
+
 export default function ImageLayer({
   image,
   onLeftArrowClick,
   onRightArrowClick,
   onCloseLayer,
-}: {
-  image: AnswerImageType;
-  onLeftArrowClick: (e: React.MouseEvent) => void;
-  onRightArrowClick: (e: React.MouseEvent) => void;
-  onCloseLayer: () => void;
-}) {
+}: Props) {
   useEffect(() => {
     document.body.classList.add("no-scroll");
     return () => {

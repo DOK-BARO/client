@@ -1,19 +1,19 @@
 import React from "react";
 import styles from "./_dropdown.module.scss";
 
-interface Option {
+interface OptionType {
   label: string;
   value: string;
 }
 
-interface DropdownProps {
-  options: Option[];
+interface Props {
+  options: OptionType[];
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   value: string;
   size?: "large" | "medium" | "small";
 }
 
-const Dropdown: React.FC<DropdownProps> = ({
+const Dropdown: React.FC<Props> = ({
   options,
   onChange,
   value,

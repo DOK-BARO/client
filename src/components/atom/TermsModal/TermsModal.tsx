@@ -7,14 +7,14 @@ import ReactMarkdown from "react-markdown";
 import remarkBreaks from "remark-breaks";
 import remarkGfm from "remark-gfm";
 
-interface ModalProps {
+interface Props {
   title: string;
   content: string;
   closeModal: () => void;
   className?: string;
 }
 
-const TermsModal: React.FC<ModalProps> = ({
+const TermsModal: React.FC<Props> = ({
   title,
   content,
   closeModal,

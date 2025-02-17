@@ -21,13 +21,12 @@ import {
   openErrorModalAtom,
 } from "@/store/quizAtom";
 import { useValidateQuizForm } from "@/hooks/useValidateQuizForm";
-export default function QuizCreationSteps({
-  isEditMode,
-  steps,
-}: {
+interface Props {
   isEditMode: boolean;
   steps: Step[];
-}) {
+}
+
+export default function QuizCreationSteps({ isEditMode, steps }: Props) {
   const [currentStep, setCurrentStep] = useAtom(quizCreationStepAtom);
   const quizInfo = useAtomValue(quizCreationInfoAtom);
   const setInvalidQuestionFormId = useSetAtom(invalidQuestionFormIdAtom);

@@ -32,7 +32,6 @@ import { SortableItem } from "./dnd/SortableItem";
 import { Item } from "./dnd/Item";
 import { DndPermissionPointerSensor } from "./dnd/DndPermissionPointerSensor";
 
-//TODO: 아이콘 정리 필요
 const QuizWriteForm = React.memo(() => {
   {
     const { quizCreationInfo, updateQuizCreationInfo } =

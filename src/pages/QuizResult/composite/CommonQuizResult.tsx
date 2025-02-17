@@ -6,12 +6,11 @@ import { quizService } from "@/services/server/quizService";
 import { quizKeys } from "@/data/queryKeys";
 import solvingQuizCompleteImage from "/public/assets/image/solving-quiz-complete.png";
 import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner";
-
-export default function CommonQuizResult({
-  solvingQuizId,
-}: {
+interface Props {
   solvingQuizId: string;
-}) {
+}
+
+export default function CommonQuizResult({ solvingQuizId }: Props) {
   const { data, isLoading } = useQuery({
     queryKey: quizKeys.result(solvingQuizId),
     queryFn: () => quizService.fetchGradeResult(solvingQuizId),

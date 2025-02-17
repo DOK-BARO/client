@@ -2,8 +2,10 @@ import { QuestionFormType } from "@/types/QuizType";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { cloneElement, CSSProperties, ReactElement } from "react";
-
-export const SortableItem = ({ item }: { item: QuestionFormType }) => {
+interface Props {
+  item: QuestionFormType;
+}
+export const SortableItem = ({ item }: Props) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({
       id: item.id,

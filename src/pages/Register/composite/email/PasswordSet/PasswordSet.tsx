@@ -12,12 +12,10 @@ import { Invisible } from "@/svg/Invisible";
 import { Visible } from "@/svg/Visible";
 import PasswordValidationMessage from "@/components/atom/PasswordValidationMessage/PasswordValidationMessage";
 import PasswordMatchCheckMessage from "@/components/atom/PasswordMatchCheckMessage/PasswordMatchCheckMessage";
-
-export default function PasswordSet({
-  setStep,
-}: {
+interface Props {
   setStep: Dispatch<SetStateAction<number>>;
-}) {
+}
+export default function PasswordSet({ setStep }: Props) {
   const {
     value: password,
     onChange: onPasswordChange,

@@ -9,7 +9,7 @@ import RadioOption from "@/components/atom/RadioOption/RadioOption";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
 import { isFirstVisitAtom, quizGuideStepAtom } from "@/store/quizAtom";
 import { useAtom } from "jotai";
-interface SelectOptionProps {
+interface Props {
   option: RadioOptionType | CheckBoxOption;
   deleteOption: (id: number) => void;
   selectedValue: string | null | { [key: string]: boolean };
@@ -20,7 +20,7 @@ interface SelectOptionProps {
   checked?: boolean;
 }
 
-const SelectOption: React.FC<SelectOptionProps> = ({
+const SelectOption: React.FC<Props> = ({
   option,
   deleteOption,
   selectedValue,

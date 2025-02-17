@@ -5,12 +5,12 @@ import { gray90 } from "@/styles/abstracts/colors";
 import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 import { ParentPage } from "@/types/PaginationType";
 
-export interface ListItem {
+export interface ListItemType {
   id: number;
   name: string;
 }
 interface Props {
-  list: (ListItem | null)[];
+  list: (ListItemType | null)[];
   parentPage: ParentPage;
 }
 export default function Breadcrumb({ list, parentPage }: Props) {

@@ -28,7 +28,7 @@ import QuizWriteGuideBubble from "../QuizWriteGuideBubble/QuizWriteGuideBubble";
 import { useValidateQuizForm } from "@/hooks/useValidateQuizForm";
 import ImageLayer from "@/components/layout/ImageLayer/ImageLayer";
 import useImageLayer from "@/hooks/useImageLayer";
-interface QuizWriteFormItemProps {
+interface Props {
   questionFormId: number;
   deleteQuestion: (id: number) => void;
   answerType: string;
@@ -78,7 +78,7 @@ export default function QuestionForm({
   deleteQuestion,
   answerType,
   onUpdateQuestionFormsWithAnswerType,
-}: QuizWriteFormItemProps) {
+}: Props) {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
   const [invalidQuestionFormId] = useAtom(invalidQuestionFormIdAtom);

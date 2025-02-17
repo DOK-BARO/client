@@ -13,14 +13,11 @@ import { studyGroupService } from "@/services/server/studyGroupService";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "@/data/routes";
 import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner";
-
-export default function StudyQuizResult({
-  studyGroupId,
-  quizId,
-}: {
+interface Props {
   studyGroupId: string;
   quizId: string;
-}) {
+}
+export default function StudyQuizResult({ studyGroupId, quizId }: Props) {
   const [currentUser] = useAtom(currentUserAtom);
   const navigate = useNavigate();
 

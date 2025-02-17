@@ -73,6 +73,7 @@
   width: 100%;
   color: $gray-50;
   font-size: $font-size-large;
+  @include option-button-text;
 
   span:first-of-type {
     width: 100%;

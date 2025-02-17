@@ -22,9 +22,9 @@ export const useValidateQuizForm = (
       return false;
     }
 
-    // - 옵션 하나도 없을 때: 선택지를 1개 이상 추가해 주세요.
-    if (question.answerType !== "OX" && question.selectOptions.length === 0) {
-      notValidCallBack("선택지를 1개 이상 추가해 주세요", question.id);
+    // - 옵션이 2개 이하일 때: 선택지를 2개 이상 추가해 주세요.
+    if (question.answerType !== "OX" && question.selectOptions.length < 2) {
+      notValidCallBack("선택지를 2개 이상 추가해 주세요", question.id);
       return false;
     }
 

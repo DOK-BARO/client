@@ -13,7 +13,7 @@ import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
 import { useAtom } from "jotai";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import deleteIcon from "/assets/svg/quizWriteForm/deleteEllipse.svg";
-import { AnswerType, QuizQuestionType } from "@/types/QuizType";
+import { AnswerType, QuizQuestionFormType } from "@/types/QuizType";
 import QuestionTemplateTypeUtilButton from "./QuestionTemplateTypeUtilButton";
 import { OxQuiz } from "@/svg/QuizWriteForm/OXQuiz";
 import Button from "@/components/atom/Button/Button";
@@ -29,7 +29,7 @@ import { useValidateQuizForm } from "@/hooks/useValidateQuizForm";
 import ImageLayer from "@/components/layout/ImageLayer/ImageLayer";
 import useImageLayer from "@/hooks/useImageLayer";
 import { gray70 } from "@/styles/abstracts/colors";
-interface QuizWriteFormItemProps {
+interface Props {
   questionFormId: number;
   deleteQuestion: (id: number) => void;
   answerType: string;
@@ -79,7 +79,7 @@ export default function QuestionForm({
   deleteQuestion,
   answerType,
   onUpdateQuestionFormsWithAnswerType,
-}: QuizWriteFormItemProps) {
+}: Props) {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
   const [invalidQuestionFormId] = useAtom(invalidQuestionFormIdAtom);
@@ -152,7 +152,7 @@ export default function QuestionForm({
 
   const handleAnswerChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onAnswerTextAreaChange(e);
-    const updatedQuestions: QuizQuestionType[] =
+    const updatedQuestions: QuizQuestionFormType[] =
       quizCreationInfo.questions?.map((question) =>
         question.id === questionFormId
           ? { ...question, answerExplanationContent: e.target.value }
@@ -188,7 +188,7 @@ export default function QuestionForm({
 
     setSelectedImages((prevImages) => prevImages.filter((_, i) => i !== index));
 
-    const updatedQuestions: QuizQuestionType[] =
+    const updatedQuestions: QuizQuestionFormType[] =
       quizCreationInfo.questions?.map((question) => {
         if (question.id === questionFormId!) {
           return {
@@ -231,7 +231,7 @@ export default function QuestionForm({
       setSelectedImages((prev) => [...prev, ...imgEls]);
       setImagePreviewEls((prev) => [...prev, ...imgEls]);
 
-      const updatedQuestions: QuizQuestionType[] =
+      const updatedQuestions: QuizQuestionFormType[] =
         quizCreationInfo.questions?.map((question) => {
           if (question.id === questionFormId!) {
             return {
@@ -251,7 +251,7 @@ export default function QuestionForm({
 
   const handleQuestionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     onQuestionChange(e);
-    const updatedQuestions: QuizQuestionType[] =
+    const updatedQuestions: QuizQuestionFormType[] =
       quizCreationInfo.questions?.map((question) =>
         question.id === questionFormId
           ? { ...question, content: e.target.value }

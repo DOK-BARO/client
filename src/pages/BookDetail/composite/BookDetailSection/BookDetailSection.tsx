@@ -5,14 +5,14 @@ import { useAtom } from "jotai";
 import { quizzesLengthAtom } from "@/store/quizAtom.ts";
 import useLoginAction from "@/hooks/useLoginAction";
 import { useLocation } from "react-router-dom";
-
+interface Props {
+  bookDetailContent: BookDetailType;
+  onGoToMakeQuiz: () => void;
+}
 export default function BookDetailContent({
   bookDetailContent,
   onGoToMakeQuiz,
-}: {
-  bookDetailContent: BookDetailType;
-  onGoToMakeQuiz: () => void;
-}) {
+}: Props) {
   const [quizLength] = useAtom(quizzesLengthAtom);
   const { pathname } = useLocation();
 

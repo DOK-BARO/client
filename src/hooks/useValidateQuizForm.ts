@@ -1,18 +1,18 @@
-import { QuizQuestionType } from "@/types/QuizType";
-import { SelectOptionType } from "@/types/QuizType";
+import { QuizQuestionFormType } from "@/types/QuizType";
+import { SelectOptionFormType } from "@/types/QuizType";
 import { SetStateAction } from "jotai";
 export const useValidateQuizForm = (
-  questions: QuizQuestionType[],
+  questions: QuizQuestionFormType[],
   notValidCallBack: (errorTitle: string, questionId: number) => void,
   setInvalidQuestionFormId?: (
     value: SetStateAction<number | undefined>,
   ) => void,
 ) => {
-  const hasDuplicate = (arr: SelectOptionType[]) => {
+  const hasDuplicate = (arr: SelectOptionFormType[]) => {
     const options: string[] = arr.map(({ option }) => option);
     return new Set(options).size !== options.length;
   };
-  const isEmpty = (arr: SelectOptionType[]): boolean => {
+  const isEmpty = (arr: SelectOptionFormType[]): boolean => {
     return arr.some(({ option }) => option.length === 0);
   };
   for (const question of questions ?? []) {
@@ -28,7 +28,7 @@ export const useValidateQuizForm = (
       return false;
     }
 
-    const selectOptions: SelectOptionType[] = question.selectOptions;
+    const selectOptions: SelectOptionFormType[] = question.selectOptions;
     // 작성하지 않은 옵션이 있습니다.
     if (isEmpty(selectOptions)) {
       notValidCallBack("작성하지 않은 옵션이 있습니다.", question.id);

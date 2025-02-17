@@ -5,7 +5,7 @@ import {
   MyStudySolvedQuizzesSortType,
 } from "@/types/FilterType";
 import { parseQueryParams } from "@/utils/parseQueryParams";
-import { FetchStudyGroupsParams } from "@/types/ParamsType";
+import { StudyGroupsFetchType } from "@/types/ParamsType";
 import { useAtom } from "jotai";
 import { mySolvedQuizPaginationAtom } from "@/store/paginationAtom";
 import { myStudySolvedQuizFilterAtom } from "@/store/filterAtom";
@@ -64,7 +64,7 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Props) {
   const { data: solvedQuizData } = useQuery({
     queryKey: studyGroupKeys.mySolvedQuizList(
       studyGroupId,
-      parseQueryParams<MyStudySolvedQuizzesSortType, FetchStudyGroupsParams>({
+      parseQueryParams<MyStudySolvedQuizzesSortType, StudyGroupsFetchType>({
         sort,
         direction,
         page,
@@ -77,7 +77,7 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Props) {
             studyGroupId,
             parseQueryParams<
               MyStudySolvedQuizzesSortType,
-              FetchStudyGroupsParams
+              StudyGroupsFetchType
             >({
               sort,
               direction,

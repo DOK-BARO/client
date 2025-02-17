@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
 import styles from "./_button.module.scss";
-export type ButtonColorProps =
+export type ButtonColorType =
   | "primary"
   | "secondary"
   | "primary-border"
@@ -8,14 +8,14 @@ export type ButtonColorProps =
   | "white"
   | "transparent"
   | "red";
-interface ButtonProps {
+interface Props {
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   children?: ReactNode;
   id?: string;
   type?: "button" | "submit" | "reset";
   size?: "xsmall" | "small" | "medium" | "large" | "xlarge";
   mode?: "default" | "error";
-  color?: ButtonColorProps;
+  color?: ButtonColorType;
   disabled?: boolean;
   className?: string;
   value?: string;
@@ -27,7 +27,7 @@ interface ButtonProps {
   ableAnimation?: boolean;
 }
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const Button = React.forwardRef<HTMLButtonElement, Props>(
   (
     {
       onClick = () => {},

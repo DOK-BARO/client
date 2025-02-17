@@ -1,12 +1,12 @@
 import { axiosInstance } from "@/config/axiosConfig";
-import { FetchStudyGroupsParams } from "@/types/ParamsType";
+import { StudyGroupsFetchType } from "@/types/ParamsType";
 import {
-  StudyGroupPostType,
-  StudyGroupDetailType,
+  StudyGroupPostType as StudyGroupCreateType,
+  StudyGroupDetailType as StudyGroupDetailFetchType,
   StudyGroupMySolvedQuizType,
   StudyGroupMyUnSolvedQuizType,
   StudyGroupType,
-  QuizStudyGroupGradeResult,
+  QuizStudyGroupGradeResultType,
 } from "@/types/StudyGroupType";
 import { handleAxiosError } from "@/utils/errorHandler";
 
@@ -14,7 +14,7 @@ class StudyGroupService {
   // 스터디 그룹 상세 조회
   fetchStudyGroup = async (
     id: number,
-  ): Promise<StudyGroupDetailType | null> => {
+  ): Promise<StudyGroupDetailFetchType | null> => {
     try {
       const { data } = await axiosInstance.get(`/study-groups/${id}`);
       return data;
@@ -27,7 +27,7 @@ class StudyGroupService {
 
   // 내가 속한 스터디 그룹 조회
   fetchStudyGroups = async (
-    params: FetchStudyGroupsParams,
+    params: StudyGroupsFetchType,
   ): Promise<{ data: StudyGroupType[]; endPageNumber: number } | null> => {
     const { page, size, sort, direction } = params;
     try {
@@ -48,7 +48,7 @@ class StudyGroupService {
 
   // 스터디 그룹 생성
   createStudyGroup = async (
-    studyGroup: StudyGroupPostType,
+    studyGroup: StudyGroupCreateType,
   ): Promise<{ id: number } | null> => {
     try {
       const { data } = await axiosInstance.post("/study-groups", studyGroup);
@@ -75,7 +75,7 @@ class StudyGroupService {
   // 스터디 그룹 퀴즈 중 안 푼 문제 조회 (풀어야 할 퀴즈)
   fetchStudyGroupMyUnsolvedQuizzes = async (
     studyGroupId: number,
-    params: FetchStudyGroupsParams,
+    params: StudyGroupsFetchType,
   ): Promise<{
     endPageNumber: number;
     data: StudyGroupMyUnSolvedQuizType[];
@@ -105,7 +105,7 @@ class StudyGroupService {
   // 스터디 그룹 퀴즈 중 내가 푼 문제 조회 (제출 한 퀴즈)
   fetchStudyGroupMySolvedQuizzes = async (
     studyGroupId: number,
-    params: FetchStudyGroupsParams,
+    params: StudyGroupsFetchType,
   ): Promise<{
     endPageNumber: number;
     data: StudyGroupMySolvedQuizType[];
@@ -146,7 +146,7 @@ class StudyGroupService {
     studyGroup,
   }: {
     id: number;
-    studyGroup: StudyGroupPostType;
+    studyGroup: StudyGroupCreateType;
   }): Promise<void> => {
     try {
       await axiosInstance.put(`/study-groups/${id}`, studyGroup);
@@ -197,7 +197,7 @@ class StudyGroupService {
   }: {
     studyGroupId: number;
     quizId: number;
-  }): Promise<QuizStudyGroupGradeResult | null> => {
+  }): Promise<QuizStudyGroupGradeResultType | null> => {
     try {
       const response = await axiosInstance.get(
         "/solving-quiz/study-groups-grade-result",
@@ -219,7 +219,7 @@ class StudyGroupService {
   // 초대 코드를 통한 스터디 그룹 상세 조회
   fetchStudyGroupDetailByInviteCode = async (
     inviteCode: string,
-  ): Promise<StudyGroupDetailType | null> => {
+  ): Promise<StudyGroupDetailFetchType | null> => {
     try {
       const { data } = await axiosInstance.get(
         `/study-groups/invite-code/${inviteCode}`,

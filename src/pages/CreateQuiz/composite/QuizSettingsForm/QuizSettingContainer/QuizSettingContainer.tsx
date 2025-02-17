@@ -5,15 +5,17 @@ import { QuizSettingOptionType, QuizSettingType } from "@/types/QuizType";
 import { useEffect, useState } from "react";
 import { ArrowDown } from "@/svg/ArrowDown";
 
+interface Props {
+  quizSetting: QuizSettingType;
+  onOptionSelect: (name: string, label: string) => void;
+  selectedOptionLabel: string | null;
+}
+
 export const QuizSettingContainer = ({
   quizSetting,
   onOptionSelect,
   selectedOptionLabel,
-}: {
-  quizSetting: QuizSettingType;
-  onOptionSelect: (name: string, label: string) => void;
-  selectedOptionLabel: string | null;
-}) => {
+}: Props) => {
   const options = quizSetting.options;
 
   const [description, setDescription] = useState<string>("");

@@ -10,12 +10,10 @@ import { authService } from "@/services/server/authService";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";
 import { findPasswordEmailAtom } from "@/store/userAtom";
-
-export default function SendTemporaryPassword({
-  setStep,
-}: {
+interface Props {
   setStep: Dispatch<SetStateAction<number>>;
-}) {
+}
+export default function SendTemporaryPassword({ setStep }: Props) {
   const { value: email, onChange: onEmailChange } = useInput("");
   const [isEmailReadyToSend, setIsEmailReadyToSend] = useState<boolean>(false);
   const [, setFindPasswordEmail] = useAtom(findPasswordEmailAtom);

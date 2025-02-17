@@ -11,13 +11,13 @@ import { ArrowRight } from "@/svg/ArrowRight";
 import { gray00, gray60 } from "@/styles/abstracts/colors";
 import { useAtom } from "jotai";
 import { selectedOptionsAtom } from "@/store/quizAtom";
-import { QuestionCheckedResult } from "@/types/QuizType";
+import { QuestionCheckedResultType } from "@/types/QuizType";
 import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/xcode.css";
 import toast from "react-hot-toast";
 import ROUTES from "@/data/routes";
-import { QuizResultRouteParams } from "@/types/ParamsType";
+import { QuizResultRouteType } from "@/types/ParamsType";
 import { ErrorType } from "@/types/ErrorType";
 import useAutoResizeTextarea from "@/hooks/useAutoResizeTextArea";
 import useModal from "@/hooks/useModal";
@@ -239,7 +239,7 @@ export default function Index() {
   const [submitDisabled, setSubmitDisabled] = useState<boolean>(true);
   const [selectedOptions, setSelectedOptions] = useAtom(selectedOptionsAtom);
   const [questionCheckedResult, setQuestionCheckedResult] =
-    useState<QuestionCheckedResult>();
+    useState<QuestionCheckedResultType>();
   const [optionDisabled, setOptionDisabled] = useState<boolean>(false);
   const [didAnswerChecked, setDidAnswerChecked] = useState<boolean>(false);
   const [toggleAnswerDescription, setToggleAnswerDescription] =
@@ -267,7 +267,7 @@ export default function Index() {
     setOptionDisabled(true);
     const questionId: number = quiz!.questions[currentFormIndex].id;
     const solvingQuizIdToString: string = solvingQuizId.toString();
-    const checkedResult: QuestionCheckedResult =
+    const checkedResult: QuestionCheckedResultType =
       await quizService.submitQuestion(
         solvingQuizIdToString,
         questionId,
@@ -292,7 +292,7 @@ export default function Index() {
       const id: string = quizId.toString();
       const solvingId: string = solvingQuizId.toString();
       const quizTitle: string = quiz?.title ?? "";
-      const params: QuizResultRouteParams = {
+      const params: QuizResultRouteType = {
         quizId: parseInt(id),
         solvingQuizId: parseInt(solvingId), // TODO 제거
         quizTitle: quizTitle,

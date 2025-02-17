@@ -3,7 +3,7 @@ import React, { ReactNode } from "react";
 import { gray00, gray40, primary } from "@/styles/abstracts/colors.ts";
 import { Check } from "@/svg/Check";
 
-interface CheckBoxProps {
+interface Props {
   id: string;
   checked: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -24,7 +24,7 @@ export default function CheckBox({
   disabled,
   autoFocus = false,
   LabelComponent,
-}: CheckBoxProps) {
+}: Props) {
   const className = `${styles.label} ${
     styles[isOutLined ? "outlined" : "none"]
   }`;

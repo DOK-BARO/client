@@ -13,7 +13,16 @@ import { useState } from "react";
 import SolvedQuizItem from "../../composite/quizItem/SolvedQuizItem/SolvedQuizItem";
 import MyMadeQuizItem from "../../composite/quizItem/MyMadeQuizItem/MyMadeQuizItem";
 import { copyText } from "@/utils/copyText";
-
+interface Props<T extends { sort: string; direction: string }> {
+  title: string;
+  quizzes: MyQuizDataType[] | MySolvedQuizDataType[];
+  titleWhenNoData: string;
+  buttonNameWhenNoData: string;
+  onClickBtnWhenNoData: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleOptionClick: (filter: T) => void;
+  filterCriteria: T;
+  filterOptions: FilterOptionType<T>[];
+}
 export default function QuizListLayout<
   T extends { sort: string; direction: string },
 >({
@@ -25,16 +34,7 @@ export default function QuizListLayout<
   handleOptionClick,
   filterCriteria,
   filterOptions,
-}: {
-  title: string;
-  quizzes: MyQuizDataType[] | MySolvedQuizDataType[];
-  titleWhenNoData: string;
-  buttonNameWhenNoData: string;
-  onClickBtnWhenNoData: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  handleOptionClick: (filter: T) => void;
-  filterCriteria: T;
-  filterOptions: FilterOptionType<T>[];
-}) {
+}: Props<T>) {
   const navigate = useNavigate();
   const { isModalOpen, openModal, closeModal } = useModal();
   const [quizId, setQuizId] = useState<string>();

@@ -1,6 +1,6 @@
 import useUpdateQuizCreationInfo from "./useUpdateQuizCreationInfo";
-import { AnswerType, QuizQuestionType } from "@/types/QuizType";
-import { CheckBoxOption } from "@/types/CheckBoxTypes";
+import { AnswerType, QuizQuestionFormType } from "@/types/QuizType";
+import { CheckBoxOptionType } from "@/types/CheckBoxTypes";
 import { RadioOptionType } from "@/types/RadioTypes";
 import { useState } from "react";
 import { BOOK_QUIZ_OPTION_MAX_LENGTH } from "@/data/constants";
@@ -12,15 +12,15 @@ export const useQuestionTemplate = (
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
 
-  const getQuestion = (): QuizQuestionType =>
+  const getQuestion = (): QuizQuestionFormType =>
     quizCreationInfo.questions?.find(
       (question) => question.id!.toString() === questionFormId,
-    ) as QuizQuestionType;
+    ) as QuizQuestionFormType;
 
   const setInitialOptions = (
     questionFormType: AnswerType,
-  ): (CheckBoxOption | RadioOptionType)[] => {
-    const question: QuizQuestionType = getQuestion();
+  ): (CheckBoxOptionType | RadioOptionType)[] => {
+    const question: QuizQuestionFormType = getQuestion();
 
     const initialOptions =
       question?.selectOptions.map((option) => ({
@@ -30,17 +30,17 @@ export const useQuestionTemplate = (
       })) ?? [];
 
     return questionFormType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER"
-      ? (initialOptions as CheckBoxOption[])
+      ? (initialOptions as CheckBoxOptionType[])
       : (initialOptions as RadioOptionType[]);
   };
 
-  const [options, setOptions] = useState<(RadioOptionType | CheckBoxOption)[]>(
-    setInitialOptions(questionFormType),
-  );
+  const [options, setOptions] = useState<
+    (RadioOptionType | CheckBoxOptionType)[]
+  >(setInitialOptions(questionFormType));
 
   const deleteOption = (optionId: number) => {
     setOptions(options.filter((option) => option.id !== optionId));
-    const updatedQuestions: QuizQuestionType[] =
+    const updatedQuestions: QuizQuestionFormType[] =
       quizCreationInfo.questions?.map((question) => {
         const filteredSelectOptions = question.selectOptions.filter(
           (option) => option.id !== optionId,

@@ -3,16 +3,16 @@ import styles from "./_progress_bar.module.scss";
 import { Check } from "@/svg/Check";
 import { gray00 } from "@/styles/abstracts/colors";
 import { Close } from "@/svg/Close";
-
+interface Props {
+  questions: SolvingQuizQuestionType[];
+  currentStep: number;
+  isAnswerCorrects: boolean[];
+}
 export default function ProgressBar({
   currentStep,
   questions,
   isAnswerCorrects,
-}: {
-  questions: SolvingQuizQuestionType[];
-  currentStep: number;
-  isAnswerCorrects: boolean[];
-}) {
+}: Props) {
   return (
     <section className={styles["progress-bar"]}>
       {questions.map((_, index) => {

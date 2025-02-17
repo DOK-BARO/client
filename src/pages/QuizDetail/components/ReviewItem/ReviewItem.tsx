@@ -1,4 +1,4 @@
-import { ReviewPostType, ReviewType } from "@/types/ReviewType";
+import { ReviewCreateType, ReviewType } from "@/types/ReviewType";
 import styles from "./_review_item.module.scss";
 import FiveStar from "@/components/composite/FiveStar/FiveStar";
 import { formatDate } from "@/utils/formatDate";
@@ -66,7 +66,7 @@ export default function ReviewItem({ review, isMyReview, quizTitle }: Props) {
   const { mutate: updateReview } = useMutation<
     void,
     ErrorType,
-    { id: number; review: ReviewPostType }
+    { id: number; review: ReviewCreateType }
   >({
     mutationFn: ({ id, review }) =>
       reviewService.updateQuizReview({
@@ -127,7 +127,7 @@ export default function ReviewItem({ review, isMyReview, quizTitle }: Props) {
   });
 
   const handleUpdateReview = () => {
-    const reviewToUpdate: ReviewPostType = {
+    const reviewToUpdate: ReviewCreateType = {
       starRating: starRating,
       difficultyLevel: difficultyLevel,
       comment: comment,

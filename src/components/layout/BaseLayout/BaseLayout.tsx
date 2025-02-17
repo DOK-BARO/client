@@ -14,11 +14,11 @@ import mobileImage2 from "/public/assets/image/mobile/mobile-image2.png";
 import mobileImage3 from "/public/assets/image/mobile/mobile-image3.png";
 import arrow from "/public/assets/image/mobile/arrow.png";
 
-export default function BaseLayout({
-  showHeader = true,
-}: {
+interface Props {
   showHeader?: boolean;
-}) {
+}
+
+export default function BaseLayout({ showHeader = true }: Props) {
   const [currentUser, setCurrentUser] = useAtom(currentUserAtom);
   const [isUserLoading, setIsUserLoading] = useAtom(isUserLoadingAtom);
   const navigate = useNavigate();

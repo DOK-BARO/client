@@ -1,7 +1,4 @@
-import {
-  QuizResultRouteParams,
-  QuizReviewRouteParams,
-} from "@/types/ParamsType";
+import { QuizResultRouteType, QuizReviewRouteType } from "@/types/ParamsType";
 
 const ROUTES = {
   ROOT: "/",
@@ -40,12 +37,12 @@ const ROUTES = {
   QUIZ: "/quiz",
   SOLVING_QUIZ: (quizId?: number) => `/quiz/play/${quizId ?? ":quizId"}`,
 
-  QUIZ_REVIEW: (param?: QuizReviewRouteParams) =>
+  QUIZ_REVIEW: (param?: QuizReviewRouteType) =>
     `/quiz/review/${param?.quizId ?? ":quizId"}/${
       param?.solvingQuizId ?? ":solvingQuizId"
     }/${param?.quizTitle ?? ":quizTitle"}`,
 
-  QUIZ_RESULT: (param?: QuizResultRouteParams) =>
+  QUIZ_RESULT: (param?: QuizResultRouteType) =>
     `/quiz/result/${param?.quizId ?? ":quizId"}/${
       param?.solvingQuizId ?? ":solvingQuizId"
     }/${param?.quizTitle ?? ":quizTitle"}/${

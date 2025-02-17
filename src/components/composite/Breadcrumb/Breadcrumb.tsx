@@ -3,15 +3,15 @@ import styles from "./_breadcrumb.module.scss";
 import { ArrowRight } from "@/svg/ArrowRight";
 import { gray90 } from "@/styles/abstracts/colors";
 import useNavigateWithParams from "@/hooks/useNavigateWithParams";
-import { ParentPage } from "@/types/PaginationType";
+import { ParentPageType } from "@/types/PaginationType";
 
-export interface ListItem {
+export interface ListItemType {
   id: number;
   name: string;
 }
 interface Props {
-  list: (ListItem | null)[];
-  parentPage: ParentPage;
+  list: (ListItemType | null)[];
+  parentPage: ParentPageType;
 }
 export default function Breadcrumb({ list, parentPage }: Props) {
   const { navigateWithParams } = useNavigateWithParams(parentPage);

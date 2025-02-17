@@ -2,10 +2,10 @@ import { gray60 } from "@/styles/abstracts/colors";
 import styles from "./_question_form.module.scss";
 import { QuestionTemplateType } from "@/types/QuestionTemplateType";
 
-type Props = {
+interface Props {
   onClick: (optionTitle: QuestionTemplateType) => void;
   list: QuestionTemplateType[];
-};
+}
 
 export default function QuestionTemplateUtilList({ list, onClick }: Props) {
   return (

@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { BookType } from "./BookType";
 import { StudyGroupType } from "./StudyGroupType";
-import { SolvingQuizStudyGroupUser } from "./UserType";
+import { SolvingQuizStudyGroupUserType } from "./UserType";
 
 interface CreatorType {
   id: number;
@@ -36,7 +36,7 @@ export interface QuizExplanationType {
 }
 
 // 퀴즈 풀기 시 사용되는 타입
-export interface SolvingQuizType {
+export interface SolvingQuizFetchType {
   id: number;
   title: string;
   studyGroupId?: number;
@@ -51,7 +51,7 @@ export interface SolvingQuizQuestionType {
   type: AnswerType;
 }
 
-export interface MyQuizType {
+export interface MyQuizFetchType {
   endPageNumber: number;
   data: MyQuizDataType[];
 }
@@ -63,11 +63,6 @@ export interface MyQuizDataType {
   description: string;
   updatedAt: string;
   studyGroup?: MyQuizStudyGroupType;
-}
-
-export interface MySolvedQuizType {
-  endPageNumber: number;
-  data: MySolvedQuizDataType[];
 }
 
 export interface MySolvedQuizDataType {
@@ -91,14 +86,18 @@ interface SolvedQuizType {
   creator: CreatorType;
 }
 
-export type ViewScope = "EVERYONE" | "STUDY_GROUP" | "CREATOR";
-export type EditScope = "EVERYONE" | "STUDY_GROUP" | "CREATOR";
-export const scopeTranslations: Record<string, ViewScope | EditScope> = {
-  모두: "EVERYONE",
-  스터디원만: "STUDY_GROUP",
-  나만: "CREATOR",
-};
-export const scopeReverseTranslations: Record<ViewScope | EditScope, string> = {
+export type ViewScopeType = "EVERYONE" | "STUDY_GROUP" | "CREATOR";
+export type EditScopeType = "EVERYONE" | "STUDY_GROUP" | "CREATOR";
+export const scopeTranslations: Record<string, ViewScopeType | EditScopeType> =
+  {
+    모두: "EVERYONE",
+    스터디원만: "STUDY_GROUP",
+    나만: "CREATOR",
+  };
+export const scopeReverseTranslations: Record<
+  ViewScopeType | EditScopeType,
+  string
+> = {
   EVERYONE: "모두",
   STUDY_GROUP: "스터디원만",
   CREATOR: "나만",
@@ -110,49 +109,53 @@ export type AnswerType =
   | "MULTIPLE_CHOICE_SINGLE_ANSWER"
   | "MULTIPLE_CHOICE_MULTIPLE_ANSWER"
   | "SHORT";
-
-export interface QuizCreationType {
+export interface QuizFormType {
+  // 퀴즈 폼 작성 중 사용되는 타입 : FormType
   title: string | null;
   description: string | null;
   book: BookType | null;
-  viewScope: ViewScope | null;
-  editScope: EditScope | null;
+  viewScope: ViewScopeType | null;
+  editScope: EditScopeType | null;
   studyGroup: StudyGroupType | null | undefined; // undefined -> 스터디그룹 선택 안함
-  questions: QuizQuestionType[] | null;
+  questions: QuizQuestionFormType[] | null;
 }
 
-export interface SelectOptionType {
+export interface SelectOptionFormType {
   id: number;
   option: string;
   value: string;
   answerIndex: number;
 }
 
-export interface QuizQuestionType {
+export interface QuizQuestionFormType {
+  // 퀴즈 질문 폼 유저 입력의 객체 구조 정의
   id: number;
   content: string;
-  selectOptions: SelectOptionType[];
+  selectOptions: SelectOptionFormType[];
   answerExplanationContent: string;
   answerExplanationImages: JSX.Element[];
   answerType: AnswerType;
   answers: string[];
 }
 
-export interface QuizRequestType {
-  // TODO: 이름 아래와 통일 필요
+export interface QuizCreateType {
+  // TODO: 생성요청, fetchQuizzesDetail(퀴즈 수정 시 사용되는 퀴즈 상세조회 (정답, 정답 설명을 포함한 조회))에서도 사용됨.
+  // 임시저장이 fetchQuizzesDetail에서는 필요하지 않으므로 임시저장 기능 구현 시 temporary를 제외한 타입을 base로 만들면 좋을듯
+
+  // 퀴즈 생성 요청 타입
   id?: string;
   title: string;
   description: string;
   bookId: number;
   timeLimitSecond?: number;
-  viewScope: ViewScope;
-  editScope: EditScope;
+  viewScope: ViewScopeType;
+  editScope: EditScopeType;
   studyGroupId?: number | null;
-  questions: QuizQuestionRequestApiType[];
+  questions: QuizQuestionCreateType[];
   // temporary: boolean; // 임시 저장 여부
 }
 
-export type QuizQuestionRequestApiType = {
+export type QuizQuestionCreateType = {
   id?: number; // 수정하기 api 요청 시 id가 없으면 create, 있으면 modify
   content: string;
   selectOptions: string[];
@@ -163,12 +166,13 @@ export type QuizQuestionRequestApiType = {
 };
 
 export interface QuestionFormType {
+  // 퀴즈 질문 폼의 객체 구조 정의
   id: number;
   answerType: AnswerType;
   component: ReactNode;
 }
 
-export interface QuestionCheckedResult {
+export interface QuestionCheckedResultType {
   solvingQuizId: number;
   playerId: number;
   quizId: number;
@@ -191,7 +195,7 @@ export interface QuizSettingType {
   icon: string; // path
 }
 
-export interface SolvingQuizGradeResult {
+export interface SolvingQuizGradeResultType {
   solvingQuizId: number;
   quizId: number;
   playerId: number;
@@ -199,16 +203,16 @@ export interface SolvingQuizGradeResult {
   correctCount: number;
 }
 
-export interface SolvingQuizStudyGroupGradeResult {
+export interface SolvingQuizStudyGroupGradeResultType {
   quizId: number;
   studyGroupId: number;
   totalQuestionCount: number;
-  solvedMember: SolvedMember[];
-  unSolvedMember: SolvingQuizStudyGroupUser[];
+  solvedMember: SolvedMemberType[];
+  unSolvedMember: SolvingQuizStudyGroupUserType[];
 }
 
-export interface SolvedMember {
-  member: SolvingQuizStudyGroupUser;
+export interface SolvedMemberType {
+  member: SolvingQuizStudyGroupUserType;
   solvingQuizId: number;
   correctCount: number;
 }

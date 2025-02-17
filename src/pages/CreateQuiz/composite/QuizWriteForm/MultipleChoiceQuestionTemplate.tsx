@@ -1,7 +1,7 @@
 import styles from "./_question_form.module.scss";
 import { FC, useEffect, useState } from "react";
 import useRadioGroup from "@/hooks/useRadioGroup.ts";
-import { QuizQuestionType, SelectOptionType } from "@/types/QuizType";
+import { QuizQuestionFormType, SelectOptionFormType } from "@/types/QuizType";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { useQuestionTemplate } from "@/hooks/useQuestionTemplate";
 import SelectOption from "./SelectOption";
@@ -12,10 +12,12 @@ import QuizWriteGuideBubble from "../QuizWriteGuideBubble/QuizWriteGuideBubble";
 import Button from "@/components/atom/Button/Button";
 import { QuizPlus } from "@/svg/QuizPlus";
 import { gray60 } from "@/styles/abstracts/colors";
-
-export const MultipleChoiceQuestionTemplate: FC<{
+interface Props {
   questionFormId?: string;
-}> = ({ questionFormId }) => {
+}
+export const MultipleChoiceQuestionTemplate: FC<Props> = ({
+  questionFormId,
+}) => {
   const { quizCreationInfo, updateQuizCreationInfo } =
     useUpdateQuizCreationInfo();
   const [currentQuizGuideStep] = useAtom(quizGuideStepAtom);
@@ -55,7 +57,7 @@ export const MultipleChoiceQuestionTemplate: FC<{
     const { id } = event.target;
     onRadioGroupChange(event);
 
-    const currentQuestion: QuizQuestionType | undefined =
+    const currentQuestion: QuizQuestionFormType | undefined =
       quizCreationInfo.questions?.find(
         (question) => question.id!.toString() === questionFormId!,
       );
@@ -63,14 +65,14 @@ export const MultipleChoiceQuestionTemplate: FC<{
     if (!currentQuestion) {
       return;
     }
-    const targetSelectOption: SelectOptionType =
+    const targetSelectOption: SelectOptionFormType =
       currentQuestion.selectOptions.find(
         (option) => id === option.id.toString(),
       )!; // 선택된 옵션의 id값으로 전역 데이터에서 해당하는 옵션 데이터 매칭
 
     const currentAnswer: string = targetSelectOption.answerIndex.toString(); // 그 옵션의 정답 값을 현재 정답으로 저장
 
-    const updatedQuestions: QuizQuestionType[] = // 전뎍 데이터 업데이트
+    const updatedQuestions: QuizQuestionFormType[] = // 전뎍 데이터 업데이트
       quizCreationInfo.questions!.map((question) =>
         question.id!.toString() === questionFormId
           ? { ...question, answers: [currentAnswer] }

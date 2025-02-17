@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import {
-  QuizCreationType,
+  QuizFormType,
   QuizSettingType,
   scopeReverseTranslations,
   scopeTranslations,
@@ -30,7 +30,7 @@ export default function QuizSettingsForm() {
       if (value) {
         const scopeKey = key === "view-access" ? "viewScope" : "editScope";
         updateQuizCreationInfo(
-          scopeKey as keyof QuizCreationType,
+          scopeKey as keyof QuizFormType,
           scopeTranslations[value],
         );
       }

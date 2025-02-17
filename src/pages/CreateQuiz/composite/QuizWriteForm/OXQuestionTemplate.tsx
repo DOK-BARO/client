@@ -5,10 +5,10 @@ import { FC } from "react";
 import styles from "./_question_form.module.scss";
 import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo";
 import { useQuestionTemplate } from "@/hooks/useQuestionTemplate";
-
-export const OXQuestionTemplate: FC<{
+interface Props {
   questionFormId?: string;
-}> = ({ questionFormId }) => {
+}
+export const OXQuestionTemplate: FC<Props> = ({ questionFormId }) => {
   const options: RadioOptionType[] = [
     {
       id: 1,

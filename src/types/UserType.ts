@@ -26,7 +26,7 @@ export type UserProfileType = UserBaseType & {
   profileImage: string;
 };
 
-export type SolvingQuizStudyGroupUser = Omit<UserBaseType, "email"> & {
+export type SolvingQuizStudyGroupUserType = Omit<UserBaseType, "email"> & {
   email?: string;
   profileImageUrl?: string;
 };

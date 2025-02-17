@@ -30,7 +30,7 @@
     background-color: $gray-00;
     width: 40px;
     height: 40px;
-    margin-left: -8px;
+    // margin-left: -8px;
 
     @include flex(row, center);
     border-radius: 50%;
@@ -74,6 +74,7 @@
   width: 100%;
   color: $gray-50;
   font-size: $font-size-large;
+  @include option-button-text;
 
   span:first-of-type {
     width: 100%;

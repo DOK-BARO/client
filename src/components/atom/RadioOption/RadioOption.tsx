@@ -20,7 +20,7 @@ export type OptionStatusType =
   | "option-selected" // '문제풀기'화면에서 선택된 경우
   | "solving-correct" // '문제풀기'화면에서 채점시 정답
   | "solving-incorrect"; // '문제풀기'화면에서 채점시 오답
-interface RadioOptionProps {
+interface Props {
   option: RadioOptionType;
   type?: OptionStatusType;
   checked: boolean;
@@ -39,7 +39,7 @@ interface RadioOptionProps {
   showDeleteBtn?: boolean;
 }
 
-const RadioOption: React.FC<RadioOptionProps> = ({
+const RadioOption: React.FC<Props> = ({
   option,
   type = "option-writing",
   checked,
@@ -159,6 +159,7 @@ const RadioOption: React.FC<RadioOptionProps> = ({
               disabled={
                 isFirstVisit && !isEditMode && currentQuizGuideStep == 2
               }
+              className={styles["guide-option-delete-button"]}
             />
           )}
       </label>

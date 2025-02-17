@@ -13,12 +13,21 @@ import { Close } from "@/svg/Close";
 import { gray00 } from "@/styles/abstracts/colors";
 import CheckBox from "@/components/atom/Checkbox/Checkbox";
 import { CheckboxStatusType } from "@/components/atom/Checkbox/Checkbox";
-import { CheckBoxOption } from "@/types/CheckBoxTypes";
+import { CheckBoxOptionType } from "@/types/CheckBoxTypes";
 import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/xcode.css";
 
 //TODO: 중복함수 리팩토링 필요
+interface Props {
+  formIndex: number;
+  question: SolvingQuizQuestionType;
+  optionDisabled: boolean;
+  setSubmitDisabled: React.Dispatch<React.SetStateAction<boolean>>;
+  correctAnswer: string[];
+  isAnswerCorrects: boolean[];
+  didAnswerChecked: boolean;
+}
 export default function SolvingQuizForm({
   formIndex,
   question,
@@ -27,15 +36,7 @@ export default function SolvingQuizForm({
   optionDisabled,
   isAnswerCorrects,
   didAnswerChecked,
-}: {
-  formIndex: number;
-  question: SolvingQuizQuestionType;
-  optionDisabled: boolean;
-  setSubmitDisabled: React.Dispatch<React.SetStateAction<boolean>>;
-  correctAnswer: string[];
-  isAnswerCorrects: boolean[];
-  didAnswerChecked: boolean;
-}) {
+}: Props) {
   const [, setSelectedOptions] = useAtom(selectedOptionsAtom);
   const {
     selectedValue: selectedRadioOption,
@@ -177,7 +178,7 @@ export default function SolvingQuizForm({
     return (
       <>
         {question.selectOptions.map((option, index) => {
-          const checkBoxOption: CheckBoxOption = {
+          const checkBoxOption: CheckBoxOptionType = {
             id: index,
             value: index.toString(),
             label: option.content,

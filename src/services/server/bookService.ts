@@ -1,18 +1,18 @@
 import { BookType, BookQuizzesType } from "../../types/BookType.ts";
 import { BookDetailType } from "../../types/BookDetailType.ts";
-import { BookCategory } from "../../types/GNBCategoryType.ts";
+import { BookCategoryType } from "../../types/GNBCategoryType.ts";
 import { axiosInstance } from "@/config/axiosConfig.ts";
 import { handleAxiosError } from "@/utils/errorHandler.ts";
 import {
-  FetchBooksParams,
-  FetchQuizzesParams,
-  SearchBooksParams,
+  BooksFetchType,
+  QuizzesFetchType,
+  BooksSearchType,
 } from "@/types/ParamsType.ts";
 
 // 책 목록, 책 상세정보 가져오기
 class BookService {
   fetchBooks = async (
-    params: FetchBooksParams = {},
+    params: BooksFetchType = {},
   ): Promise<{ data: BookType[]; endPageNumber: number } | void> => {
     const {
       title,
@@ -44,9 +44,7 @@ class BookService {
     }
   };
   // 책 통합검색
-  fetchSearchBooks = async (
-    params?: SearchBooksParams,
-  ): Promise<BookType[]> => {
+  fetchSearchBooks = async (params?: BooksSearchType): Promise<BookType[]> => {
     const { keyword, lastId = null, size = 20 } = params || {};
 
     try {
@@ -72,7 +70,7 @@ class BookService {
     }
   };
 
-  fetchBookCategories = async (): Promise<BookCategory[] | void> => {
+  fetchBookCategories = async (): Promise<BookCategoryType[] | void> => {
     try {
       const { data } = await axiosInstance.get("/book-categories");
       return data.details[0].details;
@@ -82,7 +80,7 @@ class BookService {
   };
 
   fetchBookQuizzes = async (
-    params: FetchQuizzesParams,
+    params: QuizzesFetchType,
   ): Promise<BookQuizzesType> => {
     try {
       const { page, size, sort, direction, bookId } = params;

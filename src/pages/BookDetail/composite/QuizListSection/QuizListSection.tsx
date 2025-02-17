@@ -12,16 +12,18 @@ import useNavigateWithParams from "@/hooks/useNavigateWithParams.ts";
 import ListFilter from "@/components/composite/ListFilter/ListFilter.tsx";
 import { NoDataSection } from "@/components/composite/NoDataSection/NoDataSection.tsx";
 import { paginationAtom } from "@/store/paginationAtom.ts";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import ROUTES from "@/data/routes.ts";
 import { quizzesLengthAtom } from "@/store/quizAtom.ts";
 import useLoginAction from "@/hooks/useLoginAction.ts";
 import { quizzesFilterAtom } from "@/store/filterAtom.ts";
-import { FetchQuizzesParams } from "@/types/ParamsType.ts";
+import { QuizzesFetchType } from "@/types/ParamsType.ts";
 import { QuizzesFilterType } from "@/types/FilterType.ts";
 import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner.tsx";
-
-export default function QuizListSection({ bookId }: { bookId: string }) {
+interface Props {
+  bookId: string;
+}
+export default function QuizListSection({ bookId }: Props) {
   const { search, pathname } = useLocation();
   const queryParams = new URLSearchParams(search);
   const navigate = useNavigate();
@@ -40,7 +42,7 @@ export default function QuizListSection({ bookId }: { bookId: string }) {
   const page = queryParams.get("page");
   const pageSize = "6";
 
-  const params: FetchQuizzesParams = {
+  const params: QuizzesFetchType = {
     page: page ?? "1",
     bookId: bookId,
     sort: sort ?? "CREATED_AT",
@@ -98,6 +100,9 @@ export default function QuizListSection({ bookId }: { bookId: string }) {
   const handleGoToQuizDetail = (quizId: number) => {
     handleAuthenticatedAction(() => navigate(ROUTES.QUIZ_DETAIL(quizId)));
   };
+  const shouldRenderPagination = useMemo(() => {
+    return (totalPagesLength ?? 0) > 0;
+  }, [totalPagesLength]);
 
   if (isLoading) {
     return <LoadingSpinner width={40} pageCenter />;
@@ -128,7 +133,7 @@ export default function QuizListSection({ bookId }: { bookId: string }) {
             />
           ))}
       </div>
-      {totalPagesLength && totalPagesLength > 0 && (
+      {shouldRenderPagination ? (
         <Pagination
           type="queryString"
           parentPage="book"
@@ -136,7 +141,7 @@ export default function QuizListSection({ bookId }: { bookId: string }) {
           paginationState={paginationState}
           setPaginationState={setPaginationState}
         />
-      )}
+      ) : null}
     </section>
   );
 }

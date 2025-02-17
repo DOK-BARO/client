@@ -1,10 +1,10 @@
 // import localApi from "../local/LocalApi.ts";
-import { TermsOfServiceType } from "@/types/TermsOfServiceType.ts";
+import { TermsOfServiceType as TermsOfServiceFetchType } from "@/types/TermsOfServiceType.ts";
 import { UserType } from "@/types/UserType.ts";
 import { axiosInstance } from "@/config/axiosConfig.ts";
 import { handleAxiosError } from "@/utils/errorHandler.ts";
 import { SocialLoginType } from "@/types/SocialLoginType.ts";
-import { UpdateUserParams } from "@/types/ParamsType";
+import { UserUpdateType } from "@/types/ParamsType";
 
 class AuthService {
   // 소셜 회원가입
@@ -77,7 +77,7 @@ class AuthService {
   };
 
   // 문서 상에는 'modify login member' 로 명시되어 있음.
-  updateUser = async (userInfo: UpdateUserParams): Promise<void> => {
+  updateUser = async (userInfo: UserUpdateType): Promise<void> => {
     try {
       await axiosInstance.put("/members/login-user", userInfo);
       // console.log(response);
@@ -111,7 +111,7 @@ class AuthService {
   };
 
   // 이용약관 조회
-  fetchTerms = async (): Promise<TermsOfServiceType[] | null> => {
+  fetchTerms = async (): Promise<TermsOfServiceFetchType[] | null> => {
     try {
       const { data } = await axiosInstance.get("/terms-of-services");
       return data;

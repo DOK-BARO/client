@@ -9,7 +9,7 @@ import {
   findTopParentCategoryInfo,
 } from "@/utils/findCategoryInfo";
 import Breadcrumb from "../../../../components/composite/Breadcrumb/Breadcrumb";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import Pagination from "@/components/composite/Pagination/Pagination";
 import { useAtom, useSetAtom } from "jotai";
 import {
@@ -24,7 +24,7 @@ import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 import useFilter from "@/hooks/useFilter";
 import { BooksFilterType, BooksSortType } from "@/types/FilterType";
 import { parseQueryParams } from "@/utils/parseQueryParams";
-import { FetchBooksParams } from "@/types/ParamsType";
+import { BooksFetchType } from "@/types/ParamsType";
 import { bookFilterAtom, resetBooksFilter } from "@/store/filterAtom";
 
 // TODO: 외부 파일로 분리하기
@@ -74,7 +74,7 @@ export default function BookListLayout() {
   // 책 목록 가져오기
   const { data: booksData, isLoading: isBooksLoading } = useQuery({
     queryKey: bookKeys.list(
-      parseQueryParams<BooksSortType, FetchBooksParams>({
+      parseQueryParams<BooksSortType, BooksFetchType>({
         title,
         category,
         sort,
@@ -93,10 +93,12 @@ export default function BookListLayout() {
 
   const books = booksData?.data;
   const endPageNumber = booksData?.endPageNumber;
+  const totalPagesLength = paginationState.totalPagesLength;
 
   // 마지막 페이지 번호 저장
   useEffect(() => {
-    if (endPageNumber && paginationState.totalPagesLength !== endPageNumber) {
+    if (endPageNumber && totalPagesLength !== endPageNumber) {
+      console.log(endPageNumber);
       setPaginationState((prev) => ({
         ...prev,
         totalPagesLength: endPageNumber,
@@ -128,6 +130,11 @@ export default function BookListLayout() {
     ? findCurrentCategoryInfo(categories, Number(category))
     : null;
 
+  const shouldRenderDataList = !isBooksLoading || booksData;
+  const shouldRenderPagination = useMemo(() => {
+    return (totalPagesLength ?? 0) > 0;
+  }, [totalPagesLength]);
+
   return (
     <section className={styles.container}>
       {isCategoriesLoading || !categories ? null : (
@@ -153,8 +160,8 @@ export default function BookListLayout() {
             filterOptions={filterOptions}
           />
         </div>
-        {isBooksLoading || !booksData ? null : <Outlet context={{ books }} />}
-        {paginationState.totalPagesLength ? (
+        {shouldRenderDataList ? <Outlet context={{ books }} /> : null}
+        {shouldRenderPagination ? (
           <Pagination
             type="queryString"
             parentPage="books"

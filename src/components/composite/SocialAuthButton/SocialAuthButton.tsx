@@ -14,9 +14,11 @@ import {
 import { useAtom } from "jotai";
 import { authService } from "@/services/server/authService";
 
-const SocialAuthButton: React.FC<{
+interface Props {
   socialType: SocialLoginType;
-}> = ({ socialType }) => {
+}
+
+const SocialAuthButton: React.FC<Props> = ({ socialType }) => {
   const [, setIsEmailLoginPage] = useAtom(isEmailLoginPageAtom);
   const [socialLoginRedirectUrl] = useAtom(socialLoginRedirectUrlAtom);
 

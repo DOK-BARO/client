@@ -1,8 +1,10 @@
 import styles from "./_bookItem.module.scss";
 import { BookType } from "@/types/BookType.ts";
 import pencil from "/assets/svg/bookList/pencil.svg";
-
-export default function BookItem({ book }: { book: BookType }) {
+interface Props {
+  book: BookType;
+}
+export default function BookItem({ book }: Props) {
   const bookAuthor =
     book.authors.length > 1 ? `${book.authors[0]} 외` : book.authors;
 

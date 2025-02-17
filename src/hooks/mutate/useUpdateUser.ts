@@ -2,7 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { authService } from "@/services/server/authService";
 import { ErrorType } from "@/types/ErrorType";
 import toast from "react-hot-toast";
-import { UpdateUserParams } from "@/types/ParamsType";
+import { UserUpdateType } from "@/types/ParamsType";
 import { useAtom } from "jotai";
 import { currentUserAtom } from "@/store/userAtom";
 import { queryClient } from "@/services/server/queryClient";
@@ -13,7 +13,7 @@ const useUpdateUser = () => {
   const { mutate: updateUser } = useMutation<
     { toastMessage: string; needToInvalidateQuery?: boolean },
     ErrorType,
-    { user: UpdateUserParams; toastMessage: string; needToReload?: boolean }
+    { user: UserUpdateType; toastMessage: string; needToReload?: boolean }
   >({
     mutationFn: async ({ user, toastMessage, needToReload }) => {
       await authService.updateUser(user);

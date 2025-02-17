@@ -1,30 +1,27 @@
 // TODO: id string | number 타입 통일하기
 import {
-  FetchBooksParams,
-  FetchMyQuizzesParams,
-  FetchQuizzesParams,
-  FetchReviewsParams,
-  FetchStudyGroupsParams,
-  SearchBooksParams,
+  BooksFetchType,
+  MyQuizzesFetchType,
+  QuizzesFetchType,
+  ReviewsFetchType,
+  StudyGroupsFetchType,
+  BooksSearchType,
 } from "@/types/ParamsType";
 
 export const bookKeys = {
   detail: (id: string | undefined) => ["bookDetailContent", id] as const,
   categories: () => ["bookCategories"] as const,
-  list: (param?: FetchBooksParams) => ["bookList", param] as const,
-  search: (params?: SearchBooksParams) => ["bookSearch", params] as const,
-  quizList: (params: FetchQuizzesParams) => ["bookQuizList", params] as const,
+  list: (param?: BooksFetchType) => ["bookList", param] as const,
+  search: (params?: BooksSearchType) => ["bookSearch", params] as const,
+  quizList: (params: QuizzesFetchType) => ["bookQuizList", params] as const,
 };
 
 export const studyGroupKeys = {
   detail: (id: number | undefined) => ["studyGroupDetail", id] as const,
-  list: (params?: FetchStudyGroupsParams) =>
-    ["studyGroupList", params] as const,
-  myUnsolvedQuizList: (
-    id: number | undefined,
-    params: FetchStudyGroupsParams,
-  ) => ["studyGroupMyUnsolvedQuizList", id, params] as const,
-  mySolvedQuizList: (id: number | undefined, params: FetchStudyGroupsParams) =>
+  list: (params?: StudyGroupsFetchType) => ["studyGroupList", params] as const,
+  myUnsolvedQuizList: (id: number | undefined, params: StudyGroupsFetchType) =>
+    ["studyGroupMyUnsolvedQuizList", id, params] as const,
+  mySolvedQuizList: (id: number | undefined, params: StudyGroupsFetchType) =>
     ["studyGroupMySolvedQuizList", id, params] as const,
   quizGradeResult: (studyGroupId: number, quizId: number) =>
     ["studyGroupQuizGradeResult", studyGroupId, quizId] as const,
@@ -42,8 +39,8 @@ export const userKeys = {
 };
 
 export const quizKeys = {
-  myQuiz: (params: FetchMyQuizzesParams) => ["myQuiz", params] as const,
-  solvedQuiz: (params: FetchMyQuizzesParams) => ["solvedQuiz", params] as const,
+  myQuiz: (params: MyQuizzesFetchType) => ["myQuiz", params] as const,
+  solvedQuiz: (params: MyQuizzesFetchType) => ["solvedQuiz", params] as const,
   detail: (id: string | undefined) => ["quizDetail", id] as const,
   prevDetail: (id: string | undefined) => ["prevDetail", id] as const,
   explanation: (id: string | undefined) => ["quizExplanation", id] as const,
@@ -57,6 +54,6 @@ export const quizKeys = {
 
 export const reviewKeys = {
   totalScore: (id: number | undefined) => ["reviewTotalScore", id] as const,
-  list: (param?: FetchReviewsParams) => ["reviewList", param] as const,
+  list: (param?: ReviewsFetchType) => ["reviewList", param] as const,
   myReview: (id: number | undefined) => ["myReview", id] as const,
 };

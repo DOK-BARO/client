@@ -1,13 +1,10 @@
 import styles from "./_tooltip.module.scss";
 
-interface TooltipProps {
+interface Props {
   label: string;
   className?: string;
 }
-export default function Tooltip({
-  label,
-  className: customClassName,
-}: TooltipProps) {
+export default function Tooltip({ label, className: customClassName }: Props) {
   const className = `${styles.container} ${customClassName ?? ""}`;
   return (
     <article className={className}>

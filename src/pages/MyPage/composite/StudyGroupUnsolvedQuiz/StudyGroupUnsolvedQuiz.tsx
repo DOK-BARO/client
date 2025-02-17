@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import styles from "../StudyGroup/_study_group.module.scss";
 import { parseQueryParams } from "@/utils/parseQueryParams";
-import { FetchStudyGroupsParams } from "@/types/ParamsType";
+import { StudyGroupsFetchType } from "@/types/ParamsType";
 import { useAtom } from "jotai";
 import { myStudyUnsolvedQuizPaginationAtom } from "@/store/paginationAtom";
 import { myStudyUnsolvedQuizFilterAtom } from "@/store/filterAtom";
@@ -71,7 +71,7 @@ export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Props) {
   const { data: unsolvedQuizData } = useQuery({
     queryKey: studyGroupKeys.myUnsolvedQuizList(
       studyGroupId,
-      parseQueryParams<MyStudyUnSolvedQuizzesSortType, FetchStudyGroupsParams>({
+      parseQueryParams<MyStudyUnSolvedQuizzesSortType, StudyGroupsFetchType>({
         sort,
         direction,
         page,
@@ -84,7 +84,7 @@ export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Props) {
             studyGroupId,
             parseQueryParams<
               MyStudyUnSolvedQuizzesSortType,
-              FetchStudyGroupsParams
+              StudyGroupsFetchType
             >({
               sort,
               direction,
@@ -144,12 +144,16 @@ export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Props) {
     );
   };
 
-  const isQuizzesExist = unsolvedQuizzes && unsolvedQuizzes.length > 0;
+  const shouldRenderDataList = unsolvedQuizzes && unsolvedQuizzes.length > 0;
+  const shouldRenderPagination = useMemo(() => {
+    return (totalPagesLength ?? 0) > 0;
+  }, [totalPagesLength]);
+
   return (
     <section>
       <div className={styles["filter-container"]}>
         <h3 className={styles.title}>풀어야 할 퀴즈</h3>
-        {isQuizzesExist ? (
+        {shouldRenderDataList ? (
           <ListFilter
             onOptionClick={handleOptionClick}
             sortFilter={filterCriteria}
@@ -157,7 +161,7 @@ export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Props) {
           />
         ) : null}
       </div>
-      {isQuizzesExist ? (
+      {shouldRenderDataList ? (
         <ol className={styles["quiz-list"]}>
           {unsolvedQuizzes.map((quizData) => (
             <QuizItem
@@ -176,7 +180,7 @@ export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Props) {
           onClick={() => handleAuthenticatedAction(handleGoToCreateQuiz)}
         />
       )}
-      {totalPagesLength && isQuizzesExist ? (
+      {shouldRenderPagination ? (
         <Pagination
           type="state"
           paginationState={paginationState}

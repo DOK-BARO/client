@@ -1,11 +1,11 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import styles from "../StudyGroup/_study_group.module.scss";
 import {
   MyStudySolvedQuizzesFilterType,
   MyStudySolvedQuizzesSortType,
 } from "@/types/FilterType";
 import { parseQueryParams } from "@/utils/parseQueryParams";
-import { FetchStudyGroupsParams } from "@/types/ParamsType";
+import { StudyGroupsFetchType } from "@/types/ParamsType";
 import { useAtom } from "jotai";
 import { mySolvedQuizPaginationAtom } from "@/store/paginationAtom";
 import { myStudySolvedQuizFilterAtom } from "@/store/filterAtom";
@@ -64,7 +64,7 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Props) {
   const { data: solvedQuizData } = useQuery({
     queryKey: studyGroupKeys.mySolvedQuizList(
       studyGroupId,
-      parseQueryParams<MyStudySolvedQuizzesSortType, FetchStudyGroupsParams>({
+      parseQueryParams<MyStudySolvedQuizzesSortType, StudyGroupsFetchType>({
         sort,
         direction,
         page,
@@ -77,7 +77,7 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Props) {
             studyGroupId,
             parseQueryParams<
               MyStudySolvedQuizzesSortType,
-              FetchStudyGroupsParams
+              StudyGroupsFetchType
             >({
               sort,
               direction,
@@ -119,6 +119,10 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Props) {
     );
   };
 
+  const shouldRenderPagination = useMemo(() => {
+    return (totalPagesLength ?? 0) > 0;
+  }, [totalPagesLength]);
+
   return (
     <section className={styles.section}>
       <div className={styles["filter-container"]}>
@@ -146,7 +150,7 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Props) {
       ) : (
         <NoDataSection title="아직 제출한 퀴즈가 없어요 😔" />
       )}
-      {totalPagesLength && isQuizzesExist ? (
+      {shouldRenderPagination ? (
         <Pagination
           type="state"
           paginationState={paginationState}

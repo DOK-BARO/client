@@ -5,7 +5,7 @@ import {
 } from "./FilterType";
 
 // BOOK
-export interface FetchBooksParams {
+export interface BooksFetchType {
   title?: string;
   authorName?: string;
   description?: string;
@@ -15,16 +15,16 @@ export interface FetchBooksParams {
   sort?: BooksFilterType["sort"];
   direction?: BooksFilterType["direction"];
 }
-export type FetchBooksKeyType = keyof FetchBooksParams;
+export type BooksFetchKeyType = keyof BooksFetchType;
 
-export interface SearchBooksParams {
+export interface BooksSearchType {
   keyword?: string;
   lastId?: number;
   size?: number;
 }
 
 // REVIEW
-export interface FetchReviewsParams {
+export interface ReviewsFetchType {
   quizId: number;
   page?: number;
   size?: number;
@@ -32,14 +32,14 @@ export interface FetchReviewsParams {
   direction?: ReviewsFilterType["direction"];
 }
 
-export interface NavigateReviewParams {
+export interface ReviewNavigateType {
   solvingQuizId: string;
   quizTitle: string;
 }
 
 // QUIZ
 // TODO: 필드 타입 수정 필요
-export interface FetchQuizzesParams {
+export interface QuizzesFetchType {
   page: string;
   size: string;
   bookId: string;
@@ -48,7 +48,7 @@ export interface FetchQuizzesParams {
 }
 
 // 내가 만든 퀴즈, 내가 푼 퀴즈
-export interface FetchMyQuizzesParams {
+export interface MyQuizzesFetchType {
   page: string;
   size: string;
   sort: string;
@@ -56,7 +56,7 @@ export interface FetchMyQuizzesParams {
 }
 
 // STUDY GROUP
-export interface FetchStudyGroupsParams {
+export interface StudyGroupsFetchType {
   page?: number;
   size?: number;
   sort?: StudyGroupsFilterType["sort"];
@@ -65,7 +65,7 @@ export interface FetchStudyGroupsParams {
 
 // Auth
 
-export interface UpdateUserParams {
+export interface UserUpdateType {
   nickname?: string;
   email?: string;
   profileImage?: string | null;
@@ -73,14 +73,14 @@ export interface UpdateUserParams {
 
 // ROUTES
 
-export interface QuizResultRouteParams {
+export interface QuizResultRouteType {
   quizId: number;
   solvingQuizId: number;
   quizTitle: string;
   studyGroupId?: string;
 }
 
-export interface QuizReviewRouteParams {
+export interface QuizReviewRouteType {
   quizId: number;
   solvingQuizId: number;
   quizTitle: string;

@@ -8,8 +8,8 @@ import useFilter from "@/hooks/useFilter";
 import { mySolvedQuizPaginationAtom } from "@/store/paginationAtom";
 import Pagination from "@/components/composite/Pagination/Pagination";
 import { FilterOptionType } from "@/components/composite/ListFilter/ListFilter";
-import { FetchMyQuizzesParams } from "@/types/ParamsType";
-import { useEffect } from "react";
+import { MyQuizzesFetchType } from "@/types/ParamsType";
+import { useEffect, useMemo } from "react";
 import ROUTES from "@/data/routes";
 import { MySolvedQuizzesFilterType } from "@/types/FilterType";
 import { mySolvedQuizFilterAtom } from "@/store/filterAtom";
@@ -43,7 +43,7 @@ export default function SolvedQuiz() {
   );
 
   const totalPagesLength = paginationState.totalPagesLength;
-  const params: FetchMyQuizzesParams = {
+  const params: MyQuizzesFetchType = {
     page: paginationState.currentPage.toString() ?? "1",
     sort: filterCriteria.sort,
     direction: filterCriteria.direction,
@@ -76,10 +76,14 @@ export default function SolvedQuiz() {
 
   const myQuizzes = myQuizzesData?.data;
 
+  const shouldRenderDataList = !isLoading && myQuizzes;
+  const shouldRenderPagination = useMemo(() => {
+    return (totalPagesLength ?? 0) > 0;
+  }, [totalPagesLength]);
+
   return (
-    !isLoading &&
-    myQuizzes && (
-      <div>
+    shouldRenderDataList && (
+      <>
         <QuizListLayout
           title="푼 퀴즈"
           quizzes={myQuizzes}
@@ -90,15 +94,15 @@ export default function SolvedQuiz() {
           filterCriteria={filterCriteria}
           filterOptions={filterOptions}
         />
-        {totalPagesLength && totalPagesLength > 0 && (
+        {shouldRenderPagination ? (
           <Pagination
             type="queryString"
             parentPage="my/solved-quiz"
             paginationState={paginationState}
             setPaginationState={setPaginationState}
           />
-        )}
-      </div>
+        ) : null}
+      </>
     )
   );
 }

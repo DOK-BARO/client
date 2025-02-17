@@ -13,7 +13,7 @@ import { currentUserAtom } from "@/store/userAtom";
 import { ReviewsFilterType, ReviewsSortType } from "@/types/FilterType";
 import { parseQueryParams } from "@/utils/parseQueryParams";
 import { useLocation } from "react-router-dom";
-import { FetchReviewsParams } from "@/types/ParamsType";
+import { ReviewsFetchType } from "@/types/ParamsType";
 import { ReviewType } from "@/types/ReviewType";
 import { ErrorType } from "@/types/ErrorType";
 import { useRef } from "react";
@@ -90,7 +90,7 @@ export default function ReviewList({ quizId, quizTitle }: Props) {
     }
   >({
     queryKey: reviewKeys.list(
-      parseQueryParams<ReviewsSortType, FetchReviewsParams>({
+      parseQueryParams<ReviewsSortType, ReviewsFetchType>({
         sort,
         direction,
         page,

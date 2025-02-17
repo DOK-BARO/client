@@ -8,8 +8,8 @@ import {
   QuizzesFilterType,
   ReviewsFilterType,
 } from "@/types/FilterType";
-import { ParentPage } from "@/types/PaginationType";
-import { FetchBooksKeyType } from "@/types/ParamsType";
+import { ParentPageType } from "@/types/PaginationType";
+import { BooksFetchKeyType } from "@/types/ParamsType";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 // 지정된 필터, 페이지, 카테고리 등의 파라미터를 URL에 반영하고
 // 필요 시 제외 파라미터를 처리하는 등
 // 페이지 이동과 상태 업데이트를 동시에 수행
-const useNavigateWithParams = (parentPage: ParentPage) => {
+const useNavigateWithParams = (parentPage: ParentPageType) => {
   const navigate = useNavigate();
   const [, setPaginationState] = useAtom(paginationAtom);
   const [prevPaginationState] = useAtom(prevPaginationStateAtom);
@@ -68,8 +68,8 @@ const useNavigateWithParams = (parentPage: ParentPage) => {
     title?: string;
     page?: number;
     category?: string;
-    parentPage: ParentPage;
-    excludeParams?: FetchBooksKeyType[];
+    parentPage: ParentPageType;
+    excludeParams?: BooksFetchKeyType[];
     itemId?: number;
   }) => {
     const queryParams = new URLSearchParams(window.location.search);

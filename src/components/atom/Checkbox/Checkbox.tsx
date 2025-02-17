@@ -18,7 +18,7 @@ export type CheckboxStatusType =
   | "solving-correct" // '문제풀기'화면에서 채점시 정답
   | "solving-incorrect" // '문제풀기'화면에서 채점시 오답
   | "checkbox-black"; // 퀴즈 신고하기
-interface CheckBoxProps {
+interface Props {
   id: string;
   checked: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -47,7 +47,7 @@ export default function CheckBox({
   onFocus = () => {},
   onBlur = () => {},
   disabled,
-}: CheckBoxProps) {
+}: Props) {
   const optionMaxLength = 500;
   const [isTextAreaFocus, setIsTextAreaFocus] = useState(false);
 

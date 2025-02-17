@@ -191,10 +191,13 @@
   height: 100%;
 }
 
-@mixin text-ellipsis {
-  white-space: nowrap;
+@mixin text-ellipsis($lines: 1) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $lines;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: normal;
 }
 
 @mixin questionExplanationImage {

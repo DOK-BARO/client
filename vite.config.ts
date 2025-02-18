@@ -12,6 +12,7 @@ export default defineConfig({
   resolve: {
     alias: [{ find: "@", replacement: "/src" }],
   },
+  css: { preprocessorOptions: { scss: { api: "modern" } } },
   test: {
     globals: true,
     environment: "jsdom",

@@ -1,5 +1,4 @@
-@import "../../../../styles/abstracts/mixins";
-@import "../../../../styles/abstracts/variables";
+@use "/src/styles/abstracts/" as *;
 
 .container {
   padding: 20px;

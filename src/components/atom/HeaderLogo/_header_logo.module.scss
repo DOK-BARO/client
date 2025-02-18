@@ -1,4 +1,4 @@
-@import "../../../styles/abstracts/variables";
+@use "/src/styles/abstracts/" as *;
 
 .logo {
   &-container {

@@ -1,4 +1,4 @@
-@import "../../../styles/abstracts/mixins";
+@use "/src/styles/abstracts/" as *;
 
 .container {
   @include flex(row, center);

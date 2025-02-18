@@ -302,7 +302,6 @@ export default function Index() {
     }
   }, [isFirstVisit]);
 
-  const temporarySavedDate = "오후 2시 50분";
   const [, setCreatedQuizId] = useAtom(createdQuizIdAtom);
 
   const { createQuiz } = useCreateQuiz({
@@ -310,7 +309,9 @@ export default function Index() {
       // 임시 퀴즈 생성 후 처리
       // setCreatedQuizId(id);
       console.log("임시저장된 퀴즈 아이디", quizId);
+      // if (!isAutoSave) {
       toast.success("퀴즈가 임시저장되었습니다.");
+      // }
     },
     onPermanentSuccess: (quizId) => {
       // 영구 퀴즈 생성 후 처리
@@ -329,6 +330,9 @@ export default function Index() {
     onTemporarySuccess: (editQuizId) => {
       // 임시 퀴즈 생성 후 처리
       // setCreatedQuizId(id);
+      // if (!isAutoSave) {
+      toast.success("퀴즈가 임시저장되었습니다.");
+      // }
     },
     onPermanentSuccess: (editQuizId) => {
       queryClient.invalidateQueries({
@@ -386,6 +390,7 @@ export default function Index() {
   };
 
   const setRequestQuestion = async (): Promise<QuizQuestionCreateType[]> => {
+    console.log("quizCreationInfo.questions", quizCreationInfo.questions);
     const uploadedImgQuestions = quizCreationInfo.questions!.map(
       async (question) => {
         const { id, ...rest } = question;
@@ -421,10 +426,17 @@ export default function Index() {
     return !hasNullFields;
   };
 
-  const requestQuiz = async ({ isTemporary }: { isTemporary: boolean }) => {
+  const requestQuiz = async ({
+    isTemporary,
+    // isAutoSave = false,
+  }: {
+    isTemporary: boolean;
+    // isAutoSave?: boolean;
+  }) => {
     if (!validateQuizCreationInfo(isTemporary)) {
       return;
     }
+    console.log(quizCreationInfo.questions);
     if (
       !quizCreationInfo.title ||
       !quizCreationInfo.description ||
@@ -432,7 +444,6 @@ export default function Index() {
     ) {
       throw new Error("퀴즈 필수 정보가 없습니다.");
     }
-    // 임시저장된 아이디: 111
 
     const quiz: Omit<QuizCreateType, "temporary"> = {
       title: quizCreationInfo.title,
@@ -479,15 +490,39 @@ export default function Index() {
     openModal();
   };
 
-  // // 임시저장
-  // const handleTemporarySave = async () => {
-  //   await validateAndRequestQuiz({ isTemporary: true });
-  // };
+  const [lastTemporarySavedTime, setLastTemporarySavedTime] = useState<
+    string | null
+  >(null);
+
+  // 자동 임시저장
+  useEffect(() => {
+    if (currentStep < QUIZ_CREATION_STEP.QUIZ_WRITE_FORM) {
+      return;
+    }
+    // 30초에 한번씩
+    const interval = setInterval(async () => {
+      await validateAndRequestQuiz({ isTemporary: true });
+
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = now.getMinutes();
+      const period = hours < 12 ? "오전" : "오후";
+      const formattedHours = hours % 12 || 12;
+      const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+      const formattedTime = `${period} ${formattedHours}시 ${formattedMinutes}분`;
+
+      setLastTemporarySavedTime(formattedTime);
+    }, 30000);
+
+    return () => clearInterval(interval);
+  }, [currentStep, quizCreationInfo]);
 
   const validateAndRequestQuiz = async ({
     isTemporary,
+    // isAutoSave = false,
   }: {
     isTemporary: boolean;
+    // isAutoSave?: boolean;
   }): Promise<boolean> => {
     if (currentStep === QUIZ_CREATION_STEP.QUIZ_WRITE_FORM) {
       const isValid = validateQuizForm(
@@ -572,9 +607,11 @@ export default function Index() {
             >
               임시저장 하기
             </Button>
-            <p className={styles["temporary-save-date"]}>
-              자동저장 {temporarySavedDate}
-            </p>
+            {lastTemporarySavedTime ? (
+              <p className={styles["temporary-save-date"]}>
+                자동저장 {lastTemporarySavedTime}
+              </p>
+            ) : null}
           </section>
         ) : null}
       </div>
@@ -640,6 +677,7 @@ export default function Index() {
                       // 임시저장
                       const isRequested = await validateAndRequestQuiz({
                         isTemporary: true,
+                        // isAutoSave: false,
                       });
                       if (isRequested) {
                         // 나가기

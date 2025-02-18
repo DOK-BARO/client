@@ -17,9 +17,6 @@ import {
 } from "@/types/QuizType";
 import { imageService } from "@/services/server/imageService";
 import { errorModalTitleAtom, openErrorModalAtom } from "@/store/quizAtom";
-import { quizService } from "@/services/server/quizService";
-import { useMutation } from "@tanstack/react-query";
-import { ErrorType } from "@/types/ErrorType";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ROUTES from "@/data/routes";
@@ -30,6 +27,8 @@ import { preventLeaveModalAtom } from "@/store/quizAtom";
 import { Blocker } from "react-router-dom";
 import { useValidateQuizForm } from "@/hooks/useValidateQuizForm";
 import { QUIZ_CREATION_STEP } from "@/data/constants";
+import useCreateQuiz from "@/hooks/mutate/useCreateQuiz";
+import useModifyQuiz from "@/hooks/mutate/useModifyQuiz";
 interface Props {
   isEditMode: boolean;
   editQuizId?: string;
@@ -161,16 +160,9 @@ export default function QuizCreationFormLayout({
 
   const [, setCreatedQuizId] = useAtom(createdQuizIdAtom);
 
-  const { mutate: createQuiz } = useMutation<
-    { id: number } | null,
-    ErrorType,
-    QuizCreateType
-  >({
-    mutationFn: (quiz) => quizService.createQuiz(quiz),
-    onSuccess: (data) => {
-      if (!data) {
-        return;
-      }
+  const { createQuiz } = useCreateQuiz({
+    onSuccessCallback: (id: number) => {
+      // onSuccessCallback TODO: 객체로 바꿔야하나
       queryClient.invalidateQueries({
         queryKey: studyGroupKeys.myUnsolvedQuizList(
           quizCreationInfo.studyGroup?.id,
@@ -178,10 +170,9 @@ export default function QuizCreationFormLayout({
         ),
         exact: true,
       });
-      setCreatedQuizId(data.id);
-      // localStorage.removeItem("quizCreationInfo");
-      // blocker사용떄문에 아래 useEFfect에서 페이지 이동
+      setCreatedQuizId(id);
     },
+    isTemporary: false,
   });
 
   useEffect(() => {
@@ -196,14 +187,32 @@ export default function QuizCreationFormLayout({
     }
   }, [blocker, isComplete]);
 
-  const { mutate: requestModifyQuiz } = useMutation<
-    void,
-    ErrorType,
-    { editQuizId: string; quiz: QuizCreateType }
-  >({
-    mutationFn: ({ editQuizId, quiz }) =>
-      quizService.modifyQuiz({ editQuizId, quiz }),
-    onSuccess: () => {
+  // const { mutate: modifyQuiz } = useMutation<
+  //   void,
+  //   ErrorType,
+  //   { editQuizId: string; quiz: QuizCreateType }
+  // >({
+  //   mutationFn: ({ editQuizId, quiz }) =>
+  //     quizService.modifyQuiz({ editQuizId, quiz }),
+  //   onSuccess: () => {
+  //     queryClient.invalidateQueries({
+  //       queryKey: studyGroupKeys.myUnsolvedQuizList(
+  //         quizCreationInfo.studyGroup?.id,
+  //         {},
+  //       ),
+  //       exact: true,
+  //     });
+  //     if (!editQuizId) {
+  //       return;
+  //     }
+  //     setCreatedQuizId(parseInt(editQuizId));
+  //     // localStorage.removeItem("quizCreationInfo");
+  //     // blocker사용떄문에 아래 useEFfect에서 페이지 이동
+  //   },
+  // });
+  const { modifyQuiz } = useModifyQuiz({
+    isTemporary: false,
+    onSuccessCallback: (editQuizId) => {
       queryClient.invalidateQueries({
         queryKey: studyGroupKeys.myUnsolvedQuizList(
           quizCreationInfo.studyGroup?.id,
@@ -215,8 +224,6 @@ export default function QuizCreationFormLayout({
         return;
       }
       setCreatedQuizId(parseInt(editQuizId));
-      // localStorage.removeItem("quizCreationInfo");
-      // blocker사용떄문에 아래 useEFfect에서 페이지 이동
     },
   });
 
@@ -231,7 +238,7 @@ export default function QuizCreationFormLayout({
       return;
     }
 
-    const quiz: QuizCreateType = {
+    const quiz: Omit<QuizCreateType, "temporary"> = {
       title: quizCreationInfo.title,
       description: quizCreationInfo.description,
       viewScope: quizCreationInfo.viewScope,
@@ -239,11 +246,10 @@ export default function QuizCreationFormLayout({
       bookId: quizCreationInfo.book.id,
       studyGroupId: quizCreationInfo.studyGroup?.id || undefined,
       questions: await setRequestQuestion(),
-      // temporary: isTemporary,
     };
     setIsComplete(true);
     isEditMode
-      ? requestModifyQuiz({ editQuizId: editQuizId!, quiz })
+      ? modifyQuiz({ editQuizId: editQuizId!, quiz })
       : createQuiz(quiz);
 
     return;

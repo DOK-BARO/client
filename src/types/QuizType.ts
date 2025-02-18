@@ -118,6 +118,7 @@ export interface QuizFormType {
   editScope: EditScopeType | null;
   studyGroup: StudyGroupType | null | undefined; // undefined -> 스터디그룹 선택 안함
   questions: QuizQuestionFormType[] | null;
+  temporary: boolean;
 }
 
 export interface SelectOptionFormType {
@@ -152,7 +153,7 @@ export interface QuizCreateType {
   editScope: EditScopeType;
   studyGroupId?: number | null;
   questions: QuizQuestionCreateType[];
-  // temporary: boolean; // 임시 저장 여부
+  temporary: boolean; // 임시 저장 여부
 }
 
 export type QuizQuestionCreateType = {

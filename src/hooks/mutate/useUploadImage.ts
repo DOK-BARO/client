@@ -4,6 +4,7 @@ import { UploadImageArgType } from "@/types/UploadImageType";
 import { imageService } from "@/services/server/imageService";
 import toast from "react-hot-toast";
 
+// TODO: props 객체로 받는걸로 바꾸기
 const useUploadImageToStorage = (
   onSuccessCallback: (imageUrl: string) => void,
   onErrorCallback?: () => void,

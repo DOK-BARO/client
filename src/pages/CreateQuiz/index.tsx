@@ -61,6 +61,7 @@ export default function Index() {
   const blocker = useBlocker(true);
   const { closeModal: closePreventLeaveModal } = useModal();
   usePreventLeave();
+
   const { data: prevQuiz, isLoading: isPrevQuizLoading } = useQuery({
     queryKey: quizKeys.prevDetail(quizId!),
     queryFn: () => (quizId ? quizService.fetchQuizzesDetail(quizId) : null),
@@ -272,7 +273,6 @@ export default function Index() {
     }
 
     resetQuizState();
-    //console.log("퀴즈 상태 초기화");
 
     return () => {
       resetBookState();
@@ -294,7 +294,10 @@ export default function Index() {
   if (isPrevQuizLoading || isBookLoading || isStudyGroupLoading) {
     return <LoadingSpinner pageCenter width={40} />;
   }
-  const temporarySaveDate = "오후 2시 50분";
+  const temporarySavedDate = "오후 2시 50분";
+
+  // 퀴즈 임시저장 버튼 클릭
+  const handleTemporarySave = () => {};
 
   return (
     <section className={styles["container"]}>
@@ -305,15 +308,17 @@ export default function Index() {
       {/* <div className={styles.space} /> */}
       <div className={styles["left-section"]}>
         <QuizCreationSteps isEditMode={isEditMode} steps={steps} />
-        <section>
-          <h3 className={styles["sr-only"]}>퀴즈 임시저장</h3>
-          <Button color="white" fullWidth>
-            임시저장 하기
-          </Button>
-          <p className={styles["temporary-save-date"]}>
-            자동저장 {temporarySaveDate}
-          </p>
-        </section>
+        {currentStep > 2.1 ? (
+          <section>
+            <h3 className={styles["sr-only"]}>퀴즈 임시저장</h3>
+            <Button color="white" fullWidth onClick={handleTemporarySave}>
+              임시저장 하기
+            </Button>
+            <p className={styles["temporary-save-date"]}>
+              자동저장 {temporarySavedDate}
+            </p>
+          </section>
+        ) : null}
       </div>
       <QuizCreationFormLayout
         isEditMode={isEditMode}

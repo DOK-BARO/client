@@ -4,6 +4,29 @@
 .container {
   @include flex(row);
   gap: 40px;
+
+  .space {
+    width: 228px;
+    height: fit-content;
+  }
+
+  .left-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    top: 100px;
+    position: sticky;
+    height: 100%;
+    z-index: 10;
+
+    .temporary-save-date {
+      color: $gray-60;
+      font-size: 14px;
+      font-weight: $font-weight-medium;
+      margin: 8px;
+      text-align: center;
+    }
+  }
 }
 
 .prevent-leave-modal-content {

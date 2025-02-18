@@ -45,6 +45,7 @@ import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo.ts";
 import QuizWriteGuideForm from "./composite/QuizWriteForm/QuizWriteGuideForm.tsx";
 import { QUIZ_CREATION_STEP } from "@/data/constants.ts";
 import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner.tsx";
+import Button from "@/components/atom/Button/Button.tsx";
 
 export default function Index() {
   const { id } = useParams();
@@ -220,8 +221,7 @@ export default function Index() {
       {
         order: QUIZ_CREATION_STEP.SETTING,
         icon: "🔗",
-        title: "퀴즈 공유 설정",
-        // description: "퀴즈를 볼 수 있는 사람과 편집 권한을 설정해 주세요.",
+        title: "공유 설정",
         description: "퀴즈를 볼 수 있는 사람을 설정해 주세요.",
         formComponent: () => <QuizSettingsForm />,
         isDone: completionStatus.isSet,
@@ -294,6 +294,7 @@ export default function Index() {
   if (isPrevQuizLoading || isBookLoading || isStudyGroupLoading) {
     return <LoadingSpinner pageCenter width={40} />;
   }
+  const temporarySaveDate = "오후 2시 50분";
 
   return (
     <section className={styles["container"]}>
@@ -301,7 +302,19 @@ export default function Index() {
         <div className={styles.layer} />
       ) : null}
       <h2 className={styles["sr-only"]}>퀴즈 등록</h2>
-      <QuizCreationSteps isEditMode={isEditMode} steps={steps} />
+      {/* <div className={styles.space} /> */}
+      <div className={styles["left-section"]}>
+        <QuizCreationSteps isEditMode={isEditMode} steps={steps} />
+        <section>
+          <h3 className={styles["sr-only"]}>퀴즈 임시저장</h3>
+          <Button color="white" fullWidth>
+            임시저장 하기
+          </Button>
+          <p className={styles["temporary-save-date"]}>
+            자동저장 {temporarySaveDate}
+          </p>
+        </section>
+      </div>
       <QuizCreationFormLayout
         isEditMode={isEditMode}
         editQuizId={quizId ?? ""}

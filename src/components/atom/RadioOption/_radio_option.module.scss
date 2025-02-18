@@ -139,7 +139,6 @@
   input[type="radio"]:checked {
     border: none;
     position: relative;
-    top: 3.5px;
 
     &::after {
       display: inline-block;

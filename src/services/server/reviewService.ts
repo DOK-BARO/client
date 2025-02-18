@@ -65,7 +65,7 @@ class ReviewService {
 
   createQuizReview = async (
     review: ReviewCreateType,
-  ): Promise<{ id: string } | null> => {
+  ): Promise<{ id: number } | null> => {
     try {
       const { data } = await axiosInstance.post("/quiz-reviews", review);
       return data;

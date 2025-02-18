@@ -61,7 +61,7 @@ class BookService {
     }
   };
 
-  fetchBook = async (bookId: string): Promise<BookDetailType> => {
+  fetchBook = async (bookId: number): Promise<BookDetailType> => {
     try {
       const { data } = await axiosInstance.get(`/books/${bookId}`);
       return data;

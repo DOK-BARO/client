@@ -7,6 +7,7 @@ import StudyQuizResult from "./composite/StudyQuizResult";
 import { useState } from "react";
 import ROUTES from "@/data/routes";
 import { QuizReviewRouteType } from "@/types/ParamsType";
+import toast from "react-hot-toast";
 
 export default function Index() {
   const [currentStep, setCurrentStep] = useState<number>(0);
@@ -18,15 +19,26 @@ export default function Index() {
     studyGroupId?: string;
   }>();
 
+  const quizIdNumber = Number(quizId);
+  const solvingQuizIdNumber = Number(solvingQuizId);
+
+  if (isNaN(quizIdNumber) || isNaN(solvingQuizIdNumber)) {
+    toast.error("잘못된 퀴즈 id 입니다.");
+    navigate(ROUTES.ROOT);
+  }
+
   const steps: { order: number; component: JSX.Element }[] = [
     {
       order: 0,
-      component: <CommonQuizResult solvingQuizId={solvingQuizId!} />,
+      component: <CommonQuizResult solvingQuizId={parseInt(solvingQuizId!)} />,
     },
     {
       order: 1,
       component: (
-        <StudyQuizResult studyGroupId={studyGroupId!} quizId={quizId!} />
+        <StudyQuizResult
+          studyGroupId={parseInt(studyGroupId!)}
+          quizId={quizIdNumber!}
+        />
       ),
     },
   ];

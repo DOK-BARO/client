@@ -14,8 +14,8 @@ import { useNavigate } from "react-router-dom";
 import ROUTES from "@/data/routes";
 import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner";
 interface Props {
-  studyGroupId: string;
-  quizId: string;
+  studyGroupId: number;
+  quizId: number;
 }
 export default function StudyQuizResult({ studyGroupId, quizId }: Props) {
   const [currentUser] = useAtom(currentUserAtom);
@@ -28,8 +28,8 @@ export default function StudyQuizResult({ studyGroupId, quizId }: Props) {
     });
 
   const { data: studyGroupData, isLoading: isStudyGroupLoading } = useQuery({
-    queryKey: studyGroupKeys.detail(parseInt(studyGroupId)),
-    queryFn: () => studyGroupService.fetchStudyGroup(parseInt(studyGroupId)),
+    queryKey: studyGroupKeys.detail(studyGroupId),
+    queryFn: () => studyGroupService.fetchStudyGroup(studyGroupId),
   });
 
   const ranking: number =
@@ -38,7 +38,7 @@ export default function StudyQuizResult({ studyGroupId, quizId }: Props) {
     ) ?? -1) + 1;
 
   const handleDoneClick = () => {
-    navigate(ROUTES.STUDY_GROUP(parseInt(studyGroupId)));
+    navigate(ROUTES.STUDY_GROUP(studyGroupId));
   };
 
   if (isQuizResultStudyLoading || isStudyGroupLoading) {

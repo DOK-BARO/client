@@ -1,4 +1,3 @@
-// TODO: id string | number 타입 통일하기
 import {
   BooksFetchType,
   MyQuizzesFetchType,
@@ -9,7 +8,7 @@ import {
 } from "@/types/ParamsType";
 
 export const bookKeys = {
-  detail: (id: string | undefined) => ["bookDetailContent", id] as const,
+  detail: (id: number | undefined) => ["bookDetailContent", id] as const,
   categories: () => ["bookCategories"] as const,
   list: (param?: BooksFetchType) => ["bookList", param] as const,
   search: (params?: BooksSearchType) => ["bookSearch", params] as const,
@@ -41,11 +40,11 @@ export const userKeys = {
 export const quizKeys = {
   myQuiz: (params: MyQuizzesFetchType) => ["myQuiz", params] as const,
   solvedQuiz: (params: MyQuizzesFetchType) => ["solvedQuiz", params] as const,
-  detail: (id: string | undefined) => ["quizDetail", id] as const,
-  prevDetail: (id: string | undefined) => ["prevDetail", id] as const,
-  explanation: (id: string | undefined) => ["quizExplanation", id] as const,
-  result: (solvingQuizId: string) => ["quizResult", solvingQuizId],
-  studyResult: (studyGroupId: string, quizId: string) => [
+  detail: (id: number | undefined) => ["quizDetail", id] as const,
+  prevDetail: (id: number | undefined) => ["prevDetail", id] as const,
+  explanation: (id: number | undefined) => ["quizExplanation", id] as const,
+  result: (solvingQuizId: number) => ["quizResult", solvingQuizId],
+  studyResult: (studyGroupId: number, quizId: number) => [
     "studyResult",
     studyGroupId,
     quizId,

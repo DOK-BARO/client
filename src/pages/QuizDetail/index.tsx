@@ -17,8 +17,9 @@ export default function Index() {
   const { id } = useParams();
 
   const { data: explanation, isLoading } = useQuery({
-    queryKey: quizKeys.explanation(id),
-    queryFn: () => (id ? quizService.fetchQuizExplanation(id) : null),
+    queryKey: quizKeys.explanation(parseInt(id!)),
+    queryFn: () =>
+      id ? quizService.fetchQuizExplanation(parseInt(id!)) : null,
     enabled: !!id,
   });
   const { data: reviewsTotalScore } = useQuery<ReviewsTotalScoreType | null>({
@@ -29,11 +30,9 @@ export default function Index() {
   });
 
   const { data: bookDetail } = useQuery({
-    queryKey: bookKeys.detail(explanation?.book.id.toString()),
+    queryKey: bookKeys.detail(explanation?.book.id),
     queryFn: () =>
-      explanation
-        ? bookService.fetchBook(explanation.book.id.toString())
-        : null,
+      explanation ? bookService.fetchBook(explanation.book.id) : null,
     enabled: !!explanation?.book.id,
   });
 

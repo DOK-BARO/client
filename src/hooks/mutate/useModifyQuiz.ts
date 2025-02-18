@@ -5,26 +5,31 @@ import { QuizCreateType } from "@/types/QuizType";
 
 interface Props {
   // TODO: editQuizId -> number
-  onSuccessCallback: (editQuizId: string) => void;
-  isTemporary: boolean;
+  onTemporarySuccess?: (editQuizId: string) => void;
+  onPermanentSuccess?: (editQuizId: string) => void;
 }
 
-const useModifyQuiz = ({
-  onSuccessCallback,
-  isTemporary, // 임시저장 여부
-}: Props) => {
+const useModifyQuiz = ({ onTemporarySuccess, onPermanentSuccess }: Props) => {
   const { mutate: modifyQuiz } = useMutation<
     void,
     ErrorType,
-    { editQuizId: string; quiz: Omit<QuizCreateType, "temporary"> }
+    {
+      editQuizId: string;
+      quiz: Omit<QuizCreateType, "temporary">;
+      isTemporary: boolean;
+    }
   >({
-    mutationFn: ({ editQuizId, quiz }) =>
+    mutationFn: ({ editQuizId, quiz, isTemporary }) =>
       quizService.modifyQuiz({
         editQuizId,
         quiz: { ...quiz, temporary: isTemporary },
       }),
     onSuccess: (_, variables) => {
-      onSuccessCallback(variables.editQuizId);
+      if (variables.isTemporary) {
+        onTemporarySuccess?.(variables.editQuizId);
+      } else {
+        onPermanentSuccess?.(variables.editQuizId);
+      }
     },
   });
 

@@ -7,7 +7,9 @@ import QuizCreationFormLayout from "./layout/QuizCreationFormLayout/QuizCreation
 import QuizCreationSteps from "./layout/QuizCreationSteps/QuizCreationSteps";
 import MemoizedQuizBasicInfoForm from "@/pages/CreateQuiz/composite/QuizBasicInfoForm/QuizBasicInfoForm";
 import {
+  createdQuizIdAtom,
   errorModalTitleAtom,
+  invalidQuestionFormIdAtom,
   isFirstVisitAtom,
   openErrorModalAtom,
   quizCreationInfoAtom,
@@ -22,12 +24,14 @@ import useModal from "@/hooks/useModal.ts";
 import { Step } from "@/types/StepType.ts";
 import QuizBookSelectionForm from "./composite/QuizBookSectionForm/QuizBookSelectionForm/QuizBookSelectionForm.tsx";
 import { useBlocker, useNavigate, useParams } from "react-router-dom";
-import { quizKeys } from "@/data/queryKeys.ts";
+import { quizKeys, studyGroupKeys } from "@/data/queryKeys.ts";
 import { quizService } from "@/services/server/quizService.ts";
 import { useQuery } from "@tanstack/react-query";
 import {
   EditScopeType,
+  QuizCreateType,
   QuizFormType,
+  QuizQuestionCreateType,
   ViewScopeType,
 } from "@/types/QuizType.ts";
 import { BookType } from "@/types/BookType.ts";
@@ -46,6 +50,13 @@ import QuizWriteGuideForm from "./composite/QuizWriteForm/QuizWriteGuideForm.tsx
 import { QUIZ_CREATION_STEP } from "@/data/constants.ts";
 import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner.tsx";
 import Button from "@/components/atom/Button/Button.tsx";
+import useCreateQuiz from "@/hooks/mutate/useCreateQuiz.ts";
+import { imageService } from "@/services/server/imageService.ts";
+import useModifyQuiz from "@/hooks/mutate/useModifyQuiz.ts";
+import { queryClient } from "@/services/server/queryClient.ts";
+import { useValidateQuizForm } from "@/hooks/useValidateQuizForm.ts";
+import { convertUrlsToImg } from "@/utils/\bconvertUrlsToImg.ts";
+import toast from "react-hot-toast";
 
 export default function Index() {
   const { id } = useParams();
@@ -55,11 +66,15 @@ export default function Index() {
   const [isEditMode] = useState<boolean>(!!quizId);
   const [completionStatus] = useAtom(stepsCompletionStatusAtom);
 
-  const [, setQuizCreationInfo] = useAtom(quizCreationInfoAtom);
+  const [quizCreationInfo, setQuizCreationInfo] = useAtom(quizCreationInfoAtom);
   const [preventLeaveModal] = useAtom(preventLeaveModalAtom);
   const [currentUser] = useAtom(currentUserAtom);
   const blocker = useBlocker(true);
-  const { closeModal: closePreventLeaveModal } = useModal();
+  const setPreventLeaveModal = useSetAtom(preventLeaveModalAtom);
+  // const { closeModal: closePreventLeaveModal } = useModal();
+  // const closePreventLeaveModal = () => {
+  //   blocker.reset();
+  // };
   usePreventLeave();
 
   const { data: prevQuiz, isLoading: isPrevQuizLoading } = useQuery({
@@ -89,14 +104,6 @@ export default function Index() {
       }
     }
   }, [currentUser]);
-  async function convertUrlsToImg(urls: string[]): Promise<JSX.Element[]> {
-    const files = await Promise.all(
-      urls.map(async (urls) => {
-        return <img className={styles["image"]} src={urls} />;
-      }),
-    );
-    return files;
-  }
 
   useEffect(() => {
     async function initializeQuiz() {
@@ -122,7 +129,12 @@ export default function Index() {
         }
         const prevQuestions: QuizQuestionFormType[] = await Promise.all(
           prevQuiz?.questions.map(async (q) => {
-            const images = await convertUrlsToImg(q.answerExplanationImages);
+            const images = await convertUrlsToImg({
+              urls: q.answerExplanationImages,
+              renderImage: (url) => (
+                <img className={styles["image"]} src={url} alt="Converted" />
+              ),
+            });
             const selectOptions: SelectOptionFormType[] = q.selectOptions.map(
               (optionText, index) => ({
                 id: index, // TODO: index로 해도 되는지 확인 필요
@@ -160,6 +172,7 @@ export default function Index() {
 
   const [isFirstVisit, setIsFirstVisit] = useAtom(isFirstVisitAtom);
   const { updateQuizCreationInfo } = useUpdateQuizCreationInfo();
+
   useEffect(() => {
     const firstVisit = localStorage.getItem("firstVisit");
     if (firstVisit === undefined) {
@@ -174,7 +187,6 @@ export default function Index() {
     localStorage.setItem("isEditMode", isEditMode ? "true" : "false");
   }, [isEditMode]);
 
-  // TODO: 외부 파일로 옮기기
   const steps: Step[] = useMemo(
     () => [
       {
@@ -237,13 +249,13 @@ export default function Index() {
   const [, setOpenErrorModal] = useAtom(openErrorModalAtom);
   const resetQuizState = useSetAtom(resetQuizCreationStateAtom);
   const resetBookState = useSetAtom(resetQuizCreationBookStateAtom);
+  const [isComplete, setIsComplete] = useState<boolean>(false);
 
   useEffect(() => {
     // // 임시 저장된 퀴즈가 있을 경우
     // const storedQuizCreationInfo = localStorage.getItem("quizCreationInfo");
     // if (storedQuizCreationInfo) {
     //   const parsedQuizInfo = JSON.parse(storedQuizCreationInfo);
-
     //   if (
     //     !(
     //       parsedQuizInfo.book === null ||
@@ -264,7 +276,6 @@ export default function Index() {
     //     }
     //   }
     // }
-
     // 퀴즈 상태 초기화
     if (isEditMode) {
       setCurrentStep(2);
@@ -291,13 +302,254 @@ export default function Index() {
     }
   }, [isFirstVisit]);
 
+  const temporarySavedDate = "오후 2시 50분";
+  const [, setCreatedQuizId] = useAtom(createdQuizIdAtom);
+
+  const { createQuiz } = useCreateQuiz({
+    onTemporarySuccess: (quizId) => {
+      // 임시 퀴즈 생성 후 처리
+      // setCreatedQuizId(id);
+      console.log("임시저장된 퀴즈 아이디", quizId);
+      toast.success("퀴즈가 임시저장되었습니다.");
+    },
+    onPermanentSuccess: (quizId) => {
+      // 영구 퀴즈 생성 후 처리
+      queryClient.invalidateQueries({
+        queryKey: studyGroupKeys.myUnsolvedQuizList(
+          quizCreationInfo.studyGroup?.id,
+          {},
+        ),
+        exact: true,
+      });
+      setCreatedQuizId(quizId);
+    },
+  });
+
+  const { modifyQuiz } = useModifyQuiz({
+    onTemporarySuccess: (editQuizId) => {
+      // 임시 퀴즈 생성 후 처리
+      // setCreatedQuizId(id);
+    },
+    onPermanentSuccess: (editQuizId) => {
+      queryClient.invalidateQueries({
+        queryKey: studyGroupKeys.myUnsolvedQuizList(
+          quizCreationInfo.studyGroup?.id,
+          {},
+        ),
+        exact: true,
+      });
+      if (!editQuizId) {
+        return;
+      }
+      setCreatedQuizId(parseInt(editQuizId));
+    },
+  });
+
+  const requestUploadExplanationImages = async (
+    uploadTargetImgs: JSX.Element[],
+  ): Promise<string[]> => {
+    // JSX.Element에서 data-file 속성의 File 객체 가져오기
+    const fileList: File[] = [];
+    const alreadyUploadedList: string[] = [];
+
+    // 파일이 아닌건 이미 업로드 된 이미지 이므로 업로드 x, url만 저장
+
+    uploadTargetImgs.forEach((img) => {
+      const file = (img.props as { "data-file"?: File })["data-file"];
+      const src = (img.props as { src?: string }).src;
+
+      if (file instanceof File) {
+        fileList.push(file); // 새로 업로드할 이미지
+      } else if (typeof src === "string") {
+        alreadyUploadedList.push(src); // 이미 업로드된 이미지 URL 저장
+      }
+    });
+
+    // Data URL을 Blob(File) 객체로 변환 후 업로드
+    const promiseImgList = fileList.map(async (file) => {
+      const paramObj: {
+        image: File;
+        imageTarget:
+          | "MEMBER_PROFILE"
+          | "STUDY_GROUP_PROFILE"
+          | "BOOK_QUIZ_ANSWER";
+      } = {
+        image: file,
+        imageTarget: "BOOK_QUIZ_ANSWER",
+      };
+      return await imageService.uploadImage(paramObj);
+    });
+
+    const uploadedImgUrl: string[] = await Promise.all(promiseImgList);
+    // 기존 업로드된 이미지 URL과 새로 업로드한 URL을 합쳐서 반환
+    return [...alreadyUploadedList, ...uploadedImgUrl];
+  };
+
+  const setRequestQuestion = async (): Promise<QuizQuestionCreateType[]> => {
+    const uploadedImgQuestions = quizCreationInfo.questions!.map(
+      async (question) => {
+        const { id, ...rest } = question;
+        return {
+          // TODO: isEdit으로 체크해도 될듯
+          // 기존 퀴즈 id의 경우 선택옵션 순서대로 0,1,2... 이런식으로 생성됨
+          // 새로 추가된 퀴즈 id의 경우 timemillis 값이므로 무조건 1000 이상의 수 이다.
+          // 질문 수정의 경우 기존 id, 질문을 새로 create하는 경우 undefined값으로 set
+          id: id > 1000 ? void id : id,
+          ...rest,
+          answerExplanationImages: await requestUploadExplanationImages(
+            question.answerExplanationImages,
+          ),
+          selectOptions: question.selectOptions.map((option) => option.option),
+          answerExplanationContent: question.answerExplanationContent,
+        };
+      },
+    );
+    return await Promise.all(uploadedImgQuestions);
+  };
+
+  const validateQuizCreationInfo = (isTemporary: boolean) => {
+    const requiredFields = ["title", "description", "book"];
+    const allRequiredFields = [...requiredFields, "viewScope", "questions"];
+
+    const hasNullFields = (
+      isTemporary ? requiredFields : allRequiredFields
+    ).some(
+      (field) =>
+        quizCreationInfo[field as keyof typeof quizCreationInfo] === null,
+    );
+
+    return !hasNullFields;
+  };
+
+  const requestQuiz = async ({ isTemporary }: { isTemporary: boolean }) => {
+    if (!validateQuizCreationInfo(isTemporary)) {
+      return;
+    }
+    if (
+      !quizCreationInfo.title ||
+      !quizCreationInfo.description ||
+      !quizCreationInfo.book
+    ) {
+      throw new Error("퀴즈 필수 정보가 없습니다.");
+    }
+    // 임시저장된 아이디: 111
+
+    const quiz: Omit<QuizCreateType, "temporary"> = {
+      title: quizCreationInfo.title,
+      description: quizCreationInfo.description,
+      viewScope: quizCreationInfo.viewScope ?? "CREATOR",
+      editScope: "CREATOR",
+      bookId: quizCreationInfo.book.id,
+      studyGroupId: quizCreationInfo.studyGroup?.id ?? undefined,
+      questions: await setRequestQuestion(),
+    };
+
+    isEditMode
+      ? modifyQuiz({ editQuizId: quizId!, quiz, isTemporary })
+      : createQuiz({ quiz, isTemporary });
+
+    if (!isTemporary) {
+      setIsComplete(true);
+    }
+    // 임시저장될때 페이지이동되지 않게 해야됨 초기화됨..
+
+    return;
+  };
+
+  useEffect(() => {
+    // TODO: 페이지 이탈을 막는 모달을 예외처리하는 로직이 이상함
+    if (isComplete) {
+      navigate(ROUTES.CREATE_QUIZ_COMPLETE);
+      if (blocker.proceed && blocker.state === "blocked") {
+        blocker.proceed();
+        setIsComplete(false);
+        setPreventLeaveModal(true);
+      }
+    }
+  }, [blocker, isComplete]);
+
+  const endStep = steps.length - 1;
+  const validateQuizForm = useValidateQuizForm;
+  const [, setErrorModalTitle] = useAtom(errorModalTitleAtom);
+  const [, setInvalidQuestionFormId] = useAtom(invalidQuestionFormIdAtom);
+
+  const notValidCallBack = (errorTitle: string, questionId: number) => {
+    setErrorModalTitle(errorTitle);
+    setInvalidQuestionFormId(questionId);
+    openModal();
+  };
+
+  // // 임시저장
+  // const handleTemporarySave = async () => {
+  //   await validateAndRequestQuiz({ isTemporary: true });
+  // };
+
+  const validateAndRequestQuiz = async ({
+    isTemporary,
+  }: {
+    isTemporary: boolean;
+  }): Promise<boolean> => {
+    if (currentStep === QUIZ_CREATION_STEP.QUIZ_WRITE_FORM) {
+      const isValid = validateQuizForm(
+        quizCreationInfo.questions ?? [],
+        notValidCallBack,
+        setInvalidQuestionFormId,
+      );
+      if (!isValid) return false;
+      if (isTemporary) {
+        console.log("임시저장을 하겠어요..");
+        await requestQuiz({ isTemporary: true });
+      }
+    } else if (currentStep == endStep) {
+      setPreventLeaveModal(false);
+      await requestQuiz({ isTemporary });
+      return false;
+    }
+    return true;
+  };
+
+  const handleStepProgression = async () => {
+    const canProceed = await validateAndRequestQuiz({ isTemporary: false });
+    if (!canProceed) {
+      return;
+    }
+
+    const step = steps[currentStep];
+    const mainStepOrder: number = Math.trunc(currentStep);
+    const isMainStep = Number.isInteger(currentStep);
+    const hasSubStep = !!step?.subSteps;
+
+    if (isMainStep) {
+      if (hasSubStep) {
+        setCurrentStep((prev) => prev + 0.2);
+      } else {
+        setCurrentStep((prev) => prev + 1);
+      }
+      return;
+    }
+
+    const isSubStep: boolean = !!steps[mainStepOrder].subSteps;
+
+    if (isSubStep) {
+      const currentSubStep = steps[mainStepOrder].subSteps!;
+      const lastOrderIdx: number = currentSubStep.length! - 1;
+      const isLastSubStep = currentStep === currentSubStep[lastOrderIdx].order;
+      const isFirstSubStep = currentStep === currentSubStep[0].order;
+
+      if (isFirstSubStep) {
+        setCurrentStep((prev) => Math.trunc(prev) + 0.2);
+        return;
+      }
+      if (isLastSubStep) {
+        setCurrentStep((prev) => Math.trunc(prev) + 1);
+        return;
+      }
+    }
+  };
+
   if (isPrevQuizLoading || isBookLoading || isStudyGroupLoading) {
     return <LoadingSpinner pageCenter width={40} />;
   }
-  const temporarySavedDate = "오후 2시 50분";
-
-  // 퀴즈 임시저장 버튼 클릭
-  const handleTemporarySave = () => {};
 
   return (
     <section className={styles["container"]}>
@@ -308,10 +560,16 @@ export default function Index() {
       {/* <div className={styles.space} /> */}
       <div className={styles["left-section"]}>
         <QuizCreationSteps isEditMode={isEditMode} steps={steps} />
-        {currentStep > 2.1 ? (
+        {currentStep > QUIZ_CREATION_STEP.QUIZ_BASIC_INFO_FORM ? (
           <section>
             <h3 className={styles["sr-only"]}>퀴즈 임시저장</h3>
-            <Button color="white" fullWidth onClick={handleTemporarySave}>
+            <Button
+              color="white"
+              fullWidth
+              onClick={async () => {
+                await validateAndRequestQuiz({ isTemporary: true });
+              }}
+            >
               임시저장 하기
             </Button>
             <p className={styles["temporary-save-date"]}>
@@ -321,10 +579,8 @@ export default function Index() {
         ) : null}
       </div>
       <QuizCreationFormLayout
-        isEditMode={isEditMode}
-        editQuizId={quizId ?? ""}
         steps={steps}
-        blocker={blocker}
+        onStepProgression={handleStepProgression}
       />
       {/* TODO: 컴포넌트 분리 */}
 
@@ -344,40 +600,56 @@ export default function Index() {
         <Modal
           contents={[
             {
-              title: isEditMode
-                ? " 수정 내용이 저장되지 않았어요."
-                : "정말 페이지를 나가시겠어요?",
-              content: isEditMode ? (
-                <p className={styles["prevent-leave-modal-content"]}>
-                  {`수정하기 버튼을 누르지 않고 나가면 변경한 내용이 저장되지 않습니다.
-                  저장하지 않고 나가시겠습니까?`}
-                </p>
-              ) : (
-                <p className={styles["prevent-leave-modal-content"]}>
-                  {`만들기 버튼을 누르지 않고 나가면 변경한 내용이 저장되지 않습니다.
-                  저장하지 않고 나가시겠습니까?`}
-                </p>
-              ),
+              title:
+                currentStep <= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO_FORM
+                  ? "정말 페이지를 나가시겠어요?"
+                  : "이 페이지를 벗어나면 변경사항이 저장되지 않을 수 있어요. 임시 저장을 하시겠습니까?",
+              content: <></>,
             },
           ]}
-          closeModal={closePreventLeaveModal}
-          showHeaderCloseButton={false}
-          bottomButtons={[
-            {
-              text: "나가기",
-              color: "primary-border",
-              onClick: () => {
-                blocker.proceed();
-              },
-            },
-            {
-              text: isEditMode ? "수정 계속하기" : "계속 만들기",
-              color: "primary",
-              onClick: () => {
-                blocker.reset();
-              },
-            },
-          ]}
+          closeModal={() => {
+            blocker.reset();
+          }}
+          showHeaderCloseButton={true}
+          bottomButtons={
+            currentStep <= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO_FORM
+              ? [
+                  {
+                    text: "네",
+                    color: "primary",
+                    onClick: () => {
+                      blocker.proceed();
+                    },
+                    width: 76,
+                  },
+                ]
+              : [
+                  {
+                    text: "아니오",
+                    color: "primary-border",
+                    onClick: () => {
+                      // 임시저장하지 않고 나가기
+                      blocker.proceed();
+                    },
+                    width: 76,
+                  },
+                  {
+                    text: "네",
+                    color: "primary",
+                    onClick: async () => {
+                      // 임시저장
+                      const isRequested = await validateAndRequestQuiz({
+                        isTemporary: true,
+                      });
+                      if (isRequested) {
+                        // 나가기
+                        blocker.proceed();
+                      }
+                    },
+                    width: 76,
+                  },
+                ]
+          }
         />
       )}
     </section>

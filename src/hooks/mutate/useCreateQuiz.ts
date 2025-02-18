@@ -4,26 +4,28 @@ import { quizService } from "@/services/server/quizService";
 import { QuizCreateType } from "@/types/QuizType";
 
 interface Props {
-  onSuccessCallback: (id: number) => void;
-  isTemporary: boolean;
+  onTemporarySuccess?: (quizId: number) => void;
+  onPermanentSuccess?: (quizId: number) => void;
 }
 
-const useCreateQuiz = ({
-  onSuccessCallback,
-  isTemporary, // 임시저장 여부
-}: Props) => {
+const useCreateQuiz = ({ onTemporarySuccess, onPermanentSuccess }: Props) => {
   const { mutate: createQuiz } = useMutation<
     { id: number } | null,
     ErrorType,
-    Omit<QuizCreateType, "temporary">
+    { quiz: Omit<QuizCreateType, "temporary">; isTemporary: boolean }
   >({
-    mutationFn: (quiz) =>
+    mutationFn: ({ quiz, isTemporary }) =>
       quizService.createQuiz({ ...quiz, temporary: isTemporary }),
-    onSuccess: (data) => {
+    onSuccess: (data, variables) => {
       if (!data) {
         return;
       }
-      onSuccessCallback(data.id);
+
+      if (variables.isTemporary) {
+        onTemporarySuccess?.(data.id);
+      } else {
+        onPermanentSuccess?.(data.id);
+      }
     },
   });
 

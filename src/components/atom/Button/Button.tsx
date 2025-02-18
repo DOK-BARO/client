@@ -25,6 +25,7 @@ interface Props {
   fullWidth?: boolean;
   iconOnly?: boolean;
   ableAnimation?: boolean;
+  width?: number;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, Props>(
@@ -45,6 +46,7 @@ const Button = React.forwardRef<HTMLButtonElement, Props>(
       fullWidth = false,
       iconOnly = false,
       ableAnimation = false,
+      width,
     },
     ref,
   ) => {
@@ -64,6 +66,7 @@ const Button = React.forwardRef<HTMLButtonElement, Props>(
         className={className}
         disabled={disabled}
         ref={ref}
+        style={{ width }}
       >
         {icon && iconPosition === "left" && (
           <div

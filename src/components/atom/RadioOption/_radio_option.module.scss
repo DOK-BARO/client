@@ -4,7 +4,7 @@
 
 @mixin basic-radio-button($default-border-color) {
   input[type="radio"] {
-    margin-top: 2.5px;
+    margin: 3.5px 0 0px;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -89,6 +89,7 @@
     border: none;
     background-color: $system-success; // 체크 시 내부 원으로 표시될 색상
     position: relative;
+    top: 4px;
 
     &::after {
       display: inline-block;
@@ -115,6 +116,7 @@
     border: none;
     background-color: $system-danger; // 체크 시 내부 원으로 표시될 색상
     position: relative;
+    top: 4px;
 
     &::after {
       display: inline-block;
@@ -137,6 +139,7 @@
   input[type="radio"]:checked {
     border: none;
     position: relative;
+    top: 3.5px;
 
     &::after {
       display: inline-block;

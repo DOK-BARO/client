@@ -390,6 +390,9 @@ export default function Index() {
   };
 
   const setRequestQuestion = async (): Promise<QuizQuestionCreateType[]> => {
+    if (!quizCreationInfo.questions) {
+      return [];
+    }
     console.log("quizCreationInfo.questions", quizCreationInfo.questions);
     const uploadedImgQuestions = quizCreationInfo.questions!.map(
       async (question) => {
@@ -462,7 +465,7 @@ export default function Index() {
     if (!isTemporary) {
       setIsComplete(true);
     }
-    // 임시저장될때 페이지이동되지 않게 해야됨 초기화됨..
+    // 임시저장될때 페이지 이동되지 않게 해야됨 초기화됨..
 
     return;
   };
@@ -496,12 +499,15 @@ export default function Index() {
 
   // 자동 임시저장
   useEffect(() => {
-    if (currentStep < QUIZ_CREATION_STEP.QUIZ_WRITE_FORM) {
+    if (currentStep < QUIZ_CREATION_STEP.QUIZ_BASIC_INFO) {
       return;
     }
     // 30초에 한번씩
     const interval = setInterval(async () => {
-      await validateAndRequestQuiz({ isTemporary: true });
+      const canProceed = await validateAndRequestQuiz({ isTemporary: true });
+      if (!canProceed) {
+        return;
+      }
 
       const now = new Date();
       const hours = now.getHours();
@@ -524,13 +530,16 @@ export default function Index() {
     isTemporary: boolean;
     // isAutoSave?: boolean;
   }): Promise<boolean> => {
-    if (currentStep === QUIZ_CREATION_STEP.QUIZ_WRITE_FORM) {
+    console.log("임시 저장");
+    if (currentStep >= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO) {
       const isValid = validateQuizForm(
         quizCreationInfo.questions ?? [],
         notValidCallBack,
         setInvalidQuestionFormId,
       );
-      if (!isValid) return false;
+      if (!isValid) {
+        return false;
+      }
       if (isTemporary) {
         console.log("임시저장을 하겠어요..");
         await requestQuiz({ isTemporary: true });
@@ -588,14 +597,16 @@ export default function Index() {
 
   return (
     <section className={styles["container"]}>
-      {isFirstVisit && !isEditMode && currentStep == 2.2 ? (
+      {isFirstVisit &&
+      !isEditMode &&
+      currentStep == QUIZ_CREATION_STEP.QUIZ_WRITE_FORM ? (
         <div className={styles.layer} />
       ) : null}
       <h2 className={styles["sr-only"]}>퀴즈 등록</h2>
       {/* <div className={styles.space} /> */}
       <div className={styles["left-section"]}>
         <QuizCreationSteps isEditMode={isEditMode} steps={steps} />
-        {currentStep > QUIZ_CREATION_STEP.QUIZ_BASIC_INFO_FORM ? (
+        {currentStep >= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO ? (
           <section>
             <h3 className={styles["sr-only"]}>퀴즈 임시저장</h3>
             <Button
@@ -638,9 +649,9 @@ export default function Index() {
           contents={[
             {
               title:
-                currentStep <= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO_FORM
-                  ? "정말 페이지를 나가시겠어요?"
-                  : "이 페이지를 벗어나면 변경사항이 저장되지 않을 수 있어요. 임시 저장을 하시겠습니까?",
+                currentStep >= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO
+                  ? "이 페이지를 벗어나면 변경사항이 저장되지 않을 수 있어요. 임시 저장을 하시겠습니까?"
+                  : "정말 페이지를 나가시겠어요?",
               content: <></>,
             },
           ]}
@@ -649,18 +660,8 @@ export default function Index() {
           }}
           showHeaderCloseButton={true}
           bottomButtons={
-            currentStep <= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO_FORM
+            currentStep >= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO
               ? [
-                  {
-                    text: "네",
-                    color: "primary",
-                    onClick: () => {
-                      blocker.proceed();
-                    },
-                    width: 76,
-                  },
-                ]
-              : [
                   {
                     text: "아니오",
                     color: "primary-border",
@@ -675,14 +676,24 @@ export default function Index() {
                     color: "primary",
                     onClick: async () => {
                       // 임시저장
-                      const isRequested = await validateAndRequestQuiz({
+                      const canProceed = await validateAndRequestQuiz({
                         isTemporary: true,
                         // isAutoSave: false,
                       });
-                      if (isRequested) {
+                      if (canProceed) {
                         // 나가기
                         blocker.proceed();
                       }
+                    },
+                    width: 76,
+                  },
+                ]
+              : [
+                  {
+                    text: "네",
+                    color: "primary",
+                    onClick: () => {
+                      blocker.proceed();
                     },
                     width: 76,
                   },

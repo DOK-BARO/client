@@ -50,9 +50,9 @@ export interface QuizzesFetchType {
 // 내가 만든 퀴즈, 내가 푼 퀴즈
 export interface MyQuizzesFetchType {
   page: string;
-  size: string;
-  sort: string;
-  direction: string;
+  size?: string;
+  sort?: string;
+  direction?: string;
 }
 
 // STUDY GROUP

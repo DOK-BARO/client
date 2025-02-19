@@ -1,5 +1,5 @@
 import styles from "./_create_quiz.module.scss";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import QuizSettingStudyGroupForm from "@/pages/CreateQuiz/composite/QuizSettingStudyGroupForm/QuizSettingStudyGroupForm";
 import QuizWriteForm from "./composite/QuizWriteForm/QuizWriteForm";
 import QuizSettingsForm from "./composite/QuizSettingsForm/QuizSettingsForm";
@@ -305,13 +305,20 @@ export default function Index() {
   const [, setCreatedQuizId] = useAtom(createdQuizIdAtom);
 
   const { createQuiz } = useCreateQuiz({
-    onTemporarySuccess: (quizId) => {
+    onTemporarySuccess: (quizId, options) => {
       // 임시 퀴즈 생성 후 처리
       // setCreatedQuizId(id);
       console.log("임시저장된 퀴즈 아이디", quizId);
-      // if (!isAutoSave) {
-      toast.success("퀴즈가 임시저장되었습니다.");
-      // }
+      if (options?.showToast) {
+        toast.success("퀴즈가 임시저장되었습니다.");
+      }
+      // 쿼리 무효화
+      queryClient.invalidateQueries({
+        queryKey: quizKeys.detail(quizId.toString()),
+      });
+
+      // TODO: 자동 임시저장일 때는 이걸 띄우게 하고 싶지 않아.
+      // toast.success("퀴즈가 임시저장되었습니다.");
     },
     onPermanentSuccess: (quizId) => {
       // 영구 퀴즈 생성 후 처리
@@ -327,12 +334,20 @@ export default function Index() {
   });
 
   const { modifyQuiz } = useModifyQuiz({
-    onTemporarySuccess: (editQuizId) => {
+    onTemporarySuccess: (editQuizId, options) => {
       // 임시 퀴즈 생성 후 처리
       // setCreatedQuizId(id);
-      // if (!isAutoSave) {
-      toast.success("퀴즈가 임시저장되었습니다.");
-      // }
+      if (options?.showToast) {
+        toast.success("퀴즈가 임시저장되었습니다.");
+      }
+      // 쿼리 무효화
+      queryClient.invalidateQueries({
+        queryKey: quizKeys.detail(editQuizId),
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: quizKeys.myQuiz({ page: "1" }),
+      });
     },
     onPermanentSuccess: (editQuizId) => {
       queryClient.invalidateQueries({
@@ -417,7 +432,7 @@ export default function Index() {
 
   const validateQuizCreationInfo = (isTemporary: boolean) => {
     const requiredFields = ["title", "description", "book"];
-    const allRequiredFields = [...requiredFields, "viewScope", "questions"];
+    const allRequiredFields = [...requiredFields, "viewScope"];
 
     const hasNullFields = (
       isTemporary ? requiredFields : allRequiredFields
@@ -431,10 +446,10 @@ export default function Index() {
 
   const requestQuiz = async ({
     isTemporary,
-    // isAutoSave = false,
+    isAutoSave = false,
   }: {
     isTemporary: boolean;
-    // isAutoSave?: boolean;
+    isAutoSave?: boolean;
   }) => {
     if (!validateQuizCreationInfo(isTemporary)) {
       return;
@@ -459,8 +474,13 @@ export default function Index() {
     };
 
     isEditMode
-      ? modifyQuiz({ editQuizId: quizId!, quiz, isTemporary })
-      : createQuiz({ quiz, isTemporary });
+      ? modifyQuiz({
+          editQuizId: quizId!,
+          quiz,
+          isTemporary,
+          showToast: !isAutoSave,
+        })
+      : createQuiz({ quiz, isTemporary, showToast: !isAutoSave });
 
     if (!isTemporary) {
       setIsComplete(true);
@@ -497,14 +517,19 @@ export default function Index() {
     string | null
   >(null);
 
-  // 자동 임시저장
+  const intervalRef = useRef<number | null>(null);
+
   useEffect(() => {
-    if (currentStep < QUIZ_CREATION_STEP.QUIZ_BASIC_INFO) {
-      return;
+    if (intervalRef.current !== null) {
+      clearInterval(intervalRef.current);
     }
-    // 30초에 한번씩
-    const interval = setInterval(async () => {
-      const canProceed = await validateAndRequestQuiz({ isTemporary: true });
+
+    intervalRef.current = window.setInterval(async () => {
+      console.log("임시 저장 실행");
+      const canProceed = await validateAndRequestQuiz({
+        isTemporary: true,
+        isAutoSave: true,
+      });
       if (!canProceed) {
         return;
       }
@@ -518,19 +543,28 @@ export default function Index() {
       const formattedTime = `${period} ${formattedHours}시 ${formattedMinutes}분`;
 
       setLastTemporarySavedTime(formattedTime);
-    }, 30000);
+    }, 30000); // 30초마다 실행
 
-    return () => clearInterval(interval);
-  }, [currentStep, quizCreationInfo]);
+    return () => {
+      if (intervalRef.current !== null) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, []); // 빈 배열로 설정하여 한 번만 실행
 
   const validateAndRequestQuiz = async ({
     isTemporary,
-    // isAutoSave = false,
+    isAutoSave = false,
   }: {
     isTemporary: boolean;
-    // isAutoSave?: boolean;
+    isAutoSave?: boolean;
   }): Promise<boolean> => {
-    console.log("임시 저장");
+    console.log(
+      "임시 저장",
+      currentStep >= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO,
+      currentStep,
+      QUIZ_CREATION_STEP.QUIZ_BASIC_INFO,
+    );
     if (currentStep >= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO) {
       const isValid = validateQuizForm(
         quizCreationInfo.questions ?? [],
@@ -538,15 +572,17 @@ export default function Index() {
         setInvalidQuestionFormId,
       );
       if (!isValid) {
+        console.log("not valid");
         return false;
       }
+      console.log("?");
       if (isTemporary) {
         console.log("임시저장을 하겠어요..");
-        await requestQuiz({ isTemporary: true });
+        await requestQuiz({ isTemporary: true, isAutoSave });
       }
     } else if (currentStep == endStep) {
       setPreventLeaveModal(false);
-      await requestQuiz({ isTemporary });
+      await requestQuiz({ isTemporary, isAutoSave });
       return false;
     }
     return true;
@@ -603,6 +639,7 @@ export default function Index() {
         <div className={styles.layer} />
       ) : null}
       <h2 className={styles["sr-only"]}>퀴즈 등록</h2>
+      <button onClick={() => console.log(currentStep)}>currentStep</button>
       {/* <div className={styles.space} /> */}
       <div className={styles["left-section"]}>
         <QuizCreationSteps isEditMode={isEditMode} steps={steps} />
@@ -613,7 +650,10 @@ export default function Index() {
               color="white"
               fullWidth
               onClick={async () => {
-                await validateAndRequestQuiz({ isTemporary: true });
+                await validateAndRequestQuiz({
+                  isTemporary: true,
+                  isAutoSave: false,
+                });
               }}
             >
               임시저장 하기
@@ -678,7 +718,6 @@ export default function Index() {
                       // 임시저장
                       const canProceed = await validateAndRequestQuiz({
                         isTemporary: true,
-                        // isAutoSave: false,
                       });
                       if (canProceed) {
                         // 나가기

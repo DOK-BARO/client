@@ -7,7 +7,7 @@ import { quizKeys } from "@/data/queryKeys";
 import solvingQuizCompleteImage from "/public/assets/image/solving-quiz-complete.png";
 import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner";
 interface Props {
-  solvingQuizId: string;
+  solvingQuizId: number;
 }
 
 export default function CommonQuizResult({ solvingQuizId }: Props) {

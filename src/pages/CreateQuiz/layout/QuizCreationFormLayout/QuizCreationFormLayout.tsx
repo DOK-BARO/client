@@ -32,6 +32,7 @@ export default function QuizCreationFormLayout({
       (subStep) => subStep.order === currentStep,
     )!;
   };
+
   const step: Step = getCurrentStep();
 
   const title = step?.subSteps?.[0].title

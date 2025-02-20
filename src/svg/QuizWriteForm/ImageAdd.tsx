@@ -7,6 +7,7 @@ export const ImageAdd: React.FC<SVGProps> = ({ alt, ...props }) => {
       width={props.width}
       height={props.height}
       viewBox="0 0 24 24"
+      stroke={props.stroke}
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >

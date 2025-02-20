@@ -43,10 +43,7 @@ const Modal: React.FC<Props> = ({
           {showHeaderCloseButton ? (
             <Button
               className={styles["modal-button"]}
-              onClick={() => {
-                console.log("닫1기");
-                closeModal();
-              }}
+              onClick={closeModal}
               icon={
                 <XMedium
                   alt="닫기 버튼"

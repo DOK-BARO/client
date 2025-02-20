@@ -315,7 +315,7 @@ export default function Index() {
       }
       // 쿼리 무효화
       queryClient.invalidateQueries({
-        queryKey: quizKeys.detail(quizId.toString()),
+        queryKey: quizKeys.detail(quizId),
       });
     },
     onPermanentSuccess: (quizId) => {
@@ -358,7 +358,7 @@ export default function Index() {
       if (!editQuizId) {
         return;
       }
-      setCreatedQuizId(parseInt(editQuizId));
+      setCreatedQuizId(editQuizId);
     },
   });
 

@@ -6,10 +6,10 @@ import { QuizCreateType } from "@/types/QuizType";
 interface Props {
   // TODO: editQuizId -> number
   onTemporarySuccess?: (
-    editQuizId: string,
+    editQuizId: number,
     options?: { showToast?: boolean },
   ) => void;
-  onPermanentSuccess?: (editQuizId: string) => void;
+  onPermanentSuccess?: (editQuizId: number) => void;
 }
 
 const useModifyQuiz = ({ onTemporarySuccess, onPermanentSuccess }: Props) => {
@@ -17,7 +17,7 @@ const useModifyQuiz = ({ onTemporarySuccess, onPermanentSuccess }: Props) => {
     void,
     ErrorType,
     {
-      editQuizId: string;
+      editQuizId: number;
       quiz: Omit<QuizCreateType, "temporary">;
       isTemporary: boolean;
       showToast?: boolean;

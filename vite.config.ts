@@ -2,7 +2,6 @@ import { InlineConfig, UserConfig, defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import mkcert from "vite-plugin-mkcert";
 import { compression } from "vite-plugin-compression2";
-import { visualizer } from "rollup-plugin-visualizer";
 
 interface VitestConfigExport extends UserConfig {
   test: InlineConfig;
@@ -27,13 +26,6 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      plugins: [
-        visualizer({
-          open: true,
-          gzipSize: true,
-          brotliSize: true,
-        }),
-      ],
       output: {
         manualChunks: {
           react: ["react", "react-dom", "jotai", "@tanstack/react-query"],

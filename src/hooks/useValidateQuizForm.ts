@@ -75,16 +75,23 @@ export const useValidateQuizForm = (
         errorMessage: "제목이 작성되었는지 확인하세요.",
       };
     }
+    const selectOptions: SelectOptionFormType[] = question.selectOptions;
 
     // 옵션 존재 여부 검증
-    if (question.answerType !== "OX" && question.selectOptions.length === 0) {
+    if (question.answerType !== "OX" && selectOptions.length === 0) {
       return {
         isValid: false,
         errorMessage: "선택지를 1개 이상 추가해 주세요.",
       };
     }
 
-    const selectOptions: SelectOptionFormType[] = question.selectOptions;
+    // - 옵션이 2개 이하일 때: 선택지를 2개 이상 추가해 주세요.
+    if (question.answerType !== "OX" && selectOptions.length < 2) {
+      return {
+        isValid: false,
+        errorMessage: "선택지를 2개 이상 추가해 주세요.",
+      };
+    }
 
     // 빈 옵션 검증
     if (isEmpty(selectOptions)) {

@@ -1,33 +1,77 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import ROUTES from "@/data/routes";
-import BaseLayout from "@/components/layout/BaseLayout/BaseLayout.tsx";
-import BookListLayout from "@/pages/BookList/layout/BookListLayout/BookListLayout";
-import BookList from "@/pages/Home/components/composite/BookList/BookList";
-import QuizDetail from "@/pages/QuizDetail";
-import CreateQuiz from "@/pages/CreateQuiz";
-import CreateQuizComplete from "@/pages/CreateQuiz/composite/CreateQuizComplete/CreateQuizComplete";
-import BookDetailSection from "@/pages/BookDetail";
-import FindPassword from "@/pages/FindPassword";
-import Register from "@/pages/Register";
-import RegisterComplete from "@/pages/Register/composite/RegisterComplete/RegisterComplete";
-import MyPage from "@/pages/MyPage";
-import MyMadeQuiz from "@/pages/MyPage/composite/MyMadeQuiz/MyMadeQuiz";
-import SolvedQuiz from "@/pages/MyPage/composite/SolvedQuiz/SolvedQuiz";
-import MyStudyGroups from "@/pages/MyPage/composite/MyStudyGroups/MyStudyGroups";
-import StudyGroup from "@/pages/MyPage/composite/StudyGroup/StudyGroup";
-import StudyGroupSetting from "@/pages/MyPage/composite/StudyGroupSetting/StudyGroupSetting";
-import EditMyInfo from "@/pages/MyPage/composite/accountSetting/EditMyInfo/EditMyInfo";
-import ChangePassword from "@/pages/MyPage/composite/accountSetting/ChangePassword/ChangePassword";
-import ComponentTest from "@/pages/ComponentTest";
-import SolvingQuiz from "@/pages/SolveQuiz";
-import QuizResult from "@/pages/QuizResult";
-import QuizReview from "@/pages/QuizReview";
-import DeleteAccount from "@/pages/MyPage/composite/accountSetting/DeleteAccount/DeleteAccount.tsx";
-import NotFound from "@/pages/NotFound";
-import MyStudyGroupsCreate from "@/pages/MyPage/composite/MyStudyGroupsCreate/MyStudyGroupsCreate";
-import MyStudyGroupsJoin from "@/pages/MyPage/composite/MyStudyGroupsJoin/MyStudyGroupsJoin";
-import Landing from "@/pages/Landing";
-import AuthenticatedRoute from "@/components/layout/AuthenticatedRoute/AuthenticatedRoute";
+import { lazy } from "react";
+
+const BaseLayout = lazy(
+  () => import("@/components/layout/BaseLayout/BaseLayout.tsx"),
+);
+const BookListLayout = lazy(
+  () => import("@/pages/BookList/layout/BookListLayout/BookListLayout"),
+);
+const BookList = lazy(
+  () => import("@/pages/Home/components/composite/BookList/BookList"),
+);
+const QuizDetail = lazy(() => import("@/pages/QuizDetail"));
+const CreateQuiz = lazy(() => import("@/pages/CreateQuiz"));
+const CreateQuizComplete = lazy(
+  () =>
+    import(
+      "@/pages/CreateQuiz/composite/CreateQuizComplete/CreateQuizComplete"
+    ),
+);
+const BookDetailSection = lazy(() => import("@/pages/BookDetail"));
+const FindPassword = lazy(() => import("@/pages/FindPassword"));
+const Register = lazy(() => import("@/pages/Register"));
+const RegisterComplete = lazy(
+  () => import("@/pages/Register/composite/RegisterComplete/RegisterComplete"),
+);
+const MyPage = lazy(() => import("@/pages/MyPage"));
+const MyMadeQuiz = lazy(
+  () => import("@/pages/MyPage/composite/MyMadeQuiz/MyMadeQuiz"),
+);
+const SolvedQuiz = lazy(
+  () => import("@/pages/MyPage/composite/SolvedQuiz/SolvedQuiz"),
+);
+const MyStudyGroups = lazy(
+  () => import("@/pages/MyPage/composite/MyStudyGroups/MyStudyGroups"),
+);
+const StudyGroup = lazy(
+  () => import("@/pages/MyPage/composite/StudyGroup/StudyGroup"),
+);
+const StudyGroupSetting = lazy(
+  () => import("@/pages/MyPage/composite/StudyGroupSetting/StudyGroupSetting"),
+);
+const EditMyInfo = lazy(
+  () => import("@/pages/MyPage/composite/accountSetting/EditMyInfo/EditMyInfo"),
+);
+const ChangePassword = lazy(
+  () =>
+    import(
+      "@/pages/MyPage/composite/accountSetting/ChangePassword/ChangePassword"
+    ),
+);
+const ComponentTest = lazy(() => import("@/pages/ComponentTest"));
+const SolvingQuiz = lazy(() => import("@/pages/SolveQuiz"));
+const QuizResult = lazy(() => import("@/pages/QuizResult"));
+const QuizReview = lazy(() => import("@/pages/QuizReview"));
+const DeleteAccount = lazy(
+  () =>
+    import(
+      "@/pages/MyPage/composite/accountSetting/DeleteAccount/DeleteAccount.tsx"
+    ),
+);
+const NotFound = lazy(() => import("@/pages/NotFound"));
+const MyStudyGroupsCreate = lazy(
+  () =>
+    import("@/pages/MyPage/composite/MyStudyGroupsCreate/MyStudyGroupsCreate"),
+);
+const MyStudyGroupsJoin = lazy(
+  () => import("@/pages/MyPage/composite/MyStudyGroupsJoin/MyStudyGroupsJoin"),
+);
+const Landing = lazy(() => import("@/pages/Landing"));
+const AuthenticatedRoute = lazy(
+  () => import("@/components/layout/AuthenticatedRoute/AuthenticatedRoute"),
+);
 
 const router = createBrowserRouter([
   {

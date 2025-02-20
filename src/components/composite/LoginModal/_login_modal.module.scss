@@ -1,13 +1,13 @@
-@import "../../../styles/abstracts/variables";
-@import "../../../styles/abstracts/mixins";
+@use "/src/styles/abstracts/" as *;
 
 .header {
   width: 100%;
   text-align: center;
+  margin-bottom: 32px;
+
   * {
     margin: 0 auto;
   }
-  margin-bottom: 32px;
 
   .description {
     color: $gray-60;

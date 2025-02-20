@@ -1,6 +1,7 @@
 import { InlineConfig, UserConfig, defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import mkcert from "vite-plugin-mkcert";
+import { compression } from "vite-plugin-compression2";
 
 interface VitestConfigExport extends UserConfig {
   test: InlineConfig;
@@ -8,7 +9,13 @@ interface VitestConfigExport extends UserConfig {
 // https://vitejs.dev/config/
 export default defineConfig({
   server: { https: true },
-  plugins: [react(), mkcert()],
+  plugins: [
+    react(),
+    mkcert(),
+    compression({
+      algorithm: "gzip",
+    }),
+  ],
   resolve: {
     alias: [{ find: "@", replacement: "/src" }],
   },

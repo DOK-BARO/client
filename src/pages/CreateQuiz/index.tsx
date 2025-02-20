@@ -57,6 +57,7 @@ import { queryClient } from "@/services/server/queryClient.ts";
 import { useValidateQuizForm } from "@/hooks/useValidateQuizForm.ts";
 import { convertUrlsToImg } from "@/utils/\bconvertUrlsToImg.ts";
 import toast from "react-hot-toast";
+import isEqual from "fast-deep-equal";
 
 export default function Index() {
   const { id } = useParams();
@@ -308,7 +309,7 @@ export default function Index() {
     onTemporarySuccess: (quizId, options) => {
       // 임시 퀴즈 생성 후 처리
       // setCreatedQuizId(id);
-      console.log("임시저장된 퀴즈 아이디", quizId);
+      // console.log("임시저장된 퀴즈 아이디", quizId);
       if (options?.showToast) {
         toast.success("퀴즈가 임시저장되었습니다.");
       }
@@ -316,9 +317,6 @@ export default function Index() {
       queryClient.invalidateQueries({
         queryKey: quizKeys.detail(quizId.toString()),
       });
-
-      // TODO: 자동 임시저장일 때는 이걸 띄우게 하고 싶지 않아.
-      // toast.success("퀴즈가 임시저장되었습니다.");
     },
     onPermanentSuccess: (quizId) => {
       // 영구 퀴즈 생성 후 처리
@@ -404,11 +402,12 @@ export default function Index() {
     return [...alreadyUploadedList, ...uploadedImgUrl];
   };
 
-  const setRequestQuestion = async (): Promise<QuizQuestionCreateType[]> => {
+  const setRequestQuestion = async (
+    quizCreationInfo: QuizFormType,
+  ): Promise<QuizQuestionCreateType[]> => {
     if (!quizCreationInfo.questions) {
       return [];
     }
-    console.log("quizCreationInfo.questions", quizCreationInfo.questions);
     const uploadedImgQuestions = quizCreationInfo.questions!.map(
       async (question) => {
         const { id, ...rest } = question;
@@ -430,7 +429,13 @@ export default function Index() {
     return await Promise.all(uploadedImgQuestions);
   };
 
-  const validateQuizCreationInfo = (isTemporary: boolean) => {
+  const validateQuizCreationInfo = ({
+    isTemporary,
+    quizCreationInfo,
+  }: {
+    isTemporary: boolean;
+    quizCreationInfo: QuizFormType;
+  }) => {
     const requiredFields = ["title", "description", "book"];
     const allRequiredFields = [...requiredFields, "viewScope"];
 
@@ -447,14 +452,15 @@ export default function Index() {
   const requestQuiz = async ({
     isTemporary,
     isAutoSave = false,
+    quizCreationInfo,
   }: {
     isTemporary: boolean;
     isAutoSave?: boolean;
+    quizCreationInfo: QuizFormType;
   }) => {
-    if (!validateQuizCreationInfo(isTemporary)) {
+    if (!validateQuizCreationInfo({ isTemporary, quizCreationInfo })) {
       return;
     }
-    console.log(quizCreationInfo.questions);
     if (
       !quizCreationInfo.title ||
       !quizCreationInfo.description ||
@@ -470,7 +476,7 @@ export default function Index() {
       editScope: "CREATOR",
       bookId: quizCreationInfo.book.id,
       studyGroupId: quizCreationInfo.studyGroup?.id ?? undefined,
-      questions: await setRequestQuestion(),
+      questions: await setRequestQuestion(quizCreationInfo),
     };
 
     isEditMode
@@ -485,7 +491,6 @@ export default function Index() {
     if (!isTemporary) {
       setIsComplete(true);
     }
-    // 임시저장될때 페이지 이동되지 않게 해야됨 초기화됨..
 
     return;
   };
@@ -518,18 +523,54 @@ export default function Index() {
   >(null);
 
   const intervalRef = useRef<number | null>(null);
+  const currentStepRef = useRef(currentStep); // currentStep 최신값 저장
+  const quizCreationInfoRef = useRef(quizCreationInfo); // quizCreationInfo 최신값 저장
+  const prevQuizCreationInfoRef = useRef<QuizFormType | null>(quizCreationInfo);
+  const [isInitialized, setIsInitialized] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (
+      !isInitialized &&
+      quizCreationInfo.book !== null &&
+      quizCreationInfo.book.title !== ""
+    ) {
+      prevQuizCreationInfoRef.current = structuredClone(quizCreationInfo);
+      setIsInitialized(true);
+    }
+  }, [quizCreationInfo]);
+
+  // currentStep 변경 시 최신값 업데이트
+  useEffect(() => {
+    currentStepRef.current = currentStep;
+  }, [currentStep]);
+
+  // quizCreationInfo 변경 시 최신값 업데이트
+  useEffect(() => {
+    quizCreationInfoRef.current = quizCreationInfo;
+  }, [quizCreationInfo]);
 
   useEffect(() => {
     if (intervalRef.current !== null) {
       clearInterval(intervalRef.current);
     }
 
+    if (!isInitialized) {
+      return;
+    }
+
     intervalRef.current = window.setInterval(async () => {
-      console.log("임시 저장 실행");
+      if (
+        isEqual(prevQuizCreationInfoRef.current, quizCreationInfoRef.current)
+      ) {
+        return;
+      }
+
       const canProceed = await validateAndRequestQuiz({
+        quizCreationInfo: quizCreationInfoRef.current, // 자동 임시저장일 경우 ref 사용
         isTemporary: true,
         isAutoSave: true,
       });
+
       if (!canProceed) {
         return;
       }
@@ -550,46 +591,44 @@ export default function Index() {
         clearInterval(intervalRef.current);
       }
     };
-  }, []); // 빈 배열로 설정하여 한 번만 실행
+  }, [isInitialized]);
 
   const validateAndRequestQuiz = async ({
+    quizCreationInfo,
     isTemporary,
     isAutoSave = false,
   }: {
+    quizCreationInfo: QuizFormType;
     isTemporary: boolean;
     isAutoSave?: boolean;
   }): Promise<boolean> => {
-    console.log(
-      "임시 저장",
-      currentStep >= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO,
-      currentStep,
-      QUIZ_CREATION_STEP.QUIZ_BASIC_INFO,
-    );
-    if (currentStep >= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO) {
+    if (currentStepRef.current >= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO) {
       const isValid = validateQuizForm(
-        quizCreationInfo.questions ?? [],
+        quizCreationInfo.questions ?? [], // 최신 quizCreationInfo 사용
         notValidCallBack,
         setInvalidQuestionFormId,
+        isTemporary,
       );
       if (!isValid) {
-        console.log("not valid");
         return false;
       }
-      console.log("?");
-      if (isTemporary) {
-        console.log("임시저장을 하겠어요..");
-        await requestQuiz({ isTemporary: true, isAutoSave });
+
+      if (isValid && isTemporary) {
+        await requestQuiz({ isTemporary: true, isAutoSave, quizCreationInfo });
       }
-    } else if (currentStep == endStep) {
+    } else if (currentStepRef.current == endStep) {
       setPreventLeaveModal(false);
-      await requestQuiz({ isTemporary, isAutoSave });
+      await requestQuiz({ isTemporary, isAutoSave, quizCreationInfo });
       return false;
     }
     return true;
   };
 
   const handleStepProgression = async () => {
-    const canProceed = await validateAndRequestQuiz({ isTemporary: false });
+    const canProceed = await validateAndRequestQuiz({
+      isTemporary: false,
+      quizCreationInfo,
+    });
     if (!canProceed) {
       return;
     }
@@ -639,8 +678,6 @@ export default function Index() {
         <div className={styles.layer} />
       ) : null}
       <h2 className={styles["sr-only"]}>퀴즈 등록</h2>
-      <button onClick={() => console.log(currentStep)}>currentStep</button>
-      {/* <div className={styles.space} /> */}
       <div className={styles["left-section"]}>
         <QuizCreationSteps isEditMode={isEditMode} steps={steps} />
         {currentStep >= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO ? (
@@ -653,6 +690,7 @@ export default function Index() {
                 await validateAndRequestQuiz({
                   isTemporary: true,
                   isAutoSave: false,
+                  quizCreationInfo,
                 });
               }}
             >
@@ -717,6 +755,7 @@ export default function Index() {
                     onClick: async () => {
                       // 임시저장
                       const canProceed = await validateAndRequestQuiz({
+                        quizCreationInfo,
                         isTemporary: true,
                       });
                       if (canProceed) {

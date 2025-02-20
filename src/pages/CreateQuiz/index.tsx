@@ -559,6 +559,7 @@ export default function Index() {
     }
 
     intervalRef.current = window.setInterval(async () => {
+      // console.log(prevQuizCreationInfoRef.current, quizCreationInfoRef.current);
       if (
         isEqual(prevQuizCreationInfoRef.current, quizCreationInfoRef.current)
       ) {
@@ -608,6 +609,7 @@ export default function Index() {
         notValidCallBack,
         setInvalidQuestionFormId,
         isTemporary,
+        isAutoSave,
       );
       if (!isValid) {
         return false;
@@ -621,6 +623,9 @@ export default function Index() {
       await requestQuiz({ isTemporary, isAutoSave, quizCreationInfo });
       return false;
     }
+    prevQuizCreationInfoRef.current = structuredClone(
+      quizCreationInfoRef.current,
+    );
     return true;
   };
 

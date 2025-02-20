@@ -9,6 +9,7 @@ export const useValidateQuizForm = (
     value: SetStateAction<number | undefined>,
   ) => void,
   isTemporary: boolean = false,
+  isAutoSave: boolean = false,
 ) => {
   const hasDuplicate = (arr: SelectOptionFormType[]) => {
     const options: string[] = arr.map(({ option }) => option);
@@ -22,7 +23,10 @@ export const useValidateQuizForm = (
   // 임시 저장용 검증
   const validateTemporaryQuestion = (
     question: QuizQuestionFormType,
-  ): boolean => {
+  ): {
+    isValid: boolean;
+    errorMessage?: string;
+  } => {
     // const selectOptions: SelectOptionFormType[] = question.selectOptions;
     // if (isEmpty(selectOptions)) {
     //   return false;
@@ -31,16 +35,30 @@ export const useValidateQuizForm = (
     // if (hasDuplicate(selectOptions)) {
     //   return false;
     // }
-    if (!question.answers?.length) {
-      return false;
+    if (!question.answers || question.answers.length == 0) {
+      if (!isAutoSave) {
+        return {
+          isValid: false,
+          errorMessage: "답안이 선택되었는지 확인하세요.",
+        };
+      } else {
+        return { isValid: false };
+      }
     }
     if (
       question.answerType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER" &&
       question.answers.length <= 1
     ) {
-      return false;
+      if (!isAutoSave) {
+        return {
+          isValid: false,
+          errorMessage: "복수정답은 답안을 2개 이상 선택해야 합니다.",
+        };
+      } else {
+        return { isValid: false };
+      }
     }
-    return true;
+    return { isValid: true };
   };
 
   // 최종 저장용 전체 검증
@@ -108,8 +126,16 @@ export const useValidateQuizForm = (
 
   if (isTemporary) {
     for (const question of questions ?? []) {
-      if (!validateTemporaryQuestion(question)) {
-        return false;
+      if (isAutoSave) {
+        if (!validateTemporaryQuestion(question)) {
+          return false;
+        }
+      } else {
+        const validationResult = validateTemporaryQuestion(question);
+        if (!validationResult.isValid) {
+          notValidCallBack(validationResult.errorMessage!, question.id);
+          return false;
+        }
       }
     }
   } else {

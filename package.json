@@ -37,7 +37,9 @@
     "rehype-highlight": "^7.0.1",
     "remark-breaks": "^4.0.0",
     "remark-gfm": "^4.0.0",
-    "vite-plugin-mkcert": "^1.17.6"
+    "vite-plugin-compression2": "^1.3.3",
+    "vite-plugin-mkcert": "^1.17.6",
+    "vite-plugin-sitemap": "^0.7.1"
   },
   "devDependencies": {
     "@testing-library/dom": "^10.3.1",

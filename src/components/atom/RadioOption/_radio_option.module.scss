@@ -1,10 +1,8 @@
-@import "../../../styles/abstracts/variables";
-@import "../../../styles/abstracts/mixins";
-@import "../../../styles/abstracts/markdown";
+@use "/src/styles/abstracts/" as *;
 
 @mixin basic-radio-button($default-border-color) {
   input[type="radio"] {
-    margin-top: 2.5px;
+    margin: 1px 0 0px;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
@@ -89,6 +87,7 @@
     border: none;
     background-color: $system-success; // 체크 시 내부 원으로 표시될 색상
     position: relative;
+    top: 4px;
 
     &::after {
       display: inline-block;
@@ -115,6 +114,7 @@
     border: none;
     background-color: $system-danger; // 체크 시 내부 원으로 표시될 색상
     position: relative;
+    top: 4px;
 
     &::after {
       display: inline-block;

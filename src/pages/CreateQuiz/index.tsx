@@ -48,7 +48,7 @@ import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner.tsx"
 
 export default function Index() {
   const { id } = useParams();
-  const quizId = id && id !== ":id" ? id : null;
+  const quizId: number = parseInt(id!);
   const navigate = useNavigate();
 
   const [isEditMode] = useState<boolean>(!!quizId);
@@ -68,7 +68,7 @@ export default function Index() {
 
   const { data: prevBook, isLoading: isBookLoading } = useQuery({
     queryKey: ["bookDetail", prevQuiz?.bookId],
-    queryFn: () => bookService.fetchBook(prevQuiz?.bookId.toString() ?? ""),
+    queryFn: () => bookService.fetchBook(prevQuiz!.bookId),
     enabled: isEditMode && !!prevQuiz?.bookId,
   });
 
@@ -304,7 +304,7 @@ export default function Index() {
       <QuizCreationSteps isEditMode={isEditMode} steps={steps} />
       <QuizCreationFormLayout
         isEditMode={isEditMode}
-        editQuizId={quizId ?? ""}
+        editQuizId={quizId}
         steps={steps}
         blocker={blocker}
       />

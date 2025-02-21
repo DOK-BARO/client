@@ -37,7 +37,7 @@ export default function QuizListLayout<
 }: Props<T>) {
   const navigate = useNavigate();
   const { isModalOpen, openModal, closeModal } = useModal();
-  const [quizId, setQuizId] = useState<string>();
+  const [quizId, setQuizId] = useState<number>();
 
   const { deleteQuiz } = useDeleteQuiz();
   const handleReSolveQuiz = (
@@ -64,7 +64,7 @@ export default function QuizListLayout<
   ) => {
     e.preventDefault();
     openModal();
-    setQuizId(quizId.toString());
+    setQuizId(quizId);
   };
 
   const handleDeleteQuiz = () => {

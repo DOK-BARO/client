@@ -107,9 +107,9 @@ export default function TermsAgreement({ setStep }: Props) {
         [id]: { ...prev[id], checked },
       };
 
-      const allAgree = Object.values(updatedAgreements)
-        .filter((value) => value.isRequired) // 필수 동의 항목만 체크
-        .every((value) => value.checked);
+      const allAgree = Object.values(updatedAgreements).every(
+        (value) => value.checked,
+      );
 
       return {
         ...updatedAgreements,
@@ -172,12 +172,12 @@ export default function TermsAgreement({ setStep }: Props) {
         {APP_NAME}의 서비스 이용약관에
         <br />
         동의해 주세요.
-      </p>{" "}
+      </p>
       <form onSubmit={handleSubmit}>
         {/* 모두 동의 */}
         <div className={styles["terms-agreement-all"]}>
           <CheckBox
-            id="allAgree"
+            id="all-agree"
             LabelComponent={
               <p className={styles["terms-agreement-all-label"]}>
                 모두 동의 (선택 정보 포함)

@@ -1,6 +1,9 @@
 // 비밀번호 검증
 export const passwordValidation = [
-  { rule: (val: string) => /[A-Za-z]/.test(val), message: "영문" },
+  {
+    rule: (val: string) => /[A-Z]/.test(val) && /[a-z]/.test(val),
+    message: "대소문자",
+  },
   { rule: (val: string) => /\d/.test(val), message: "숫자" },
   { rule: (val: string) => /[!@#$%^&*]/.test(val), message: "특수문자" },
   {

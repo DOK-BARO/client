@@ -124,7 +124,7 @@ export default function QuizCreationSteps({ isEditMode, steps }: Props) {
                     ? gray40
                     : step.isDone
                       ? systemSuccess
-                      : gray20
+                      : gray40
                 }
                 fillIn={
                   isEditModeDisabledStep || !isValidPreviousSteps

@@ -35,7 +35,7 @@ export const useValidateQuizForm = (
     // if (hasDuplicate(selectOptions)) {
     //   return false;
     // }
-    if (!question.answers || question.answers.length == 0) {
+    if (!question.answers || question.answers.length === 0) {
       if (!isAutoSave) {
         return {
           isValid: false,
@@ -131,27 +131,18 @@ export const useValidateQuizForm = (
     return { isValid: true };
   };
 
-  if (isTemporary) {
-    for (const question of questions ?? []) {
-      if (isAutoSave) {
-        if (!validateTemporaryQuestion(question)) {
-          return false;
-        }
-      } else {
-        const validationResult = validateTemporaryQuestion(question);
-        if (!validationResult.isValid) {
-          notValidCallBack(validationResult.errorMessage!, question.id);
-          return false;
-        }
-      }
-    }
-  } else {
-    for (const question of questions ?? []) {
-      const validationResult = validatePermanentQuestion(question);
-      if (!validationResult.isValid) {
+  const validateQuestion = isTemporary
+    ? validateTemporaryQuestion
+    : validatePermanentQuestion;
+
+  for (const question of questions ?? []) {
+    const validationResult = validateQuestion(question);
+
+    if (!validationResult.isValid) {
+      if (!isAutoSave || !isTemporary) {
         notValidCallBack(validationResult.errorMessage!, question.id);
-        return false;
       }
+      return false;
     }
   }
 

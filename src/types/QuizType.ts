@@ -152,7 +152,7 @@ export interface QuizCreateType {
   editScope: EditScopeType;
   studyGroupId?: number | null;
   questions: QuizQuestionCreateType[];
-  // temporary: boolean; // 임시 저장 여부
+  temporary: boolean; // 임시 저장 여부
 }
 
 export type QuizQuestionCreateType = {

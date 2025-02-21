@@ -304,20 +304,20 @@ export default function QuestionForm({
     const alreadyUploadedList: string[] = [];
 
     // img태그를 File형태로 변환
-    console.log("원본:", imagePreviewEls);
-    imagePreviewEls.forEach((img, idx) => {
+    //console.log("원본:", imagePreviewEls);
+    imagePreviewEls.forEach((img) => {
       const file = (img.props as { "data-file"?: File })["data-file"];
       const src = (img.props as { src?: string }).src;
 
       if (file instanceof File) {
         fileList.push(file); // 새로 업로드할 이미지
-        console.log("filelist:", idx);
+        //console.log("filelist:", idx);
       } else {
         // 이미 업로드된 이미지 URL은 이미 중복 처리될 가능성이 있으므로 추가하지 않음
         if (!alreadyUploadedList.includes(src!)) {
           alreadyUploadedList.push(src!);
         }
-        console.log("already:", idx);
+        //console.log("already:", idx);
       }
     });
 
@@ -346,7 +346,7 @@ export default function QuestionForm({
     fetchImgLayer();
   }, [imagePreviewEls]);
   useEffect(() => {
-    console.log("layer: ", imgLayer);
+    //console.log("layer: ", imgLayer);
   }, [imgLayer]);
 
   const {

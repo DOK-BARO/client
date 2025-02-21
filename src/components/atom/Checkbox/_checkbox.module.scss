@@ -2,7 +2,7 @@
 
 @mixin basic-checkbox-button($default-color, $size) {
   input[type="checkbox"] {
-    margin: 3px 0 0;
+    margin: 1px 0 0;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;

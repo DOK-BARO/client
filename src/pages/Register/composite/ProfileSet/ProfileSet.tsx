@@ -30,7 +30,7 @@ export default function ProfileSet() {
   const [currentUser] = useAtom(currentUserAtom);
 
   useEffect(() => {
-    console.log("currentUser", currentUser);
+    //console.log("currentUser", currentUser);
   }, [currentUser]);
 
   const [profileImage, setProfileImage] = useState<ProfileImageState>({

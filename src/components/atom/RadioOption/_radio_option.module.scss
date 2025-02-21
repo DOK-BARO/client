@@ -2,7 +2,7 @@
 
 @mixin basic-radio-button($default-border-color) {
   input[type="radio"] {
-    margin: 3.5px 0 0px;
+    margin: 1px 0 0px;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;

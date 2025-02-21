@@ -1,5 +1,5 @@
-@import "../../../styles/abstracts/variables";
-@import "../../../styles/abstracts/mixins";
+@use "/src/styles/abstracts/" as *;
+
 .header-menu-list {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
   background-color: $gray-00;
@@ -9,12 +9,12 @@
   position: absolute;
   right: -68px;
   z-index: 1;
-  top: 46px; // 메뉴 리스트가 버튼 아래에 위치하게 함
+  top: 54px; // 메뉴 리스트가 버튼 아래에 위치하게 함
   width: 186px;
   &::after {
     content: "";
     position: absolute;
-    top: -14px; // 삼각형이 메뉴 상단에 위치하도록 함
+    top: -10px; // 삼각형이 메뉴 상단에 위치하도록 함
     right: 80px; // 삼각형 위치 조정 (필요에 따라 조절)
     width: 0;
     z-index: 1;
@@ -28,7 +28,7 @@
   &::before {
     content: "";
     position: absolute;
-    top: -16px; // 삼각형이 메뉴 상단에 위치하도록 함
+    top: -12px; // 삼각형이 메뉴 상단에 위치하도록 함
     right: 80px; // 삼각형 위치 조정 (필요에 따라 조절)
     width: 0;
     z-index: 0;
@@ -50,19 +50,15 @@
   flex-direction: column;
   gap: 24px;
   padding: 16px;
+  width: 100%;
 
   border-radius: 6px 6px 0 0;
   border-bottom: 1px solid $gray-40;
 
   .user-name {
+    align-self: center;
     font-size: $font-size-xlarge;
     font-weight: $font-weight-bold;
-  }
-
-  .user-email {
-    font-size: $font-size-medium;
-    font-weight: $font-weight-regular;
-    color: $gray-70;
   }
 }
 

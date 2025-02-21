@@ -45,7 +45,7 @@ class QuizService {
     editQuizId,
     quiz,
   }: {
-    editQuizId: string;
+    editQuizId: number;
     quiz: QuizCreateType;
   }) => {
     try {
@@ -85,7 +85,7 @@ class QuizService {
     }
   };
 
-  fetchQuiz = async (quizId: string): Promise<SolvingQuizFetchType | null> => {
+  fetchQuiz = async (quizId: number): Promise<SolvingQuizFetchType | null> => {
     try {
       const { data } = await axiosInstance.get(
         `/book-quizzes/${quizId}/questions`,
@@ -98,7 +98,7 @@ class QuizService {
   };
 
   fetchQuizExplanation = async (
-    id: string,
+    id: number,
   ): Promise<QuizExplanationFetchType | null> => {
     try {
       const { data } = await axiosInstance.get(
@@ -112,7 +112,7 @@ class QuizService {
   };
 
   // 북 퀴즈 풀기 시작 요청 함수. 백엔드 쪽에서 정답을 적을 omr카드 만드는 개념이라고 함..
-  startSolvingQuiz = async (quizId: string): Promise<{ id: number } | null> => {
+  startSolvingQuiz = async (quizId: number): Promise<{ id: number } | null> => {
     try {
       const { data } = await axiosInstance.post("/solving-quiz/start", {
         quizId: quizId,
@@ -125,7 +125,7 @@ class QuizService {
   };
 
   submitQuestion = async (
-    solvingQuizId: string,
+    solvingQuizId: number,
     questionId: number,
     answers: string[],
   ): Promise<QuestionCheckedResultType> => {
@@ -144,7 +144,7 @@ class QuizService {
   };
 
   fetchGradeResult = async (
-    solvingQuizId: string,
+    solvingQuizId: number,
   ): Promise<SolvingQuizGradeResultFetchType> => {
     try {
       const { data } = await axiosInstance.get(
@@ -157,8 +157,8 @@ class QuizService {
   };
 
   fetchStudyGradeResult = async (
-    studyGroupId: string,
-    quizId: string,
+    studyGroupId: number,
+    quizId: number,
   ): Promise<SolvingQuizStudyGroupGradeResultFetchType> => {
     try {
       const { data } = await axiosInstance.get(
@@ -197,7 +197,7 @@ class QuizService {
     }
   };
 
-  deleteQuiz = async (quizId: string) => {
+  deleteQuiz = async (quizId: number) => {
     try {
       await axiosInstance.delete(`/book-quizzes/${quizId}`);
     } catch (error) {
@@ -206,7 +206,7 @@ class QuizService {
   };
 
   // 퀴즈 수정 시 사용되는 퀴즈 상세조회 (정답, 정답 설명을 포함한 조회)
-  fetchQuizzesDetail = async (quizId: string): Promise<QuizCreateType> => {
+  fetchQuizzesDetail = async (quizId: number): Promise<QuizCreateType> => {
     try {
       const response = await axiosInstance.get(`/book-quizzes/${quizId}`);
       return response.data;

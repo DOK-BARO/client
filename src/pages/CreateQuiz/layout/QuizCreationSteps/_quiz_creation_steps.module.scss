@@ -1,5 +1,4 @@
-@import "../../../../styles/abstracts/variables";
-@import "../../../../styles/abstracts/mixins";
+@use "/src/styles/abstracts/" as *;
 
 .container {
   @include flex(column);
@@ -17,7 +16,7 @@
     &:disabled {
       background-color: transparent;
       border: none;
-      color: $gray-50;
+      color: $gray-60;
     }
   }
   button.steps {

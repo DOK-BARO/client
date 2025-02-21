@@ -32,7 +32,7 @@ import { useValidateQuizForm } from "@/hooks/useValidateQuizForm";
 import { QUIZ_CREATION_STEP } from "@/data/constants";
 interface Props {
   isEditMode: boolean;
-  editQuizId?: string;
+  editQuizId?: number;
   steps: Step[];
   blocker: Blocker;
 }
@@ -199,7 +199,7 @@ export default function QuizCreationFormLayout({
   const { mutate: requestModifyQuiz } = useMutation<
     void,
     ErrorType,
-    { editQuizId: string; quiz: QuizCreateType }
+    { editQuizId: number; quiz: QuizCreateType }
   >({
     mutationFn: ({ editQuizId, quiz }) =>
       quizService.modifyQuiz({ editQuizId, quiz }),
@@ -214,7 +214,7 @@ export default function QuizCreationFormLayout({
       if (!editQuizId) {
         return;
       }
-      setCreatedQuizId(parseInt(editQuizId));
+      setCreatedQuizId(editQuizId);
       // localStorage.removeItem("quizCreationInfo");
       // blocker사용떄문에 아래 useEFfect에서 페이지 이동
     },

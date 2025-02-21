@@ -1,15 +1,13 @@
-@import "../../../styles/abstracts/variables";
-@import "../../../styles/abstracts/mixins";
-@import "../../../styles/abstracts/markdown";
+@use "/src/styles/abstracts/" as *;
 
-@mixin basic-checkbox-button($default-color) {
+@mixin basic-checkbox-button($default-color, $size) {
   input[type="checkbox"] {
-    margin-top: 2.5px;
+    margin: 3px 0 0;
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    width: 18px;
-    height: 18px;
+    width: $size;
+    height: $size;
     flex-shrink: 0;
     outline: none;
     cursor: pointer;
@@ -63,16 +61,16 @@
 
 .checkbox-writing,
 .checkbox-written {
-  @include basic-checkbox-button($default-color: $gray-60);
+  @include basic-checkbox-button($default-color: $gray-60, $size: 18px);
 }
 
 .checkbox-default {
-  @include basic-checkbox-button($default-color: $gray-60);
+  @include basic-checkbox-button($default-color: $gray-60, $size: 18px);
 }
 
 .checkbox-selected {
   background-color: $secondary;
-  @include basic-checkbox-button($default-color: $gray-90);
+  @include basic-checkbox-button($default-color: $gray-90, $size: 18px);
 
   input[type="checkbox"]:checked {
     border: 2px solid $primary;
@@ -82,8 +80,9 @@
   input[type="checkbox"]:checked::after {
     content: "";
     position: absolute;
-    top: 2px;
-    left: 2px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 10px;
     height: 10px;
     border-radius: 2px;
@@ -95,7 +94,7 @@
 
 .checkbox-correct {
   background-color: $secondary;
-  @include basic-checkbox-button($default-color: $gray-60);
+  @include basic-checkbox-button($default-color: $gray-60, $size: 18px);
 
   input[type="checkbox"]:checked {
     border: none;
@@ -121,8 +120,8 @@
 }
 
 .checkbox-black {
-  @include basic-checkbox-button($default-color: $gray-60);
-
+  @include basic-checkbox-button($default-color: $gray-60, $size: 18px);
+  padding: 3px;
   input[type="checkbox"]:checked {
     border: 2px solid $gray-90;
   }
@@ -131,10 +130,11 @@
   input[type="checkbox"]:checked::after {
     content: "";
     position: absolute;
-    top: 2.3px;
-    left: 2.3px;
-    width: 9.4px;
-    height: 9.4px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
     border-radius: 2px;
     background-color: $gray-90;
   }
@@ -147,6 +147,7 @@
 
   input[type="checkbox"] {
     position: relative;
+    top: 3px;
 
     &::after {
       display: inline-block;
@@ -168,6 +169,7 @@
 
   input[type="checkbox"] {
     position: relative;
+    top: 3.5px;
 
     &::after {
       display: inline-block;

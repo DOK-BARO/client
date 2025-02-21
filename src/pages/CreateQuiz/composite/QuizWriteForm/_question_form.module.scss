@@ -1,5 +1,4 @@
-@import "../../../../styles/abstracts/variables";
-@import "../../../../styles/abstracts/mixins";
+@use "/src/styles/abstracts/" as *;
 
 @mixin option-button-text {
   white-space: nowrap;
@@ -268,19 +267,14 @@
 
     &-item {
       display: flex;
-      align-items: center;
-      height: 48px;
-      padding: 10px 16px;
-      border-radius: 6px;
-      gap: 8px;
-
+      justify-content: start;
+      height: 43px;
+      width: 100%;
+      font-size: $font-size-medium;
+      font-weight: $font-weight-regular;
+      line-height: 150%;
       &:hover {
         background-color: $gray-10;
-      }
-
-      span {
-        font-size: $font-size-medium;
-        line-height: 150%;
       }
     }
   }

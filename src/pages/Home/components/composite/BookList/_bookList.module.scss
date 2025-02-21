@@ -1,5 +1,4 @@
-@import "../../../../../styles/abstracts/variables";
-@import "../../../../../styles/abstracts/mixins";
+@use "/src/styles/abstracts/" as *;
 
 .book-list-container {
   margin-top: 16px;

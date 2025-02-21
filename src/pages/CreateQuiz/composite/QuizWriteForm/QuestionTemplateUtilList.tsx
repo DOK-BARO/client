@@ -1,7 +1,7 @@
 import { gray60 } from "@/styles/abstracts/colors";
 import styles from "./_question_form.module.scss";
 import { QuestionTemplateType } from "@/types/QuestionTemplateType";
-
+import Button from "@/components/atom/Button/Button";
 interface Props {
   onClick: (optionTitle: QuestionTemplateType) => void;
   list: QuestionTemplateType[];
@@ -30,12 +30,15 @@ export function QuestionTemplateUtilListItem(
   },
 ) {
   return (
-    <li
-      onClick={() => item.onClick(item)}
-      className={styles["question-template-type-util-list-item"]}
-    >
-      <item.Icon width={18} height={18} stroke={gray60} />
-      <span>{item.text}</span>
+    <li>
+      <Button
+        className={styles["question-template-type-util-list-item"]}
+        iconPosition="left"
+        onClick={() => item.onClick(item)}
+        icon={<item.Icon width={18} height={18} stroke={gray60} />}
+      >
+        {item.text}
+      </Button>
     </li>
   );
 }

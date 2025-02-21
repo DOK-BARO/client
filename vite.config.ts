@@ -4,6 +4,7 @@ import mkcert from "vite-plugin-mkcert";
 import { compression } from "vite-plugin-compression2";
 import Sitemap from "vite-plugin-sitemap";
 
+
 interface VitestConfigExport extends UserConfig {
   test: InlineConfig;
 }

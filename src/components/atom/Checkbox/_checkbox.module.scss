@@ -1,6 +1,4 @@
-@import "../../../styles/abstracts/variables";
-@import "../../../styles/abstracts/mixins";
-@import "../../../styles/abstracts/markdown";
+@use "/src/styles/abstracts/" as *;
 
 @mixin basic-checkbox-button($default-color) {
   input[type="checkbox"] {

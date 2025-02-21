@@ -87,7 +87,7 @@ export default function Index() {
     ErrorType,
     string
   >({
-    mutationFn: (quizId) => quizService.startSolvingQuiz(quizId),
+    mutationFn: (quizId) => quizService.startSolvingQuiz(parseInt(quizId)),
     retry: false,
     onError: (error) => {
       if (error.code === 403) {
@@ -213,8 +213,8 @@ export default function Index() {
     // isLoading: isQuizLoading,
     // error,
   } = useQuery({
-    queryKey: quizKeys.detail(quizId),
-    queryFn: () => (quizId ? quizService.fetchQuiz(quizId) : null),
+    queryKey: quizKeys.detail(parseInt(quizId!)),
+    queryFn: () => (quizId ? quizService.fetchQuiz(parseInt(quizId)) : null),
     retry: false,
     enabled: !!quizId,
   });
@@ -266,10 +266,9 @@ export default function Index() {
 
     setOptionDisabled(true);
     const questionId: number = quiz!.questions[currentFormIndex].id;
-    const solvingQuizIdToString: string = solvingQuizId.toString();
     const checkedResult: QuestionCheckedResultType =
       await quizService.submitQuestion(
-        solvingQuizIdToString,
+        solvingQuizId,
         questionId,
         selectedOptions,
       );

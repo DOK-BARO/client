@@ -18,8 +18,8 @@ export default function Index() {
   const navigate = useNavigate();
 
   const { data, isLoading } = useQuery({
-    queryKey: bookKeys.detail(id!),
-    queryFn: () => bookService.fetchBook(id!),
+    queryKey: bookKeys.detail(parseInt(id!)),
+    queryFn: () => bookService.fetchBook(parseInt(id!)),
   });
 
   const { updateQuizCreationInfo } = useUpdateQuizCreationInfo();

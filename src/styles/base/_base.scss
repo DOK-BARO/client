@@ -31,10 +31,10 @@
   }
 
   html {
-    // font-size: 62.5%;
+    font-size: 62.5%; // 1rem -> 10px로 사용하기 위함
   }
   body {
-    // font-size: 1rem;
+    font-size: 1.6rem;
     color: $gray-90;
     line-height: 1.5;
   }

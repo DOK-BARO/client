@@ -115,14 +115,10 @@ export default function StudyGroupSetting() {
     } else {
       setIsInputChanged(false);
     }
-    if (profileImage.file) {
-      // console.log(profileImage.url, initialProfileImage.current);
-
-      if (profileImage.url !== studyGroupDetail?.profileImageUrl) {
-        setIsInputChanged(true);
-      } else {
-        setIsInputChanged(false);
-      }
+    if (profileImage.url !== studyGroupDetail?.profileImageUrl) {
+      setIsInputChanged(true);
+    } else {
+      setIsInputChanged(false);
     }
   }, [name, introduction, profileImage.url]);
 

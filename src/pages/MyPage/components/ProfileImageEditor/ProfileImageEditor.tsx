@@ -11,6 +11,7 @@ interface Props {
   isDeletable?: boolean;
   initialImageState: ProfileImageState;
   isLoading: boolean;
+  deleteButtonDisabled?: boolean;
 }
 
 export default function ProfileImageEditor({
@@ -20,6 +21,7 @@ export default function ProfileImageEditor({
   setProfileImage,
   isDeletable,
   isLoading,
+  deleteButtonDisabled,
 }: Props) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -89,8 +91,9 @@ export default function ProfileImageEditor({
           className={styles.delete}
           onClick={handleFileDelete}
           size="small"
+          disabled={deleteButtonDisabled}
         >
-          사진 삭제하기
+          사진 삭제
         </Button>
       ) : null}
     </div>

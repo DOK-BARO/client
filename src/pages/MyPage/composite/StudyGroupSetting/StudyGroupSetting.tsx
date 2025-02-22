@@ -300,6 +300,7 @@ export default function StudyGroupSetting() {
                 setProfileImage={setProfileImage}
                 initialImageState={defaultProfileState}
                 isDeletable
+                deleteButtonDisabled={profileImage.url === defaultImage}
               />
             </div>
             <div className={styles["edit-info-container"]}>

@@ -38,7 +38,7 @@ export default function HeaderQuizUtilList({ closeDropDownList }: Props) {
   return (
     <ul className={styles["header-quiz-util-list"]}>
       {headerQuizUtilList.map((item) => (
-        <li>
+        <li key={item.title}>
           <Button
             className={styles["header-quiz-util-list-item"]}
             icon={<img src={item.icon} width={24} height={24} alt="" />}

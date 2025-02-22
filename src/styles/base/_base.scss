@@ -6,35 +6,38 @@
  * Set up a decent box model on the root element
  */
 
-* {
-  font-family: "Pretendard", sans-serif;
-  box-sizing: border-box;
-}
-
-html {
-  font-family: "Pretendard", sans-serif;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: "Pretendard", sans-serif;
-
-  background-color: $background;
-  color: $gray-90;
-
-  line-height: 1.5;
-}
-
 /**
  * Make all elements from the DOM inherit from the parent box-sizing
  * Since `*` has a specificity of 0, it does not override the `html` value
  * making all elements inheriting from the root box-sizing value
  * See: https://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/
  */
-*,
-*::before,
-*::after {
-  box-sizing: inherit;
+
+@layer BaseSCSS {
+  html {
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: $background;
+  }
+}
+
+@layer Typography {
+  *,
+  *::before,
+  *::after {
+    font-family: "Pretendard", sans-serif;
+  }
+
+  html {
+    // font-size: 62.5%;
+  }
+  body {
+    // font-size: 1rem;
+    color: $gray-90;
+    line-height: 1.5;
+  }
 }
 
 /**

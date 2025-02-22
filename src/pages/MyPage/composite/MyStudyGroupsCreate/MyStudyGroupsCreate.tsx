@@ -187,6 +187,7 @@ export default function MyStudyGroupsCreate() {
           setProfileImage={setProfileImage}
           initialImageState={defaultProfileState}
           isDeletable
+          deleteButtonDisabled={profileImage.url === defaultImage}
         />
       </div>
       <div className={styles["sub-container"]}>

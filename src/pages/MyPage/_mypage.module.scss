@@ -2,8 +2,7 @@
 
 .container {
   @include flex(column);
-  gap: 40px;
-  // margin-top: 40px;
+  gap: 4rem;
 
   .section {
     &-header {
@@ -12,13 +11,13 @@
 
       .title {
         font-weight: $font-weight-regular;
-        font-size: 40px;
+        font-size: 4rem;
       }
     }
 
     &-content {
       @include flex(row);
-      gap: 40px;
+      gap: 4rem;
     }
   }
 }

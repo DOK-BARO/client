@@ -1,30 +1,29 @@
 @use "/src/styles/abstracts/" as *;
 
 .book-detail-section-container {
-  line-height: 1.5;
   display: flex;
   flex-direction: row;
-  gap: 40px;
+  gap: 0.4rem;
 
   .book-img {
-    max-width: 196px;
-    max-height: 268px;
+    max-width: 19.6rem;
+    max-height: 26.8rem;
     object-fit: contain;
-    border: 1px solid $gray-40;
-    margin: 13px 15px;
+    border: 0.1rem solid $gray-40;
+    margin: 1.3rem 1.5rem;
   }
 }
 
 .book-container {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 2.4rem;
 }
 
 .book-detail-title {
-  font-size: 32px; //TODO: 변경 필요
+  font-size: 3.2rem;
   font-weight: bold;
-  margin-bottom: 16px;
+  margin-bottom: 1.6rem;
 }
 
 .book-description {
@@ -34,19 +33,19 @@
 .book-detail-sub-container {
   display: flex;
   flex-direction: row;
-  gap: 40px;
+  gap: 4rem;
 }
 
 .book-detail-info-container {
   display: flex;
   flex: 1;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.8rem;
   font-size: $font-size-large;
 }
 
 .book-detail-sub-title {
-  font-weight: 600;
+  font-weight: $font-weight-semibold;
 }
 
 .book-detail-sub-content {
@@ -54,7 +53,7 @@
   font-size: $font-size-medium;
   span {
     display: inline-block;
-    min-width: 80px;
+    min-width: 8rem;
   }
 }
 
@@ -63,7 +62,7 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.8rem;
   font-size: $font-size-large;
 }
 

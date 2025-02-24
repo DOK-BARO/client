@@ -26,16 +26,16 @@ $kakao: #fae100;
 $naver: #00c73c; // ? #00C73C?
 // 00cd0a
 /* Font Sizes */
-$font-size-small: 13px;
-$font-size-medium: 15px;
-$font-size-large: 17px;
-$font-size-xlarge: 19px;
+$font-size-small: 1.3rem;
+$font-size-medium: 1.5rem;
+$font-size-large: 1.7rem;
+$font-size-xlarge: 1.9rem;
 
-$font-size-user-auth-agreement-title: 32px;
-$font-size-user-auth-agreement-content: 14px;
+$font-size-user-auth-agreement-title: 3.2rem;
+$font-size-user-auth-agreement-content: 1.4rem;
 
 // e.g) 마이페이지
-$font-size-subTitle: 20px;
+$font-size-subTitle: 2rem;
 
 /* Font Weight */
 $font-weight-extra-thin: 100;
@@ -48,30 +48,30 @@ $font-weight-bold: 700;
 $font-weight-extra-bold: 800;
 $font-weight-black: 900;
 
-$border-radius-xsmall: 4px;
-$border-radius-small: 6px;
-$border-radius-medium: 8px;
-$border-radius-large: 12px;
+$border-radius-xsmall: 0.4rem;
+$border-radius-small: 0.6rem;
+$border-radius-medium: 0.8rem;
+$border-radius-large: 1.2rem;
 
 /* Button */
-$button-padding-xsmall: 0 10px;
-$button-height-xsmall: 32px;
+$button-padding-xsmall: 0 1rem;
+$button-height-xsmall: 3.2rem;
 $button-font-xsmall: $font-size-medium; // 15px
 $button-radius-xsmall: $border-radius-small;
 
-$button-padding-small: 0 12px;
-$button-height-small: 40px;
+$button-padding-small: 0 1.2rem;
+$button-height-small: 4rem;
 $button-font-small: $font-size-medium; // 15px
 $button-radius-small: $border-radius-small;
 
 /* default button */
-$button-padding-medium: 0 16px;
-$button-height-medium: 48px;
+$button-padding-medium: 0 1.6rem;
+$button-height-medium: 4.8rem;
 $button-font-medium: $font-size-large; // 17px
 $button-radius-medium: $border-radius-medium;
 
-$button-padding-large: 0 20px;
-$button-height-large: 56px;
+$button-padding-large: 0 2rem;
+$button-height-large: 5.6rem;
 $button-font-large: $font-size-large; // 17px
 $button-radius-large: $border-radius-medium;
 
@@ -87,23 +87,23 @@ $button-radius-large: $border-radius-medium;
 // $input-padding-large: 21.5px 16px;
 
 /* Input */
-$input-padding-small: 0 16px;
-$input-height-small: 40px;
+$input-padding-small: 0 1.6rem;
+$input-height-small: 4rem;
 $input-font-small: $font-size-medium; // 15px
 
 // default Input
-$input-padding-medium: 0 16px;
-$input-height-medium: 48px;
+$input-padding-medium: 0 1.6rem;
+$input-height-medium: 4.8rem;
 $input-font-medium: $font-size-large; // 17px
 
-$input-padding-large: 0 16px;
-$input-height-large: 56px;
+$input-padding-large: 0 1.6rem;
+$input-height-large: 5.6rem;
 $input-font-large: $font-size-large; // 17px
 
 /* Textarea Paddings */
-$textarea-padding-large: 13.5px 16px;
-$textarea-padding-medium: 11px 16px;
-$textarea-padding-small: 8.5px 16px;
+$textarea-padding-large: 1.35rem 1.6rem;
+$textarea-padding-medium: 1.1rem 1.6rem;
+$textarea-padding-small: 0.85rem 1.6rem;
 
 /* breakpoints */
 $breakpoint-sm: 480px;

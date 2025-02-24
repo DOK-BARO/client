@@ -6,21 +6,21 @@
   .header-container {
     display: flex;
     align-items: center;
-    gap: 16px;
-    margin-bottom: 20px;
+    gap: 1.6rem;
+    margin-bottom: 2rem;
 
     .back-button {
-      font-size: 32px;
+      font-size: 3.2rem;
       font-weight: $font-weight-medium;
     }
 
     .setting-button {
-      margin-left: 10px;
+      margin-left: 1rem;
     }
   }
 
   .title {
-    font-size: 32px; //TODO: 변경필요
+    font-size: 3.2rem;
     font-weight: $font-weight-bold;
   }
 

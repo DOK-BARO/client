@@ -15,7 +15,7 @@
   @include textarea-base;
 
   &--error {
-    box-shadow: 0 0 0 2px $system-danger;
+    box-shadow: 0 0 0 0.2rem $system-danger;
   }
 
   &--large {
@@ -33,13 +33,13 @@
 }
 
 .option-label {
-  font-size: 17px;
+  font-size: 1.7rem;
   padding: 0;
   border: none;
 }
 
 .message-container {
-  margin-top: 12px;
+  margin-top: 1.2rem;
 }
 
 .char-count {

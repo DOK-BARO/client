@@ -3,14 +3,14 @@
 .quiz-setting-container {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 24px;
+  gap: 1.2rem;
+  margin-bottom: 2.4rem;
 
   .title {
     font-size: $font-size-large;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0.8rem;
   }
   .select {
     text-align: left;
@@ -22,7 +22,7 @@
     background-color: $gray-00;
     display: flex;
     flex-direction: column;
-    padding: 8px 0;
+    padding: 0.8rem 0;
 
     .option {
       justify-content: start;
@@ -34,9 +34,3 @@
     font-size: $font-size-medium;
   }
 }
-
-// .time-limit-container,
-// .view-access-container,
-// .edit-access-container {
-//   @include container;
-// }

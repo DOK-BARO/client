@@ -1,15 +1,15 @@
 @use "/src/styles/abstracts/" as *;
 
 .button {
-  border-radius: 8px;
-  height: 150px;
-  width: 150px;
+  border-radius: 0.8rem;
+  height: 15rem;
+  width: 15rem;
   background-color: $secondary;
-  border: 1.5px dashed $primary;
+  border: 0.15rem dashed $primary;
   font-size: $font-size-large;
   font-weight: $font-weight-semibold;
   color: $primary;
 
   @include flex(column, center);
-  gap: 16px;
+  gap: 1.6rem;
 }

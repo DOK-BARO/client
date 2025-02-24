@@ -12,25 +12,25 @@
   }
 
   .study-list {
-    margin-top: 16px;
+    margin-top: 1.6rem;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    row-gap: 16px;
-    column-gap: 100px;
+    row-gap: 1.6rem;
+    column-gap: 10rem;
 
     &-empty-item {
-      height: 166px;
+      height: 16.6rem;
       background-color: transparent;
       border: none;
     }
 
     .button-container {
       display: flex;
-      gap: 20px;
-      padding: 8px 0;
+      gap: 2rem;
+      padding: 0.8rem 0;
     }
   }
   .loading-spinner {
-    margin-top: 30px;
+    margin-top: 3rem;
   }
 }

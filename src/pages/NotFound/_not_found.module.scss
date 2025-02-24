@@ -2,14 +2,14 @@
 
 .container {
   @include flex(column, center);
-  gap: 24px;
+  gap: 2.4rem;
 
   img {
-    width: 500px;
-    height: 500px;
+    width: 50rem;
+    height: 50rem;
   }
 
   .home-btn {
-    width: 250px;
+    width: 25rem;
   }
 }

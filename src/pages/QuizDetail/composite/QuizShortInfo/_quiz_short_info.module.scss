@@ -9,17 +9,17 @@
     align-items: center;
     // 제목 스타일 믹스인으로 묶기
     .title {
-      font-size: 32px;
+      font-size: 3.2rem;
       font-weight: $font-weight-bold;
-      margin-bottom: 8px;
+      margin-bottom: 0.8rem;
     }
   }
 
   .iconTextLabel-container {
     @include flex(row);
     align-items: center;
-    gap: 20px;
-    height: 30px;
+    gap: 2rem;
+    height: 3rem;
 
     .rating-text,
     .difficulty-level,
@@ -37,35 +37,35 @@
     }
 
     .divider {
-      height: 20px;
-      width: 1px;
+      height: 2rem;
+      width: 0.1rem;
       background-color: $gray-40;
     }
 
     .creator-profile-image {
-      width: 26px;
-      height: 26px;
+      width: 2.6rem;
+      height: 2.6rem;
       border-radius: 50%;
       overflow: hidden;
     }
   }
 
   .description {
-    margin-top: 16px;
+    margin-top: 1.6rem;
     font-size: $font-size-medium;
     font-weight: $font-weight-regular;
   }
 
   .small-modal-container {
     position: absolute;
-    right: 12px;
-    margin-top: 40px;
+    right: 1.2rem;
+    margin-top: 4rem;
     z-index: 10;
   }
 }
 
 // 신고하기 모달
 .textarea-container {
-  padding: 0 16px;
-  margin-top: 6px;
+  padding: 0 1.6rem;
+  margin-top: 0.6rem;
 }

@@ -3,16 +3,16 @@
 .toggle-container {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.8rem;
   color: $gray-70;
   font-size: $font-size-large;
 
   button.toggle {
-    border-radius: 60px;
-    width: 48px;
-    height: 30px;
+    border-radius: 0.6rem;
+    width: 4.8rem;
+    height: 3rem;
     border: none;
-    padding: 3px;
+    padding: 0.3rem;
     display: flex;
     position: relative;
 
@@ -25,15 +25,15 @@
 
     .circle {
       border-radius: 50%;
-      width: 24px;
-      height: 24px;
+      width: 2.4rem;
+      height: 2.4rem;
       background-color: $gray-00;
       position: absolute;
-      left: 3px;
+      left: 0.3rem;
       transition: transform 0.2s ease;
     }
     &.on .circle {
-      transform: translateX(18px);
+      transform: translateX(1.8rem);
     }
 
     &.off .circle {

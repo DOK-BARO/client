@@ -2,15 +2,14 @@
 
 .container {
   @include flex(column, center);
-  gap: 40px;
-  margin-inline: 40px;
+  gap: 4rem;
+  margin-inline: 4rem;
 }
 
 .title {
   text-align: center;
-  font-size: 32px;
+  font-size: 3.2rem;
   font-weight: $font-weight-bold;
-  line-height: 150%;
   white-space: pre-wrap;
 }
 
@@ -19,25 +18,25 @@
 }
 
 .request-text {
-  font-size: 20px;
+  font-size: 2rem;
 }
 
 .request-sub-text {
   font-size: $font-size-medium;
   color: $gray-70;
-  margin-bottom: 16px;
+  margin-bottom: 1.6rem;
 }
 
 .difficulty-container {
   @include flex(column, center);
-  gap: 16px;
+  gap: 1.6rem;
   @include fadeIn;
 }
 
 .button-area {
   display: flex;
-  gap: 16px;
-  width: 480px;
+  gap: 1.6rem;
+  width: 48rem;
   button {
     flex-grow: 1;
     flex-basis: 30%;
@@ -48,28 +47,24 @@
   &:hover {
     background-color: $primary;
     color: $secondary;
-    border: 1.5px solid $primary;
+    border: 0.15rem solid $primary;
     transition: all 0.4s ease-in-out;
   }
 }
 
 .review-text-container {
   @include flex(column, center);
-  gap: 16px;
+  gap: 1.6rem;
   @include fadeIn;
 }
 
 .button-container {
   // 임의
   display: flex;
-  gap: 10px;
+  gap: 1rem;
 }
 
 .review-textarea {
-  width: 500px;
-  height: 51px;
-}
-
-.done {
-  //   width: 200px;
+  width: 50rem;
+  height: 5.1rem;
 }

@@ -10,23 +10,23 @@
   width: 100%;
   justify-content: space-between;
   align-items: center;
-  font-size: 24px;
-  gap: 32px;
+  font-size: 2.4rem;
+  gap: 3.2rem;
 }
 
 .setting-img {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-bottom: 40px;
+  gap: 1.6rem;
+  margin-bottom: 4rem;
 }
 
 .setting-container {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-top: 20px;
-  margin-bottom: 40px;
+  gap: 1.6rem;
+  margin-top: 2rem;
+  margin-bottom: 4rem;
 }
 
 .current-email {
@@ -36,7 +36,7 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 1.6rem;
 }
 
 .input-area {
@@ -44,7 +44,7 @@
   width: 100%;
   justify-content: space-between;
   align-items: start;
-  gap: 32px;
+  gap: 3.2rem;
 }
 
 .input-inner {
@@ -63,7 +63,7 @@
 }
 
 .button {
-  width: 132px;
+  width: 13.2rem;
   font-weight: $font-weight-semibold;
 }
 

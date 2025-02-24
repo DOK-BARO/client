@@ -5,14 +5,14 @@
 
   .row-container {
     @include flex(row);
-    gap: 35px;
-    margin-top: 20px;
+    gap: 3.5rem;
+    margin-top: 2rem;
   }
 
   .quiz-detail-container {
     width: 100%;
     > *:not(:last-child) {
-      margin-bottom: 64px;
+      margin-bottom: 6.4rem;
     }
   }
 }

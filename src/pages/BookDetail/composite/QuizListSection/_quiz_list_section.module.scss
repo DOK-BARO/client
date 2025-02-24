@@ -2,32 +2,32 @@
 
 .quiz-list-header {
   display: flex;
-  font-size: 20px;
+  font-size: 2rem;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
 }
 
 .filter-list {
   display: flex;
   justify-content: end;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
 }
 
 .filter-button-area {
   display: flex;
-  gap: 16px;
+  gap: 1.6rem;
 
   .filter-button {
     padding: 0;
     border: none;
     font-size: $font-size-large;
-    height: 26px;
+    height: 2.6rem;
   }
 }
 
 .list-container {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  gap: 1.6rem;
 }

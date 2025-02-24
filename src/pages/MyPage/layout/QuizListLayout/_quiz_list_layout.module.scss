@@ -2,13 +2,13 @@
 
 .list-section {
   @include flex(column);
-  gap: 16px;
+  gap: 1.6rem;
 
   .quiz-list {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    max-width: 816px;
+    gap: 1.6rem;
+    max-width: 81.6rem;
   }
 }
 

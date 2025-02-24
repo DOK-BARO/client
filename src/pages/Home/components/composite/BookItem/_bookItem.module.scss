@@ -9,19 +9,19 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 220px;
+    height: 22rem;
 
     .img {
-      max-width: 160px;
+      max-width: 16rem;
       height: auto;
     }
   }
 
   &-info {
-    margin: 18px 0 10px 0;
+    margin: 1.8rem 0 1rem 0;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 0.4rem;
   }
 
   .title {
@@ -34,8 +34,8 @@
   }
   .quiz-count-container {
     display: flex;
-    gap: 4px;
-    margin-top: 10px;
+    gap: 0.4rem;
+    margin-top: 1rem;
     .quiz-count {
       font-size: $font-size-small;
     }

@@ -1,15 +1,13 @@
 @use "/src/styles/abstracts/" as *;
 
 .container {
-  // margin-top: 40px;
-  // margin-bottom: 80px;
   display: flex;
-  gap: 40px;
+  gap: 4rem;
 
   .title {
-    font-size: 30px;
+    font-size: 3rem;
     font-weight: $font-weight-semibold;
-    margin-bottom: 16px;
+    margin-bottom: 1.6rem;
   }
   .book-list-container {
     display: flex;

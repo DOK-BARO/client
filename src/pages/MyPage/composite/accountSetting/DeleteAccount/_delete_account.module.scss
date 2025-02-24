@@ -2,8 +2,8 @@
 
 .container {
   @include flex(column);
-  gap: 16px;
-  margin-bottom: 40px;
+  gap: 1.6rem;
+  margin-bottom: 4rem;
 }
 
 .email {
@@ -27,19 +27,19 @@
   background-color: $gray-00;
   list-style-type: disc;
   list-style-position: inside;
-  padding: 20px;
+  padding: 2rem;
   font-weight: $font-weight-regular;
-  font-size: 14px;
+  font-size: 1.4rem;
 }
 
 .checkbox-area {
   display: flex;
   justify-content: end;
-  border-top: 1px solid $gray-40;
-  padding-block: 20px;
+  border-top: 0.1rem solid $gray-40;
+  padding-block: 2rem;
 }
 
 .checkbox-label {
   font-weight: $font-weight-medium;
-  font-size: 14px;
+  font-size: 1.4rem;
 }

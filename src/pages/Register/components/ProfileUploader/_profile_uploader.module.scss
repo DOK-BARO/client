@@ -3,12 +3,12 @@
 .profile-upload-container {
   display: flex;
   flex-direction: column;
-  gap: 17.78px;
+  gap: 1.778rem;
 
   .profile-email-container {
     display: flex;
     flex-grow: 1;
-    gap: 16px;
+    gap: 1.6rem;
 
     span {
       display: flex;
@@ -29,8 +29,8 @@
 
 .custom-file-upload {
   display: inline-block;
-  width: 64px;
-  height: 64px;
+  width: 6.4rem;
+  height: 6.4rem;
   flex-shrink: 0;
   overflow: hidden;
   background-color: $gray-30;
@@ -52,11 +52,11 @@
 
   span {
     display: flex;
-    gap: 2px;
+    gap: 0.2rem;
     align-items: center;
   }
 }
 .button-container {
   @include flex(column);
-  gap: 8px;
+  gap: 0.8rem;
 }

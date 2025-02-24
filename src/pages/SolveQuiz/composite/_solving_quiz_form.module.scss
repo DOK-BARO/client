@@ -3,38 +3,38 @@
 .container {
   @include flex(column);
   width: 100%;
-  padding: 16px 0;
-  gap: 24px;
+  padding: 1.6rem 0;
+  gap: 2.4rem;
 }
 
 .title-area {
   button {
-    margin-left: 16px;
+    margin-left: 1.6rem;
   }
 
   .question-title {
-    font-size: 24px; // TODO: fontsize정의 필요
+    font-size: 2.4rem;
     font-weight: $font-weight-semibold;
-    padding: 10px 16px;
+    padding: 1rem 1.6rem;
   }
 }
 
 .title-wrapper {
   display: flex;
   align-items: center;
-  padding: 10px 16px;
+  padding: 1rem 1.6rem;
 }
 
 .options-area {
   @include flex(column);
-  gap: 8px;
+  gap: 0.8rem;
 }
 // TODO: progressbar와 겹침
 @mixin base-step {
   @include flex(row, center);
 
-  width: 20px;
-  height: 20px;
+  width: 2rem;
+  height: 2rem;
   font-size: $font-size-medium;
   border-radius: 50%;
 }

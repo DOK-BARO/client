@@ -2,19 +2,19 @@
 
 .container {
   .title {
-    font-size: 20px;
+    font-size: 2rem;
     font-weight: $font-weight-bold;
   }
   .rating-difficulty-container {
     @include flex(column, center);
-    margin-top: 8px;
-    margin-bottom: 20px;
-    padding: 16px 0;
-    gap: 16px;
+    margin-top: 0.8rem;
+    margin-bottom: 2rem;
+    padding: 1.6rem 0;
+    gap: 1.6rem;
     .rating-container {
       display: flex;
       align-items: center;
-      gap: 9.57px;
+      gap: 0.957rem;
       font-weight: $font-weight-semibold;
       color: $gray-60;
       font-size: $font-size-xlarge;

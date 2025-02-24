@@ -7,12 +7,12 @@
 
 .label-container {
   display: flex;
-  margin-bottom: 16px;
+  margin-bottom: 1.6rem;
   justify-content: space-between;
 
   .label {
     color: $gray-90;
-    font-size: 14px;
+    font-size: 1.4rem;
     float: left;
     display: flex;
     align-items: center;
@@ -24,7 +24,7 @@
   color: $gray-60;
   font-size: $font-size-small;
   font-weight: $font-weight-medium;
-  margin-top: 12px;
+  margin-top: 1.2rem;
   text-align: left;
   &--error {
     @extend .message;
@@ -85,20 +85,20 @@
 
   &--left-icon-large,
   &--left-icon-medium {
-    padding-left: 44px;
+    padding-left: 4.4rem;
   }
 
   &--left-icon-small {
-    padding-left: 44px;
+    padding-left: 4.4rem;
   }
 
   &--right-icon-large,
   &--left-icon-medium {
-    padding-right: 48px;
+    padding-right: 4.8rem;
   }
 
   &--right-icon-small {
-    padding-right: 44px;
+    padding-right: 4.4rem;
   }
 }
 .input-wrapper {
@@ -120,11 +120,11 @@
 }
 
 .icon-left {
-  left: 16px;
+  left: 1.6rem;
 }
 
 .icon-right {
-  right: 16px;
+  right: 1.6rem;
 }
 .full {
   width: 100%;
@@ -134,7 +134,7 @@
   color: $gray-60;
   font-size: $font-size-small;
   margin-left: auto;
-  margin-top: 12px;
+  margin-top: 1.2rem;
 
   b {
     color: $gray-90;

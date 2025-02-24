@@ -2,6 +2,7 @@
 
 .lnb {
   width: 16.4rem;
+
   &-inner-container {
     .current-category {
       font-size: $font-size-large;
@@ -22,7 +23,7 @@
       width: 16.4rem;
       display: flex;
       flex-direction: column;
-      gap: 0.8;
+      gap: 0.8rem;
       .category-item {
         &-button {
           border: none;

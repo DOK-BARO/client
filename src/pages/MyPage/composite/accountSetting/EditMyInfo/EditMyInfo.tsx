@@ -151,13 +151,16 @@ export default function EditMyInfo() {
                 </div>
                 <Button
                   color="primary"
-                  onClick={() =>
+                  onClick={() => {
+                    if (nicknameValue.trim().length <= 0) {
+                      return;
+                    }
                     updateUser({
                       user: { nickname: nicknameValue },
                       toastMessage: "닉네임 변경이 완료되었습니다.",
                       needToReload: true,
-                    })
-                  }
+                    });
+                  }}
                   className={styles["button"]}
                   size="medium"
                 >

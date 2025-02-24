@@ -2,12 +2,12 @@
 
 .container {
   display: flex;
-  border-radius: 6px;
+  border-radius: 0.6rem;
   background-color: $gray-00;
-  padding: 20px;
+  padding: 2rem;
   flex-direction: row;
-  gap: 16px;
-  height: 280px;
+  gap: 1.6rem;
+  height: 28rem;
 
   .left-container,
   .right-container {
@@ -19,18 +19,18 @@
   }
 
   .left-container {
-    width: 140px;
+    width: 14rem;
 
     .img-container {
       display: flex;
       justify-content: center;
       align-items: start;
-      max-height: 210px;
+      max-height: 21rem;
 
       .img {
-        max-width: 140px;
+        max-width: 14rem;
         max-height: 100%;
-        border-radius: 6px;
+        border-radius: 0.6rem;
       }
     }
   }
@@ -39,26 +39,26 @@
     &-header {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 8px;
+      margin-bottom: 0.8rem;
     }
     .title {
       @include text-ellipsis;
       font-size: $font-size-large;
       font-weight: $font-weight-semibold;
       min-width: 0;
-      width: 220px;
+      width: 22rem;
     }
     .copy-link {
-      padding: 4px;
-      margin-top: -4px;
-      margin-right: -4px;
+      padding: 0.4rem;
+      margin-top: -0.4rem;
+      margin-right: -0.4rem;
     }
 
     .profile {
       @include flex(row, center);
       justify-content: start;
-      gap: 8px;
-      margin-top: 8px;
+      gap: 0.8rem;
+      margin-top: 0.8rem;
 
       &-images-container {
         display: flex;
@@ -68,10 +68,10 @@
         }
         .z-index-2 {
           z-index: 2;
-          margin-left: -8px;
+          margin-left: -0.8rem;
         }
         .z-index-3 {
-          margin-left: -8px;
+          margin-left: -0.8rem;
         }
       }
 
@@ -87,8 +87,7 @@
     }
 
     .description {
-      margin-top: 8px;
-      // margin-top: 4px;
+      margin-top: 0.8rem;
       color: $gray-70;
       font-size: $font-size-small;
       font-weight: $font-weight-regular;
@@ -98,7 +97,7 @@
     .button-container {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 0.8rem;
     }
   }
 }
@@ -106,27 +105,24 @@
 .grade-result-container {
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 0.7rem;
 }
 .date-container {
   @include flex(row, center);
-  gap: 4px;
+  gap: 0.4rem;
   position: relative;
   height: fit-content;
 
   .date {
     color: $gray-60;
-    font-size: 12px;
+    font-size: 1.2rem;
     font-weight: $font-weight-regular;
     text-align: center;
     margin-top: 0;
   }
 
   .tooltip {
-    right: -15px;
-    top: 30px;
-    // top: 30px;
-    // top: 0;
-    // right: 0;
+    right: -1.5rem;
+    top: 3rem;
   }
 }

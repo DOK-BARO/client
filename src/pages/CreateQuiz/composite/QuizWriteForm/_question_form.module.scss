@@ -8,17 +8,17 @@
 
 .question-form {
   @include flex(column);
-  gap: 8px;
-  border: 1.5px solid transparent;
+  gap: 0.8rem;
+  border: 0.15rem solid transparent;
   background-color: $gray-00;
-  padding: 24px;
+  padding: 2.4rem;
   border-radius: $border-radius-medium;
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
 
-  max-width: 792px;
-  min-width: 560px;
+  max-width: 79.2rem;
+  min-width: 56rem;
 
-  border: 1.5px solid $gray-40;
+  border: 0.15rem solid $gray-40;
 
   &-header {
     display: flex;
@@ -27,9 +27,8 @@
 
   .move-quiz-button {
     background-color: $gray-00;
-    width: 40px;
-    height: 40px;
-    // margin-left: -8px;
+    width: 4rem;
+    height: 4rem;
 
     @include flex(row, center);
     border-radius: 50%;
@@ -38,21 +37,20 @@
   .setting-container {
     display: flex;
     width: 100%;
-    gap: 8px;
+    gap: 0.8rem;
 
     .image-add-button {
-      border: 1.5px solid $gray-40;
-      width: 43px;
-      height: 43px;
-      border-radius: 8px;
+      border: 0.15rem solid $gray-40;
+      width: 4.3rem;
+      height: 4.3rem;
+      border-radius: 0.8rem;
     }
 
     textArea.title {
       border: none;
       font-size: $font-size-large;
       font-weight: $font-weight-semibold;
-      line-height: 1.5;
-      padding: 8.5px 0;
+      padding: 0.85rem 0;
       &::placeholder {
         color: $gray-60;
       }
@@ -61,15 +59,15 @@
 }
 
 .border--invalid {
-  border: 1.5px solid $primary;
+  border: 0.15rem solid $primary;
   &:focus-within {
-    border: 1.5px solid $primary;
+    border: 0.15rem solid $primary;
   }
 }
 
 .option-add-button {
   display: flex;
-  padding: 11.5px 8px;
+  padding: 1.15rem 0.8rem;
   width: 100%;
   color: $gray-50;
   font-size: $font-size-large;
@@ -90,22 +88,22 @@
 
 .answer-area {
   background: $background;
-  padding: 14px 16px;
+  padding: 1.4rem 1.6rem;
   @include flex(column);
-  gap: 8px;
-  border-radius: 8px;
+  gap: 0.8rem;
+  border-radius: 0.8rem;
 
   &-header {
     @include flex(row);
     align-items: center;
     justify-content: space-between;
-    font-size: 14px;
+    font-size: 1.4rem;
     font-weight: $font-weight-semibold;
     color: $gray-70;
     border: none;
 
     span {
-      font-size: 14px;
+      font-size: 1.4rem;
     }
 
     .image-add-button {
@@ -135,7 +133,7 @@
   &-area {
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    gap: 1rem;
   }
 
   &-item-container {
@@ -151,15 +149,15 @@
       background-color: transparent;
       border: none;
       cursor: pointer;
-      width: 24px;
-      height: 24px;
+      width: 2.4rem;
+      height: 2.4rem;
       top: 4px;
       right: 4px;
       padding: 0;
 
       img {
-        width: 24px;
-        height: 24px;
+        width: 2.4rem;
+        height: 2.4rem;
       }
     }
   }
@@ -176,17 +174,17 @@
     @include flex(row);
     width: 100%;
     height: 100%;
-    gap: 8px;
+    gap: 0.8rem;
     color: $gray-90;
     font-size: $font-size-medium;
     font-weight: $font-weight-regular;
   }
 
   &-check-circle {
-    width: 20px;
-    height: 20px;
+    width: 2rem;
+    height: 2rem;
     border-radius: 50%;
-    border: 2px solid $gray-60;
+    border: 0.2rem solid $gray-60;
   }
 }
 
@@ -215,12 +213,12 @@
 // ox_quiz_form.module.scss 시작
 .question-form-content {
   @include flex(column);
-  gap: 8px;
+  gap: 0.8rem;
 }
 
 .question-options {
   @include flex(column);
-  gap: 8px;
+  gap: 0.8rem;
 }
 
 .option-container {
@@ -240,8 +238,8 @@
     .button {
       display: flex;
       justify-content: start;
-      width: 164px;
-      height: 43px;
+      width: 16.4rem;
+      height: 4.3rem;
     }
 
     h3 {
@@ -249,30 +247,28 @@
       flex: 1;
       text-align: start;
       font-size: $font-size-medium;
-      line-height: 150%;
       font-weight: $font-weight-regular;
     }
   }
 
   &-list {
-    width: 164px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+    width: 16.4rem;
+    box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.12);
     background-color: white;
-    padding: 8px;
-    border-radius: 8px;
-    border: 1.5px solid #d8d8d8;
+    padding: 0.8rem;
+    border-radius: 0.8rem;
+    border: 0.15rem solid #d8d8d8;
     position: absolute;
     z-index: 1;
-    top: 56px; // 48px + 8px (버튼 height + margin)
+    top: 5.6rem; // 48px + 8px (버튼 height + margin)
 
     &-item {
       display: flex;
       justify-content: start;
-      height: 43px;
+      height: 4.3rem;
       width: 100%;
       font-size: $font-size-medium;
       font-weight: $font-weight-regular;
-      line-height: 150%;
       &:hover {
         background-color: $gray-10;
       }

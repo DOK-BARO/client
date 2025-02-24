@@ -2,18 +2,18 @@
 
 .container {
   @include flex(column, center);
-  margin-block: 40px 35px;
+  margin-block: 4rem 3.5rem;
 }
 
 .title {
-  margin-bottom: 16px;
+  margin-bottom: 1.6rem;
   font-size: $font-size-large;
   font-weight: $font-weight-semibold;
 }
 
 .desc {
-  margin-bottom: 32px;
-  font-size: 32px;
+  margin-bottom: 3.2rem;
+  font-size: 3.2rem;
   font-weight: $font-weight-semibold;
 
   .app-name {
@@ -23,10 +23,10 @@
 
 .button-area {
   @include flex(row);
-  gap: 7px;
-  margin-bottom: 24px;
+  gap: 0.7rem;
+  margin-bottom: 2.4rem;
 
   button {
-    width: 150px;
+    width: 15rem;
   }
 }

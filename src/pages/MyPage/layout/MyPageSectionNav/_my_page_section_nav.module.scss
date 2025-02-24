@@ -2,14 +2,14 @@
 
 .container {
   @include flex(column);
-  min-width: 164px;
-  max-width: 276px;
+  min-width: 16.4rem;
+  max-width: 27.6rem;
 
   button {
     border: none;
     justify-content: space-between;
     &:hover {
-      padding-left: 24px;
+      padding-left: 2.4rem;
     }
   }
 

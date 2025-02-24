@@ -3,12 +3,12 @@
 .container {
   @include flex(column);
   flex: 1;
-  max-width: 228px;
+  max-width: 22.8rem;
 
   button {
     border: none;
     &:hover {
-      padding-left: 24px;
+      padding-left: 2.4rem;
     }
   }
   .steps,

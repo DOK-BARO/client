@@ -4,8 +4,8 @@
   display: flex;
   justify-content: space-between;
   background-color: $background;
-  padding: 12.75px 12px;
-  border-radius: 6px;
+  padding: 1.275rem 1.2rem;
+  border-radius: 0.6rem;
   font-size: $font-size-medium;
   font-weight: $font-weight-medium;
 
@@ -24,7 +24,7 @@
   .nickname-container {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 0.6rem;
 
     .grade-container {
       @include flex(row, center);
@@ -33,7 +33,7 @@
 
       .grade {
         position: absolute;
-        font-size: 10px;
+        font-size: 1rem;
         color: $gray-00;
       }
     }

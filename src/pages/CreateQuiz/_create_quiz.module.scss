@@ -2,7 +2,7 @@
 
 .container {
   @include flex(row);
-  gap: 40px;
+  gap: 4rem;
 }
 
 .prevent-leave-modal-content {

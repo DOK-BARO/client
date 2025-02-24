@@ -3,18 +3,18 @@
 .register-complete {
   .container {
     display: flex;
-    gap: 80px;
-    margin: 80px auto;
+    gap: 8rem;
+    margin: 8rem auto;
     .welcome-text {
-      font-size: 17px;
+      font-size: 1.7rem;
       font-weight: $font-weight-semibold;
       .greeting {
-        font-size: 32px;
+        font-size: 3.2rem;
       }
       .description {
-        margin-top: 8px;
-        font-size: 22px;
-        margin-bottom: 80px;
+        margin-top: 0.8rem;
+        font-size: 2.2rem;
+        margin-bottom: 8rem;
       }
 
       p > em {
@@ -24,15 +24,15 @@
       .invite-code {
         &-input-container {
           display: flex;
-          gap: 8px;
-          margin-top: 16px;
+          gap: 0.8rem;
+          margin-top: 1.6rem;
         }
       }
 
       .new-quiz {
-        margin-top: 60px;
+        margin-top: 6rem;
         .new-quiz-container {
-          margin-top: 16px;
+          margin-top: 1.6rem;
         }
       }
     }

@@ -90,7 +90,9 @@ export default function Pagination(props: Props) {
     <article className={styles.pagination}>
       <Button
         iconOnly
-        icon={<ArrowLeft width={16} height={16} stroke={gray60} />}
+        icon={
+          <ArrowLeft width={16} height={16} stroke={gray60} alt="이전 페이지" />
+        }
         className={styles["page-button"]}
         value={"before"}
         onClick={handlePageClick}
@@ -105,7 +107,14 @@ export default function Pagination(props: Props) {
       </span>
       <Button
         iconOnly
-        icon={<ArrowRight width={16} height={16} stroke={gray60} />}
+        icon={
+          <ArrowRight
+            width={16}
+            height={16}
+            stroke={gray60}
+            alt="다음 페이지"
+          />
+        }
         className={styles["page-button"]}
         value={"next"}
         onClick={handlePageClick}

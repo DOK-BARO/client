@@ -83,16 +83,9 @@ export default function MyStudyGroupsCreate() {
   >({
     mutationFn: (newStudy) => studyGroupService.createStudyGroup(newStudy),
     onSuccess: (data) => {
-      // queryClient.invalidateQueries({
-      //   queryKey: studyGroupKeys.list({
-      //     page: currentPage,
-      //   }),
-      // });
       toast.success("스터디가 생성되었습니다.");
       openModal();
-      // setIsStudyCreated(true);
       if (!data) return;
-      // console.log("새롭게 생성된 스터디 그룹 아이디", data.id);
       setNewStudyGroupId(data.id);
     },
   });

@@ -18,7 +18,6 @@ class ImageService {
         `/images/${imageTarget}`,
         formData,
       );
-      // console.log("data: %o", data);
       return data.url;
     } catch (error: unknown) {
       throw new Error(`파일(사진) 업로드 실패: ${error}`);

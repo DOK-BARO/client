@@ -21,8 +21,6 @@ class QuizService {
       const { data } = await axiosInstance.get("/book-quizzes", {
         params: { page, size, bookId, sort, direction },
       });
-
-      // console.log(data);
       return data;
     } catch (error) {
       handleAxiosError(error);
@@ -33,7 +31,6 @@ class QuizService {
   createQuiz = async (quiz: QuizCreateType): Promise<{ id: number } | null> => {
     try {
       const { data } = await axiosInstance.post("/book-quizzes", quiz);
-      // console.log("data result: %o", data);
       return data;
     } catch (error) {
       handleAxiosError(error);
@@ -182,16 +179,13 @@ class QuizService {
     questionId: number;
     contents: string[];
   }): Promise<{ id: number } | null> => {
-    // console.log(questionId, contents);
     try {
       const response = await axiosInstance.post("/quiz-question-reports", {
         questionId,
         contents,
       });
-      // console.log(response);
       return response.data;
     } catch (error) {
-      // console.log(error);
       handleAxiosError(error);
       return null;
     }

@@ -25,8 +25,6 @@ export default function SendTemporaryPassword({ setStep }: Props) {
       setFindPasswordEmail(email);
     },
     onError: () => {
-      // 전역 에러 토스트 안나게 하기 위함
-      // console.error(error)
       setIsEmailReadyToSend(false);
     },
   });

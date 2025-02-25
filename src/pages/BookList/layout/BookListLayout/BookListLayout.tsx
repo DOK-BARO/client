@@ -98,7 +98,6 @@ export default function BookListLayout() {
   // 마지막 페이지 번호 저장
   useEffect(() => {
     if (endPageNumber && totalPagesLength !== endPageNumber) {
-      //console.log(endPageNumber);
       setPaginationState((prev) => ({
         ...prev,
         totalPagesLength: endPageNumber,

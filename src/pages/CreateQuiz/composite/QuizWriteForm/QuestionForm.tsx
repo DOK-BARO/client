@@ -209,7 +209,7 @@ export default function QuestionForm({
   const handleImageChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    // TODO: 사진 핸들링 hook으로 만들기
+    // TODO: 이미지 핸들링 hook으로 만들기
     const files = event.target.files;
     if (files) {
       if (selectedImages.length + files.length > maxImgFileCount) {
@@ -309,20 +309,20 @@ export default function QuestionForm({
     const alreadyUploadedList: string[] = [];
 
     // img태그를 File형태로 변환
-    //console.log("원본:", imagePreviewEls);
+    // console.log("원본:", imagePreviewEls);
     imagePreviewEls.forEach((img) => {
       const file = (img.props as { "data-file"?: File })["data-file"];
       const src = (img.props as { src?: string }).src;
 
       if (file instanceof File) {
         fileList.push(file); // 새로 업로드할 이미지
-        //console.log("filelist:", idx);
+        // console.log("filelist:", idx);
       } else {
-        // 이미 업로드된 사진 URL은 이미 중복 처리될 가능성이 있으므로 추가하지 않음
+        // 이미 업로드된 이미지 URL은 이미 중복 처리될 가능성이 있으므로 추가하지 않음
         if (!alreadyUploadedList.includes(src!)) {
           alreadyUploadedList.push(src!);
         }
-        //console.log("already:", idx);
+        // console.log("already:", idx);
       }
     });
 
@@ -335,7 +335,7 @@ export default function QuestionForm({
           dataUrlList.push(dataUrl);
         }
       } catch (error) {
-        console.error("Error converting file to Data URL:", error);
+        // console.error("Error converting file to Data URL:", error);
       }
     }
     return [...alreadyUploadedList, ...dataUrlList]; // 최종적으로 Data URL 배열 반환
@@ -350,9 +350,6 @@ export default function QuestionForm({
 
     fetchImgLayer();
   }, [imagePreviewEls]);
-  useEffect(() => {
-    //console.log("layer: ", imgLayer);
-  }, [imgLayer]);
 
   const {
     clickedImage,
@@ -362,10 +359,10 @@ export default function QuestionForm({
   } = useImageLayer(imgLayer);
 
   const makeImgElToUrl = async (img: JSX.Element): Promise<string> => {
-    const file = (img.props as { "data-file"?: File })["data-file"]; // 새로 업로드 할 사진는 data-file형태
+    const file = (img.props as { "data-file"?: File })["data-file"]; // 새로 업로드 할 이미지는 data-file형태
     const src = (img.props as { src?: string }).src;
     if (file instanceof File) {
-      return await convertFileToDataUrl(file!); // 새로 업로드 할 사진
+      return await convertFileToDataUrl(file!); // 새로 업로드 할 이미지
     }
     return src!; // 이미 업로드 된 url형태
   };

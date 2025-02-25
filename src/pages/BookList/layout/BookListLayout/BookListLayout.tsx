@@ -1,4 +1,4 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import styles from "./_book_list_layout.module.scss";
 import { useQuery } from "@tanstack/react-query";
 import { bookKeys } from "@/data/queryKeys";
@@ -26,6 +26,7 @@ import { BooksFilterType, BooksSortType } from "@/types/FilterType";
 import { parseQueryParams } from "@/utils/parseQueryParams";
 import { BooksFetchType } from "@/types/ParamsType";
 import { bookFilterAtom, resetBooksFilter } from "@/store/filterAtom";
+import BookList from "../../composite/BookList/BookList";
 
 // TODO: 외부 파일로 분리하기
 const filterOptions: FilterOptionType<BooksFilterType>[] = [
@@ -160,7 +161,7 @@ export default function BookListLayout() {
             filterOptions={filterOptions}
           />
         </div>
-        {shouldRenderDataList ? <Outlet context={{ books }} /> : null}
+        {shouldRenderDataList && books ? <BookList books={books} /> : null}
         {shouldRenderPagination ? (
           <Pagination
             type="queryString"

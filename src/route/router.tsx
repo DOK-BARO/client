@@ -5,12 +5,8 @@ import { lazy } from "react";
 const BaseLayout = lazy(
   () => import("@/components/layout/BaseLayout/BaseLayout.tsx"),
 );
-const BookListLayout = lazy(
-  () => import("@/pages/BookList/layout/BookListLayout/BookListLayout"),
-);
-const BookList = lazy(
-  () => import("@/pages/Home/components/composite/BookList/BookList"),
-);
+
+const BookList = lazy(() => import("@/pages/BookList"));
 const QuizDetail = lazy(() => import("@/pages/QuizDetail"));
 const CreateQuiz = lazy(() => import("@/pages/CreateQuiz"));
 const CreateQuizComplete = lazy(
@@ -85,13 +81,7 @@ const router = createBrowserRouter([
 
       {
         path: ROUTES.BOOK_LIST,
-        element: <BookListLayout />,
-        children: [
-          {
-            path: ROUTES.BOOK_LIST,
-            element: <BookList />,
-          },
-        ],
+        element: <BookList />,
       },
       {
         path: ROUTES.BOOK_DETAIL_SECTION(),

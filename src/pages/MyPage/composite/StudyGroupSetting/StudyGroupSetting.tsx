@@ -132,7 +132,7 @@ export default function StudyGroupSetting() {
       updateStudyGroup({ id: studyGroupIdNumber!, studyGroup: newStudy });
     },
     () => {
-      // 이미지 업로드 실패시
+      // 사진 업로드 실패시
       setProfileImage((prev) => ({
         ...prev,
         url: studyGroupDetail?.profileImageUrl ?? defaultImage,
@@ -203,13 +203,13 @@ export default function StudyGroupSetting() {
     }
 
     if (profileImage.file && profileImage.url !== initialProfileState.url) {
-      // 이미지가 바뀌었을 경우
+      // 사진가 바뀌었을 경우
       uploadImage({
         image: profileImage.file,
         imageTarget: "STUDY_GROUP_PROFILE",
       });
     } else {
-      // 이미지가 바뀌지 않았을 경우
+      // 사진가 바뀌지 않았을 경우
       const newStudy: StudyGroupPostType = {
         name,
         introduction,
@@ -283,7 +283,7 @@ export default function StudyGroupSetting() {
                     width={20}
                     height={20}
                     stroke={gray60}
-                    alt="스터디 삭제 버튼"
+                    alt="스터디 삭제"
                   />
                 }
                 label="스터디 삭제"

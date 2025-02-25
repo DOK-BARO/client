@@ -43,7 +43,7 @@ export default function HeaderMyInfoUtilButton() {
               alt={`${currentUser.nickname}님의 프로필 사진`}
             />
           ) : (
-            <Person width={40} height={40} alt="" />
+            <Person width={40} height={40} alt="기본 프로필 사진" />
           )
         }
       />

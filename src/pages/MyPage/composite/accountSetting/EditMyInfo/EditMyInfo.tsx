@@ -61,11 +61,11 @@ export default function EditMyInfo() {
     (imageUrl: string) => {
       updateUser({
         user: { profileImage: imageUrl },
-        toastMessage: "프로필 이미지가 변경되었습니다.",
+        toastMessage: "프로필 사진가 변경되었습니다.",
       });
     },
     () => {
-      // 이미지 업로드 실패시
+      // 사진 업로드 실패시
       setProfileImage((prev) => ({
         ...prev,
         url: currentUser?.profileImage ?? defaultImage,

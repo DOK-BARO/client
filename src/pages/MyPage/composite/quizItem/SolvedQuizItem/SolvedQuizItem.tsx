@@ -43,7 +43,7 @@ export default function SolvedQuizItem({
           <div className={styles["creator-profile"]}>
             <img
               src={myQuiz.quiz.creator.profileImageUrl ?? ""} // TODO: defaultImage 설정하기
-              alt={`${myQuiz.quiz.creator.nickname}님의 프로필 이미지`}
+              alt={`${myQuiz.quiz.creator.nickname}님의 프로필 사진`}
               width={32}
               height={32}
               className={styles.profile}

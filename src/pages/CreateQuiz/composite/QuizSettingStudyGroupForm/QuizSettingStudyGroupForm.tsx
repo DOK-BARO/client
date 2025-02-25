@@ -253,7 +253,7 @@ export default function QuizSettingStudyGroupForm() {
           onClick={handleOpenCreateStudyModal}
           icon={
             <QuizPlus
-              alt="스터디 그룹 추가 버튼"
+              alt="스터디 그룹 추가"
               width={20}
               height={20}
               stroke={primary}

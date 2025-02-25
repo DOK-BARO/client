@@ -32,7 +32,7 @@ export default function CreateQuizComplete() {
       <img
         className={styles.image}
         src={createQuizCompleteImage}
-        alt="퀴즈 출제 완료 이미지"
+        alt="퀴즈 출제 완료 사진"
         height={214}
       />
       <div className={styles["button-container"]}>

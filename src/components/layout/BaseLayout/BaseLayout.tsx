@@ -81,7 +81,7 @@ export default function BaseLayout({ showHeader = true }: Props) {
     // mobile
     <div className={styles["mobile-container"]}>
       <main>
-        {/* 이미지 */}
+        {/* 사진 */}
         <picture>
           {/* 작은 화면 (모바일) */}
           <source
@@ -95,7 +95,7 @@ export default function BaseLayout({ showHeader = true }: Props) {
             media="(max-width: 440px)"
             sizes="100vw"
           />
-          {/* 기본 이미지 */}
+          {/* 기본 사진 */}
           <source
             srcSet={mobileImage3}
             media="(max-width: 700px)"

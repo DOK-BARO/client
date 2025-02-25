@@ -44,7 +44,7 @@ export default function ProfileUploader({
         <div className={styles["custom-file-upload"]}>
           <img
             src={profileImage.url}
-            alt="프로필 이미지"
+            alt="프로필 사진"
             className={styles["profile-image"]}
           />
         </div>
@@ -70,7 +70,7 @@ export default function ProfileUploader({
           fullWidth
           onClick={() => document.getElementById("file-upload")?.click()}
         >
-          이미지 편집
+          사진 편집
         </Button>
         <Button
           color="white"
@@ -78,7 +78,7 @@ export default function ProfileUploader({
           id="delete-profile"
           onClick={onDeleteProfileImage}
         >
-          이미지 삭제
+          사진 삭제
         </Button>
       </div>
     </div>

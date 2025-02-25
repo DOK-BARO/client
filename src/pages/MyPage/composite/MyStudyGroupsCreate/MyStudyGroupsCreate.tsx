@@ -54,7 +54,7 @@ export default function MyStudyGroupsCreate() {
       createStudyGroup(newStudy);
     },
     () => {
-      // 이미지 업로드 실패시
+      // 사진 업로드 실패시
       setProfileImage((prev) => ({
         ...prev,
         url: defaultImage,

@@ -44,12 +44,7 @@ const Modal: React.FC<Props> = ({
               className={styles["modal-button"]}
               onClick={closeModal}
               icon={
-                <XMedium
-                  alt="닫기 버튼"
-                  width={20}
-                  height={20}
-                  stroke={gray80}
-                />
+                <XMedium alt="닫기" width={20} height={20} stroke={gray80} />
               }
               iconOnly
             />

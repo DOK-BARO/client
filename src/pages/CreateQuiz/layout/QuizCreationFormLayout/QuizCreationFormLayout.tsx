@@ -104,16 +104,16 @@ export default function QuizCreationFormLayout({
     const fileList: File[] = [];
     const alreadyUploadedList: string[] = [];
 
-    // 파일이 아닌건 이미 업로드 된 이미지 이므로 업로드 x, url만 저장
+    // 파일이 아닌건 이미 업로드 된 사진 이므로 업로드 x, url만 저장
 
     uploadTargetImgs.forEach((img) => {
       const file = (img.props as { "data-file"?: File })["data-file"];
       const src = (img.props as { src?: string }).src;
 
       if (file instanceof File) {
-        fileList.push(file); // 새로 업로드할 이미지
+        fileList.push(file); // 새로 업로드할 사진
       } else if (typeof src === "string") {
-        alreadyUploadedList.push(src); // 이미 업로드된 이미지 URL 저장
+        alreadyUploadedList.push(src); // 이미 업로드된 사진 URL 저장
       }
     });
 
@@ -133,7 +133,7 @@ export default function QuizCreationFormLayout({
     });
 
     const uploadedImgUrl: string[] = await Promise.all(promiseImgList);
-    // 기존 업로드된 이미지 URL과 새로 업로드한 URL을 합쳐서 반환
+    // 기존 업로드된 사진 URL과 새로 업로드한 URL을 합쳐서 반환
     return [...alreadyUploadedList, ...uploadedImgUrl];
   };
 
@@ -330,7 +330,7 @@ export default function QuizCreationFormLayout({
         >
           다음
           <RightArrow
-            alt="다음 버튼"
+            alt="다음"
             width={20}
             height={20}
             stroke={isQuizNextButtonEnabled ? gray00 : gray60}

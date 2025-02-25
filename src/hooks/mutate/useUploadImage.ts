@@ -18,8 +18,8 @@ const useUploadImageToStorage = (
       onSuccessCallback(imageUrl);
     },
     onError: () => {
-      toast.error("사진을 업로드할 수 없습니다. 다른 이미지를 선택해 주세요.");
-      onErrorCallback?.(); // 실패 시 콜백 (기존 이미지로 복구)
+      toast.error("사진을 업로드할 수 없습니다. 다른 사진를 선택해 주세요.");
+      onErrorCallback?.(); // 실패 시 콜백 (기존 사진로 복구)
     },
   });
   return { uploadImage, isPending };

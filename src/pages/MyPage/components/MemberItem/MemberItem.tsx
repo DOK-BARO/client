@@ -39,7 +39,7 @@ export default function MemberItem({
               width={16}
               height={16}
               stroke={gray60}
-              alt="멤버 내보내기 버튼"
+              alt="멤버 내보내기"
             />
           }
           iconOnly

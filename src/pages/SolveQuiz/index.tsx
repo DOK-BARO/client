@@ -635,7 +635,7 @@ export default function Index() {
                       <img
                         key={index}
                         src={image}
-                        alt={`해설 이미지 ${index + 1}`}
+                        alt={`해설 사진 ${index + 1}`}
                         className={styles["image"]}
                         onClick={() => {
                           handleImageClicked({ index, src: image });

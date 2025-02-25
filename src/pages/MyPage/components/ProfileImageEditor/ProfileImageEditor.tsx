@@ -56,11 +56,11 @@ export default function ProfileImageEditor({
         onClick={() => document.getElementById("file-upload")?.click()}
         className={`${styles["edit-img-btn"]} ${styles[`width-${width}`]}`}
       >
-        {/* 프로필 이미지 */}
+        {/* 프로필 사진 */}
         <img
           className={`${styles["profile-img"]} ${styles[`width-${width}`]}`}
           src={profileImage.url ?? initialImageState.url}
-          alt="프로필 이미지"
+          alt="프로필 사진"
         />
         {isLoading ? (
           <div className={styles["loading-img-bg"]}>

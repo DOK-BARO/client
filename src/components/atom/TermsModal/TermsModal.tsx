@@ -31,7 +31,7 @@ const TermsModal: React.FC<Props> = ({
             iconOnly
           >
             <Close
-              alt="닫기 버튼"
+              alt="약관 닫기"
               width={20}
               height={20}
               stroke={gray80}

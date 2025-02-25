@@ -47,12 +47,7 @@ export default function QuestionFormHeader({
           className={styles["move-quiz-button"]}
           iconOnly
           icon={
-            <Move
-              width={24}
-              height={24}
-              stroke={gray70}
-              alt="퀴즈 순서 변경 버튼"
-            />
+            <Move width={24} height={24} stroke={gray70} alt="퀴즈 순서 변경" />
           }
         />
       </div>
@@ -62,12 +57,7 @@ export default function QuestionFormHeader({
           deleteQuizWriteForm(id);
         }}
         icon={
-          <TrashCan
-            width={24}
-            height={24}
-            stroke={gray70}
-            alt="퀴즈 삭제 버튼"
-          />
+          <TrashCan width={24} height={24} stroke={gray70} alt="퀴즈 삭제" />
         }
       />
     </div>

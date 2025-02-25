@@ -38,7 +38,7 @@ export default function RegisterComplete() {
       <div className={styles["container"]}>
         <img
           src={registerCompleteImage}
-          alt="회원가입 환영 이미지"
+          alt="회원가입 환영 사진"
           height={500}
         />
         <div className={styles["welcome-text"]}>

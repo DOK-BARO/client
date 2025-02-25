@@ -44,7 +44,7 @@ export default function ImageLayer({
               height={22}
               stroke={gray100}
               strokeWidth={2.5}
-              alt="닫기 버튼"
+              alt="사진 확대보기 닫기"
             />
           </div>
         }
@@ -58,7 +58,7 @@ export default function ImageLayer({
       <img
         className={styles.image}
         src={image.src}
-        alt={`해설 이미지 ${image.index + 1}`}
+        alt={`해설 사진 ${image.index + 1}`}
       />
       <Button
         onClick={(e) => onRightArrowClick(e)}

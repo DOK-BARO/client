@@ -209,7 +209,7 @@ export default function QuestionForm({
   const handleImageChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    // TODO: 이미지 핸들링 hook으로 만들기
+    // TODO: 사진 핸들링 hook으로 만들기
     const files = event.target.files;
     if (files) {
       if (selectedImages.length + files.length > maxImgFileCount) {
@@ -315,10 +315,10 @@ export default function QuestionForm({
       const src = (img.props as { src?: string }).src;
 
       if (file instanceof File) {
-        fileList.push(file); // 새로 업로드할 이미지
+        fileList.push(file); // 새로 업로드할 사진
         console.log("filelist:", idx);
       } else {
-        // 이미 업로드된 이미지 URL은 이미 중복 처리될 가능성이 있으므로 추가하지 않음
+        // 이미 업로드된 사진 URL은 이미 중복 처리될 가능성이 있으므로 추가하지 않음
         if (!alreadyUploadedList.includes(src!)) {
           alreadyUploadedList.push(src!);
         }
@@ -362,10 +362,10 @@ export default function QuestionForm({
   } = useImageLayer(imgLayer);
 
   const makeImgElToUrl = async (img: JSX.Element): Promise<string> => {
-    const file = (img.props as { "data-file"?: File })["data-file"]; // 새로 업로드 할 이미지는 data-file형태
+    const file = (img.props as { "data-file"?: File })["data-file"]; // 새로 업로드 할 사진는 data-file형태
     const src = (img.props as { src?: string }).src;
     if (file instanceof File) {
-      return await convertFileToDataUrl(file!); // 새로 업로드 할 이미지
+      return await convertFileToDataUrl(file!); // 새로 업로드 할 사진
     }
     return src!; // 이미 업로드 된 url형태
   };
@@ -400,7 +400,7 @@ export default function QuestionForm({
               <ImageAdd
                 width={24}
                 height={24}
-                alt="질문 사진 추가하기"
+                alt="질문 사진 추가"
                 stroke={gray60}
               />
             }
@@ -470,7 +470,7 @@ export default function QuestionForm({
               stroke={gray90}
               width={20}
               height={20}
-              alt="해설 사진 추가하기"
+              alt="해설 사진 추가"
             />
           </button>
         </div>

@@ -37,13 +37,14 @@ export default function ProgressBar({
             <div className={className}>
               {isCheckedAnswer &&
                 (isCorrect ? (
-                  <Check stroke={gray00} width={26} height={26} />
+                  <Check stroke={gray00} width={26} height={26} alt="" />
                 ) : (
                   <Close
                     stroke={gray00}
                     width={26}
                     height={26}
                     strokeWidth={2.1}
+                    alt=""
                   />
                 ))}
               {!isCheckedAnswer && questionIndex}

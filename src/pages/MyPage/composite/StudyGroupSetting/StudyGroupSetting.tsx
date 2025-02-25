@@ -269,7 +269,7 @@ export default function StudyGroupSetting() {
           <h3 className={styles.title}>스터디 그룹 관리</h3>
           <Button
             iconOnly
-            icon={<img src={threeDot} width={16} height={16} />}
+            icon={<img src={threeDot} width={16} height={16} alt="" />}
             onClick={handleToggle}
             ref={buttonRef}
           />
@@ -278,7 +278,14 @@ export default function StudyGroupSetting() {
             <div className={styles["small-modal-container"]} ref={modalRef}>
               <SmallModal
                 onLabelClick={handleDeleteStudyGroupClick}
-                icon={<TrashCan width={20} height={20} stroke={gray60} />}
+                icon={
+                  <TrashCan
+                    width={20}
+                    height={20}
+                    stroke={gray60}
+                    alt="스터디 삭제 버튼"
+                  />
+                }
                 label="스터디 삭제"
               />
             </div>

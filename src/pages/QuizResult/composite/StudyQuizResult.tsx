@@ -75,6 +75,7 @@ export default function StudyQuizResult({ studyGroupId, quizId }: Props) {
                       width={20}
                       height={20}
                       fill={myRank ? gray00 : gray30}
+                      alt=""
                     />
                     <span
                       className={styles[myRank ? "rank-num--me" : "rank-num"]}

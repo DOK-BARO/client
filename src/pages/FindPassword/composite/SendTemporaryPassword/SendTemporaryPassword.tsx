@@ -60,7 +60,7 @@ export default function SendTemporaryPassword({ setStep }: Props) {
           message={
             !isEmailReadyToSend ? (
               <span className={styles["message-container"]}>
-                <XSmall stroke={systemDanger} width={20} height={20} />
+                <XSmall stroke={systemDanger} width={20} height={20} alt="" />
                 <p>회원 정보가 없습니다.</p>
               </span>
             ) : undefined

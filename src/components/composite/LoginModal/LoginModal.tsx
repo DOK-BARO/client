@@ -213,6 +213,7 @@ const LoginModal = ({ closeModal }: Props) => {
                               width={20}
                               height={20}
                               stroke={systemDanger}
+                              alt=""
                             />
                             <p>입력한 정보가 일치하지 않습니다.</p>
                           </span>

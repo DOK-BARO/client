@@ -84,6 +84,7 @@ export default function FiveStar({
                   height={iconSize()}
                   fill={systemWarning}
                   strokeWidth={strokeWidth}
+                  alt=""
                 />
               ) : (
                 <StarEmpty
@@ -91,6 +92,7 @@ export default function FiveStar({
                   height={iconSize()}
                   stroke={systemWarning}
                   strokeWidth={strokeWidth}
+                  alt=""
                 />
               )}
             </Button>

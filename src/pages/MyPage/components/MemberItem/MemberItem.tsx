@@ -23,6 +23,7 @@ export default function MemberItem({
           width={20}
           height={20}
           className={styles["profile-image"]}
+          alt=""
         />
         <p className={styles.name}>{member.nickname}</p>
       </span>
@@ -33,7 +34,14 @@ export default function MemberItem({
         </Button>
         <Button
           className={styles.button}
-          icon={<TrashCan width={16} height={16} stroke={gray60} />}
+          icon={
+            <TrashCan
+              width={16}
+              height={16}
+              stroke={gray60}
+              alt="멤버 내보내기 버튼"
+            />
+          }
           iconOnly
           onClick={onWithdrawMemberClick}
         />

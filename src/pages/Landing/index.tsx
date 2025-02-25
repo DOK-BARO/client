@@ -60,7 +60,7 @@ export default function Index() {
           상세기능 보기
         </Button>
       </div>
-      <img src={landing} width={868} height={482.37} />
+      <img src={landing} width={868} height={482.37} alt="" />
     </section>
   );
 }

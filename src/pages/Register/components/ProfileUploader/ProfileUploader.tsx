@@ -52,7 +52,7 @@ export default function ProfileUploader({
           <p className={styles.email} aria-label="사용자 이메일">
             {email}
           </p>
-          <InfoFilled stroke={gray60} fill={gray40} width={24} />
+          <InfoFilled stroke={gray60} fill={gray40} width={24} alt="" />
         </span>
       </div>
 

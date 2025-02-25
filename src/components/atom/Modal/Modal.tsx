@@ -41,6 +41,7 @@ const Modal: React.FC<Props> = ({
 
           {showHeaderCloseButton ? (
             <Button
+              ariaLabel="모달 닫기"
               className={styles["modal-button"]}
               onClick={closeModal}
               icon={

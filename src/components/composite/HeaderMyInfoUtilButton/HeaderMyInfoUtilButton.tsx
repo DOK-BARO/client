@@ -30,6 +30,7 @@ export default function HeaderMyInfoUtilButton() {
       ref={dropDownListRef}
     >
       <Button
+        ariaLabel="프로필 사진"
         color="transparent"
         onClick={openDropDownList}
         iconOnly

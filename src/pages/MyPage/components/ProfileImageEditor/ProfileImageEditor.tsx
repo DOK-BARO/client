@@ -55,6 +55,7 @@ export default function ProfileImageEditor({
         id="file-upload"
       />
       <button
+        aria-label="프로필 사진 업로드"
         onClick={() => document.getElementById("file-upload")?.click()}
         className={`${styles["edit-img-btn"]} ${styles[`width-${width}`]}`}
       >

@@ -66,6 +66,7 @@ export default function FiveStar({
         className={`${styles["stars"]} ${
           styles[starSelected ? "slideIn" : ""]
         }`}
+        aria-label={`${rating}점`}
       >
         {[...Array(5)].map((_, index) => {
           const starValue = index + 1;

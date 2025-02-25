@@ -272,6 +272,7 @@ export default function StudyGroupSetting() {
             icon={<img src={threeDot} width={16} height={16} alt="" />}
             onClick={handleToggle}
             ref={buttonRef}
+            ariaLabel="스터디 그룹 관리 모달 열기"
           />
 
           {isSmallModalOpen ? (

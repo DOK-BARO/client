@@ -186,6 +186,7 @@ const LoginModal = ({ closeModal }: Props) => {
                         <Button
                           onClick={handlePasswordVisible}
                           iconOnly
+                          ariaLabel="비밀번호 표시 여부"
                           icon={
                             isPasswordVisible ? (
                               <Visible
@@ -265,6 +266,7 @@ const LoginModal = ({ closeModal }: Props) => {
                               `${socialItem.type?.toLocaleLowerCase()}-button`
                             ]
                           }
+                          ariaLabel={`${socialItem.type?.toLocaleLowerCase()} 로그인 버튼`}
                           onClick={handleSocialAuth}
                           value={socialItem.type}
                         >

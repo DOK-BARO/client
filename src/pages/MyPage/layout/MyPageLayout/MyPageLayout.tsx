@@ -56,6 +56,7 @@ export default function MyPageLayout() {
             iconOnly
             icon={<div className={styles["back-button"]}>&larr;</div>}
             onClick={handleGoToBack}
+            ariaLabel="뒤로가기"
           />
         ) : null}
         <h2 className={styles.title}>{myPageTitle}</h2>

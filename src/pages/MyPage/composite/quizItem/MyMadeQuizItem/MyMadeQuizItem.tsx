@@ -81,6 +81,7 @@ export default function MyMadeQuizItem({
                     alt="퀴즈 공유 링크 복사"
                   />
                 }
+                ariaLabel="퀴즈 공유 링크 복사하기"
               />
             </div>
             <p className={styles.title}>{myQuiz.title}</p>

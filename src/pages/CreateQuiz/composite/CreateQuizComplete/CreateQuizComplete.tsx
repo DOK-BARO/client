@@ -43,6 +43,7 @@ export default function CreateQuizComplete() {
           size="medium"
           icon={<Copy width={20} stroke={primary} alt="퀴즈 링크 복사" />}
           iconPosition="right"
+          ariaLabel="퀴즈 링크 복사하기"
         >
           {quizLink}
         </Button>

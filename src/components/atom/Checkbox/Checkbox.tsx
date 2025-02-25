@@ -127,6 +127,7 @@ export default function CheckBox({
           type === "checkbox-correct" ||
           type === "checkbox-written") && (
           <Button
+            ariaLabel="옵션 삭제"
             iconOnly
             icon={
               <Close

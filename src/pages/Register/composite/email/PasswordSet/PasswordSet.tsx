@@ -75,7 +75,11 @@ export default function PasswordSet({ setStep }: Props) {
           />
         }
         rightIcon={
-          <Button iconOnly onClick={handleVisibleToggle}>
+          <Button
+            iconOnly
+            onClick={handleVisibleToggle}
+            ariaLabel="비밀번호 표시 여부"
+          >
             {isPasswordVisible ? (
               <Visible alt="비밀번호 표시 해제" stroke={gray60} width={24} />
             ) : (
@@ -104,7 +108,11 @@ export default function PasswordSet({ setStep }: Props) {
             size="medium"
             type={isPasswordVisible ? "text" : "password"}
             rightIcon={
-              <Button iconOnly onClick={handleVisibleToggle}>
+              <Button
+                iconOnly
+                onClick={handleVisibleToggle}
+                ariaLabel="비밀번호 표시 여부"
+              >
                 {isPasswordVisible ? (
                   <Visible
                     alt="비밀번호 표시 해제"

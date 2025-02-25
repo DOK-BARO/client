@@ -142,6 +142,7 @@ export default function MyStudyGroupsCreate() {
               title: "스터디 초대코드를 초대하고 싶은 친구에게 보내세요.",
               content: (
                 <Button
+                  ariaLabel="초대 코드 복사하기"
                   fullWidth
                   className={styles["new-study-invite-code"]}
                   icon={

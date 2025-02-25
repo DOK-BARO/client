@@ -219,6 +219,7 @@ export default function ProfileSet() {
               <button
                 style={{ background: "none", border: "none", padding: "0" }}
                 onClick={() => resetInput("")}
+                aria-label="입력된 닉네임 지우기"
               >
                 <XCircle width={24} stroke={gray60} fill={gray30} alt="" />
               </button>

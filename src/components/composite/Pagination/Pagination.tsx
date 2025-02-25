@@ -72,6 +72,7 @@ export default function Pagination(props: Props) {
     }
     return (
       <Button
+        ariaLabel={`${page} 페이지`}
         key={page}
         size="xsmall"
         onClick={handlePageClick}
@@ -89,6 +90,7 @@ export default function Pagination(props: Props) {
   return isMiddlePageUpdated ? (
     <article className={styles.pagination}>
       <Button
+        ariaLabel="이전 페이지로 이동"
         iconOnly
         icon={
           <ArrowLeft width={16} height={16} stroke={gray60} alt="이전 페이지" />
@@ -106,6 +108,7 @@ export default function Pagination(props: Props) {
         {1 !== totalPagesLength ? renderButton(totalPagesLength) : null}
       </span>
       <Button
+        ariaLabel="다음 페이지로 이동"
         iconOnly
         icon={
           <ArrowRight

@@ -104,6 +104,7 @@ export default function GNB() {
                           }}
                           className={styles.more}
                           iconOnly
+                          ariaLabel="하위 카테고리 메뉴 펼치기"
                         >
                           {expandedSubCategories[subCategoryId] ? (
                             <Minus

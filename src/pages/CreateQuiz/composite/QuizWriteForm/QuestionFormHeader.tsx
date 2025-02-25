@@ -49,9 +49,11 @@ export default function QuestionFormHeader({
           icon={
             <Move width={24} height={24} stroke={gray70} alt="퀴즈 순서 변경" />
           }
+          ariaLabel="퀴즈 순서 변경하기"
         />
       </div>
       <Button
+        ariaLabel="퀴즈 삭제하기"
         iconOnly
         onClick={() => {
           deleteQuizWriteForm(id);

@@ -72,6 +72,7 @@ export default function ChangePassword() {
                 <Button
                   onClick={handleVisibleToggle}
                   iconOnly
+                  ariaLabel="비밀번호 표시 여부"
                   icon={
                     isPasswordVisible ? (
                       <Visible
@@ -110,7 +111,11 @@ export default function ChangePassword() {
                 />
               }
               rightIcon={
-                <Button iconOnly onClick={handleVisibleToggle}>
+                <Button
+                  iconOnly
+                  onClick={handleVisibleToggle}
+                  ariaLabel="비밀번호 표시 여부"
+                >
                   {isPasswordVisible ? (
                     <Visible
                       alt="비밀번호 표시 해제"
@@ -144,7 +149,11 @@ export default function ChangePassword() {
               size="medium"
               type={isPasswordVisible ? "text" : "password"}
               rightIcon={
-                <Button iconOnly onClick={handleVisibleToggle}>
+                <Button
+                  iconOnly
+                  onClick={handleVisibleToggle}
+                  ariaLabel="비밀번호 표시 여부"
+                >
                   {isPasswordVisible ? (
                     <Visible
                       alt="비밀번호 표시 해제"

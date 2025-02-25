@@ -73,6 +73,7 @@ export default function SolvedQuizItem({
                 className={styles["copy-link"]}
                 onClick={(e) => onCopyQuizLink(e, myQuiz.quiz.id)}
                 iconOnly
+                ariaLabel="퀴즈 공유 링크 복사하기"
                 icon={
                   <img
                     src={link}

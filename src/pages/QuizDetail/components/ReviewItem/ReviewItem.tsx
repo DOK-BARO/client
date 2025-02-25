@@ -300,6 +300,7 @@ export default function ReviewItem({ review, isMyReview, quizTitle }: Props) {
               icon={<img src={edit} alt="리뷰 수정" width={16} height={16} />}
               iconOnly
               onClick={openEditModal}
+              ariaLabel="리뷰 수정하기"
             />
             <Button
               icon={
@@ -312,6 +313,7 @@ export default function ReviewItem({ review, isMyReview, quizTitle }: Props) {
               }
               iconOnly
               onClick={openDeleteModal}
+              ariaLabel="리뷰 삭제하기"
             />
           </span>
         ) : null}

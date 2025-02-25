@@ -39,11 +39,12 @@ export default function MemberItem({
               width={16}
               height={16}
               stroke={gray60}
-              alt="멤버 내보내기"
+              alt="스터디원 내보내기"
             />
           }
           iconOnly
           onClick={onWithdrawMemberClick}
+          ariaLabel="스터디원 내보내기"
         />
       </div>
     </div>

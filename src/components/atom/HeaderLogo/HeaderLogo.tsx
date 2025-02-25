@@ -26,6 +26,7 @@ const HeaderLogo: React.FC = () => {
   return (
     <div className={styles["logo-container"]}>
       <Button
+        ariaLabel="메인 페이지로 이동"
         className={styles["logo-button"]}
         iconPosition="left"
         onClick={handleNavigateToMain}

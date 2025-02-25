@@ -143,6 +143,7 @@ const RadioOption: React.FC<Props> = ({
           type === "option-written") &&
           showDeleteBtn && (
             <Button
+              ariaLabel="옵션 삭제"
               iconOnly
               icon={
                 <Close

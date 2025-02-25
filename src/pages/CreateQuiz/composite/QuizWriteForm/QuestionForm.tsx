@@ -223,7 +223,12 @@ export default function QuestionForm({
       const imgEls = newImagesFile.map((file) => {
         const imgURL = URL.createObjectURL(file); // 미리보기용 URL
         return (
-          <img className={styles["image"]} src={imgURL} data-file={file} />
+          <img
+            className={styles["image"]}
+            alt=""
+            src={imgURL}
+            data-file={file}
+          />
         );
       });
 
@@ -502,7 +507,7 @@ export default function QuestionForm({
                 </div>
                 <Button
                   iconOnly
-                  icon={<img src={deleteIcon} />}
+                  icon={<img src={deleteIcon} alt="" />}
                   className={styles["delete-button"]}
                   onClick={() => handleDeleteImage(index)}
                 />

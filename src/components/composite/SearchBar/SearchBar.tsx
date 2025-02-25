@@ -42,7 +42,7 @@ export default function SearchBar() {
           onChange={onSearchWordChange}
           placeholder="배우고 싶은 책을 검색해보세요."
           leftIcon={
-            <Search alt="검색" stroke={gray50} width={20} height={20} />
+            <Search alt="책 검색" stroke={gray50} width={20} height={20} />
           }
           fullWidth
         />

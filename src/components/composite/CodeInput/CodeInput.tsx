@@ -45,7 +45,7 @@ export default function CodeInput({
       </div>
       {!isMatch ? (
         <span className={styles["message-container"]}>
-          <XSmall stroke={systemDanger} width={20} height={20} />
+          <XSmall stroke={systemDanger} width={20} height={20} alt="" />
           <p>{errorMessage}</p>
         </span>
       ) : (

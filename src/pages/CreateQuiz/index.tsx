@@ -90,7 +90,7 @@ export default function Index() {
   async function convertUrlsToImg(urls: string[]): Promise<JSX.Element[]> {
     const files = await Promise.all(
       urls.map(async (urls) => {
-        return <img className={styles["image"]} src={urls} />;
+        return <img className={styles["image"]} alt="" src={urls} />;
       }),
     );
     return files;

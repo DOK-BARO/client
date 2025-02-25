@@ -220,7 +220,7 @@ export default function ProfileSet() {
                 style={{ background: "none", border: "none", padding: "0" }}
                 onClick={() => resetInput("")}
               >
-                <XCircle width={24} stroke={gray60} fill={gray30} />
+                <XCircle width={24} stroke={gray60} fill={gray30} alt="" />
               </button>
             ) : undefined
           }

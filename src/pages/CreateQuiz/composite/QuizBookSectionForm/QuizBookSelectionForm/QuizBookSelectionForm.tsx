@@ -85,7 +85,11 @@ export default function QuizBookSelectionForm() {
     >
       <Input
         leftIcon={
-          <Search width={20} stroke={isSearchInputClicked ? gray90 : gray60} />
+          <Search
+            alt="책 검색"
+            width={20}
+            stroke={isSearchInputClicked ? gray90 : gray60}
+          />
         }
         rightIcon={isBookSearching ? <LoadingSpinner width={24} /> : undefined}
         onChange={handleSearchBook}

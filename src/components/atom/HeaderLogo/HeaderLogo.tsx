@@ -27,7 +27,7 @@ const HeaderLogo: React.FC = () => {
         className={styles["logo-button"]}
         iconPosition="left"
         onClick={handleNavigateToMain}
-        icon={<img width={43} height={43} src={logo} />}
+        icon={<img width={43} height={43} src={logo} alt="" />}
       >
         <h1>{APP_NAME}</h1>
       </Button>

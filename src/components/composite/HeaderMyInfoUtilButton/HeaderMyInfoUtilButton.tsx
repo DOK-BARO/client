@@ -40,9 +40,10 @@ export default function HeaderMyInfoUtilButton() {
               src={currentUser.profileImage ?? defaultImage}
               width={40}
               height={40}
+              alt={`${currentUser.nickname}님의 프로필 사진`}
             />
           ) : (
-            <Person width={40} height={40} />
+            <Person width={40} height={40} alt="" />
           )
         }
       />

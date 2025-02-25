@@ -138,6 +138,7 @@ export default function EditMyInfo() {
                             stroke={systemDanger}
                             width={20}
                             height={20}
+                            alt=""
                           />
                           {"8자 이내"}
                         </span>
@@ -200,7 +201,12 @@ export default function EditMyInfo() {
                   message={
                     isError ? (
                       <span className={styles["message-container"]}>
-                        <XSmall stroke={systemDanger} width={20} height={20} />
+                        <XSmall
+                          stroke={systemDanger}
+                          width={20}
+                          height={20}
+                          alt=""
+                        />
                         {messageContent}
                       </span>
                     ) : (
@@ -240,6 +246,7 @@ export default function EditMyInfo() {
                               stroke={systemDanger}
                               width={20}
                               height={20}
+                              alt=""
                             />
                             {isMatch
                               ? "인증코드가 일치합니다."

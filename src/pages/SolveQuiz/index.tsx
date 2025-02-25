@@ -607,7 +607,7 @@ export default function Index() {
               size="xsmall"
               color="transparent"
               iconPosition="left"
-              icon={<img src={warning} />}
+              icon={<img alt="" src={warning} />}
               className={styles["report"]}
               onClick={openReportModal}
             >
@@ -688,7 +688,9 @@ export default function Index() {
             <Button
               onClick={handleNextQuestionBtn}
               color="primary"
-              icon={<ArrowRight stroke={gray00} width={20} height={20} />}
+              icon={
+                <ArrowRight stroke={gray00} width={20} height={20} alt="" />
+              }
               className={styles["footer-btn"]}
             >
               {currentStep === quiz!.questions.length

@@ -44,6 +44,7 @@ export default function CheckBox({
       <label className={className} htmlFor={id}>
         <div className={styles["checkbox-container"]}>
           <Check
+            alt=""
             width={20}
             height={20}
             stroke={

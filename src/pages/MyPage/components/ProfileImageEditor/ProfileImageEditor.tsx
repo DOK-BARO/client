@@ -78,6 +78,7 @@ export default function ProfileImageEditor({
               src={editProfile}
               width={width === 200 ? 40 : 30}
               height={width === 200 ? 40 : 30}
+              alt=""
             />
           </div>
         </div>

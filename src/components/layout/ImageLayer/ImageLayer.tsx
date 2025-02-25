@@ -39,14 +39,20 @@ export default function ImageLayer({
         onClick={onCloseLayer}
         icon={
           <div className={styles["close-button-container"]}>
-            <Close width={22} height={22} stroke={gray100} strokeWidth={2.5} />
+            <Close
+              width={22}
+              height={22}
+              stroke={gray100}
+              strokeWidth={2.5}
+              alt="닫기 버튼"
+            />
           </div>
         }
       />
       <Button
         onClick={(e) => onLeftArrowClick(e)}
         iconOnly
-        icon={<img src={leftArrow} width={40} height={40} />}
+        icon={<img src={leftArrow} width={40} height={40} alt="" />}
         className={styles["arrow-left"]}
       />
       <img
@@ -57,7 +63,7 @@ export default function ImageLayer({
       <Button
         onClick={(e) => onRightArrowClick(e)}
         iconOnly
-        icon={<img src={rightArrow} width={40} height={40} />}
+        icon={<img src={rightArrow} width={40} height={40} alt="" />}
         className={styles["arrow-right"]}
       />
     </div>

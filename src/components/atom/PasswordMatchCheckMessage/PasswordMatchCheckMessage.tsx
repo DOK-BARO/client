@@ -15,9 +15,9 @@ export default function PasswordMatchCheckMessage({
     <span className={styles["password-check-message-container"]}>
       <p>{isPasswordMatched ? "비밀번호 일치" : "비밀번호 불일치"}</p>
       {isPasswordMatched ? (
-        <Check stroke={systemSuccess} width={20} height={20} />
+        <Check stroke={systemSuccess} width={20} height={20} alt="" />
       ) : (
-        <XSmall stroke={systemDanger} width={20} height={20} />
+        <XSmall stroke={systemDanger} width={20} height={20} alt="" />
       )}
     </span>
   );

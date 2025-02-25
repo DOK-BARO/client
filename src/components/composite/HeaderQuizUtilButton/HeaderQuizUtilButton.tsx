@@ -25,6 +25,7 @@ function HeaderQuizUtilButton() {
           height={24}
           className={styles["header-quiz-util-icon"]}
           stroke={"#0A090B"}
+          alt="펼치기"
         />
       </Button>
       {isOpenDropDownList && anchorEl && (

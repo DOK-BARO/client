@@ -137,7 +137,7 @@ export default function ReviewList({ quizId, quizTitle }: Props) {
           filterOptions={filterOptions}
         />
       </div>
-      <ul className={styles["review-list"]}>
+      <ol className={styles["review-list"]}>
         {reviewsData?.pages
           .flatMap((page) => page.data)
           .map((review) => (
@@ -148,7 +148,7 @@ export default function ReviewList({ quizId, quizTitle }: Props) {
               quizTitle={quizTitle}
             />
           ))}
-      </ul>
+      </ol>
       {/* TODO: 무한 스크롤 */}
       <div ref={observerRef}>
         {isFetchingNextPage && (

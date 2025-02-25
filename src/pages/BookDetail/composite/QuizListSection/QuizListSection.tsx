@@ -123,7 +123,7 @@ export default function QuizListSection({ bookId }: Props) {
 
       {!quizzes ||
         (!quizzes.data?.length && <NoDataSection title={titleWhenNoData} />)}
-      <div className={styles["list-container"]}>
+      <ol className={styles["list-container"]}>
         {quizzes &&
           quizzes?.data.map((quiz) => (
             <QuizItem
@@ -132,7 +132,7 @@ export default function QuizListSection({ bookId }: Props) {
               onClick={() => handleGoToQuizDetail(quiz.id)}
             />
           ))}
-      </div>
+      </ol>
       {shouldRenderPagination ? (
         <Pagination
           type="queryString"

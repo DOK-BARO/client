@@ -32,12 +32,12 @@ export default function BookList() {
     return <div>책 데이터가 존재하지 않습니다.</div>;
   }
   return (
-    <ul className={styles["book-list-container"]}>
+    <ol className={styles["book-list-container"]}>
       {books?.map((book) => (
         <li key={book.id} onClick={() => handleClick(book.id)}>
           <BookItem book={book} />
         </li>
       ))}
-    </ul>
+    </ol>
   );
 }

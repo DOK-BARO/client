@@ -56,12 +56,16 @@ export default function ProfileUploader({
         </span>
       </div>
 
+      <label htmlFor="file-upload" className={styles["sr-only"]}>
+        사용자명
+      </label>
       <input
         id="file-upload"
         type="file"
         accept="image/*"
         onChange={onFileChange}
         style={{ display: "none" }}
+        aria-label="파일 업로드"
       />
       <div className={styles["button-container"]}>
         <Button

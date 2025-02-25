@@ -317,6 +317,8 @@ export default function StudyGroupSetting() {
                 fullWidth
                 maxLength={20}
                 maxLengthShow
+                label="스터디 그룹 이름"
+                hideLabel
               />
               <p className={styles["sub-title"]}>스터디 그룹 소개</p>
               <Textarea
@@ -327,6 +329,7 @@ export default function StudyGroupSetting() {
                 fullWidth
                 maxLength={50}
                 maxLengthShow
+                label="스터디 그룹 소개"
               />
             </div>
           </div>

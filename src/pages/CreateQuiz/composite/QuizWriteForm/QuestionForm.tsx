@@ -425,6 +425,7 @@ export default function QuestionForm({
             onKeyDown={(e) => {
               e.stopPropagation();
             }}
+            label="질문 입력"
           />
         </div>
         {React.cloneElement(questionFormType.FormComponent, {
@@ -451,7 +452,11 @@ export default function QuestionForm({
         />
         <div className={styles["answer-area-header"]}>
           <span>해설</span>
+          <label htmlFor="answer-image-uploader" className={styles["sr-only"]}>
+            해설 사진 업로드
+          </label>
           <input
+            id="answer-image-uploader"
             className={styles["sr-only"]}
             type="file"
             accept="image/*"
@@ -486,6 +491,7 @@ export default function QuestionForm({
             e.stopPropagation();
           }}
           disabled={isFirstVisit && !isEditMode && currentQuizGuideStep == 1}
+          label="답안에 대한 설명 입력"
         />
         {/* TODO: refactor 퀴즈 풀기 해설과 같은 컴포넌트 */}
         {imagePreviewEls.length > 0 && (

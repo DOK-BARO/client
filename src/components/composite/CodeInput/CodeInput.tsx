@@ -40,6 +40,8 @@ export default function CodeInput({
             color={borderColor}
             isError={!isMatch}
             className={styles["code-input"]}
+            label={`${i}번째 코드`}
+            hideLabel
           />
         ))}
       </div>

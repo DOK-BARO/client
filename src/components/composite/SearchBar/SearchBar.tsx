@@ -45,6 +45,8 @@ export default function SearchBar() {
             <Search alt="책 검색" stroke={gray50} width={20} height={20} />
           }
           fullWidth
+          label="책 검색"
+          hideLabel
         />
       </form>
     </div>

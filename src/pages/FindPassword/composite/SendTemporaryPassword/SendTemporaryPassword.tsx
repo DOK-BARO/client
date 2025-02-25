@@ -50,6 +50,8 @@ export default function SendTemporaryPassword({ setStep }: Props) {
       </p>
       <form onSubmit={handleSubmit}>
         <Input
+          label="이메일"
+          hideLabel
           id="email"
           onChange={onEmailChange}
           value={email}

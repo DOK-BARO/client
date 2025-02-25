@@ -99,6 +99,8 @@ export default function QuizBookSelectionForm() {
         color={isSearchInputClicked ? "black" : "default"}
         size="large"
         fullWidth
+        label="퀴즈에 사용될 책 검색"
+        hideLabel
       />
 
       {searchedBooks && searchedBooks.length > 0 ? (

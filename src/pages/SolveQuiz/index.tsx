@@ -561,6 +561,7 @@ export default function Index() {
                         textAreaRef={OtherGroundsRef}
                         size="small"
                         rows={1}
+                        label="기타 사유"
                       />
                     </div>
                   ) : null}

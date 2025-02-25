@@ -226,6 +226,7 @@ export default function ReviewItem({ review, isMyReview, quizTitle }: Props) {
                   maxLength={200}
                   rows={5}
                   size="small"
+                  label="퀴즈 후기"
                 />
               ),
             },
@@ -270,6 +271,7 @@ export default function ReviewItem({ review, isMyReview, quizTitle }: Props) {
                     id="report-content"
                     rows={5}
                     size="small"
+                    label="퀴즈 후기 신고 내용"
                   />
                 </div>
               ),

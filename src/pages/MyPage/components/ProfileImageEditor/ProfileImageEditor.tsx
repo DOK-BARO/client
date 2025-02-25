@@ -46,6 +46,9 @@ export default function ProfileImageEditor({
 
   return (
     <div className={styles.container}>
+      <label htmlFor="file-upload" className={styles["sr-only"]}>
+        프로필 사진 업로드
+      </label>
       <input
         className={styles["sr-only"]}
         type="file"

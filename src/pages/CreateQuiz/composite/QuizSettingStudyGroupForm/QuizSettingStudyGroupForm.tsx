@@ -172,6 +172,8 @@ export default function QuizSettingStudyGroupForm() {
               onChange={onChangeStudyName}
               className={styles.input}
               size="medium"
+              label="스터디 이름"
+              hideLabel
             />
             <Button
               className={styles["add"]}

@@ -61,6 +61,8 @@ export default function RegisterComplete() {
                 value={inviteCode}
                 size="medium"
                 color="default"
+                label="초대코드"
+                hideLabel
               />
               <Button
                 color="primary"

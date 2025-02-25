@@ -194,6 +194,8 @@ export default function MyStudyGroupsCreate() {
           fullWidth
           maxLength={20}
           maxLengthShow
+          label="스터디 그룹 이름"
+          hideLabel
         />
       </div>
       <div className={styles["sub-container"]}>
@@ -207,6 +209,7 @@ export default function MyStudyGroupsCreate() {
           fullWidth
           maxLength={50}
           maxLengthShow
+          label="스터디 그룹 소개"
         />
       </div>
       <Button

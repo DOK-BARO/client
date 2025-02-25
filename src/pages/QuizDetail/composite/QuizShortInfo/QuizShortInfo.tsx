@@ -216,6 +216,7 @@ export default function QuizShortInfo({
                         textAreaRef={OtherGroundsRef}
                         size="small"
                         rows={1}
+                        label="기타 사유"
                       />
                     </div>
                   ) : null}

@@ -148,6 +148,8 @@ export default function EditMyInfo() {
                     }
                     maxLength={8}
                     fullWidth
+                    label="새로운 닉네임"
+                    hideLabel
                   />
                 </div>
                 <Button
@@ -215,6 +217,8 @@ export default function EditMyInfo() {
                   }
                   isError={isError}
                   fullWidth
+                  label="새로운 이메일"
+                  hideLabel
                 />
                 <Button
                   disabled={!isEmailValid || isAlreadyUsed}
@@ -250,11 +254,13 @@ export default function EditMyInfo() {
                             />
                             {isMatch
                               ? "인증코드가 일치합니다."
-                              : "인증 코드가 일치하지 않습니다."}
+                              : "인증코드가 일치하지 않습니다."}
                           </span>
                         )
                       }
                       fullWidth
+                      label="인증코드"
+                      hideLabel
                     />
                   </div>
 

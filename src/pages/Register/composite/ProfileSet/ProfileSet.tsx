@@ -214,6 +214,8 @@ export default function ProfileSet() {
           id="nickname"
           value={nickname}
           size="medium"
+          label="닉네임"
+          hideLabel
           rightIcon={
             nickname ? (
               <button

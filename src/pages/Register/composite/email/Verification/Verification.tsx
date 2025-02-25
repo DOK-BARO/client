@@ -171,6 +171,8 @@ export default function Verification({ setStep }: Props) {
           onChange={onEmailChange}
           placeholder="아이디(이메일) 입력"
           size="medium"
+          label="아이디(이메일)"
+          hideLabel
         />
       ) : (
         <CodeInput

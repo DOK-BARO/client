@@ -68,6 +68,8 @@ export default function ChangePassword() {
               value={currentPassword}
               placeholder="비밀번호를 입력해주세요"
               onChange={onCurrentPasswordChange}
+              hideLabel
+              label="비민번호"
               rightIcon={
                 <Button
                   onClick={handleVisibleToggle}
@@ -133,6 +135,8 @@ export default function ChangePassword() {
               onChange={onPasswordChange}
               placeholder="비밀번호 입력"
               size="medium"
+              label="비밀번호"
+              hideLabel
             />
           </div>
 
@@ -174,6 +178,8 @@ export default function ChangePassword() {
                   />
                 )
               }
+              label="비밀번호 확인"
+              hideLabel
             />
           </div>
         </>

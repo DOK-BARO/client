@@ -93,6 +93,8 @@ export default function PasswordSet({ setStep }: Props) {
         onChange={onPasswordChange}
         placeholder="비밀번호 입력"
         size="medium"
+        label="비밀번호"
+        hideLabel
       />
       {subStep === 2 && (
         <>
@@ -133,6 +135,8 @@ export default function PasswordSet({ setStep }: Props) {
                 />
               )
             }
+            label="비밀번호 확인"
+            hideLabel
           />
         </>
       )}

@@ -135,7 +135,7 @@ export default function CheckBox({
                 height={20}
                 stroke={isTextAreaFocus ? gray70 : gray40}
                 strokeWidth={2}
-                alt="옵션 삭제"
+                alt=""
               />
             }
             onClick={() => {

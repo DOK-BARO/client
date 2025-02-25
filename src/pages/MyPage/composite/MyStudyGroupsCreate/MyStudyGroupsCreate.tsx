@@ -145,14 +145,7 @@ export default function MyStudyGroupsCreate() {
                   ariaLabel="초대 코드 복사하기"
                   fullWidth
                   className={styles["new-study-invite-code"]}
-                  icon={
-                    <Copy
-                      stroke={primary}
-                      width={20}
-                      height={20}
-                      alt="초대 코드 복사"
-                    />
-                  }
+                  icon={<Copy stroke={primary} width={20} height={20} alt="" />}
                   iconPosition="right"
                   onClick={handleClickCopyCode}
                 >

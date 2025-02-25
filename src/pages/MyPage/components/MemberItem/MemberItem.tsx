@@ -34,14 +34,7 @@ export default function MemberItem({
         </Button>
         <Button
           className={styles.button}
-          icon={
-            <TrashCan
-              width={16}
-              height={16}
-              stroke={gray60}
-              alt="스터디원 내보내기"
-            />
-          }
+          icon={<TrashCan width={16} height={16} stroke={gray60} alt="" />}
           iconOnly
           onClick={onWithdrawMemberClick}
           ariaLabel="스터디원 내보내기"

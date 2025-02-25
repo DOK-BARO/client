@@ -32,7 +32,7 @@ const TermsModal: React.FC<Props> = ({
             ariaLabel="약관 닫기"
           >
             <Close
-              alt="약관 닫기"
+              alt=""
               width={20}
               height={20}
               stroke={gray80}

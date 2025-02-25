@@ -92,9 +92,7 @@ export default function Pagination(props: Props) {
       <Button
         ariaLabel="이전 페이지로 이동"
         iconOnly
-        icon={
-          <ArrowLeft width={16} height={16} stroke={gray60} alt="이전 페이지" />
-        }
+        icon={<ArrowLeft width={16} height={16} stroke={gray60} alt="" />}
         className={styles["page-button"]}
         value={"before"}
         onClick={handlePageClick}
@@ -110,14 +108,7 @@ export default function Pagination(props: Props) {
       <Button
         ariaLabel="다음 페이지로 이동"
         iconOnly
-        icon={
-          <ArrowRight
-            width={16}
-            height={16}
-            stroke={gray60}
-            alt="다음 페이지"
-          />
-        }
+        icon={<ArrowRight width={16} height={16} stroke={gray60} alt="" />}
         className={styles["page-button"]}
         value={"next"}
         onClick={handlePageClick}

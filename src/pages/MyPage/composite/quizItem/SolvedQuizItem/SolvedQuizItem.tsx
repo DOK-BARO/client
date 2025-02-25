@@ -74,14 +74,7 @@ export default function SolvedQuizItem({
                 onClick={(e) => onCopyQuizLink(e, myQuiz.quiz.id)}
                 iconOnly
                 ariaLabel="퀴즈 공유 링크 복사하기"
-                icon={
-                  <img
-                    src={link}
-                    width={20}
-                    height={20}
-                    alt="퀴즈 공유 링크 복사"
-                  />
-                }
+                icon={<img src={link} width={20} height={20} alt="" />}
               />
             </div>
             <p className={styles.title}>{myQuiz.quiz.title}</p>

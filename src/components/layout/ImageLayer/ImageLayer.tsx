@@ -45,7 +45,7 @@ export default function ImageLayer({
               height={22}
               stroke={gray100}
               strokeWidth={2.5}
-              alt="사진 확대보기 닫기"
+              alt=""
             />
           </div>
         }
@@ -54,14 +54,7 @@ export default function ImageLayer({
         onClick={(e) => onLeftArrowClick(e)}
         iconOnly
         ariaLabel="이전 해설 사진 보기"
-        icon={
-          <img
-            src={leftArrow}
-            width={40}
-            height={40}
-            alt="이전 해설 사진 보기"
-          />
-        }
+        icon={<img src={leftArrow} width={40} height={40} alt="" />}
         className={styles["arrow-left"]}
       />
       <img
@@ -72,15 +65,8 @@ export default function ImageLayer({
       <Button
         onClick={(e) => onRightArrowClick(e)}
         iconOnly
-        ariaLabel="이전 해설 사진 보기"
-        icon={
-          <img
-            src={rightArrow}
-            width={40}
-            height={40}
-            alt="다음 해설 사진 보기"
-          />
-        }
+        ariaLabel="다음 해설 사진 보기"
+        icon={<img src={rightArrow} width={40} height={40} alt="" />}
         className={styles["arrow-right"]}
       />
     </div>

@@ -18,14 +18,19 @@ function HeaderQuizUtilButton() {
       className={styles["header-quiz-util-button-container"]}
       ref={dropDownListRef}
     >
-      <Button onClick={openDropDownList} size="small" color="transparent">
+      <Button
+        onClick={openDropDownList}
+        size="small"
+        color="transparent"
+        ariaLabel="펼치기"
+      >
         퀴즈 도구
         <ArrowDown
           width={24}
           height={24}
           className={styles["header-quiz-util-icon"]}
           stroke={"#0A090B"}
-          alt="펼치기"
+          alt=""
         />
       </Button>
       {isOpenDropDownList && anchorEl && (

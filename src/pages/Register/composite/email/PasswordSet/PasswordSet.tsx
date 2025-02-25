@@ -78,12 +78,14 @@ export default function PasswordSet({ setStep }: Props) {
           <Button
             iconOnly
             onClick={handleVisibleToggle}
-            ariaLabel="비밀번호 표시 여부"
+            ariaLabel={
+              isPasswordVisible ? "비밀번호 숨기기" : "비밀번호 표시하기"
+            }
           >
             {isPasswordVisible ? (
-              <Visible alt="비밀번호 표시 해제" stroke={gray60} width={24} />
+              <Visible alt="" stroke={gray60} width={24} />
             ) : (
-              <Invisible alt="비밀번호 표시" stroke={gray60} width={24} />
+              <Invisible alt="" stroke={gray60} width={24} />
             )}
           </Button>
         }
@@ -113,16 +115,14 @@ export default function PasswordSet({ setStep }: Props) {
               <Button
                 iconOnly
                 onClick={handleVisibleToggle}
-                ariaLabel="비밀번호 표시 여부"
+                ariaLabel={
+                  isPasswordVisible ? "비밀번호 숨기기" : "비밀번호 표시하기"
+                }
               >
                 {isPasswordVisible ? (
-                  <Visible
-                    alt="비밀번호 표시 해제"
-                    stroke={gray60}
-                    width={24}
-                  />
+                  <Visible alt="" stroke={gray60} width={24} />
                 ) : (
-                  <Invisible alt="비밀번호 표시" stroke={gray60} width={24} />
+                  <Invisible alt="" stroke={gray60} width={24} />
                 )}
               </Button>
             }

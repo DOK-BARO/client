@@ -147,7 +147,7 @@ const RadioOption: React.FC<Props> = ({
               iconOnly
               icon={
                 <Close
-                  alt="옵션 삭제"
+                  alt=""
                   width={20}
                   height={20}
                   stroke={isTextAreaFocus ? gray70 : gray40}

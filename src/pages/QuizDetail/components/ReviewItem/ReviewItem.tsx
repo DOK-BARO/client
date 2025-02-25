@@ -299,20 +299,13 @@ export default function ReviewItem({ review, isMyReview, quizTitle }: Props) {
         {isMyReview ? (
           <span className={styles["edit-container"]}>
             <Button
-              icon={<img src={edit} alt="리뷰 수정" width={16} height={16} />}
+              icon={<img src={edit} alt="" width={16} height={16} />}
               iconOnly
               onClick={openEditModal}
               ariaLabel="리뷰 수정하기"
             />
             <Button
-              icon={
-                <TrashCan
-                  alt="리뷰 삭제"
-                  width={16}
-                  height={16}
-                  stroke={gray60}
-                />
-              }
+              icon={<TrashCan alt="" width={16} height={16} stroke={gray60} />}
               iconOnly
               onClick={openDeleteModal}
               ariaLabel="리뷰 삭제하기"

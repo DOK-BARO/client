@@ -469,12 +469,7 @@ export default function QuestionForm({
             className={styles["image-add-button"]}
             aria-label="해설 사진 추가하기"
           >
-            <ImageAdd
-              stroke={gray90}
-              width={20}
-              height={20}
-              alt="해설 사진 추가"
-            />
+            <ImageAdd stroke={gray90} width={20} height={20} alt="" />
           </button>
         </div>
 
@@ -511,7 +506,7 @@ export default function QuestionForm({
                 </div>
                 <Button
                   iconOnly
-                  icon={<img src={deleteIcon} alt="사진 삭제" />}
+                  icon={<img src={deleteIcon} alt="" />}
                   className={styles["delete-button"]}
                   onClick={() => handleDeleteImage(index)}
                   ariaLabel="사진 삭제하기"

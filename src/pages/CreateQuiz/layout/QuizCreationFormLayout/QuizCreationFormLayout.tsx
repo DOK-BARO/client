@@ -330,7 +330,7 @@ export default function QuizCreationFormLayout({
         >
           다음
           <RightArrow
-            alt="다음"
+            alt=""
             width={20}
             height={20}
             stroke={isQuizNextButtonEnabled ? gray00 : gray60}

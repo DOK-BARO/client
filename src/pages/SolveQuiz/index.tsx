@@ -36,6 +36,8 @@ import CodeInput from "@/components/composite/CodeInput/CodeInput";
 import useCodeInput from "@/hooks/useCodeInput";
 import usePreventPopState from "@/hooks/usePreventPopState";
 import useImageLayer from "@/hooks/useImageLayer";
+import { Close } from "@/svg/Close";
+import { gray50 } from "@/styles/abstracts/colors";
 export interface AnswerImageType {
   index: number;
   src: string;
@@ -421,318 +423,328 @@ export default function Index() {
 
   return (
     <section className={styles["container"]}>
-      {isLoginModalOpen && quizId ? (
-        <LoginModal closeModal={closeLoginModal} />
-      ) : null}
-      {isStudyGroupCodeModalOpen ? (
-        <Modal
-          closeModal={handleStudyGroupCodeModal}
-          title={!isCodeInputStep ? "" : "코드로 스터디 참여"}
-          contents={[
-            {
-              title: !isCodeInputStep
-                ? `${studyGroup?.name} 스터디원에게만 공개된 퀴즈예요.`
-                : "초대코드를 입력해주세요.",
-              content: !isCodeInputStep ? (
-                <></>
-              ) : (
-                <div className={styles["code-input-container"]}>
-                  <CodeInput
-                    codeList={codeList}
-                    isMatch={isMatch ?? true}
-                    onCodeChange={handleCodeChange}
-                    onKeyDown={handleKeyDown}
-                    onPaste={handlePaste}
-                    borderColor="default"
-                    errorMessage="올바르지 않은 그룹 코드입니다."
-                  />
-                </div>
-              ),
-            },
-          ]}
-          bottomButtons={[
-            {
-              text: !isCodeInputStep ? "코드 입력하기" : "완료",
-              color: "primary",
-              onClick: () => {
-                !isCodeInputStep
-                  ? setIsCodeInputStep(true)
-                  : handleJoinStudyGroupByCode();
-              },
-            },
-          ]}
-        />
-      ) : null}
-      {isQuizStartModalOpen ? (
-        <Modal
-          closeModal={handleCloseQuizStartModal}
-          title={studyGroup?.name}
-          contents={[
-            {
-              title: `${quiz?.title} 퀴즈를 시작하시겠어요?`,
-              content: <></>,
-            },
-          ]}
-          bottomButtons={[
-            {
-              text: "퀴즈 풀기",
-              color: "primary",
-              onClick: closeQuizStartModal,
-            },
-          ]}
-        />
-      ) : null}
-      {isJoinWelcomeModalOpen ? (
-        <Modal
-          closeModal={closeJoinWelcomeModal}
-          title="스터디 추가하기"
-          contents={[
-            {
-              title: `${studyGroupDetailByInviteCode?.name}에 가입하신 걸 환영해요!`,
-              content: <></>,
-            },
-          ]}
-          bottomButtons={[
-            {
-              text: "그룹 페이지 가기",
-              color: "primary",
-              onClick: handleGoToStudyGroupPage,
-            },
-          ]}
-        />
-      ) : null}
-      {clickedImage !== undefined ? (
-        <ImageLayer
-          onCloseLayer={handleCloseLayer}
-          image={clickedImage}
-          onLeftArrowClick={(e) => handleArrowClick(e, "left")}
-          onRightArrowClick={(e) => handleArrowClick(e, "right")}
-        />
-      ) : null}
-      {isReportConfirmModalOpen ? (
-        <Modal
-          title="신고하기"
-          closeModal={closeReportConfirmModal}
-          contents={[{ title: "신고가 완료되었습니다.", content: <></> }]}
-          bottomButtons={[
-            {
-              text: "홈으로 가기",
-              color: "primary-border",
-              onClick: handleGoBackToQuizDetail,
-            },
-            {
-              text: "퀴즈로 돌아가기",
-              color: "primary",
-              onClick: closeReportConfirmModal,
-            },
-          ]}
-        />
-      ) : null}
-      {isReportModalOpen ? (
-        <Modal
-          title="신고하기"
-          closeModal={closeReportModal}
-          contents={[
-            {
-              title: `${quiz?.title}의 문제 ${currentStep}번 신고 시, 검토 후 수정 요청이 안내됩니다.`,
-              content: (
-                <div>
-                  {reportReasons.map((reason) => (
-                    <CheckBox
-                      key={reason.id}
-                      id={reason.id.toString()}
-                      type="checkbox-black"
-                      value={reason.text}
-                      onChange={handleCheckBoxChange}
-                      checked={reason.checked}
+      <Button
+        icon={<Close stroke={gray50} width={30} height={30} strokeWidth={2} />}
+        iconOnly
+        onClick={() => navigate(-1)}
+      ></Button>
+      <div className={styles["solving-form-wrapper"]}>
+        {isLoginModalOpen && quizId ? (
+          <LoginModal closeModal={closeLoginModal} />
+        ) : null}
+        {isStudyGroupCodeModalOpen ? (
+          <Modal
+            closeModal={handleStudyGroupCodeModal}
+            title={!isCodeInputStep ? "" : "코드로 스터디 참여"}
+            contents={[
+              {
+                title: !isCodeInputStep
+                  ? `${studyGroup?.name} 스터디원에게만 공개된 퀴즈예요.`
+                  : "초대코드를 입력해주세요.",
+                content: !isCodeInputStep ? (
+                  <></>
+                ) : (
+                  <div className={styles["code-input-container"]}>
+                    <CodeInput
+                      codeList={codeList}
+                      isMatch={isMatch ?? true}
+                      onCodeChange={handleCodeChange}
+                      onKeyDown={handleKeyDown}
+                      onPaste={handlePaste}
+                      borderColor="default"
+                      errorMessage="올바르지 않은 그룹 코드입니다."
                     />
-                  ))}
-                  {/* TODO: 입력 전/후 높이 차이 */}
-                  {/* 기타 선택했을 때만 보이게 */}
-                  {selectedReportReason.some((reason) => reason === "기타") ? (
-                    <div className={styles["textarea-container"]}>
-                      <Textarea
-                        placeholder="기타 사유를 작성해 주세요."
-                        maxLengthShow
-                        maxLength={500}
-                        onChange={onOtherGroundsChange}
-                        value={OtherGrounds}
-                        id="report-content"
-                        textAreaRef={OtherGroundsRef}
-                        size="small"
-                        rows={1}
-                      />
-                    </div>
-                  ) : null}
-                </div>
-              ),
-            },
-          ]}
-          // disabled: 하나 이상 선택했을 떄만 활성화되도록
-          bottomButtons={[
-            {
-              text: "신고하기",
-              color: "primary",
-              onClick: handleReportQuiz,
-              disabled:
-                selectedReportReason.length < 1 ||
-                selectedReportReason.some(
-                  (reason) => reason === "기타" && OtherGrounds === "",
+                  </div>
                 ),
-            },
-          ]}
-        />
-      ) : null}
-      {quiz ? (
-        <ProgressBar
-          questions={quiz.questions}
-          isAnswerCorrects={isAnswerCorrects}
-          currentStep={currentStep}
-        />
-      ) : null}
-
-      {quiz ? (
-        <div className={styles["inner-container"]}>
-          <div className={styles["question-area"]}>
-            <SolvingQuizForm
-              formIndex={currentFormIndex}
-              optionDisabled={optionDisabled}
-              setSubmitDisabled={setSubmitDisabled}
-              question={quiz.questions[currentFormIndex]}
-              correctAnswer={questionCheckedResult?.correctAnswer ?? []}
-              isAnswerCorrects={isAnswerCorrects}
-              didAnswerChecked={didAnswerChecked}
-            />
-            <Button
-              size="xsmall"
-              color="transparent"
-              iconPosition="left"
-              icon={<img src={warning} />}
-              className={styles["report"]}
-              onClick={openReportModal}
-            >
-              신고하기
-            </Button>
-          </div>
-          {toggleAnswerDescription && (
-            <section className={styles["answer-description-area"]}>
-              <Button
-                color="secondary"
-                size="xsmall"
-                className={styles["answer-description"]}
-              >
-                해설
-              </Button>
-              <div className={styles["markdown-content"]}>
-                <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
-                  {questionCheckedResult?.answerExplanationContent}
-                </ReactMarkdown>
-              </div>
-              {questionCheckedResult?.answerExplanationImages[0] && (
-                <section className={styles["image-area"]}>
-                  {questionCheckedResult?.answerExplanationImages.map(
-                    (image, index) => (
-                      <img
-                        key={index}
-                        src={image}
-                        alt={`해설 이미지 ${index + 1}`}
-                        className={styles["image"]}
-                        onClick={() => {
-                          handleImageClicked({ index, src: image });
-                        }}
+              },
+            ]}
+            bottomButtons={[
+              {
+                text: !isCodeInputStep ? "코드 입력하기" : "완료",
+                color: "primary",
+                onClick: () => {
+                  !isCodeInputStep
+                    ? setIsCodeInputStep(true)
+                    : handleJoinStudyGroupByCode();
+                },
+              },
+            ]}
+          />
+        ) : null}
+        {isQuizStartModalOpen ? (
+          <Modal
+            closeModal={handleCloseQuizStartModal}
+            title={studyGroup?.name}
+            contents={[
+              {
+                title: `${quiz?.title} 퀴즈를 시작하시겠어요?`,
+                content: <></>,
+              },
+            ]}
+            bottomButtons={[
+              {
+                text: "퀴즈 풀기",
+                color: "primary",
+                onClick: closeQuizStartModal,
+              },
+            ]}
+          />
+        ) : null}
+        {isJoinWelcomeModalOpen ? (
+          <Modal
+            closeModal={closeJoinWelcomeModal}
+            title="스터디 추가하기"
+            contents={[
+              {
+                title: `${studyGroupDetailByInviteCode?.name}에 가입하신 걸 환영해요!`,
+                content: <></>,
+              },
+            ]}
+            bottomButtons={[
+              {
+                text: "그룹 페이지 가기",
+                color: "primary",
+                onClick: handleGoToStudyGroupPage,
+              },
+            ]}
+          />
+        ) : null}
+        {clickedImage !== undefined ? (
+          <ImageLayer
+            onCloseLayer={handleCloseLayer}
+            image={clickedImage}
+            onLeftArrowClick={(e) => handleArrowClick(e, "left")}
+            onRightArrowClick={(e) => handleArrowClick(e, "right")}
+          />
+        ) : null}
+        {isReportConfirmModalOpen ? (
+          <Modal
+            title="신고하기"
+            closeModal={closeReportConfirmModal}
+            contents={[{ title: "신고가 완료되었습니다.", content: <></> }]}
+            bottomButtons={[
+              {
+                text: "홈으로 가기",
+                color: "primary-border",
+                onClick: handleGoBackToQuizDetail,
+              },
+              {
+                text: "퀴즈로 돌아가기",
+                color: "primary",
+                onClick: closeReportConfirmModal,
+              },
+            ]}
+          />
+        ) : null}
+        {isReportModalOpen ? (
+          <Modal
+            title="신고하기"
+            closeModal={closeReportModal}
+            contents={[
+              {
+                title: `${quiz?.title}의 문제 ${currentStep}번 신고 시, 검토 후 수정 요청이 안내됩니다.`,
+                content: (
+                  <div>
+                    {reportReasons.map((reason) => (
+                      <CheckBox
+                        key={reason.id}
+                        id={reason.id.toString()}
+                        type="checkbox-black"
+                        value={reason.text}
+                        onChange={handleCheckBoxChange}
+                        checked={reason.checked}
                       />
-                    ),
-                  )}
-                </section>
-              )}
-            </section>
-          )}
-        </div>
-      ) : null}
-      {!didAnswerChecked && (
-        <Button
-          onClick={handleQuestionSubmit}
-          disabled={submitDisabled}
-          color="primary"
-          icon={
-            <ArrowRight
-              stroke={submitDisabled ? gray60 : gray00}
-              width={20}
-              height={20}
-            />
-          }
-          className={styles["footer-btn"]}
-          ableAnimation
-        >
-          채점하기
-        </Button>
-      )}
-      {didAnswerChecked && (
-        <div
-          className={`
-          ${styles[toggleAnswerDescription ? "slideIn" : ""]}`}
-        >
+                    ))}
+                    {/* TODO: 입력 전/후 높이 차이 */}
+                    {/* 기타 선택했을 때만 보이게 */}
+                    {selectedReportReason.some(
+                      (reason) => reason === "기타",
+                    ) ? (
+                      <div className={styles["textarea-container"]}>
+                        <Textarea
+                          placeholder="기타 사유를 작성해 주세요."
+                          maxLengthShow
+                          maxLength={500}
+                          onChange={onOtherGroundsChange}
+                          value={OtherGrounds}
+                          id="report-content"
+                          textAreaRef={OtherGroundsRef}
+                          size="small"
+                          rows={1}
+                        />
+                      </div>
+                    ) : null}
+                  </div>
+                ),
+              },
+            ]}
+            // disabled: 하나 이상 선택했을 떄만 활성화되도록
+            bottomButtons={[
+              {
+                text: "신고하기",
+                color: "primary",
+                onClick: handleReportQuiz,
+                disabled:
+                  selectedReportReason.length < 1 ||
+                  selectedReportReason.some(
+                    (reason) => reason === "기타" && OtherGrounds === "",
+                  ),
+              },
+            ]}
+          />
+        ) : null}
+        {quiz ? (
+          <ProgressBar
+            questions={quiz.questions}
+            isAnswerCorrects={isAnswerCorrects}
+            currentStep={currentStep}
+          />
+        ) : null}
+
+        {/* 퀴즈 풀기 폼 */}
+        {quiz ? (
+          <div className={styles["inner-container"]}>
+            <div className={styles["question-area"]}>
+              <SolvingQuizForm
+                formIndex={currentFormIndex}
+                optionDisabled={optionDisabled}
+                setSubmitDisabled={setSubmitDisabled}
+                question={quiz.questions[currentFormIndex]}
+                correctAnswer={questionCheckedResult?.correctAnswer ?? []}
+                isAnswerCorrects={isAnswerCorrects}
+                didAnswerChecked={didAnswerChecked}
+              />
+              <Button
+                size="xsmall"
+                color="transparent"
+                iconPosition="left"
+                icon={<img src={warning} />}
+                className={styles["report"]}
+                onClick={openReportModal}
+              >
+                신고하기
+              </Button>
+            </div>
+            {toggleAnswerDescription && (
+              <section className={styles["answer-description-area"]}>
+                <Button
+                  color="secondary"
+                  size="xsmall"
+                  className={styles["answer-description"]}
+                >
+                  해설
+                </Button>
+                <div className={styles["markdown-content"]}>
+                  <ReactMarkdown rehypePlugins={[rehypeHighlight]}>
+                    {questionCheckedResult?.answerExplanationContent}
+                  </ReactMarkdown>
+                </div>
+                {questionCheckedResult?.answerExplanationImages[0] && (
+                  <section className={styles["image-area"]}>
+                    {questionCheckedResult?.answerExplanationImages.map(
+                      (image, index) => (
+                        <img
+                          key={index}
+                          src={image}
+                          alt={`해설 이미지 ${index + 1}`}
+                          className={styles["image"]}
+                          onClick={() => {
+                            handleImageClicked({ index, src: image });
+                          }}
+                        />
+                      ),
+                    )}
+                  </section>
+                )}
+              </section>
+            )}
+          </div>
+        ) : null}
+        {!didAnswerChecked && (
+          <Button
+            onClick={handleQuestionSubmit}
+            disabled={submitDisabled}
+            color="primary"
+            icon={
+              <ArrowRight
+                stroke={submitDisabled ? gray60 : gray00}
+                width={20}
+                height={20}
+              />
+            }
+            className={styles["footer-btn"]}
+            ableAnimation
+          >
+            채점하기
+          </Button>
+        )}
+        {didAnswerChecked && (
           <div
             className={`
+          ${styles[toggleAnswerDescription ? "slideIn" : ""]}`}
+          >
+            <div
+              className={`
               ${styles["footer-btn-container"]}
             ${didAnswerChecked ? styles.visible : ""}
           `}
-          >
-            <Button
-              onClick={handleShowAnswerDescriptionBtn}
-              color="primary-border"
-              className={styles["footer-btn"]}
             >
-              {toggleAnswerDescription ? "해설닫기" : "해설보기"}
-            </Button>
-            <Button
-              onClick={handleNextQuestionBtn}
-              color="primary"
-              icon={<ArrowRight stroke={gray00} width={20} height={20} />}
-              className={styles["footer-btn"]}
-            >
-              {currentStep === quiz!.questions.length
-                ? "점수 보기"
-                : "다음문제"}
-            </Button>
+              <Button
+                onClick={handleShowAnswerDescriptionBtn}
+                color="primary-border"
+                className={styles["footer-btn"]}
+              >
+                {toggleAnswerDescription ? "해설닫기" : "해설보기"}
+              </Button>
+              <Button
+                onClick={handleNextQuestionBtn}
+                color="primary"
+                icon={<ArrowRight stroke={gray00} width={20} height={20} />}
+                className={styles["footer-btn"]}
+              >
+                {currentStep === quiz!.questions.length
+                  ? "점수 보기"
+                  : "다음문제"}
+              </Button>
+            </div>
           </div>
-        </div>
-      )}
-      {isPreventLeaveModalOpen && (
-        <Modal
-          showHeaderCloseButton={false}
-          closeModal={closePreventLeaveModal}
-          contents={[
-            {
-              title: `이 페이지를 벗어나면 현재까지 입력한 답안이 채점돼요.
+        )}
+        {isPreventLeaveModalOpen && (
+          <Modal
+            showHeaderCloseButton={false}
+            closeModal={closePreventLeaveModal}
+            contents={[
+              {
+                title: `이 페이지를 벗어나면 현재까지 입력한 답안이 채점돼요.
                 페이지를 이동하시겠어요?`,
-              content: <></>,
-            },
-          ]}
-          bottomButtons={[
-            {
-              text: "계속 풀기",
-              color: "primary-border",
-              onClick: () => {
-                window.history.pushState(null, "", window.location.href);
-                closePreventLeaveModal();
+                content: <></>,
               },
-            },
-            {
-              text: "나가기",
-              color: "primary",
-              onClick: () => {
-                if (selectedOptions?.length) {
-                  handleQuestionSubmit(); // 채점 후 나가기
-                }
+            ]}
+            bottomButtons={[
+              {
+                text: "계속 풀기",
+                color: "primary-border",
+                onClick: () => {
+                  window.history.pushState(null, "", window.location.href);
+                  closePreventLeaveModal();
+                },
+              },
+              {
+                text: "나가기",
+                color: "primary",
+                onClick: () => {
+                  if (selectedOptions?.length) {
+                    handleQuestionSubmit(); // 채점 후 나가기
+                  }
 
-                navigate(-1);
-                closePreventLeaveModal();
+                  navigate(-1);
+                  closePreventLeaveModal();
+                },
               },
-            },
-          ]}
-        />
-      )}
+            ]}
+          />
+        )}
+      </div>
     </section>
   );
 }

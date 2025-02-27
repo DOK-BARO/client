@@ -160,7 +160,7 @@ export default function QuizListLayout<
       {isModalOpen && (
         <Modal
           closeModal={closeModal}
-          title={"퀴즈를 삭제하시겠습니까?"}
+          title={"퀴즈를 삭제하시겠어요?"}
           bottomButtons={[
             { text: "취소", color: "white", onClick: closeModal },
             {

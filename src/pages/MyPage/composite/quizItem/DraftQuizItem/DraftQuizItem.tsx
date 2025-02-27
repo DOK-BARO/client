@@ -63,11 +63,13 @@ export default function DraftQuizItem({
         <div className={styles["right-container"]}>
           <div>
             <div className={styles["right-container-header"]}>
-              <p className={styles["secondary-label"]}>
-                {/* {myQuiz.studyGroup.name} */}
-                작성중
-              </p>
-
+              {myQuiz.studyGroup ? (
+                <p className={styles["secondary-label"]}>
+                  {myQuiz.studyGroup.name}
+                </p>
+              ) : (
+                <div />
+              )}
               <Button
                 onClick={(e) => onCopyQuizLink(e, myQuiz.id)}
                 iconOnly

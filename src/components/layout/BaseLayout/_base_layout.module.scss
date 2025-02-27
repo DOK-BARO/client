@@ -1,9 +1,9 @@
 @use "/src/styles/abstracts/" as *;
 
 @mixin base-layout {
-  width: 1140px;
+  width: 114rem;
   margin: 0 auto;
-  padding: 0 40px;
+  padding: 0 4rem;
 }
 
 .container {
@@ -36,13 +36,13 @@
 
     &--header {
       @include base-layout;
-      margin-top: 111px; // 헤더 크기(GNB 포함) 45 + 58 + 4(border-bottom) + 4(padding-bottom)= 111 (최소 margin-top)
+      margin-top: 11.1rem; // 헤더 크기(GNB 포함) 45 + 58 + 4(border-bottom) + 4(padding-bottom)= 111 (최소 margin-top)
     }
   }
 
   .inner-container {
     width: 100%;
-    margin: 40px 0 80px 0;
+    margin: 4rem 0 8rem 0;
     // margin-top: 0;
   }
 }
@@ -62,15 +62,16 @@
     height: auto;
   }
   .title {
-    margin-top: 1.5rem;
-    font-size: 1.375rem;
+    margin-top: 2.4rem;
+    font-size: 2.2rem;
     font-weight: $font-weight-semibold;
     color: $gray-100;
   }
 
   .description {
     color: #888888;
-    margin-top: 1rem;
+    margin-top: 1.6rem;
+    font-size: 1.4rem;
   }
 
   footer {
@@ -79,21 +80,21 @@
     margin-top: auto;
     position: relative;
     width: 100%;
-    height: 14.5rem;
+    height: 23.2rem;
     align-items: flex-end;
     justify-self: flex-end;
 
     .note-container {
       display: flex;
-      gap: 1.05rem;
-      margin-right: 31.27px;
+      gap: 1.695rem;
+      margin-right: 3.127rem;
       margin-left: auto;
       width: fit-content;
-      padding-top: 30px;
+      padding-top: 3rem;
 
       .note {
         color: $gray-100;
-        font-size: 0.875rem;
+        font-size: 1.4rem;
         font-weight: $font-weight-regular;
 
         strong {

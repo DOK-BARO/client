@@ -7,29 +7,29 @@
     background-color: $secondary;
     width: fit-content;
     color: $primary;
-    border-radius: 3.2px;
-    font-size: 13px;
+    border-radius: 0.32rem;
+    font-size: 1.3rem;
     font-weight: $font-weight-medium;
-    padding: 0 4.8px;
+    padding: 0 0.48rem;
   }
 }
 .button-container {
   .delete {
     text-decoration: underline;
-    text-underline-offset: 2px;
-    height: 18px;
+    text-underline-offset: 0.2rem;
+    height: 1.8rem;
     width: fit-content;
     color: $gray-70;
     font-weight: $font-weight-regular;
-    font-size: 14px;
+    font-size: 1.4rem;
     margin: 0 auto;
   }
 }
 .creator-profile {
   @include flex(row, center);
   justify-content: start;
-  gap: 8px;
-  font-size: 12px;
+  gap: 0.8rem;
+  font-size: 1.2rem;
   font-weight: $font-weight-regular;
 
   .profile {

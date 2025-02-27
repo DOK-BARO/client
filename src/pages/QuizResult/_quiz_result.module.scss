@@ -2,8 +2,8 @@
 
 .container {
   @include flex(column, center);
-  gap: 40px;
-  margin: 40px 0 175px;
+  gap: 4rem;
+  margin: 4rem 0 17.5rem;
 }
 
 .common-quiz-container {
@@ -11,7 +11,7 @@
 }
 
 .title {
-  font-size: 32px;
+  font-size: 3.2rem;
   font-weight: $font-weight-bold;
 
   span {
@@ -34,49 +34,49 @@
 
 .study-group-container {
   @include flex(column, center);
-  gap: 40px;
-  margin-inline: 40px;
+  gap: 4rem;
+  margin-inline: 4rem;
 }
 
 .decoration {
-  width: 250px;
-  height: 250px;
+  width: 25rem;
+  height: 25rem;
 }
 
 .rank-item {
-  width: 282px;
-  height: 46px;
+  width: 28.2rem;
+  height: 4.6rem;
   background-color: $gray-00;
-  margin-bottom: 16px;
+  margin-bottom: 1.6rem;
   display: grid;
   grid-template-columns: min-content 1fr min-content;
   align-items: center;
-  padding-inline: 12px;
-  border-radius: 8px;
+  padding-inline: 1.2rem;
+  border-radius: 0.8rem;
 
   &--me {
     background-color: $primary;
-    width: 282px;
-    height: 46px;
-    margin-bottom: 16px;
+    width: 28.2rem;
+    height: 4.6rem;
+    margin-bottom: 1.6rem;
     display: grid;
     grid-template-columns: min-content 1fr min-content;
     align-items: center;
-    padding-inline: 12px;
-    border-radius: 8px;
+    padding-inline: 1.2rem;
+    border-radius: 0.8rem;
   }
 }
 
 .rank-badge-container {
   display: inline-block;
-  width: 20px;
-  height: 20px;
-  margin-right: 4px;
+  width: 2rem;
+  height: 2rem;
+  margin-right: 0.4rem;
 
   .rank-badge-wrapper {
     display: inline-block;
-    width: 20px;
-    height: 20px;
+    width: 2rem;
+    height: 2rem;
     position: relative;
   }
 
@@ -132,11 +132,11 @@
 }
 
 .rank-list {
-  margin-bottom: 40px;
+  margin-bottom: 4rem;
 }
 
 .btn-next {
-  width: 200px;
+  width: 20rem;
   z-index: 1;
 }
 

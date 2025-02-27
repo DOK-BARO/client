@@ -7,35 +7,35 @@
     padding: 0;
     position: relative;
     border: none;
-    border-radius: 10px;
+    border-radius: 1rem;
     overflow: hidden;
     @include flex(row, center);
 
     &.width-200 {
-      width: 200px;
-      height: 200px;
+      width: 20rem;
+      height: 20rem;
     }
 
     &.width-150 {
-      width: 150px;
-      height: 150px;
+      width: 15rem;
+      height: 15rem;
     }
   }
 
   .profile-img {
     position: absolute;
-    top: 0px;
-    left: 0px;
+    top: 0;
+    left: 0;
     z-index: 0;
 
     &.width-200 {
-      width: 200px;
-      height: 200px;
+      width: 20rem;
+      height: 20rem;
     }
 
     &.width-150 {
-      width: 150px;
-      height: 150px;
+      width: 15rem;
+      height: 15rem;
     }
   }
 
@@ -59,13 +59,13 @@
       background-color: #ffffff80;
 
       &.width-200 {
-        width: 88px;
-        height: 88px;
+        width: 8.8rem;
+        height: 8.8rem;
       }
 
       &.width-150 {
-        width: 66px;
-        height: 66px;
+        width: 6.6rem;
+        height: 6.6rem;
       }
     }
   }
@@ -80,6 +80,6 @@
   }
 
   .delete {
-    margin-top: 8px;
+    margin-top: 0.8rem;
   }
 }

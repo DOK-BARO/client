@@ -3,30 +3,30 @@
 .container {
   @include flex(column);
   align-items: center;
-  margin-bottom: 73px;
+  margin-bottom: 7.3rem;
 }
 
 .inner-container {
   @include flex(column);
   align-items: center;
   width: 100%;
-  gap: 16px;
+  gap: 1.6rem;
 }
 
 .question-area {
   @include flex(column);
   width: 100%;
   align-items: end;
-  gap: 8px;
+  gap: 0.8rem;
 }
 
 .footer-btn {
   display: flex;
-  width: 120px;
+  width: 12rem;
 
   &-container.visible {
     display: flex;
-    gap: 20px;
+    gap: 2rem;
     @include fadeIn;
   }
 }
@@ -38,38 +38,38 @@
 .answer-description-area {
   @include flex(column);
   width: 100%;
-  gap: 16px;
-  padding: 16px;
-  border-radius: 8px;
+  gap: 1.6rem;
+  padding: 1.6rem;
+  border-radius: 0.8rem;
   background-color: white;
-  margin-bottom: 16px;
+  margin-bottom: 1.6rem;
   @include fadeIn;
 }
 .answer-description {
-  width: 46px;
+  width: 4.6rem;
 }
 
 .image-area {
   display: flex;
   flex-direction: row;
-  gap: 10px;
+  gap: 1rem;
 }
 
 .image {
   object-fit: cover;
-  width: 9.75em;
-  height: 10.75em;
-  border-radius: 4px;
+  width: 9.75rem;
+  height: 10.75rem;
+  border-radius: 0.4rem;
   cursor: pointer;
 }
 
 // 신고하기 모달
 .textarea-container {
-  padding: 0 16px;
-  margin-top: 6px;
+  padding: 0 1.6rem;
+  margin-top: 0.6rem;
 }
 
 .code-input-container {
-  width: 342px;
+  width: 34.2rem;
   margin: 0 auto;
 }

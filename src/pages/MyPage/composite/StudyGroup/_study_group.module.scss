@@ -2,28 +2,28 @@
 
 .container {
   .title {
-    font-size: 18px;
+    font-size: 1.8rem;
     font-weight: $font-weight-semibold;
   }
   .filter-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 16px;
+    margin-bottom: 1.6rem;
   }
   .quiz-list {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    gap: 1.6rem;
 
     &-empty-item {
-      height: 280px;
+      height: 28rem;
       background-color: transparent;
       border: none;
     }
   }
 
   .section {
-    margin-top: 36px;
+    margin-top: 3.6rem;
   }
 }

@@ -44,26 +44,26 @@
   &--primary {
     background-color: $primary;
     color: $gray-00;
-    border: 1.5px solid $primary;
+    border: 0.15rem solid $primary;
   }
 
   &--abled-animation {
     background-color: $primary;
     color: $gray-00;
-    border: 1.5px solid $primary;
+    border: 0.15rem solid $primary;
     transition: all 0.3s ease;
   }
 
   &--secondary {
     background-color: $secondary;
     color: $primary;
-    border: 1.5px solid $secondary;
+    border: 0.15rem solid $secondary;
   }
 
   &--primary-border {
     background-color: $gray-00;
     color: $primary;
-    border: 1.5px solid $primary;
+    border: 0.15rem solid $primary;
 
     &:disabled {
       background-color: $gray-00 !important;
@@ -75,31 +75,31 @@
   &--black {
     background-color: $gray-90;
     color: $gray-00;
-    border: 1.5px solid $gray-00;
+    border: 0.15rem solid $gray-00;
   }
 
   &--white {
     background-color: $gray-00;
-    border: 1.5px solid $gray-40;
+    border: 0.15rem solid $gray-40;
     color: $gray-90;
   }
 
   &--transparent {
     background-color: transparent;
     color: $gray-90;
-    border: 1.5px solid transparent;
+    border: 0.15rem solid transparent;
   }
 
   &--red {
     background-color: $system-danger;
     color: $gray-00;
-    border: 1.5px solid $system-danger;
+    border: 0.15rem solid $system-danger;
   }
 
   &:disabled {
     background-color: $gray-20;
     color: $gray-60;
-    border: 1.5px solid $gray-20;
+    border: 0.15rem solid $gray-20;
     cursor: not-allowed;
   }
 

@@ -4,18 +4,18 @@
   @include flex(row, center);
 
   &.medium {
-    gap: 9.57px;
+    gap: 0.957rem;
   }
 
   &.small {
-    gap: 3.5px;
+    gap: 0.35rem;
   }
 
   &.gap-30 {
-    gap: 30px;
+    gap: 3rem;
   }
   &.gap-46 {
-    gap: 46px;
+    gap: 4.6rem;
   }
 
   .stars {

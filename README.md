@@ -1,7 +1,6 @@
 # 📚똑바로 읽었는지 DOKBARO가 확인해 드릴게요.
 
-서비스 바로 이용해보기 (beta) -> https://dokbaro.com
----
+## 서비스 바로 이용해보기 (beta) -> https://dokbaro.com
 
 ### 자기 계발과 성장을 위해 독서를 활용하는 **개발자들을 위한 퀴즈 학습 플랫폼, DOKBARO**입니다.
 
@@ -13,19 +12,20 @@
 
 1. 도서를 선택해 **전체 공개용 퀴즈를 출제하고 풀어볼** 수 있어요.
 2. 스터디 맞춤용 퀴즈로 **함께 퀴즈에 참여하고, 스터디원들의 학습 현황 및 피드백을 확인**할 수 있어요.
-  
- | **기능** | **설명** |
-   | --- | --- |
-   | SNS 가입/로그인 | 카카오톡,네이버,구글,깃허브 계정을 연동해 가입 및 로그인 |
-   | 이메일 가입/로그인 | 이외 이메일 계정을 사용해 가입 및 로그인 |
-   | 메인화면 | 도서 카테고리, 퀴즈 출제 및 풀이 접근 |
-   | 도서 카테고리 | 여러 분야의 개발 서적 확인 |
-   | 퀴즈 출제/풀이 | 하나의 개발 서적을 선택해 퀴즈 출제 및 풀이 |
-   | 마이페이지 | 개인 별 퀴즈 참여 기록 확인 및 관리 |
-   | 스터디 그룹 | 스터디 그룹 별 퀴즈 관리 및 그룹원 별 학습 현황 확인 |
-   | 퀴즈 후기 | 퀴즈 별 별점 및 텍스트 후기 작성 및 확인 |
+
+| **기능**           | **설명**                                                 |
+| ------------------ | -------------------------------------------------------- |
+| SNS 가입/로그인    | 카카오톡,네이버,구글,깃허브 계정을 연동해 가입 및 로그인 |
+| 이메일 가입/로그인 | 이외 이메일 계정을 사용해 가입 및 로그인                 |
+| 메인화면           | 도서 카테고리, 퀴즈 출제 및 풀이 접근                    |
+| 도서 카테고리      | 여러 분야의 개발 서적 확인                               |
+| 퀴즈 출제/풀이     | 하나의 개발 서적을 선택해 퀴즈 출제 및 풀이              |
+| 마이페이지         | 개인 별 퀴즈 참여 기록 확인 및 관리                      |
+| 스터디 그룹        | 스터디 그룹 별 퀴즈 관리 및 그룹원 별 학습 현황 확인     |
+| 퀴즈 후기          | 퀴즈 별 별점 및 텍스트 후기 작성 및 확인                 |
 
 # FE 사용 기술
+
 <div>
   <img src="https://img.shields.io/badge/Yarn-2C8EBB?style=for-the-badge&logo=yarn&logoColor=white" /> 
   <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=Vite&logoColor=white" />
@@ -43,7 +43,9 @@
 </div>
 
 # 폴더 구조
+
 주요 폴더 및 파일에 대한 설명입니다. 일부 생략된 폴더 및 파일도 있으며, 전체 구조는 코드베이스에서 확인할 수 있습니다.
+
 ```plaintext
 📦src
  ┣ 📂components               # 재사용 가능한 UI 컴포넌트
@@ -102,13 +104,17 @@
  ┣ 📂types                    # TypeScript 타입 정의
  ┣ 📂utils                    # 유틸리티 함수
  ┣ 📂validation               # 입력값 검증 관련 파일
- ┣ 📜App.css                  
- ┣ 📜App.tsx                 
+ ┣ 📜App.css
+ ┣ 📜App.tsx
  ┗ 📜main.tsx                 # 프로젝트 진입점 (ReactDOM)
 ```
 
 # blog
+
 개발하면서 겪은 고민거리나 해결 방식을 블로그를 통해 게시하고 있습니다.
 
 - [회원가입 단계에서 새로고침 시 처리 고려](https://velog.io/@page1597/회원가입-단계에서-새로고침-시-처리-고려)
 - [Tanstack Query + Axios로 전역 에러 처리하기](https://velog.io/@page1597/Tanstack-Query-Axios로-전역-에러-처리하기)
+- [Jotai로 React 상태관리하기](https://velog.io/@yeshforest/Jotai%EB%A1%9C-React-%EC%83%81%ED%83%9C%EA%B4%80%EB%A6%AC%ED%95%98%EA%B8%B0-2)
+- [scss에서 import 제거하기](https://velog.io/@yeshforest/scss-import-use)
+- [lighthouse로 측정한 성능을 개선해보자](https://velog.io/@yeshforest/lighthouse%EB%A5%BC-%ED%86%B5%ED%95%9C-%EC%84%B1%EB%8A%A5%EA%B0%9C%EC%84%A0)

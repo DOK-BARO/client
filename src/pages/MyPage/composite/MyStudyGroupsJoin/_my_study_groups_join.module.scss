@@ -4,10 +4,10 @@
   .sub-container {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 1.6rem;
 
     &:not(:first-child) {
-      margin-top: 40px;
+      margin-top: 4rem;
     }
   }
   .sub-title {
@@ -15,12 +15,12 @@
     font-weight: $font-weight-semibold;
   }
   .code-input-container {
-    width: 342px;
-    margin-top: 24px;
+    width: 34.2rem;
+    margin-top: 2.4rem;
   }
   .done {
-    width: 150px;
-    margin-top: 40px;
+    width: 15rem;
+    margin-top: 4rem;
   }
   .right-end {
     margin-left: auto;

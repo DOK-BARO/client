@@ -4,7 +4,7 @@
   .review-info {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 1rem;
 
     .writer {
       font-size: $font-size-medium;
@@ -12,7 +12,7 @@
     }
     .updatedAt {
       color: $gray-60;
-      font-size: 14px;
+      font-size: 1.4rem;
       font-weight: $font-weight-regular;
     }
     .is-updated {
@@ -20,13 +20,13 @@
       color: $gray-60;
       font-size: $font-size-medium;
       font-weight: $font-weight-regular;
-      padding: 0.5px 8px;
-      border-radius: 4px;
+      padding: 0.05rem 0.8rem;
+      border-radius: 0.4rem;
     }
   }
   .review-short-container {
     align-items: center;
-    margin-top: 10px;
+    margin-top: 1rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -35,33 +35,33 @@
     .review-short {
       display: flex;
       align-content: center;
-      gap: 6px;
+      gap: 0.6rem;
       color: $gray-60;
       font-size: $font-size-large;
 
       .divider {
-        height: 15px;
-        width: 2px;
+        height: 1.5rem;
+        width: 0.2rem;
         margin: auto;
         background-color: $gray-40;
       }
     }
     .edit-container {
       display: flex;
-      gap: 8px;
+      gap: 0.8rem;
     }
   }
   .comment {
-    margin: 16px 0;
+    margin: 1.6rem 0;
   }
 
   .report-container {
-    height: 21px;
+    height: 2.1rem;
     display: flex;
     align-items: center;
     .report {
       text-decoration: underline;
-      font-size: 14px;
+      font-size: 1.4rem;
       font-weight: $font-weight-medium;
       padding: 0;
       margin-left: auto;
@@ -71,7 +71,7 @@
 // 리뷰 수정하기 모달
 .difficulty-button-container {
   display: flex;
-  gap: 16px;
+  gap: 1.6rem;
 
   * {
     flex: 1;
@@ -80,5 +80,5 @@
 
 // 리뷰 신고하기 모달
 .report-text {
-  margin-bottom: 14px; // 임시
+  margin-bottom: 1.4rem; // 임시
 }

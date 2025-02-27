@@ -9,11 +9,11 @@
     position: relative;
     background-color: $gray-00;
     font-weight: $font-weight-medium;
-    border-radius: 12px;
-    padding: 14px 16px;
+    border-radius: 1.2rem;
+    padding: 1.4rem 1.6rem;
     display: flex;
     align-items: center;
-    gap: 40px;
+    gap: 4rem;
     .inner-container {
       display: flex;
       align-items: center;
@@ -23,10 +23,10 @@
       background-color: $gray-20;
       color: $gray-60;
       font-size: $font-size-medium;
-      margin-right: 8px;
-      height: 32px;
-      width: 44px;
-      border-radius: 6px;
+      margin-right: 0.8rem;
+      height: 3.2rem;
+      width: 4.4rem;
+      border-radius: 0.6rem;
       @include flex(row, center);
       em {
         color: $primary;
@@ -37,8 +37,8 @@
     }
   }
   .down-arrow {
-    width: 14px;
-    height: 10px;
+    width: 1.4re;
+    height: 1rem;
     background-color: $gray-00;
     clip-path: polygon(50% 100%, 0 0, 100% 0);
     position: absolute;

@@ -49,7 +49,7 @@ export default function EditMyInfo() {
     isMatch,
     isAlreadyUsed,
   } = useValidate({ value: value, isEmailValid: isEmailValid, code: code });
-  console.log("isAlreay", isAlreadyUsed);
+  //console.log("isAlreay", isAlreadyUsed);
   const { updateUser } = useUpdateUser();
   const [isChangeEmailMode, setIsChangeEmailMode] = useState<boolean>(false);
   const [isChangeNicknameMode, setIsChangeNicknameMode] =

@@ -2,12 +2,13 @@
 
 .container {
   @include flex(column);
-  width: 228px;
+  flex: 1;
+  max-width: 22.8rem;
 
   button {
     border: none;
     &:hover {
-      padding-left: 24px;
+      padding-left: 2.4rem;
     }
   }
   .steps,

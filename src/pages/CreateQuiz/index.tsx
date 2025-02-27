@@ -623,9 +623,10 @@ export default function Index() {
       await requestQuiz({ isTemporary, isAutoSave, quizCreationInfo });
       return false;
     }
-    prevQuizCreationInfoRef.current = structuredClone(
-      quizCreationInfoRef.current,
+    prevQuizCreationInfoRef.current = JSON.parse(
+      JSON.stringify(quizCreationInfoRef.current),
     );
+
     return true;
   };
 

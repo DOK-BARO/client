@@ -103,7 +103,7 @@ export default function QuizListLayout<
           onClick={onClickBtnWhenNoData}
         />
       )}
-      <ul className={styles["quiz-list"]}>
+      <ol className={styles["quiz-list"]}>
         {quizzes &&
           quizzes.map(
             (myQuiz: MyQuizDataType | MySolvedQuizDataType, index: number) => {
@@ -156,7 +156,7 @@ export default function QuizListLayout<
               }
             },
           )}
-      </ul>
+      </ol>
       {isModalOpen && (
         <Modal
           closeModal={closeModal}

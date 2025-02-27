@@ -75,7 +75,7 @@ export default function QuizItem({ quiz, onClick }: Props) {
           <img
             className={styles["study-group-img"]}
             src={quiz.creator.profileUrl}
-            alt={"스터디 그룹 이미지"}
+            alt={"스터디 그룹 사진"}
           />
           <span>{quiz.creator.nickname}</span>
         </div>

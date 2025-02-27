@@ -561,6 +561,7 @@ export default function Index() {
                         textAreaRef={OtherGroundsRef}
                         size="small"
                         rows={1}
+                        label="기타 사유"
                       />
                     </div>
                   ) : null}
@@ -607,7 +608,7 @@ export default function Index() {
               size="xsmall"
               color="transparent"
               iconPosition="left"
-              icon={<img src={warning} />}
+              icon={<img alt="" src={warning} />}
               className={styles["report"]}
               onClick={openReportModal}
             >
@@ -635,7 +636,7 @@ export default function Index() {
                       <img
                         key={index}
                         src={image}
-                        alt={`해설 이미지 ${index + 1}`}
+                        alt={`해설 사진 ${index + 1}`}
                         className={styles["image"]}
                         onClick={() => {
                           handleImageClicked({ index, src: image });
@@ -688,7 +689,9 @@ export default function Index() {
             <Button
               onClick={handleNextQuestionBtn}
               color="primary"
-              icon={<ArrowRight stroke={gray00} width={20} height={20} />}
+              icon={
+                <ArrowRight stroke={gray00} width={20} height={20} alt="" />
+              }
               className={styles["footer-btn"]}
             >
               {currentStep === quiz!.questions.length

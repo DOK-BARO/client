@@ -30,7 +30,7 @@ export default function HeaderMenuListItem({
         className={styles["header-menu-list-item"]}
         onClick={() => handleItemClick(link)}
         iconPosition="left"
-        icon={<Icon {...iconProps} />}
+        icon={<Icon {...iconProps} alt="" />}
       >
         {content}
       </Button>

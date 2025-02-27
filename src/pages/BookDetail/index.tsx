@@ -46,10 +46,11 @@ export default function Index() {
   if (!data) {
     return <div>책 데이터가 존재하지 않습니다.</div>;
   }
-  // console.log(data.categories);
+
   const categoryList = data.categories
     ? extractCategoryList(data.categories[data.categories.length - 1])
     : [];
+
   return (
     <section className={styles.container}>
       <Breadcrumb parentPage="books" list={categoryList} />

@@ -1,6 +1,6 @@
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styles from "./_bookList.module.scss";
-import BookItem from "@/pages/Home/components/composite/BookItem/BookItem";
+import BookItem from "@/pages/BookList/composite/BookItem/BookItem";
 import { BookType } from "@/types/BookType";
 import {
   paginationAtom,
@@ -9,16 +9,15 @@ import {
 import { useAtom } from "jotai";
 import ROUTES from "@/data/routes";
 
-export default function BookList() {
+interface Props {
+  books: BookType[];
+}
+export default function BookList({ books }: Props) {
   // TODO: 페이징
-  const { books } = useOutletContext<{ books: BookType[] }>();
   const navigate = useNavigate();
 
   const [paginationState] = useAtom(paginationAtom);
   const [, setPrevPaginationState] = useAtom(prevPaginationStateAtom);
-  // useEffect(() => {
-  //   sessionStorage.removeItem("prevPage");
-  // }, []);
 
   const handleClick = (id: number) => {
     navigate(ROUTES.BOOK_DETAIL_SECTION(id));
@@ -32,12 +31,12 @@ export default function BookList() {
     return <div>책 데이터가 존재하지 않습니다.</div>;
   }
   return (
-    <ul className={styles["book-list-container"]}>
+    <ol className={styles["book-list-container"]}>
       {books?.map((book) => (
         <li key={book.id} onClick={() => handleClick(book.id)}>
           <BookItem book={book} />
         </li>
       ))}
-    </ul>
+    </ol>
   );
 }

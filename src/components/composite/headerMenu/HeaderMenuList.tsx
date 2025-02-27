@@ -67,7 +67,7 @@ export default function HeaderMenuList({ closeDropDownList }: Props) {
           <div className={styles["user-name"]}>{userNickname} 님</div>
         </button>
       </li>
-      <div className={styles["header-menu-list-item-container"]}>
+      <ul className={styles["header-menu-list-item-container"]}>
         {headerMenuListItems.map((item) => (
           <HeaderMenuListItem
             key={item.content}
@@ -77,7 +77,7 @@ export default function HeaderMenuList({ closeDropDownList }: Props) {
             closeDropDownList={closeDropDownList}
           />
         ))}
-      </div>
+      </ul>
       <li>
         <Button
           size="medium"

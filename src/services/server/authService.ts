@@ -27,10 +27,8 @@ class AuthService {
       const {
         data: { agreeAll },
       } = await axiosInstance.get("/terms-of-services/member-agree/required");
-      // console.log("agreed all", agreeAll);
       return agreeAll;
     } catch (error) {
-      console.error(error);
       return null;
     }
   };
@@ -43,10 +41,7 @@ class AuthService {
     profileImage?: string | null;
   }): Promise<void> => {
     try {
-      // console.log(userInfo);
       await axiosInstance.post("/accounts/email", userInfo);
-      // console.log("이메일 회원가입 post 응답", response);
-      // TODO: return 타입 확인하기
     } catch (error) {
       handleAxiosError(error);
     }
@@ -62,16 +57,13 @@ class AuthService {
     Object.entries(loginInfo).forEach(([key, value]) => {
       formData.append(key, value);
     });
-    // console.log(loginInfo);
     try {
       await axiosInstance.post("/auth/login/email", formData, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
       });
-      // console.log(response);
     } catch (error) {
-      console.error("에러", error);
       handleAxiosError(error);
     }
   };
@@ -80,7 +72,6 @@ class AuthService {
   updateUser = async (userInfo: UserUpdateType): Promise<void> => {
     try {
       await axiosInstance.put("/members/login-user", userInfo);
-      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }
@@ -104,7 +95,6 @@ class AuthService {
   logout = async (): Promise<void> => {
     try {
       await axiosInstance.post("/auth/logout");
-      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }
@@ -136,12 +126,10 @@ class AuthService {
 
   // 이용약관 동의 요청
   sendTermsAgreement = async (items: number[]): Promise<void> => {
-    // console.log(items);
     try {
       await axiosInstance.post("/terms-of-services/agree", {
         items,
       });
-      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }
@@ -153,8 +141,6 @@ class AuthService {
       await axiosInstance.post("/email-authentications", {
         email: email,
       });
-      // 201
-      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }
@@ -165,8 +151,6 @@ class AuthService {
       await axiosInstance.post("/email-authentications/recreate", {
         email: email,
       });
-      // 204
-      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }
@@ -189,8 +173,6 @@ class AuthService {
       );
       return data;
     } catch (error) {
-      // 인증코드가 일치하지 않을 경우
-      // TODO: 상세한 에러 처리 필요
       handleAxiosError(error);
       return null;
     }
@@ -202,7 +184,6 @@ class AuthService {
       await axiosInstance.post("/accounts/email/issue-temporary-password", {
         email: email,
       });
-      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }

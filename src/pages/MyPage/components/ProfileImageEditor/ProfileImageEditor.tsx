@@ -46,6 +46,9 @@ export default function ProfileImageEditor({
 
   return (
     <div className={styles.container}>
+      <label htmlFor="file-upload" className={styles["sr-only"]}>
+        프로필 사진 업로드
+      </label>
       <input
         className={styles["sr-only"]}
         type="file"
@@ -55,14 +58,15 @@ export default function ProfileImageEditor({
         id="file-upload"
       />
       <button
+        aria-label="프로필 사진 업로드"
         onClick={() => document.getElementById("file-upload")?.click()}
         className={`${styles["edit-img-btn"]} ${styles[`width-${width}`]}`}
       >
-        {/* 프로필 이미지 */}
+        {/* 프로필 사진 */}
         <img
           className={`${styles["profile-img"]} ${styles[`width-${width}`]}`}
           src={profileImage.url ?? initialImageState.url}
-          alt="프로필 이미지"
+          alt="프로필 사진"
         />
         {isLoading ? (
           <div className={styles["loading-img-bg"]}>
@@ -80,6 +84,7 @@ export default function ProfileImageEditor({
               src={editProfile}
               width={width === 200 ? 40 : 30}
               height={width === 200 ? 40 : 30}
+              alt=""
             />
           </div>
         </div>

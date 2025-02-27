@@ -42,6 +42,8 @@ function QuizBasicInfoForm() {
         placeholder="퀴즈 제목"
         maxLength={titleMaxLength}
         fullWidth
+        label="퀴즈 제목"
+        hideLabel
       />
       <div className={styles["quiz-basic-info-description"]}>
         <Textarea
@@ -54,6 +56,7 @@ function QuizBasicInfoForm() {
           maxLengthShow
           fullWidth
           size="large"
+          label="퀴즈 설명"
         />
       </div>
     </div>

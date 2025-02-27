@@ -119,6 +119,7 @@ export default function QuizCreationSteps({ isEditMode, steps }: Props) {
                 {step.title}
               </span>
               <CheckEllipse
+                alt=""
                 fillOut={
                   isEditModeDisabledStep || !isValidPreviousSteps
                     ? gray40

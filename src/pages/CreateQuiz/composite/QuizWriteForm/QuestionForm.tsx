@@ -224,7 +224,12 @@ export default function QuestionForm({
       const imgEls = newImagesFile.map((file) => {
         const imgURL = URL.createObjectURL(file); // 미리보기용 URL
         return (
-          <img className={styles["image"]} src={imgURL} data-file={file} />
+          <img
+            className={styles["image"]}
+            alt=""
+            src={imgURL}
+            data-file={file}
+          />
         );
       });
 
@@ -305,20 +310,20 @@ export default function QuestionForm({
     const alreadyUploadedList: string[] = [];
 
     // img태그를 File형태로 변환
-    //console.log("원본:", imagePreviewEls);
+    // console.log("원본:", imagePreviewEls);
     imagePreviewEls.forEach((img) => {
       const file = (img.props as { "data-file"?: File })["data-file"];
       const src = (img.props as { src?: string }).src;
 
       if (file instanceof File) {
         fileList.push(file); // 새로 업로드할 이미지
-        //console.log("filelist:", idx);
+        // console.log("filelist:", idx);
       } else {
         // 이미 업로드된 이미지 URL은 이미 중복 처리될 가능성이 있으므로 추가하지 않음
         if (!alreadyUploadedList.includes(src!)) {
           alreadyUploadedList.push(src!);
         }
-        //console.log("already:", idx);
+        // console.log("already:", idx);
       }
     });
 
@@ -331,7 +336,7 @@ export default function QuestionForm({
           dataUrlList.push(dataUrl);
         }
       } catch (error) {
-        console.error("Error converting file to Data URL:", error);
+        // console.error("Error converting file to Data URL:", error);
       }
     }
     return [...alreadyUploadedList, ...dataUrlList]; // 최종적으로 Data URL 배열 반환
@@ -347,9 +352,6 @@ export default function QuestionForm({
     fetchImgLayer();
   }, [imagePreviewEls]);
 
-  useEffect(() => {
-    //console.log("layer: ", imgLayer);
-  }, [imgLayer]);
 
   const {
     clickedImage,
@@ -397,7 +399,7 @@ export default function QuestionForm({
               <ImageAdd
                 width={24}
                 height={24}
-                alt="질문 사진 추가하기"
+                alt="질문 사진 추가"
                 stroke={gray60}
               />
             }
@@ -425,6 +427,7 @@ export default function QuestionForm({
             onKeyDown={(e) => {
               e.stopPropagation();
             }}
+            label="질문 입력"
           />
         </div>
         {React.cloneElement(questionFormType.FormComponent, {
@@ -451,7 +454,11 @@ export default function QuestionForm({
         />
         <div className={styles["answer-area-header"]}>
           <span>해설</span>
+          <label htmlFor="answer-image-uploader" className={styles["sr-only"]}>
+            해설 사진 업로드
+          </label>
           <input
+            id="answer-image-uploader"
             className={styles["sr-only"]}
             type="file"
             accept="image/*"
@@ -462,13 +469,9 @@ export default function QuestionForm({
           <button
             onClick={handleButtonClick}
             className={styles["image-add-button"]}
+            aria-label="해설 사진 추가하기"
           >
-            <ImageAdd
-              width={20}
-              height={20}
-              alt="해설 사진 추가하기"
-              stroke={gray70}
-            />
+            <ImageAdd stroke={gray90} width={20} height={20} alt="" />
           </button>
         </div>
 
@@ -485,6 +488,7 @@ export default function QuestionForm({
             e.stopPropagation();
           }}
           disabled={isFirstVisit && !isEditMode && currentQuizGuideStep == 1}
+          label="답안에 대한 설명 입력"
         />
         {/* TODO: refactor 퀴즈 풀기 해설과 같은 컴포넌트 */}
         {imagePreviewEls.length > 0 && (
@@ -504,9 +508,10 @@ export default function QuestionForm({
                 </div>
                 <Button
                   iconOnly
-                  icon={<img src={deleteIcon} />}
+                  icon={<img src={deleteIcon} alt="" />}
                   className={styles["delete-button"]}
                   onClick={() => handleDeleteImage(index)}
+                  ariaLabel="사진 삭제하기"
                 />
               </div>
             ))}

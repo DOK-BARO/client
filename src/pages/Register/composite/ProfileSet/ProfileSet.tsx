@@ -72,7 +72,7 @@ export default function ProfileSet() {
       });
     },
     () => {
-      // 이미지 업로드 실패시
+      // 사진 업로드 실패시
       setProfileImage((prev) => ({
         ...prev,
         url: defaultImage,
@@ -80,7 +80,7 @@ export default function ProfileSet() {
     },
   );
 
-  // TODO: 이미지 업로드 훅 사용하기
+  // TODO: 사진 업로드 훅 사용하기
   // const { mutate: uploadImage } = useMutation<
   //   string,
   //   ErrorType,
@@ -101,7 +101,7 @@ export default function ProfileSet() {
   //     });
   //   },
   //   onError: () => {
-  //     toast.error("사진을 업로드할 수 없습니다. 다른 이미지를 선택해 주세요.");
+  //     toast.error("사진을 업로드할 수 없습니다. 다른 사진를 선택해 주세요.");
   //     setProfileImage((prev) => ({
   //       ...prev,
   //       url: defaultImage,
@@ -214,13 +214,16 @@ export default function ProfileSet() {
           id="nickname"
           value={nickname}
           size="medium"
+          label="닉네임"
+          hideLabel
           rightIcon={
             nickname ? (
               <button
                 style={{ background: "none", border: "none", padding: "0" }}
                 onClick={() => resetInput("")}
+                aria-label="입력된 닉네임 지우기"
               >
-                <XCircle width={24} stroke={gray60} fill={gray30} />
+                <XCircle width={24} stroke={gray60} fill={gray30} alt="" />
               </button>
             ) : undefined
           }

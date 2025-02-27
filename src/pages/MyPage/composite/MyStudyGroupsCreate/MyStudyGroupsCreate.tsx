@@ -54,7 +54,7 @@ export default function MyStudyGroupsCreate() {
       createStudyGroup(newStudy);
     },
     () => {
-      // 이미지 업로드 실패시
+      // 사진 업로드 실패시
       setProfileImage((prev) => ({
         ...prev,
         url: defaultImage,
@@ -83,16 +83,9 @@ export default function MyStudyGroupsCreate() {
   >({
     mutationFn: (newStudy) => studyGroupService.createStudyGroup(newStudy),
     onSuccess: (data) => {
-      // queryClient.invalidateQueries({
-      //   queryKey: studyGroupKeys.list({
-      //     page: currentPage,
-      //   }),
-      // });
       toast.success("스터디가 생성되었습니다.");
       openModal();
-      // setIsStudyCreated(true);
       if (!data) return;
-      // console.log("새롭게 생성된 스터디 그룹 아이디", data.id);
       setNewStudyGroupId(data.id);
     },
   });
@@ -149,16 +142,10 @@ export default function MyStudyGroupsCreate() {
               title: "스터디 초대코드를 초대하고 싶은 친구에게 보내세요.",
               content: (
                 <Button
+                  ariaLabel="초대 코드 복사하기"
                   fullWidth
                   className={styles["new-study-invite-code"]}
-                  icon={
-                    <Copy
-                      stroke={primary}
-                      width={20}
-                      height={20}
-                      alt="초대 코드 복사"
-                    />
-                  }
+                  icon={<Copy stroke={primary} width={20} height={20} alt="" />}
                   iconPosition="right"
                   onClick={handleClickCopyCode}
                 >
@@ -200,6 +187,8 @@ export default function MyStudyGroupsCreate() {
           fullWidth
           maxLength={20}
           maxLengthShow
+          label="스터디 그룹 이름"
+          hideLabel
         />
       </div>
       <div className={styles["sub-container"]}>
@@ -213,6 +202,7 @@ export default function MyStudyGroupsCreate() {
           fullWidth
           maxLength={50}
           maxLengthShow
+          label="스터디 그룹 소개"
         />
       </div>
       <Button

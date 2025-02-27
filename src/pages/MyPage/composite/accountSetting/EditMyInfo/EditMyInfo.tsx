@@ -61,11 +61,11 @@ export default function EditMyInfo() {
     (imageUrl: string) => {
       updateUser({
         user: { profileImage: imageUrl },
-        toastMessage: "프로필 이미지가 변경되었습니다.",
+        toastMessage: "프로필 사진가 변경되었습니다.",
       });
     },
     () => {
-      // 이미지 업로드 실패시
+      // 사진 업로드 실패시
       setProfileImage((prev) => ({
         ...prev,
         url: currentUser?.profileImage ?? defaultImage,
@@ -138,6 +138,7 @@ export default function EditMyInfo() {
                             stroke={systemDanger}
                             width={20}
                             height={20}
+                            alt=""
                           />
                           {"8자 이내"}
                         </span>
@@ -147,6 +148,8 @@ export default function EditMyInfo() {
                     }
                     maxLength={8}
                     fullWidth
+                    label="새로운 닉네임"
+                    hideLabel
                   />
                 </div>
                 <Button
@@ -200,7 +203,12 @@ export default function EditMyInfo() {
                   message={
                     isError ? (
                       <span className={styles["message-container"]}>
-                        <XSmall stroke={systemDanger} width={20} height={20} />
+                        <XSmall
+                          stroke={systemDanger}
+                          width={20}
+                          height={20}
+                          alt=""
+                        />
                         {messageContent}
                       </span>
                     ) : (
@@ -209,6 +217,8 @@ export default function EditMyInfo() {
                   }
                   isError={isError}
                   fullWidth
+                  label="새로운 이메일"
+                  hideLabel
                 />
                 <Button
                   disabled={!isEmailValid || isAlreadyUsed}
@@ -240,14 +250,17 @@ export default function EditMyInfo() {
                               stroke={systemDanger}
                               width={20}
                               height={20}
+                              alt=""
                             />
                             {isMatch
                               ? "인증코드가 일치합니다."
-                              : "인증 코드가 일치하지 않습니다."}
+                              : "인증코드가 일치하지 않습니다."}
                           </span>
                         )
                       }
                       fullWidth
+                      label="인증코드"
+                      hideLabel
                     />
                   </div>
 

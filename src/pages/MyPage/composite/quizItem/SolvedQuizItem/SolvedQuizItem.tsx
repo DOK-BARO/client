@@ -43,7 +43,7 @@ export default function SolvedQuizItem({
           <div className={styles["creator-profile"]}>
             <img
               src={myQuiz.quiz.creator.profileImageUrl ?? ""} // TODO: defaultImage 설정하기
-              alt={`${myQuiz.quiz.creator.nickname}님의 프로필 이미지`}
+              alt={`${myQuiz.quiz.creator.nickname}님의 프로필 사진`}
               width={32}
               height={32}
               className={styles.profile}
@@ -73,14 +73,8 @@ export default function SolvedQuizItem({
                 className={styles["copy-link"]}
                 onClick={(e) => onCopyQuizLink(e, myQuiz.quiz.id)}
                 iconOnly
-                icon={
-                  <img
-                    src={link}
-                    width={20}
-                    height={20}
-                    alt="퀴즈 공유 링크 복사"
-                  />
-                }
+                ariaLabel="퀴즈 공유 링크 복사하기"
+                icon={<img src={link} width={20} height={20} alt="" />}
               />
             </div>
             <p className={styles.title}>{myQuiz.quiz.title}</p>

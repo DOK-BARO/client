@@ -25,6 +25,7 @@ interface Props {
   fullWidth?: boolean;
   iconOnly?: boolean;
   ableAnimation?: boolean;
+  ariaLabel?: string;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, Props>(
@@ -45,6 +46,7 @@ const Button = React.forwardRef<HTMLButtonElement, Props>(
       fullWidth = false,
       iconOnly = false,
       ableAnimation = false,
+      ariaLabel,
     },
     ref,
   ) => {
@@ -59,7 +61,7 @@ const Button = React.forwardRef<HTMLButtonElement, Props>(
         id={id}
         type={type}
         value={value}
-        // aria-label={}
+        aria-label={ariaLabel}
         onClick={(e) => onClick(e)}
         className={className}
         disabled={disabled}

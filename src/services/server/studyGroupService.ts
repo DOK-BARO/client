@@ -19,7 +19,6 @@ class StudyGroupService {
       const { data } = await axiosInstance.get(`/study-groups/${id}`);
       return data;
     } catch (error) {
-      // console.log(error);
       handleAxiosError(error);
       return null;
     }
@@ -61,12 +60,10 @@ class StudyGroupService {
 
   // 초대코드로 스터디 그룹 참여
   joinStudyGroup = async (inviteCode: string): Promise<void> => {
-    console.log("입력된 초대코드", inviteCode);
     try {
       await axiosInstance.post("/study-groups/join", {
         inviteCode,
       });
-      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }
@@ -94,7 +91,6 @@ class StudyGroupService {
           },
         },
       );
-      // console.log(response);
       return response.data;
     } catch (error) {
       handleAxiosError(error);
@@ -124,7 +120,6 @@ class StudyGroupService {
           },
         },
       );
-      // console.log(response);
       return response.data;
     } catch (error) {
       handleAxiosError(error);
@@ -135,7 +130,6 @@ class StudyGroupService {
   deleteStudyGroup = async (id: number): Promise<void> => {
     try {
       await axiosInstance.delete(`/study-groups/${id}`);
-      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }
@@ -166,7 +160,6 @@ class StudyGroupService {
       await axiosInstance.post(`/study-groups/${studyGroupId}/change-leader`, {
         newLeaderId,
       });
-      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }
@@ -184,7 +177,6 @@ class StudyGroupService {
       await axiosInstance.post(`/study-groups/${studyGroupId}/withdraw`, {
         memberId,
       });
-      // console.log(response);
     } catch (error) {
       handleAxiosError(error);
     }
@@ -208,7 +200,6 @@ class StudyGroupService {
           },
         },
       );
-      // console.log(response);
       return response.data;
     } catch (error) {
       handleAxiosError(error);

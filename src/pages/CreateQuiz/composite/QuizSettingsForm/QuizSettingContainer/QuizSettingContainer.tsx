@@ -49,7 +49,7 @@ export const QuizSettingContainer = ({
   return (
     <div className={styles["quiz-setting-container"]}>
       <div className={styles.title}>
-        <img src={quizSetting.icon} />
+        <img src={quizSetting.icon} alt="" />
         {quizSetting.title}
       </div>
       <Button
@@ -63,6 +63,7 @@ export const QuizSettingContainer = ({
             stroke={options.length > 1 ? gray90 : gray50}
             width={20}
             height={20}
+            alt=""
           />
         }
       >

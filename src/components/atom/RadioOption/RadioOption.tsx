@@ -143,10 +143,11 @@ const RadioOption: React.FC<Props> = ({
           type === "option-written") &&
           showDeleteBtn && (
             <Button
+              ariaLabel="옵션 삭제"
               iconOnly
               icon={
                 <Close
-                  alt="옵션 삭제하기"
+                  alt=""
                   width={20}
                   height={20}
                   stroke={isTextAreaFocus ? gray70 : gray40}

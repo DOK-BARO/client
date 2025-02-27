@@ -72,7 +72,6 @@ export const CheckBoxQuestionTemplate: FC<Props> = ({ questionFormId }) => {
           }
         : question,
     );
-    //console.log("Editied:%o", updatedQuestions);
     updateQuizCreationInfo("questions", updatedQuestions);
   };
 

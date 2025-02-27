@@ -104,11 +104,22 @@ export default function GNB() {
                           }}
                           className={styles.more}
                           iconOnly
+                          ariaLabel="하위 카테고리 메뉴 펼치기"
                         >
                           {expandedSubCategories[subCategoryId] ? (
-                            <Minus stroke={gray50} width={20} height={20} />
+                            <Minus
+                              stroke={gray50}
+                              width={20}
+                              height={20}
+                              alt="접기"
+                            />
                           ) : (
-                            <Plus stroke={gray50} width={20} height={20} />
+                            <Plus
+                              stroke={gray50}
+                              width={20}
+                              height={20}
+                              alt="펼치기"
+                            />
                           )}
                         </Button>
                       ) : null}

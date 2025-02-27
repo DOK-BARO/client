@@ -75,9 +75,7 @@ export default function MyPageSectionNav({ sectionNavList }: Props) {
                       currentUser?.accountType === "EMAIL";
                     const isCurrentTitlePassword: boolean =
                       subNavItem.title === "비밀번호 변경";
-                    // console.log(`${sectionNavItem.title}1111"`);
                     if (!isEmailAuthType && isCurrentTitlePassword) {
-                      // console.log(`${isEmailAuthType}!!!"`);
                       return null;
                     }
                     return (

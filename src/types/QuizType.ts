@@ -65,6 +65,8 @@ export interface MyQuizDataType {
   studyGroup?: MyQuizStudyGroupType;
 }
 
+export interface MyDraftQuizDataType extends MyQuizDataType {}
+
 export interface MySolvedQuizDataType {
   id: number;
   bookImageUrl?: string;

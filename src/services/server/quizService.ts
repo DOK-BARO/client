@@ -7,10 +7,10 @@ import { MyQuizFetchType } from "@/types/QuizType";
 import { axiosInstance } from "@/config/axiosConfig";
 import { QuestionCheckedResultType } from "@/types/QuizType";
 import { handleAxiosError } from "@/utils/errorHandler";
-import { QuizzesFetchType } from "@/types/ParamsType";
+import { MySolvedQuizzesFetchType, QuizzesFetchType } from "@/types/ParamsType";
 import { SolvingQuizGradeResultType as SolvingQuizGradeResultFetchType } from "@/types/QuizType";
 import { SolvingQuizStudyGroupGradeResultType as SolvingQuizStudyGroupGradeResultFetchType } from "@/types/QuizType";
-import { MyQuizzesFetchType } from "@/types/ParamsType";
+import { MyMadeQuizzesFetchType } from "@/types/ParamsType";
 class QuizService {
   fetchQuizzes = async (
     params: QuizzesFetchType,
@@ -56,13 +56,22 @@ class QuizService {
   };
 
   fetchMyMadeQuizzes = async (
-    params: MyQuizzesFetchType,
+    params: MyMadeQuizzesFetchType,
   ): Promise<MyQuizFetchType | null> => {
     try {
-      const { page, size, sort, direction } = params;
-      const { data } = await axiosInstance.get(
-        `/book-quizzes/my?page=${page}&size=${size}&sort=${sort}&direction=${direction}`,
-      );
+      const { page, size, sort, direction, temporary, viewScope, studyGroup } =
+        params;
+      const { data } = await axiosInstance.get("/book-quizzes/my", {
+        params: {
+          page,
+          size,
+          sort,
+          direction,
+          temporary,
+          viewScope,
+          studyGroup,
+        },
+      });
       return data;
     } catch (error) {
       handleAxiosError(error);
@@ -71,13 +80,18 @@ class QuizService {
   };
 
   fetchMySolvedQuizzes = async (
-    params: MyQuizzesFetchType,
+    params: MySolvedQuizzesFetchType,
   ): Promise<MyQuizFetchType | null> => {
     try {
       const { page, size, sort, direction } = params;
-      const { data } = await axiosInstance.get(
-        `/solving-quiz/my?page=${page}&size=${size}&sort=${sort}&direction=${direction}`,
-      );
+      const { data } = await axiosInstance.get("/solving-quiz/my", {
+        params: {
+          page,
+          size,
+          sort,
+          direction,
+        },
+      });
       return data;
     } catch (error) {
       handleAxiosError(error);

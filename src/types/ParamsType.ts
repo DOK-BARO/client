@@ -3,6 +3,7 @@ import {
   ReviewsFilterType,
   StudyGroupsFilterType,
 } from "./FilterType";
+import { ViewScopeType } from "./QuizType";
 
 // BOOK
 export interface BooksFetchType {
@@ -47,12 +48,23 @@ export interface QuizzesFetchType {
   direction: string;
 }
 
-// 내가 만든 퀴즈, 내가 푼 퀴즈
-export interface MyQuizzesFetchType {
+// 내가 푼 퀴즈
+export interface MySolvedQuizzesFetchType {
   page: string;
   size?: string;
   sort?: string;
   direction?: string;
+}
+
+// 내가 만든 퀴즈
+export interface MyMadeQuizzesFetchType extends MySolvedQuizzesFetchType {
+  temporary?: boolean;
+  viewScope?: ViewScopeType;
+  studyGroup?: {
+    only?: boolean;
+    exclude?: boolean;
+    id?: number;
+  };
 }
 
 // STUDY GROUP

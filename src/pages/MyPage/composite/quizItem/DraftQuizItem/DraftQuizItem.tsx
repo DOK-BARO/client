@@ -8,7 +8,7 @@ import useTooltip from "@/hooks/useTooltip";
 import { MyQuizDataType } from "@/types/QuizType";
 import { Link } from "react-router-dom";
 
-// 만든 퀴즈 아이템
+// 작성 중인 퀴즈 아이템
 interface Props {
   myQuiz: MyQuizDataType;
   formattedDate: string;
@@ -25,7 +25,7 @@ interface Props {
     quizId: number,
   ) => void;
 }
-export default function MyMadeQuizItem({
+export default function DraftQuizItem({
   myQuiz,
   formattedDate,
   onModifyQuiz,
@@ -63,13 +63,11 @@ export default function MyMadeQuizItem({
         <div className={styles["right-container"]}>
           <div>
             <div className={styles["right-container-header"]}>
-              {myQuiz.studyGroup ? (
-                <p className={styles["secondary-label"]}>
-                  {myQuiz.studyGroup.name}
-                </p>
-              ) : (
-                <div />
-              )}
+              <p className={styles["secondary-label"]}>
+                {/* {myQuiz.studyGroup.name} */}
+                작성중
+              </p>
+
               <Button
                 onClick={(e) => onCopyQuizLink(e, myQuiz.id)}
                 iconOnly
@@ -92,7 +90,7 @@ export default function MyMadeQuizItem({
               size="small"
               onClick={(e) => onModifyQuiz(e, myQuiz.id.toString())}
             >
-              수정하기
+              이어쓰기
             </Button>
             <Button
               className={styles.delete}

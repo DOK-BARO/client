@@ -534,7 +534,10 @@ export default function Index() {
       quizCreationInfo.book !== null &&
       quizCreationInfo.book.title !== ""
     ) {
-      prevQuizCreationInfoRef.current = structuredClone(quizCreationInfo);
+      prevQuizCreationInfoRef.current = JSON.parse(
+        JSON.stringify(quizCreationInfoRef.current),
+      );
+
       setIsInitialized(true);
     }
   }, [quizCreationInfo]);

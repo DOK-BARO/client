@@ -1,11 +1,7 @@
 import styles from "./_create_quiz.module.scss";
 import { useEffect, useMemo, useRef, useState } from "react";
-import QuizSettingStudyGroupForm from "@/pages/CreateQuiz/composite/QuizSettingStudyGroupForm/QuizSettingStudyGroupForm";
-import QuizWriteForm from "./composite/QuizWriteForm/QuizWriteForm";
-import QuizSettingsForm from "./composite/QuizSettingsForm/QuizSettingsForm";
 import QuizCreationFormLayout from "./layout/QuizCreationFormLayout/QuizCreationFormLayout";
 import QuizCreationSteps from "./layout/QuizCreationSteps/QuizCreationSteps";
-import MemoizedQuizBasicInfoForm from "@/pages/CreateQuiz/composite/QuizBasicInfoForm/QuizBasicInfoForm";
 import {
   createdQuizIdAtom,
   errorModalTitleAtom,
@@ -14,16 +10,13 @@ import {
   openErrorModalAtom,
   quizCreationInfoAtom,
   quizCreationStepAtom,
-  quizGuideStepAtom,
   resetQuizCreationStateAtom,
   stepsCompletionStatusAtom,
 } from "@/store/quizAtom.ts";
 import { useAtom, useSetAtom } from "jotai";
 import Modal from "@/components/atom/Modal/Modal.tsx";
 import useModal from "@/hooks/useModal.ts";
-import { Step } from "@/types/StepType.ts";
-import QuizBookSelectionForm from "./composite/QuizBookSectionForm/QuizBookSelectionForm/QuizBookSelectionForm.tsx";
-import { useBlocker, useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { quizKeys, studyGroupKeys } from "@/data/queryKeys.ts";
 import { quizService } from "@/services/server/quizService.ts";
 import { useQuery } from "@tanstack/react-query";
@@ -42,11 +35,7 @@ import { SelectOptionFormType } from "@/types/QuizType.ts";
 import { QuizQuestionFormType } from "@/types/QuizType.ts";
 import { resetQuizCreationBookStateAtom } from "@/store/quizAtom.ts";
 import usePreventLeave from "@/hooks/usePreventLeave.ts";
-import { currentUserAtom } from "@/store/userAtom.ts";
-import ROUTES from "@/data/routes.ts";
 import { preventLeaveModalAtom } from "@/store/quizAtom.ts";
-import useUpdateQuizCreationInfo from "@/hooks/useUpdateQuizCreationInfo.ts";
-import QuizWriteGuideForm from "./composite/QuizWriteForm/QuizWriteGuideForm.tsx";
 import { QUIZ_CREATION_STEP } from "@/data/constants.ts";
 import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner.tsx";
 import Button from "@/components/atom/Button/Button.tsx";
@@ -54,58 +43,37 @@ import useCreateQuiz from "@/hooks/mutate/useCreateQuiz.ts";
 import { imageService } from "@/services/server/imageService.ts";
 import useModifyQuiz from "@/hooks/mutate/useModifyQuiz.ts";
 import { queryClient } from "@/services/server/queryClient.ts";
-import { useValidateQuizForm } from "@/hooks/useValidateQuizForm.ts";
 import { convertUrlsToImg } from "@/utils/\bconvertUrlsToImg.ts";
 import toast from "react-hot-toast";
 import useTemporarySave from "@/hooks/useTemporarySave.ts";
 import isEqual from "fast-deep-equal";
+import { GetCreationQuizSteps } from "./composite/GetCreationQuizSteps";
+import useQuizGuide from "@/hooks/useQuizGuide";
+import useValidateQuiz from "@/hooks/useValidateQuiz";
+import QuizCreationModal from "./composite/QuizCreationModal/QuizCreationModal";
 
 export default function Index() {
   const { id } = useParams();
   const quizId: number = parseInt(id!);
-  const navigate = useNavigate();
-
   const [isEditMode] = useState<boolean>(!!quizId);
-  const [completionStatus] = useAtom(stepsCompletionStatusAtom);
-
-  const [quizCreationInfo, setQuizCreationInfo] = useAtom(quizCreationInfoAtom);
-  const [preventLeaveModal] = useAtom(preventLeaveModalAtom);
-  const [currentUser] = useAtom(currentUserAtom);
-  const blocker = useBlocker(() => {
-    if (isQuizCreationInfoUpdated) {
-      return true; // 이동 차단
-    }
-    return false; // 허용
-  });
-  const setPreventLeaveModal = useSetAtom(preventLeaveModalAtom);
-
-  usePreventLeave(); // 새로고침
 
   useEffect(() => {
     localStorage.setItem("isEditMode", isEditMode ? "true" : "false");
   }, [isEditMode]);
 
-  // 퀴즈 작성 가이드를 위한 첫 방문 확인
-  const [isFirstVisit, setIsFirstVisit] = useAtom(isFirstVisitAtom);
-  const { updateQuizCreationInfo } = useUpdateQuizCreationInfo();
+  const [quizCreationInfo, setQuizCreationInfo] = useAtom(quizCreationInfoAtom);
+  const [isFirstVisit] = useAtom(isFirstVisitAtom);
 
-  useEffect(() => {
-    const firstVisit = localStorage.getItem("firstVisit");
-    if (firstVisit === undefined) {
-      setIsFirstVisit(true);
-    } else if (firstVisit && firstVisit === "false") {
-      setIsFirstVisit(false);
-      updateQuizCreationInfo("questions", null);
-    }
-  }, [isFirstVisit, isEditMode]);
+  const setPreventLeaveModal = useSetAtom(preventLeaveModalAtom);
+  const [completionStatus] = useAtom(stepsCompletionStatusAtom);
 
-  // 퀴즈 문제 작성 가이드 스텝 초기화
-  const [, setQuizGuideStepAtom] = useAtom(quizGuideStepAtom);
-  useEffect(() => {
-    if (isFirstVisit) {
-      setQuizGuideStepAtom(1);
-    }
-  }, [isFirstVisit]);
+  usePreventLeave(); // 새로고침
+  useQuizGuide(isEditMode); // 퀴즈 작성 가이드라인
+
+  // 퀴즈 생성 각 단계
+  const steps = useMemo(() => {
+    return GetCreationQuizSteps({ completionStatus, isFirstVisit, isEditMode });
+  }, [completionStatus, isFirstVisit, isEditMode]);
 
   const { data: prevQuiz, isLoading: isPrevQuizLoading } = useQuery({
     queryKey: quizKeys.prevDetail(quizId!),
@@ -127,135 +95,70 @@ export default function Index() {
   });
 
   useEffect(() => {
-    if (!currentUser) {
-      navigate(ROUTES.ROOT);
-      if (blocker.proceed) {
-        blocker.proceed();
-      }
-    }
-  }, [currentUser]);
+    // 퀴즈 수정일 경우, 이전 퀴즈 정보를 기반으로 한 퀴즈 상태 초기화
+    const initializeQuiz = async () => {
+      const formattedBook: BookType = {
+        id: prevBook?.id ?? -1,
+        isbn: prevBook?.isbn ?? "",
+        title: prevBook?.title ?? "",
+        publisher: prevBook?.publisher ?? "",
+        publishedAt: prevBook?.publishedAt ?? "",
+        imageUrl: prevBook?.imageUrl ?? "",
+        categories: prevBook?.categories ?? [],
+        authors: prevBook?.authors ?? [],
+      };
 
-  useEffect(() => {
-    // 퀴즈 초기화
-    async function initializeQuiz() {
-      if (isEditMode) {
-        const formattedBook: BookType = {
-          id: prevBook?.id ?? -1,
-          isbn: prevBook?.isbn ?? "",
-          title: prevBook?.title ?? "",
-          publisher: prevBook?.publisher ?? "",
-          publishedAt: prevBook?.publishedAt ?? "",
-          imageUrl: prevBook?.imageUrl ?? "",
-          categories: prevBook?.categories ?? [],
-          authors: prevBook?.authors ?? [],
+      let formattedStudyGroup: StudyGroupType | undefined = undefined;
+      if (studyGroupDetail != undefined) {
+        formattedStudyGroup = {
+          id: studyGroupDetail?.id,
+          name: studyGroupDetail?.name ?? "",
+          profileImageUrl: studyGroupDetail?.profileImageUrl,
         };
-
-        let formattedStudyGroup: StudyGroupType | undefined = undefined;
-        if (studyGroupDetail != undefined) {
-          formattedStudyGroup = {
-            id: studyGroupDetail?.id,
-            name: studyGroupDetail?.name ?? "",
-            profileImageUrl: studyGroupDetail?.profileImageUrl,
+      }
+      const prevQuestions: QuizQuestionFormType[] = await Promise.all(
+        prevQuiz?.questions.map(async (q) => {
+          const images = await convertUrlsToImg({
+            urls: q.answerExplanationImages,
+            renderImage: (url) => (
+              <img className={styles["image"]} src={url} alt="Converted" />
+            ),
+          });
+          const selectOptions: SelectOptionFormType[] = q.selectOptions.map(
+            (optionText, index) => ({
+              id: index, // TODO: index로 해도 되는지 확인 필요
+              option: optionText,
+              value: (index + 1).toString(),
+              answerIndex: index + 1, // 퀴즈의 정답이 아닌 이 옵션의 고유 정답 번호 set
+            }),
+          );
+          return {
+            id: q.id!,
+            content: q.content,
+            selectOptions,
+            answerExplanationContent: q.answerExplanationContent,
+            answerExplanationImages: images,
+            answerType: q.answerType,
+            answers: q.answers,
           };
-        }
-        const prevQuestions: QuizQuestionFormType[] = await Promise.all(
-          prevQuiz?.questions.map(async (q) => {
-            const images = await convertUrlsToImg({
-              urls: q.answerExplanationImages,
-              renderImage: (url) => (
-                <img className={styles["image"]} src={url} alt="Converted" />
-              ),
-            });
-            const selectOptions: SelectOptionFormType[] = q.selectOptions.map(
-              (optionText, index) => ({
-                id: index, // TODO: index로 해도 되는지 확인 필요
-                option: optionText,
-                value: (index + 1).toString(),
-                answerIndex: index + 1, // 퀴즈의 정답이 아닌 이 옵션의 고유 정답 번호 set
-              }),
-            );
-            return {
-              id: q.id!,
-              content: q.content,
-              selectOptions,
-              answerExplanationContent: q.answerExplanationContent,
-              answerExplanationImages: images,
-              answerType: q.answerType,
-              answers: q.answers,
-            };
-          }) ?? [],
-        );
+        }) ?? [],
+      );
 
-        const quiz: QuizFormType = {
-          title: prevQuiz?.title ?? "",
-          description: prevQuiz?.description ?? "",
-          book: formattedBook,
-          viewScope: prevQuiz?.viewScope as ViewScopeType,
-          editScope: "CREATOR" as EditScopeType,
-          studyGroup: formattedStudyGroup,
-          questions: prevQuestions,
-        };
-        setQuizCreationInfo(quiz);
-      }
+      const quiz: QuizFormType = {
+        title: prevQuiz?.title ?? "",
+        description: prevQuiz?.description ?? "",
+        book: formattedBook,
+        viewScope: prevQuiz?.viewScope as ViewScopeType,
+        editScope: "CREATOR" as EditScopeType,
+        studyGroup: formattedStudyGroup,
+        questions: prevQuestions,
+      };
+      setQuizCreationInfo(quiz);
+    };
+    if (isEditMode) {
+      initializeQuiz();
     }
-    initializeQuiz();
   }, [prevQuiz, isEditMode, prevBook?.isbn, studyGroupDetail?.name]);
-
-  const steps: Step[] = useMemo(
-    () => [
-      {
-        order: QUIZ_CREATION_STEP.STUDY_GROUP_SELECT,
-        icon: "👥",
-        title: "스터디 그룹 선택",
-        description: "퀴즈를 풀 스터디 그룹을 만들거나 선택해주세요.",
-        formComponent: () => <QuizSettingStudyGroupForm />,
-        isDone: completionStatus.isStudyGroupSelected,
-      },
-      {
-        order: QUIZ_CREATION_STEP.BOOK_SELECT,
-        icon: "📚",
-        title: "도서 선택",
-        description: "퀴즈를 내고자 하는 도서를 선택해주세요.",
-        formComponent: () => <QuizBookSelectionForm />,
-        isDone: completionStatus.isBookSelected,
-      },
-      {
-        order: QUIZ_CREATION_STEP.QUIZ_BASIC_INFO,
-        icon: "🏆",
-        title: "퀴즈 작성",
-        subSteps: [
-          {
-            order: QUIZ_CREATION_STEP.QUIZ_BASIC_INFO_FORM,
-            title: "퀴즈 기본 정보",
-            description: "퀴즈 이름과 설명을 작성해주세요.",
-            formComponent: () => <MemoizedQuizBasicInfoForm />,
-          },
-          {
-            order: QUIZ_CREATION_STEP.QUIZ_WRITE_FORM,
-            title: "문제 작성",
-            description:
-              "퀴즈의 질문을 작성한 후, 답안을 클릭하여 설정해주세요.",
-            formComponent: () =>
-              isFirstVisit && !isEditMode ? (
-                <QuizWriteGuideForm />
-              ) : (
-                <QuizWriteForm />
-              ),
-          },
-        ],
-        isDone: completionStatus.isQuestionsWritten,
-      },
-      {
-        order: QUIZ_CREATION_STEP.SETTING,
-        icon: "🔗",
-        title: "공유 설정",
-        description: "퀴즈를 볼 수 있는 사람을 설정해 주세요.",
-        formComponent: () => <QuizSettingsForm />,
-        isDone: completionStatus.isSet,
-      },
-    ],
-    [completionStatus, isFirstVisit, isEditMode],
-  );
 
   const [currentStep, setCurrentStep] = useAtom(quizCreationStepAtom);
   const [errorModalTitle] = useAtom(errorModalTitleAtom);
@@ -288,7 +191,6 @@ export default function Index() {
   const { createQuiz } = useCreateQuiz({
     onTemporarySuccess: (quizId, options) => {
       // 임시 퀴즈 생성 후 처리
-      // setCreatedQuizId(id);
       // console.log("임시저장된 퀴즈 아이디", quizId);
       if (options?.showToast) {
         toast.success("퀴즈가 임시저장되었습니다.");
@@ -409,26 +311,6 @@ export default function Index() {
     return await Promise.all(uploadedImgQuestions);
   };
 
-  const validateQuizCreationInfo = ({
-    isTemporary,
-    quizCreationInfo,
-  }: {
-    isTemporary: boolean;
-    quizCreationInfo: QuizFormType;
-  }) => {
-    const requiredFields = ["title", "description", "book"];
-    const allRequiredFields = [...requiredFields, "viewScope"];
-
-    const hasNullFields = (
-      isTemporary ? requiredFields : allRequiredFields
-    ).some(
-      (field) =>
-        quizCreationInfo[field as keyof typeof quizCreationInfo] === null,
-    );
-
-    return !hasNullFields;
-  };
-
   const requestQuiz = async ({
     isTemporary,
     isAutoSave = false,
@@ -438,23 +320,16 @@ export default function Index() {
     isAutoSave?: boolean;
     quizCreationInfo: QuizFormType;
   }) => {
-    if (!validateQuizCreationInfo({ isTemporary, quizCreationInfo })) {
+    if (!checkNullFieldsInQuiz({ isTemporary, quizCreationInfo })) {
       return;
-    }
-    if (
-      !quizCreationInfo.title ||
-      !quizCreationInfo.description ||
-      !quizCreationInfo.book
-    ) {
-      throw new Error("퀴즈 필수 정보가 없습니다.");
     }
 
     const quiz: Omit<QuizCreateType, "temporary"> = {
-      title: quizCreationInfo.title,
-      description: quizCreationInfo.description,
+      title: quizCreationInfo.title!,
+      description: quizCreationInfo.description!,
       viewScope: quizCreationInfo.viewScope ?? "CREATOR",
       editScope: "CREATOR",
-      bookId: quizCreationInfo.book.id,
+      bookId: quizCreationInfo.book!.id,
       studyGroupId: quizCreationInfo.studyGroup?.id ?? undefined,
       questions: await setRequestQuestion(quizCreationInfo),
     };
@@ -475,20 +350,8 @@ export default function Index() {
     return;
   };
 
-  useEffect(() => {
-    // TODO: 페이지 이탈을 막는 모달을 예외처리하는 로직이 이상함
-    if (isComplete) {
-      navigate(ROUTES.CREATE_QUIZ_COMPLETE);
-      if (blocker.proceed && blocker.state === "blocked") {
-        blocker.proceed();
-        setIsComplete(false);
-        setPreventLeaveModal(true);
-      }
-    }
-  }, [blocker, isComplete]);
-
   const endStep = steps.length - 1;
-  const validateQuizForm = useValidateQuizForm;
+  const { validateQuestionForm, checkNullFieldsInQuiz } = useValidateQuiz();
   const [, setErrorModalTitle] = useAtom(errorModalTitleAtom);
   const [, setInvalidQuestionFormId] = useAtom(invalidQuestionFormIdAtom);
 
@@ -522,7 +385,7 @@ export default function Index() {
     isAutoSave?: boolean;
   }): Promise<boolean> => {
     if (currentStepRef.current >= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO) {
-      const isValid = validateQuizForm(
+      const isValid = validateQuestionForm(
         quizCreationInfo.questions ?? [], // 최신 quizCreationInfo 사용
         notValidCallBack,
         setInvalidQuestionFormId,
@@ -552,6 +415,8 @@ export default function Index() {
     prevQuizCreationInfoRef.current,
     quizCreationInfoRef.current,
   );
+
+  // 퀴즈 임시 저장
   const { lastTemporarySavedTime } = useTemporarySave({
     quizCreationInfo,
     quizCreationInfoRef,
@@ -606,6 +471,9 @@ export default function Index() {
     return <LoadingSpinner pageCenter width={40} />;
   }
 
+  const hasReachedQuizBasicInfoStep =
+    currentStep >= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO;
+
   return (
     <section className={styles["container"]}>
       {isFirstVisit &&
@@ -644,7 +512,6 @@ export default function Index() {
         steps={steps}
         onStepProgression={handleStepProgression}
       />
-      {/* TODO: 컴포넌트 분리 */}
 
       {isModalOpen && (
         <Modal
@@ -658,66 +525,18 @@ export default function Index() {
         />
       )}
 
-      {currentUser &&
-        preventLeaveModal &&
-        blocker.state === "blocked" &&
-        isQuizCreationInfoUpdated && (
-          <Modal
-            contents={[
-              {
-                title:
-                  currentStep >= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO
-                    ? "이 페이지를 벗어나면 변경사항이 저장되지 않을 수 있어요. 임시 저장을 하시겠습니까?"
-                    : "정말 페이지를 나가시겠어요?",
-                content: <></>,
-              },
-            ]}
-            closeModal={() => {
-              blocker.reset();
-            }}
-            showHeaderCloseButton={true}
-            bottomButtons={
-              currentStep >= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO
-                ? [
-                    {
-                      text: "아니오",
-                      color: "primary-border",
-                      onClick: () => {
-                        // 임시저장하지 않고 나가기
-                        blocker.proceed();
-                      },
-                      width: 76,
-                    },
-                    {
-                      text: "네",
-                      color: "primary",
-                      onClick: async () => {
-                        // 임시저장
-                        const canProceed = await validateAndRequestQuiz({
-                          quizCreationInfo,
-                          isTemporary: true,
-                        });
-                        if (canProceed) {
-                          // 나가기
-                          blocker.proceed();
-                        }
-                      },
-                      width: 76,
-                    },
-                  ]
-                : [
-                    {
-                      text: "네",
-                      color: "primary",
-                      onClick: () => {
-                        blocker.proceed();
-                      },
-                      width: 76,
-                    },
-                  ]
-            }
-          />
-        )}
+      <QuizCreationModal
+        isQuizCreationInfoUpdated={isQuizCreationInfoUpdated}
+        hasReachedQuizBasicInfoStep={hasReachedQuizBasicInfoStep}
+        isComplete={isComplete}
+        setIsComplete={setIsComplete}
+        validateAndRequestQuiz={async () =>
+          validateAndRequestQuiz({
+            quizCreationInfo,
+            isTemporary: true,
+          })
+        }
+      />
     </section>
   );
 }

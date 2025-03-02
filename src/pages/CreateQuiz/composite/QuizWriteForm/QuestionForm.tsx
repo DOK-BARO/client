@@ -25,10 +25,10 @@ import {
   quizGuideStepAtom,
 } from "@/store/quizAtom";
 import QuizWriteGuideBubble from "../QuizWriteGuideBubble/QuizWriteGuideBubble";
-import { useValidateQuizForm } from "@/hooks/useValidateQuizForm";
 import ImageLayer from "@/components/layout/ImageLayer/ImageLayer";
 import useImageLayer from "@/hooks/useImageLayer";
 import { gray90 } from "@/styles/abstracts/colors";
+import useValidateQuiz from "@/hooks/useValidateQuiz";
 interface Props {
   questionFormId: number;
   deleteQuestion: (id: number) => void;
@@ -38,8 +38,6 @@ interface Props {
     newAnswerType: AnswerType,
   ) => void;
 }
-
-const validateForm = useValidateQuizForm;
 
 const questionTemplates: QuestionTemplateType[] = [
   {
@@ -86,8 +84,9 @@ export default function QuestionForm({
   const [isSubmissionCheckInvalidForm, setIsSubmissionCheckInvalidForm] =
     useState(invalidQuestionFormId === questionFormId);
   const IMAGE_MAX_ERROR_MSG = "*최대 3장까지만 업로드할 수 있습니다.";
+  const { validateQuestionForm } = useValidateQuiz();
 
-  const isWritingValid = validateForm(
+  const isWritingValid = validateQuestionForm(
     quizCreationInfo.questions?.filter(
       (question) => question.id === questionFormId,
     ) ?? [],

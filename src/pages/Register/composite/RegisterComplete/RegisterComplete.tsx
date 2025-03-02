@@ -11,6 +11,7 @@ import { studyGroupService } from "@/services/server/studyGroupService";
 import { useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { ErrorType } from "@/types/ErrorType";
+import PopularQuizBookList from "./composite/PopularQuizBookList/PopularQuizBookList";
 
 export default function RegisterComplete() {
   const [userInfo] = useAtom<RegisterInfoType>(registerInfoAtom);
@@ -40,10 +41,11 @@ export default function RegisterComplete() {
           src={registerCompleteImage}
           alt="회원가입 환영 사진"
           height={500}
+          className={styles["welcome-image"]}
         />
         <div className={styles["welcome-text"]}>
           <p className={styles.greeting}>
-            반갑습니다 <em>{userInfo.nickname}</em> 님!
+            반갑습니다 <strong>{userInfo.nickname}</strong> 님!
           </p>
           <p className={styles.description}>
             {APP_NAME}와 함께 퀴즈를 풀어보세요.
@@ -73,11 +75,13 @@ export default function RegisterComplete() {
               </Button>
             </div>
           </section>
-          <section className={styles["new-quiz"]}>
-            <h4 className={styles["sr-only"]}>이번주 신규 퀴즈</h4>
-            <p>이번주 신규 퀴즈들이에요, 구경해보세요!</p>
-            <div className={styles["new-quiz-container"]}>신규 퀴즈 리스트</div>
-          </section>
+          <article className={styles["popular-quiz"]}>
+            <h4 className={styles["sr-only"]}>이번주 인기 책</h4>
+            <p>이번 주 인기 책을 구경해 보세요!</p>
+            <div className={styles["popular-quiz-container"]}>
+              <PopularQuizBookList />
+            </div>
+          </article>
         </div>
       </div>
     </section>

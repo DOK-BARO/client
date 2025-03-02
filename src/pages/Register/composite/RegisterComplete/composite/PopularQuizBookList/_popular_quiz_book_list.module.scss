@@ -1,0 +1,18 @@
+@use "/src/styles/abstracts/" as *;
+
+.container {
+  display: flex;
+  justify-content: space-between;
+
+  .image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      border: 1px solid $gray-30;
+      max-width: 8rem;
+      height: auto;
+    }
+  }
+}

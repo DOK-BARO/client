@@ -57,7 +57,7 @@ import { queryClient } from "@/services/server/queryClient.ts";
 import { useValidateQuizForm } from "@/hooks/useValidateQuizForm.ts";
 import { convertUrlsToImg } from "@/utils/\bconvertUrlsToImg.ts";
 import toast from "react-hot-toast";
-import isEqual from "fast-deep-equal";
+import useTemporarySave from "@/hooks/useTemporarySave.ts";
 
 export default function Index() {
   const { id } = useParams();
@@ -72,11 +72,34 @@ export default function Index() {
   const [currentUser] = useAtom(currentUserAtom);
   const blocker = useBlocker(true);
   const setPreventLeaveModal = useSetAtom(preventLeaveModalAtom);
-  // const { closeModal: closePreventLeaveModal } = useModal();
-  // const closePreventLeaveModal = () => {
-  //   blocker.reset();
-  // };
-  usePreventLeave();
+
+  usePreventLeave(); // 새로고침
+
+  useEffect(() => {
+    localStorage.setItem("isEditMode", isEditMode ? "true" : "false");
+  }, [isEditMode]);
+
+  // 퀴즈 작성 가이드를 위한 첫 방문 확인
+  const [isFirstVisit, setIsFirstVisit] = useAtom(isFirstVisitAtom);
+  const { updateQuizCreationInfo } = useUpdateQuizCreationInfo();
+
+  useEffect(() => {
+    const firstVisit = localStorage.getItem("firstVisit");
+    if (firstVisit === undefined) {
+      setIsFirstVisit(true);
+    } else if (firstVisit && firstVisit === "false") {
+      setIsFirstVisit(false);
+      updateQuizCreationInfo("questions", null);
+    }
+  }, [isFirstVisit, isEditMode]);
+
+  // 퀴즈 문제 작성 가이드 스텝 초기화
+  const [, setQuizGuideStepAtom] = useAtom(quizGuideStepAtom);
+  useEffect(() => {
+    if (isFirstVisit) {
+      setQuizGuideStepAtom(1);
+    }
+  }, [isFirstVisit]);
 
   const { data: prevQuiz, isLoading: isPrevQuizLoading } = useQuery({
     queryKey: quizKeys.prevDetail(quizId!),
@@ -107,6 +130,7 @@ export default function Index() {
   }, [currentUser]);
 
   useEffect(() => {
+    // 퀴즈 초기화
     async function initializeQuiz() {
       if (isEditMode) {
         const formattedBook: BookType = {
@@ -170,23 +194,6 @@ export default function Index() {
     }
     initializeQuiz();
   }, [prevQuiz, isEditMode, prevBook?.isbn, studyGroupDetail?.name]);
-
-  const [isFirstVisit, setIsFirstVisit] = useAtom(isFirstVisitAtom);
-  const { updateQuizCreationInfo } = useUpdateQuizCreationInfo();
-
-  useEffect(() => {
-    const firstVisit = localStorage.getItem("firstVisit");
-    if (firstVisit === undefined) {
-      setIsFirstVisit(true);
-    } else if (firstVisit && firstVisit === "false") {
-      setIsFirstVisit(false);
-      updateQuizCreationInfo("questions", null);
-    }
-  }, [isFirstVisit, isEditMode]);
-
-  useEffect(() => {
-    localStorage.setItem("isEditMode", isEditMode ? "true" : "false");
-  }, [isEditMode]);
 
   const steps: Step[] = useMemo(
     () => [
@@ -253,37 +260,12 @@ export default function Index() {
   const [isComplete, setIsComplete] = useState<boolean>(false);
 
   useEffect(() => {
-    // // 임시 저장된 퀴즈가 있을 경우
-    // const storedQuizCreationInfo = localStorage.getItem("quizCreationInfo");
-    // if (storedQuizCreationInfo) {
-    //   const parsedQuizInfo = JSON.parse(storedQuizCreationInfo);
-    //   if (
-    //     !(
-    //       parsedQuizInfo.book === null ||
-    //       parsedQuizInfo.description === null ||
-    //       parsedQuizInfo.editScope === null ||
-    //       parsedQuizInfo.questions === null ||
-    //       parsedQuizInfo.title === null ||
-    //       parsedQuizInfo.viewScope === null
-    //     )
-    //   ) {
-    //     if (
-    //       confirm(
-    //         "이전에 작성중이던 퀴즈가 있습니다. 해당 퀴즈를 이어서 작성하시겠습니까?",
-    //       )
-    //     ) {
-    //       setQuizCreationInfo(parsedQuizInfo);
-    //       return;
-    //     }
-    //   }
-    // }
     // 퀴즈 상태 초기화
     if (isEditMode) {
       setCurrentStep(2);
     } else {
       setCurrentStep(0);
     }
-
     resetQuizState();
 
     return () => {
@@ -294,14 +276,6 @@ export default function Index() {
   useEffect(() => {
     setOpenErrorModal(() => openModal);
   }, [setOpenErrorModal]);
-
-  // 퀴즈 문제 작성 가이드 스텝 초기화
-  const [, setQuizGuideStepAtom] = useAtom(quizGuideStepAtom);
-  useEffect(() => {
-    if (isFirstVisit) {
-      setQuizGuideStepAtom(1);
-    }
-  }, [isFirstVisit]);
 
   const [, setCreatedQuizId] = useAtom(createdQuizIdAtom);
 
@@ -518,29 +492,9 @@ export default function Index() {
     openModal();
   };
 
-  const [lastTemporarySavedTime, setLastTemporarySavedTime] = useState<
-    string | null
-  >(null);
-
-  const intervalRef = useRef<number | null>(null);
   const currentStepRef = useRef(currentStep); // currentStep 최신값 저장
   const quizCreationInfoRef = useRef(quizCreationInfo); // quizCreationInfo 최신값 저장
   const prevQuizCreationInfoRef = useRef<QuizFormType | null>(quizCreationInfo);
-  const [isInitialized, setIsInitialized] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (
-      !isInitialized &&
-      quizCreationInfo.book !== null &&
-      quizCreationInfo.book.title !== ""
-    ) {
-      prevQuizCreationInfoRef.current = JSON.parse(
-        JSON.stringify(quizCreationInfoRef.current),
-      );
-
-      setIsInitialized(true);
-    }
-  }, [quizCreationInfo]);
 
   // currentStep 변경 시 최신값 업데이트
   useEffect(() => {
@@ -551,88 +505,6 @@ export default function Index() {
   useEffect(() => {
     quizCreationInfoRef.current = quizCreationInfo;
   }, [quizCreationInfo]);
-
-  useEffect(() => {
-    let validationCheckInterval: number | null = null;
-
-    if (intervalRef.current !== null) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
-
-    if (!isInitialized) {
-      return;
-    }
-
-    const startAutoSaveTimer = () => {
-      intervalRef.current = window.setInterval(async () => {
-        if (
-          isEqual(prevQuizCreationInfoRef.current, quizCreationInfoRef.current)
-        ) {
-          return;
-        }
-
-        const canProceed = await validateAndRequestQuiz({
-          quizCreationInfo: quizCreationInfoRef.current,
-          isTemporary: true,
-          isAutoSave: true,
-        });
-
-        if (!canProceed && intervalRef.current) {
-          // 타이머 중지
-          clearInterval(intervalRef.current);
-          intervalRef.current = null;
-
-          if (!validationCheckInterval) {
-            // 이때부터 5초마다 유효성 체크 시작
-            validationCheckInterval = window.setInterval(async () => {
-              // console.log("5초마다 유효성 체크중");
-              const nowValid = await validateAndRequestQuiz({
-                quizCreationInfo: quizCreationInfoRef.current,
-                isTemporary: true,
-                isAutoSave: true,
-              });
-
-              // 5초마다 유효성 검사했을 때 통과할 경우
-              if (nowValid && validationCheckInterval) {
-                // console.log("5초마다 유효성 체크 통과");
-
-                clearInterval(validationCheckInterval); // 5초 유효성 검사 타이머 중지
-                validationCheckInterval = null;
-                updateLastSavedTime();
-                startAutoSaveTimer(); // 30초 타이머 다시 시작
-              }
-            }, 5000);
-          }
-        } else {
-          updateLastSavedTime();
-        }
-      }, 30000);
-    };
-
-    const updateLastSavedTime = () => {
-      const now = new Date();
-      const hours = now.getHours();
-      const minutes = now.getMinutes();
-      const period = hours < 12 ? "오전" : "오후";
-      const formattedHours = hours % 12 || 12;
-      const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
-      const formattedTime = `${period} ${formattedHours}시 ${formattedMinutes}분`;
-
-      setLastTemporarySavedTime(formattedTime);
-    };
-
-    startAutoSaveTimer();
-
-    return () => {
-      if (intervalRef.current !== null) {
-        clearInterval(intervalRef.current);
-      }
-      if (validationCheckInterval !== null) {
-        clearInterval(validationCheckInterval);
-      }
-    };
-  }, [isInitialized]);
 
   const validateAndRequestQuiz = async ({
     quizCreationInfo,
@@ -669,6 +541,13 @@ export default function Index() {
 
     return true;
   };
+
+  const { lastTemporarySavedTime } = useTemporarySave({
+    quizCreationInfo,
+    quizCreationInfoRef,
+    prevQuizCreationInfoRef,
+    validateAndRequestQuiz,
+  });
 
   const handleStepProgression = async () => {
     const canProceed = await validateAndRequestQuiz({

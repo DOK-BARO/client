@@ -553,32 +553,64 @@ export default function Index() {
   }, [quizCreationInfo]);
 
   useEffect(() => {
+    let validationCheckInterval: number | null = null;
+
     if (intervalRef.current !== null) {
       clearInterval(intervalRef.current);
+      intervalRef.current = null;
     }
 
     if (!isInitialized) {
       return;
     }
 
-    intervalRef.current = window.setInterval(async () => {
-      // console.log(prevQuizCreationInfoRef.current, quizCreationInfoRef.current);
-      if (
-        isEqual(prevQuizCreationInfoRef.current, quizCreationInfoRef.current)
-      ) {
-        return;
-      }
+    const startAutoSaveTimer = () => {
+      intervalRef.current = window.setInterval(async () => {
+        if (
+          isEqual(prevQuizCreationInfoRef.current, quizCreationInfoRef.current)
+        ) {
+          return;
+        }
 
-      const canProceed = await validateAndRequestQuiz({
-        quizCreationInfo: quizCreationInfoRef.current, // 자동 임시저장일 경우 ref 사용
-        isTemporary: true,
-        isAutoSave: true,
-      });
+        const canProceed = await validateAndRequestQuiz({
+          quizCreationInfo: quizCreationInfoRef.current,
+          isTemporary: true,
+          isAutoSave: true,
+        });
 
-      if (!canProceed) {
-        return;
-      }
+        if (!canProceed && intervalRef.current) {
+          // 타이머 중지
+          clearInterval(intervalRef.current);
+          intervalRef.current = null;
 
+          if (!validationCheckInterval) {
+            // 이때부터 5초마다 유효성 체크 시작
+            validationCheckInterval = window.setInterval(async () => {
+              // console.log("5초마다 유효성 체크중");
+              const nowValid = await validateAndRequestQuiz({
+                quizCreationInfo: quizCreationInfoRef.current,
+                isTemporary: true,
+                isAutoSave: true,
+              });
+
+              // 5초마다 유효성 검사했을 때 통과할 경우
+              if (nowValid && validationCheckInterval) {
+                // console.log("5초마다 유효성 체크 통과");
+
+                clearInterval(validationCheckInterval); // 5초 유효성 검사 타이머 중지
+                validationCheckInterval = null;
+                updateLastSavedTime();
+                startAutoSaveTimer(); // 30초 타이머 다시 시작
+              }
+            }, 5000);
+          }
+        } else {
+          updateLastSavedTime();
+        }
+      }, 30000);
+    };
+
+    const updateLastSavedTime = () => {
       const now = new Date();
       const hours = now.getHours();
       const minutes = now.getMinutes();
@@ -588,11 +620,16 @@ export default function Index() {
       const formattedTime = `${period} ${formattedHours}시 ${formattedMinutes}분`;
 
       setLastTemporarySavedTime(formattedTime);
-    }, 30000); // 30초마다 실행
+    };
+
+    startAutoSaveTimer();
 
     return () => {
       if (intervalRef.current !== null) {
         clearInterval(intervalRef.current);
+      }
+      if (validationCheckInterval !== null) {
+        clearInterval(validationCheckInterval);
       }
     };
   }, [isInitialized]);

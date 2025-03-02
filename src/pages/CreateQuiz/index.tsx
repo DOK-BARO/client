@@ -410,10 +410,16 @@ export default function Index() {
     return true;
   };
 
-  const isQuizCreationInfoUpdated = !isEqual(
-    prevQuizCreationInfoRef.current,
-    quizCreationInfoRef.current,
-  );
+  const [isQuizCreationInfoUpdated, setIsQuizCreationInfoUpdated] =
+    useState<boolean>(false);
+
+  useEffect(() => {
+    const isUpdated = !isEqual(
+      prevQuizCreationInfoRef.current,
+      quizCreationInfoRef.current,
+    );
+    setIsQuizCreationInfoUpdated(isUpdated);
+  }, [quizCreationInfoRef.current, prevQuizCreationInfoRef.current]);
 
   // 퀴즈 임시 저장
   const { lastTemporarySavedTime } = useTemporarySave({

@@ -25,7 +25,7 @@ const useCodeInput = () => {
     setCodeList(newCodeList);
 
     // 다음 칸으로 포커스 이동
-    if (value.length === 1 && index < 5) {
+    if (index < 5) {
       requestAnimationFrame(() => {
         const nextInput = document.getElementById(`code-input-${index + 1}`);
         if (nextInput) {

@@ -92,7 +92,15 @@ export default function QuizCreationModal({
                 onClick: async () => {
                   // 임시저장 하고 나가기
                   const canProceed = await validateAndRequestQuiz();
+
                   if (canProceed) {
+                    // await queryClient.invalidateQueries({
+                    //   queryKey: quizKeys.myQuiz({
+                    //     temporary: true,
+                    //     page: "1",
+                    //   }),
+                    // });
+
                     blocker.proceed();
                   }
                 },

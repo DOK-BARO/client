@@ -52,7 +52,7 @@ export default function DraftQuiz() {
   };
 
   const { isLoading, data: myQuizzesData } = useQuery({
-    queryKey: quizKeys.solvedQuiz(params),
+    queryKey: quizKeys.myQuiz(params),
     queryFn: () => quizService.fetchMyMadeQuizzes(params),
     enabled: isLoggedIn,
   });

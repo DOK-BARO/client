@@ -243,10 +243,6 @@ export default function Index() {
       queryClient.invalidateQueries({
         queryKey: quizKeys.detail(editQuizId),
       });
-
-      queryClient.invalidateQueries({
-        queryKey: quizKeys.myQuiz({ page: "1" }),
-      });
     },
     onPermanentSuccess: (editQuizId) => {
       queryClient.invalidateQueries({
@@ -425,7 +421,6 @@ export default function Index() {
   const { lastTemporarySavedTime } = useTemporarySave({
     quizCreationInfo,
     quizCreationInfoRef,
-    isQuizCreationInfoUpdated,
     prevQuizCreationInfoRef,
     validateAndRequestQuiz,
   });

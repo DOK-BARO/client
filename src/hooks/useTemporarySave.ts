@@ -59,6 +59,11 @@ const useTemporarySave = ({
 
     const startAutoSaveTimer = () => {
       intervalRef.current = window.setInterval(async () => {
+        // console.log("isQuizCreationInfoUpdated", isQuizCreationInfoUpdated);
+        // console.log(
+        //   quizCreationInfoRef.current,
+        //   prevQuizCreationInfoRef.current,
+        // );
         if (!isQuizCreationInfoUpdated) {
           return;
         }
@@ -68,6 +73,7 @@ const useTemporarySave = ({
           isTemporary: true,
           isAutoSave: true,
         });
+        // console.log("30초마다 임시저장", canProceed);
 
         if (!canProceed && intervalRef.current) {
           // 타이머 중지
@@ -77,7 +83,7 @@ const useTemporarySave = ({
           if (!validationCheckInterval) {
             // 이때부터 5초마다 유효성 체크 시작
             validationCheckInterval = window.setInterval(async () => {
-              // console.log("5초마다 유효성 체크중");
+              //   console.log("5초마다 유효성 체크중");
               const nowValid = await validateAndRequestQuiz({
                 quizCreationInfo: quizCreationInfoRef.current,
                 isTemporary: true,

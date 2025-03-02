@@ -55,25 +55,70 @@ import QuizCreationModal from "./composite/QuizCreationModal/QuizCreationModal";
 export default function Index() {
   const { id } = useParams();
   const quizId: number = parseInt(id!);
+
+  const [quizCreationInfo, setQuizCreationInfo] = useAtom(quizCreationInfoAtom);
+  const [currentStep, setCurrentStep] = useAtom(quizCreationStepAtom);
+
   const [isEditMode] = useState<boolean>(!!quizId);
+  const [isFirstVisit] = useAtom(isFirstVisitAtom);
+  const [completionStatus] = useAtom(stepsCompletionStatusAtom);
 
   useEffect(() => {
     localStorage.setItem("isEditMode", isEditMode ? "true" : "false");
   }, [isEditMode]);
 
-  const [quizCreationInfo, setQuizCreationInfo] = useAtom(quizCreationInfoAtom);
-  const [isFirstVisit] = useAtom(isFirstVisitAtom);
-
-  const setPreventLeaveModal = useSetAtom(preventLeaveModalAtom);
-  const [completionStatus] = useAtom(stepsCompletionStatusAtom);
-
   usePreventLeave(); // 새로고침
   useQuizGuide(isEditMode); // 퀴즈 작성 가이드라인
+
+  const setPreventLeaveModal = useSetAtom(preventLeaveModalAtom);
+  const { isModalOpen, openModal, closeModal } = useModal();
+  const [errorModalTitle, setErrorModalTitle] = useAtom(errorModalTitleAtom);
+
+  const [, setOpenErrorModal] = useAtom(openErrorModalAtom);
+  const resetQuizState = useSetAtom(resetQuizCreationStateAtom);
+  const resetBookState = useSetAtom(resetQuizCreationBookStateAtom);
+  const [isComplete, setIsComplete] = useState<boolean>(false);
+
+  useEffect(() => {
+    setOpenErrorModal(() => openModal);
+  }, [setOpenErrorModal]);
 
   // 퀴즈 생성 각 단계
   const steps = useMemo(() => {
     return GetCreationQuizSteps({ completionStatus, isFirstVisit, isEditMode });
   }, [completionStatus, isFirstVisit, isEditMode]);
+  const endStep = steps.length - 1;
+
+  const { validateQuestionForm, checkNullFieldsInQuiz } = useValidateQuiz();
+  const [, setInvalidQuestionFormId] = useAtom(invalidQuestionFormIdAtom);
+
+  /* 최신 값을 반영하기 위한 useRef (임시저장에 사용) */
+  const currentStepRef = useRef(currentStep); // currentStep 최신값 저장
+  const quizCreationInfoRef = useRef(quizCreationInfo); // quizCreationInfo 최신값 저장
+  const prevQuizCreationInfoRef = useRef<QuizFormType | null>(quizCreationInfo);
+
+  // currentStep 변경 시 최신값 업데이트
+  useEffect(() => {
+    currentStepRef.current = currentStep;
+  }, [currentStep]);
+
+  // quizCreationInfo 변경 시 최신값 업데이트
+  useEffect(() => {
+    quizCreationInfoRef.current = quizCreationInfo;
+  }, [quizCreationInfo]);
+
+  useEffect(() => {
+    if (isEditMode) {
+      setCurrentStep(2);
+    } else {
+      setCurrentStep(0);
+    }
+    resetQuizState();
+
+    return () => {
+      resetBookState();
+    };
+  }, []);
 
   const { data: prevQuiz, isLoading: isPrevQuizLoading } = useQuery({
     queryKey: quizKeys.prevDetail(quizId!),
@@ -94,8 +139,8 @@ export default function Index() {
     enabled: isEditMode && !!prevQuiz?.studyGroupId,
   });
 
+  // 퀴즈 수정일 경우, 이전 퀴즈 정보를 기반으로 한 퀴즈 상태 초기화
   useEffect(() => {
-    // 퀴즈 수정일 경우, 이전 퀴즈 정보를 기반으로 한 퀴즈 상태 초기화
     const initializeQuiz = async () => {
       const formattedBook: BookType = {
         id: prevBook?.id ?? -1,
@@ -159,32 +204,6 @@ export default function Index() {
       initializeQuiz();
     }
   }, [prevQuiz, isEditMode, prevBook?.isbn, studyGroupDetail?.name]);
-
-  const [currentStep, setCurrentStep] = useAtom(quizCreationStepAtom);
-  const [errorModalTitle] = useAtom(errorModalTitleAtom);
-  const { isModalOpen, openModal, closeModal } = useModal();
-  const [, setOpenErrorModal] = useAtom(openErrorModalAtom);
-  const resetQuizState = useSetAtom(resetQuizCreationStateAtom);
-  const resetBookState = useSetAtom(resetQuizCreationBookStateAtom);
-  const [isComplete, setIsComplete] = useState<boolean>(false);
-
-  useEffect(() => {
-    // 퀴즈 상태 초기화
-    if (isEditMode) {
-      setCurrentStep(2);
-    } else {
-      setCurrentStep(0);
-    }
-    resetQuizState();
-
-    return () => {
-      resetBookState();
-    };
-  }, []);
-
-  useEffect(() => {
-    setOpenErrorModal(() => openModal);
-  }, [setOpenErrorModal]);
 
   const [, setCreatedQuizId] = useAtom(createdQuizIdAtom);
 
@@ -346,34 +365,14 @@ export default function Index() {
     if (!isTemporary) {
       setIsComplete(true);
     }
-
     return;
   };
-
-  const endStep = steps.length - 1;
-  const { validateQuestionForm, checkNullFieldsInQuiz } = useValidateQuiz();
-  const [, setErrorModalTitle] = useAtom(errorModalTitleAtom);
-  const [, setInvalidQuestionFormId] = useAtom(invalidQuestionFormIdAtom);
 
   const notValidCallBack = (errorTitle: string, questionId: number) => {
     setErrorModalTitle(errorTitle);
     setInvalidQuestionFormId(questionId);
     openModal();
   };
-
-  const currentStepRef = useRef(currentStep); // currentStep 최신값 저장
-  const quizCreationInfoRef = useRef(quizCreationInfo); // quizCreationInfo 최신값 저장
-  const prevQuizCreationInfoRef = useRef<QuizFormType | null>(quizCreationInfo);
-
-  // currentStep 변경 시 최신값 업데이트
-  useEffect(() => {
-    currentStepRef.current = currentStep;
-  }, [currentStep]);
-
-  // quizCreationInfo 변경 시 최신값 업데이트
-  useEffect(() => {
-    quizCreationInfoRef.current = quizCreationInfo;
-  }, [quizCreationInfo]);
 
   const validateAndRequestQuiz = async ({
     quizCreationInfo,
@@ -385,18 +384,19 @@ export default function Index() {
     isAutoSave?: boolean;
   }): Promise<boolean> => {
     if (currentStepRef.current >= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO) {
-      const isValid = validateQuestionForm(
+      const isQuestionFormValid = validateQuestionForm(
         quizCreationInfo.questions ?? [], // 최신 quizCreationInfo 사용
         notValidCallBack,
         setInvalidQuestionFormId,
         isTemporary,
         isAutoSave,
       );
-      if (!isValid) {
+
+      if (!isQuestionFormValid) {
         return false;
       }
 
-      if (isValid && isTemporary) {
+      if (isTemporary) {
         await requestQuiz({ isTemporary: true, isAutoSave, quizCreationInfo });
       }
     } else if (currentStepRef.current == endStep) {
@@ -407,7 +407,6 @@ export default function Index() {
     prevQuizCreationInfoRef.current = JSON.parse(
       JSON.stringify(quizCreationInfoRef.current),
     );
-
     return true;
   };
 
@@ -420,8 +419,8 @@ export default function Index() {
   const { lastTemporarySavedTime } = useTemporarySave({
     quizCreationInfo,
     quizCreationInfoRef,
-    prevQuizCreationInfoRef,
     isQuizCreationInfoUpdated,
+    prevQuizCreationInfoRef,
     validateAndRequestQuiz,
   });
 
@@ -467,12 +466,12 @@ export default function Index() {
     }
   };
 
+  const hasReachedQuizBasicInfoStep =
+    currentStep >= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO;
+
   if (isPrevQuizLoading || isBookLoading || isStudyGroupLoading) {
     return <LoadingSpinner pageCenter width={40} />;
   }
-
-  const hasReachedQuizBasicInfoStep =
-    currentStep >= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO;
 
   return (
     <section className={styles["container"]}>

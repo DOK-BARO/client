@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { QuizFormType } from "@/types/QuizType";
-import isEqual from "fast-deep-equal";
 
 interface Props {
   quizCreationInfo: QuizFormType;
   quizCreationInfoRef: React.MutableRefObject<QuizFormType>;
   prevQuizCreationInfoRef: React.MutableRefObject<QuizFormType | null>;
+  isQuizCreationInfoUpdated: boolean;
   validateAndRequestQuiz: ({
     quizCreationInfo,
     isTemporary,
@@ -21,6 +21,7 @@ const useTemporarySave = ({
   quizCreationInfo,
   quizCreationInfoRef,
   prevQuizCreationInfoRef,
+  isQuizCreationInfoUpdated,
   validateAndRequestQuiz,
 }: Props) => {
   const intervalRef = useRef<number | null>(null);
@@ -58,9 +59,7 @@ const useTemporarySave = ({
 
     const startAutoSaveTimer = () => {
       intervalRef.current = window.setInterval(async () => {
-        if (
-          isEqual(prevQuizCreationInfoRef.current, quizCreationInfoRef.current)
-        ) {
+        if (!isQuizCreationInfoUpdated) {
           return;
         }
 

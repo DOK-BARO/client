@@ -58,6 +58,7 @@ import { useValidateQuizForm } from "@/hooks/useValidateQuizForm.ts";
 import { convertUrlsToImg } from "@/utils/\bconvertUrlsToImg.ts";
 import toast from "react-hot-toast";
 import useTemporarySave from "@/hooks/useTemporarySave.ts";
+import isEqual from "fast-deep-equal";
 
 export default function Index() {
   const { id } = useParams();
@@ -70,7 +71,12 @@ export default function Index() {
   const [quizCreationInfo, setQuizCreationInfo] = useAtom(quizCreationInfoAtom);
   const [preventLeaveModal] = useAtom(preventLeaveModalAtom);
   const [currentUser] = useAtom(currentUserAtom);
-  const blocker = useBlocker(true);
+  const blocker = useBlocker(() => {
+    if (isQuizCreationInfoUpdated) {
+      return true; // 이동 차단
+    }
+    return false; // 허용
+  });
   const setPreventLeaveModal = useSetAtom(preventLeaveModalAtom);
 
   usePreventLeave(); // 새로고침
@@ -542,10 +548,15 @@ export default function Index() {
     return true;
   };
 
+  const isQuizCreationInfoUpdated = !isEqual(
+    prevQuizCreationInfoRef.current,
+    quizCreationInfoRef.current,
+  );
   const { lastTemporarySavedTime } = useTemporarySave({
     quizCreationInfo,
     quizCreationInfoRef,
     prevQuizCreationInfoRef,
+    isQuizCreationInfoUpdated,
     validateAndRequestQuiz,
   });
 
@@ -647,63 +658,66 @@ export default function Index() {
         />
       )}
 
-      {currentUser && preventLeaveModal && blocker.state === "blocked" && (
-        <Modal
-          contents={[
-            {
-              title:
-                currentStep >= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO
-                  ? "이 페이지를 벗어나면 변경사항이 저장되지 않을 수 있어요. 임시 저장을 하시겠습니까?"
-                  : "정말 페이지를 나가시겠어요?",
-              content: <></>,
-            },
-          ]}
-          closeModal={() => {
-            blocker.reset();
-          }}
-          showHeaderCloseButton={true}
-          bottomButtons={
-            currentStep >= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO
-              ? [
-                  {
-                    text: "아니오",
-                    color: "primary-border",
-                    onClick: () => {
-                      // 임시저장하지 않고 나가기
-                      blocker.proceed();
-                    },
-                    width: 76,
-                  },
-                  {
-                    text: "네",
-                    color: "primary",
-                    onClick: async () => {
-                      // 임시저장
-                      const canProceed = await validateAndRequestQuiz({
-                        quizCreationInfo,
-                        isTemporary: true,
-                      });
-                      if (canProceed) {
-                        // 나가기
+      {currentUser &&
+        preventLeaveModal &&
+        blocker.state === "blocked" &&
+        isQuizCreationInfoUpdated && (
+          <Modal
+            contents={[
+              {
+                title:
+                  currentStep >= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO
+                    ? "이 페이지를 벗어나면 변경사항이 저장되지 않을 수 있어요. 임시 저장을 하시겠습니까?"
+                    : "정말 페이지를 나가시겠어요?",
+                content: <></>,
+              },
+            ]}
+            closeModal={() => {
+              blocker.reset();
+            }}
+            showHeaderCloseButton={true}
+            bottomButtons={
+              currentStep >= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO
+                ? [
+                    {
+                      text: "아니오",
+                      color: "primary-border",
+                      onClick: () => {
+                        // 임시저장하지 않고 나가기
                         blocker.proceed();
-                      }
+                      },
+                      width: 76,
                     },
-                    width: 76,
-                  },
-                ]
-              : [
-                  {
-                    text: "네",
-                    color: "primary",
-                    onClick: () => {
-                      blocker.proceed();
+                    {
+                      text: "네",
+                      color: "primary",
+                      onClick: async () => {
+                        // 임시저장
+                        const canProceed = await validateAndRequestQuiz({
+                          quizCreationInfo,
+                          isTemporary: true,
+                        });
+                        if (canProceed) {
+                          // 나가기
+                          blocker.proceed();
+                        }
+                      },
+                      width: 76,
                     },
-                    width: 76,
-                  },
-                ]
-          }
-        />
-      )}
+                  ]
+                : [
+                    {
+                      text: "네",
+                      color: "primary",
+                      onClick: () => {
+                        blocker.proceed();
+                      },
+                      width: 76,
+                    },
+                  ]
+            }
+          />
+        )}
     </section>
   );
 }

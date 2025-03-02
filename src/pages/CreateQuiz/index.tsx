@@ -118,7 +118,7 @@ export default function Index() {
     return () => {
       resetBookState();
     };
-  }, []);
+  }, [quizId, isEditMode]);
 
   const { data: prevQuiz, isLoading: isPrevQuizLoading } = useQuery({
     queryKey: quizKeys.prevDetail(quizId!),
@@ -216,7 +216,7 @@ export default function Index() {
       }
       // 쿼리 무효화
       queryClient.invalidateQueries({
-        queryKey: quizKeys.detail(quizId),
+        queryKey: quizKeys.prevDetail(quizId),
       });
     },
     onPermanentSuccess: (quizId) => {
@@ -241,7 +241,10 @@ export default function Index() {
       }
       // 쿼리 무효화
       queryClient.invalidateQueries({
-        queryKey: quizKeys.detail(editQuizId),
+        queryKey: quizKeys.prevDetail(editQuizId),
+      });
+      queryClient.invalidateQueries({
+        queryKey: quizKeys.myQuiz({ page: "1" }),
       });
     },
     onPermanentSuccess: (editQuizId) => {

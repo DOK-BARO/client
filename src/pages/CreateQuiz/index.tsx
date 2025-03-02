@@ -364,6 +364,7 @@ export default function Index() {
     if (!isTemporary) {
       setIsComplete(true);
     }
+
     return;
   };
 
@@ -392,6 +393,7 @@ export default function Index() {
       );
 
       if (!isQuestionFormValid) {
+        setPreventLeaveModal(true);
         return false;
       }
 

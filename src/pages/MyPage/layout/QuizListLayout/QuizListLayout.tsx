@@ -1,4 +1,4 @@
-import { MyQuizDataType } from "@/types/QuizType";
+import { MyDraftQuizDataType, MyQuizDataType } from "@/types/QuizType";
 import styles from "./_quiz_list_layout.module.scss";
 import { useNavigate } from "react-router-dom";
 import { NoDataSection } from "@/components/composite/NoDataSection/NoDataSection";
@@ -13,15 +13,17 @@ import { useState } from "react";
 import SolvedQuizItem from "../../composite/quizItem/SolvedQuizItem/SolvedQuizItem";
 import MyMadeQuizItem from "../../composite/quizItem/MyMadeQuizItem/MyMadeQuizItem";
 import { copyText } from "@/utils/copyText";
+import DraftQuizItem from "../../composite/quizItem/DraftQuizItem/DraftQuizItem";
 interface Props<T extends { sort: string; direction: string }> {
   title: string;
-  quizzes: MyQuizDataType[] | MySolvedQuizDataType[];
+  quizzes: MyQuizDataType[] | MySolvedQuizDataType[] | MyDraftQuizDataType[];
   titleWhenNoData: string;
   buttonNameWhenNoData: string;
   onClickBtnWhenNoData: (e: React.MouseEvent<HTMLButtonElement>) => void;
   handleOptionClick: (filter: T) => void;
   filterCriteria: T;
   filterOptions: FilterOptionType<T>[];
+  quizListType: "made" | "solved" | "draft";
 }
 export default function QuizListLayout<
   T extends { sort: string; direction: string },
@@ -34,6 +36,7 @@ export default function QuizListLayout<
   handleOptionClick,
   filterCriteria,
   filterOptions,
+  quizListType,
 }: Props<T>) {
   const navigate = useNavigate();
   const { isModalOpen, openModal, closeModal } = useModal();
@@ -115,31 +118,49 @@ export default function QuizListLayout<
 
               const formattedDate: string = `${year}년 ${month}월 ${date}일`;
 
-              return "quiz" in myQuiz ? (
-                <SolvedQuizItem
-                  key={index}
-                  myQuiz={myQuiz as MySolvedQuizDataType}
-                  onReSolveQuiz={handleReSolveQuiz}
-                  formattedDate={formattedDate}
-                  onCopyQuizLink={handleCopyQuizLink}
-                />
-              ) : (
-                <MyMadeQuizItem
-                  key={index}
-                  myQuiz={myQuiz as MyQuizDataType}
-                  onModifyQuiz={handleModifyQuiz}
-                  formattedDate={formattedDate}
-                  onClickDelete={handleClickDelete}
-                  onCopyQuizLink={handleCopyQuizLink}
-                />
-              );
+              switch (quizListType) {
+                case "solved":
+                  return (
+                    <SolvedQuizItem
+                      key={index}
+                      myQuiz={myQuiz as MySolvedQuizDataType}
+                      onReSolveQuiz={handleReSolveQuiz}
+                      formattedDate={formattedDate}
+                      onCopyQuizLink={handleCopyQuizLink}
+                    />
+                  );
+                case "made":
+                  return (
+                    <MyMadeQuizItem
+                      key={index}
+                      myQuiz={myQuiz as MyQuizDataType}
+                      onModifyQuiz={handleModifyQuiz}
+                      formattedDate={formattedDate}
+                      onClickDelete={handleClickDelete}
+                      onCopyQuizLink={handleCopyQuizLink}
+                    />
+                  );
+                case "draft":
+                  return (
+                    <DraftQuizItem
+                      key={index}
+                      myQuiz={myQuiz as MyDraftQuizDataType}
+                      onModifyQuiz={handleModifyQuiz}
+                      formattedDate={formattedDate}
+                      onClickDelete={handleClickDelete}
+                      onCopyQuizLink={handleCopyQuizLink}
+                    />
+                  );
+                default:
+                  return null;
+              }
             },
           )}
       </ol>
       {isModalOpen && (
         <Modal
           closeModal={closeModal}
-          title={"퀴즈를 삭제하시겠습니까?"}
+          title={"퀴즈를 삭제하시겠어요?"}
           bottomButtons={[
             { text: "취소", color: "white", onClick: closeModal },
             {

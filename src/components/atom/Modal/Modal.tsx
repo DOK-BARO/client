@@ -14,6 +14,7 @@ export interface BottomButtonType {
   text: string;
   onClick: () => void;
   disabled?: boolean;
+  width?: number;
 }
 
 interface Props {
@@ -35,7 +36,7 @@ const Modal: React.FC<Props> = ({
 }) => {
   return (
     <div className={styles["modal-backdrop"]}>
-      <div className={styles["modal-view"]} style={{ width: width }}>
+      <div className={styles["modal-view"]} style={{ width }}>
         <header className={styles["modal-header"]}>
           {title && <h4 className={styles.title}>{title}</h4>}
 
@@ -75,6 +76,7 @@ const Modal: React.FC<Props> = ({
                   onClick={button.onClick}
                   size="small"
                   disabled={button.disabled}
+                  width={button.width}
                 >
                   {button.text}
                 </Button>

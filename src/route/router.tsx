@@ -28,6 +28,9 @@ const MyMadeQuiz = lazy(
 const SolvedQuiz = lazy(
   () => import("@/pages/MyPage/composite/SolvedQuiz/SolvedQuiz"),
 );
+const DraftQuiz = lazy(
+  () => import("@/pages/MyPage/composite/DraftQuiz/DraftQuiz"),
+);
 const MyStudyGroups = lazy(
   () => import("@/pages/MyPage/composite/MyStudyGroups/MyStudyGroups"),
 );
@@ -138,6 +141,10 @@ const router = createBrowserRouter([
               {
                 path: ROUTES.MY_MADE_QUIZ,
                 element: <MyMadeQuiz />,
+              },
+              {
+                path: ROUTES.DRAFT_QUIZ,
+                element: <DraftQuiz />,
               },
               {
                 path: ROUTES.SOLVED_QUIZ,

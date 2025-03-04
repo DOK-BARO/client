@@ -8,14 +8,14 @@ import useFilter from "@/hooks/useFilter";
 import { mySolvedQuizPaginationAtom } from "@/store/paginationAtom";
 import Pagination from "@/components/composite/Pagination/Pagination";
 import { FilterOptionType } from "@/components/composite/ListFilter/ListFilter";
-import { MySolvedQuizzesFetchType } from "@/types/ParamsType";
+import { MyMadeQuizzesFetchType } from "@/types/ParamsType";
 import { useEffect, useMemo } from "react";
 import ROUTES from "@/data/routes";
-import { MySolvedQuizzesFilterType } from "@/types/FilterType";
-import { mySolvedQuizFilterAtom } from "@/store/filterAtom";
+import { MyDraftQuizzesFilterType } from "@/types/FilterType";
+import { myDraftQuizFilterAtom } from "@/store/filterAtom";
 import { isLoggedInAtom } from "@/store/userAtom";
 
-const filterOptions: FilterOptionType<MySolvedQuizzesFilterType>[] = [
+const filterOptions: FilterOptionType<MyDraftQuizzesFilterType>[] = [
   {
     filter: {
       sort: "CREATED_AT",
@@ -32,27 +32,28 @@ const filterOptions: FilterOptionType<MySolvedQuizzesFilterType>[] = [
   },
 ];
 
-export default function SolvedQuiz() {
+export default function DraftQuiz() {
   const navigate = useNavigate();
   const [isLoggedIn] = useAtom(isLoggedInAtom);
-  const [filterCriteria, setFilterCriteria] = useAtom(mySolvedQuizFilterAtom);
-  useFilter<MySolvedQuizzesFilterType>(setFilterCriteria);
+  const [filterCriteria, setFilterCriteria] = useAtom(myDraftQuizFilterAtom);
+  useFilter<MyDraftQuizzesFilterType>(setFilterCriteria);
 
   const [paginationState, setPaginationState] = useAtom(
     mySolvedQuizPaginationAtom,
   );
 
   const totalPagesLength = paginationState.totalPagesLength;
-  const params: MySolvedQuizzesFetchType = {
+  const params: MyMadeQuizzesFetchType = {
     page: paginationState.currentPage.toString() ?? "1",
     sort: filterCriteria.sort,
     direction: filterCriteria.direction,
     size: "6",
+    temporary: true,
   };
 
   const { isLoading, data: myQuizzesData } = useQuery({
-    queryKey: quizKeys.solvedQuiz(params),
-    queryFn: async () => await quizService.fetchMySolvedQuizzes(params),
+    queryKey: quizKeys.myQuiz(params),
+    queryFn: () => quizService.fetchMyMadeQuizzes(params),
     enabled: isLoggedIn,
   });
 
@@ -70,7 +71,7 @@ export default function SolvedQuiz() {
     }
   }, [endPageNumber]);
 
-  const handleOptionClick = (filter: MySolvedQuizzesFilterType) => {
+  const handleOptionClick = (filter: MyDraftQuizzesFilterType) => {
     setFilterCriteria(filter);
   };
 
@@ -85,20 +86,20 @@ export default function SolvedQuiz() {
     shouldRenderDataList && (
       <>
         <QuizListLayout
-          title="푼 퀴즈"
+          title="작성 중인 퀴즈"
           quizzes={myQuizzes}
-          titleWhenNoData="아직 내가 푼 퀴즈가 없어요. 😞"
-          buttonNameWhenNoData="퀴즈 풀러 가기"
+          titleWhenNoData="아직 작성 중인 퀴즈가 없어요. 😞"
+          buttonNameWhenNoData="퀴즈 만들러 가기"
           onClickBtnWhenNoData={handleClickWhenNoData}
           handleOptionClick={handleOptionClick}
           filterCriteria={filterCriteria}
           filterOptions={filterOptions}
-          quizListType="solved"
+          quizListType="draft"
         />
         {shouldRenderPagination ? (
           <Pagination
             type="queryString"
-            parentPage="my/solved-quiz"
+            parentPage="my/draft-quiz"
             paginationState={paginationState}
             setPaginationState={setPaginationState}
           />

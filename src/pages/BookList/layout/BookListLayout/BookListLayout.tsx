@@ -35,7 +35,7 @@ const filterOptions: FilterOptionType<BooksFilterType>[] = [
       sort: "TITLE",
       direction: "ASC",
     },
-    label: "가다나순",
+    label: "가나다순",
   },
   {
     filter: {

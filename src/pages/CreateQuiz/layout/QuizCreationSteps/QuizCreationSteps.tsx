@@ -21,12 +21,16 @@ import {
   openErrorModalAtom,
 } from "@/store/quizAtom";
 import useValidateQuiz from "@/hooks/useValidateQuiz";
+import { useEffect } from "react";
 interface Props {
-  isEditMode: boolean;
+  isNonTemporaryEditMode: boolean;
   steps: Step[];
 }
 
-export default function QuizCreationSteps({ isEditMode, steps }: Props) {
+export default function QuizCreationSteps({
+  isNonTemporaryEditMode,
+  steps,
+}: Props) {
   const [currentStep, setCurrentStep] = useAtom(quizCreationStepAtom);
   const quizInfo = useAtomValue(quizCreationInfoAtom);
   const setInvalidQuestionFormId = useSetAtom(invalidQuestionFormIdAtom);
@@ -34,6 +38,16 @@ export default function QuizCreationSteps({ isEditMode, steps }: Props) {
   const [openModal] = useAtom(openErrorModalAtom);
   const { validateQuestionForm } = useValidateQuiz();
   const isStepEnabled = useIsQuizStepEnabled;
+
+  useEffect(() => {
+    console.log("isNonTemporaryEditMode", isNonTemporaryEditMode);
+  }, [isNonTemporaryEditMode]);
+
+  console.log("바깥 isNonTemporaryEditMode", isNonTemporaryEditMode);
+
+  useEffect(() => {
+    console.log("🔄 QuizCreationSteps 렌더링됨!");
+  }, []);
 
   const notValidCallBack = (errorTitle: string, questionId: number) => {
     setErrorModalTitle(errorTitle);
@@ -96,7 +110,7 @@ export default function QuizCreationSteps({ isEditMode, steps }: Props) {
 
         const firstSubStepOrder = step.subSteps?.[0]?.order;
         const isEditModeDisabledStep =
-          isEditMode &&
+          isNonTemporaryEditMode &&
           (step.order === QUIZ_CREATION_STEP.STUDY_GROUP_SELECT ||
             step.order === QUIZ_CREATION_STEP.BOOK_SELECT);
         const isValidPreviousSteps = isAllPreviousStepsValid(index, steps);

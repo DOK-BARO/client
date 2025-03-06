@@ -59,7 +59,8 @@ export default function Index() {
   const [quizCreationInfo, setQuizCreationInfo] = useAtom(quizCreationInfoAtom);
   const [currentStep, setCurrentStep] = useAtom(quizCreationStepAtom);
 
-  const [isEditMode] = useState<boolean>(!!quizId);
+  const isEditMode: boolean = !!quizId;
+
   const [isFirstVisit] = useAtom(isFirstVisitAtom);
   const [completionStatus] = useAtom(stepsCompletionStatusAtom);
 
@@ -107,8 +108,16 @@ export default function Index() {
     quizCreationInfoRef.current = quizCreationInfo;
   }, [quizCreationInfo]);
 
+  const { data: prevQuiz, isLoading: isPrevQuizLoading } = useQuery({
+    queryKey: quizKeys.prevDetail(quizId!),
+    queryFn: () => (quizId ? quizService.fetchQuizzesDetail(quizId) : null),
+    enabled: isEditMode && !!quizId,
+  });
+
+  const isNonTemporaryEditMode = isEditMode && !prevQuiz?.temporary;
+
   useEffect(() => {
-    if (isEditMode) {
+    if (isNonTemporaryEditMode) {
       setCurrentStep(2);
     } else {
       setCurrentStep(0);
@@ -118,13 +127,7 @@ export default function Index() {
     return () => {
       resetBookState();
     };
-  }, [quizId, isEditMode]);
-
-  const { data: prevQuiz, isLoading: isPrevQuizLoading } = useQuery({
-    queryKey: quizKeys.prevDetail(quizId!),
-    queryFn: () => (quizId ? quizService.fetchQuizzesDetail(quizId) : null),
-    enabled: isEditMode && !!quizId,
-  });
+  }, [isNonTemporaryEditMode]);
 
   const { data: prevBook, isLoading: isBookLoading } = useQuery({
     queryKey: ["bookDetail", prevQuiz?.bookId],
@@ -488,7 +491,10 @@ export default function Index() {
       ) : null}
       <h2 className={styles["sr-only"]}>퀴즈 등록</h2>
       <div className={styles["left-section"]}>
-        <QuizCreationSteps isEditMode={isEditMode} steps={steps} />
+        <QuizCreationSteps
+          isNonTemporaryEditMode={isNonTemporaryEditMode}
+          steps={steps}
+        />
         {currentStep >= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO ? (
           <section>
             <h3 className={styles["sr-only"]}>퀴즈 임시저장</h3>

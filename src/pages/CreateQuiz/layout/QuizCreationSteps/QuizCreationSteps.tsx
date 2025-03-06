@@ -20,7 +20,7 @@ import {
   invalidQuestionFormIdAtom,
   openErrorModalAtom,
 } from "@/store/quizAtom";
-import { useValidateQuizForm } from "@/hooks/useValidateQuizForm";
+import useValidateQuiz from "@/hooks/useValidateQuiz";
 interface Props {
   isEditMode: boolean;
   steps: Step[];
@@ -32,7 +32,7 @@ export default function QuizCreationSteps({ isEditMode, steps }: Props) {
   const setInvalidQuestionFormId = useSetAtom(invalidQuestionFormIdAtom);
   const setErrorModalTitle = useSetAtom(errorModalTitleAtom);
   const [openModal] = useAtom(openErrorModalAtom);
-  const validateQuizForm = useValidateQuizForm;
+  const { validateQuestionForm } = useValidateQuiz();
   const isStepEnabled = useIsQuizStepEnabled;
 
   const notValidCallBack = (errorTitle: string, questionId: number) => {
@@ -46,7 +46,7 @@ export default function QuizCreationSteps({ isEditMode, steps }: Props) {
   ) => {
     if (isLastStep) {
       //유효성 검사
-      const isValid = validateQuizForm(
+      const isValid = validateQuestionForm(
         quizInfo.questions ?? [],
         notValidCallBack,
         setInvalidQuestionFormId,
@@ -119,6 +119,7 @@ export default function QuizCreationSteps({ isEditMode, steps }: Props) {
                 {step.title}
               </span>
               <CheckEllipse
+                alt=""
                 fillOut={
                   isEditModeDisabledStep || !isValidPreviousSteps
                     ? gray40

@@ -51,15 +51,11 @@ export default function LNB({ categories, categoryId }: Props) {
                 color="transparent"
                 size="xsmall"
                 icon={
-                  <ArrowLeft
-                    alt="뒤로가기"
-                    width={20}
-                    height={20}
-                    stroke={gray90}
-                  />
+                  <ArrowLeft alt="" width={20} height={20} stroke={gray90} />
                 }
                 iconOnly
                 onClick={() => navigate(ROUTES.BOOK_LIST)}
+                ariaLabel="뒤로가기"
               />
               <Button
                 size="xsmall"

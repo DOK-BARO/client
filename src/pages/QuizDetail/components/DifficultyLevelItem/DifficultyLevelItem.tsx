@@ -28,7 +28,7 @@ export default function DifficultyLevelItem({ level, data }: Props) {
         <div
           className={styles["percentage-bar"]}
           style={{ width: `${ratePercentage}%` }}
-          aria-hidden="true"
+          aria-hidden={true}
         />
       </div>
       <div className={styles["percentage-count-container"]}>

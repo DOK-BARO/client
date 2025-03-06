@@ -45,6 +45,7 @@ export default function QuizLinkItem({ quizExplanation }: Props) {
           src={quizExplanation.creator.profileImageUrl}
           width={21}
           height={21}
+          alt=""
         />
         <p className={styles.nickname}>{quizExplanation.creator.nickname}</p>
       </div>

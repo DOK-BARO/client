@@ -17,7 +17,7 @@ const useImageLayer = (imageList: string[]): UseImageLayerReturn => {
     undefined,
   );
 
-  // 해설 이미지 클릭 시 확대 보기
+  // 해설 사진 클릭 시 확대 보기
   const handleImageClicked = (image: ImageType) => {
     setClickedImage(image);
   };

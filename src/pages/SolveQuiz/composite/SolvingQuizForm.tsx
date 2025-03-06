@@ -291,7 +291,7 @@ export default function SolvingQuizForm({
   return (
     <section className={styles["container"]}>
       <div className={styles["title-area"]}>
-        <Button size="xsmall" color="white">
+        <Button size="xsmall" color="white" ariaLabel="퀴즈 종류">
           {getQuizType()}
         </Button>
         <div className={styles["title-wrapper"]}>
@@ -302,13 +302,14 @@ export default function SolvingQuizForm({
               }
             >
               {isCorrect ? (
-                <Check stroke={gray00} width={26} height={26} />
+                <Check stroke={gray00} width={26} height={26} alt="" />
               ) : (
                 <Close
                   stroke={gray00}
                   width={26}
                   height={26}
                   strokeWidth={2.1}
+                  alt=""
                 />
               )}
             </div>

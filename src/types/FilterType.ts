@@ -14,6 +14,8 @@ export type QuizzesSortType = "STAR_RATING" | "CREATED_AT" | "UPDATED_AT";
 export type MyMadeQuizzesSortType = "CREATED_AT" | "UPDATED_AT" | "TITLE";
 // 전체 > 내가 푼 퀴즈 정렬 기준
 export type MySolvedQuizzesSortType = "TITLE" | "CREATED_AT";
+// 전체 > 내가 작성 중인 퀴즈 정렬 기준
+export type MyDraftQuizzesSortType = "TITLE" | "CREATED_AT";
 
 // 스터디 그룹 > 내가 안푼 퀴즈 정렬 기준
 export type MyStudyUnSolvedQuizzesSortType = "TITLE" | "CREATED_AT";
@@ -35,6 +37,10 @@ export interface MyMadeQuizzesFilterType
 
 export interface MySolvedQuizzesFilterType
   extends FilterType<MySolvedQuizzesSortType> {}
+
+export interface MyDraftQuizzesFilterType
+  extends FilterType<MyDraftQuizzesSortType> {}
+
 export interface MyStudyUnSolvedQuizzesFilterType
   extends FilterType<MyStudyUnSolvedQuizzesSortType> {}
 export interface MyStudySolvedQuizzesFilterType

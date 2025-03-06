@@ -56,8 +56,9 @@ const Textarea: React.FC<Props> = ({
     <div
       className={`${styles["container"]} ${fullWidth ? styles["full"] : ""}`}
     >
+      {/* props로 받은 label은 기본적으로 숨김 처리 */}
       {label ? (
-        <label className={styles["label"]} htmlFor={id}>
+        <label className={styles["sr-only"]} htmlFor={id}>
           {label}
         </label>
       ) : (

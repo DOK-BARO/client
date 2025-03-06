@@ -36,16 +36,18 @@ export default function CodeInput({
             onChange={(e) => onCodeChange(e, i)}
             onKeyDown={(e) => onKeyDown(e, i)}
             onPaste={onPaste}
-            maxLength={2}
+            maxLength={1}
             color={borderColor}
             isError={!isMatch}
             className={styles["code-input"]}
+            label={`${i}번째 코드`}
+            hideLabel
           />
         ))}
       </div>
       {!isMatch ? (
         <span className={styles["message-container"]}>
-          <XSmall stroke={systemDanger} width={20} height={20} />
+          <XSmall stroke={systemDanger} width={20} height={20} alt="" />
           <p>{errorMessage}</p>
         </span>
       ) : (

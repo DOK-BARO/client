@@ -17,6 +17,7 @@ export default function Toggle({ onClick = () => {}, isActive }: Props) {
           e.stopPropagation();
           onClick();
         }}
+        aria-label=""
       >
         <div className={styles.circle} />
       </button>

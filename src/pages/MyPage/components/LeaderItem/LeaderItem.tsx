@@ -24,6 +24,7 @@ export default function LeaderItem({ member, onDeleteStudyGroupClick }: Props) {
           icon={<img src={exit} alt="" width={16} height={16} />}
           iconOnly
           onClick={onDeleteStudyGroupClick}
+          ariaLabel="스터디 삭제"
         />
       </div>
     </div>

@@ -64,7 +64,7 @@ export default function MyMadeQuizItem({
           <div>
             <div className={styles["right-container-header"]}>
               {myQuiz.studyGroup ? (
-                <p className={styles["study-group-name"]}>
+                <p className={styles["secondary-label"]}>
                   {myQuiz.studyGroup.name}
                 </p>
               ) : (
@@ -73,14 +73,8 @@ export default function MyMadeQuizItem({
               <Button
                 onClick={(e) => onCopyQuizLink(e, myQuiz.id)}
                 iconOnly
-                icon={
-                  <img
-                    src={link}
-                    width={20}
-                    height={20}
-                    alt="퀴즈 공유 링크 복사"
-                  />
-                }
+                icon={<img src={link} width={20} height={20} alt="" />}
+                ariaLabel="퀴즈 공유 링크 복사하기"
               />
             </div>
             <p className={styles.title}>{myQuiz.title}</p>

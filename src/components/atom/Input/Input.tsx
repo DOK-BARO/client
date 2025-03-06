@@ -16,6 +16,7 @@ interface Props {
   message?: string | JSX.Element;
   disabled?: boolean;
   label?: string; // left
+  hideLabel?: boolean;
   rightLabel?: JSX.Element; // right
   leftIcon?: JSX.Element;
   rightIcon?: JSX.Element;
@@ -40,6 +41,7 @@ const Input: React.FC<Props> = ({
   message = "",
   disabled = false,
   label, // left
+  hideLabel = false,
   rightLabel, // right
   leftIcon,
   rightIcon,
@@ -59,7 +61,9 @@ const Input: React.FC<Props> = ({
   return (
     <div className={`${styles.container} ${fullWidth ? styles.full : ""}`}>
       {label || rightLabel ? (
-        <div className={styles["label-container"]}>
+        <div
+          className={`${!hideLabel ? styles["label-container"] : styles["sr-only"]}`}
+        >
           {label ? (
             <label className={styles["label"]} htmlFor={id}>
               {label}

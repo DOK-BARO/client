@@ -79,7 +79,7 @@ function QuestionTemplateTypeUtilButton({
         icon={<selectedOption.Icon width={18} height={18} stroke={gray60} />}
       >
         <h3>{selectedOption.text}</h3>
-        <ArrowDown width={20} height={20} stroke={"#0A090B"} />
+        <ArrowDown width={20} height={20} stroke={"#0A090B"} alt="" />
       </Button>
       {isOpenDropDownList && anchorEl && (
         <QuestionTemplateUtilList list={list} onClick={onClick} />

@@ -21,7 +21,7 @@ import {
   openErrorModalAtom,
 } from "@/store/quizAtom";
 import useValidateQuiz from "@/hooks/useValidateQuiz";
-import { useEffect } from "react";
+
 interface Props {
   isNonTemporaryEditMode: boolean;
   steps: Step[];
@@ -39,21 +39,14 @@ export default function QuizCreationSteps({
   const { validateQuestionForm } = useValidateQuiz();
   const isStepEnabled = useIsQuizStepEnabled;
 
-  useEffect(() => {
-    console.log("isNonTemporaryEditMode", isNonTemporaryEditMode);
-  }, [isNonTemporaryEditMode]);
-
-  console.log("바깥 isNonTemporaryEditMode", isNonTemporaryEditMode);
-
-  useEffect(() => {
-    console.log("🔄 QuizCreationSteps 렌더링됨!");
-  }, []);
-
   const notValidCallBack = (errorTitle: string, questionId: number) => {
     setErrorModalTitle(errorTitle);
     setInvalidQuestionFormId(questionId);
-    openModal!();
+    if (openModal) {
+      openModal();
+    }
   };
+
   const handleStepClick = (
     e: React.MouseEvent<HTMLButtonElement>,
     isLastStep?: boolean,

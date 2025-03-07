@@ -13,14 +13,14 @@ interface Props {
     isQuestionsWritten: boolean;
     isSet: boolean;
   };
-  isFirstVisit: boolean;
-  isEditMode: boolean;
+  // isFirstVisit: boolean;
+  // isEditMode: boolean;
 }
 
 export const GetCreationQuizSteps = ({
   completionStatus,
-  isFirstVisit,
-  isEditMode,
+  // isFirstVisit,
+  // isEditMode,
 }: Props) => [
   {
     order: QUIZ_CREATION_STEP.STUDY_GROUP_SELECT,
@@ -53,12 +53,7 @@ export const GetCreationQuizSteps = ({
         order: QUIZ_CREATION_STEP.QUIZ_WRITE_FORM,
         title: "문제 작성",
         description: "퀴즈의 질문을 작성한 후, 답안을 클릭하여 설정해주세요.",
-        formComponent: () =>
-          isFirstVisit && !isEditMode ? (
-            <QuizWriteGuideForm />
-          ) : (
-            <QuizWriteForm />
-          ),
+        formComponent: () => <QuizWriteForm />,
       },
     ],
     isDone: completionStatus.isQuestionsWritten,

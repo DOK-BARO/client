@@ -389,6 +389,11 @@ export default function Index() {
     isTemporary: boolean;
     isAutoSave?: boolean;
   }): Promise<boolean> => {
+    if (currentStepRef.current == endStep) {
+      setPreventLeaveModal(false);
+      await requestQuiz({ isTemporary, isAutoSave, quizCreationInfo });
+      return false;
+    }
     if (currentStepRef.current >= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO) {
       const isQuestionFormValid = validateQuestionForm(
         quizCreationInfo.questions ?? [], // 최신 quizCreationInfo 사용
@@ -406,10 +411,6 @@ export default function Index() {
       if (isTemporary) {
         await requestQuiz({ isTemporary: true, isAutoSave, quizCreationInfo });
       }
-    } else if (currentStepRef.current == endStep) {
-      setPreventLeaveModal(false);
-      await requestQuiz({ isTemporary, isAutoSave, quizCreationInfo });
-      return false;
     }
     prevQuizCreationInfoRef.current = JSON.parse(
       JSON.stringify(quizCreationInfoRef.current),

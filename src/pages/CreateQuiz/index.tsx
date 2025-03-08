@@ -116,10 +116,12 @@ export default function Index() {
   const isNonTemporaryEditMode = isEditMode && !prevQuiz?.temporary;
 
   useEffect(() => {
-    if (isNonTemporaryEditMode || isTemporarySaved) {
-      setCurrentStep(2);
-    } else {
-      setCurrentStep(0);
+    if (!isTemporarySaved) {
+      if (isNonTemporaryEditMode) {
+        setCurrentStep(2);
+      } else {
+        setCurrentStep(0);
+      }
     }
     resetQuizState();
 

@@ -56,8 +56,6 @@ export default function MyMadeQuiz() {
     enabled: isLoggedIn,
   });
 
-  console.log(myQuizzesData);
-
   const handleClickWhenNoData = () => {
     navigate(ROUTES.CREATE_QUIZ());
   };

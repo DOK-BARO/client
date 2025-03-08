@@ -68,7 +68,7 @@ const useTemporarySave = ({
           isTemporary: true,
           isAutoSave: true,
         });
-        console.log("30초마다 임시저장", canProceed);
+        // console.log("30초마다 임시저장", canProceed);
 
         if (!canProceed && intervalRef.current) {
           // 타이머 중지
@@ -78,7 +78,7 @@ const useTemporarySave = ({
           if (!validationCheckInterval) {
             // 이때부터 5초마다 유효성 체크 시작
             validationCheckInterval = window.setInterval(async () => {
-              console.log("5초마다 유효성 체크중");
+              // console.log("5초마다 유효성 체크중");
               const nowValid = await validateAndRequestQuiz({
                 quizCreationInfo: quizCreationInfoRef.current,
                 isTemporary: true,
@@ -87,7 +87,7 @@ const useTemporarySave = ({
 
               // 5초마다 유효성 검사했을 때 통과할 경우
               if (nowValid && validationCheckInterval) {
-                console.log("5초마다 유효성 체크 통과");
+                // console.log("5초마다 유효성 체크 통과");
 
                 clearInterval(validationCheckInterval); // 5초 유효성 검사 타이머 중지
                 validationCheckInterval = null;

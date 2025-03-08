@@ -1,7 +1,22 @@
-// import React from "react";
-// import styles from "./_book_list.module.scss";
+import { useEffect } from "react";
+import BookListLayout from "./layout/BookListLayout/BookListLayout";
+import { useLocation } from "react-router-dom";
+import useLoginModal from "@/hooks/useLoginModal";
+import LoginModal from "@/components/composite/LoginModal/LoginModal";
 
 export default function Index() {
-  return <div>Index</div>;
+  const { isLoginModalOpen, openLoginModal, closeLoginModal } = useLoginModal();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.openModal) {
+      openLoginModal();
+    }
+  }, [location.state]);
+  return (
+    <>
+      <BookListLayout />
+      {isLoginModalOpen && <LoginModal closeModal={closeLoginModal} />}
+    </>
+  );
 }
-//TODO: 이 페이지 import 확인 필요

@@ -5,12 +5,8 @@ import { lazy } from "react";
 const BaseLayout = lazy(
   () => import("@/components/layout/BaseLayout/BaseLayout.tsx"),
 );
-const BookListLayout = lazy(
-  () => import("@/pages/BookList/layout/BookListLayout/BookListLayout"),
-);
-const BookList = lazy(
-  () => import("@/pages/Home/components/composite/BookList/BookList"),
-);
+
+const BookList = lazy(() => import("@/pages/BookList"));
 const QuizDetail = lazy(() => import("@/pages/QuizDetail"));
 const CreateQuiz = lazy(() => import("@/pages/CreateQuiz"));
 const CreateQuizComplete = lazy(
@@ -31,6 +27,9 @@ const MyMadeQuiz = lazy(
 );
 const SolvedQuiz = lazy(
   () => import("@/pages/MyPage/composite/SolvedQuiz/SolvedQuiz"),
+);
+const DraftQuiz = lazy(
+  () => import("@/pages/MyPage/composite/DraftQuiz/DraftQuiz"),
 );
 const MyStudyGroups = lazy(
   () => import("@/pages/MyPage/composite/MyStudyGroups/MyStudyGroups"),
@@ -85,13 +84,7 @@ const router = createBrowserRouter([
 
       {
         path: ROUTES.BOOK_LIST,
-        element: <BookListLayout />,
-        children: [
-          {
-            path: ROUTES.BOOK_LIST,
-            element: <BookList />,
-          },
-        ],
+        element: <BookList />,
       },
       {
         path: ROUTES.BOOK_DETAIL_SECTION(),
@@ -148,6 +141,10 @@ const router = createBrowserRouter([
               {
                 path: ROUTES.MY_MADE_QUIZ,
                 element: <MyMadeQuiz />,
+              },
+              {
+                path: ROUTES.DRAFT_QUIZ,
+                element: <DraftQuiz />,
               },
               {
                 path: ROUTES.SOLVED_QUIZ,

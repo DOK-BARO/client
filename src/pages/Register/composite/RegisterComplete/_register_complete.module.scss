@@ -5,9 +5,18 @@
     display: flex;
     gap: 8rem;
     margin: 8rem auto;
+
+    .welcome-image {
+      max-width: 50rem;
+      width: 100%;
+      height: auto;
+    }
+
     .welcome-text {
       font-size: 1.7rem;
       font-weight: $font-weight-semibold;
+      flex: 1;
+
       .greeting {
         font-size: 3.2rem;
       }
@@ -17,7 +26,7 @@
         margin-bottom: 8rem;
       }
 
-      p > em {
+      p > strong {
         color: $primary;
       }
 
@@ -29,9 +38,9 @@
         }
       }
 
-      .new-quiz {
+      .popular-quiz {
         margin-top: 6rem;
-        .new-quiz-container {
+        .popular-quiz-container {
           margin-top: 1.6rem;
         }
       }

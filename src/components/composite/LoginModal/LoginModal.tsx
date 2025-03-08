@@ -186,17 +186,22 @@ const LoginModal = ({ closeModal }: Props) => {
                         <Button
                           onClick={handlePasswordVisible}
                           iconOnly
+                          ariaLabel={
+                            isPasswordVisible
+                              ? "비밀번호 숨기기"
+                              : "비밀번호 표시하기"
+                          }
                           icon={
                             isPasswordVisible ? (
                               <Visible
-                                alt="비밀번호 표시 해제"
+                                alt=""
                                 stroke={gray60}
                                 width={24}
                                 height={24}
                               />
                             ) : (
                               <Invisible
-                                alt="비밀번호 표시"
+                                alt=""
                                 stroke={gray60}
                                 width={24}
                                 height={24}
@@ -213,6 +218,7 @@ const LoginModal = ({ closeModal }: Props) => {
                               width={20}
                               height={20}
                               stroke={systemDanger}
+                              alt=""
                             />
                             <p>입력한 정보가 일치하지 않습니다.</p>
                           </span>
@@ -264,6 +270,7 @@ const LoginModal = ({ closeModal }: Props) => {
                               `${socialItem.type?.toLocaleLowerCase()}-button`
                             ]
                           }
+                          ariaLabel={`${socialItem.type?.toLocaleLowerCase()} 로그인 버튼`}
                           onClick={handleSocialAuth}
                           value={socialItem.type}
                         >

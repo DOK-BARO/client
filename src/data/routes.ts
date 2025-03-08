@@ -18,6 +18,7 @@ const ROUTES = {
   MY_PAGE: "/my",
   MY_MADE_QUIZ: "made-quiz",
   SOLVED_QUIZ: "solved-quiz",
+  DRAFT_QUIZ: "draft-quiz",
 
   MY_STUDY_GROUPS: "study-groups",
   MY_STUDY_GROUPS_JOIN: "/my/study-groups/join",

@@ -85,7 +85,11 @@ export default function QuizBookSelectionForm() {
     >
       <Input
         leftIcon={
-          <Search width={20} stroke={isSearchInputClicked ? gray90 : gray60} />
+          <Search
+            alt="책 검색"
+            width={20}
+            stroke={isSearchInputClicked ? gray90 : gray60}
+          />
         }
         rightIcon={isBookSearching ? <LoadingSpinner width={24} /> : undefined}
         onChange={handleSearchBook}
@@ -95,10 +99,12 @@ export default function QuizBookSelectionForm() {
         color={isSearchInputClicked ? "black" : "default"}
         size="large"
         fullWidth
+        label="퀴즈에 사용될 책 검색"
+        hideLabel
       />
 
       {searchedBooks && searchedBooks.length > 0 ? (
-        <ul
+        <ol
           className={`${styles["selection-list"]}`}
           role="listbox"
           aria-label="도서 선택 상자"
@@ -111,23 +117,23 @@ export default function QuizBookSelectionForm() {
               onSelect={handleBookSelect}
             />
           ))}
-        </ul>
+        </ol>
       ) : (
         <>
           {/* 검색 결과가 없고, searchValue가 없는 경우 선택된 책 표시 */}
           {!searchValue && selectedBook && (
-            <div className={styles["selected-book"]}>
+            <ol className={styles["selected-book"]}>
               <BookListItem
                 book={tempSelectedBook ?? selectedBook}
                 isSelected
                 onSelect={handleBookSelect}
               />
-            </div>
+            </ol>
           )}
 
           {/* 검색 결과가 없고, 검색어가 있는 경우 */}
           {searchValue && !isBookSearching && searchedBooks?.length === 0 ? (
-            <ul
+            <ol
               className={styles["selection-list-not-found"]}
               role="listbox"
               aria-label="도서 선택 상자"
@@ -142,7 +148,7 @@ export default function QuizBookSelectionForm() {
                   검색 결과가 없습니다.
                 </p>
               </li>
-            </ul>
+            </ol>
           ) : null}
         </>
       )}

@@ -105,13 +105,11 @@ class ReviewService {
     quizReviewId: number;
     content: string;
   }): Promise<{ id: number } | null> => {
-    // console.log(quizReviewId, content);
     try {
       const response = await axiosInstance.post("/quiz-review-reports", {
         quizReviewId,
         content,
       });
-      // console.log(response);
       return response.data;
     } catch (error) {
       handleAxiosError(error);

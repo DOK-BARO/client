@@ -86,7 +86,6 @@ export default function QuizSettingStudyGroupForm() {
     onSuccess: (data, newStudy) => {
       toast.success("스터디가 생성되었습니다.");
       if (!data) return;
-      // console.log("새롭게 생성된 스터디 그룹 아이디", data.id);
       setNewStudyGroup({
         name: newStudy.name,
         id: data.id,
@@ -173,6 +172,8 @@ export default function QuizSettingStudyGroupForm() {
               onChange={onChangeStudyName}
               className={styles.input}
               size="medium"
+              label="스터디 이름"
+              hideLabel
             />
             <Button
               className={styles["add"]}
@@ -253,7 +254,7 @@ export default function QuizSettingStudyGroupForm() {
           onClick={handleOpenCreateStudyModal}
           icon={
             <QuizPlus
-              alt="스터디 그룹 추가 버튼"
+              alt="스터디 그룹 추가"
               width={20}
               height={20}
               stroke={primary}

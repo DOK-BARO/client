@@ -18,6 +18,7 @@ export default function PasswordValidationMessage({
         <span key={key} className={styles["icon-container"]}>
           <p style={{ color: isValid ? systemSuccess : gray40 }}>{key}</p>
           <Check
+            alt=""
             width={20}
             height={20}
             stroke={isValid ? systemSuccess : gray40}

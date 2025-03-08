@@ -15,8 +15,12 @@ export default function Index() {
       link: ROUTES.SOLVED_QUIZ,
     },
     {
+      title: "작성 중인 퀴즈",
+      link: ROUTES.DRAFT_QUIZ,
+    },
+    {
       title: "내 스터디 그룹",
-      link: "study-groups",
+      link: ROUTES.MY_STUDY_GROUPS,
     },
     {
       title: "계정 설정",

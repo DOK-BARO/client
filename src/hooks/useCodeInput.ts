@@ -12,26 +12,26 @@ const useCodeInput = () => {
     value = value.toUpperCase();
     const newCodeList = [...codeList];
 
-    if (value.length > 1) {
-      // 현재 칸과 다음 칸을 채움
-      newCodeList[index] = value[0];
-      if (index + 1 < newCodeList.length) {
-        newCodeList[index + 1] = value[1];
-      }
-    } else {
-      newCodeList[index] = value;
-    }
+    // if (value.length > 1) {
+    //   // 현재 칸과 다음 칸을 채움
+    //   newCodeList[index] = value[0];
+    //   if (index + 1 < newCodeList.length) {
+    //     newCodeList[index + 1] = value[1];
+    //   }
+    // } else {
+    newCodeList[index] = value;
+    // }
 
     setCodeList(newCodeList);
 
     // 다음 칸으로 포커스 이동
-    if (value.length === 1 && index < 5) {
-      setTimeout(() => {
+    if (index < 5) {
+      requestAnimationFrame(() => {
         const nextInput = document.getElementById(`code-input-${index + 1}`);
         if (nextInput) {
           (nextInput as HTMLInputElement).focus();
         }
-      }, 0);
+      });
     }
   };
 
@@ -48,14 +48,14 @@ const useCodeInput = () => {
           newCodeList[index - 1] = "";
           setCodeList(newCodeList);
 
-          setTimeout(() => {
+          requestAnimationFrame(() => {
             const prevInput = document.getElementById(
               `code-input-${index - 1}`,
             );
             if (prevInput) {
               (prevInput as HTMLInputElement).focus();
             }
-          }, 0);
+          });
         }
       } else {
         // 현재 칸만 삭제
@@ -76,14 +76,14 @@ const useCodeInput = () => {
 
     setCodeList(newCodeList);
 
-    setTimeout(() => {
+    requestAnimationFrame(() => {
       const nextInput = document.getElementById(
         `code-input-${pasteArr.length - 1}`,
       );
       if (nextInput) {
         (nextInput as HTMLInputElement).focus();
       }
-    }, 0);
+    });
 
     // 기본 붙여넣기 동작 방지
     e.preventDefault();

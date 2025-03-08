@@ -216,6 +216,7 @@ export default function QuizShortInfo({
                         textAreaRef={OtherGroundsRef}
                         size="small"
                         rows={1}
+                        label="기타 사유"
                       />
                     </div>
                   ) : null}
@@ -243,7 +244,7 @@ export default function QuizShortInfo({
           <SmallModal
             label="퀴즈 신고하기"
             onLabelClick={handleSmallModalClick}
-            icon={<img src={noticeCircle} width={20} height={20} />}
+            icon={<img src={noticeCircle} width={20} height={20} alt="" />}
           />
         </div>
       ) : null}
@@ -285,6 +286,7 @@ export default function QuizShortInfo({
                 src={quizExplanation.creator.profileImageUrl}
                 width={26}
                 height={26}
+                alt=""
               />
             </div>
           }

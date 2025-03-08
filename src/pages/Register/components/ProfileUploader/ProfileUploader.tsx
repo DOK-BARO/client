@@ -44,7 +44,7 @@ export default function ProfileUploader({
         <div className={styles["custom-file-upload"]}>
           <img
             src={profileImage.url}
-            alt="프로필 이미지"
+            alt="프로필 사진"
             className={styles["profile-image"]}
           />
         </div>
@@ -52,16 +52,20 @@ export default function ProfileUploader({
           <p className={styles.email} aria-label="사용자 이메일">
             {email}
           </p>
-          <InfoFilled stroke={gray60} fill={gray40} width={24} />
+          <InfoFilled stroke={gray60} fill={gray40} width={24} alt="" />
         </span>
       </div>
 
+      <label htmlFor="file-upload" className={styles["sr-only"]}>
+        사용자명
+      </label>
       <input
         id="file-upload"
         type="file"
         accept="image/*"
         onChange={onFileChange}
         style={{ display: "none" }}
+        aria-label="파일 업로드"
       />
       <div className={styles["button-container"]}>
         <Button
@@ -70,7 +74,7 @@ export default function ProfileUploader({
           fullWidth
           onClick={() => document.getElementById("file-upload")?.click()}
         >
-          이미지 편집
+          사진 편집
         </Button>
         <Button
           color="white"
@@ -78,7 +82,7 @@ export default function ProfileUploader({
           id="delete-profile"
           onClick={onDeleteProfileImage}
         >
-          이미지 삭제
+          사진 삭제
         </Button>
       </div>
     </div>

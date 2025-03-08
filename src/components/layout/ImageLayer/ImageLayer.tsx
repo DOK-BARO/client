@@ -37,27 +37,36 @@ export default function ImageLayer({
         className={styles.close}
         iconOnly
         onClick={onCloseLayer}
+        ariaLabel="사진 확대보기 닫기"
         icon={
           <div className={styles["close-button-container"]}>
-            <Close width={22} height={22} stroke={gray100} strokeWidth={2.5} />
+            <Close
+              width={22}
+              height={22}
+              stroke={gray100}
+              strokeWidth={2.5}
+              alt=""
+            />
           </div>
         }
       />
       <Button
         onClick={(e) => onLeftArrowClick(e)}
         iconOnly
-        icon={<img src={leftArrow} width={40} height={40} />}
+        ariaLabel="이전 해설 사진 보기"
+        icon={<img src={leftArrow} width={40} height={40} alt="" />}
         className={styles["arrow-left"]}
       />
       <img
         className={styles.image}
         src={image.src}
-        alt={`해설 이미지 ${image.index + 1}`}
+        alt={`해설 사진 ${image.index + 1}`}
       />
       <Button
         onClick={(e) => onRightArrowClick(e)}
         iconOnly
-        icon={<img src={rightArrow} width={40} height={40} />}
+        ariaLabel="다음 해설 사진 보기"
+        icon={<img src={rightArrow} width={40} height={40} alt="" />}
         className={styles["arrow-right"]}
       />
     </div>

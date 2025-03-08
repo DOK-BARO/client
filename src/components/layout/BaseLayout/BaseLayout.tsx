@@ -28,11 +28,9 @@ export default function BaseLayout({ showHeader = true }: Props) {
   const handleCheckIsTermAllAgreed = async () => {
     const isAgreedAll = await authService.fetchIsTermsAgreed();
     if (isAgreedAll) {
-      //console.log("회원가입 절차 완료");
       return;
     }
 
-    //console.log("회원가입 절차 남음");
     // 약관 동의 되어있지 않으면
     const loggedInSocialType = localStorage.getItem("social");
     if (loggedInSocialType) {
@@ -81,7 +79,7 @@ export default function BaseLayout({ showHeader = true }: Props) {
     // mobile
     <div className={styles["mobile-container"]}>
       <main>
-        {/* 이미지 */}
+        {/* 사진 */}
         <picture>
           {/* 작은 화면 (모바일) */}
           <source
@@ -95,7 +93,7 @@ export default function BaseLayout({ showHeader = true }: Props) {
             media="(max-width: 440px)"
             sizes="100vw"
           />
-          {/* 기본 이미지 */}
+          {/* 기본 사진 */}
           <source
             srcSet={mobileImage3}
             media="(max-width: 700px)"

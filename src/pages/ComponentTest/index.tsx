@@ -61,7 +61,7 @@ export default function Index() {
           onChange={handleImageChange}
           multiple
         />
-        <button onClick={handleUploadImg}>이미지 업로드 버튼</button>
+        <button onClick={handleUploadImg}>사진 업로드 버튼</button>
       </div>
       {/* <button onClick={authService.getUser}>유저 데이터 가져오는 버튼</button> */}
       {options.map((option: RadioOptionType) => {

@@ -25,8 +25,6 @@ export default function SendTemporaryPassword({ setStep }: Props) {
       setFindPasswordEmail(email);
     },
     onError: () => {
-      // 전역 에러 토스트 안나게 하기 위함
-      // console.error(error)
       setIsEmailReadyToSend(false);
     },
   });
@@ -52,6 +50,8 @@ export default function SendTemporaryPassword({ setStep }: Props) {
       </p>
       <form onSubmit={handleSubmit}>
         <Input
+          label="이메일"
+          hideLabel
           id="email"
           onChange={onEmailChange}
           value={email}
@@ -60,7 +60,7 @@ export default function SendTemporaryPassword({ setStep }: Props) {
           message={
             !isEmailReadyToSend ? (
               <span className={styles["message-container"]}>
-                <XSmall stroke={systemDanger} width={20} height={20} />
+                <XSmall stroke={systemDanger} width={20} height={20} alt="" />
                 <p>회원 정보가 없습니다.</p>
               </span>
             ) : undefined

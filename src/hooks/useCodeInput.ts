@@ -12,15 +12,15 @@ const useCodeInput = () => {
     value = value.toUpperCase();
     const newCodeList = [...codeList];
 
-    if (value.length > 1) {
-      // 현재 칸과 다음 칸을 채움
-      newCodeList[index] = value[0];
-      if (index + 1 < newCodeList.length) {
-        newCodeList[index + 1] = value[1];
-      }
-    } else {
-      newCodeList[index] = value;
-    }
+    // if (value.length > 1) {
+    //   // 현재 칸과 다음 칸을 채움
+    //   newCodeList[index] = value[0];
+    //   if (index + 1 < newCodeList.length) {
+    //     newCodeList[index + 1] = value[1];
+    //   }
+    // } else {
+    newCodeList[index] = value;
+    // }
 
     setCodeList(newCodeList);
 

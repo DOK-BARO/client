@@ -36,7 +36,7 @@ export default function CodeInput({
             onChange={(e) => onCodeChange(e, i)}
             onKeyDown={(e) => onKeyDown(e, i)}
             onPaste={onPaste}
-            maxLength={2}
+            maxLength={1}
             color={borderColor}
             isError={!isMatch}
             className={styles["code-input"]}

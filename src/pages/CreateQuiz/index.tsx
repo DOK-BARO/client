@@ -16,7 +16,7 @@ import {
 import { useAtom, useSetAtom } from "jotai";
 import Modal from "@/components/atom/Modal/Modal.tsx";
 import useModal from "@/hooks/useModal.ts";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { quizKeys, studyGroupKeys } from "@/data/queryKeys.ts";
 import { quizService } from "@/services/server/quizService.ts";
 import { useQuery } from "@tanstack/react-query";

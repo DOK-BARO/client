@@ -40,12 +40,14 @@ export default function CodeInput({
             color={borderColor}
             isError={!isMatch}
             className={styles["code-input"]}
+            label={`${i}번째 코드`}
+            hideLabel
           />
         ))}
       </div>
       {!isMatch ? (
         <span className={styles["message-container"]}>
-          <XSmall stroke={systemDanger} width={20} height={20} />
+          <XSmall stroke={systemDanger} width={20} height={20} alt="" />
           <p>{errorMessage}</p>
         </span>
       ) : (

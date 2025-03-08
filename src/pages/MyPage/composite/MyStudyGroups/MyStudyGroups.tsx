@@ -133,12 +133,7 @@ export default function MyStudyGroups() {
               <StudyGroupButton
                 label="코드로 가입하기"
                 icon={
-                  <img
-                    src={textBox}
-                    width={24}
-                    height={24}
-                    alt="코드로 가입하기"
-                  />
+                  <img src={textBox} width={24} height={24} alt="코드로 가입" />
                 }
                 onClick={handleStudyGroupJoinClick}
               />

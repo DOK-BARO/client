@@ -29,9 +29,10 @@ const TermsModal: React.FC<Props> = ({
             className={styles["modal-button"]}
             onClick={closeModal}
             iconOnly
+            ariaLabel="약관 닫기"
           >
             <Close
-              alt="닫기 버튼"
+              alt=""
               width={20}
               height={20}
               stroke={gray80}

@@ -68,21 +68,21 @@ export default function ChangePassword() {
               value={currentPassword}
               placeholder="비밀번호를 입력해주세요"
               onChange={onCurrentPasswordChange}
+              hideLabel
+              label="비민번호"
               rightIcon={
                 <Button
                   onClick={handleVisibleToggle}
                   iconOnly
+                  ariaLabel={
+                    isPasswordVisible ? "비밀번호 숨기기" : "비밀번호 표시하기"
+                  }
                   icon={
                     isPasswordVisible ? (
-                      <Visible
-                        alt="비밀번호 표시 해제"
-                        stroke={gray60}
-                        width={24}
-                        height={24}
-                      />
+                      <Visible alt="" stroke={gray60} width={24} height={24} />
                     ) : (
                       <Invisible
-                        alt="비밀번호 표시"
+                        alt=""
                         stroke={gray60}
                         width={24}
                         height={24}
@@ -110,15 +110,17 @@ export default function ChangePassword() {
                 />
               }
               rightIcon={
-                <Button iconOnly onClick={handleVisibleToggle}>
+                <Button
+                  iconOnly
+                  onClick={handleVisibleToggle}
+                  ariaLabel={
+                    isPasswordVisible ? "비밀번호 숨기기" : "비밀번호 표시하기"
+                  }
+                >
                   {isPasswordVisible ? (
-                    <Visible
-                      alt="비밀번호 표시 해제"
-                      stroke={gray60}
-                      width={24}
-                    />
+                    <Visible alt="" stroke={gray60} width={24} />
                   ) : (
-                    <Invisible alt="비밀번호 표시" stroke={gray60} width={24} />
+                    <Invisible alt="" stroke={gray60} width={24} />
                   )}
                 </Button>
               }
@@ -128,6 +130,8 @@ export default function ChangePassword() {
               onChange={onPasswordChange}
               placeholder="비밀번호 입력"
               size="medium"
+              label="비밀번호"
+              hideLabel
             />
           </div>
 
@@ -144,15 +148,17 @@ export default function ChangePassword() {
               size="medium"
               type={isPasswordVisible ? "text" : "password"}
               rightIcon={
-                <Button iconOnly onClick={handleVisibleToggle}>
+                <Button
+                  iconOnly
+                  onClick={handleVisibleToggle}
+                  ariaLabel={
+                    isPasswordVisible ? "비밀번호 숨기기" : "비밀번호 표시하기"
+                  }
+                >
                   {isPasswordVisible ? (
-                    <Visible
-                      alt="비밀번호 표시 해제"
-                      stroke={gray60}
-                      width={24}
-                    />
+                    <Visible alt="" stroke={gray60} width={24} />
                   ) : (
-                    <Invisible alt="비밀번호 표시" stroke={gray60} width={24} />
+                    <Invisible alt="" stroke={gray60} width={24} />
                   )}
                 </Button>
               }
@@ -165,6 +171,8 @@ export default function ChangePassword() {
                   />
                 )
               }
+              label="비밀번호 확인"
+              hideLabel
             />
           </div>
         </>

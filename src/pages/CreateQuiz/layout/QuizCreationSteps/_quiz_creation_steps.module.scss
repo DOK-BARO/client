@@ -2,8 +2,7 @@
 
 .container {
   @include flex(column);
-  flex: 1;
-  max-width: 22.8rem;
+  width: 22.8rem;
 
   button {
     border: none;

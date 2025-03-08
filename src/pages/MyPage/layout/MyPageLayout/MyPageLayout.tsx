@@ -56,6 +56,7 @@ export default function MyPageLayout() {
             iconOnly
             icon={<div className={styles["back-button"]}>&larr;</div>}
             onClick={handleGoToBack}
+            ariaLabel="뒤로가기"
           />
         ) : null}
         <h2 className={styles.title}>{myPageTitle}</h2>
@@ -68,7 +69,7 @@ export default function MyPageLayout() {
             color="secondary"
             size="xsmall"
             className={styles["setting-button"]}
-            icon={<img src={pencilLine} width={16} height={16} />}
+            icon={<img src={pencilLine} width={16} height={16} alt="" />}
             iconPosition="left"
           >
             스터디 그룹 관리

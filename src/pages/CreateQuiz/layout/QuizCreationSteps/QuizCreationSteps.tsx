@@ -20,33 +20,40 @@ import {
   invalidQuestionFormIdAtom,
   openErrorModalAtom,
 } from "@/store/quizAtom";
-import { useValidateQuizForm } from "@/hooks/useValidateQuizForm";
+import useValidateQuiz from "@/hooks/useValidateQuiz";
+
 interface Props {
-  isEditMode: boolean;
+  isNonTemporaryEditMode: boolean;
   steps: Step[];
 }
 
-export default function QuizCreationSteps({ isEditMode, steps }: Props) {
+export default function QuizCreationSteps({
+  isNonTemporaryEditMode,
+  steps,
+}: Props) {
   const [currentStep, setCurrentStep] = useAtom(quizCreationStepAtom);
   const quizInfo = useAtomValue(quizCreationInfoAtom);
   const setInvalidQuestionFormId = useSetAtom(invalidQuestionFormIdAtom);
   const setErrorModalTitle = useSetAtom(errorModalTitleAtom);
   const [openModal] = useAtom(openErrorModalAtom);
-  const validateQuizForm = useValidateQuizForm;
+  const { validateQuestionForm } = useValidateQuiz();
   const isStepEnabled = useIsQuizStepEnabled;
 
   const notValidCallBack = (errorTitle: string, questionId: number) => {
     setErrorModalTitle(errorTitle);
     setInvalidQuestionFormId(questionId);
-    openModal!();
+    if (openModal) {
+      openModal();
+    }
   };
+
   const handleStepClick = (
     e: React.MouseEvent<HTMLButtonElement>,
     isLastStep?: boolean,
   ) => {
     if (isLastStep) {
       //유효성 검사
-      const isValid = validateQuizForm(
+      const isValid = validateQuestionForm(
         quizInfo.questions ?? [],
         notValidCallBack,
         setInvalidQuestionFormId,
@@ -96,7 +103,7 @@ export default function QuizCreationSteps({ isEditMode, steps }: Props) {
 
         const firstSubStepOrder = step.subSteps?.[0]?.order;
         const isEditModeDisabledStep =
-          isEditMode &&
+          isNonTemporaryEditMode &&
           (step.order === QUIZ_CREATION_STEP.STUDY_GROUP_SELECT ||
             step.order === QUIZ_CREATION_STEP.BOOK_SELECT);
         const isValidPreviousSteps = isAllPreviousStepsValid(index, steps);
@@ -119,6 +126,7 @@ export default function QuizCreationSteps({ isEditMode, steps }: Props) {
                 {step.title}
               </span>
               <CheckEllipse
+                alt=""
                 fillOut={
                   isEditModeDisabledStep || !isValidPreviousSteps
                     ? gray40

@@ -8,7 +8,7 @@ import useFilter from "@/hooks/useFilter";
 import { mySolvedQuizPaginationAtom } from "@/store/paginationAtom";
 import Pagination from "@/components/composite/Pagination/Pagination";
 import { FilterOptionType } from "@/components/composite/ListFilter/ListFilter";
-import { MyQuizzesFetchType } from "@/types/ParamsType";
+import { MySolvedQuizzesFetchType } from "@/types/ParamsType";
 import { useEffect, useMemo } from "react";
 import ROUTES from "@/data/routes";
 import { MySolvedQuizzesFilterType } from "@/types/FilterType";
@@ -43,11 +43,11 @@ export default function SolvedQuiz() {
   );
 
   const totalPagesLength = paginationState.totalPagesLength;
-  const params: MyQuizzesFetchType = {
+  const params: MySolvedQuizzesFetchType = {
     page: paginationState.currentPage.toString() ?? "1",
     sort: filterCriteria.sort,
     direction: filterCriteria.direction,
-    size: "4",
+    size: "6",
   };
 
   const { isLoading, data: myQuizzesData } = useQuery({
@@ -93,6 +93,7 @@ export default function SolvedQuiz() {
           handleOptionClick={handleOptionClick}
           filterCriteria={filterCriteria}
           filterOptions={filterOptions}
+          quizListType="solved"
         />
         {shouldRenderPagination ? (
           <Pagination

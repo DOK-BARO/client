@@ -137,16 +137,10 @@ export default function QuizItem({
             <p className={styles.title}>{quizData.quiz.title}</p>
             <Button
               className={styles["copy-link"]}
+              ariaLabel="퀴즈 공유 링크 복사하기"
               onClick={(e) => onCopyQuizLink(e, quizData.quiz.id)}
               iconOnly
-              icon={
-                <img
-                  src={link}
-                  width={20}
-                  height={20}
-                  alt="퀴즈 공유 링크 복사"
-                />
-              }
+              icon={<img src={link} width={20} height={20} alt="" />}
             />
           </div>
           <span className={styles.profile}>

@@ -180,6 +180,7 @@ export default function Index() {
             className={styles["review-textarea"]}
             size="medium"
             maxLengthShow
+            label="퀴즈 후기"
           />
           <div className={styles["button-container"]}>
             <Button size="medium" color="primary-border" onClick={handleSkip}>

@@ -23,32 +23,24 @@ export default function QuizCreationFormLayout({
     isQuizNextButtonEnabledAtom,
   );
 
-  const getCurrentStep = (): Step => {
+  const getCurrentStep = (): Step | undefined => {
     const step = steps[currentStep];
     if (step) return step;
 
     const truncatedStep = Math.trunc(currentStep);
-    return steps[truncatedStep]!.subSteps!.find(
+    const parentStep = steps[truncatedStep];
+
+    return parentStep?.subSteps?.find(
       (subStep) => subStep.order === currentStep,
-    )!;
+    );
   };
+  const step = getCurrentStep();
 
-  const step: Step = getCurrentStep();
-
-  const title = step?.subSteps?.[0].title
-    ? step.subSteps?.[0].title
-    : step!.title;
-  const description = step?.description
-    ? step.description
-    : step?.subSteps?.[0].description
-      ? step.subSteps?.[0].description
-      : "";
-
-  const FormComponent = step?.formComponent
-    ? step.formComponent
-    : step?.subSteps?.[0]?.formComponent
-      ? step.subSteps[0].formComponent
-      : null;
+  const title = step?.subSteps?.[0]?.title ?? step?.title ?? "";
+  const description =
+    step?.description ?? step?.subSteps?.[0]?.description ?? "";
+  const FormComponent =
+    step?.formComponent ?? step?.subSteps?.[0]?.formComponent ?? null;
 
   return (
     <section className={styles["container"]}>

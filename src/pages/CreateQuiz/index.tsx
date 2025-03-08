@@ -16,7 +16,7 @@ import {
 import { useAtom, useSetAtom } from "jotai";
 import Modal from "@/components/atom/Modal/Modal.tsx";
 import useModal from "@/hooks/useModal.ts";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { quizKeys, studyGroupKeys } from "@/data/queryKeys.ts";
 import { quizService } from "@/services/server/quizService.ts";
 import { useQuery } from "@tanstack/react-query";
@@ -54,12 +54,11 @@ import QuizCreationModal from "./composite/QuizCreationModal/QuizCreationModal";
 
 export default function Index() {
   const { id } = useParams();
-  const quizId: number = parseInt(id!);
+  const [quizId, setQuizId] = useState<number>(parseInt(id!));
+  const [isEditMode, setIsEditMode] = useState<boolean>(!!quizId);
 
   const [quizCreationInfo, setQuizCreationInfo] = useAtom(quizCreationInfoAtom);
   const [currentStep, setCurrentStep] = useAtom(quizCreationStepAtom);
-
-  const isEditMode: boolean = !!quizId;
 
   const [isFirstVisit] = useAtom(isFirstVisitAtom);
   const [completionStatus] = useAtom(stepsCompletionStatusAtom);
@@ -117,7 +116,7 @@ export default function Index() {
   const isNonTemporaryEditMode = isEditMode && !prevQuiz?.temporary;
 
   useEffect(() => {
-    if (isNonTemporaryEditMode) {
+    if (isNonTemporaryEditMode || isTemporarySaved) {
       setCurrentStep(2);
     } else {
       setCurrentStep(0);
@@ -209,14 +208,18 @@ export default function Index() {
   }, [prevQuiz, isEditMode, prevBook?.isbn, studyGroupDetail?.name]);
 
   const [, setCreatedQuizId] = useAtom(createdQuizIdAtom);
+  const [isTemporarySaved, setIsTemporarySaved] = useState<boolean>(false);
 
   const { createQuiz } = useCreateQuiz({
     onTemporarySuccess: (quizId, options) => {
       // 임시 퀴즈 생성 후 처리
-      // console.log("임시저장된 퀴즈 아이디", quizId);
       if (options?.showToast) {
         toast.success("퀴즈가 임시저장되었습니다.");
       }
+      setQuizId(quizId);
+      setIsEditMode(true);
+      setIsTemporarySaved(true);
+
       // 쿼리 무효화
       queryClient.invalidateQueries({
         queryKey: quizKeys.prevDetail(quizId),
@@ -386,6 +389,11 @@ export default function Index() {
     isTemporary: boolean;
     isAutoSave?: boolean;
   }): Promise<boolean> => {
+    if (currentStepRef.current == endStep) {
+      setPreventLeaveModal(false);
+      await requestQuiz({ isTemporary, isAutoSave, quizCreationInfo });
+      return false;
+    }
     if (currentStepRef.current >= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO) {
       const isQuestionFormValid = validateQuestionForm(
         quizCreationInfo.questions ?? [], // 최신 quizCreationInfo 사용
@@ -403,10 +411,6 @@ export default function Index() {
       if (isTemporary) {
         await requestQuiz({ isTemporary: true, isAutoSave, quizCreationInfo });
       }
-    } else if (currentStepRef.current == endStep) {
-      setPreventLeaveModal(false);
-      await requestQuiz({ isTemporary, isAutoSave, quizCreationInfo });
-      return false;
     }
     prevQuizCreationInfoRef.current = JSON.parse(
       JSON.stringify(quizCreationInfoRef.current),

@@ -27,7 +27,7 @@ export default function BookDetailContent({
           <img
             className={styles["book-img"]}
             src={bookDetailContent.imageUrl}
-            alt={"책 표지 이미지"}
+            alt={"책 표지 사진"}
           />
         </div>
         <div className={styles["book-container"]}>

@@ -1,9 +1,15 @@
 @use "/src/styles/abstracts/" as *;
-
 .container {
+  display: flex;
+  align-items: start;
+}
+
+.solving-form-wrapper {
   @include flex(column);
   align-items: center;
-  margin-bottom: 7.3rem;
+  width: 100%;
+
+  margin: 0 5.4rem 7.3rem 2.4rem;
 }
 
 .inner-container {

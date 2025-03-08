@@ -35,7 +35,7 @@ export function QuestionTemplateUtilListItem(
         className={styles["question-template-type-util-list-item"]}
         iconPosition="left"
         onClick={() => item.onClick(item)}
-        icon={<item.Icon width={18} height={18} stroke={gray60} />}
+        icon={<item.Icon width={18} height={18} stroke={gray60} alt="" />}
       >
         {item.text}
       </Button>

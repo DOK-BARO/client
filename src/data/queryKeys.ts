@@ -1,10 +1,11 @@
 import {
   BooksFetchType,
-  MyQuizzesFetchType,
   QuizzesFetchType,
   ReviewsFetchType,
   StudyGroupsFetchType,
   BooksSearchType,
+  MySolvedQuizzesFetchType,
+  MyMadeQuizzesFetchType,
 } from "@/types/ParamsType";
 
 export const bookKeys = {
@@ -38,8 +39,9 @@ export const userKeys = {
 };
 
 export const quizKeys = {
-  myQuiz: (params: MyQuizzesFetchType) => ["myQuiz", params] as const,
-  solvedQuiz: (params: MyQuizzesFetchType) => ["solvedQuiz", params] as const,
+  myQuiz: (params: MyMadeQuizzesFetchType) => ["myQuiz", params] as const,
+  solvedQuiz: (params: MySolvedQuizzesFetchType) =>
+    ["solvedQuiz", params] as const,
   detail: (id: number | undefined) => ["quizDetail", id] as const,
   prevDetail: (id: number | undefined) => ["prevDetail", id] as const,
   explanation: (id: number | undefined) => ["quizExplanation", id] as const,

@@ -32,7 +32,7 @@ export default function CreateQuizComplete() {
       <img
         className={styles.image}
         src={createQuizCompleteImage}
-        alt="퀴즈 출제 완료 이미지"
+        alt="퀴즈 출제 완료 사진"
         height={214}
       />
       <div className={styles["button-container"]}>
@@ -43,6 +43,7 @@ export default function CreateQuizComplete() {
           size="medium"
           icon={<Copy width={20} stroke={primary} alt="퀴즈 링크 복사" />}
           iconPosition="right"
+          ariaLabel="퀴즈 링크 복사하기"
         >
           {quizLink}
         </Button>

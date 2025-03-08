@@ -8,6 +8,7 @@ import {
   MySolvedQuizzesFilterType,
   MyStudyUnSolvedQuizzesFilterType,
   MyStudySolvedQuizzesFilterType,
+  MyDraftQuizzesFilterType,
 } from "@/types/FilterType";
 
 // 기본값 정의
@@ -19,6 +20,11 @@ const DEFAULT_MY_STUDY_GROUP_FILTER: StudyGroupsFilterType = {
 
 // 마이페이지 > 전체 푼 퀴즈
 const DEFAULT_MY_SOLVED_QUIZ_FILTER: MySolvedQuizzesFilterType = {
+  sort: "CREATED_AT",
+  direction: "DESC",
+};
+// 마이페이지 > 작성 중인 퀴즈
+const DEFAULT_MY_DRAFT_QUIZ_FILTER: MyDraftQuizzesFilterType = {
   sort: "CREATED_AT",
   direction: "DESC",
 };
@@ -67,6 +73,10 @@ export const myStudyGroupFilterAtom = atom<StudyGroupsFilterType>(
 
 export const mySolvedQuizFilterAtom = atom<MySolvedQuizzesFilterType>(
   DEFAULT_MY_SOLVED_QUIZ_FILTER,
+);
+
+export const myDraftQuizFilterAtom = atom<MyDraftQuizzesFilterType>(
+  DEFAULT_MY_DRAFT_QUIZ_FILTER,
 );
 
 export const myStudyUnsolvedQuizFilterAtom =

@@ -40,6 +40,7 @@ export default function GradeResultItem({
             width={18}
             height={18}
             className={styles["profile-image"]}
+            alt=""
           />
         )}
         <p className={styles.nickname}>{member.nickname}</p>

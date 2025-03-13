@@ -2,17 +2,17 @@ import { PagePositionType, PaginationType } from "@/types/PaginationType";
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-interface UsePaginationReturn {
+interface UsePaginationStateReturn {
   handlePageClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
-
-const usePagination = ({
+// 상태 기반
+const usePaginationState = ({
   paginationState,
   setPaginationState,
 }: {
   paginationState: PaginationType;
   setPaginationState: Dispatch<SetStateAction<PaginationType>>;
-}): UsePaginationReturn => {
+}): UsePaginationStateReturn => {
   const location = useLocation();
 
   const totalPagesLength = paginationState.totalPagesLength ?? 0;
@@ -113,4 +113,4 @@ const usePagination = ({
     handlePageClick,
   };
 };
-export default usePagination;
+export default usePaginationState;

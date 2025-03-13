@@ -32,7 +32,6 @@ export default function LNB({ categories, categoryId }: Props) {
     : null;
 
   const handleClick = (id: string | undefined) => {
-    sessionStorage.removeItem("prevPage");
     setPrevPaginationState(undefined);
     navigateWithParams({
       category: id,

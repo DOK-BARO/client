@@ -110,13 +110,12 @@ export default function BookListLayout() {
 
   // filterOptions 클릭 시
   const handleOptionClick = (filter: BooksFilterType) => {
-    sessionStorage.setItem("prevPage", page ? page : "1");
     setPrevPaginationState(undefined);
 
     navigateWithParams({
       filter: filter,
       parentPage: "books",
-      excludeParams: ["page"],
+      excludeParams: ["page"], // 페이지 지워짐(1페이지로 초기화)
     });
   };
 

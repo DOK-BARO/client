@@ -30,12 +30,10 @@ export default function GNB() {
   const [, setPrevPaginationState] = useAtom(prevPaginationStateAtom);
 
   const handleClick = (id: string) => {
-    sessionStorage.removeItem("prevPage");
     setPrevPaginationState(undefined);
-
     navigateWithParams({
-      parentPage: "books",
       category: id,
+      parentPage: "books",
       excludeParams: ["page"],
     });
   };

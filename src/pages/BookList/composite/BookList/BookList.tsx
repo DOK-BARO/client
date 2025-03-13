@@ -21,8 +21,6 @@ export default function BookList({ books }: Props) {
 
   const handleClick = (id: number) => {
     navigate(ROUTES.BOOK_DETAIL_SECTION(id));
-    // sessionStorage.setItem("prevPage", paginationState.currentPage.toString());
-
     // 바로 전 페이지네이션 상태 저장
     setPrevPaginationState(paginationState);
   };

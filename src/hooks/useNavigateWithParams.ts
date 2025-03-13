@@ -13,30 +13,23 @@ import { BooksFetchKeyType } from "@/types/ParamsType";
 import { useAtom } from "jotai";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
-// 지정된 필터, 페이지, 카테고리 등의 파라미터를 URL에 반영하고
-// 필요 시 제외 파라미터를 처리하는 등
-// 페이지 이동과 상태 업데이트를 동시에 수행
+/**
+ * URL의 쿼리 파라미터를 업데이트하고, 페이지 이동과 상태 관리를 수행하는 함수
+ *
+ * - 필터, 페이지 번호, 카테고리 등의 파라미터를 URL에 반영
+ * - 특정 파라미터를 제외할 수 있도록 처리
+ * - 상태 업데이트와 함께 네비게이션 수행
+ */
 const useNavigateWithParams = (parentPage: ParentPageType) => {
   const navigate = useNavigate();
   const [, setPaginationState] = useAtom(paginationAtom);
   const [prevPaginationState] = useAtom(prevPaginationStateAtom);
 
-  const initializePaginationState = () => {
-    if (parentPage === "books" && prevPaginationState !== undefined) {
-      setPaginationState(prevPaginationState);
-    } else {
-      setPaginationState((prev) => ({
-        ...prev,
-        currentPage: 1,
-        pagePosition: "START",
-        middlePages: [],
-        isMiddlePagesUpdated: false,
-      }));
-    }
-  };
-
   useEffect(() => {
+    console.log("useNavigateWithParams");
+  }, []);
+
+  const resetPaginationState = () =>
     setPaginationState((prev) => ({
       ...prev,
       currentPage: 1,
@@ -44,10 +37,24 @@ const useNavigateWithParams = (parentPage: ParentPageType) => {
       middlePages: [],
       isMiddlePagesUpdated: false,
     }));
-  }, [prevPaginationState]);
 
+  const initializePaginationState = () => {
+    console.log("initializePaginationState");
+    if (parentPage === "books" && prevPaginationState !== undefined) {
+      // 책 상세 페이지에서 다시 목록으로 돌아갈 때 이전 상태 가져와서 저장
+      console.log(
+        "책 상세 페이지에서 다시 목록으로 돌아갈 때 이전 상태 가져와서 저장",
+      );
+      setPaginationState(prevPaginationState);
+    } else {
+      // 페이지네이션 상태 초기화
+      resetPaginationState();
+      console.log("페이지네이션 상태 초기화");
+    }
+  };
+
+  // 아예 상위 카테고리 페이지(parentPage)가 바뀌면 Pagination 상태 초기화
   useEffect(() => {
-    // Pagination 상태 초기화
     initializePaginationState();
   }, [parentPage]);
 
@@ -105,16 +112,8 @@ const useNavigateWithParams = (parentPage: ParentPageType) => {
     excludeParams.forEach((param) => queryParams.delete(param));
 
     if (excludeParams.includes("page")) {
-      // TODO: 이전과 비교해서 페이지가 변화가 없다면, 초기화 하지 않아도 되도록 하기
-      // 즉, 한번 초기화가 된 상태라면 초기화하지 않아도 되게 하기
-
-      if (!sessionStorage.getItem("prevPage")) {
-        initializePaginationState();
-      } else if (
-        sessionStorage.getItem("prevPage") !== (!page ? "1" : "page")
-      ) {
-        initializePaginationState();
-      }
+      // 페이지네이션 상태도 초기화
+      initializePaginationState();
     }
 
     const pathname = !itemId

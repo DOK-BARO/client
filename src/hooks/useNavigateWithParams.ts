@@ -2,17 +2,22 @@ import {
   paginationAtom,
   prevPaginationStateAtom,
 } from "@/store/paginationAtom";
-import {
-  BooksFilterType,
-  MyMadeQuizzesFilterType,
-  QuizzesFilterType,
-  ReviewsFilterType,
-} from "@/types/FilterType";
+import { SupportedFilterTypes } from "@/types/FilterType";
 import { ParentPageType } from "@/types/PaginationType";
-import { BooksFetchKeyType } from "@/types/ParamsType";
 import { useAtom } from "jotai";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+
+interface NavigateWithParamsProps<TFilter extends SupportedFilterTypes> {
+  filter?: TFilter;
+  title?: string;
+  page?: number;
+  category?: string;
+  parentPage: ParentPageType;
+  excludeParams?: string[];
+  itemId?: number;
+}
+
 /**
  * URL의 쿼리 파라미터를 업데이트하고, 페이지 이동과 상태 관리를 수행하는 함수
  *
@@ -23,11 +28,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 const useNavigateWithParams = (parentPage?: ParentPageType) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const memoizedParentPage = useMemo(() => parentPage, [parentPage]);
 
   const [, setPaginationState] = useAtom(paginationAtom);
   const [prevPaginationState] = useAtom(prevPaginationStateAtom);
 
-  const resetPaginationState = () =>
+  const resetPaginationState = () => {
     setPaginationState((prev) => ({
       ...prev,
       currentPage: 1,
@@ -35,6 +41,7 @@ const useNavigateWithParams = (parentPage?: ParentPageType) => {
       middlePages: [],
       isMiddlePagesUpdated: false,
     }));
+  };
 
   const initializePaginationState = () => {
     if (parentPage === "books" && prevPaginationState !== undefined) {
@@ -48,34 +55,26 @@ const useNavigateWithParams = (parentPage?: ParentPageType) => {
 
   // 아예 상위 카테고리 페이지(parentPage)가 바뀌면 Pagination 상태 초기화
   useEffect(() => {
-    initializePaginationState();
-  }, [parentPage]);
+    if (memoizedParentPage) {
+      // 초기화 작업
+      initializePaginationState();
+    }
+  }, [memoizedParentPage]);
 
-  const navigateWithParams = ({
+  const navigateWithParams = <TFilter extends SupportedFilterTypes>({
     filter,
     title,
     page,
     category,
     parentPage,
     excludeParams = [],
-    itemId = undefined,
-  }: {
-    filter?:
-      | BooksFilterType
-      | ReviewsFilterType
-      | QuizzesFilterType
-      | MyMadeQuizzesFilterType;
-    title?: string;
-    page?: number;
-    category?: string;
-    parentPage: ParentPageType;
-    excludeParams?: BooksFetchKeyType[];
-    itemId?: number;
-  }) => {
+    itemId,
+  }: NavigateWithParamsProps<TFilter>) => {
+    const queryParams = new URLSearchParams(location.search);
+
     if (!parentPage) {
       return;
     }
-    const queryParams = new URLSearchParams(location.search);
 
     if (filter) {
       const { sort, direction } = filter;

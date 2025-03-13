@@ -54,7 +54,6 @@ export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Props) {
   const [filterCriteria, setFilterCriteria] = useAtom(
     myStudyUnsolvedQuizFilterAtom,
   );
-  useFilter<MyStudyUnSolvedQuizzesFilterType>(setFilterCriteria);
   const { handleAuthenticatedAction } = useLoginAction(pathname);
 
   const [paginationState, setPaginationState] = useAtom(
@@ -106,13 +105,11 @@ export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Props) {
     });
   }, [endPageNumber]);
 
-  const handleOptionClick = (filter: MyStudyUnSolvedQuizzesFilterType) => {
-    setFilterCriteria(filter);
-    setPaginationState({
-      ...paginationState,
-      currentPage: 1,
-    });
-  };
+  const { onOptionClick } = useFilter<MyStudyUnSolvedQuizzesFilterType>({
+    type: "state",
+    setFilterCriteria,
+  });
+
   const { data: studyGroup } = useQuery({
     queryKey: studyGroupKeys.detail(studyGroupId),
     queryFn: () => studyGroupService.fetchStudyGroup(Number(studyGroupId)),
@@ -155,7 +152,7 @@ export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Props) {
         <h3 className={styles.title}>풀어야 할 퀴즈</h3>
         {shouldRenderDataList ? (
           <ListFilter
-            onOptionClick={handleOptionClick}
+            onOptionClick={onOptionClick}
             sortFilter={filterCriteria}
             filterOptions={filterOptions}
           />

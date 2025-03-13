@@ -26,17 +26,17 @@ interface StatePaginationProps {
   setPaginationState: Dispatch<SetStateAction<PaginationType>>;
 }
 
-type PaginationProps = QueryStringPaginationProps | StatePaginationProps;
+type Props = QueryStringPaginationProps | StatePaginationProps;
 
-export default function Pagination(paginationProps: PaginationProps) {
-  const { type, paginationState, setPaginationState, parentPage } =
+export default function Pagination(paginationProps: Props) {
+  const { type, paginationState, setPaginationState, parentPage, itemId } =
     paginationProps;
 
   const { handlePageClick } = usePaginationState({
     paginationState,
     setPaginationState,
   });
-  const { navigateWithParams } = useNavigateWithParams(parentPage);
+  const { navigateWithParams } = useNavigateWithParams();
 
   const currentPage = paginationState.currentPage ?? 1;
   const totalPagesLength = paginationState.totalPagesLength ?? 0;
@@ -48,7 +48,8 @@ export default function Pagination(paginationProps: PaginationProps) {
     if (type === "queryString" && parentPage) {
       navigateWithParams({
         page: currentPage,
-        parentPage: parentPage,
+        parentPage,
+        itemId,
       });
     }
   }, [currentPage, type === "queryString" && parentPage]);

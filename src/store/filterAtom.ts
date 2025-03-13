@@ -60,6 +60,12 @@ const DEFAULT_MY_MADE_QUIZZES_FILTER: MyMadeQuizzesFilterType = {
   direction: "DESC",
 };
 
+// 마이 페이지 > 작성 중인 퀴즈
+const DEFAULT_DRAFT_QUIZZES_FILTER: MyDraftQuizzesFilterType = {
+  sort: "CREATED_AT",
+  direction: "DESC",
+};
+
 // 퀴즈 상세 페이지 > 리뷰
 const DEFAULT_REVIEW_FILTER: ReviewsFilterType = {
   sort: "STAR_RATING",
@@ -166,3 +172,7 @@ export const resetQuizzesFilter = (
 export const resetReviewFilter = (
   setAtom: (value: ReviewsFilterType) => void,
 ) => resetFilter(setAtom, DEFAULT_REVIEW_FILTER);
+
+export const resetDraftQuizzesFilter = (
+  setAtom: (value: MyDraftQuizzesFilterType) => void,
+) => resetFilter(setAtom, DEFAULT_DRAFT_QUIZZES_FILTER);

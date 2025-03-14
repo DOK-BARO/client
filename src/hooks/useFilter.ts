@@ -3,6 +3,8 @@ import { SetStateAction, useEffect } from "react";
 import useNavigateWithParams from "./useNavigateWithParams";
 import { ParentPageType } from "@/types/PaginationType";
 import { NavigateMode, SupportedFilterTypes } from "@/types/FilterType";
+import { paginationAtom } from "@/store/paginationAtom";
+import { useAtom } from "jotai";
 
 interface Props<TFilter extends SupportedFilterTypes> {
   type: NavigateMode;
@@ -24,6 +26,7 @@ const useFilter = <TFilter extends SupportedFilterTypes>({
   const queryParams = new URLSearchParams(search);
   const sort = queryParams.get("sort");
   const direction = queryParams.get("direction");
+  const [, setPaginationState] = useAtom(paginationAtom);
 
   // URL의 쿼리 파라미터와 동기화
   useEffect(() => {
@@ -40,9 +43,11 @@ const useFilter = <TFilter extends SupportedFilterTypes>({
   }, [setFilterCriteria, search]);
 
   const onOptionClick = (filter: TFilter) => {
+    setPaginationState((prev) => ({
+      ...prev,
+      pagePosition: "START",
+    }));
     if (type === "queryString" && parentPage) {
-      // setPrevPaginationState(undefined);
-
       navigateWithParams({
         filter,
         parentPage,
@@ -51,7 +56,6 @@ const useFilter = <TFilter extends SupportedFilterTypes>({
       });
     } else if (type === "state") {
       setFilterCriteria(filter as TFilter);
-      // resetPaginationState();
     }
   };
   return { onOptionClick };

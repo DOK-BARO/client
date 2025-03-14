@@ -53,7 +53,7 @@ export default function Index() {
 
   return (
     <section className={styles.container}>
-      <Breadcrumb parentPage="books" list={categoryList} />
+      <Breadcrumb list={categoryList} />
       <div className={styles["book-detail-section"]}>
         <BookDetailContent
           bookDetailContent={data}

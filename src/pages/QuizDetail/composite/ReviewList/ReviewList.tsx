@@ -6,8 +6,7 @@ import ReviewItem from "../../components/ReviewItem/ReviewItem";
 import ListFilter, {
   FilterOptionType,
 } from "@/components/composite/ListFilter/ListFilter";
-import { useAtom } from "jotai";
-import useNavigateWithParams from "@/hooks/useNavigateWithParams";
+import { useAtom, useSetAtom } from "jotai";
 import useFilter from "@/hooks/useFilter";
 import { currentUserAtom } from "@/store/userAtom";
 import { ReviewsFilterType, ReviewsSortType } from "@/types/FilterType";
@@ -18,7 +17,7 @@ import { ReviewType } from "@/types/ReviewType";
 import { ErrorType } from "@/types/ErrorType";
 import { useRef } from "react";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
-import { reviewFilterAtom } from "@/store/filterAtom";
+import { resetReviewFilter, reviewFilterAtom } from "@/store/filterAtom";
 import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner";
 
 // TODO: 분리하기
@@ -51,22 +50,30 @@ interface Props {
 }
 
 export default function ReviewList({ quizId, quizTitle }: Props) {
-  const { navigateWithParams } = useNavigateWithParams("quiz");
+  // const { navigateWithParams} = useNavigateWithParams("quiz");
   const [, setFilterCriteria] = useAtom(reviewFilterAtom);
-  useFilter<ReviewsFilterType>(setFilterCriteria);
+  const setReviewFilter = useSetAtom(reviewFilterAtom);
+
+  const { onOptionClick } = useFilter<ReviewsFilterType>({
+    type: "queryString",
+    setFilterCriteria,
+    resetFilter: () => resetReviewFilter(setReviewFilter),
+    parentPage: "quiz",
+  });
+
   const [currentUser] = useAtom(currentUserAtom);
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
   const observerRef = useRef<HTMLDivElement | null>(null);
 
-  const handleOptionClick = (filter: ReviewsFilterType) => {
-    navigateWithParams({
-      filter,
-      parentPage: "quiz",
-      itemId: quizId,
-      excludeParams: ["page"],
-    });
-  };
+  // const handleOptionClick = (filter: ReviewsFilterType) => {
+  //   navigateWithParams({
+  //     filter,
+  //     parentPage: "quiz",
+  //     itemId: quizId,
+  //     excludeParams: ["page"],
+  //   });
+  // };
 
   // TODO: 페이지네이션
   const [filterCriteria] = useAtom(reviewFilterAtom);
@@ -132,7 +139,7 @@ export default function ReviewList({ quizId, quizTitle }: Props) {
       <h2 className={styles["sr-only"]}>퀴즈 리뷰 리스트</h2>
       <div className={styles["list-filter-container"]}>
         <ListFilter
-          onOptionClick={handleOptionClick}
+          onOptionClick={onOptionClick}
           sortFilter={filterCriteria}
           filterOptions={filterOptions}
         />

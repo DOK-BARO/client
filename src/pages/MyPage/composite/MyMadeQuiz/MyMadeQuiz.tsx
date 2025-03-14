@@ -1,20 +1,24 @@
 import { useQuery } from "@tanstack/react-query";
 import { quizKeys } from "@/data/queryKeys";
 import QuizListLayout from "../../layout/QuizListLayout/QuizListLayout";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { quizService } from "@/services/server/quizService";
 import { useAtom } from "jotai";
 import useFilter from "@/hooks/useFilter";
-import { myMadeQuizPaginationAtom } from "@/store/paginationAtom";
 import Pagination from "@/components/composite/Pagination/Pagination";
 import { FilterOptionType } from "@/components/composite/ListFilter/ListFilter";
 import { MyMadeQuizzesFetchType } from "@/types/ParamsType";
 import { useEffect, useMemo } from "react";
 import ROUTES from "@/data/routes";
-import { MyMadeQuizzesFilterType } from "@/types/FilterType";
+import {
+  MyMadeQuizzesFilterType,
+  MyMadeQuizzesSortType,
+} from "@/types/FilterType";
 import { myMadeQuizzesFilterAtom } from "@/store/filterAtom";
 import { isLoggedInAtom } from "@/store/userAtom";
 import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner";
+import { paginationAtom } from "@/store/paginationAtom";
+import { parseQueryParams } from "@/utils/parseQueryParams";
 
 const filterOptions: FilterOptionType<MyMadeQuizzesFilterType>[] = [
   {
@@ -32,27 +36,45 @@ const filterOptions: FilterOptionType<MyMadeQuizzesFilterType>[] = [
     label: "가나다순",
   },
 ];
+
 export default function MyMadeQuiz() {
   const navigate = useNavigate();
   const [isLoggedIn] = useAtom(isLoggedInAtom);
   const [filterCriteria, setFilterCriteria] = useAtom(myMadeQuizzesFilterAtom);
-  useFilter<MyMadeQuizzesFilterType>(setFilterCriteria);
+  const { onOptionClick } = useFilter<MyMadeQuizzesFilterType>({
+    type: "queryString",
+    parentPage: "my/made-quiz",
+    setFilterCriteria,
+  });
+  const [paginationState, setPaginationState] = useAtom(paginationAtom);
+  const { search } = useLocation();
+  const queryParams = new URLSearchParams(search);
 
-  const [paginationState, setPaginationState] = useAtom(
-    myMadeQuizPaginationAtom,
-  );
   const totalPagesLength = paginationState.totalPagesLength;
 
-  const params: MyMadeQuizzesFetchType = {
-    page: paginationState.currentPage.toString() ?? "1",
-    sort: filterCriteria.sort,
-    direction: filterCriteria.direction,
-    size: "6",
-  };
+  const sort = queryParams.get("sort") || "CREATED_AT";
+  const direction = queryParams.get("direction") || "DESC";
+  const page = queryParams.get("page") || undefined;
+  const size = 6;
 
   const { isLoading, data: myQuizzesData } = useQuery({
-    queryKey: quizKeys.myQuiz(params),
-    queryFn: () => quizService.fetchMyMadeQuizzes(params),
+    queryKey: quizKeys.myQuiz(
+      parseQueryParams<MyMadeQuizzesSortType, MyMadeQuizzesFetchType>({
+        sort,
+        direction,
+        page,
+        size,
+      }),
+    ),
+    queryFn: () =>
+      quizService.fetchMyMadeQuizzes(
+        parseQueryParams({
+          sort,
+          direction,
+          page,
+          size,
+        }),
+      ),
     enabled: isLoggedIn,
   });
 
@@ -62,17 +84,14 @@ export default function MyMadeQuiz() {
 
   const endPageNumber = myQuizzesData?.endPageNumber;
   useEffect(() => {
-    if (endPageNumber) {
-      setPaginationState({
-        ...paginationState,
+    if (endPageNumber && totalPagesLength !== endPageNumber) {
+      setPaginationState((prev) => ({
+        ...prev,
         totalPagesLength: endPageNumber,
-      });
+        pagePosition: "START",
+      }));
     }
   }, [endPageNumber]);
-
-  const handleOptionClick = (filter: MyMadeQuizzesFilterType) => {
-    setFilterCriteria(filter);
-  };
 
   const myQuizzes = myQuizzesData?.data;
 
@@ -92,7 +111,7 @@ export default function MyMadeQuiz() {
         titleWhenNoData="아직 내가 만든 퀴즈가 없어요. 😞"
         buttonNameWhenNoData="퀴즈 만들러 가기"
         onClickBtnWhenNoData={handleClickWhenNoData}
-        handleOptionClick={handleOptionClick}
+        handleOptionClick={onOptionClick}
         filterCriteria={filterCriteria}
         filterOptions={filterOptions}
         quizListType="made"
@@ -100,7 +119,7 @@ export default function MyMadeQuiz() {
       {shouldRenderPagination ? (
         <Pagination
           type="queryString"
-          parentPage={"my/made-quiz"}
+          parentPage="my/made-quiz"
           paginationState={paginationState}
           setPaginationState={setPaginationState}
         />

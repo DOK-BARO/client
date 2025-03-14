@@ -12,15 +12,11 @@ import Breadcrumb from "../../../../components/composite/Breadcrumb/Breadcrumb";
 import { useEffect, useMemo } from "react";
 import Pagination from "@/components/composite/Pagination/Pagination";
 import { useAtom, useSetAtom } from "jotai";
-import {
-  paginationAtom,
-  prevPaginationStateAtom,
-} from "@/store/paginationAtom";
+import { paginationAtom } from "@/store/paginationAtom";
 import { bookService } from "@/services/server/bookService";
 import ListFilter, {
   FilterOptionType,
 } from "@/components/composite/ListFilter/ListFilter";
-import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 import useFilter from "@/hooks/useFilter";
 import { BooksFilterType, BooksSortType } from "@/types/FilterType";
 import { parseQueryParams } from "@/utils/parseQueryParams";
@@ -54,10 +50,13 @@ export default function BookListLayout() {
   // -FilterAtom에 저장된 필터 상태를 지정하는 함수 setFilterCriteria를 useFilter에 전달
   const [filterCriteria, setFilterCriteria] = useAtom(bookFilterAtom);
   const setBooksFilter = useSetAtom(bookFilterAtom);
-  useFilter<BooksFilterType>(setFilterCriteria, () =>
-    resetBooksFilter(setBooksFilter),
-  );
-  const { navigateWithParams } = useNavigateWithParams("books");
+
+  const { onOptionClick } = useFilter<BooksFilterType>({
+    type: "queryString",
+    setFilterCriteria,
+    resetFilter: () => resetBooksFilter(setBooksFilter),
+    parentPage: "books",
+  });
 
   // 책 카테고리 목록 가져오기
   const { data: categories, isLoading: isCategoriesLoading } = useQuery({
@@ -102,23 +101,10 @@ export default function BookListLayout() {
       setPaginationState((prev) => ({
         ...prev,
         totalPagesLength: endPageNumber,
+        pagePosition: "START",
       }));
     }
   }, [endPageNumber]);
-
-  const [, setPrevPaginationState] = useAtom(prevPaginationStateAtom);
-
-  // filterOptions 클릭 시
-  const handleOptionClick = (filter: BooksFilterType) => {
-    sessionStorage.setItem("prevPage", page ? page : "1");
-    setPrevPaginationState(undefined);
-
-    navigateWithParams({
-      filter: filter,
-      parentPage: "books",
-      excludeParams: ["page"],
-    });
-  };
 
   const topParentCategoryInfo = categories
     ? findTopParentCategoryInfo(categories, Number(category))
@@ -147,15 +133,12 @@ export default function BookListLayout() {
         </h2>
         <div className={styles["breadcrumb-filter-container"]}>
           {currentCategoryInfo ? (
-            <Breadcrumb
-              parentPage="books"
-              list={[parentCategoryInfo, currentCategoryInfo]}
-            />
+            <Breadcrumb list={[parentCategoryInfo, currentCategoryInfo]} />
           ) : (
             <span />
           )}
           <ListFilter
-            onOptionClick={handleOptionClick}
+            onOptionClick={onOptionClick}
             sortFilter={filterCriteria}
             filterOptions={filterOptions}
           />

@@ -2,18 +2,22 @@ import { useQuery } from "@tanstack/react-query";
 import { quizKeys } from "@/data/queryKeys";
 import QuizListLayout from "../../layout/QuizListLayout/QuizListLayout";
 import { quizService } from "@/services/server/quizService";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
 import useFilter from "@/hooks/useFilter";
-import { mySolvedQuizPaginationAtom } from "@/store/paginationAtom";
+import { paginationAtom } from "@/store/paginationAtom";
 import Pagination from "@/components/composite/Pagination/Pagination";
 import { FilterOptionType } from "@/components/composite/ListFilter/ListFilter";
 import { MySolvedQuizzesFetchType } from "@/types/ParamsType";
 import { useEffect, useMemo } from "react";
 import ROUTES from "@/data/routes";
-import { MySolvedQuizzesFilterType } from "@/types/FilterType";
+import {
+  MySolvedQuizzesFilterType,
+  MySolvedQuizzesSortType,
+} from "@/types/FilterType";
 import { mySolvedQuizFilterAtom } from "@/store/filterAtom";
 import { isLoggedInAtom } from "@/store/userAtom";
+import { parseQueryParams } from "@/utils/parseQueryParams";
 
 const filterOptions: FilterOptionType<MySolvedQuizzesFilterType>[] = [
   {
@@ -36,23 +40,46 @@ export default function SolvedQuiz() {
   const navigate = useNavigate();
   const [isLoggedIn] = useAtom(isLoggedInAtom);
   const [filterCriteria, setFilterCriteria] = useAtom(mySolvedQuizFilterAtom);
-  useFilter<MySolvedQuizzesFilterType>(setFilterCriteria);
-
-  const [paginationState, setPaginationState] = useAtom(
-    mySolvedQuizPaginationAtom,
-  );
+  const { onOptionClick } = useFilter<MySolvedQuizzesFilterType>({
+    type: "queryString",
+    parentPage: "my/solved-quiz",
+    setFilterCriteria,
+  });
+  const [paginationState, setPaginationState] = useAtom(paginationAtom);
+  const { search } = useLocation();
+  const queryParams = new URLSearchParams(search);
 
   const totalPagesLength = paginationState.totalPagesLength;
-  const params: MySolvedQuizzesFetchType = {
-    page: paginationState.currentPage.toString() ?? "1",
-    sort: filterCriteria.sort,
-    direction: filterCriteria.direction,
-    size: "6",
-  };
+  // const params: MySolvedQuizzesFetchType = {
+  //   page: paginationState.currentPage.toString() ?? "1",
+  //   sort: filterCriteria.sort,
+  //   direction: filterCriteria.direction,
+  //   size: "6",
+  // };
+
+  const sort = queryParams.get("sort") || "CREATED_AT";
+  const direction = queryParams.get("direction") || "DESC";
+  const page = queryParams.get("page") || undefined;
+  const size = 6;
 
   const { isLoading, data: myQuizzesData } = useQuery({
-    queryKey: quizKeys.solvedQuiz(params),
-    queryFn: async () => await quizService.fetchMySolvedQuizzes(params),
+    queryKey: quizKeys.solvedQuiz(
+      parseQueryParams<MySolvedQuizzesSortType, MySolvedQuizzesFetchType>({
+        sort,
+        direction,
+        page,
+        size,
+      }),
+    ),
+    queryFn: async () =>
+      await quizService.fetchMySolvedQuizzes(
+        parseQueryParams({
+          sort,
+          direction,
+          page,
+          size,
+        }),
+      ),
     enabled: isLoggedIn,
   });
 
@@ -62,17 +89,14 @@ export default function SolvedQuiz() {
 
   const endPageNumber = myQuizzesData?.endPageNumber;
   useEffect(() => {
-    if (endPageNumber) {
-      setPaginationState({
-        ...paginationState,
+    if (endPageNumber && totalPagesLength !== endPageNumber) {
+      setPaginationState((prev) => ({
+        ...prev,
         totalPagesLength: endPageNumber,
-      });
+        pagePosition: "START",
+      }));
     }
   }, [endPageNumber]);
-
-  const handleOptionClick = (filter: MySolvedQuizzesFilterType) => {
-    setFilterCriteria(filter);
-  };
 
   const myQuizzes = myQuizzesData?.data;
 
@@ -90,7 +114,7 @@ export default function SolvedQuiz() {
           titleWhenNoData="아직 내가 푼 퀴즈가 없어요. 😞"
           buttonNameWhenNoData="퀴즈 풀러 가기"
           onClickBtnWhenNoData={handleClickWhenNoData}
-          handleOptionClick={handleOptionClick}
+          handleOptionClick={onOptionClick}
           filterCriteria={filterCriteria}
           filterOptions={filterOptions}
           quizListType="solved"

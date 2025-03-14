@@ -48,7 +48,10 @@ export default function MyStudyGroups() {
   const observerRef = useRef<HTMLDivElement | null>(null);
   const [isLoggedIn] = useAtom(isLoggedInAtom);
 
-  useFilter<StudyGroupsFilterType>(setFilterCriteria);
+  const { onOptionClick } = useFilter<StudyGroupsFilterType>({
+    type: "state",
+    setFilterCriteria,
+  });
 
   const sort = filterCriteria.sort;
   const direction = filterCriteria.direction; // 기본값: ASC
@@ -96,10 +99,6 @@ export default function MyStudyGroups() {
     enabled: isLoggedIn,
   });
 
-  const handleOptionClick = (filter: StudyGroupsFilterType) => {
-    setFilterCriteria(filter);
-  };
-
   const handleStudyGroupJoinClick = () => {
     navigate(ROUTES.MY_STUDY_GROUPS_JOIN);
   };
@@ -115,7 +114,7 @@ export default function MyStudyGroups() {
       <h3 className={styles["sub-title"]}>내 스터디 그룹</h3>
       <div className={styles["filter-container"]}>
         <ListFilter
-          onOptionClick={handleOptionClick}
+          onOptionClick={onOptionClick}
           sortFilter={filterCriteria}
           filterOptions={filterOptions}
         />

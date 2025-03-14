@@ -3,10 +3,9 @@ import styles from "./_pagination.module.scss";
 import { ArrowLeft } from "@/svg/ArrowLeft";
 import { gray60 } from "@/styles/abstracts/colors";
 import { ArrowRight } from "@/svg/ArrowRight";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { PaginationType, ParentPageType } from "@/types/PaginationType";
-import usePaginationState from "@/hooks/usePaginationState";
-import useNavigateWithParams from "@/hooks/useNavigateWithParams";
+import usePagination from "@/hooks/usePagination";
 
 // 퀴리스트링 기반 페이지네이션
 interface QueryStringPaginationProps {
@@ -32,27 +31,18 @@ export default function Pagination(paginationProps: Props) {
   const { type, paginationState, setPaginationState, parentPage, itemId } =
     paginationProps;
 
-  const { handlePageClick } = usePaginationState({
+  const { handlePageClick } = usePagination({
     paginationState,
     setPaginationState,
+    type,
+    parentPage,
+    itemId,
   });
-  const { navigateWithParams } = useNavigateWithParams();
 
   const currentPage = paginationState.currentPage ?? 1;
   const totalPagesLength = paginationState.totalPagesLength ?? 0;
   const middlePages = paginationState.middlePages;
   const isMiddlePageUpdated = paginationState.isMiddlePagesUpdated;
-
-  // 쿼리 스트링 방식만 해당
-  useEffect(() => {
-    if (type === "queryString" && parentPage) {
-      navigateWithParams({
-        page: currentPage,
-        parentPage,
-        itemId,
-      });
-    }
-  }, [currentPage, type === "queryString" && parentPage]);
 
   // 페이지 번호 버튼
   const renderButton = (page: number, isEllipsis: boolean = false) => {

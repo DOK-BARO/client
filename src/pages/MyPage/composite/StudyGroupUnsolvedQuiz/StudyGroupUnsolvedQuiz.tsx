@@ -99,10 +99,13 @@ export default function StudyGroupUnsolvedQuiz({ studyGroupId }: Props) {
 
   // 마지막 페이지 번호 저장
   useEffect(() => {
-    setPaginationState({
-      ...paginationState,
-      totalPagesLength: endPageNumber,
-    });
+    if (endPageNumber && totalPagesLength !== endPageNumber) {
+      setPaginationState((prev) => ({
+        ...prev,
+        totalPagesLength: endPageNumber,
+        pagePosition: "START",
+      }));
+    }
   }, [endPageNumber]);
 
   const { onOptionClick } = useFilter<MyStudyUnSolvedQuizzesFilterType>({

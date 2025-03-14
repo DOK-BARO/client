@@ -101,6 +101,7 @@ export default function BookListLayout() {
       setPaginationState((prev) => ({
         ...prev,
         totalPagesLength: endPageNumber,
+        pagePosition: "START",
       }));
     }
   }, [endPageNumber]);
@@ -132,10 +133,7 @@ export default function BookListLayout() {
         </h2>
         <div className={styles["breadcrumb-filter-container"]}>
           {currentCategoryInfo ? (
-            <Breadcrumb
-              parentPage="books"
-              list={[parentCategoryInfo, currentCategoryInfo]}
-            />
+            <Breadcrumb list={[parentCategoryInfo, currentCategoryInfo]} />
           ) : (
             <span />
           )}

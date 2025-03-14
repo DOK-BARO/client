@@ -88,6 +88,7 @@ export default function MyMadeQuiz() {
       setPaginationState((prev) => ({
         ...prev,
         totalPagesLength: endPageNumber,
+        pagePosition: "START",
       }));
     }
   }, [endPageNumber]);

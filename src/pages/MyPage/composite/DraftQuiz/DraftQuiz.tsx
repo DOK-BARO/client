@@ -44,16 +44,13 @@ export default function DraftQuiz() {
   const [filterCriteria, setFilterCriteria] = useAtom(myDraftQuizFilterAtom);
   const { search } = useLocation();
   const queryParams = new URLSearchParams(search);
+  const [paginationState, setPaginationState] = useAtom(paginationAtom);
 
   const { onOptionClick } = useFilter<MyMadeQuizzesFilterType>({
     type: "queryString",
     parentPage: "my/draft-quiz",
     setFilterCriteria,
   });
-
-  const [paginationState, setPaginationState] = useAtom(paginationAtom);
-
-  const totalPagesLength = paginationState.totalPagesLength;
 
   const sort = queryParams.get("sort") || "CREATED_AT";
   const direction = queryParams.get("direction") || "DESC";
@@ -88,17 +85,19 @@ export default function DraftQuiz() {
     navigate(ROUTES.CREATE_QUIZ());
   };
 
+  const myQuizzes = myQuizzesData?.data;
   const endPageNumber = myQuizzesData?.endPageNumber;
+  const totalPagesLength = paginationState.totalPagesLength;
+
   useEffect(() => {
     if (endPageNumber && totalPagesLength !== endPageNumber) {
       setPaginationState((prev) => ({
         ...prev,
         totalPagesLength: endPageNumber,
+        pagePosition: "START",
       }));
     }
   }, [endPageNumber]);
-
-  const myQuizzes = myQuizzesData?.data;
 
   const shouldRenderDataList = !isLoading && myQuizzes;
   const shouldRenderPagination = useMemo(() => {

@@ -89,11 +89,12 @@ export default function SolvedQuiz() {
 
   const endPageNumber = myQuizzesData?.endPageNumber;
   useEffect(() => {
-    if (endPageNumber) {
-      setPaginationState({
-        ...paginationState,
+    if (endPageNumber && totalPagesLength !== endPageNumber) {
+      setPaginationState((prev) => ({
+        ...prev,
         totalPagesLength: endPageNumber,
-      });
+        pagePosition: "START",
+      }));
     }
   }, [endPageNumber]);
 

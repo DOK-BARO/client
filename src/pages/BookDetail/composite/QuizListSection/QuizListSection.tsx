@@ -81,11 +81,12 @@ export default function QuizListSection({ bookId }: Props) {
 
   const endPageNumber = quizzes?.endPageNumber;
   useEffect(() => {
-    if (endPageNumber) {
-      setPaginationState({
-        ...paginationState,
+    if (endPageNumber && totalPagesLength !== endPageNumber) {
+      setPaginationState((prev) => ({
+        ...prev,
         totalPagesLength: endPageNumber,
-      });
+        pagePosition: "START",
+      }));
     }
   }, [endPageNumber]);
 

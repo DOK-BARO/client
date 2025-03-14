@@ -8,7 +8,6 @@ import {
   MySolvedQuizzesFilterType,
   MyStudyUnSolvedQuizzesFilterType,
   MyStudySolvedQuizzesFilterType,
-  MyDraftQuizzesFilterType,
 } from "@/types/FilterType";
 
 // 기본값 정의
@@ -24,7 +23,7 @@ const DEFAULT_MY_SOLVED_QUIZ_FILTER: MySolvedQuizzesFilterType = {
   direction: "DESC",
 };
 // 마이페이지 > 작성 중인 퀴즈
-const DEFAULT_MY_DRAFT_QUIZ_FILTER: MyDraftQuizzesFilterType = {
+const DEFAULT_MY_DRAFT_QUIZ_FILTER: MyMadeQuizzesFilterType = {
   sort: "CREATED_AT",
   direction: "DESC",
 };
@@ -60,12 +59,6 @@ const DEFAULT_MY_MADE_QUIZZES_FILTER: MyMadeQuizzesFilterType = {
   direction: "DESC",
 };
 
-// 마이 페이지 > 작성 중인 퀴즈
-const DEFAULT_DRAFT_QUIZZES_FILTER: MyDraftQuizzesFilterType = {
-  sort: "CREATED_AT",
-  direction: "DESC",
-};
-
 // 퀴즈 상세 페이지 > 리뷰
 const DEFAULT_REVIEW_FILTER: ReviewsFilterType = {
   sort: "STAR_RATING",
@@ -81,7 +74,7 @@ export const mySolvedQuizFilterAtom = atom<MySolvedQuizzesFilterType>(
   DEFAULT_MY_SOLVED_QUIZ_FILTER,
 );
 
-export const myDraftQuizFilterAtom = atom<MyDraftQuizzesFilterType>(
+export const myDraftQuizFilterAtom = atom<MyMadeQuizzesFilterType>(
   DEFAULT_MY_DRAFT_QUIZ_FILTER,
 );
 
@@ -172,7 +165,3 @@ export const resetQuizzesFilter = (
 export const resetReviewFilter = (
   setAtom: (value: ReviewsFilterType) => void,
 ) => resetFilter(setAtom, DEFAULT_REVIEW_FILTER);
-
-export const resetDraftQuizzesFilter = (
-  setAtom: (value: MyDraftQuizzesFilterType) => void,
-) => resetFilter(setAtom, DEFAULT_DRAFT_QUIZZES_FILTER);

@@ -37,7 +37,6 @@ import { resetQuizCreationBookStateAtom } from "@/store/quizAtom.ts";
 import usePreventLeave from "@/hooks/usePreventLeave.ts";
 import { preventLeaveModalAtom } from "@/store/quizAtom.ts";
 import { QUIZ_CREATION_STEP } from "@/data/constants.ts";
-import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner.tsx";
 import Button from "@/components/atom/Button/Button.tsx";
 import useCreateQuiz from "@/hooks/mutate/useCreateQuiz.ts";
 import { imageService } from "@/services/server/imageService.ts";
@@ -107,7 +106,7 @@ export default function Index() {
     quizCreationInfoRef.current = quizCreationInfo;
   }, [quizCreationInfo]);
 
-  const { data: prevQuiz, isLoading: isPrevQuizLoading } = useQuery({
+  const { data: prevQuiz } = useQuery({
     queryKey: quizKeys.prevDetail(quizId!),
     queryFn: () => (quizId ? quizService.fetchQuizzesDetail(quizId) : null),
     enabled: isEditMode && !!quizId,
@@ -130,13 +129,13 @@ export default function Index() {
     };
   }, [isNonTemporaryEditMode]);
 
-  const { data: prevBook, isLoading: isBookLoading } = useQuery({
+  const { data: prevBook } = useQuery({
     queryKey: ["bookDetail", prevQuiz?.bookId],
     queryFn: () => bookService.fetchBook(prevQuiz!.bookId),
     enabled: isEditMode && !!prevQuiz?.bookId,
   });
 
-  const { data: studyGroupDetail, isLoading: isStudyGroupLoading } = useQuery({
+  const { data: studyGroupDetail } = useQuery({
     queryKey: ["studyGroupDetail", prevQuiz?.studyGroupId],
     queryFn: () =>
       studyGroupService.fetchStudyGroup(prevQuiz?.studyGroupId ?? -1),
@@ -484,9 +483,9 @@ export default function Index() {
   const hasReachedQuizBasicInfoStep =
     currentStep >= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO;
 
-  if (isPrevQuizLoading || isBookLoading || isStudyGroupLoading) {
-    return <LoadingSpinner pageCenter width={40} />;
-  }
+  // if (isPrevQuizLoading || isBookLoading || isStudyGroupLoading) {
+  //   return <LoadingSpinner pageCenter width={40} />;
+  // }
 
   return (
     <section className={styles["container"]}>

@@ -9,8 +9,6 @@ import Button from "@/components/atom/Button/Button";
 import useGNB from "@/hooks/useGNB";
 import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 import { bookService } from "@/services/server/bookService";
-import { useAtom } from "jotai";
-import { prevPaginationStateAtom } from "@/store/paginationAtom";
 
 // Book Category GNB
 export default function GNB() {
@@ -26,16 +24,14 @@ export default function GNB() {
     queryKey: bookKeys.categories(),
     queryFn: bookService.fetchBookCategories,
   });
-  const { navigateWithParams } = useNavigateWithParams("books");
-  const [, setPrevPaginationState] = useAtom(prevPaginationStateAtom);
+  const { navigateWithParams } = useNavigateWithParams();
+  // const [, setPrevPaginationState] = useAtom(prevPaginationStateAtom);
 
   const handleClick = (id: string) => {
-    sessionStorage.removeItem("prevPage");
-    setPrevPaginationState(undefined);
-
+    // setPrevPaginationState(undefined);
     navigateWithParams({
-      parentPage: "books",
       category: id,
+      parentPage: "books",
       excludeParams: ["page"],
     });
   };

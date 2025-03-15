@@ -1,17 +1,28 @@
-import { PagePositionType, PaginationType } from "@/types/PaginationType";
-import { Dispatch, SetStateAction, useEffect } from "react";
+import {
+  PagePositionType,
+  PaginationType,
+  ParentPageType,
+} from "@/types/PaginationType";
+import { Dispatch, SetStateAction, useEffect, useMemo } from "react";
 import { useLocation } from "react-router-dom";
+import useNavigateWithParams from "./useNavigateWithParams";
 
 interface UsePaginationReturn {
   handlePageClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
-
+// url이 먼저 -> 상태 업데이트
 const usePagination = ({
   paginationState,
   setPaginationState,
+  type,
+  parentPage,
+  itemId,
 }: {
   paginationState: PaginationType;
   setPaginationState: Dispatch<SetStateAction<PaginationType>>;
+  type: "queryString" | "state";
+  itemId?: number;
+  parentPage?: ParentPageType;
 }): UsePaginationReturn => {
   const location = useLocation();
 
@@ -20,6 +31,33 @@ const usePagination = ({
   const pagePosition = paginationState.pagePosition;
   const middlePages = paginationState.middlePages;
   const middlePagesLength = paginationState.middlePagesLength;
+  const { navigateWithParams } = useNavigateWithParams();
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const pageFromUrl = Number(queryParams.get("page") ?? "1");
+
+    // URL 변경 시 페이지네이션 상태 업데이트
+    setPageState(pageFromUrl, pagePosition);
+  }, [location.search]);
+
+  const changePage = (newPage: number, newPagePosition: PagePositionType) => {
+    // URL 업데이트
+    if (type === "queryString" && parentPage) {
+      navigateWithParams({
+        page: newPage,
+        parentPage,
+        itemId,
+      });
+      setPaginationState((prev) => ({
+        ...prev,
+        pagePosition: newPagePosition,
+      }));
+    } else {
+      // URL 변경 없이 상태만 업데이트하는 경우
+      setPageState(newPage, newPagePosition);
+    }
+  };
 
   const getMiddlePages = (position: PagePositionType, basePage: number) => {
     let startIndex: number;
@@ -29,7 +67,6 @@ const usePagination = ({
     } else if (position === "END" && basePage) {
       startIndex = basePage - middlePagesLength;
     }
-
     const pageList = Array.from(
       { length: middlePagesLength },
       (_, i) => startIndex + i + 1,
@@ -41,32 +78,40 @@ const usePagination = ({
     return middlePageList;
   };
 
-  useEffect(() => {
-    if (pagePosition !== "BETWEEN" && totalPagesLength) {
-      // 로딩 상태 업데이트
-      setPaginationState({
-        ...paginationState,
-        isMiddlePagesUpdated: false,
-      });
-      const middlePageList = getMiddlePages(pagePosition, currentPage);
-      setPaginationState((prev) => ({
-        ...prev,
-        middlePages: middlePageList,
-        isMiddlePagesUpdated: true, // 중간 페이지 업데이트 완료
-      }));
+  // 중간 페이지 리스트 업데이트
+  const updateMiddlePages = (page: number) => {
+    // 로딩 상태 업데이트
+    if (pagePosition === "BETWEEN") {
+      return;
     }
-  }, [pagePosition, totalPagesLength, location]);
-
-  const setPageState = (
-    currentPage: number,
-    pagePosition: PagePositionType,
-  ) => {
     setPaginationState((prev) => ({
       ...prev,
-      currentPage,
-      pagePosition,
+      isMiddlePagesUpdated: false,
+    }));
+    const middlePageList = getMiddlePages(pagePosition, page);
+    setPaginationState((prev) => ({
+      ...prev,
+      middlePages: middlePageList,
+      isMiddlePagesUpdated: true,
     }));
   };
+
+  const setPageState = (page: number, pagePosition: PagePositionType) => {
+    setPaginationState((prev) => ({
+      ...prev,
+      currentPage: page,
+      pagePosition,
+      parentPage,
+    }));
+  };
+  const memoizedTotalPagesLength = useMemo(
+    () => totalPagesLength,
+    [totalPagesLength],
+  );
+
+  useEffect(() => {
+    updateMiddlePages(currentPage);
+  }, [pagePosition, currentPage, memoizedTotalPagesLength]);
 
   const handlePageClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const { value } = e.currentTarget;
@@ -80,9 +125,9 @@ const usePagination = ({
         currentPage === 2
         // 범위 안에 있다면
       ) {
-        setPageState(currentPage - 1, "BETWEEN");
+        changePage(currentPage - 1, "BETWEEN");
       } else {
-        setPageState(middlePages[0] - 1, "END");
+        changePage(middlePages[0] - 1, "END");
       }
     } else if (value === "next") {
       if (currentPage >= totalPagesLength) {
@@ -93,9 +138,9 @@ const usePagination = ({
         currentPage === totalPagesLength - 1
         // 범위 안에 있다면
       ) {
-        setPageState(currentPage + 1, "BETWEEN");
+        changePage(currentPage + 1, "BETWEEN");
       } else {
-        setPageState(middlePages[middlePages.length - 1] + 1, "START");
+        changePage(middlePages[middlePages.length - 1] + 1, "START");
       }
     } else {
       // 숫자 클릭
@@ -105,7 +150,7 @@ const usePagination = ({
       } else if (Number(value) === paginationState.totalPagesLength) {
         position = "END";
       }
-      setPageState(Number(value), position);
+      changePage(Number(value), position);
     }
   };
 

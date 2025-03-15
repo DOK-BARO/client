@@ -14,7 +14,6 @@ export default function PopularQuizBookList() {
     queryKey: bookKeys.list({ page, size, sort, direction }),
     queryFn: () => bookService.fetchBooks({ page, size, sort, direction }),
   });
-  console.log(popularQuizBooks);
 
   return !isLoading && popularQuizBooks ? (
     <ol className={styles.container}>

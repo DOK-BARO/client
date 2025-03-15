@@ -8,6 +8,7 @@ type ParseQueryParamsArgs = {
   direction?: string;
   sort?: string;
   quizId?: number;
+  temporary?: boolean;
 };
 
 export const parseQueryParams = <SortType, ReturnParams>({
@@ -18,6 +19,7 @@ export const parseQueryParams = <SortType, ReturnParams>({
   direction,
   sort,
   quizId,
+  temporary,
 }: ParseQueryParamsArgs): ReturnParams => {
   const params: Record<string, unknown> = {};
 
@@ -37,6 +39,10 @@ export const parseQueryParams = <SortType, ReturnParams>({
 
   if (quizId !== undefined) {
     params["quizId"] = quizId;
+  }
+
+  if (temporary) {
+    params["temporary"] = temporary;
   }
 
   if (direction) {

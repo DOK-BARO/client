@@ -19,7 +19,7 @@ export default function SearchBar() {
     onChange: onSearchWordChange,
     resetInput,
   } = useInput("");
-  const { navigateWithParams } = useNavigateWithParams("books");
+  const { navigateWithParams } = useNavigateWithParams();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();

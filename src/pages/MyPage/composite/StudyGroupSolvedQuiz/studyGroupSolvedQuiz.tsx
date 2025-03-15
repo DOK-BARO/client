@@ -7,7 +7,6 @@ import {
 import { parseQueryParams } from "@/utils/parseQueryParams";
 import { StudyGroupsFetchType } from "@/types/ParamsType";
 import { useAtom } from "jotai";
-import { mySolvedQuizPaginationAtom } from "@/store/paginationAtom";
 import { myStudySolvedQuizFilterAtom } from "@/store/filterAtom";
 import useFilter from "@/hooks/useFilter";
 import { useQuery } from "@tanstack/react-query";
@@ -22,6 +21,7 @@ import { NoDataSection } from "@/components/composite/NoDataSection/NoDataSectio
 import { copyText } from "@/utils/copyText";
 import ROUTES from "@/data/routes";
 import { isLoggedInAtom } from "@/store/userAtom";
+import { myStudySolvedQuizPaginationAtom } from "@/store/paginationAtom";
 
 const filterOptions: FilterOptionType<MyStudySolvedQuizzesFilterType>[] = [
   {
@@ -47,19 +47,24 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Props) {
   const [filterCriteria, setFilterCriteria] = useAtom(
     myStudySolvedQuizFilterAtom,
   );
+
   const [isLoggedIn] = useAtom(isLoggedInAtom);
-  useFilter<MyStudySolvedQuizzesFilterType>(setFilterCriteria);
+
+  const { onOptionClick } = useFilter<MyStudySolvedQuizzesFilterType>({
+    type: "state",
+    setFilterCriteria,
+  });
 
   const [paginationState, setPaginationState] = useAtom(
-    mySolvedQuizPaginationAtom,
+    myStudySolvedQuizPaginationAtom,
   );
 
   const totalPagesLength = paginationState.totalPagesLength;
 
-  const sort = filterCriteria.sort; // 기본값: 최신순
-  const direction = filterCriteria.direction; // 기본값: ASC
-  const page = paginationState.currentPage; // parseQueryParams함수 안에서 기본값 1로 설정
-  const size = 4; // 한번에 불러올 최대 길이: 책 목록에서는 10 고정값.
+  const sort = filterCriteria.sort;
+  const direction = filterCriteria.direction;
+  const page = paginationState.currentPage;
+  const size = 4;
 
   const { data: solvedQuizData } = useQuery({
     queryKey: studyGroupKeys.mySolvedQuizList(
@@ -94,19 +99,14 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Props) {
 
   // 마지막 페이지 번호 저장
   useEffect(() => {
-    setPaginationState({
-      ...paginationState,
-      totalPagesLength: endPageNumber,
-    });
+    if (endPageNumber && totalPagesLength !== endPageNumber) {
+      setPaginationState((prev) => ({
+        ...prev,
+        totalPagesLength: endPageNumber,
+        pagePosition: "START",
+      }));
+    }
   }, [endPageNumber]);
-
-  const handleOptionClick = (filter: MyStudySolvedQuizzesFilterType) => {
-    setPaginationState({
-      ...paginationState,
-      currentPage: 1,
-    });
-    setFilterCriteria(filter);
-  };
 
   const handleCopyQuizLink = (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -129,7 +129,7 @@ export default function StudyGroupSolvedQuiz({ studyGroupId }: Props) {
         <h3 className={styles.title}>제출한 퀴즈</h3>
         {isQuizzesExist ? (
           <ListFilter
-            onOptionClick={handleOptionClick}
+            onOptionClick={onOptionClick}
             sortFilter={filterCriteria}
             filterOptions={filterOptions}
           />

@@ -2,20 +2,25 @@ import { useQuery } from "@tanstack/react-query";
 import { quizKeys } from "@/data/queryKeys";
 import QuizListLayout from "../../layout/QuizListLayout/QuizListLayout";
 import { quizService } from "@/services/server/quizService";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
 import useFilter from "@/hooks/useFilter";
-import { mySolvedQuizPaginationAtom } from "@/store/paginationAtom";
+import { paginationAtom } from "@/store/paginationAtom";
 import Pagination from "@/components/composite/Pagination/Pagination";
 import { FilterOptionType } from "@/components/composite/ListFilter/ListFilter";
 import { MyMadeQuizzesFetchType } from "@/types/ParamsType";
 import { useEffect, useMemo } from "react";
 import ROUTES from "@/data/routes";
-import { MyDraftQuizzesFilterType } from "@/types/FilterType";
+
 import { myDraftQuizFilterAtom } from "@/store/filterAtom";
 import { isLoggedInAtom } from "@/store/userAtom";
+import { parseQueryParams } from "@/utils/parseQueryParams";
+import {
+  MyMadeQuizzesFilterType,
+  MyMadeQuizzesSortType,
+} from "@/types/FilterType";
 
-const filterOptions: FilterOptionType<MyDraftQuizzesFilterType>[] = [
+const filterOptions: FilterOptionType<MyMadeQuizzesFilterType>[] = [
   {
     filter: {
       sort: "CREATED_AT",
@@ -35,25 +40,44 @@ const filterOptions: FilterOptionType<MyDraftQuizzesFilterType>[] = [
 export default function DraftQuiz() {
   const navigate = useNavigate();
   const [isLoggedIn] = useAtom(isLoggedInAtom);
+
   const [filterCriteria, setFilterCriteria] = useAtom(myDraftQuizFilterAtom);
-  useFilter<MyDraftQuizzesFilterType>(setFilterCriteria);
+  const { search } = useLocation();
+  const queryParams = new URLSearchParams(search);
+  const [paginationState, setPaginationState] = useAtom(paginationAtom);
 
-  const [paginationState, setPaginationState] = useAtom(
-    mySolvedQuizPaginationAtom,
-  );
+  const { onOptionClick } = useFilter<MyMadeQuizzesFilterType>({
+    type: "queryString",
+    parentPage: "my/draft-quiz",
+    setFilterCriteria,
+  });
 
-  const totalPagesLength = paginationState.totalPagesLength;
-  const params: MyMadeQuizzesFetchType = {
-    page: paginationState.currentPage.toString() ?? "1",
-    sort: filterCriteria.sort,
-    direction: filterCriteria.direction,
-    size: "6",
-    temporary: true,
-  };
+  const sort = queryParams.get("sort") || "CREATED_AT";
+  const direction = queryParams.get("direction") || "DESC";
+  const page = queryParams.get("page") || undefined;
+  const size = 6;
+  const temporary = true;
 
   const { isLoading, data: myQuizzesData } = useQuery({
-    queryKey: quizKeys.myQuiz(params),
-    queryFn: () => quizService.fetchMyMadeQuizzes(params),
+    queryKey: quizKeys.myQuiz(
+      parseQueryParams<MyMadeQuizzesSortType, MyMadeQuizzesFetchType>({
+        sort,
+        direction,
+        page,
+        size,
+        temporary,
+      }),
+    ),
+    queryFn: () =>
+      quizService.fetchMyMadeQuizzes(
+        parseQueryParams({
+          sort,
+          direction,
+          page,
+          size,
+          temporary,
+        }),
+      ),
     enabled: isLoggedIn,
   });
 
@@ -61,21 +85,19 @@ export default function DraftQuiz() {
     navigate(ROUTES.CREATE_QUIZ());
   };
 
+  const myQuizzes = myQuizzesData?.data;
   const endPageNumber = myQuizzesData?.endPageNumber;
+  const totalPagesLength = paginationState.totalPagesLength;
+
   useEffect(() => {
-    if (endPageNumber) {
-      setPaginationState({
-        ...paginationState,
+    if (endPageNumber && totalPagesLength !== endPageNumber) {
+      setPaginationState((prev) => ({
+        ...prev,
         totalPagesLength: endPageNumber,
-      });
+        pagePosition: "START",
+      }));
     }
   }, [endPageNumber]);
-
-  const handleOptionClick = (filter: MyDraftQuizzesFilterType) => {
-    setFilterCriteria(filter);
-  };
-
-  const myQuizzes = myQuizzesData?.data;
 
   const shouldRenderDataList = !isLoading && myQuizzes;
   const shouldRenderPagination = useMemo(() => {
@@ -91,7 +113,7 @@ export default function DraftQuiz() {
           titleWhenNoData="아직 작성 중인 퀴즈가 없어요. 😞"
           buttonNameWhenNoData="퀴즈 만들러 가기"
           onClickBtnWhenNoData={handleClickWhenNoData}
-          handleOptionClick={handleOptionClick}
+          handleOptionClick={onOptionClick}
           filterCriteria={filterCriteria}
           filterOptions={filterOptions}
           quizListType="draft"

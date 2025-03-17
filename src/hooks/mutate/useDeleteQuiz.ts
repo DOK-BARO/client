@@ -12,7 +12,7 @@ const useDeleteQuiz = () => {
       toast.success("퀴즈가 삭제되었습니다.");
       queryClient.invalidateQueries({
         queryKey: quizKeys.myQuiz({
-          page: "1",
+          page: 1,
         }),
       });
     },

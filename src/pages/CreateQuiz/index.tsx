@@ -261,7 +261,7 @@ export default function Index() {
         queryKey: quizKeys.prevDetail(editQuizId),
       });
       queryClient.invalidateQueries({
-        queryKey: quizKeys.myQuiz({ page: "1" }),
+        queryKey: quizKeys.myQuiz({ page: 1 }),
       });
     },
     onPermanentSuccess: (editQuizId) => {

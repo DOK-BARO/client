@@ -54,7 +54,6 @@ const useNavigateWithParams = () => {
           queryParams.delete("page");
         }
         queryParams.set("title", title);
-        // initializePaginationState();
       }
     }
     if (page) {
@@ -71,11 +70,6 @@ const useNavigateWithParams = () => {
 
     // 제외할 파라미터 삭제
     excludeParams.forEach((param) => queryParams.delete(param));
-
-    // if (excludeParams.includes("page")) {
-    //   // 페이지네이션 상태도 초기화
-    //   initializePaginationState();
-    // }
 
     const pathname = !itemId
       ? `/${parentPage.toLowerCase()}`

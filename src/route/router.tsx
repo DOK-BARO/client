@@ -5,7 +5,6 @@ import { lazy } from "react";
 const BaseLayout = lazy(
   () => import("@/components/layout/BaseLayout/BaseLayout.tsx"),
 );
-
 const BookList = lazy(() => import("@/pages/BookList"));
 const QuizDetail = lazy(() => import("@/pages/QuizDetail"));
 const CreateQuiz = lazy(() => import("@/pages/CreateQuiz"));

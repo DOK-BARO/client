@@ -27,6 +27,10 @@ export const CheckBoxQuestionTemplate: FC<Props> = ({ questionFormId }) => {
 
   const setInitialAnswer = (): { [key: string]: boolean } => {
     const question: QuizQuestionFormType = getQuestion();
+    if (!question) {
+      return {};
+    }
+
     const initCheckedOptions: { [key: string]: boolean } = {};
 
     question.selectOptions.forEach(({ id, value }) => {

@@ -28,6 +28,10 @@ export const OXQuestionTemplate: FC<Props> = ({ questionFormId }) => {
 
   const setInitialAnswer = (): string => {
     const question = getQuestion();
+    if (!question) {
+      return "";
+    }
+
     return question.answers[0];
   };
 

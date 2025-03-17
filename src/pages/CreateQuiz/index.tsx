@@ -55,6 +55,8 @@ export default function Index() {
   const { id } = useParams();
   const [quizId, setQuizId] = useState<number>(parseInt(id!));
   const [isEditMode, setIsEditMode] = useState<boolean>(!!quizId);
+  const [, setCreatedQuizId] = useAtom(createdQuizIdAtom);
+  const [isTemporarySaved, setIsTemporarySaved] = useState<boolean>(false);
 
   const [quizCreationInfo, setQuizCreationInfo] = useAtom(quizCreationInfoAtom);
   const [currentStep, setCurrentStep] = useAtom(quizCreationStepAtom);
@@ -92,9 +94,9 @@ export default function Index() {
   const [, setInvalidQuestionFormId] = useAtom(invalidQuestionFormIdAtom);
 
   /* 최신 값을 반영하기 위한 useRef (임시저장에 사용) */
-  const currentStepRef = useRef(currentStep); // currentStep 최신값 저장
+  const currentStepRef = useRef(currentStep); // currentStep 최신값 저장ㄹ
   const quizCreationInfoRef = useRef(quizCreationInfo); // quizCreationInfo 최신값 저장
-  const prevQuizCreationInfoRef = useRef<QuizFormType | null>(quizCreationInfo);
+  const prevQuizCreationInfoRef = useRef<QuizFormType | null>(quizCreationInfo); // 가장 최근 저장 이후 퀴즈 폼 상태
 
   // currentStep 변경 시 최신값 업데이트
   useEffect(() => {
@@ -105,6 +107,17 @@ export default function Index() {
   useEffect(() => {
     quizCreationInfoRef.current = quizCreationInfo;
   }, [quizCreationInfo]);
+
+  const isEditModeRef = useRef(isEditMode);
+  const quizIdRef = useRef(quizId);
+
+  useEffect(() => {
+    isEditModeRef.current = isEditMode;
+  }, [isEditMode]);
+
+  useEffect(() => {
+    quizIdRef.current = quizId;
+  }, [quizId]);
 
   const { data: prevQuiz } = useQuery({
     queryKey: quizKeys.prevDetail(quizId!),
@@ -208,9 +221,6 @@ export default function Index() {
     }
   }, [prevQuiz, isEditMode, prevBook?.isbn, studyGroupDetail?.name]);
 
-  const [, setCreatedQuizId] = useAtom(createdQuizIdAtom);
-  const [isTemporarySaved, setIsTemporarySaved] = useState<boolean>(false);
-
   const { createQuiz } = useCreateQuiz({
     onTemporarySuccess: (quizId, options) => {
       // 임시 퀴즈 생성 후 처리
@@ -221,10 +231,10 @@ export default function Index() {
       setIsEditMode(true);
       setIsTemporarySaved(true);
 
-      // 쿼리 무효화
-      queryClient.invalidateQueries({
-        queryKey: quizKeys.prevDetail(quizId),
-      });
+      // // 쿼리 무효화
+      // queryClient.invalidateQueries({
+      //   queryKey: quizKeys.prevDetail(quizId),
+      // });
     },
     onPermanentSuccess: (quizId) => {
       // 영구 퀴즈 생성 후 처리
@@ -359,9 +369,9 @@ export default function Index() {
       questions: await setRequestQuestion(quizCreationInfo),
     };
 
-    isEditMode
+    isEditModeRef.current
       ? modifyQuiz({
-          editQuizId: quizId!,
+          editQuizId: quizIdRef.current!,
           quiz,
           isTemporary,
           showToast: !isAutoSave,

@@ -108,15 +108,12 @@ export default function StudyGroupSetting() {
     useState<ProfileImageState>(initialProfileState);
 
   useEffect(() => {
-    if (
+    const isChanged =
       name !== studyGroupDetail?.name ||
-      introduction !== studyGroupDetail?.introduction
-    ) {
-      setIsInputChanged(true);
-    } else {
-      setIsInputChanged(false);
-    }
-    if (profileImage.url !== studyGroupDetail?.profileImageUrl) {
+      introduction !== studyGroupDetail?.introduction ||
+      profileImage.url !== studyGroupDetail?.profileImageUrl;
+
+    if (isChanged) {
       setIsInputChanged(true);
     } else {
       setIsInputChanged(false);

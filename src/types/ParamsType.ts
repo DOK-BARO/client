@@ -50,7 +50,7 @@ export interface QuizzesFetchType {
 
 // 내가 푼 퀴즈
 export interface MySolvedQuizzesFetchType {
-  page: string;
+  page: number;
   size?: number;
   sort?: string;
   direction?: string;

@@ -3,13 +3,11 @@ import styles from "./_pagination.module.scss";
 import { ArrowLeft } from "@/svg/ArrowLeft";
 import { gray60 } from "@/styles/abstracts/colors";
 import { ArrowRight } from "@/svg/ArrowRight";
-import usePagination from "@/hooks/usePagination";
-import { useNavigate } from "react-router-dom";
-import { Dispatch, SetStateAction, useEffect } from "react";
-import { setQueryParam } from "@/utils/setQueryParam";
+import { Dispatch, SetStateAction } from "react";
 import { PaginationType, ParentPageType } from "@/types/PaginationType";
+import usePagination from "@/hooks/usePagination";
 
-// TODO: 직관적으로 (변수명 등)
+// 퀴리스트링 기반 페이지네이션
 interface QueryStringPaginationProps {
   type: "queryString";
   parentPage: ParentPageType;
@@ -18,48 +16,33 @@ interface QueryStringPaginationProps {
   setPaginationState: Dispatch<SetStateAction<PaginationType>>;
 }
 
+// 상태 기반 페이지네이션
 interface StatePaginationProps {
   type: "state";
   itemId?: number;
+  parentPage?: ParentPageType;
   paginationState: PaginationType;
   setPaginationState: Dispatch<SetStateAction<PaginationType>>;
 }
 
 type Props = QueryStringPaginationProps | StatePaginationProps;
 
-export default function Pagination(props: Props) {
-  const navigate = useNavigate();
-  const { paginationState, setPaginationState } = props;
+export default function Pagination(paginationProps: Props) {
+  const { type, paginationState, setPaginationState, parentPage, itemId } =
+    paginationProps;
 
   const { handlePageClick } = usePagination({
     paginationState,
     setPaginationState,
+    type,
+    parentPage,
+    itemId,
   });
 
   const currentPage = paginationState.currentPage ?? 1;
   const totalPagesLength = paginationState.totalPagesLength ?? 0;
   const middlePages = paginationState.middlePages;
   const isMiddlePageUpdated = paginationState.isMiddlePagesUpdated;
-
-  useEffect(() => {
-    // 쿼리 스트링 방식만 해당
-    if (props.type === "queryString") {
-      const queryParams = setQueryParam("page", currentPage.toString());
-      const pathname = !props.itemId
-        ? `/${props.parentPage.toLowerCase()}`
-        : `/${props.parentPage.toLowerCase()}/${props.itemId}`;
-
-      navigate(
-        {
-          pathname,
-          search: `?${queryParams.toString()}`,
-        },
-        {
-          replace: true,
-        },
-      );
-    }
-  }, [currentPage, props.type === "queryString" && props.parentPage]);
 
   // 페이지 번호 버튼
   const renderButton = (page: number, isEllipsis: boolean = false) => {

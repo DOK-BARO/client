@@ -37,7 +37,6 @@ import { resetQuizCreationBookStateAtom } from "@/store/quizAtom.ts";
 import usePreventLeave from "@/hooks/usePreventLeave.ts";
 import { preventLeaveModalAtom } from "@/store/quizAtom.ts";
 import { QUIZ_CREATION_STEP } from "@/data/constants.ts";
-import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner.tsx";
 import Button from "@/components/atom/Button/Button.tsx";
 import useCreateQuiz from "@/hooks/mutate/useCreateQuiz.ts";
 import { imageService } from "@/services/server/imageService.ts";
@@ -56,6 +55,8 @@ export default function Index() {
   const { id } = useParams();
   const [quizId, setQuizId] = useState<number>(parseInt(id!));
   const [isEditMode, setIsEditMode] = useState<boolean>(!!quizId);
+  const [, setCreatedQuizId] = useAtom(createdQuizIdAtom);
+  const [isTemporarySaved, setIsTemporarySaved] = useState<boolean>(false);
 
   const [quizCreationInfo, setQuizCreationInfo] = useAtom(quizCreationInfoAtom);
   const [currentStep, setCurrentStep] = useAtom(quizCreationStepAtom);
@@ -93,9 +94,9 @@ export default function Index() {
   const [, setInvalidQuestionFormId] = useAtom(invalidQuestionFormIdAtom);
 
   /* 최신 값을 반영하기 위한 useRef (임시저장에 사용) */
-  const currentStepRef = useRef(currentStep); // currentStep 최신값 저장
+  const currentStepRef = useRef(currentStep); // currentStep 최신값 저장ㄹ
   const quizCreationInfoRef = useRef(quizCreationInfo); // quizCreationInfo 최신값 저장
-  const prevQuizCreationInfoRef = useRef<QuizFormType | null>(quizCreationInfo);
+  const prevQuizCreationInfoRef = useRef<QuizFormType | null>(quizCreationInfo); // 가장 최근 저장 이후 퀴즈 폼 상태
 
   // currentStep 변경 시 최신값 업데이트
   useEffect(() => {
@@ -107,7 +108,18 @@ export default function Index() {
     quizCreationInfoRef.current = quizCreationInfo;
   }, [quizCreationInfo]);
 
-  const { data: prevQuiz, isLoading: isPrevQuizLoading } = useQuery({
+  const isEditModeRef = useRef(isEditMode);
+  const quizIdRef = useRef(quizId);
+
+  useEffect(() => {
+    isEditModeRef.current = isEditMode;
+  }, [isEditMode]);
+
+  useEffect(() => {
+    quizIdRef.current = quizId;
+  }, [quizId]);
+
+  const { data: prevQuiz } = useQuery({
     queryKey: quizKeys.prevDetail(quizId!),
     queryFn: () => (quizId ? quizService.fetchQuizzesDetail(quizId) : null),
     enabled: isEditMode && !!quizId,
@@ -130,13 +142,13 @@ export default function Index() {
     };
   }, [isNonTemporaryEditMode]);
 
-  const { data: prevBook, isLoading: isBookLoading } = useQuery({
+  const { data: prevBook } = useQuery({
     queryKey: ["bookDetail", prevQuiz?.bookId],
     queryFn: () => bookService.fetchBook(prevQuiz!.bookId),
     enabled: isEditMode && !!prevQuiz?.bookId,
   });
 
-  const { data: studyGroupDetail, isLoading: isStudyGroupLoading } = useQuery({
+  const { data: studyGroupDetail } = useQuery({
     queryKey: ["studyGroupDetail", prevQuiz?.studyGroupId],
     queryFn: () =>
       studyGroupService.fetchStudyGroup(prevQuiz?.studyGroupId ?? -1),
@@ -209,9 +221,6 @@ export default function Index() {
     }
   }, [prevQuiz, isEditMode, prevBook?.isbn, studyGroupDetail?.name]);
 
-  const [, setCreatedQuizId] = useAtom(createdQuizIdAtom);
-  const [isTemporarySaved, setIsTemporarySaved] = useState<boolean>(false);
-
   const { createQuiz } = useCreateQuiz({
     onTemporarySuccess: (quizId, options) => {
       // 임시 퀴즈 생성 후 처리
@@ -222,10 +231,10 @@ export default function Index() {
       setIsEditMode(true);
       setIsTemporarySaved(true);
 
-      // 쿼리 무효화
-      queryClient.invalidateQueries({
-        queryKey: quizKeys.prevDetail(quizId),
-      });
+      // // 쿼리 무효화
+      // queryClient.invalidateQueries({
+      //   queryKey: quizKeys.prevDetail(quizId),
+      // });
     },
     onPermanentSuccess: (quizId) => {
       // 영구 퀴즈 생성 후 처리
@@ -360,9 +369,9 @@ export default function Index() {
       questions: await setRequestQuestion(quizCreationInfo),
     };
 
-    isEditMode
+    isEditModeRef.current
       ? modifyQuiz({
-          editQuizId: quizId!,
+          editQuizId: quizIdRef.current!,
           quiz,
           isTemporary,
           showToast: !isAutoSave,
@@ -484,9 +493,9 @@ export default function Index() {
   const hasReachedQuizBasicInfoStep =
     currentStep >= QUIZ_CREATION_STEP.QUIZ_BASIC_INFO;
 
-  if (isPrevQuizLoading || isBookLoading || isStudyGroupLoading) {
-    return <LoadingSpinner pageCenter width={40} />;
-  }
+  // if (isPrevQuizLoading || isBookLoading || isStudyGroupLoading) {
+  //   return <LoadingSpinner pageCenter width={40} />;
+  // }
 
   return (
     <section className={styles["container"]}>

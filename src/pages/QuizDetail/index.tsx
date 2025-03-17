@@ -71,7 +71,7 @@ export default function Index() {
 
   return (
     <section className={styles.container}>
-      <Breadcrumb parentPage="quiz" list={categoryList} />
+      <Breadcrumb list={categoryList} />
       <div className={styles["row-container"]}>
         <QuizLinkItem quizExplanation={explanation} />
         <div className={styles["quiz-detail-container"]}>

@@ -6,9 +6,8 @@ import { bookService } from "@/services/server/bookService.ts";
 import { useLocation, useNavigate } from "react-router-dom";
 import Pagination from "@/components/composite/Pagination/Pagination.tsx";
 import { FilterOptionType } from "@/components/composite/ListFilter/ListFilter.tsx";
-import { useAtom } from "jotai";
+import { useAtom, useSetAtom } from "jotai";
 import useFilter from "@/hooks/useFilter.ts";
-import useNavigateWithParams from "@/hooks/useNavigateWithParams.ts";
 import ListFilter from "@/components/composite/ListFilter/ListFilter.tsx";
 import { NoDataSection } from "@/components/composite/NoDataSection/NoDataSection.tsx";
 import { paginationAtom } from "@/store/paginationAtom.ts";
@@ -16,7 +15,11 @@ import { useEffect, useMemo } from "react";
 import ROUTES from "@/data/routes.ts";
 import { quizzesLengthAtom } from "@/store/quizAtom.ts";
 import useLoginAction from "@/hooks/useLoginAction.ts";
-import { quizzesFilterAtom } from "@/store/filterAtom.ts";
+import {
+  quizzesFilterAtom,
+  resetBookQuizzesFilter,
+  // resetQuizzesFilter,
+} from "@/store/filterAtom.ts";
 import { QuizzesFetchType } from "@/types/ParamsType.ts";
 import { QuizzesFilterType } from "@/types/FilterType.ts";
 import LoadingSpinner from "@/components/atom/LoadingSpinner/LoadingSpinner.tsx";
@@ -27,9 +30,26 @@ export default function QuizListSection({ bookId }: Props) {
   const { search, pathname } = useLocation();
   const queryParams = new URLSearchParams(search);
   const navigate = useNavigate();
+  // const handleOptionClick = (filter: QuizzesFilterType) => {
+  //   handleAuthenticatedAction(() => // 고려하기
+  //     navigateWithParams({
+  //       filter: filter,
+  //       parentPage: "book",
+  //       itemId: Number(bookId),
+  //       excludeParams: ["page"],
+  //     }),
+  //   );
+  // };
+  const setQuizzesFilter = useSetAtom(quizzesFilterAtom);
 
   const [filterCriteria, setFilterCriteria] = useAtom(quizzesFilterAtom);
-  useFilter<QuizzesFilterType>(setFilterCriteria);
+  const { onOptionClick } = useFilter<QuizzesFilterType>({
+    type: "queryString",
+    setFilterCriteria,
+    parentPage: "book",
+    itemId: Number(bookId),
+    resetFilter: () => resetBookQuizzesFilter(setQuizzesFilter),
+  });
   const titleWhenNoData = "아직 만들어진 퀴즈가 없어요 😔";
   const { handleAuthenticatedAction } = useLoginAction(pathname);
   const [, setQuizLength] = useAtom(quizzesLengthAtom);
@@ -61,25 +81,15 @@ export default function QuizListSection({ bookId }: Props) {
 
   const endPageNumber = quizzes?.endPageNumber;
   useEffect(() => {
-    if (endPageNumber) {
-      setPaginationState({
-        ...paginationState,
+    if (endPageNumber && totalPagesLength !== endPageNumber) {
+      setPaginationState((prev) => ({
+        ...prev,
         totalPagesLength: endPageNumber,
-      });
+        pagePosition: "START",
+      }));
     }
   }, [endPageNumber]);
 
-  const { navigateWithParams } = useNavigateWithParams("book");
-  const handleOptionClick = (filter: QuizzesFilterType) => {
-    handleAuthenticatedAction(() =>
-      navigateWithParams({
-        filter: filter,
-        parentPage: "book",
-        itemId: Number(bookId),
-        excludeParams: ["page"],
-      }),
-    );
-  };
   const filterOptions: FilterOptionType<QuizzesFilterType>[] = [
     {
       filter: {
@@ -114,7 +124,7 @@ export default function QuizListSection({ bookId }: Props) {
       <div className={styles["filter-list"]}>
         <div className={styles["filter-button-area"]}>
           <ListFilter
-            onOptionClick={handleOptionClick}
+            onOptionClick={onOptionClick}
             sortFilter={filterCriteria}
             filterOptions={filterOptions}
           />

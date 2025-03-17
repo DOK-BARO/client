@@ -6,10 +6,7 @@ import { useEffect } from "react";
 
 const useLoginAction = (redirectUrl?: string) => {
   const [isLoggedIn] = useAtom(isLoggedInAtom);
-  const {
-    //  handleGoToLogin,
-    openLoginModal,
-  } = useLoginModal();
+  const { openLoginModal } = useLoginModal();
 
   // 로그인 끝나고 redirect될 경로
   const [, setLoginRedirectUrl] = useAtom(loginRedirectUrlAtom);

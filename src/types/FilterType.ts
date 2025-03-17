@@ -1,47 +1,54 @@
 // 내림차순 | 오름차순
-type DirectionType = "ASC" | "DESC";
+export type DirectionType = "ASC" | "DESC";
 
-// 책 정렬 기준
-export type BooksSortType = "PUBLISHED_AT" | "TITLE" | "QUIZ_COUNT"; // 현재 published_at은 안쓰임
-// 리뷰 정렬 기준 (최신순, 별점 높은 순, 별점 낮은 순)
-export type ReviewsSortType = "CREATED_AT" | "STAR_RATING";
-// 스터디그룹 정렬 기준
-export type StudyGroupsSortType = "CREATED_AT" | "JOINED_AT" | "NAME";
-// 퀴즈 정렬 기준
-export type QuizzesSortType = "STAR_RATING" | "CREATED_AT" | "UPDATED_AT";
+export type NavigateMode = "queryString" | "state";
 
-// 전체 > 내가 만든 퀴즈 정렬 기준
-export type MyMadeQuizzesSortType = "CREATED_AT" | "UPDATED_AT" | "TITLE";
-// 전체 > 내가 푼 퀴즈 정렬 기준
-export type MySolvedQuizzesSortType = "TITLE" | "CREATED_AT";
-// 전체 > 내가 작성 중인 퀴즈 정렬 기준
-export type MyDraftQuizzesSortType = "TITLE" | "CREATED_AT";
+// 정렬 기준 정의
+export const SortOptions = {
+  books: ["PUBLISHED_AT", "TITLE", "QUIZ_COUNT"] as const,
+  reviews: ["CREATED_AT", "STAR_RATING"] as const,
+  studyGroups: ["CREATED_AT", "JOINED_AT", "NAME"] as const,
+  quizzes: ["STAR_RATING", "CREATED_AT", "UPDATED_AT"] as const,
+  myMadeQuizzes: ["CREATED_AT", "UPDATED_AT", "TITLE"] as const,
+  mySolvedQuizzes: ["TITLE", "CREATED_AT"] as const,
+  myStudyUnSolvedQuizzes: ["TITLE", "CREATED_AT"] as const,
+  myStudySolvedQuizzes: ["TITLE", "CREATED_AT"] as const,
+} as const;
 
-// 스터디 그룹 > 내가 안푼 퀴즈 정렬 기준
-export type MyStudyUnSolvedQuizzesSortType = "TITLE" | "CREATED_AT";
-// 스터디 그룹 > 내가 푼 퀴즈 정렬 기준
-export type MyStudySolvedQuizzesSortType = "TITLE" | "CREATED_AT";
+// 각 필터 타입 추출
+export type BooksSortType = (typeof SortOptions.books)[number];
+export type ReviewsSortType = (typeof SortOptions.reviews)[number];
+export type StudyGroupsSortType = (typeof SortOptions.studyGroups)[number];
+export type QuizzesSortType = (typeof SortOptions.quizzes)[number];
+export type MyMadeQuizzesSortType = (typeof SortOptions.myMadeQuizzes)[number];
+export type MySolvedQuizzesSortType =
+  (typeof SortOptions.mySolvedQuizzes)[number];
+export type MyStudyUnSolvedQuizzesSortType =
+  (typeof SortOptions.myStudyUnSolvedQuizzes)[number];
+export type MyStudySolvedQuizzesSortType =
+  (typeof SortOptions.myStudySolvedQuizzes)[number];
 
+// 필터 타입 (공통)
 export interface FilterType<TSortType> {
   sort: TSortType;
   direction: DirectionType;
 }
 
-export interface BooksFilterType extends FilterType<BooksSortType> {}
-export interface ReviewsFilterType extends FilterType<ReviewsSortType> {}
-export interface StudyGroupsFilterType
-  extends FilterType<StudyGroupsSortType> {}
-export interface QuizzesFilterType extends FilterType<QuizzesSortType> {}
-export interface MyMadeQuizzesFilterType
-  extends FilterType<MyMadeQuizzesSortType> {}
+// 필터 타입 정의
+export type BooksFilterType = FilterType<BooksSortType>;
+export type ReviewsFilterType = FilterType<ReviewsSortType>;
+export type StudyGroupsFilterType = FilterType<StudyGroupsSortType>;
+export type QuizzesFilterType = FilterType<QuizzesSortType>;
+export type MyMadeQuizzesFilterType = FilterType<MyMadeQuizzesSortType>;
+export type MySolvedQuizzesFilterType = FilterType<MySolvedQuizzesSortType>;
+export type MyStudyUnSolvedQuizzesFilterType =
+  FilterType<MyStudyUnSolvedQuizzesSortType>;
+export type MyStudySolvedQuizzesFilterType =
+  FilterType<MyStudySolvedQuizzesSortType>;
 
-export interface MySolvedQuizzesFilterType
-  extends FilterType<MySolvedQuizzesSortType> {}
-
-export interface MyDraftQuizzesFilterType
-  extends FilterType<MyDraftQuizzesSortType> {}
-
-export interface MyStudyUnSolvedQuizzesFilterType
-  extends FilterType<MyStudyUnSolvedQuizzesSortType> {}
-export interface MyStudySolvedQuizzesFilterType
-  extends FilterType<MyStudySolvedQuizzesSortType> {}
+export type SupportedFilterTypes =
+  | BooksFilterType
+  | ReviewsFilterType
+  | QuizzesFilterType
+  | MyMadeQuizzesFilterType
+  | StudyGroupsFilterType;

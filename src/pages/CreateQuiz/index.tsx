@@ -227,15 +227,14 @@ export default function Index() {
       if (options?.showToast) {
         toast.success("퀴즈가 임시저장되었습니다.");
       }
-      console.log("처음 임시저장 처리");
       setQuizId(quizId);
       setIsEditMode(true);
       setIsTemporarySaved(true);
 
-      // 쿼리 무효화
-      queryClient.invalidateQueries({
-        queryKey: quizKeys.prevDetail(quizId),
-      });
+      // // 쿼리 무효화
+      // queryClient.invalidateQueries({
+      //   queryKey: quizKeys.prevDetail(quizId),
+      // });
     },
     onPermanentSuccess: (quizId) => {
       // 영구 퀴즈 생성 후 처리

@@ -27,7 +27,7 @@
 }
 
 .row {
-  display: flex;
+  @include flex(row, center);
   gap: 1.6rem;
 }
 
@@ -39,4 +39,10 @@
 .snb__item-btn {
   font-size: 1.4rem;
   color: $gray-70;
+}
+
+.book-search-input {
+  background-color: $gray-20;
+  border: none !important;
+  width: 30rem !important;
 }

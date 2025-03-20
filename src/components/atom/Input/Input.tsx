@@ -10,7 +10,7 @@ interface Props {
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   onPaste?: (e: React.ClipboardEvent<HTMLInputElement>) => void;
   placeholder?: string;
-  size?: "large" | "medium" | "small";
+  size?: "large" | "medium" | "small" | "xsmall";
   isError?: boolean;
   isSuccess?: boolean;
   message?: string | JSX.Element;
@@ -73,7 +73,9 @@ const Input: React.FC<Props> = ({
         </div>
       ) : null}
       <div className={styles["input-wrapper"]}>
-        {leftIcon && <span className={styles["icon-left"]}>{leftIcon}</span>}
+        {leftIcon && (
+          <span className={styles[`icon-left-${size}`]}>{leftIcon}</span>
+        )}
         <input
           type={type}
           id={id}
@@ -86,7 +88,9 @@ const Input: React.FC<Props> = ({
           className={className}
           maxLength={maxLength}
         />
-        {rightIcon && <span className={styles["icon-right"]}>{rightIcon}</span>}
+        {rightIcon && (
+          <span className={styles[`icon-right-${size}`]}>{rightIcon}</span>
+        )}
       </div>
       {message && (
         <div

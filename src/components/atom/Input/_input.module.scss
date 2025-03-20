@@ -1,5 +1,7 @@
 @use "/src/styles/abstracts/" as *;
 
+$input-sizes: xsmall, small, medium, large;
+
 .container {
   @include flex(column);
   position: relative;
@@ -55,7 +57,13 @@
   &--small {
     padding: $input-padding-small;
     font-size: $input-font-small;
-    height: $input-height-small;
+    height: $input-height-small; // 40px
+  }
+
+  &--xsmall {
+    padding: $input-padding-xsmall;
+    font-size: $input-font-xsmall;
+    height: $input-height-xsmall;
   }
 
   // 인풋 스타일
@@ -65,22 +73,18 @@
 
   &--black {
     border-color: $gray-90;
-    // color: $gray-90;
   }
 
   &--success {
     border-color: $system-success;
-    // color: $system-success;
   }
 
   &--error {
     border-color: $system-danger;
-    // color: $system-danger;
   }
 
   &--primary {
     border-color: $primary;
-    // color: $gray-90;
   }
 
   &--left-icon-large,
@@ -90,6 +94,9 @@
 
   &--left-icon-small {
     padding-left: 4.4rem;
+  }
+  &--left-icon-xsmall {
+    padding-left: 4rem;
   }
 
   &--right-icon-large,
@@ -106,26 +113,29 @@
   width: 100%;
 }
 
-.icon-left,
-.icon-right {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  display: flex;
-  justify-self: center;
-  align-items: center;
-
-  // pointer-events: none;
+@each $size in $input-sizes {
+  .icon-left-#{$size},
+  .icon-right-#{$size} {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .icon-left-#{$size} {
+    left: 1.6rem;
+  }
+  .icon-right-#{$size} {
+    right: 1.6rem;
+  }
 }
 
-.icon-left {
-  left: 1.6rem;
+.icon-left-xsmall {
+  left: 1.08rem;
 }
 
-.icon-right {
-  right: 1.6rem;
-}
 .full {
   width: 100%;
 }

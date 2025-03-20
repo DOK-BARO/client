@@ -9,9 +9,14 @@ import LoginModal from "@/components/composite/LoginModal/LoginModal";
 import useLoginModal from "@/hooks/useLoginModal";
 import HeaderMyInfoUtilButton from "@/components/composite/HeaderMyInfoUtilButton/HeaderMyInfoUtilButton";
 import HeaderQuizUtilButton from "@/components/composite/HeaderQuizUtilButton/HeaderQuizUtilButton";
+import Input from "@/components/atom/Input/Input";
+import useInput from "@/hooks/useInput";
+import { useState } from "react";
 
 export default function HeaderLayout() {
   const { isLoginModalOpen, closeLoginModal } = useLoginModal();
+  const { onChange, value } = useInput("");
+  const [isShowSearchBar, setIsShowSearchBar] = useState<boolean>(false);
 
   return (
     <header className={styles.header}>
@@ -41,12 +46,39 @@ export default function HeaderLayout() {
             </ul>
           </div>
           <div className={styles["row"]}>
-            <Button
-              iconOnly={true}
-              icon={
-                <Search alt="책 검색" stroke={gray60} width={20} height={20} />
-              }
-            />
+            {isShowSearchBar ? (
+              <Input
+                id="book-search"
+                onChange={onChange}
+                value={value}
+                className={styles["book-search-input"]}
+                size="xsmall"
+                leftIcon={
+                  <Search
+                    alt="도서 검색"
+                    stroke={gray60}
+                    width={20}
+                    height={20}
+                  />
+                }
+              />
+            ) : null}
+            {!isShowSearchBar ? (
+              <Button
+                iconOnly={true}
+                icon={
+                  <Search
+                    alt="도서 검색"
+                    stroke={gray60}
+                    width={18}
+                    height={18}
+                  />
+                }
+                onClick={() => {
+                  setIsShowSearchBar((prev) => !prev);
+                }}
+              />
+            ) : null}
             <StartAuthButton />
             <HeaderMyInfoUtilButton />
           </div>

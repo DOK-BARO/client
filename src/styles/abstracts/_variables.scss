@@ -56,7 +56,7 @@ $border-radius-large: 1.2rem;
 /* Button */
 $button-padding-xsmall: 0 1rem;
 $button-height-xsmall: 3.2rem;
-$button-font-xsmall: $font-size-medium; // 15px
+$button-font-xsmall: $font-size-small; // 13px
 $button-radius-xsmall: $border-radius-small;
 
 $button-padding-small: 0 1.2rem;
@@ -87,6 +87,10 @@ $button-radius-large: $border-radius-medium;
 // $input-padding-large: 21.5px 16px;
 
 /* Input */
+$input-padding-xsmall: 0 1rem;
+$input-height-xsmall: 3.2rem;
+$input-font-xsmall: $font-size-small; // 15px? 14px?
+
 $input-padding-small: 0 1.6rem;
 $input-height-small: 4rem;
 $input-font-small: $font-size-medium; // 15px

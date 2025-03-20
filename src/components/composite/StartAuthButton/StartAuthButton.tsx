@@ -25,7 +25,7 @@ export default function StartAuthButton() {
       color="black"
       className={styles["start-button"]}
       onClick={handleClick}
-      size="small"
+      size="xsmall"
     >
       로그인/회원가입
     </Button>

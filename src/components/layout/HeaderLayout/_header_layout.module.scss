@@ -9,11 +9,13 @@
     background-color: inherit;
     position: relative;
     @include flex(row, center);
-    height: 5.8rem;
+    // height: 5.8rem;
     max-width: 114rem;
-    padding: 0 4rem;
+    padding: 1rem 4rem;
     margin: 0 auto;
     z-index: inherit;
+
+    border-bottom: 1px solid $gray-40;
   }
 
   &-inner-container {
@@ -23,6 +25,7 @@
     flex-grow: 1;
     justify-content: space-between;
     z-index: inherit;
+    height: 3rem;
   }
 }
 
@@ -39,6 +42,7 @@
 .snb__item-btn {
   font-size: 1.4rem;
   color: $gray-70;
+  height: fit-content;
 }
 
 .input-profile-container {

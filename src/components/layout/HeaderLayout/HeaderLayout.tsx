@@ -12,12 +12,21 @@ import HeaderQuizUtilButton from "@/components/composite/HeaderQuizUtilButton/He
 import Input from "@/components/atom/Input/Input";
 import { useState } from "react";
 import useBookSearch from "@/hooks/useBookSearch";
+import ROUTES from "@/data/routes";
+import { useNavigate } from "react-router-dom";
+
+const headerListItem: { label: string; link: string }[] = [
+  { label: "퀴즈 만들기", link: ROUTES.CREATE_QUIZ() },
+  { label: "내 스터디", link: `${ROUTES.MY_PAGE}/${ROUTES.MY_STUDY_GROUPS}` },
+  { label: "마이페이지", link: ROUTES.MY_PAGE },
+];
 
 export default function HeaderLayout() {
   const { isLoginModalOpen, closeLoginModal } = useLoginModal();
   const { onSearch, searchWord, onSearchWordChange } = useBookSearch();
   const [isShowSearchBar, setIsShowSearchBar] = useState<boolean>(false);
 
+  const navigate = useNavigate();
   return (
     <header className={styles.header}>
       <div className={styles["header-container"]}>
@@ -28,7 +37,7 @@ export default function HeaderLayout() {
               <li>
                 <HeaderQuizUtilButton />
               </li>
-              <li className={styles["snb__item"]}>
+              {/* <li className={styles["snb__item"]}>
                 <Button className={styles["snb__item-btn"]} onClick={() => {}}>
                   퀴즈 만들기
                 </Button>
@@ -42,7 +51,19 @@ export default function HeaderLayout() {
                 <Button className={styles["snb__item-btn"]} onClick={() => {}}>
                   마이페이지
                 </Button>
-              </li>
+              </li> */}
+              {headerListItem.map((item) => (
+                <li className={styles["snb__item"]}>
+                  <Button
+                    className={styles["snb__item-btn"]}
+                    onClick={() => {
+                      navigate(item.link);
+                    }}
+                  >
+                    {item.label}
+                  </Button>
+                </li>
+              ))}
             </ul>
           </div>
           <div className={styles["input-profile-container"]}>

@@ -41,8 +41,13 @@
   color: $gray-70;
 }
 
-.book-search-input {
-  background-color: $gray-20;
-  border: none !important;
-  width: 30rem !important;
+.input-profile-container {
+  @include flex(row, center);
+  gap: 1rem;
+
+  .book-search-input {
+    background-color: $gray-20;
+    border: none !important;
+    width: 30rem !important;
+  }
 }

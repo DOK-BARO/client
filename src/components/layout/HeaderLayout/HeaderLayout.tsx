@@ -45,7 +45,7 @@ export default function HeaderLayout() {
               </li>
             </ul>
           </div>
-          <div className={styles["row"]}>
+          <div className={styles["input-profile-container"]}>
             {isShowSearchBar ? (
               <Input
                 id="book-search"

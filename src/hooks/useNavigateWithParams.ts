@@ -32,6 +32,7 @@ const useNavigateWithParams = () => {
     excludeParams = [],
     itemId,
   }: NavigateWithParamsProps<TFilter>) => {
+    console.log("title", typeof title);
     const queryParams = new URLSearchParams(location.search);
 
     if (!parentPage) {
@@ -48,7 +49,12 @@ const useNavigateWithParams = () => {
       queryParams.set("direction", direction);
     }
 
+    if (title == "") {
+      queryParams.delete("title");
+    }
+
     if (title) {
+      console.log("title", title);
       if (!excludeParams.includes("title")) {
         if (excludeParams.includes("page")) {
           queryParams.delete("page");

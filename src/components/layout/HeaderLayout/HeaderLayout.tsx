@@ -10,12 +10,12 @@ import useLoginModal from "@/hooks/useLoginModal";
 import HeaderMyInfoUtilButton from "@/components/composite/HeaderMyInfoUtilButton/HeaderMyInfoUtilButton";
 import HeaderQuizUtilButton from "@/components/composite/HeaderQuizUtilButton/HeaderQuizUtilButton";
 import Input from "@/components/atom/Input/Input";
-import useInput from "@/hooks/useInput";
 import { useState } from "react";
+import useBookSearch from "@/hooks/useBookSearch";
 
 export default function HeaderLayout() {
   const { isLoginModalOpen, closeLoginModal } = useLoginModal();
-  const { onChange, value } = useInput("");
+  const { onSearch, searchWord, onSearchWordChange } = useBookSearch();
   const [isShowSearchBar, setIsShowSearchBar] = useState<boolean>(false);
 
   return (
@@ -47,21 +47,25 @@ export default function HeaderLayout() {
           </div>
           <div className={styles["input-profile-container"]}>
             {isShowSearchBar ? (
-              <Input
-                id="book-search"
-                onChange={onChange}
-                value={value}
-                className={styles["book-search-input"]}
-                size="xsmall"
-                leftIcon={
-                  <Search
-                    alt="도서 검색"
-                    stroke={gray60}
-                    width={20}
-                    height={20}
-                  />
-                }
-              />
+              <form onSubmit={onSearch}>
+                <Input
+                  id="book-search"
+                  onChange={onSearchWordChange}
+                  value={searchWord}
+                  className={styles["book-search-input"]}
+                  size="xsmall"
+                  leftIcon={
+                    <Search
+                      alt="책 검색"
+                      stroke={gray60}
+                      width={20}
+                      height={20}
+                    />
+                  }
+                  label="책 검색"
+                  hideLabel
+                />
+              </form>
             ) : null}
             {!isShowSearchBar ? (
               <Button

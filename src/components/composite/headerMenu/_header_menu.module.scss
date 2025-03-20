@@ -6,37 +6,8 @@
   padding: 0.8rem;
   border-radius: 0.8rem;
   border: 0.1rem solid #d8d8d8;
-  position: absolute;
-  right: -6.8rem;
   z-index: 1;
-  top: 5.4rem; // 메뉴 리스트가 버튼 아래에 위치하게 함
-  width: 18.6rem;
-  &::after {
-    content: "";
-    position: absolute;
-    top: -1rem; // 삼각형이 메뉴 상단에 위치하도록 함
-    right: 8rem; // 삼각형 위치 조정 (필요에 따라 조절)
-    width: 0;
-    z-index: 1;
-    display: block;
-    border-right: 0.8rem solid transparent;
-    border-bottom: 1.2rem solid $gray-00;
-    border-left: 0.8rem solid transparent;
-  }
-
-  // 상단 삼각형 추가
-  &::before {
-    content: "";
-    position: absolute;
-    top: -1.2rem; // 삼각형이 메뉴 상단에 위치하도록 함
-    right: 8rem; // 삼각형 위치 조정 (필요에 따라 조절)
-    width: 0;
-    z-index: 0;
-    display: block;
-    border-right: 0.8rem solid transparent;
-    border-bottom: 1.2rem solid #d8d8d8;
-    border-left: 0.8rem solid transparent;
-  }
+  width: 24rem;
 
   li {
     &:hover {
@@ -45,45 +16,53 @@
   }
 }
 
-.user-info-btn {
-  display: flex;
-  flex-direction: column;
-  gap: 2.4rem;
-  padding: 1.6rem;
-  width: 100%;
+.user {
+  &-info-btn {
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+    padding: 0.8rem;
+    width: 100%;
+    text-align: left;
 
-  border-radius: 0.6rem 0.6rem 0 0;
-  border-bottom: 0.1rem solid $gray-40;
-
-  .user-name {
-    align-self: center;
-    font-size: $font-size-xlarge;
+    border-radius: 0.6rem 0.6rem 0 0;
+    border-bottom: 0.1rem solid $gray-40;
+  }
+  &-nickname-container {
+    font-size: $font-size-large;
     font-weight: $font-weight-bold;
+    color: $gray-90;
+    display: flex;
+    gap: 0.4rem;
+
+    .user-nickname {
+      @include text-ellipsis;
+      max-width: 11rem;
+    }
   }
 }
 
 .logout {
   @include flex(row, center);
   width: 100%;
-  height: 4.8rem;
-  font-size: $font-size-large;
-  font-weight: $font-weight-semibold;
-  padding: 0.8rem 1.6rem 0;
+  font-size: 1.4rem;
+  font-weight: $font-weight-regular;
+  padding: 0.8rem 0;
+  height: fit-content;
   border-radius: 0 0 0.6rem 0.6rem;
   border-top: 1px solid $gray-40;
-  color: $gray-70;
-}
-
-.header-menu-list-item-container {
-  padding: 0.8rem 0 0.8rem;
+  color: $gray-60;
 }
 
 .header-menu-list-item {
   display: flex;
   width: 100%;
+  line-height: 1.5;
   justify-content: start;
-  padding: 0 1.6rem;
+  padding: 0.6rem 0.8rem;
+  height: fit-content;
   border-radius: 0.6rem;
-  font-size: $font-size-large;
+  font-size: 16px;
   font-weight: $font-weight-regular;
+  color: $gray-90;
 }

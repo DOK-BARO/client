@@ -49,7 +49,9 @@ export default function HeaderMyInfoUtilButton() {
         }
       />
       {isOpenDropDownList && anchorEl && (
-        <HeaderMenuList closeDropDownList={closeDropDownList} />
+        <div className={styles["header-menu-list-container"]}>
+          <HeaderMenuList closeDropDownList={closeDropDownList} />
+        </div>
       )}
     </div>
   );

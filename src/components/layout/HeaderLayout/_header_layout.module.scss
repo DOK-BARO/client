@@ -25,3 +25,18 @@
     z-index: inherit;
   }
 }
+
+.row {
+  display: flex;
+  gap: 1.6rem;
+}
+
+.snb {
+  display: flex;
+  align-items: center;
+}
+
+.snb__item-btn {
+  font-size: 1.4rem;
+  color: $gray-70;
+}

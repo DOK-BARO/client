@@ -27,7 +27,7 @@ export default function StartAuthButton() {
       onClick={handleClick}
       size="small"
     >
-      시작하기
+      로그인/회원가입
     </Button>
   );
 }

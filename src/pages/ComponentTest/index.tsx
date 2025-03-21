@@ -52,7 +52,6 @@ export default function Index() {
   };
   return (
     <>
-      {/* <GNB /> */}
       <div>
         <input
           type="file"

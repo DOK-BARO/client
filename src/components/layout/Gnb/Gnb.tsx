@@ -69,6 +69,7 @@ export default function GNB() {
                 color="transparent"
                 value={category.id.toString()}
                 onClick={() => handleClick(category.id.toString())}
+                size="small"
               >
                 {category.name}
               </Button>

@@ -13,7 +13,7 @@ import Input from "@/components/atom/Input/Input";
 import { useState } from "react";
 import useBookSearch from "@/hooks/useBookSearch";
 import ROUTES from "@/data/routes";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const headerListItem: { label: string; link: string }[] = [
   { label: "퀴즈 만들기", link: ROUTES.CREATE_QUIZ() },
@@ -25,6 +25,7 @@ export default function HeaderLayout() {
   const { isLoginModalOpen, closeLoginModal } = useLoginModal();
   const { onSearch, searchWord, onSearchWordChange } = useBookSearch();
   const [isShowSearchBar, setIsShowSearchBar] = useState<boolean>(false);
+  const { pathname } = useLocation();
 
   const navigate = useNavigate();
   return (
@@ -37,21 +38,6 @@ export default function HeaderLayout() {
               <li>
                 <HeaderQuizUtilButton />
               </li>
-              {/* <li className={styles["snb__item"]}>
-                <Button className={styles["snb__item-btn"]} onClick={() => {}}>
-                  퀴즈 만들기
-                </Button>
-              </li>
-              <li className={styles["snb__item"]}>
-                <Button className={styles["snb__item-btn"]} onClick={() => {}}>
-                  내 스터디
-                </Button>
-              </li>
-              <li className={styles["snb__item"]}>
-                <Button className={styles["snb__item-btn"]} onClick={() => {}}>
-                  마이페이지
-                </Button>
-              </li> */}
               {headerListItem.map((item) => (
                 <li className={styles["snb__item"]}>
                   <Button
@@ -110,7 +96,7 @@ export default function HeaderLayout() {
           {isLoginModalOpen && <LoginModal closeModal={closeLoginModal} />}
         </div>
       </div>
-      <GNB />
+      {pathname === ROUTES.BOOK_LIST ? <GNB /> : null}
     </header>
   );
 }

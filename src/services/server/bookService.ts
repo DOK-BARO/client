@@ -1,6 +1,6 @@
 import { BookType, BookQuizzesType } from "../../types/BookType.ts";
 import { BookDetailType } from "../../types/BookDetailType.ts";
-import { BookCategoryType } from "../../types/GNBCategoryType.ts";
+import { BookCategoryType } from "../../types/BookCategoryType.ts";
 import { axiosInstance } from "@/config/axiosConfig.ts";
 import { handleAxiosError } from "@/utils/errorHandler.ts";
 import {

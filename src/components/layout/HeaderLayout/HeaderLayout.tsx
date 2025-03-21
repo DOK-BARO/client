@@ -1,7 +1,6 @@
 import HeaderLogo from "@/components/atom/HeaderLogo/HeaderLogo";
 import Button from "@/components/atom/Button/Button";
 import styles from "./_header_layout.module.scss";
-import GNB from "../Gnb/Gnb";
 import { Search } from "@/svg/Search";
 import { gray60 } from "@/styles/abstracts/colors";
 import StartAuthButton from "@/components/composite/StartAuthButton/StartAuthButton";
@@ -14,6 +13,7 @@ import { useState } from "react";
 import useBookSearch from "@/hooks/useBookSearch";
 import ROUTES from "@/data/routes";
 import { useLocation, useNavigate } from "react-router-dom";
+import TopBookNav from "../BookNav/TopBookNav";
 
 const headerListItem: { label: string; link: string }[] = [
   { label: "퀴즈 만들기", link: ROUTES.CREATE_QUIZ() },
@@ -96,7 +96,7 @@ export default function HeaderLayout() {
           {isLoginModalOpen && <LoginModal closeModal={closeLoginModal} />}
         </div>
       </div>
-      {pathname === ROUTES.BOOK_LIST ? <GNB /> : null}
+      {pathname === ROUTES.BOOK_LIST ? <TopBookNav /> : null}
     </header>
   );
 }

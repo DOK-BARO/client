@@ -1,4 +1,4 @@
-import { BookCategoryType } from "@/types/GNBCategoryType";
+import { BookCategoryType } from "@/types/BookCategoryType";
 
 // 가장 상위의 부모 카테고리 아이디를 찾음
 export const findTopParentCategoryInfo = (

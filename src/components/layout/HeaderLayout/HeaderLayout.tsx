@@ -61,6 +61,7 @@ export default function HeaderLayout() {
                   value={searchWord}
                   className={styles["book-search-input"]}
                   size="xsmall"
+                  placeholder="배우고 싶은 책을 검색해보세요."
                   leftIcon={
                     <Search
                       alt="책 검색"

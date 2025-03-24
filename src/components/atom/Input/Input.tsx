@@ -9,6 +9,8 @@ interface Props {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   onPaste?: (e: React.ClipboardEvent<HTMLInputElement>) => void;
+  onFocus?: (e: React.FocusEvent<HTMLInputElement, Element>) => void;
+
   placeholder?: string;
   size?: "large" | "medium" | "small" | "xsmall";
   isError?: boolean;
@@ -49,6 +51,7 @@ const Input: React.FC<Props> = ({
   color,
   fullWidth = false,
   maxLengthShow = false,
+  onFocus,
 }) => {
   const className = `${styles.input} ${styles[`input--${size}`]} ${
     isError ? styles["input--error"] : ""
@@ -87,6 +90,7 @@ const Input: React.FC<Props> = ({
           placeholder={placeholder}
           className={className}
           maxLength={maxLength}
+          onFocus={onFocus}
         />
         {rightIcon && (
           <span className={styles[`icon-right-${size}`]}>{rightIcon}</span>

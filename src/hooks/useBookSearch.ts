@@ -1,31 +1,58 @@
-import { FormEvent, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import useNavigateWithParams from "./useNavigateWithParams";
+import { useEffect } from "react";
 import useInput from "./useInput";
+import { bookKeys } from "@/data/queryKeys";
+import { useQuery } from "@tanstack/react-query";
+import { bookService } from "@/services/server/bookService";
+import useDebounce from "./useDebounce";
 
-const useBookSearch = () => {
-  const { pathname } = useLocation();
-
-  useEffect(() => {
-    resetInput();
-  }, [pathname]);
+const useBookSearch = (size?: number) => {
+  const {
+    value: searchValue,
+    onChange: onChangeSearchValue,
+    resetInput: resetSearchValueInput,
+  } = useInput("");
+  const debouncedSearchValue = useDebounce(searchValue, 500);
 
   const {
-    value: searchWord,
-    onChange: onSearchWordChange,
-    resetInput,
-  } = useInput("");
+    data: searchedBooks,
+    isLoading,
+    isFetching,
+    isFetched,
+    refetch,
+  } = useQuery({
+    queryKey: bookKeys.search({ keyword: debouncedSearchValue }),
+    queryFn: () =>
+      bookService.fetchSearchBooks({ keyword: debouncedSearchValue, size }),
+    enabled: debouncedSearchValue !== "",
+  });
 
-  const { navigateWithParams } = useNavigateWithParams();
+  useEffect(() => {
+    if (debouncedSearchValue !== "") {
+      refetch();
+    }
+  }, [debouncedSearchValue, refetch]);
 
-  const onSearch = (e: FormEvent) => {
-    e.preventDefault();
-    navigateWithParams({
-      title: searchWord,
-      parentPage: "books",
-      excludeParams: ["page"],
-    });
+  const isBookSearching = !isFetched || isLoading || isFetching;
+
+  const onSearchBook = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChangeSearchValue(e);
+    // if (tempSelectedBook) {
+    //   setTempSelectedBook(null);
+    // }
   };
-  return { onSearch, searchWord, onSearchWordChange };
+  // // 도서 선택(클릭)
+  // const onBookSelect = (book: BookType) => {
+  //   setSelectedBook(book);
+  //   resetSearchValueInput();
+  //   updateQuizCreationInfo("book", book);
+  // };
+
+  return {
+    onSearchBook,
+    searchedBooks,
+    searchValue,
+    isBookSearching,
+    resetSearchValueInput,
+  };
 };
 export default useBookSearch;

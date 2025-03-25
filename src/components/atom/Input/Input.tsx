@@ -10,7 +10,6 @@ interface Props {
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   onPaste?: (e: React.ClipboardEvent<HTMLInputElement>) => void;
   onFocus?: (e: React.FocusEvent<HTMLInputElement, Element>) => void;
-
   placeholder?: string;
   size?: "large" | "medium" | "small" | "xsmall";
   isError?: boolean;

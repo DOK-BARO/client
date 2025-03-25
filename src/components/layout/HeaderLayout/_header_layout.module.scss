@@ -49,9 +49,61 @@
   @include flex(row, center);
   gap: 1rem;
 
+  .book-search {
+    position: relative;
+    top: 0;
+  }
+
   .book-search-input {
+    margin-top: 0;
     background-color: $gray-20;
     border: none !important;
     width: 30rem !important;
+  }
+
+  .book-search-result {
+    width: 30rem;
+    position: absolute;
+    margin-top: 1rem;
+
+    height: 4rem;
+    height: 35.1rem;
+
+    border-radius: 0.6rem;
+    background-color: $gray-00;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
+    border: 0.1rem solid $gray-40;
+
+    &-item {
+      &:hover {
+        background-color: $background;
+        border-radius: inherit;
+      }
+      display: flex;
+      gap: 0.8rem;
+      cursor: pointer;
+      padding: 0.8rem 1rem;
+      border: 0.15rem solid transparent;
+
+      &-image {
+        border: 0.2rem solid $gray-40;
+        border-radius: 0.2rem;
+      }
+      .info-container {
+        @include flex(column);
+        gap: 0.4rem;
+        justify-content: center;
+
+        .title {
+          font-weight: $font-weight-medium;
+          font-size: 1.4rem;
+        }
+        .author {
+          font-size: 1.4rem;
+          font-weight: $font-weight-regular;
+          color: $gray-60;
+        }
+      }
+    }
   }
 }

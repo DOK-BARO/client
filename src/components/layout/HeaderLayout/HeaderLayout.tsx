@@ -54,26 +54,48 @@ export default function HeaderLayout() {
           </div>
           <div className={styles["input-profile-container"]}>
             {isShowSearchBar ? (
-              <form onSubmit={onSearch}>
-                <Input
-                  id="book-search"
-                  onChange={onSearchWordChange}
-                  value={searchWord}
-                  className={styles["book-search-input"]}
-                  size="xsmall"
-                  placeholder="배우고 싶은 책을 검색해보세요."
-                  leftIcon={
-                    <Search
-                      alt="책 검색"
-                      stroke={gray60}
-                      width={20}
-                      height={20}
+              <div className={styles["book-search"]}>
+                <form onSubmit={onSearch}>
+                  <Input
+                    id="book-search"
+                    onChange={onSearchWordChange}
+                    value={searchWord}
+                    className={styles["book-search-input"]}
+                    size="xsmall"
+                    placeholder="배우고 싶은 책을 검색해보세요."
+                    leftIcon={
+                      <Search
+                        alt="책 검색"
+                        stroke={gray60}
+                        width={20}
+                        height={20}
+                      />
+                    }
+                    label="책 검색"
+                    hideLabel
+                    // onFocus={() => setIsShowSearchBar((prev) => !prev)}
+                  />
+                </form>
+                <ol className={styles["book-search-result"]}>
+                  <li
+                    // key={book.id}
+                    className={styles["book-search-result-item"]}
+                    // onClick={handleSelect}
+                  >
+                    <img
+                      className={styles["book-search-result-item-image"]}
+                      src={""}
+                      alt={""}
+                      width={66}
+                      height={88}
                     />
-                  }
-                  label="책 검색"
-                  hideLabel
-                />
-              </form>
+                    <div className={styles["info-container"]}>
+                      <span className={styles.title}>책 제목</span>
+                      <span className={styles.author}>저자 (출판사)</span>
+                    </div>
+                  </li>
+                </ol>
+              </div>
             ) : null}
             {!isShowSearchBar ? (
               <Button

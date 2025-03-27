@@ -1,0 +1,8 @@
+@use "/src/styles/abstracts/" as *;
+
+.book-search-input {
+  margin-top: 0;
+  background-color: $gray-20;
+  border: none !important;
+  width: 30rem !important;
+}

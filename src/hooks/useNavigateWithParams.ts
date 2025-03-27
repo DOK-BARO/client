@@ -27,7 +27,7 @@ const useNavigateWithParams = () => {
   const navigateWithParams = <TFilter extends SupportedFilterTypes>({
     filter,
     title,
-    keyword,
+    // keyword,
     page,
     category,
     parentPage,

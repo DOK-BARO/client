@@ -37,10 +37,10 @@ export default function HeaderQuizUtilList({ closeDropDownList }: Props) {
   return (
     <ul className={styles["header-quiz-util-list"]}>
       {headerQuizUtilList.map((item) => (
-        <li key={item.title}>
+        <li key={item.title} className={styles["header-quiz-util-list-item"]}>
           <Button
             size="xsmall"
-            className={styles["header-quiz-util-list-item"]}
+            className={styles["header-quiz-util-list-item-btn"]}
             iconPosition="left"
             onClick={item.onClick}
           >

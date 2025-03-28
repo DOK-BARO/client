@@ -1,4 +1,3 @@
-import Button from "@/components/atom/Button/Button";
 import styles from "./_header_quiz_util_button.module.scss";
 import HeaderQuizUtilList from "@/components/composite/QuizMenuList/QuizMenuList";
 import { useDropDownList } from "@/hooks/useDropDownList.ts";
@@ -16,21 +15,18 @@ function HeaderQuizUtilButton() {
 
   return (
     <div className={styles["container"]} ref={dropDownListRef}>
-      <Button
+      <button
         onClick={openDropDownList}
-        size="xsmall"
-        color="transparent"
-        ariaLabel="펼치기"
-        iconPosition="right"
+        aria-label="펼치기"
         className={
           styles[
             `${isOpenDropDownList ? "quiz-util-btn--active" : "quiz-util-btn"}`
           ]
         }
-        icon={<img src={isOpenDropDownList ? arrowUp : arrowDown} />}
       >
         퀴즈 풀기
-      </Button>
+        <img src={isOpenDropDownList ? arrowUp : arrowDown} />
+      </button>
       {isOpenDropDownList && anchorEl && (
         <HeaderQuizUtilList closeDropDownList={closeDropDownList} />
       )}

@@ -4,6 +4,7 @@
   background-color: $background;
   position: fixed;
   z-index: 100;
+  border-bottom: 1px solid $gray-40;
 
   &-container {
     background-color: inherit;
@@ -14,8 +15,6 @@
     padding: 1rem 4rem;
     margin: 0 auto;
     z-index: inherit;
-
-    border-bottom: 1px solid $gray-40;
   }
 
   &-inner-container {
@@ -31,7 +30,7 @@
 
 .row {
   @include flex(row, center);
-  gap: 1.6rem;
+  gap: 1.4rem;
 }
 
 .snb {
@@ -40,7 +39,7 @@
 }
 
 .snb__item-btn {
-  font-size: 1.4rem;
+  font-size: 1.4rem !important; // TODO: layer로 작성하기
   color: $gray-70;
   height: fit-content;
 }

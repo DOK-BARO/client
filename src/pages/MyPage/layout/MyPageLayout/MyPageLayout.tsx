@@ -72,7 +72,7 @@ export default function MyPageLayout() {
             icon={<img src={pencilLine} width={16} height={16} alt="" />}
             iconPosition="left"
           >
-            스터디 그룹 관리
+            스터디 관리
           </Button>
         ) : null}
       </div>

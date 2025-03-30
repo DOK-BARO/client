@@ -52,7 +52,7 @@ export default function QuizSettingStudyGroupForm() {
     }
   }, [studyGroups]);
 
-  // 새롭게 추가된 스터디 그룹 이름
+  // 새롭게 추가된 스터디 이름
   const [newStudyGroup, setNewStudyGroup] = useState<StudyGroupType | null>(
     null,
   );
@@ -94,7 +94,7 @@ export default function QuizSettingStudyGroupForm() {
     },
   });
 
-  // 입력한 스터디 그룹 삭제
+  // 입력한 스터디 삭제
   const removeStudyGroup = () => {
     setNewStudyGroup(null);
 
@@ -143,7 +143,7 @@ export default function QuizSettingStudyGroupForm() {
   const getContents = (): ModalContentType[] => {
     const contents = [
       {
-        title: "새로운 스터디 그룹 이름",
+        title: "새로운 스터디 이름",
         content: newStudyGroup ? (
           <Button
             onClick={() => {}}
@@ -153,7 +153,7 @@ export default function QuizSettingStudyGroupForm() {
                 width={20}
                 height={20}
                 stroke={primary}
-                alt="스터디 그룹 이름 삭제"
+                alt="스터디 이름 삭제"
               />
             }
             onIconClick={removeStudyGroup}
@@ -190,7 +190,7 @@ export default function QuizSettingStudyGroupForm() {
 
       newStudyGroup
         ? {
-            title: "스터디 그룹 초대코드",
+            title: "스터디 초대코드",
             content: (
               <div className={styles["email-invite"]}>
                 <Button
@@ -202,7 +202,7 @@ export default function QuizSettingStudyGroupForm() {
                   iconPosition="left"
                   onClick={handleClickCopyCode}
                 >
-                  <span id="invite-code" aria-label="스터디 그룹 초대 코드">
+                  <span id="invite-code" aria-label="스터디 초대 코드">
                     {!isStudyGroupDetailLoading && studyGroupDetail?.inviteCode}
                   </span>
                 </Button>
@@ -254,7 +254,7 @@ export default function QuizSettingStudyGroupForm() {
           onClick={handleOpenCreateStudyModal}
           icon={
             <QuizPlus
-              alt="스터디 그룹 추가"
+              alt="스터디 추가"
               width={20}
               height={20}
               stroke={primary}
@@ -267,7 +267,7 @@ export default function QuizSettingStudyGroupForm() {
       ) : null}
       {isModalOpen && (
         <Modal
-          title="스터디 그룹 추가하기"
+          title="스터디 추가하기"
           contents={getContents()}
           bottomButtons={
             newStudyGroup

@@ -74,7 +74,7 @@ export interface SolvedMemberType {
   correctCount: number;
 }
 
-// 스터디 그룹 내 랭킹 조회
+// 스터디 내 랭킹 조회
 export interface QuizStudyGroupGradeResultType {
   quizId: number;
   studyGroupId: number;

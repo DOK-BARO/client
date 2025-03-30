@@ -30,7 +30,7 @@ import defaultImage from "/public/assets/image/default-profile.png";
 import { gray60 } from "@/styles/abstracts/colors";
 import { currentUserAtom, isLoggedInAtom } from "@/store/userAtom";
 
-// 스터디 그룹 관리
+// 스터디 관리
 export default function StudyGroupSetting() {
   // TODO: 타이틀 세팅하는 로직 훅으로 분리하기
 
@@ -242,7 +242,7 @@ export default function StudyGroupSetting() {
           closeModal={closeConfirmModal}
           contents={[
             {
-              title: `${studyGroupDetail?.name} 스터디 그룹을 삭제하시겠어요?`,
+              title: `${studyGroupDetail?.name} 스터디을 삭제하시겠어요?`,
               content: (
                 <p>
                   스터디에서 만든 퀴즈, 푼 퀴즈 등의 데이터는 모두 삭제되며,
@@ -262,15 +262,15 @@ export default function StudyGroupSetting() {
       ) : null}
       {/* TODO: 컴포넌트화 후 분리 */}
       <section>
-        {/* 스터디 그룹 관리 */}
+        {/* 스터디 관리 */}
         <div className={styles["header-container"]}>
-          <h3 className={styles.title}>스터디 그룹 관리</h3>
+          <h3 className={styles.title}>스터디 관리</h3>
           <Button
             iconOnly
             icon={<img src={threeDot} width={16} height={16} alt="" />}
             onClick={handleToggle}
             ref={buttonRef}
-            ariaLabel="스터디 그룹 관리 모달 열기"
+            ariaLabel="스터디 관리 모달 열기"
           />
 
           {isSmallModalOpen ? (
@@ -294,7 +294,7 @@ export default function StudyGroupSetting() {
         {!isStudyGroupDetailLoading && studyGroupDetail !== undefined ? (
           <div className={styles["edit-profile-container"]}>
             <div className={styles["edit-image-container"]}>
-              <p className={styles["sub-title"]}>스터디 그룹 사진</p>
+              <p className={styles["sub-title"]}>스터디 사진</p>
               <ProfileImageEditor
                 isLoading={isPending}
                 width={150}
@@ -306,28 +306,28 @@ export default function StudyGroupSetting() {
               />
             </div>
             <div className={styles["edit-info-container"]}>
-              <p className={styles["sub-title"]}>스터디 그룹 이름</p>
+              <p className={styles["sub-title"]}>스터디 이름</p>
               <Input
                 id="study-group-name"
                 value={name}
                 onChange={onNameChange}
-                placeholder="스터디 그룹 이름을 입력해주세요."
+                placeholder="스터디 이름을 입력해주세요."
                 fullWidth
                 maxLength={20}
                 maxLengthShow
-                label="스터디 그룹 이름"
+                label="스터디 이름"
                 hideLabel
               />
-              <p className={styles["sub-title"]}>스터디 그룹 소개</p>
+              <p className={styles["sub-title"]}>스터디 소개</p>
               <Textarea
                 id="study-group-introduction"
                 value={introduction}
                 onChange={onIntroductionChange}
-                placeholder="스터디 그룹 소개를 입력해주세요."
+                placeholder="스터디 소개를 입력해주세요."
                 fullWidth
                 maxLength={50}
                 maxLengthShow
-                label="스터디 그룹 소개"
+                label="스터디 소개"
               />
             </div>
           </div>

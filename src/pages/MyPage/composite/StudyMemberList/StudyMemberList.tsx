@@ -59,7 +59,7 @@ export default function StudyMemberList({
           newLeaderId: member.id,
         });
       }
-      return Promise.reject(new Error("스터디 그룹 없음"));
+      return Promise.reject(new Error("스터디 없음"));
     },
     onSuccess: (_, { member }) => {
       toast.success(`스터디장이 ${member.nickname}에게 위임되었습니다.`);
@@ -90,7 +90,7 @@ export default function StudyMemberList({
           memberId: member.id,
         });
       }
-      return Promise.reject(new Error("스터디 그룹 없음"));
+      return Promise.reject(new Error("스터디 없음"));
     },
     onSuccess: (_, { member }) => {
       toast.success(`${member.nickname}을 내보냈습니다.`);
@@ -155,9 +155,7 @@ export default function StudyMemberList({
                     {
                       title: `${member.nickname}님을 ${studyGroupDetail.name}에서 내보내시겠어요?`,
                       content: (
-                        <p>
-                          내보낸 스터디원은 스터디 그룹에 재가입할 수 있어요.
-                        </p>
+                        <p>내보낸 스터디원은 스터디에 재가입할 수 있어요.</p>
                       ),
                     },
                   ]}

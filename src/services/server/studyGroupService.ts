@@ -11,7 +11,7 @@ import {
 import { handleAxiosError } from "@/utils/errorHandler";
 
 class StudyGroupService {
-  // 스터디 그룹 상세 조회
+  // 스터디 상세 조회
   fetchStudyGroup = async (
     id: number,
   ): Promise<StudyGroupDetailFetchType | null> => {
@@ -24,7 +24,7 @@ class StudyGroupService {
     }
   };
 
-  // 내가 속한 스터디 그룹 조회
+  // 내가 속한 스터디 조회
   fetchStudyGroups = async (
     params: StudyGroupsFetchType,
   ): Promise<{ data: StudyGroupType[]; endPageNumber: number } | null> => {
@@ -45,7 +45,7 @@ class StudyGroupService {
     }
   };
 
-  // 스터디 그룹 생성
+  // 스터디 생성
   createStudyGroup = async (
     studyGroup: StudyGroupCreateType,
   ): Promise<{ id: number } | null> => {
@@ -58,7 +58,7 @@ class StudyGroupService {
     }
   };
 
-  // 초대코드로 스터디 그룹 참여
+  // 초대코드로 스터디 참여
   joinStudyGroup = async (inviteCode: string): Promise<void> => {
     try {
       await axiosInstance.post("/study-groups/join", {
@@ -69,7 +69,7 @@ class StudyGroupService {
     }
   };
 
-  // 스터디 그룹 퀴즈 중 안 푼 문제 조회 (풀어야 할 퀴즈)
+  // 스터디 퀴즈 중 안 푼 문제 조회 (풀어야 할 퀴즈)
   fetchStudyGroupMyUnsolvedQuizzes = async (
     studyGroupId: number,
     params: StudyGroupsFetchType,
@@ -98,7 +98,7 @@ class StudyGroupService {
     }
   };
 
-  // 스터디 그룹 퀴즈 중 내가 푼 문제 조회 (제출 한 퀴즈)
+  // 스터디 퀴즈 중 내가 푼 문제 조회 (제출 한 퀴즈)
   fetchStudyGroupMySolvedQuizzes = async (
     studyGroupId: number,
     params: StudyGroupsFetchType,
@@ -165,7 +165,7 @@ class StudyGroupService {
     }
   };
 
-  // 스터디 그룹 탈퇴
+  // 스터디 탈퇴
   withdrawStudyGroupMember = async ({
     studyGroupId,
     memberId,
@@ -182,7 +182,7 @@ class StudyGroupService {
     }
   };
 
-  // 스터디 그룹 내 랭킹 조회
+  // 스터디 내 랭킹 조회
   fetchQuizStudyGroupGradeResult = async ({
     studyGroupId,
     quizId,
@@ -207,7 +207,7 @@ class StudyGroupService {
     }
   };
 
-  // 초대 코드를 통한 스터디 그룹 상세 조회
+  // 초대 코드를 통한 스터디 상세 조회
   fetchStudyGroupDetailByInviteCode = async (
     inviteCode: string,
   ): Promise<StudyGroupDetailFetchType | null> => {

@@ -83,7 +83,7 @@ export default function MyStudyGroupsJoin() {
         // 가입 완료 환영 모달
         <Modal
           closeModal={closeModal}
-          title="코드로 스터디 그룹 참여하기"
+          title="코드로 스터디 참여하기"
           contents={[
             {
               title: `${studyGroupDetail?.name}에 가입하신 걸 환영해요!`,
@@ -92,16 +92,14 @@ export default function MyStudyGroupsJoin() {
           ]}
           bottomButtons={[
             {
-              text: "스터디 그룹 페이지 가기",
+              text: "스터디 페이지 가기",
               color: "primary",
               onClick: handleGoToStudyGroupPage,
             },
           ]}
         />
       ) : null}
-      <p className={styles["sub-title"]}>
-        스터디 그룹 초대코드를 입력해주세요.
-      </p>
+      <p className={styles["sub-title"]}>스터디 초대코드를 입력해주세요.</p>
       <div className={styles["code-input-container"]}>
         <CodeInput
           codeList={codeList}

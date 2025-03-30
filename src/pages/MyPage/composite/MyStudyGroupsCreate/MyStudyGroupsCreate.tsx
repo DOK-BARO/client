@@ -63,7 +63,7 @@ export default function MyStudyGroupsCreate() {
   );
 
   useEffect(() => {
-    setMyPageTitle("스터디 그룹 만들기");
+    setMyPageTitle("스터디 만들기");
     return () => setMyPageTitle("마이페이지");
   }, []);
 
@@ -72,7 +72,7 @@ export default function MyStudyGroupsCreate() {
     navigate(-1);
   };
 
-  // 새롭게 생성된 스터디그룹 아이디
+  // 새롭게 생성된 스터디 아이디
   const [newStudyGroupId, setNewStudyGroupId] = useState<number>();
 
   // 스터디 생성
@@ -90,7 +90,7 @@ export default function MyStudyGroupsCreate() {
     },
   });
 
-  // 스터디 그룹 생성 후 초대 코드를 가져오기 위함
+  // 스터디 생성 후 초대 코드를 가져오기 위함
   const { data: studyGroupDetail, isLoading: isStudyGroupDetailLoading } =
     useQuery({
       queryKey: studyGroupKeys.detail(newStudyGroupId),
@@ -106,7 +106,7 @@ export default function MyStudyGroupsCreate() {
       toast.error("스터디 이름을 입력해주세요.");
       return;
     }
-    // 스터디 그룹 사진이 있는 경우
+    // 스터디 사진이 있는 경우
     if (profileImage.file) {
       const arg: UploadImageArgType = {
         image: profileImage.file,
@@ -114,7 +114,7 @@ export default function MyStudyGroupsCreate() {
       };
       uploadImage(arg);
     } else {
-      // 스터디 그룹 사진이 없는 경우
+      // 스터디 사진이 없는 경우
       const newStudy: StudyGroupPostType = {
         name,
         introduction,
@@ -149,7 +149,7 @@ export default function MyStudyGroupsCreate() {
                   iconPosition="right"
                   onClick={handleClickCopyCode}
                 >
-                  <span id="invite-code" aria-label="스터디 그룹 초대 코드">
+                  <span id="invite-code" aria-label="스터디 초대 코드">
                     {!isStudyGroupDetailLoading && studyGroupDetail?.inviteCode}
                   </span>
                 </Button>
@@ -166,7 +166,7 @@ export default function MyStudyGroupsCreate() {
         />
       ) : null}
       <div className={styles["sub-container"]}>
-        <p className={styles["sub-title"]}>스터디 그룹 사진</p>
+        <p className={styles["sub-title"]}>스터디 사진</p>
         <ProfileImageEditor
           isLoading={isPending}
           width={150}
@@ -178,31 +178,31 @@ export default function MyStudyGroupsCreate() {
         />
       </div>
       <div className={styles["sub-container"]}>
-        <p className={styles["sub-title"]}>스터디 그룹 이름</p>
+        <p className={styles["sub-title"]}>스터디 이름</p>
         <Input
           id="study-group-name"
           value={name}
           onChange={onNameChange}
-          placeholder="스터디 그룹 이름을 입력해주세요."
+          placeholder="스터디 이름을 입력해주세요."
           fullWidth
           maxLength={20}
           maxLengthShow
-          label="스터디 그룹 이름"
+          label="스터디 이름"
           hideLabel
         />
       </div>
       <div className={styles["sub-container"]}>
-        <p className={styles["sub-title"]}>스터디 그룹 소개</p>
+        <p className={styles["sub-title"]}>스터디 소개</p>
         <Textarea
           rows={1}
           id="study-group-introduction"
           value={introduction}
           onChange={onIntroductionChange}
-          placeholder="스터디 그룹 소개를 입력해주세요."
+          placeholder="스터디 소개를 입력해주세요."
           fullWidth
           maxLength={50}
           maxLengthShow
-          label="스터디 그룹 소개"
+          label="스터디 소개"
         />
       </div>
       <Button

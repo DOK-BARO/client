@@ -12,7 +12,7 @@ export interface ModalContentType {
 export interface BottomButtonType {
   color: ButtonColorType;
   text: string;
-  onClick: () => void;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   width?: number;
 }

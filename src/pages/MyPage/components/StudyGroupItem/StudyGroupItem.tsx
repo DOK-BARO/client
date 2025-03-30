@@ -9,6 +9,10 @@ import { Leader } from "@/svg/Leader";
 import { primary } from "@/styles/abstracts/colors";
 import ROUTES from "@/data/routes";
 import { currentUserAtom } from "@/store/userAtom";
+import share from "/public/assets/svg/myPage/share.svg";
+import useModal from "@/hooks/useModal";
+import StudyCodeShareModal from "../StudyCodeShareModal/StudyCodeShareModal";
+
 interface Props {
   studyGroup: StudyGroupType;
 }
@@ -18,8 +22,14 @@ export default function StudyGroupItem({ studyGroup }: Props) {
   const [, setStudyGroup] = useAtom(studyGroupAtom);
   const [currentUser] = useAtom(currentUserAtom);
 
-  // 퀴즈 리스트 보기
-  const handleGoToQuizList = () => {
+  const {
+    isModalOpen: isStudyCodeShareModalOpen,
+    closeModal: closeStudyCodeShareModal,
+    openModal: openStudyCodeShareModal,
+  } = useModal();
+
+  // 스터디 그룹 상세
+  const handleGoToStudyDetail = () => {
     navigate(ROUTES.STUDY_GROUP(studyGroup.id));
     setStudyGroup({
       id: studyGroup.id,
@@ -27,13 +37,19 @@ export default function StudyGroupItem({ studyGroup }: Props) {
     });
   };
 
-  // 스터디원 관리
-  const handleGoToMemberSetting = () => {
-    navigate(ROUTES.STUDY_GROUP_SETTING(studyGroup.id));
-  };
+  // // 스터디원 관리
+  // const handleGoToMemberSetting = () => {
+  //   navigate(ROUTES.STUDY_GROUP_SETTING(studyGroup.id));
+  // };
 
   return (
     <li className={styles.container}>
+      {isStudyCodeShareModalOpen ? (
+        <StudyCodeShareModal
+          closeModal={closeStudyCodeShareModal}
+          studyGroupId={studyGroup.id}
+        />
+      ) : null}
       {studyGroup.profileImageUrl ? (
         <img
           className={styles["profile-image"]}
@@ -44,9 +60,9 @@ export default function StudyGroupItem({ studyGroup }: Props) {
         <div className={styles["profile-image"]} />
       )}
       <div className={styles.info}>
-        <div className={styles["name-button-container"]}>
+        <div className={styles["info-header"]}>
           <p className={styles.name}>{studyGroup.name || "\u00A0"}</p>
-          {currentUser?.id === studyGroup.leader?.id ? (
+          {/* {currentUser?.id === studyGroup.leader?.id ? (
             <Button
               size="xsmall"
               color="secondary"
@@ -55,7 +71,16 @@ export default function StudyGroupItem({ studyGroup }: Props) {
             >
               스터디원 관리
             </Button>
-          ) : null}
+          ) : null} */}
+          <Button
+            className={styles["share-study-code-button"]}
+            icon={<img src={share} alt="" width={18} height={18} />}
+            iconOnly
+            onClick={() => {
+              openStudyCodeShareModal();
+            }}
+            ariaLabel="스터디 코드 공유하기"
+          />
         </div>
         <span className={styles["icon-text-label"]}>
           <img src={member} width={16} height={16} alt="스터디 멤버" />
@@ -78,9 +103,9 @@ export default function StudyGroupItem({ studyGroup }: Props) {
           size="small"
           color="primary"
           className={styles["study-info"]}
-          onClick={handleGoToQuizList}
+          onClick={handleGoToStudyDetail}
         >
-          퀴즈 리스트 보기
+          스터디 그룹 상세
         </Button>
       </div>
     </li>

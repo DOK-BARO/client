@@ -8,22 +8,18 @@ import {
 } from "@/store/myPageAtom";
 import Button from "@/components/atom/Button/Button";
 import ROUTES from "@/data/routes";
-import pencilLine from "/public/assets/svg/myPage/pencilLine.svg";
+import members from "/public/assets/svg/myPage/members.svg";
 import { useEffect, useState } from "react";
-import { currentUserAtom } from "@/store/userAtom";
 export default function MyPageLayout() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [myPageTitle] = useAtom(myPageTitleAtom);
   const [studyGroup] = useAtom(studyGroupAtom);
-  const [currentUser] = useAtom(currentUserAtom);
 
   const [isStudyGroupMainPage] = useAtom(isStudyGroupMainPageAtom);
   const { studyGroupId } = useParams();
 
   const [isSettingPage, setIsSettingPage] = useState<boolean>(false);
-  const isCurrentUserIsLeaderOfStudyGroup =
-    currentUser?.id === studyGroup?.leaderId;
 
   const handleGoToStudyGroupSetting = () => {
     navigate(ROUTES.STUDY_GROUP_SETTING(studyGroup?.id));
@@ -60,19 +56,16 @@ export default function MyPageLayout() {
           />
         ) : null}
         <h2 className={styles.title}>{myPageTitle}</h2>
-        {/* TODO: 관리 권한 있는지 확인 로직 추가 */}
-        {isCurrentUserIsLeaderOfStudyGroup &&
-        !isStudyGroupMainPage &&
-        !isSettingPage ? (
+        {!isStudyGroupMainPage && !isSettingPage ? (
           <Button
             onClick={handleGoToStudyGroupSetting}
             color="secondary"
             size="xsmall"
             className={styles["setting-button"]}
-            icon={<img src={pencilLine} width={16} height={16} alt="" />}
+            icon={<img src={members} width={16} height={16} alt="" />}
             iconPosition="left"
           >
-            스터디 관리
+            스터디 상세
           </Button>
         ) : null}
       </div>

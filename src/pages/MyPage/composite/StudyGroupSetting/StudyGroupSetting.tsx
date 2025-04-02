@@ -55,10 +55,20 @@ export default function StudyGroupSetting() {
   const [, setMyPageTitle] = useAtom(myPageTitleAtom);
   const [, setStudyGroup] = useAtom(studyGroupAtom);
   const [isInputChanged, setIsInputChanged] = useState<boolean>(false);
-  const isStudyGroupLeader =
+  const isStudyGroupLeader: boolean =
     currentUser?.id ===
     studyGroupDetail?.studyMembers?.find((member) => member.role === "LEADER")
       ?.id;
+
+  const isInStudyGroup: boolean =
+    studyGroupDetail?.studyMembers?.some(
+      (member) => member.id === currentUser?.id,
+    ) ?? false;
+  useEffect(() => {
+    if (!isInStudyGroup) {
+      navigate(`${ROUTES.MY_PAGE}/${ROUTES.MY_STUDY_GROUPS}`);
+    }
+  }, [isInStudyGroup]);
 
   const {
     isModalOpen: isSmallModalOpen,
@@ -367,6 +377,7 @@ export default function StudyGroupSetting() {
       <StudyMemberList
         studyGroupId={studyGroupDetail?.id}
         onDeleteStudyGroupClick={openConfirmModal}
+        isStudyGroupLeader={isStudyGroupLeader}
       />
     </section>
   );

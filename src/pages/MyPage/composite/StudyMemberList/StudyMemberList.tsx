@@ -13,15 +13,18 @@ import { Fragment } from "react/jsx-runtime";
 import { useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
 import { isLoggedInAtom } from "@/store/userAtom";
+import ROUTES from "@/data/routes";
 
 export interface Props {
   studyGroupId?: number;
   onDeleteStudyGroupClick: () => void;
+  isStudyGroupLeader: boolean;
 }
 
 export default function StudyMemberList({
   studyGroupId,
   onDeleteStudyGroupClick,
+  isStudyGroupLeader,
 }: Props) {
   const navigate = useNavigate();
   const [isLoggedIn] = useAtom(isLoggedInAtom);
@@ -77,11 +80,17 @@ export default function StudyMemberList({
     isModalOpen: isWithdrawStudyGroupMemberModalOpen,
   } = useModal();
 
+  const {
+    openModal: openWithdrawStudyModal,
+    closeModal: closeWithdrawStudyModal,
+    isModalOpen: isWithdrawStudyModalOpen,
+  } = useModal();
+
   // 스터디원 내보내기 (탈퇴)
   const { mutate: withdrawMember } = useMutation<
     void,
     ErrorType,
-    { member: StudyMemberType }
+    { member: StudyMemberType; closeModal: () => void }
   >({
     mutationFn: ({ member }) => {
       if (studyGroupId) {
@@ -92,13 +101,14 @@ export default function StudyMemberList({
       }
       return Promise.reject(new Error("스터디 없음"));
     },
-    onSuccess: (_, { member }) => {
-      toast.success(`${member.nickname}을 내보냈습니다.`);
+    onSuccess: (_, { member, closeModal }) => {
+      toast.success(`${member.nickname}님이 탈퇴 처리되었습니다.`);
+      closeModal();
     },
     onError: (error, { member }) => {
       console.error(error);
       toast.error(
-        error.message || `${member.nickname}을 내보내기에 실패했습니다.`,
+        error.message || `${member.nickname}님의 탈퇴 처리에 실패했습니다.`,
       );
     },
   });
@@ -106,11 +116,14 @@ export default function StudyMemberList({
   return (
     <section className={styles.container}>
       <div className={styles["header-container"]}>
-        <h3 className={styles.title}>스터디원 관리</h3>
+        <h3 className={styles.title}>
+          스터디원 {isStudyGroupLeader ? "관리" : "목록"}
+        </h3>
       </div>
       {studyGroupDetail && leader ? (
         <ol className={styles["member-list"]}>
           <LeaderItem
+            isStudyGroupLeader={isStudyGroupLeader}
             member={leader}
             onDeleteStudyGroupClick={onDeleteStudyGroupClick}
           />
@@ -164,7 +177,45 @@ export default function StudyMemberList({
                       color: "primary",
                       text: "내보내기",
                       onClick: () => {
-                        withdrawMember({ member });
+                        withdrawMember({
+                          member,
+                          closeModal: closeWithdrawStudyGroupMemberModal,
+                        });
+                      },
+                    },
+                  ]}
+                />
+              )}
+              {/* 스터디 탈퇴하기 확인 모달 */}
+              {isWithdrawStudyModalOpen && (
+                <Modal
+                  title=""
+                  closeModal={closeWithdrawStudyModal}
+                  contents={[
+                    {
+                      title: `${studyGroupDetail.name} 스터디를 탈퇴하시겠어요?`,
+                      content: (
+                        <p>
+                          탈퇴 시, 스터디에서 푼 퀴즈는 더 이상 확인할 수
+                          없습니다.
+                        </p>
+                      ),
+                    },
+                  ]}
+                  bottomButtons={[
+                    {
+                      color: "primary",
+                      text: "탈퇴하기",
+                      onClick: () => {
+                        withdrawMember({
+                          member,
+                          closeModal: () => {
+                            closeWithdrawStudyModal();
+                            navigate(
+                              `${ROUTES.MY_PAGE}/${ROUTES.MY_STUDY_GROUPS}`,
+                            );
+                          },
+                        });
                       },
                     },
                   ]}
@@ -175,6 +226,8 @@ export default function StudyMemberList({
                 member={member}
                 onChangeLeaderClick={openChangeStudyGroupLeaderModal}
                 onWithdrawMemberClick={openWithdrawStudyGroupMemberModal}
+                onWithdrawMeClick={openWithdrawStudyModal}
+                isStudyGroupLeader={isStudyGroupLeader}
               />
             </Fragment>
           ))}

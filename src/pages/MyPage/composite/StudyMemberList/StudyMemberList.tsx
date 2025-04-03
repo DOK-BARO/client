@@ -90,7 +90,7 @@ export default function StudyMemberList({
   const { mutate: withdrawMember } = useMutation<
     void,
     ErrorType,
-    { member: StudyMemberType; closeModal: () => void }
+    { member: StudyMemberType; isMe: boolean }
   >({
     mutationFn: ({ member }) => {
       if (studyGroupId) {
@@ -101,14 +101,25 @@ export default function StudyMemberList({
       }
       return Promise.reject(new Error("스터디 없음"));
     },
-    onSuccess: (_, { member, closeModal }) => {
-      toast.success(`${member.nickname}님이 탈퇴 처리되었습니다.`);
-      closeModal();
+    onSuccess: (_, { member, isMe }) => {
+      toast.success(
+        isMe
+          ? "탈퇴 처리되었습니다."
+          : `${member.nickname}님이 탈퇴 처리되었습니다.`,
+      );
+      if (isMe) {
+        closeWithdrawStudyModal();
+        navigate(`${ROUTES.MY_PAGE}/${ROUTES.MY_STUDY_GROUPS}`);
+      } else {
+        closeWithdrawStudyGroupMemberModal();
+      }
     },
-    onError: (error, { member }) => {
+    onError: (error, { member, isMe }) => {
       console.error(error);
       toast.error(
-        error.message || `${member.nickname}님의 탈퇴 처리에 실패했습니다.`,
+        error.message || isMe
+          ? "탈퇴 처리에 실패했습니다."
+          : `${member.nickname}님의 탈퇴 처리에 실패했습니다.`,
       );
     },
   });
@@ -179,7 +190,7 @@ export default function StudyMemberList({
                       onClick: () => {
                         withdrawMember({
                           member,
-                          closeModal: closeWithdrawStudyGroupMemberModal,
+                          isMe: false,
                         });
                       },
                     },
@@ -209,12 +220,7 @@ export default function StudyMemberList({
                       onClick: () => {
                         withdrawMember({
                           member,
-                          closeModal: () => {
-                            closeWithdrawStudyModal();
-                            navigate(
-                              `${ROUTES.MY_PAGE}/${ROUTES.MY_STUDY_GROUPS}`,
-                            );
-                          },
+                          isMe: true,
                         });
                       },
                     },

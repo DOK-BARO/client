@@ -9,8 +9,9 @@ interface Props {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   onPaste?: (e: React.ClipboardEvent<HTMLInputElement>) => void;
+  onFocus?: (e: React.FocusEvent<HTMLInputElement, Element>) => void;
   placeholder?: string;
-  size?: "large" | "medium" | "small";
+  size?: "large" | "medium" | "small" | "xsmall";
   isError?: boolean;
   isSuccess?: boolean;
   message?: string | JSX.Element;
@@ -49,6 +50,7 @@ const Input: React.FC<Props> = ({
   color,
   fullWidth = false,
   maxLengthShow = false,
+  onFocus,
 }) => {
   const className = `${styles.input} ${styles[`input--${size}`]} ${
     isError ? styles["input--error"] : ""
@@ -73,7 +75,9 @@ const Input: React.FC<Props> = ({
         </div>
       ) : null}
       <div className={styles["input-wrapper"]}>
-        {leftIcon && <span className={styles["icon-left"]}>{leftIcon}</span>}
+        {leftIcon && (
+          <span className={styles[`icon-left-${size}`]}>{leftIcon}</span>
+        )}
         <input
           type={type}
           id={id}
@@ -85,8 +89,11 @@ const Input: React.FC<Props> = ({
           placeholder={placeholder}
           className={className}
           maxLength={maxLength}
+          onFocus={onFocus}
         />
-        {rightIcon && <span className={styles["icon-right"]}>{rightIcon}</span>}
+        {rightIcon && (
+          <span className={styles[`icon-right-${size}`]}>{rightIcon}</span>
+        )}
       </div>
       {message && (
         <div

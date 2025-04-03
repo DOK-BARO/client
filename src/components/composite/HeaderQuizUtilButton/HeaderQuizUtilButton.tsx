@@ -1,8 +1,8 @@
-import Button from "@/components/atom/Button/Button";
 import styles from "./_header_quiz_util_button.module.scss";
 import HeaderQuizUtilList from "@/components/composite/QuizMenuList/QuizMenuList";
 import { useDropDownList } from "@/hooks/useDropDownList.ts";
-import { ArrowDown } from "@/svg/ArrowDown";
+import arrowDown from "/public/assets/svg/header/arrowDownSmall.svg";
+import arrowUp from "/public/assets/svg/header/arrowUpSmall.svg";
 
 function HeaderQuizUtilButton() {
   const {
@@ -14,25 +14,19 @@ function HeaderQuizUtilButton() {
   } = useDropDownList();
 
   return (
-    <div
-      className={styles["header-quiz-util-button-container"]}
-      ref={dropDownListRef}
-    >
-      <Button
+    <div className={styles["container"]} ref={dropDownListRef}>
+      <button
         onClick={openDropDownList}
-        size="small"
-        color="transparent"
-        ariaLabel="펼치기"
+        aria-label="펼치기"
+        className={
+          styles[
+            `${isOpenDropDownList ? "quiz-util-btn--active" : "quiz-util-btn"}`
+          ]
+        }
       >
-        퀴즈 도구
-        <ArrowDown
-          width={24}
-          height={24}
-          className={styles["header-quiz-util-icon"]}
-          stroke={"#0A090B"}
-          alt=""
-        />
-      </Button>
+        퀴즈 풀기
+        <img src={isOpenDropDownList ? arrowUp : arrowDown} />
+      </button>
       {isOpenDropDownList && anchorEl && (
         <HeaderQuizUtilList closeDropDownList={closeDropDownList} />
       )}

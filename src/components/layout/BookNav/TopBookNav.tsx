@@ -1,18 +1,18 @@
+import styles from "./_top_book_nav.module.scss";
 import { useState } from "react";
-import styles from "./_gnb.module.scss";
 import { Plus } from "@/svg/Plus";
 import { Minus } from "@/svg/Minus";
 import { gray50 } from "@/styles/abstracts/colors";
 import { useQuery } from "@tanstack/react-query";
 import { bookKeys } from "@/data/queryKeys";
 import Button from "@/components/atom/Button/Button";
-import useGNB from "@/hooks/useGNB";
 import useNavigateWithParams from "@/hooks/useNavigateWithParams";
 import { bookService } from "@/services/server/bookService";
+import useTopBookNav from "@/hooks/useTopBookNav";
 
 // Book Category GNB
-export default function GNB() {
-  const { isGNBHidden } = useGNB();
+export default function TopBookNav() {
+  const { isTopBookNavHidden } = useTopBookNav();
   const [activeCategoryIndex, setActiveCategoryIndex] = useState<number | null>(
     null,
   );
@@ -55,10 +55,10 @@ export default function GNB() {
   // TODO: heading 태그 다른 태그로 변경하기
   return !isLoading && categories ? (
     <nav
-      className={`${styles.gnb} ${isGNBHidden ? styles.hidden : ""}`}
+      className={`${styles["top-book-nav"]} ${isTopBookNavHidden ? styles.hidden : ""}`}
       onMouseLeave={handleMouseLeave}
     >
-      <div className={styles["gnb-inner-container"]}>
+      <div className={styles["top-book-nav-inner-container"]}>
         <ul className={styles["category-list"]}>
           {categories?.map((category, index) => (
             <li key={index} onMouseEnter={() => handleMouseEnter(index)}>
@@ -69,6 +69,7 @@ export default function GNB() {
                 color="transparent"
                 value={category.id.toString()}
                 onClick={() => handleClick(category.id.toString())}
+                size="small"
               >
                 {category.name}
               </Button>

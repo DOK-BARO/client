@@ -1,8 +1,8 @@
 // Book Category Local Navigation Bar
-import styles from "./_lnb.module.scss";
+import styles from "./_side_book_nav.module.scss";
 import Button from "@/components/atom/Button/Button";
 import { useNavigate } from "react-router-dom";
-import { BookCategoryType } from "@/types/GNBCategoryType";
+import { BookCategoryType } from "@/types/BookCategoryType";
 import { findTopParentCategoryInfo } from "@/utils/findCategoryInfo";
 import { ArrowLeft } from "@/svg/ArrowLeft";
 import { gray90 } from "@/styles/abstracts/colors";
@@ -16,7 +16,7 @@ interface Props {
   categoryId?: number;
 }
 
-export default function LNB({ categories, categoryId }: Props) {
+export default function SideBookNav({ categories, categoryId }: Props) {
   const navigate = useNavigate();
   const { navigateWithParams } = useNavigateWithParams();
   // const [, setPrevPaginationState] = useAtom(prevPaginationStateAtom);
@@ -39,8 +39,8 @@ export default function LNB({ categories, categoryId }: Props) {
   };
 
   return (
-    <nav className={styles.lnb} aria-label="Category Navigation">
-      <div className={styles["lnb-inner-container"]}>
+    <nav className={styles["side-book-nav"]} aria-label="Category Navigation">
+      <div className={styles["side-book-nav-inner-container"]}>
         {categoryId ? (
           <header>
             <span className={styles["current-category"]}>

@@ -1,8 +1,7 @@
-import { useLocation } from "react-router-dom";
 import styles from "./_book_list_layout.module.scss";
+import { useLocation } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { bookKeys } from "@/data/queryKeys";
-import LNB from "../../composite/Lnb/Lnb";
 import {
   findCurrentCategoryInfo,
   findParentCategoryInfo,
@@ -23,6 +22,7 @@ import { parseQueryParams } from "@/utils/parseQueryParams";
 import { BooksFetchType } from "@/types/ParamsType";
 import { bookFilterAtom, resetBooksFilter } from "@/store/filterAtom";
 import BookList from "../../composite/BookList/BookList";
+import SideBookNav from "../../composite/SideBookNav/SideBookNav";
 
 // TODO: 외부 파일로 분리하기
 const filterOptions: FilterOptionType<BooksFilterType>[] = [
@@ -124,7 +124,7 @@ export default function BookListLayout() {
   return (
     <section className={styles.container}>
       {isCategoriesLoading || !categories ? null : (
-        <LNB categoryId={Number(category)} categories={categories} />
+        <SideBookNav categoryId={Number(category)} categories={categories} />
       )}
 
       <div className={styles["book-list-container"]}>

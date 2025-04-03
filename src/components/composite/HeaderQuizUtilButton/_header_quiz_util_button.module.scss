@@ -1,13 +1,22 @@
 @use "/src/styles/abstracts/" as *;
 
-.header {
-  &-quiz-util-button-container {
-    position: relative;
-    display: flex;
-    margin-left: 0.8rem;
+.container {
+  position: relative;
+  display: flex;
+  margin-left: 0.8rem;
+}
 
-    button {
-      font-weight: $font-weight-semibold;
-    }
+.quiz-util-btn {
+  display: flex;
+  font-size: 1.4rem;
+  font-weight: $font-weight-medium;
+  color: $gray-70;
+  gap: 0.4rem;
+
+  &--active {
+    display: flex;
+    font-size: 1.4rem;
+    color: $gray-90;
+    gap: 0.4rem;
   }
 }

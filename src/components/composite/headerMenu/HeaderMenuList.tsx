@@ -1,7 +1,5 @@
 import styles from "./_header_menu.module.scss";
 import React from "react";
-import { Quiz } from "@/svg/Quiz";
-import { Study } from "@/svg/Study";
 import { Setting } from "@/svg/header/Setting";
 import { SVGProps } from "@/types/SVGProps.ts";
 import { useNavigate } from "react-router-dom";
@@ -20,18 +18,18 @@ export interface HeaderMenuListItemType {
 
 const headerMenuListItems: HeaderMenuListItemType[] = [
   {
-    Icon: Quiz,
-    content: "내 퀴즈",
-    link: `${ROUTES.MY_MADE_QUIZ}`,
-  },
-  {
-    Icon: Study,
-    content: "스터디 관리",
-    link: `${ROUTES.MY_STUDY_GROUPS}`,
+    Icon: Setting,
+    content: "계정 설정",
+    link: `${ROUTES.SETTINGS}`,
   },
   {
     Icon: Setting,
-    content: "계정 설정",
+    content: "고객센터",
+    link: `${ROUTES.SETTINGS}`,
+  },
+  {
+    Icon: Setting,
+    content: "개인정보 처리방침",
     link: `${ROUTES.SETTINGS}`,
   },
 ];
@@ -64,10 +62,12 @@ export default function HeaderMenuList({ closeDropDownList }: Props) {
             closeDropDownList();
           }}
         >
-          <div className={styles["user-name"]}>{userNickname} 님</div>
+          <div className={styles["user-nickname-container"]}>
+            <p className={styles["user-nickname"]}>{userNickname}</p> 님
+          </div>
         </button>
       </li>
-      <ul className={styles["header-menu-list-item-container"]}>
+      <ul>
         {headerMenuListItems.map((item) => (
           <HeaderMenuListItem
             key={item.content}

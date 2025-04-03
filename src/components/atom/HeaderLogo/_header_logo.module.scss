@@ -5,11 +5,12 @@
     flex-shrink: 0;
 
     h1 {
-      font-size: 2rem;
-      font-weight: bold;
-      height: 100%;
+      font-size: 1.6rem;
+      font-weight: $font-weight-bold;
+      line-height: 150%;
       display: flex;
       align-items: center;
+      font-family: "LINESeedKR";
     }
   }
 

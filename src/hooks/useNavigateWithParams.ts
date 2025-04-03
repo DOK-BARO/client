@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 interface NavigateWithParamsProps<TFilter extends SupportedFilterTypes> {
   filter?: TFilter;
   title?: string;
+  keyword?: string;
   page?: number;
   category?: string;
   parentPage: ParentPageType;
@@ -26,6 +27,7 @@ const useNavigateWithParams = () => {
   const navigateWithParams = <TFilter extends SupportedFilterTypes>({
     filter,
     title,
+    // keyword,
     page,
     category,
     parentPage,
@@ -48,6 +50,10 @@ const useNavigateWithParams = () => {
       queryParams.set("direction", direction);
     }
 
+    if (title == "") {
+      queryParams.delete("title");
+    }
+
     if (title) {
       if (!excludeParams.includes("title")) {
         if (excludeParams.includes("page")) {
@@ -56,6 +62,20 @@ const useNavigateWithParams = () => {
         queryParams.set("title", title);
       }
     }
+
+    // if (keyword == "") {
+    //   queryParams.delete("title");
+    // }
+
+    // if (keyword) {
+    //   if (!excludeParams.includes("keyword")) {
+    //     if (excludeParams.includes("page")) {
+    //       queryParams.delete("page");
+    //     }
+    //     queryParams.set("keyword", keyword);
+    //   }
+    // }
+
     if (page) {
       if (!excludeParams.includes("page")) {
         queryParams.set("page", page.toString());

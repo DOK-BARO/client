@@ -39,17 +39,19 @@ export default function HeaderMyInfoUtilButton() {
           currentUser ? (
             <img
               src={currentUser.profileImage ?? defaultImage}
-              width={40}
-              height={40}
+              width={24}
+              height={24}
               alt={`${currentUser.nickname}님의 프로필 사진`}
             />
           ) : (
-            <Person width={40} height={40} alt="기본 프로필 사진" />
+            <Person width={24} height={24} alt="기본 프로필 사진" />
           )
         }
       />
       {isOpenDropDownList && anchorEl && (
-        <HeaderMenuList closeDropDownList={closeDropDownList} />
+        <div className={styles["header-menu-list-container"]}>
+          <HeaderMenuList closeDropDownList={closeDropDownList} />
+        </div>
       )}
     </div>
   );

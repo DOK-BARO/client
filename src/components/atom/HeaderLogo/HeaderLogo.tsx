@@ -1,8 +1,6 @@
 import styles from "./_header_logo.module.scss";
 import React from "react";
 import { APP_NAME } from "@/data/constants.ts";
-import logo from "/public/assets/image/logo.png";
-// import logo from "/public/assets/svg/logo.svg";
 
 import Button from "../Button/Button";
 import { useNavigate } from "react-router-dom";
@@ -30,7 +28,6 @@ const HeaderLogo: React.FC = () => {
         className={styles["logo-button"]}
         iconPosition="left"
         onClick={handleNavigateToMain}
-        icon={<img width={43} height={43} src={logo} alt="" />}
       >
         <h1>{APP_NAME}</h1>
       </Button>

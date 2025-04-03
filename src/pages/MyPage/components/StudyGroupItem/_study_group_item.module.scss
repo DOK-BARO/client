@@ -17,23 +17,23 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-    gap: 0.4rem;
+    gap: 0.8rem;
 
-    .name-button-container {
+    &-header {
       display: flex;
+      width: 100%;
+      justify-content: space-between;
       align-items: center;
       gap: 0.8rem;
+      .share-study-code-button {
+        padding: 0.5rem;
+        margin: -0.5rem -0.5rem;
+      }
       .name {
         font-weight: $font-weight-semibold;
         font-size: $font-size-large;
         @include text-ellipsis;
         max-width: 10rem;
-      }
-      .member-setting {
-        height: 2.6rem;
-        font-size: 1.4rem;
-        font-weight: $font-weight-regular;
-        border-radius: 0.4rem;
       }
     }
 
@@ -41,7 +41,7 @@
       @include flex(row, center);
       justify-content: start;
       gap: 0.8rem;
-      font-size: 1.2rem;
+      font-size: 1.4rem;
       font-weight: $font-weight-medium;
 
       &.active {

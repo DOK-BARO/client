@@ -233,7 +233,7 @@ export default function Index() {
 
   const handleCloseQuizStartModal = () => {
     closeQuizStartModal();
-    // 마이페이지 - 내 스터디 그룹으로 리다이렉팅
+    // 마이페이지 - 내 스터디으로 리다이렉팅
     navigate(`${ROUTES.MY_PAGE}/${ROUTES.MY_STUDY_GROUPS}`);
   };
 

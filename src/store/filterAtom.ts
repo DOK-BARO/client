@@ -11,7 +11,7 @@ import {
 } from "@/types/FilterType";
 
 // 기본값 정의
-// 마이페이지 > 내 스터디 그룹
+// 마이페이지 > 내 스터디
 const DEFAULT_MY_STUDY_GROUP_FILTER: StudyGroupsFilterType = {
   sort: "CREATED_AT",
   direction: "DESC",
@@ -112,7 +112,7 @@ export const resetFilter = <T>(
 
 // Atom별 리셋 함수
 /**
- * 마이페이지 > 내 스터디 그룹 필터 리셋
+ * 마이페이지 > 내 스터디 필터 리셋
  */
 export const resetMyStudyGroupFilter = (
   setAtom: (value: StudyGroupsFilterType) => void,

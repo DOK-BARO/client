@@ -58,3 +58,36 @@
     z-index: 10;
   }
 }
+
+.profile-container {
+  display: flex;
+  gap: 2.4rem;
+
+  .image-container,
+  .info-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .info-container {
+    width: 100%;
+    > :nth-child(3) {
+      margin-top: 2rem;
+    }
+  }
+  .profile-image {
+    border-radius: 0.75rem;
+  }
+
+  .title {
+    font-size: 2rem;
+    font-weight: $font-weight-semibold;
+  }
+
+  .sub-title {
+    font-size: 1.4rem;
+    color: $gray-70;
+    font-weight: $font-weight-medium;
+    margin-bottom: 0.8rem;
+  }
+}

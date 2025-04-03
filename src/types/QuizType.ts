@@ -118,7 +118,7 @@ export interface QuizFormType {
   book: BookType | null;
   viewScope: ViewScopeType | null;
   editScope: EditScopeType | null;
-  studyGroup: StudyGroupType | null | undefined; // undefined -> 스터디그룹 선택 안함
+  studyGroup: StudyGroupType | null | undefined; // undefined -> 스터디 선택 안함
   questions: QuizQuestionFormType[] | null;
 }
 

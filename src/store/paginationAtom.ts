@@ -50,7 +50,7 @@ export const paginationAtom = atom<PaginationType>(initialPaginationState);
 //   isMiddlePagesUpdated: false,
 // });
 
-// // 마이페이지 > 내 스터디 그룹
+// // 마이페이지 > 내 스터디
 // export const myStudyGroupPaginationAtom = atom<PaginationType>({
 //   currentPage: 1,
 //   pagePosition: "START",

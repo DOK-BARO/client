@@ -30,7 +30,7 @@ import defaultImage from "/public/assets/image/default-profile.png";
 import { gray60 } from "@/styles/abstracts/colors";
 import { currentUserAtom, isLoggedInAtom } from "@/store/userAtom";
 
-// 스터디 그룹 관리
+// 스터디 관리
 export default function StudyGroupSetting() {
   // TODO: 타이틀 세팅하는 로직 훅으로 분리하기
 
@@ -55,6 +55,21 @@ export default function StudyGroupSetting() {
   const [, setMyPageTitle] = useAtom(myPageTitleAtom);
   const [, setStudyGroup] = useAtom(studyGroupAtom);
   const [isInputChanged, setIsInputChanged] = useState<boolean>(false);
+  const isStudyGroupLeader: boolean =
+    currentUser?.id ===
+    studyGroupDetail?.studyMembers?.find((member) => member.role === "LEADER")
+      ?.id;
+
+  const isInStudyGroup: boolean =
+    studyGroupDetail?.studyMembers?.some(
+      (member) => member.id === currentUser?.id,
+    ) ?? false;
+  useEffect(() => {
+    if (!isInStudyGroup) {
+      navigate(`${ROUTES.MY_PAGE}/${ROUTES.MY_STUDY_GROUPS}`);
+    }
+  }, [isInStudyGroup]);
+
   const {
     isModalOpen: isSmallModalOpen,
     openModal: openSmallModal,
@@ -140,7 +155,9 @@ export default function StudyGroupSetting() {
 
   useEffect(() => {
     if (studyGroupDetail) {
-      setMyPageTitle(studyGroupDetail.name);
+      setMyPageTitle(
+        `${studyGroupDetail.name} ${isStudyGroupLeader ? "관리" : "상세"}`,
+      );
       setStudyGroup({ id: studyGroupDetail.id, name: studyGroupDetail.name });
     }
     return () => {
@@ -223,17 +240,6 @@ export default function StudyGroupSetting() {
     closeSmallModal();
   };
 
-  const isStudyGroupLeader =
-    currentUser?.id !==
-    studyGroupDetail?.studyMembers?.find((member) => member.role === "LEADER");
-
-  useEffect(() => {
-    if (!isStudyGroupLeader) {
-      // TODO: 적절한 권한이 필요하다는 토스트 알람
-      navigate(-1);
-    }
-  }, [isStudyGroupLeader]);
-
   return (
     <section className={styles.container}>
       {isDeleteConfirmModal ? (
@@ -242,7 +248,7 @@ export default function StudyGroupSetting() {
           closeModal={closeConfirmModal}
           contents={[
             {
-              title: `${studyGroupDetail?.name} 스터디 그룹을 삭제하시겠어요?`,
+              title: `${studyGroupDetail?.name} 스터디을 삭제하시겠어요?`,
               content: (
                 <p>
                   스터디에서 만든 퀴즈, 푼 퀴즈 등의 데이터는 모두 삭제되며,
@@ -262,75 +268,99 @@ export default function StudyGroupSetting() {
       ) : null}
       {/* TODO: 컴포넌트화 후 분리 */}
       <section>
-        {/* 스터디 그룹 관리 */}
-        <div className={styles["header-container"]}>
-          <h3 className={styles.title}>스터디 그룹 관리</h3>
-          <Button
-            iconOnly
-            icon={<img src={threeDot} width={16} height={16} alt="" />}
-            onClick={handleToggle}
-            ref={buttonRef}
-            ariaLabel="스터디 그룹 관리 모달 열기"
-          />
+        {/* 스터디 관리 */}
+        {isStudyGroupLeader ? (
+          <div className={styles["header-container"]}>
+            <h3 className={styles.title}>스터디 관리</h3>
+            <Button
+              iconOnly
+              icon={<img src={threeDot} width={16} height={16} alt="" />}
+              onClick={handleToggle}
+              ref={buttonRef}
+              ariaLabel="스터디 관리 모달 열기"
+            />
 
-          {isSmallModalOpen ? (
-            <div className={styles["small-modal-container"]} ref={modalRef}>
-              <SmallModal
-                onLabelClick={handleDeleteStudyGroupClick}
-                icon={
-                  <TrashCan
-                    width={20}
-                    height={20}
-                    stroke={gray60}
-                    alt="스터디 삭제"
-                  />
-                }
-                label="스터디 삭제"
-              />
-            </div>
-          ) : null}
-        </div>
-
-        {!isStudyGroupDetailLoading && studyGroupDetail !== undefined ? (
-          <div className={styles["edit-profile-container"]}>
-            <div className={styles["edit-image-container"]}>
-              <p className={styles["sub-title"]}>스터디 그룹 사진</p>
-              <ProfileImageEditor
-                isLoading={isPending}
-                width={150}
-                profileImage={profileImage}
-                setProfileImage={setProfileImage}
-                initialImageState={defaultProfileState}
-                isDeletable
-                deleteButtonDisabled={profileImage.url === defaultImage}
-              />
-            </div>
-            <div className={styles["edit-info-container"]}>
-              <p className={styles["sub-title"]}>스터디 그룹 이름</p>
-              <Input
-                id="study-group-name"
-                value={name}
-                onChange={onNameChange}
-                placeholder="스터디 그룹 이름을 입력해주세요."
-                fullWidth
-                maxLength={20}
-                maxLengthShow
-                label="스터디 그룹 이름"
-                hideLabel
-              />
-              <p className={styles["sub-title"]}>스터디 그룹 소개</p>
-              <Textarea
-                id="study-group-introduction"
-                value={introduction}
-                onChange={onIntroductionChange}
-                placeholder="스터디 그룹 소개를 입력해주세요."
-                fullWidth
-                maxLength={50}
-                maxLengthShow
-                label="스터디 그룹 소개"
-              />
-            </div>
+            {isSmallModalOpen ? (
+              <div className={styles["small-modal-container"]} ref={modalRef}>
+                <SmallModal
+                  onLabelClick={handleDeleteStudyGroupClick}
+                  icon={
+                    <TrashCan
+                      width={20}
+                      height={20}
+                      stroke={gray60}
+                      alt="스터디 삭제"
+                    />
+                  }
+                  label="스터디 삭제"
+                />
+              </div>
+            ) : null}
           </div>
+        ) : null}
+        {/* TODO: 컴포넌트 분리 */}
+        {!isStudyGroupDetailLoading && studyGroupDetail !== undefined ? (
+          isStudyGroupLeader ? (
+            <section className={styles["edit-profile-container"]}>
+              <div className={styles["edit-image-container"]}>
+                <p className={styles["sub-title"]}>스터디 사진</p>
+                <ProfileImageEditor
+                  isLoading={isPending}
+                  width={150}
+                  profileImage={profileImage}
+                  setProfileImage={setProfileImage}
+                  initialImageState={defaultProfileState}
+                  isDeletable
+                  deleteButtonDisabled={profileImage.url === defaultImage}
+                />
+              </div>
+              <div className={styles["edit-info-container"]}>
+                <p className={styles["sub-title"]}>스터디 이름</p>
+                <Input
+                  id="study-group-name-input"
+                  value={name}
+                  onChange={onNameChange}
+                  placeholder="스터디 이름을 입력해주세요."
+                  fullWidth
+                  maxLength={20}
+                  maxLengthShow
+                  label="스터디 이름"
+                  hideLabel
+                />
+                <p className={styles["sub-title"]}>스터디 소개</p>
+                <Textarea
+                  id="study-group-introduction-input"
+                  value={introduction}
+                  onChange={onIntroductionChange}
+                  placeholder="스터디 소개를 입력해주세요."
+                  fullWidth
+                  maxLength={50}
+                  maxLengthShow
+                  label="스터디 소개"
+                />
+              </div>
+            </section>
+          ) : (
+            <section className={styles["profile-container"]}>
+              <img
+                src={studyGroupDetail?.profileImageUrl}
+                width={150}
+                height={150}
+                className={styles["profile-image"]}
+                alt={`${studyGroupDetail?.name} 스터디 프로필 사진`}
+              />
+              <div className={styles["info-container"]}>
+                <p className={styles["sub-title"]}>스터디 이름</p>
+                <p className={styles["sub-content"]}>
+                  {studyGroupDetail?.name}
+                </p>
+                <p className={styles["sub-title"]}>스터디 소개</p>
+                <p className={styles["sub-content"]}>
+                  {studyGroupDetail?.introduction}
+                </p>
+              </div>
+            </section>
+          )
         ) : null}
         {isInputChanged ? (
           <Button
@@ -347,6 +377,7 @@ export default function StudyGroupSetting() {
       <StudyMemberList
         studyGroupId={studyGroupDetail?.id}
         onDeleteStudyGroupClick={openConfirmModal}
+        isStudyGroupLeader={isStudyGroupLeader}
       />
     </section>
   );

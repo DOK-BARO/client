@@ -4,21 +4,31 @@
   border-radius: 0.6rem;
   background-color: $gray-00;
   width: 100%;
-  padding: 0.7rem 1.2rem;
+  height: 4.6rem;
   display: flex;
+  padding: 0 1.2rem;
   align-items: center;
   justify-content: space-between;
 
   .profile-container {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 0.6rem;
+    font-weight: $font-weight-medium;
   }
 
   .profile-image {
     border-radius: 50%;
     object-fit: cover;
     object-position: center center;
+  }
+
+  .is-me {
+    color: $primary;
+
+    .profile-image {
+      border: 1.5px solid $primary;
+    }
   }
 
   .name {

@@ -25,8 +25,8 @@ export const GetCreationQuizSteps = ({
   {
     order: QUIZ_CREATION_STEP.STUDY_GROUP_SELECT,
     icon: "👥",
-    title: "스터디 그룹 선택",
-    description: "퀴즈를 풀 스터디 그룹을 만들거나 선택해주세요.",
+    title: "스터디 선택",
+    description: "퀴즈를 풀 스터디을 만들거나 선택해주세요.",
     formComponent: () => <QuizSettingStudyGroupForm />,
     isDone: completionStatus.isStudyGroupSelected,
   },

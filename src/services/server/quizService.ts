@@ -177,7 +177,7 @@ class QuizService {
       );
       return data;
     } catch (error) {
-      throw new Error(`스터디 그룹 내 랭킹 조회 ${error}`);
+      throw new Error(`스터디 내 랭킹 조회 ${error}`);
     }
   };
 

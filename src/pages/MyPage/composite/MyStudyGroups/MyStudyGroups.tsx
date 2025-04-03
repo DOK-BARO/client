@@ -111,7 +111,7 @@ export default function MyStudyGroups() {
 
   return (
     <section className={styles.container}>
-      <h3 className={styles["sub-title"]}>내 스터디 그룹</h3>
+      <h3 className={styles["sub-title"]}>내 스터디</h3>
       <div className={styles["filter-container"]}>
         <ListFilter
           onOptionClick={onOptionClick}
@@ -121,8 +121,8 @@ export default function MyStudyGroups() {
       </div>
       {!myStudyGroupsData ? (
         <NoDataSection
-          title="아직 내 스터디 그룹이 없어요 😔"
-          buttonName="스터디 그룹 추가하기"
+          title="아직 내 스터디가 없어요 😔"
+          buttonName="스터디 추가하기"
           onClick={() => {}}
         />
       ) : (

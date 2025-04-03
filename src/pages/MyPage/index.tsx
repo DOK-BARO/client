@@ -19,7 +19,7 @@ export default function Index() {
       link: ROUTES.DRAFT_QUIZ,
     },
     {
-      title: "내 스터디 그룹",
+      title: "내 스터디",
       link: ROUTES.MY_STUDY_GROUPS,
     },
     {

@@ -10,16 +10,16 @@ import { currentUserAtom } from "@/store/userAtom";
 interface Props {
   member: StudyMemberType;
   onChangeLeaderClick: () => void;
-  onWithdrawMemberClick: () => void;
-  onWithdrawMeClick: () => void;
+  onRemoveStudyMemberClick: () => void;
+  onLeaveStudyClick: () => void;
   isStudyGroupLeader: boolean;
 }
 
 export default function MemberItem({
   member,
   onChangeLeaderClick,
-  onWithdrawMemberClick,
-  onWithdrawMeClick,
+  onRemoveStudyMemberClick,
+  onLeaveStudyClick,
   isStudyGroupLeader,
 }: Props) {
   const [currentUser] = useAtom(currentUserAtom);
@@ -48,7 +48,7 @@ export default function MemberItem({
             className={styles.button}
             icon={<TrashCan width={16} height={16} stroke={gray60} alt="" />}
             iconOnly
-            onClick={onWithdrawMemberClick}
+            onClick={onRemoveStudyMemberClick}
             ariaLabel="스터디원 내보내기"
           />
         </div>
@@ -58,7 +58,7 @@ export default function MemberItem({
             className={styles.button}
             icon={<img src={exit} alt="" width={16} height={16} />}
             iconOnly
-            onClick={onWithdrawMeClick}
+            onClick={onLeaveStudyClick}
             ariaLabel="스터디 탈퇴"
           />
         </div>

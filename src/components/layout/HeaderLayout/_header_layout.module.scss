@@ -36,10 +36,13 @@
 .snb {
   display: flex;
   align-items: center;
+  gap: 1.4rem;
 }
 
 .snb__item-btn {
   font-size: 1.4rem !important; // TODO: layer로 작성하기
+  padding: 0.4rem !important; // TODO: layer로 작성하기
+
   color: $gray-70;
   height: fit-content;
 }

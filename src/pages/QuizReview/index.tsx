@@ -14,9 +14,12 @@ import { useParams } from "react-router-dom";
 import { ReviewCreateType } from "@/types/ReviewType";
 import ROUTES from "@/data/routes";
 import { reviewKeys } from "@/data/queryKeys";
+import CheckBox from "../Register/components/CheckBox/CheckBox";
 
 export default function Index() {
   const navigate = useNavigate();
+  const [shareReview, setShareReview] = useState<boolean>(true);
+
   const { quizId, solvingQuizId, quizTitle } = useParams<{
     quizId: string;
     solvingQuizId: string;
@@ -91,10 +94,6 @@ export default function Index() {
     submitQuizReview(review);
   };
 
-  const handleSkip = () => {
-    navigate(ROUTES.QUIZ_DETAIL(parseInt(quizId!)));
-  };
-
   const difficulties: DifficultyType[] = [
     {
       label: "어려워요",
@@ -116,6 +115,7 @@ export default function Index() {
     );
     setDifficultyLevel(currentDifficulty);
   };
+
   if (!quizId || !solvingQuizId || !quizTitle) {
     return;
   }
@@ -167,34 +167,47 @@ export default function Index() {
       )}
       {showReviewTextArea && (
         <section className={styles["review-text-container"]}>
-          <div className={styles["request-text"]}>
-            더 공유하고 싶은 후기를 자유롭게 작성해 주세요.
-          </div>
-          <Textarea
-            id="review-text"
-            value={value}
-            onChange={onChange}
-            placeholder={"후기를 작성해주세요"} // TODO: 후기문구 확정되면 변경
-            maxLength={reviewMaxLength}
-            textAreaRef={textareaRef}
-            className={styles["review-textarea"]}
-            size="medium"
-            maxLengthShow
-            label="퀴즈 후기"
-          />
-          <div className={styles["button-container"]}>
-            <Button size="medium" color="primary-border" onClick={handleSkip}>
-              건너뛰기
-            </Button>
-            <Button
+          <div className={styles["review-text-inner"]}>
+            <div className={styles["request-text"]}>
+              더 공유하고 싶은 후기를 자유롭게 작성해 주세요.
+            </div>
+            <Textarea
+              id="review-text"
+              value={value}
+              onChange={onChange}
+              placeholder={"후기를 작성해주세요"} // TODO: 후기문구 확정되면 변경
+              maxLength={reviewMaxLength}
+              textAreaRef={textareaRef}
+              className={styles["review-textarea"]}
               size="medium"
-              className={styles.done}
-              color="primary"
-              onClick={handleSubmit}
-            >
-              완료
-            </Button>
+              maxLengthShow
+              label="퀴즈 후기"
+            />
           </div>
+          <div className={styles["show-review"]}>
+            <CheckBox
+              id="show-review"
+              checked={shareReview}
+              onChange={() => setShareReview(!shareReview)}
+              LabelComponent={
+                <span className={styles["show-review-checkbox-label"]}>
+                  후기에 내 점수를 포함해 다른 유저들과 경험을 나눌게요!
+                </span>
+              }
+            />
+            <div className={styles["show-review-checkbox-sub-label"]}>
+              *후기 수정하기에서 언제든지 변경 가능해요.
+            </div>
+          </div>
+
+          <Button
+            size="medium"
+            className={styles["btn-done"]}
+            color="primary"
+            onClick={handleSubmit}
+          >
+            완료
+          </Button>
         </section>
       )}
     </section>

@@ -54,17 +54,40 @@
 
 .review-text-container {
   @include flex(column, center);
-  gap: 1.6rem;
   @include fadeIn;
 }
-
-.button-container {
-  // 임의
-  display: flex;
-  gap: 1rem;
+.request-text {
+  @include flex(column, center);
+  margin-bottom: 1.6rem;
 }
-
 .review-textarea {
   width: 50rem;
   height: 5.1rem;
+}
+
+.btn-done {
+  width: 20rem;
+}
+
+.show-review {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 4rem;
+}
+
+.review-text-inner {
+  margin-bottom: 4rem;
+}
+
+.show-review-checkbox-label {
+  font-size: $font-size-medium;
+  font-weight: $font-weight-semibold;
+  letter-spacing: 0.078rem;
+}
+
+.show-review-checkbox-sub-label {
+  font-size: 1.4rem;
+  color: $gray-70;
+  letter-spacing: 0.078rem;
 }

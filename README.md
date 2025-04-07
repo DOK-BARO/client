@@ -119,3 +119,4 @@
 - [scss에서 import 제거하기](https://velog.io/@yeshforest/scss-import-use)
 - [lighthouse로 측정한 성능을 개선해보자](https://velog.io/@yeshforest/lighthouse%EB%A5%BC-%ED%86%B5%ED%95%9C-%EC%84%B1%EB%8A%A5%EA%B0%9C%EC%84%A0)
 - [분할 입력 인풋(split code input) 구현하기](https://velog.io/@page1597/%EB%B6%84%ED%95%A0-%EC%9E%85%EB%A0%A5-%EC%9D%B8%ED%92%8Bsplit-code-input-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0)
+- [React 페이지네이션 전략에 대한 고민](https://velog.io/@page1597/React-%ED%8E%98%EC%9D%B4%EC%A7%80%EB%84%A4%EC%9D%B4%EC%85%98-%EC%A0%84%EB%9E%B5%EC%97%90-%EB%8C%80%ED%95%9C-%EA%B3%A0%EB%AF%BC)

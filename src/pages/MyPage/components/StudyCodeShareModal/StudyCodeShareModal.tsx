@@ -26,13 +26,12 @@ export default function StudyCodeShareModal({
   const [isLoggedIn] = useAtom(isLoggedInAtom);
 
   // 스터디 생성 후 초대 코드를 가져오기 위함
-  const { data: studyGroupDetail, isLoading: isStudyGroupDetailLoading } =
-    useQuery({
-      queryKey: studyGroupKeys.detail(studyGroupId),
-      queryFn: () =>
-        studyGroupId ? studyGroupService.fetchStudyGroup(studyGroupId) : null,
-      enabled: isLoggedIn && !!studyGroupId,
-    });
+  const { data: studyGroupDetail } = useQuery({
+    queryKey: studyGroupKeys.detail(studyGroupId),
+    queryFn: () =>
+      studyGroupId ? studyGroupService.fetchStudyGroup(studyGroupId) : null,
+    enabled: isLoggedIn && !!studyGroupId,
+  });
 
   const handleClickCopyCode = (e: React.MouseEvent<HTMLButtonElement>) => {
     const buttonText =
@@ -64,7 +63,7 @@ export default function StudyCodeShareModal({
               onClick={handleClickCopyCode}
             >
               <span id="invite-code" aria-label="스터디 초대 코드">
-                {!isStudyGroupDetailLoading && studyGroupDetail?.inviteCode}
+                {studyGroupDetail?.inviteCode}
               </span>
             </Button>
           ),

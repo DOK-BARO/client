@@ -104,6 +104,7 @@ export default function MyStudyGroupsCreate() {
         <StudyCodeShareModal
           studyGroupId={newStudyGroupId}
           closeModal={closeModal}
+          title="스터디 추가하기"
         />
       ) : null}
       <div className={styles["sub-container"]}>

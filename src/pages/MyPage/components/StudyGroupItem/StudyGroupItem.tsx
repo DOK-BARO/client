@@ -37,17 +37,13 @@ export default function StudyGroupItem({ studyGroup }: Props) {
     });
   };
 
-  // // 스터디원 관리
-  // const handleGoToMemberSetting = () => {
-  //   navigate(ROUTES.STUDY_GROUP_SETTING(studyGroup.id));
-  // };
-
   return (
     <li className={styles.container}>
       {isStudyCodeShareModalOpen ? (
         <StudyCodeShareModal
           closeModal={closeStudyCodeShareModal}
           studyGroupId={studyGroup.id}
+          title="초대하기"
         />
       ) : null}
       {studyGroup.profileImageUrl ? (
@@ -62,16 +58,6 @@ export default function StudyGroupItem({ studyGroup }: Props) {
       <div className={styles.info}>
         <div className={styles["info-header"]}>
           <p className={styles.name}>{studyGroup.name || "\u00A0"}</p>
-          {/* {currentUser?.id === studyGroup.leader?.id ? (
-            <Button
-              size="xsmall"
-              color="secondary"
-              className={styles["member-setting"]}
-              onClick={handleGoToMemberSetting}
-            >
-              스터디원 관리
-            </Button>
-          ) : null} */}
           <Button
             className={styles["share-study-code-button"]}
             icon={<img src={share} alt="" width={18} height={18} />}

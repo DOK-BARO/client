@@ -14,11 +14,13 @@ import { useNavigate } from "react-router-dom";
 interface Props {
   closeModal: () => void;
   studyGroupId: number;
+  title: string;
 }
 
 export default function StudyCodeShareModal({
   closeModal,
   studyGroupId,
+  title,
 }: Props) {
   const navigate = useNavigate();
   const [isLoggedIn] = useAtom(isLoggedInAtom);
@@ -48,7 +50,7 @@ export default function StudyCodeShareModal({
   return (
     <Modal
       closeModal={closeModal}
-      title="스터디 추가하기"
+      title={title}
       contents={[
         {
           title: "스터디 초대코드를 초대하고 싶은 친구에게 보내세요.",

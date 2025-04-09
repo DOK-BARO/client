@@ -14,23 +14,24 @@ import { useNavigate } from "react-router-dom";
 interface Props {
   closeModal: () => void;
   studyGroupId: number;
+  title: string;
 }
 
 export default function StudyCodeShareModal({
   closeModal,
   studyGroupId,
+  title,
 }: Props) {
   const navigate = useNavigate();
   const [isLoggedIn] = useAtom(isLoggedInAtom);
 
   // 스터디 생성 후 초대 코드를 가져오기 위함
-  const { data: studyGroupDetail, isLoading: isStudyGroupDetailLoading } =
-    useQuery({
-      queryKey: studyGroupKeys.detail(studyGroupId),
-      queryFn: () =>
-        studyGroupId ? studyGroupService.fetchStudyGroup(studyGroupId) : null,
-      enabled: isLoggedIn && !!studyGroupId,
-    });
+  const { data: studyGroupDetail } = useQuery({
+    queryKey: studyGroupKeys.detail(studyGroupId),
+    queryFn: () =>
+      studyGroupId ? studyGroupService.fetchStudyGroup(studyGroupId) : null,
+    enabled: isLoggedIn && !!studyGroupId,
+  });
 
   const handleClickCopyCode = (e: React.MouseEvent<HTMLButtonElement>) => {
     const buttonText =
@@ -48,7 +49,7 @@ export default function StudyCodeShareModal({
   return (
     <Modal
       closeModal={closeModal}
-      title="스터디 추가하기"
+      title={title}
       contents={[
         {
           title: "스터디 초대코드를 초대하고 싶은 친구에게 보내세요.",
@@ -62,7 +63,7 @@ export default function StudyCodeShareModal({
               onClick={handleClickCopyCode}
             >
               <span id="invite-code" aria-label="스터디 초대 코드">
-                {!isStudyGroupDetailLoading && studyGroupDetail?.inviteCode}
+                {studyGroupDetail?.inviteCode}
               </span>
             </Button>
           ),
